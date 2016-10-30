@@ -1,25 +1,58 @@
+doctype html
+html
+	head
+		title Factuur
+		style
+			include pongit.css
+
+	body
+		.your-company
+			.block
+				.left Adres:
+				.right
+					span #{your.name}
+					span #{your.address}
+					span #{your.city}
+
+			.block
+				.left BTW nr:
+				.right #{your.btw}
+
+			.block
+				.left
+					span Bank:
+					span IBAN:
+					span BIC:
+
+				.right
+					span #{your.bank}
+					span #{your.iban}
+					span #{your.bic}
+
+			.block
+				.left
+					span Tel:
+					span Email:
+
+				.right
+					span #{your.telephone}
+					span #{your.email}
 
 
-p #{number}
-p #{date}
-p #{hours}
 
-p #{client.name}
-div #{client.address}
-div #{client.city}
-div #{client.telephone}
-div #{client.btw}
+		p #{number}
+		p #{date}
+		p #{hours}
 
-div #{money.totalWithoutTax}
-div #{money.taxPercentage}
-div #{money.totalTax}
-div #{money.total}
+		p #{client.name}
+		div #{client.address}
+		div #{client.city}
+		div #{client.telephone}
+		div #{client.btw}
 
-div #{pongit.name}
-div #{pongit.address}
-div #{pongit.city}
-div #{pongit.btw}
-div #{pongit.iban}
-div #{pongit.bic}
-div #{pongit.telephone}
-div #{pongit.email}
+		div #{money.totalWithoutTax}
+		div #{money.taxPercentage}
+		div #{money.totalTax}
+		div #{money.total}
+
+

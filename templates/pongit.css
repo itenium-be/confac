@@ -1,0 +1,26 @@
+.your-company {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	position: absolute;
+	top: 25px;
+	right: 25px;
+	width: 250px;
+}
+
+.your-company .block {
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.your-company .left {
+	float: left;
+	text-align: right;
+}
+
+.your-company .right {
+	float: right;
+}
+
+.your-company .block span {
+	display: block;
+}

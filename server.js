@@ -48,6 +48,7 @@ const pongit = {
   address: 'Doolhofstraat 37',
   city: '9300 Aalst',
   btw: '0662.755.072',
+  bank: 'Belfius',
   iban: 'BE04 0689 0602 8931',
   bic: 'GKCCBEBB',
   telephone: '0476 / 40 35 02',
@@ -55,10 +56,15 @@ const pongit = {
 }
 
 const pug = require('pug');
+// app.set('view engine', 'pug');
+// app.set('views', './templates');
 const compiledFunction = pug.compileFile('./templates/pongit.pug');
 
-router.post('/api/invoice/create', function *(next) {
-  this.body = compiledFunction(Object.assign({pongit}, this.request.body));
+router.get('/api/invoice/create', function *(next) {
+  //const params = this.request.body;
+  const params = {"client":{"id":2,"name":"Nexios Consulting Group NV","address":"Telecom Gardens – Medialaan 36","city":"B-1800 Vilvoorde","btw":"BE0478.895.136","rate":{"hourly":65}},"number":11,"date":"2016-10-31T22:59:59.999Z","hours":24,"money":{"totalWithoutTax":1560,"taxPercentage":21,"totalTax":327.59999999999997,"total":1887.6}}
+
+  this.body = compiledFunction(Object.assign({your: pongit}, params));
 });
 
 app.use(router.routes());
