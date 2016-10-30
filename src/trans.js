@@ -7,10 +7,15 @@ const trans = {
     client: 'Klant',
     number: 'Factuurnummer',
     date: 'Factuurdatum',
-
+    hours: 'Totaal uren',
+    create: 'Maak factuur',
+    totalTitle: 'Factuurtotaal',
+    subtotal: 'Subtotaal',
+    taxtotal: 'BTW ${}%',
+    total: 'Totaal',
   },
-  consultant: {
-
+  client: {
+    hourlyRate: 'Uurprijs',
   },
   controls: {
     dateTimeToday: 'Vandaag',
