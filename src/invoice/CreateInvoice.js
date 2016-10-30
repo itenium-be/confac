@@ -1,77 +1,41 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
-import numeral from 'numeral';
 import t from '../trans.js';
 
 import DatePicker from 'react-bootstrap-date-picker';
 import Select from 'react-select';
 import { Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import ClientDetails from '../client/ClientDetails.js';
+import InvoiceTotal from './InvoiceTotal.js';
+import { createInvoice } from '../actions.js';
 
-const getDefaultClient = () => 2;
-
-const clients = [{
-  id: 1,
-  name: '4D CAM BVBA',
-  address: 'Beekveldstraat 67 bus1',
-  city: '9300 Aalst',
-  telephone: '054 / 80 45 03',
-  btw: '0478.378.759',
-  rate: {
-    hourly: 50
-  }
-}, {
-  id: 2,
-  name: 'Nexios Consulting Group NV',
-  address: 'Telecom Gardens – Medialaan 36',
-  city: 'B-1800 Vilvoorde',
-  btw: 'BE0478.895.136',
-  rate: {
-    hourly: 65
-  }
-}];
-
-const ClientDetails = ({client}) => (
-  <div>
-    <h3>{client.name}</h3>
-    <div>{client.address}</div>
-    <div>{client.city}</div>
-    <div>{client.telephone}</div>
-    <div>{client.btw}</div>
-    <div><strong>{t('client.hourlyRate')}: €{client.rate.hourly}</strong></div>
-  </div>
-)
-
-function getClients() {
-  return clients.map(client => ({value: client.id, label: client.name}));
-}
-
-export default class CreateInvoice extends Component {
-  render() {
-    return (
-      <div>
-        <CreatInvoiceForm />
-      </div>
-    );
-  }
-}
-
-class CreatInvoiceForm extends Component {
+class CreateInvoice extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      client: getDefaultClient(),
-      number: 11,
+      client: props.config.defaultClient,
+      number: props.config.nextInvoiceNumber || 1,
       date: moment().endOf('month'),
       hours: 0,
     };
   }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.config.defaultClient === undefined && nextProps.config.defaultClient) {
+      this.setState({client: nextProps.config.defaultClient, number: nextProps.config.nextInvoiceNumber});
+    }
+  }
 
   _createInvoice() {
-    console.log('create', this.state);
+    this.props.createInvoice(this.state);
+  }
+
+  _getClients() {
+    return this.props.clients.map(client => ({value: client.id, label: client.name}));
   }
 
   render() {
-    const client = clients.find(c => c.id === this.state.client);
+    const client = this.props.clients.find(c => c.id === this.state.client);
     return (
       <Grid>
         <Form>
@@ -81,13 +45,13 @@ class CreatInvoiceForm extends Component {
                 <ControlLabel>{t('invoice.client')}</ControlLabel>
                 <Select
                   value={this.state.client}
-                  options={getClients()}
+                  options={this._getClients()}
                   onChange={selectedKey => this.setState({client: selectedKey})}
                   clearable={false}
                 />
               </FormGroup>
 
-              <ClientDetails client={client} />
+              {client ? <ClientDetails client={client} /> : null}
             </Col>
             <Col md={6}>
               <FormGroup>
@@ -122,12 +86,14 @@ class CreatInvoiceForm extends Component {
               </FormGroup>
             </Col>
           </Row>
-          <Row>
-            <Col md={4}>
-              <h4>{t('invoice.totalTitle')}</h4>
-              <InvoiceTotal client={client} amount={this.state.hours} />
-            </Col>
-          </Row>
+          {client ? (
+            <Row>
+              <Col md={4}>
+                <h4>{t('invoice.totalTitle')}</h4>
+                <InvoiceTotal client={client} amount={this.state.hours} />
+              </Col>
+            </Row>
+          ) : null}
           <Row style={{textAlign: 'center'}}>
             <Button bsSize="large" bsStyle="primary" onClick={this._createInvoice.bind(this)}>{t('invoice.create')}</Button>
           </Row>
@@ -137,25 +103,4 @@ class CreatInvoiceForm extends Component {
   }
 }
 
-const InvoiceTotal = ({client, amount}) => {
-  const totalWithoutTax = amount * client.rate.hourly;
-  const taxPercentage = 21;
-  const totalTax = totalWithoutTax / 100 * taxPercentage;
-  const amountsStyle = {textAlign: 'right', float: 'right'};
-  return (
-    <div>
-      <div>
-        {t('invoice.subtotal')}
-        <span style={amountsStyle}>€ {numeral(totalWithoutTax).format('0,0.00')}</span>
-      </div>
-      <div>
-        {t('invoice.taxtotal', taxPercentage)}
-        <span style={amountsStyle}>€ {numeral(totalTax).format('0,0.00')}</span>
-      </div>
-      <div>
-        {t('invoice.total')}
-        <span style={amountsStyle}><strong>€ {numeral(totalWithoutTax + totalTax).format('0,0.00')}</strong></span>
-      </div>
-    </div>
-  );
-}
+export default connect(state => ({config: state.config, clients: state.clients}), {createInvoice})(CreateInvoice);
