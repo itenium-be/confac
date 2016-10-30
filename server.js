@@ -43,8 +43,22 @@ router.get('/api/config', function *(next) {
   };
 });
 
+const pongit = {
+  name: 'pongit BVBA',
+  address: 'Doolhofstraat 37',
+  city: '9300 Aalst',
+  btw: '0662.755.072',
+  iban: 'BE04 0689 0602 8931',
+  bic: 'GKCCBEBB',
+  telephone: '0476 / 40 35 02',
+  email: 'woutervs@hotmail.com',
+}
+
+const pug = require('pug');
+const compiledFunction = pug.compileFile('./templates/pongit.pug');
+
 router.post('/api/invoice/create', function *(next) {
-  this.body = this.request.body;
+  this.body = compiledFunction(Object.assign({pongit}, this.request.body));
 });
 
 app.use(router.routes());
