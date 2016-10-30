@@ -3,6 +3,18 @@ const trans = {
   nav: {
     create: 'Nieuwe factuur',
   },
+  invoice: {
+    client: 'Klant',
+    number: 'Factuurnummer',
+    date: 'Factuurdatum',
+
+  },
+  consultant: {
+
+  },
+  controls: {
+    dateTimeToday: 'Vandaag',
+  }
 };
 
 export default function(key, params) {

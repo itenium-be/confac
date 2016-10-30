@@ -1,6 +1,7 @@
 import React from 'react';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import t from '../trans.js';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const Header = () => (
   <Navbar>
@@ -10,7 +11,9 @@ const Header = () => (
       </Navbar.Brand>
     </Navbar.Header>
     <Nav>
-      <NavItem eventKey={1} href="#">{t('nav.create')}</NavItem>
+      <LinkContainer to={{pathname: '/invoice/create'}}>
+        <NavItem eventKey={1} href="#">{t('nav.create')}</NavItem>
+      </LinkContainer>
     </Nav>
   </Navbar>
 );
