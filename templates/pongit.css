@@ -80,14 +80,14 @@ hr {
 
 
 .total-container {
-	position: absolute;
-	bottom: 125px;
-	right: 25px;
+	margin-top: 800px;
+	margin-right: 25px;
 	width: 350px;
 	padding: 14px;
+	float: right;
 }
 .total {
-	font-weight: bold;
+	font-weight: bolder;
 }
 .total-container div span {
 	width: 20%;
@@ -114,7 +114,7 @@ hr {
 }
 
 
-footer {
+#pageFooter {
 	position: absolute;
 	right: 0;
 	bottom: 0;
