@@ -1,26 +1,125 @@
+body {
+	font-family: 'Roboto', sans-serif;
+	padding-top: 25px;
+	padding-left: 25px;
+}
+
+.logo {
+
+}
+
+dl {
+	width: 100%;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
+dt {
+	float: left;
+	width: 25%;
+	padding: 0;
+	margin: 0;
+
+	margin-right: 10px;
+}
+dd {
+	float: left;
+	width: 70%;
+	padding: 0;
+	margin: 0;
+}
+
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #ccc;
+	margin: 1em 0;
+	padding: 0;
+}
+
 .your-company {
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
+	border-top: 1px solid rgba(0, 0, 0, 0.137255);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.137255);
 	position: absolute;
 	top: 25px;
 	right: 25px;
 	width: 250px;
+	color: rgba(0, 0, 0, 0.54);
 }
-
-.your-company .block {
-	margin-top: 3px;
-	margin-bottom: 3px;
+.your-company dl {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
-
-.your-company .left {
-	float: left;
+.your-company dt {
 	text-align: right;
 }
 
-.your-company .right {
-	float: right;
+
+.their-company {
+	position: absolute;
+	left: 75px;
+	top: 100px;
+}
+.their-company .to {
+	margin-right: 7px;
 }
 
-.your-company .block span {
-	display: block;
+
+.container {
+	position: absolute;
+	top: 200px;
+	left: 50px;
+	right: 50px;
+}
+
+
+.invoice-details {
+	width: 450px;
+}
+
+
+.total-container {
+	position: absolute;
+	bottom: 125px;
+	right: 25px;
+	width: 350px;
+	padding: 14px;
+}
+.total {
+	font-weight: bold;
+}
+.total-container div span {
+	width: 20%;
+	display: inline-block;
+}
+.total-container div span:first-child {
+	width: 55%;
+}
+.total-container div span:last-child {
+	width: 25%;
+	text-align: right;
+}
+.total-container div:first-child .amount {
+	border-top: 1px dotted #ccc;
+	margin-top: 10px;
+	padding-top: 10px;
+}
+.total-container div:last-child .amount {
+	border-top: 1px dotted #ccc;
+	border-bottom: 1px dotted #ccc;
+	margin-top: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+
+footer {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 1rem;
+	font-size: 12px;
+	text-align: center;
 }

@@ -2,57 +2,99 @@ doctype html
 html
 	head
 		title Factuur
+		link(href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet")
 		style
 			include pongit.css
 
 	body
+		img.logo(src=origin + "/pongit.png")
+
 		.your-company
-			.block
-				.left Adres:
-				.right
-					span #{your.name}
-					span #{your.address}
-					span #{your.city}
-
-			.block
-				.left BTW nr:
-				.right #{your.btw}
-
-			.block
-				.left
-					span Bank:
-					span IBAN:
-					span BIC:
-
-				.right
-					span #{your.bank}
-					span #{your.iban}
-					span #{your.bic}
-
-			.block
-				.left
-					span Tel:
-					span Email:
-
-				.right
-					span #{your.telephone}
-					span #{your.email}
+			dl
+				dt Adres:
+				dd
+					div
+						strong #{your.name}
+					div #{your.address}
+					div #{your.city}
 
 
+			dl
+				dt BTW nr:
+				dd #{your.btw}
 
-		p #{number}
-		p #{date}
-		p #{hours}
+			dl
+				dt Bank:
+				dd #{your.bank}
 
-		p #{client.name}
-		div #{client.address}
-		div #{client.city}
-		div #{client.telephone}
-		div #{client.btw}
+				dt IBAN:
+				dd #{your.iban}
 
-		div #{money.totalWithoutTax}
-		div #{money.taxPercentage}
-		div #{money.totalTax}
-		div #{money.total}
+				dt BIC:
+				dd #{your.bic}
+
+			dl
+				dt Tel:
+				dd #{your.telephone}
+
+				dt Email:
+				dd #{your.email}
+
+		.their-company
+			span.to Aan:
+			strong #{client.name}
+
+			div #{client.address}
+			div #{client.city}
+			div #{client.telephone}
+			div #{client.btw}
 
 
+		.container
+			h1 Factuur
+			dl.invoice-details
+				dt Factuurdatum:
+				dd #{formatDate(date)}
+
+				dt Factuurnummer:
+				dd #{number}
+
+			hr
+
+			table(width="100%")
+				thead
+					tr
+						th(width="70%" align="left") Omschrijving
+						th(width="10%") Uren
+						th(width="10%") Tarief
+						th(width="10%") Bedrag&nbsp;EUR
+					tr
+						th(colspan="4")
+							hr
+
+				tbody
+					tr
+						td #{client.rate.description}
+						td(align="right") #{numberFormat(hours)}
+						td(align="right") #{numberFormat(client.rate.hourly)}
+						td(align="right") #{numberFormat(client.rate.hourly * hours)}
+
+
+		.total-container
+			div
+				span Subtotaal
+				span.amount EUR
+				span.amount #{numberFormat(money.totalWithoutTax)}
+
+			div
+				span BTW #{money.taxPercentage} %
+				span.amount EUR
+				span.amount #{numberFormat(money.totalTax)}
+
+			.total
+				span Totaal te voldoen
+				span.amount EUR
+				span.amount #{numberFormat(money.total)}
+
+
+		footer We verzoeken u vriendelijk het verschuldigde bedrag binnen 30 dagen over te maken onder vermelding van het factuurnummer.
