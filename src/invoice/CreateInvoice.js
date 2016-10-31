@@ -27,20 +27,41 @@ class CreateInvoice extends Component {
   }
 
   _createInvoice() {
-    this.props.createInvoice(this.state);
+    this.props.createInvoice(Object.assign({}, this.state, {client: this._getClientDetails(), money: this._calculateMoneys()}));
   }
 
   _getClients() {
     return this.props.clients.map(client => ({value: client.id, label: client.name}));
   }
+  _getClientDetails() {
+    return this.props.clients.find(c => c.id === this.state.client);
+  }
+  _calculateMoneys() {
+    const client = this._getClientDetails();
+    if (!client) {
+      return {};
+    }
+
+    const totalWithoutTax = this.state.hours * client.rate.hourly;
+    const taxPercentage = 21;
+    const totalTax = totalWithoutTax / 100 * taxPercentage;
+    return {
+      totalWithoutTax,
+      taxPercentage,
+      totalTax,
+      total: totalWithoutTax + totalTax,
+    };
+  }
+
 
   render() {
-    const client = this.props.clients.find(c => c.id === this.state.client);
+    const client = this._getClientDetails();
+    const money = this._calculateMoneys();
     return (
       <Grid>
         <Form>
           <Row>
-            <Col md={6}>
+            <Col sm={6}>
               <FormGroup>
                 <ControlLabel>{t('invoice.client')}</ControlLabel>
                 <Select
@@ -53,7 +74,7 @@ class CreateInvoice extends Component {
 
               {client ? <ClientDetails client={client} /> : null}
             </Col>
-            <Col md={6}>
+            <Col sm={6}>
               <FormGroup>
                 <ControlLabel>{t('invoice.number')}</ControlLabel>
                 <FormControl
@@ -88,9 +109,9 @@ class CreateInvoice extends Component {
           </Row>
           {client ? (
             <Row>
-              <Col md={4}>
+              <Col sm={4}>
                 <h4>{t('invoice.totalTitle')}</h4>
-                <InvoiceTotal client={client} amount={this.state.hours} />
+                <InvoiceTotal {...money} />
               </Col>
             </Row>
           ) : null}

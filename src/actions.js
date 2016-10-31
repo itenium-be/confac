@@ -64,6 +64,6 @@ function fetchConfig() {
 export function createInvoice(data) {
   console.log('datye', data);
   return dispatch => {
-    return httpPost('/invoice/create', data);
+    return httpPost('/invoices/create', data);
   };
 }

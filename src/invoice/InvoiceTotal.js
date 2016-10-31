@@ -2,10 +2,7 @@ import React from 'react';
 import t from '../trans.js';
 import numeral from 'numeral';
 
-const InvoiceTotal = ({client, amount}) => {
-  const totalWithoutTax = amount * client.rate.hourly;
-  const taxPercentage = 21;
-  const totalTax = totalWithoutTax / 100 * taxPercentage;
+const InvoiceTotal = ({totalWithoutTax, taxPercentage, totalTax, total}) => {
   const amountsStyle = {textAlign: 'right', float: 'right'};
   return (
     <div>
@@ -19,7 +16,7 @@ const InvoiceTotal = ({client, amount}) => {
       </div>
       <div>
         {t('invoice.total')}
-        <span style={amountsStyle}><strong>€ {numeral(totalWithoutTax + totalTax).format('0,0.00')}</strong></span>
+        <span style={amountsStyle}><strong>€ {numeral(total).format('0,0.00')}</strong></span>
       </div>
     </div>
   );
