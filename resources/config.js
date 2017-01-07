@@ -6,10 +6,7 @@ export default function register(app) {
   });
 
   router.get('/', function *(next) {
-    this.body = {
-      nextInvoiceNumber: 11,
-      defaultClient: 2,
-    };
+    this.body = yield this.mongo.db('confac').collection('config').findOne({name: 'pongit'});
   });
 
   app.use(router.routes());
