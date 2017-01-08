@@ -9,6 +9,7 @@ const trans = {
     date: 'Factuurdatum',
     hours: 'Totaal uren',
     create: 'Maak factuur',
+    preview: 'Preview',
     totalTitle: 'Factuurtotaal',
     subtotal: 'Subtotaal',
     taxtotal: 'BTW ${}%',

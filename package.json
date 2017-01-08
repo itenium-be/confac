@@ -10,8 +10,8 @@
     "moment": "^2.15.2",
     "numeral": "^1.5.3",
     "react": "^15.3.2",
-    "react-bootstrap": "^0.30.6",
-    "react-bootstrap-date-picker": "^3.7.0",
+    "react-bootstrap": "^0.30.7",
+    "react-bootstrap-date-picker": "^4.0.0",
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",
     "react-router": "^3.0.0",
@@ -20,7 +20,7 @@
     "react-select": "^1.0.0-rc.2",
     "redux": "^3.6.0",
     "redux-thunk": "*",
-    "superagent": "^2.3.0"
+    "superagent": "^2.3.0",
   },
   "scripts": {
     "start": "react-scripts start",

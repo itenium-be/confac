@@ -18,10 +18,9 @@ const config = (state = defaultConfig, action) => {
 };
 
 const clients = (state = [], action) => {
-  const { type, clients } = action;
-  if (type === ACTION_TYPES.CLIENTS_FETCHED) {
-    console.log('CLIENTS_FETCHED', clients);
-    return clients;
+  if (action.type === ACTION_TYPES.CLIENTS_FETCHED) {
+    console.log('CLIENTS_FETCHED', action.clients);
+    return action.clients;
   }
   return state;
 };
