@@ -31,9 +31,10 @@ class CreateInvoice extends Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-    if (!this.props.config.defaultClient || !this.props.config.nextInvoiceNumber) {
-      this.setState({client: nextProps.config.defaultClient, number: nextProps.config.nextInvoiceNumber});
+    if (!this.state.client) {
+      this.setState({client: nextProps.config.defaultClient});
     }
+    this.setState({number: nextProps.config.nextInvoiceNumber});
   }
 
   _createInvoice(type) {
@@ -116,7 +117,7 @@ class CreateInvoice extends Component {
                   type="number"
                   value={this.state.hours}
                   placeholder={t('invoice.hours')}
-                  onChange={e => this.setState({hours: parseInt(e.target.value, 10)})}
+                  onChange={e => this.setState({hours: parseFloat(e.target.value, 10)})}
                 />
               </FormGroup>
             </Col>
