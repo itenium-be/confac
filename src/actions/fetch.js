@@ -6,7 +6,15 @@ export function buildUrl(url) {
   return urlPrefix + url;
 }
 
-export const httpGet = url => fetch(urlPrefix + url).then(res => res.json());
+export const httpGet = url => fetch(buildUrl(url)).then(res => res.json());
+
+// export const httpPost = (url, data) => request.post(buildUrl(url))
+//   .set('Content-Type', 'application/json')
+//   .send(data)
+//   .end((err, res) => {
+//     console.log("res", res);
+//     return res.json();
+//   });
 
 // const httpGet = url => {
 //   console.log('httpGet', url);

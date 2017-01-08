@@ -1,5 +1,6 @@
+import request from 'superagent';
 import { ACTION_TYPES } from './ActionTypes.js';
-import { httpGet } from './fetch';
+import { httpGet, buildUrl } from './fetch';
 
 export * from './invoiceActions.js';
 
@@ -31,5 +32,14 @@ export function initialLoad() {
   return dispatch => {
     dispatch(fetchClients());
     dispatch(fetchConfig());
+  };
+}
+
+export function updateConfig(newConfig) {
+  return () => {
+    return request.post(buildUrl('/config'))
+      .set('Content-Type', 'application/json')
+      .send(newConfig)
+      .end(() => {});
   };
 }

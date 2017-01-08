@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import t from '../trans.js';
 
-import { DatePicker } from '../controls/index.js';
-import Select from 'react-select';
+import { DatePicker, ClientSelect } from '../controls/index.js';
 import { Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import ClientDetails from '../client/ClientDetails.js';
 import InvoiceTotal from './InvoiceTotal.js';
@@ -82,11 +81,9 @@ class CreateInvoice extends Component {
             <Col sm={6}>
               <FormGroup>
                 <ControlLabel>{t('invoice.client')}</ControlLabel>
-                <Select
+                <ClientSelect
                   value={this.state.client}
-                  options={this.props.clients.map(item => ({value: item._id, label: item.name}))}
-                  onChange={item => this.setState({client: item.value})}
-                  clearable={false}
+                  onChange={item => this.setState({client: item._id})}
                 />
               </FormGroup>
 

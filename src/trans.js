@@ -2,6 +2,12 @@ const trans = {
   title: 'Facturatie',
   nav: {
     create: 'Nieuwe factuur',
+    config: 'Config',
+  },
+  save: 'Bewaren',
+  config: {
+    defaultClient: 'Standaard klant',
+    nextInvoiceNumber: 'Volgend factuurnummer',
   },
   invoice: {
     client: 'Klant',

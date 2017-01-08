@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App.js';
 
 import './index.css';
 import 'react-select/dist/react-select.css';
 
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -24,22 +23,11 @@ const history = syncHistoryWithStore(browserHistory, store);
 import { initialLoad } from './actions/index.js';
 store.dispatch(initialLoad());
 
-import CreateInvoice from './invoice/CreateInvoice.js';
+import Routes from './routes.js';
 
-const Routes = (
-  <Route path="/" component={App}>
-    <IndexRoute component={CreateInvoice}/>
-    <Route path="/invoice/create" component={CreateInvoice}/>
-    <Route path="users" component={CreateInvoice}>
-      <IndexRoute component={CreateInvoice}/>
-      <Route path=":id" component={CreateInvoice}/>
-    </Route>
-  </Route>
-);
-
-const Root = ({store, history}) => (
-  <Provider store={store}>
-    <Router history={history} routes={Routes} />
+const Root = param => (
+  <Provider store={param.store}>
+    <Router history={param.history} routes={Routes} />
   </Provider>
 );
 
