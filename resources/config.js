@@ -6,7 +6,7 @@ export default function register(app) {
   });
 
   router.get('/', function *(next) {
-    this.body = yield this.mongo.db('confac').collection('config').findOne({name: 'pongit'});
+    this.body = yield this.mongo.collection('config').findOne({name: 'pongit'});
   });
 
   app.use(router.routes());

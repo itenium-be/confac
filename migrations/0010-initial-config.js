@@ -6,6 +6,7 @@ exports.up = function(db, next) {
     name: 'pongit',
     nextInvoiceNumber: 11,
     company: {
+      template: 'pongit.pug',
       name: 'pongit BVBA',
       address: 'Doolhofstraat 37',
       city: '9300 Aalst',

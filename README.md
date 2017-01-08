@@ -1,5 +1,6 @@
 confac-back
 ===========
+Starting DEV:
 
 ```
 # Start Mongo
@@ -11,6 +12,17 @@ npm run mm
 
 # Start server
 npm start
+```
+
+Migrations
+----------
+https://github.com/afloyd/mongo-migrate
+
+Migrate to specific:
+
+```
+node ./node_modules/mongodb-migrate -runmm down 5
+node ./node_modules/mongodb-migrate -runmm up 15
 ```
 
 TODO
