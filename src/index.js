@@ -21,7 +21,7 @@ const configureStore = preloadedState => createStore(
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
-import { initialLoad } from './actions.js';
+import { initialLoad } from './actions/index.js';
 store.dispatch(initialLoad());
 
 import CreateInvoice from './invoice/CreateInvoice.js';

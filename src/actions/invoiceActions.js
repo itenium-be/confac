@@ -1,66 +1,6 @@
-import keyMirror from 'keymirror';
 import request from 'superagent';
-
-const urlPrefix = 'http://localhost:3001/api'; // TODO: put this in some environment config
-
-export const ACTION_TYPES = keyMirror({
-  CONFIG_FETCHED: '',
-  CLIENTS_FETCHED: '',
-});
-
-const httpGet = url => fetch('http://localhost:3001/api' + url).then(res => res.json());
-// const httpGet = url => {
-//   console.log('httpGet', url);
-//   return request.get(urlPrefix + url)
-//   .set('Accept', 'application/json')
-//   .end(function(err, res) {
-//     console.log('wuuk', url, res);
-//     return JSON.parse(res.body);
-//   });
-// }
-
-// const httpPost = (url, body) => request.post(urlPrefix + url)
-//   .set('Content-Type', 'application/json')
-//   .send(body)
-//   .end(function(err, res) {
-//     console.log('posted return', res);
-//     return res.body;
-//   });
-
-
-
-function fetchClients() {
-  return dispatch => {
-    return httpGet('/clients')
-      .then(data => {
-        dispatch({
-          type: ACTION_TYPES.CLIENTS_FETCHED,
-          clients: data
-        });
-      });
-  };
-}
-
-function fetchConfig() {
-  return dispatch => {
-    return httpGet('/config')
-      .then(data => {
-        dispatch({
-          type: ACTION_TYPES.CONFIG_FETCHED,
-          config: data
-        });
-      });
-  };
-}
-
-export function initialLoad() {
-  return dispatch => {
-    dispatch(fetchClients());
-    dispatch(fetchConfig());
-  };
-}
-
-
+import { ACTION_TYPES } from './ActionTypes.js';
+import { buildUrl } from './fetch.js';
 
 function getInvoiceFileName(data) {
   var fileName = data.client.invoiceFileName;
@@ -82,12 +22,18 @@ function getInvoiceFileName(data) {
   return fileName + '.pdf';
 }
 
+function updateNextInvoiceNumber() {
+  return {type: ACTION_TYPES.CONFIG_UPDATE_NEXTINVOICE_NUMBER};
+}
+
 export function createInvoice(data) {
-  return () => {
-    request.post(urlPrefix + '/invoices/create')
+  return dispatch => {
+    request.post(buildUrl('/invoices/create'))
       .set('Content-Type', 'application/json')
       .send(data)
       .end(function(err, res) {
+        dispatch(updateNextInvoiceNumber());
+
         var link = document.createElement('a');
         link.download = getInvoiceFileName(data);
         link.target = '_blank';
@@ -125,7 +71,7 @@ function openWindow(pdf, fileName) {
 
 export function previewInvoice(data) {
   return () => {
-    request.post(urlPrefix + '/invoices/preview')
+    request.post(buildUrl('/invoices/preview'))
       .set('Content-Type', 'application/json')
       .send(data)
       .end(function(err, res) {

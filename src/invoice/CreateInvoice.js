@@ -8,7 +8,7 @@ import Select from 'react-select';
 import { Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import ClientDetails from '../client/ClientDetails.js';
 import InvoiceTotal from './InvoiceTotal.js';
-import { createInvoice, previewInvoice } from '../actions.js';
+import { createInvoice, previewInvoice } from '../actions/index.js';
 
 class CreateInvoice extends Component {
   static propTypes = {
