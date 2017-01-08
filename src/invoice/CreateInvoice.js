@@ -67,7 +67,7 @@ class CreateInvoice extends Component {
                 <Select
                   value={this.state.client}
                   options={this._getClients()}
-                  onChange={selectedKey => this.setState({client: selectedKey})}
+                  onChange={item => this.setState({client: item.value})}
                   clearable={false}
                 />
               </FormGroup>
