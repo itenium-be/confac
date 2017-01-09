@@ -73,11 +73,12 @@ html
 							hr
 
 				tbody
-					tr
-						td #{client.rate.description}
-						td(align="right") #{numberFormat(hours)}
-						td(align="right") #{numberFormat(client.rate.hourly)}
-						td(align="right") #{numberFormat(client.rate.hourly * hours)}
+					each line in lines
+						tr
+							td #{line.desc}
+							td(align="right") #{numberFormat(line.hours)}
+							td(align="right") #{numberFormat(line.rate)}
+							td(align="right") #{numberFormat(line.rate * line.hours)}
 
 
 		.total-container

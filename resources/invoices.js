@@ -40,7 +40,7 @@ export default function register(app) {
 
 
 
-  router.post('/create', function *(next) {
+  router.post('/create', function *() {
     const params = this.request.body;
     const compiledFunction = pug.compileFile('./templates/' + params.your.template);
     const html = compiledFunction(Object.assign({}, locals, params, {origin: this.request.origin}));
