@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import t from '../trans.js';
 
-import { DatePicker, ClientSelect } from '../controls/index.js';
-import { Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { DatePicker, ClientSelect, NumericInput } from '../controls/index.js';
+import { Grid, Row, Col, Form, Button } from 'react-bootstrap';
 import ClientDetails from '../client/ClientDetails.js';
 import InvoiceTotal from './InvoiceTotal.js';
 import { createInvoice, previewInvoice } from '../actions/index.js';
@@ -22,27 +22,42 @@ class CreateInvoice extends Component {
   }
   constructor(props) {
     super(props);
+
+    var client = props.config.defaultClient;
+    if (client) {
+      client = this.props.clients.find(c => c._id === client);
+    }
+
     this.state = {
-      client: props.config.defaultClient,
+      client,
       number: props.config.nextInvoiceNumber || 1,
       date: moment().endOf('month'),
+      lines: [],
       hours: 0,
     };
+
+    // if (client) {
+    //   this.state.lines.push({
+    //     desc: client.rate.description,
+    //     hours: 0,
+    //     rate: client.rate.hourly,
+    //   });
+    // }
   }
-  componentWillReceiveProps(nextProps) {
-    if (!this.state.client) {
-      this.setState({client: nextProps.config.defaultClient});
-    }
-    this.setState({number: nextProps.config.nextInvoiceNumber});
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (!this.state.client) {
+  //     this.setState({client: nextProps.config.defaultClient});
+  //   }
+  //   this.setState({number: nextProps.config.nextInvoiceNumber});
+  // }
 
   _createInvoice(type) {
     const extraInfos = {
-      client: this._getClientDetails(),
       money: this._calculateMoneys(),
       your: this.props.config.company
     };
     const postBody = Object.assign({}, this.state, extraInfos);
+    console.log('post', postBody);
 
     if (type === 'create') {
       this.props.createInvoice(postBody);
@@ -51,11 +66,8 @@ class CreateInvoice extends Component {
     }
   }
 
-  _getClientDetails() {
-    return this.props.clients.find(c => c._id === this.state.client);
-  }
   _calculateMoneys() {
-    const client = this._getClientDetails();
+    const client = this.state.client;
     if (!client) {
       return {};
     }
@@ -72,52 +84,42 @@ class CreateInvoice extends Component {
   }
 
   render() {
-    const client = this._getClientDetails();
+    const client = this.state.client;
     const money = this._calculateMoneys();
     return (
       <Grid>
         <Form>
           <Row>
             <Col sm={6}>
-              <FormGroup>
-                <ControlLabel>{t('invoice.client')}</ControlLabel>
-                <ClientSelect
-                  value={this.state.client}
-                  onChange={item => this.setState({client: item._id})}
-                />
-              </FormGroup>
+              <ClientSelect
+                label={t('invoice.client')}
+                value={this.state.client}
+                onChange={item => this.setState({client: item})}
+              />
 
               {client ? <ClientDetails client={client} /> : null}
             </Col>
             <Col sm={6}>
-              <FormGroup>
-                <ControlLabel>{t('invoice.number')}</ControlLabel>
-                <FormControl
-                  type="number"
-                  value={this.state.number}
-                  placeholder={t('invoice.number')}
-                  onChange={e => this.setState({number: parseInt(e.target.value, 10)})}
-                />
-              </FormGroup>
+              <NumericInput
+                label={t('invoice.number')}
+                value={this.state.number}
+                onChange={value => this.setState({number: value})}
+              />
 
-              <FormGroup>
-                <ControlLabel>{t('invoice.date')}</ControlLabel>
-                <DatePicker
-                  value={this.state.date}
-                  onChange={momentInstance => this.setState({date: momentInstance})}
-                />
-              </FormGroup>
-
-              <FormGroup>
-                <ControlLabel>{t('invoice.hours')}</ControlLabel>
-                <FormControl
-                  type="number"
-                  value={this.state.hours}
-                  placeholder={t('invoice.hours')}
-                  onChange={e => this.setState({hours: parseFloat(e.target.value, 10)})}
-                />
-              </FormGroup>
+              <DatePicker
+                label={t('invoice.date')}
+                value={this.state.date}
+                onChange={momentInstance => this.setState({date: momentInstance})}
+              />
             </Col>
+          </Row>
+          <Row>
+            <NumericInput
+              float
+              label={t('invoice.hours')}
+              value={this.state.hours}
+              onChange={value => this.setState({hours: value})}
+            />
           </Row>
           {client ? (
             <Row>

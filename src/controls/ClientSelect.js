@@ -1,12 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+
+import { LabeledInput } from './Inputs.js';
 import Select from 'react-select';
 
 class ClientSelectComponent extends Component {
   static propTypes = {
     clients: PropTypes.array.isRequired,
-    value: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     onChange: PropTypes.func.isRequired,
+    label: PropTypes.string,
   }
 
   getClient(clientId) {
@@ -14,14 +17,23 @@ class ClientSelectComponent extends Component {
   }
 
   render() {
-    return (
+    const Selecter = (
       <Select
-        value={this.props.value}
+        value={typeof this.props.value === 'object' ? this.props.value._id : this.props.value}
         options={this.props.clients.map(item => ({value: item._id, label: item.name}))}
         onChange={item => this.props.onChange(this.getClient(item.value))}
         clearable={false}
       />
     );
+
+    if (this.props.label) {
+      return (
+        <LabeledInput label={this.props.label}>
+          {Selecter}
+        </LabeledInput>
+      );
+    }
+    return Selecter;
   }
 }
 

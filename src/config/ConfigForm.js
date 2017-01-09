@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import t from '../trans.js';
 
-import { ClientSelect } from '../controls/index.js';
-import { Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { ClientSelect, NumericInput } from '../controls/index.js';
+import { Grid, Row, Col, Form, Button } from 'react-bootstrap';
 import { updateConfig } from '../actions/index.js';
 
 class ConfigForm extends Component {
@@ -34,24 +34,18 @@ class ConfigForm extends Component {
         <Form>
           <Row>
             <Col sm={6}>
-              <FormGroup>
-                <ControlLabel>{t('config.defaultClient')}</ControlLabel>
-                <ClientSelect
-                  value={this.state.defaultClient}
-                  onChange={item => this.setState({defaultClient: item._id})}
-                />
-              </FormGroup>
+              <ClientSelect
+                label={t('config.defaultClient')}
+                value={this.state.defaultClient}
+                onChange={item => this.setState({defaultClient: item._id})}
+              />
             </Col>
             <Col sm={6}>
-              <FormGroup>
-                <ControlLabel>{t('config.nextInvoiceNumber')}</ControlLabel>
-                <FormControl
-                  type="number"
-                  value={this.state.nextInvoiceNumber}
-                  placeholder={t('config.nextInvoiceNumber')}
-                  onChange={e => this.setState({nextInvoiceNumber: parseInt(e.target.value, 10)})}
-                />
-              </FormGroup>
+              <NumericInput
+                label={t('config.nextInvoiceNumber')}
+                value={this.state.nextInvoiceNumber}
+                onChange={value => this.setState({nextInvoiceNumber: value})}
+              />
             </Col>
           </Row>
           <Row style={{textAlign: 'center'}}>
