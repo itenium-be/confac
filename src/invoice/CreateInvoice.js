@@ -6,6 +6,7 @@ import t from '../trans.js';
 import { DatePicker, ClientSelect, NumericInput } from '../controls/index.js';
 import { Grid, Row, Col, Form, Button } from 'react-bootstrap';
 import ClientDetails from '../client/ClientDetails.js';
+import CreateInvoiceLines from './CreateInvoiceLines.js';
 import InvoiceTotal from './InvoiceTotal.js';
 import { createInvoice, previewInvoice } from '../actions/index.js';
 
@@ -23,33 +24,41 @@ class CreateInvoice extends Component {
   constructor(props) {
     super(props);
 
-    var client = props.config.defaultClient;
-    if (client) {
-      client = this.props.clients.find(c => c._id === client);
+    var client, lines;
+    if (props.config.defaultClient) {
+      client = this.props.clients.find(c => c._id === props.config.defaultClient);
+      lines = [this.getClientLine(client)];
     }
 
     this.state = {
-      client,
       number: props.config.nextInvoiceNumber || 1,
       date: moment().endOf('month'),
-      lines: [],
-      hours: 0,
+      client: client,
+      lines: lines || [],
     };
-
-    // if (client) {
-    //   this.state.lines.push({
-    //     desc: client.rate.description,
-    //     hours: 0,
-    //     rate: client.rate.hourly,
-    //   });
-    // }
   }
-  // componentWillReceiveProps(nextProps) {
-  //   if (!this.state.client) {
-  //     this.setState({client: nextProps.config.defaultClient});
-  //   }
-  //   this.setState({number: nextProps.config.nextInvoiceNumber});
-  // }
+
+  getClientLine(client) {
+    return {
+      desc: client.rate.description,
+      hours: 0,
+      rate: client.rate.hourly,
+    };
+  }
+  selectClient(client) {
+    this.setState({
+      client,
+      lines: [this.getClientLine(client)]
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.state.client && nextProps.config.defaultClient) {
+      const client = this.props.clients.find(c => c._id === nextProps.config.defaultClient);
+      this.selectClient(client);
+    }
+    this.setState({number: nextProps.config.nextInvoiceNumber});
+  }
 
   _createInvoice(type) {
     const extraInfos = {
@@ -57,7 +66,7 @@ class CreateInvoice extends Component {
       your: this.props.config.company
     };
     const postBody = Object.assign({}, this.state, extraInfos);
-    console.log('post', postBody);
+    //console.log('post', postBody);
 
     if (type === 'create') {
       this.props.createInvoice(postBody);
@@ -72,7 +81,7 @@ class CreateInvoice extends Component {
       return {};
     }
 
-    const totalWithoutTax = this.state.hours * client.rate.hourly;
+    const totalWithoutTax = this.state.lines.reduce((prev, cur) => prev + cur.hours * cur.rate, 0);
     const taxPercentage = 21;
     const totalTax = totalWithoutTax / 100 * taxPercentage;
     return {
@@ -94,10 +103,20 @@ class CreateInvoice extends Component {
               <ClientSelect
                 label={t('invoice.client')}
                 value={this.state.client}
-                onChange={item => this.setState({client: item})}
+                onChange={this.selectClient.bind(this)}
               />
 
-              {client ? <ClientDetails client={client} /> : null}
+              {client ? (
+                <Row>
+                  <Col sm={6}>
+                    <ClientDetails client={client} />
+                  </Col>
+                  <Col sm={6}>
+                    <h4>{t('invoice.totalTitle')}</h4>
+                    <InvoiceTotal {...money} />
+                  </Col>
+                </Row>
+              ) : null}
             </Col>
             <Col sm={6}>
               <NumericInput
@@ -113,23 +132,13 @@ class CreateInvoice extends Component {
               />
             </Col>
           </Row>
-          <Row>
-            <NumericInput
-              float
-              label={t('invoice.hours')}
-              value={this.state.hours}
-              onChange={value => this.setState({hours: value})}
+          <Row style={{marginTop: 8}}>
+            <CreateInvoiceLines
+              lines={this.state.lines}
+              onChange={lines => this.setState({lines})}
             />
           </Row>
-          {client ? (
-            <Row>
-              <Col sm={4}>
-                <h4>{t('invoice.totalTitle')}</h4>
-                <InvoiceTotal {...money} />
-              </Col>
-            </Row>
-          ) : null}
-          <Row style={{textAlign: 'center'}}>
+          <Row style={{textAlign: 'center', marginBottom: 8}}>
             <Button bsSize="large" bsStyle="default" onClick={this._createInvoice.bind(this, 'preview')} style={{marginRight: 14}}>
               {t('invoice.preview')}
             </Button>

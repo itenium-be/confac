@@ -1,3 +1,4 @@
 export { DatePicker } from './DatePicker.js';
 export { ClientSelect } from './ClientSelect.js';
-export { NumericInput } from './Inputs.js';
+export * from './Inputs.js';
+export * from './Icon.js';

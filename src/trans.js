@@ -22,6 +22,7 @@ const trans = {
     total: 'Totaal',
   },
   client: {
+    projectDesc: 'Omschrijving',
     hourlyRate: 'Uurprijs',
   },
   controls: {
