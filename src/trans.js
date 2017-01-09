@@ -52,4 +52,4 @@ export default function(key, params) {
   }
 
   return str;
-};
+}

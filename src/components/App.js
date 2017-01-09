@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-
-import './App.css';
 
 import Header from './skeleton/Header.js';
 
 class App extends Component {
+  static propTypes = {
+    children: PropTypes.node
+  }
   render() {
     return (
       <div className="App">

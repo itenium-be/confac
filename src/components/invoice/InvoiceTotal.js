@@ -1,6 +1,6 @@
 import React from 'react';
-import t from '../trans.js';
 import numeral from 'numeral';
+import { t } from '../util.js';
 
 const InvoiceTotal = ({totalWithoutTax, taxPercentage, totalTax, total}) => {
   const amountsStyle = {textAlign: 'right', float: 'right'};

@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import t from '../trans.js';
+import { t } from '../util.js';
 
-import { ClientSelect, NumericInput } from '../controls/index.js';
+import { ClientSelect, NumericInput } from '../controls.js';
 import { Grid, Row, Col, Form, Button } from 'react-bootstrap';
-import { updateConfig } from '../actions/index.js';
+import { updateConfig } from '../../actions/index.js';
 
 class ConfigForm extends Component {
   static propTypes = {

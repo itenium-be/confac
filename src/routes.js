@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
-import App from './App.js';
-import CreateInvoice from './invoice/CreateInvoice.js';
-import ConfigForm from './config/ConfigForm.js';
+import App from './components/App.js';
+import CreateInvoice from './components/invoice/CreateInvoice.js';
+import ConfigForm from './components/config/ConfigForm.js';
 
 const Routes = (
   <Route path="/" component={App}>

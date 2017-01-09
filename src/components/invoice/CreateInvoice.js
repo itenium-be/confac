@@ -1,14 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import t from '../trans.js';
+import { t } from '../util.js';
 
-import { DatePicker, ClientSelect, NumericInput } from '../controls/index.js';
+import { DatePicker, ClientSelect, NumericInput } from '../controls.js';
 import { Grid, Row, Col, Form, Button } from 'react-bootstrap';
 import ClientDetails from '../client/ClientDetails.js';
 import CreateInvoiceLines from './CreateInvoiceLines.js';
 import InvoiceTotal from './InvoiceTotal.js';
-import { createInvoice, previewInvoice } from '../actions/index.js';
+import { createInvoice, previewInvoice } from '../../actions/index.js';
 
 class CreateInvoice extends Component {
   static propTypes = {

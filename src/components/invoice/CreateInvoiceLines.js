@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import t from '../trans.js';
+import { t } from '../util.js';
 
-import { NumericInput, StringInput, Icon } from '../controls/index.js';
+import { NumericInput, StringInput, Icon } from '../controls.js';
 import { Table } from 'react-bootstrap';
 
 export default class CreateInvoiceLines extends Component {
