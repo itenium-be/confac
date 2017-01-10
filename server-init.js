@@ -4,6 +4,11 @@ import koaBodyParser from 'koa-bodyparser';
 import koaServe from 'koa-static';
 import koaMongo from 'koa-mongo';
 
+const ObjectId = require('mongodb').ObjectId;
+String.prototype.toObjectId = function() {
+  return {_id: new ObjectId(this)};
+};
+
 export const createApp = () => {
   const app = koa();
   app.use(koaCors());

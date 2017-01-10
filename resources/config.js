@@ -1,7 +1,5 @@
 import Router from 'koa-router';
 
-var ObjectId = require('mongodb').ObjectId;
-
 export default function register(app) {
   const router = new Router({
     prefix: '/api/config'
@@ -13,7 +11,7 @@ export default function register(app) {
 
   router.post('/', function *() {
     const {_id, ...params} = this.request.body;
-    yield this.mongo.collection('config').update({_id: new ObjectId(_id)}, params);
+    yield this.mongo.collection('config').update(_id.toObjectId(), params);
     this.body = params;
   });
 

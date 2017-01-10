@@ -35,6 +35,11 @@ export default function register(app) {
     this.body = yield this.mongo.collection('invoices').find().toArray();
   });
 
+  router.delete('/', function *() {
+    const id = this.request.body.id;
+    this.body = yield this.mongo.collection('invoices').remove(id.toObjectId());
+  });
+
   router.post('/preview', function *() {
     const params = this.request.body;
     const compiledFunction = pug.compileFile('./templates/' + params.your.template);
