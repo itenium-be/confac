@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { t } from '../util.js';
 
-import { NumericInput, StringInput, Icon } from '../controls.js';
+import { NumericInput, StringInput, AddIcon, DeleteIcon } from '../controls.js';
 import { Table } from 'react-bootstrap';
 
 export default class CreateInvoiceLines extends Component {
@@ -65,7 +65,7 @@ export default class CreateInvoiceLines extends Component {
                 </td>
 
                 <td>
-                  {index > 0 ? <Icon fa="fa fa-minus-circle fa-2x" onClick={() => this.removeLine(index)} color="#CC1100" /> : <div />}
+                  {index > 0 ? <DeleteIcon onClick={() => this.removeLine(index)} /> : <div />}
                 </td>
               </tr>
             );
@@ -73,7 +73,7 @@ export default class CreateInvoiceLines extends Component {
           {this.props.lines.length ? (
             <tr>
               <td colSpan={4}>
-                <Icon fa="fa fa-plus fa-2x" onClick={() => this.addLine()} color="#FF8C00" />
+                <AddIcon onClick={() => this.addLine()} />
               </td>
             </tr>
           ) : null}

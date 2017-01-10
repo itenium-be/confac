@@ -1,10 +1,12 @@
 const trans = {
-  title: 'Facturatie',
+  title: 'Facturen',
   nav: {
     create: 'Nieuwe factuur',
     config: 'Config',
   },
   save: 'Bewaren',
+  delete: 'Verwijderen',
+  no: 'Nee',
   config: {
     defaultClient: 'Standaard klant',
     nextInvoiceNumber: 'Volgend factuurnummer',
@@ -12,13 +14,16 @@ const trans = {
   invoice: {
     client: 'Klant',
     number: 'Factuurnummer',
+    numberShort: 'Nr',
+    deleteTitle: 'Factuur verwijderen',
+    deletePopup: 'Factuur {number} ({client}) permanent verwijderen?',
     date: 'Factuurdatum',
     hours: 'Totaal uren',
     create: 'Maak factuur',
     preview: 'Preview',
     totalTitle: 'Factuurtotaal',
     subtotal: 'Subtotaal',
-    taxtotal: 'BTW ${}%',
+    taxtotal: 'BTW {}%',
     total: 'Totaal',
   },
   client: {
@@ -42,12 +47,12 @@ export default function(key, params) {
     return key;
   }
 
-  if (str.indexOf('${}') !== -1) {
-    return str.replace('${}', params);
+  if (str.indexOf('{}') !== -1) {
+    return str.replace('{}', params);
 
   } else if (typeof params === 'object') {
     Object.keys(params).forEach(function(paramKey) {
-      str = str.replace('${' + paramKey + '}', params[paramKey]);
+      str = str.replace('{' + paramKey + '}', params[paramKey]);
     });
   }
 

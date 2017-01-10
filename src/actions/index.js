@@ -28,10 +28,23 @@ function fetchConfig() {
   };
 }
 
+function fetchInvoices() {
+  return dispatch => {
+    return httpGet('/invoices')
+      .then(data => {
+        dispatch({
+          type: ACTION_TYPES.INVOICES_FETCHED,
+          invoices: data
+        });
+      });
+  };
+}
+
 export function initialLoad() {
   return dispatch => {
     dispatch(fetchClients());
     dispatch(fetchConfig());
+    dispatch(fetchInvoices());
   };
 }
 

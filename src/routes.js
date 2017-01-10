@@ -3,11 +3,12 @@ import { Route, IndexRoute } from 'react-router';
 
 import App from './components/App.js';
 import CreateInvoice from './components/invoice/CreateInvoice.js';
+import InvoiceList from './components/invoice/InvoiceList.js';
 import ConfigForm from './components/config/ConfigForm.js';
 
 const Routes = (
   <Route path="/" component={App}>
-    <IndexRoute component={CreateInvoice}/>
+    <IndexRoute component={InvoiceList}/>
     <Route path="/invoice/create" component={CreateInvoice}/>
     <Route path="/config" component={ConfigForm}>
       <IndexRoute component={CreateInvoice}/>

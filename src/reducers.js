@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
+import moment from 'moment';
 import { ACTION_TYPES } from './actions/ActionTypes.js';
 
 const defaultConfig = {
@@ -27,9 +28,23 @@ const clients = (state = [], action) => {
   return state;
 };
 
+const invoices = (state = [], action) => {
+  switch (action.type) {
+  case ACTION_TYPES.INVOICES_FETCHED:
+  console.log('INVOICES_FETCHED', action.invoices); // eslint-disable-line
+    return action.invoices.map(invoice => {
+      invoice.date = moment(invoice.date);
+      return invoice;
+    });
+  default:
+    return state;
+  }
+};
+
 const rootReducer = combineReducers({
   config,
   clients,
+  invoices,
   routing: routerReducer
 });
 
