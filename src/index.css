@@ -8,3 +8,10 @@ body {
 .clickable {
 	cursor: pointer;
 }
+
+.icons-cell {
+	text-align: right;
+}
+.icons-cell i {
+	margin-right: 8px;
+}

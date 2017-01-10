@@ -19,6 +19,7 @@ const trans = {
     deletePopup: 'Factuur {number} ({client}) permanent verwijderen?',
     date: 'Factuurdatum',
     hours: 'Totaal uren',
+    hoursShort: 'Uren',
     create: 'Maak factuur',
     preview: 'Preview',
     totalTitle: 'Factuurtotaal',

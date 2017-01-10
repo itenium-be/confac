@@ -1,4 +1,5 @@
 import request from 'superagent';
+import { browserHistory } from 'react-router';
 import { ACTION_TYPES } from './ActionTypes.js';
 import { buildUrl } from './fetch.js';
 
@@ -41,19 +42,42 @@ function updateNextInvoiceNumber() {
   return {type: ACTION_TYPES.CONFIG_UPDATE_NEXTINVOICE_NUMBER};
 }
 
+export function updateInvoice(data) {
+  return dispatch => {
+    request.put(buildUrl('/invoices'))
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .send(data)
+      .end(function(err, res) {
+        dispatch({
+          type: ACTION_TYPES.INVOICE_UPDATED,
+          invoice: data
+        });
+      });
+  };
+}
+
 export function createInvoice(data) {
   return dispatch => {
-    request.post(buildUrl('/invoices/create'))
+    request.post(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
       .send(data)
       .end(function(err, res) {
         dispatch(updateNextInvoiceNumber());
+        dispatch({
+          type: ACTION_TYPES.INVOICE_ADDED,
+          invoice: res.body
+        });
 
-        var link = document.createElement('a');
-        link.download = getInvoiceFileName(data);
-        link.target = '_blank';
-        link.href = 'data:application/octet-stream;base64,' + res.text;
-        link.click();
+        // TODO: move this to download buttonz:
+        // var link = document.createElement('a');
+        // link.download = getInvoiceFileName(data);
+        // link.target = '_blank';
+        // link.href = 'data:application/octet-stream;base64,' + res.text;
+        // link.click();
+
+        browserHistory.push('/invoice/' + res.body._id);
       });
   };
 }

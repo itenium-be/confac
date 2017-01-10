@@ -1,32 +1,18 @@
 import React, { Component, PropTypes } from 'react';
-import { t } from '../util.js';
+import { t, InvoiceModel } from '../util.js';
 
 import { NumericInput, StringInput, AddIcon, DeleteIcon } from '../controls.js';
 import { Table } from 'react-bootstrap';
 
-export default class CreateInvoiceLines extends Component {
+export default class EditInvoiceLines extends Component {
   static propTypes = {
-    lines: PropTypes.array.isRequired,
+    invoice: PropTypes.instanceOf(InvoiceModel).isRequired,
     onChange: PropTypes.func.isRequired,
   }
 
-  updateLine(index, updateWith) {
-    var newArr = this.props.lines.slice();
-    newArr[index] = Object.assign({}, newArr[index], updateWith);
-    this.props.onChange(newArr);
-  }
-  addLine() {
-    var newArr = this.props.lines.slice();
-    newArr.push({desc: '', hours: 0, rate: 0});
-    this.props.onChange(newArr);
-  }
-  removeLine(index) {
-    var newArr = this.props.lines.slice();
-    newArr.splice(index, 1);
-    this.props.onChange(newArr);
-  }
-
   render() {
+    const {invoice, onChange} = this.props;
+    const lines = invoice.lines;
     return (
       <Table condensed>
         <thead>
@@ -38,13 +24,13 @@ export default class CreateInvoiceLines extends Component {
           </tr>
         </thead>
         <tbody>
-          {this.props.lines.map((line, index) => {
+          {lines.map((line, index) => {
             return (
               <tr key={index}>
                 <td>
                   <StringInput
                     value={line.desc}
-                    onChange={value => this.updateLine(index, {desc: value})}
+                    onChange={value => onChange(invoice.updateLine(index, {desc: value}))}
                   />
                 </td>
 
@@ -52,7 +38,7 @@ export default class CreateInvoiceLines extends Component {
                   <NumericInput
                     float
                     value={line.hours}
-                    onChange={value => this.updateLine(index, {hours: value})}
+                    onChange={value => onChange(invoice.updateLine(index, {hours: value}))}
                   />
                 </td>
 
@@ -60,20 +46,20 @@ export default class CreateInvoiceLines extends Component {
                   <NumericInput
                     float
                     value={line.rate}
-                    onChange={value => this.updateLine(index, {rate: value})}
+                    onChange={value => onChange(invoice.updateLine(index, {rate: value}))}
                   />
                 </td>
 
                 <td>
-                  {index > 0 ? <DeleteIcon onClick={() => this.removeLine(index)} /> : <div />}
+                  {index > 0 ? <DeleteIcon onClick={() => onChange(invoice.removeLine(index))} /> : <div />}
                 </td>
               </tr>
             );
           })}
-          {this.props.lines.length ? (
+          {lines.length ? (
             <tr>
               <td colSpan={4}>
-                <AddIcon onClick={() => this.addLine()} />
+                <AddIcon onClick={() => onChange(invoice.addLine())} />
               </td>
             </tr>
           ) : null}

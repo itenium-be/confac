@@ -10,12 +10,13 @@ export class Popup extends Component {
       text: PropTypes.string.required,
       onClick: PropTypes.func.isRequired,
       bsStyle: PropTypes.string,
-    }))
+    })),
+    onHide: PropTypes.func.isRequired,
   };
   render() {
     return (
-      <Modal.Dialog>
-        <Modal.Header>
+      <Modal onHide={this.props.onHide} show={true}>
+        <Modal.Header closeButton>
           <Modal.Title>{this.props.title}</Modal.Title>
         </Modal.Header>
 
@@ -28,8 +29,7 @@ export class Popup extends Component {
             <Button key={i} bsStyle={button.bsStyle} onClick={button.onClick}>{button.text}</Button>
           ))}
         </Modal.Footer>
-
-      </Modal.Dialog>
+      </Modal>
     );
   }
 }
@@ -55,10 +55,12 @@ export const EnhanceWithConfirmation = ComposedComponent => class extends Compon
       onClick: () => onClick()
     }];
     return (
-      <div>
+      <div style={{display: 'inline'}}>
         {this.state.popupActive ? (
-          <div>
-            <Popup title={title} buttons={buttons}>{children}</Popup>
+          <div style={{display: 'inline'}}>
+            <Popup title={title} buttons={buttons} onHide={() => this.setState({popupActive: false})}>
+              {children}
+            </Popup>
             <ComposedComponent {...props} onClick={() => this.setState({popupActive: false})} />
           </div>
         ) : (

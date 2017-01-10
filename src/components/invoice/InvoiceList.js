@@ -20,8 +20,9 @@ class InvoiceList extends Component {
               <th>{t('invoice.numberShort')}</th>
               <th>{t('invoice.client')}</th>
               <th>{t('invoice.date')}</th>
-              <th>{t('invoice.totalTitle')}</th>
-              <th></th>
+              <th>{t('invoice.hoursShort')}</th>
+              <th width="10%">{t('invoice.totalTitle')}</th>
+              <th>&nbsp;</th>
             </tr>
           </thead>
           <tbody>

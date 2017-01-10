@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { t, moneyFormat } from '../util.js';
 
-import { ConfirmedDeleteIcon } from '../controls.js';
+import { ConfirmedDeleteIcon, EditIcon } from '../controls.js';
 import { deleteInvoice } from '../../actions/index.js';
 
 class InvoiceListRow extends Component {
@@ -17,8 +17,10 @@ class InvoiceListRow extends Component {
         <td>{invoice.number}</td>
         <td>{invoice.client.name}</td>
         <td>{invoice.date.format('YYYY-MM-DD')}</td>
+        <td>{invoice.money.totalHours}</td>
         <td style={{textAlign: 'right'}}>{moneyFormat(invoice.money.total)}</td>
-        <td>
+        <td className="icons-cell">
+          <EditIcon onClick={'/invoice/' + invoice._id} />
           <ConfirmedDeleteIcon
             title={t('invoice.deleteTitle')}
             onClick={() => this.props.deleteInvoice(invoice)}

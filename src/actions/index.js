@@ -41,11 +41,13 @@ function fetchInvoices() {
 }
 
 export function initialLoad() {
-  return dispatch => {
-    dispatch(fetchClients());
-    dispatch(fetchConfig());
-    dispatch(fetchInvoices());
-  };
+  return dispatch => Promise.all([
+    dispatch(fetchClients()),
+    dispatch(fetchConfig()),
+    dispatch(fetchInvoices()),
+  ]).then(() => {
+    dispatch({type: ACTION_TYPES.INITIAL_LOAD});
+  });
 }
 
 export function updateConfig(newConfig) {

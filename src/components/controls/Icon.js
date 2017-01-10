@@ -43,4 +43,8 @@ export const AddIcon = ({...props}) => {
   return <Icon fa="fa fa-plus fa-2x" color="#FF8C00" {...props} />;
 };
 
+export const EditIcon = ({...props}) => {
+  return <Icon fa="fa fa-pencil-square-o fa-2x" {...props} />;
+};
+
 export const ConfirmedDeleteIcon = EnhanceWithConfirmation(DeleteIcon);
