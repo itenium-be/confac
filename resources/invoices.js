@@ -31,6 +31,10 @@ export default function register(app) {
     prefix: '/api/invoices'
   });
 
+  router.get('/', function *() {
+    this.body = yield this.mongo.collection('invoices').find().toArray();
+  });
+
   router.post('/preview', function *() {
     const params = this.request.body;
     const compiledFunction = pug.compileFile('./templates/' + params.your.template);
