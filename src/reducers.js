@@ -31,11 +31,15 @@ const clients = (state = [], action) => {
 const invoices = (state = [], action) => {
   switch (action.type) {
   case ACTION_TYPES.INVOICES_FETCHED:
-  console.log('INVOICES_FETCHED', action.invoices); // eslint-disable-line
+    console.log('INVOICES_FETCHED', action.invoices); // eslint-disable-line
     return action.invoices.map(invoice => {
       invoice.date = moment(invoice.date);
       return invoice;
     });
+
+  case ACTION_TYPES.INVOICE_DELETED:
+    return state.filter(invoice => invoice._id !== action.id);
+
   default:
     return state;
   }

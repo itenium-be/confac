@@ -2,6 +2,21 @@ import request from 'superagent';
 import { ACTION_TYPES } from './ActionTypes.js';
 import { buildUrl } from './fetch.js';
 
+export function deleteInvoice(invoice) {
+  return dispatch => {
+    request.delete(buildUrl('/invoices'))
+      .set('Content-Type', 'application/json')
+      .send({id: invoice._id})
+      .end(function(err, res) {
+        console.log('invoice deleted', invoice); // eslint-disable-line
+        dispatch({
+          type: ACTION_TYPES.INVOICE_DELETED,
+          id: invoice._id
+        });
+      });
+  };
+}
+
 function getInvoiceFileName(data) {
   var fileName = data.client.invoiceFileName;
 
