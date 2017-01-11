@@ -131,6 +131,7 @@ class EditInvoice extends Component {
 
 export default connect(state => ({
   config: state.config,
+  app: state.app,
   clients: state.clients,
   invoices: state.invoices,
 }), {createInvoice, previewInvoice, updateInvoice})(EditInvoice);
