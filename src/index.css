@@ -12,6 +12,6 @@ body {
 .icons-cell {
 	text-align: right;
 }
-.icons-cell i {
-	margin-right: 8px;
+.icons-cell i:not(:last-child) {
+	margin-right: 18px;
 }
