@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
+import { Button, BusyButton } from './Button.js';
 import { t } from '../util.js';
 
 export class Popup extends Component {
@@ -10,6 +11,7 @@ export class Popup extends Component {
       text: PropTypes.string.required,
       onClick: PropTypes.func.isRequired,
       bsStyle: PropTypes.string,
+      busy: PropTypes.bool,
     })),
     onHide: PropTypes.func.isRequired,
   };
@@ -25,9 +27,10 @@ export class Popup extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          {this.props.buttons.map((button, i) => (
-            <Button key={i} bsStyle={button.bsStyle} onClick={button.onClick}>{button.text}</Button>
-          ))}
+          {this.props.buttons.map((button, i) => {
+            const UsedButton = button.busy ? BusyButton : Button;
+            return <UsedButton key={i} bsStyle={button.bsStyle || 'default'} onClick={button.onClick}>{button.text}</UsedButton>;
+          })}
         </Modal.Footer>
       </Modal>
     );
@@ -48,11 +51,13 @@ export const EnhanceWithConfirmation = ComposedComponent => class extends Compon
     const {onClick, title, children,...props} = this.props;
     const buttons = [{
       text: t('no'),
-      onClick: () => this.setState({popupActive: false})
+      onClick: () => this.setState({popupActive: false}),
+      busy: true,
     }, {
       text: t('delete'),
       bsStyle: 'danger',
-      onClick: () => onClick()
+      onClick: () => onClick(),
+      busy: true,
     }];
     return (
       <div style={{display: 'inline'}}>

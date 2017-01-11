@@ -1,9 +1,9 @@
-import request from 'superagent';
+import request from 'superagent-bluebird-promise';
 import { browserHistory } from 'react-router';
 
 import { ACTION_TYPES } from './ActionTypes.js';
-import { success } from './appActions.js';
-import { buildUrl } from './fetch.js';
+import { success, busyToggle } from './appActions.js';
+import { buildUrl, catchHandler } from './fetch.js';
 import t from '../trans.js';
 
 function downloadFile(fileName, base64) {
@@ -17,28 +17,33 @@ function downloadFile(fileName, base64) {
 export function downloadInvoice(invoice, type) {
   // ATTN: Non-dispatchable
   // We're not storing entire files in the state!
+  // + Would break the AttachmentDownloadIcon
   return request.get(buildUrl(`/attachments/${invoice._id}/${type}`))
     .set('Content-Type', 'application/json')
-    .send()
-    .end(function(err, res) {
-      // slice: base64 string is returned as "text" (with quotes)
-      downloadFile(getInvoiceFileName(invoice), res.text.slice(1, -1));
-    });
+    .then(function(res) {
+      downloadFile(getInvoiceFileName(invoice), res.body);
+      return true;
+    })
+    .catch(catchHandler);
 }
 
 export function deleteInvoice(invoice) {
   return dispatch => {
+    dispatch(busyToggle());
     request.delete(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
       .send({id: invoice._id})
-      .end(function(err, res) {
+      .then(function(res) {
         console.log('invoice deleted', invoice); // eslint-disable-line
         dispatch({
           type: ACTION_TYPES.INVOICE_DELETED,
           id: invoice._id
         });
         dispatch(success(t('invoice.deleteConfirm')));
-      });
+        return true;
+      })
+      .catch(catchHandler)
+      .then(() => dispatch(busyToggle())); // TODO: popup buttons also busybutton
   };
 }
 
@@ -68,11 +73,12 @@ function updateNextInvoiceNumber() {
 
 export function updateInvoice(data) {
   return dispatch => {
+    dispatch(busyToggle());
     request.put(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .send(data)
-      .end(function(err, res) {
+      .then(function(res) {
         dispatch({
           type: ACTION_TYPES.INVOICE_UPDATED,
           invoice: data
@@ -80,17 +86,20 @@ export function updateInvoice(data) {
 
         dispatch(success(t('toastrConfirm')));
         browserHistory.push('/');
-      });
+      })
+      .catch(catchHandler)
+      .then(() => dispatch(busyToggle()));
   };
 }
 
 export function createInvoice(data) {
   return dispatch => {
+    dispatch(busyToggle());
     request.post(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .send(data)
-      .end(function(err, res) {
+      .then(function(res) {
         dispatch(updateNextInvoiceNumber());
         dispatch({
           type: ACTION_TYPES.INVOICE_ADDED,
@@ -99,7 +108,9 @@ export function createInvoice(data) {
 
         dispatch(success(t('invoice.createConfirm')));
         browserHistory.push('/invoice/' + res.body._id);
-      });
+      })
+      .catch(catchHandler)
+      .then(() => dispatch(busyToggle()));
   };
 }
 
@@ -130,14 +141,16 @@ function openWindow(pdf, fileName) {
 }
 
 export function previewInvoice(data) {
-  return () => {
+  return dispatch => {
+    dispatch(busyToggle());
     request.post(buildUrl('/invoices/preview'))
       .set('Content-Type', 'application/json')
       .send(data)
-      .end(function(err, res) {
-
+      .then(function(res) {
         const pdfAsDataUri = 'data:application/pdf;base64,' + res.text;
         openWindow(pdfAsDataUri, getInvoiceFileName(data));
-      });
+      })
+      .catch(catchHandler)
+      .then(() => dispatch(busyToggle()));
   };
 }

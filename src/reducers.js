@@ -8,6 +8,7 @@ const defaultConfig = {
 
 const defaultAppState = {
   isLoaded: false,
+  isBusy: false,
 };
 
 // Config is stored on the backend
@@ -33,6 +34,9 @@ export const app = (state = defaultAppState, action) => {
   switch (action.type) {
   case ACTION_TYPES.INITIAL_LOAD:
     return {...state, isLoaded: true};
+
+  case ACTION_TYPES.APP_BUSYTOGGLE:
+    return {...state, isBusy: !state.isBusy};
 
   default:
     return state;

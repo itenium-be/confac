@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { t } from '../util.js';
 
-import { ClientSelect, NumericInput } from '../controls.js';
-import { Grid, Row, Col, Form, Button } from 'react-bootstrap';
+import { ClientSelect, NumericInput, BusyButton } from '../controls.js';
+import { Grid, Row, Col, Form } from 'react-bootstrap';
 import { updateConfig } from '../../actions/index.js';
 
 class ConfigForm extends Component {
@@ -25,7 +25,7 @@ class ConfigForm extends Component {
 
   _save() {
     console.log('save', this.state);
-    this.props.updateConfig(this.state);
+    return this.props.updateConfig(this.state);
   }
 
   render() {
@@ -49,7 +49,7 @@ class ConfigForm extends Component {
             </Col>
           </Row>
           <Row style={{textAlign: 'center'}}>
-            <Button bsSize="large" bsStyle="primary" onClick={this._save.bind(this)}>{t('save')}</Button>
+            <BusyButton onClick={this._save.bind(this)}>{t('save')}</BusyButton>
           </Row>
         </Form>
       </Grid>

@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { t, InvoiceModel } from '../util.js';
 
-import { DatePicker, ClientSelect, NumericInput } from '../controls.js';
-import { Grid, Row, Col, Form, Button } from 'react-bootstrap';
+import { DatePicker, ClientSelect, NumericInput, BusyButton } from '../controls.js';
+import { Grid, Row, Col, Form } from 'react-bootstrap';
 import ClientDetails from '../client/ClientDetails.js';
 import EditInvoiceLines from './EditInvoiceLines.js';
 import InvoiceTotal from './InvoiceTotal.js';
@@ -49,7 +49,7 @@ class EditInvoice extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.app.isLoaded !== this.props.app.isLoaded) {
+    if (nextProps.app.isLoaded !== this.props.app.isLoaded || nextProps.params.id !== this.props.params.id) {
       this.setState({invoice: this.createModel(nextProps)});
     }
   }
@@ -113,13 +113,13 @@ class EditInvoice extends Component {
           </Row>
           <Row style={{textAlign: 'center', marginBottom: 8}}>
             {!model.isNew ? (
-              <Button bsSize="large" bsStyle="primary" onClick={this._createInvoice.bind(this, 'update')}>{t('save')}</Button>
+              <BusyButton onClick={this._createInvoice.bind(this, 'update')}>{t('save')}</BusyButton>
             ) : (
               <div>
-                <Button bsSize="large" bsStyle="default" onClick={this._createInvoice.bind(this, 'preview')} style={{marginRight: 14}}>
+                <BusyButton bsStyle="default" onClick={this._createInvoice.bind(this, 'preview')} style={{marginRight: 14}}>
                   {t('invoice.preview')}
-                </Button>
-                <Button bsSize="large" bsStyle="primary" onClick={this._createInvoice.bind(this, 'create')}>{t('invoice.create')}</Button>
+                </BusyButton>
+                <BusyButton onClick={this._createInvoice.bind(this, 'create')}>{t('invoice.create')}</BusyButton>
               </div>
             )}
           </Row>

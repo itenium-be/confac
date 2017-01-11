@@ -8,6 +8,8 @@ const trans = {
   delete: 'Verwijderen',
   no: 'Nee',
   toastrSuccessTitle: 'Mucho succes',
+  toastrFailureTitle: 'Oh noes!',
+  toastrFailure: 'Boem! Crash! Kapot!',
   toastrConfirm: 'Wijzigingen bewaard',
   config: {
     popupMessage: 'Instellingen bewaard',
