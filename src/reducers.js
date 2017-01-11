@@ -6,9 +6,13 @@ import { ACTION_TYPES } from './actions/ActionTypes.js';
 const defaultConfig = {
   nextInvoiceNumber: undefined,
   defaultClient: undefined,
+};
+
+const defaultAppState = {
   isLoaded: false,
 };
 
+// Config is stored on the backend
 const config = (state = defaultConfig, action) => {
   switch (action.type) {
   case ACTION_TYPES.CONFIG_FETCHED:
@@ -18,6 +22,17 @@ const config = (state = defaultConfig, action) => {
   case ACTION_TYPES.CONFIG_UPDATE_NEXTINVOICE_NUMBER:
     return {...state, nextInvoiceNumber: state.nextInvoiceNumber + 1};
 
+  case ACTION_TYPES.INITIAL_LOAD:
+    return {...state, isLoaded: true};
+
+  default:
+    return state;
+  }
+};
+
+// App is also config but only relevant for the session
+const app = (state = defaultAppState, action) => {
+  switch (action.type) {
   case ACTION_TYPES.INITIAL_LOAD:
     return {...state, isLoaded: true};
 
@@ -64,6 +79,7 @@ const invoices = (state = [], action) => {
 
 const rootReducer = combineReducers({
   config,
+  app,
   clients,
   invoices,
   routing: routerReducer

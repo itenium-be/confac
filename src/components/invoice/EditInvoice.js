@@ -16,6 +16,8 @@ class EditInvoice extends Component {
       nextInvoiceNumber: PropTypes.number,
       defaultClient: PropTypes.string,
       company: PropTypes.object,
+    }).isRequired,
+    app: PropTypes.shape({
       isLoaded: PropTypes.bool,
     }).isRequired,
     clients: PropTypes.array.isRequired,
@@ -47,7 +49,7 @@ class EditInvoice extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.config.isLoaded !== this.props.config.isLoaded) {
+    if (nextProps.app.isLoaded !== this.props.app.isLoaded) {
       this.setState({invoice: this.createModel(nextProps)});
     }
   }
