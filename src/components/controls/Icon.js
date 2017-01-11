@@ -35,6 +35,10 @@ export class Icon extends Component {
   }
 }
 
+export const PdfIcon = ({...props}) => (
+  <Icon fa="fa fa-file-pdf-o fa-2x" {...props} />
+);
+
 export const DeleteIcon = ({...props}) => (
   <Icon fa="fa fa-minus-circle fa-2x" color="#CC1100" {...props} />
 );

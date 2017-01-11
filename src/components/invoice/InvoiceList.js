@@ -26,7 +26,9 @@ class InvoiceList extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.invoices.map(invoice => <InvoiceListRow invoice={invoice} key={invoice._id} />)}
+            {this.props.invoices.sort((a, b) => b.number - a.number).map(invoice => (
+              <InvoiceListRow invoice={invoice} key={invoice._id} />
+            ))}
           </tbody>
         </Table>
       </Grid>

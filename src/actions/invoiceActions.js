@@ -3,6 +3,25 @@ import { browserHistory } from 'react-router';
 import { ACTION_TYPES } from './ActionTypes.js';
 import { buildUrl } from './fetch.js';
 
+function downloadFile(fileName, base64) {
+  var link = document.createElement('a');
+  link.download = fileName;
+  link.target = '_blank';
+  link.href = 'data:application/octet-stream;base64,' + base64;
+  link.click();
+}
+
+export function downloadInvoice(invoice, type) {
+  // ATTN: Non-dispatchable
+  return request.get(buildUrl(`/attachments/${invoice._id}/${type}`))
+    .set('Content-Type', 'application/json')
+    .send()
+    .end(function(err, res) {
+      // slice: base64 string is returned as "text" (with quotes)
+      downloadFile(getInvoiceFileName(invoice), res.text.slice(1, -1));
+    });
+}
+
 export function deleteInvoice(invoice) {
   return dispatch => {
     request.delete(buildUrl('/invoices'))
