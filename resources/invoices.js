@@ -37,7 +37,9 @@ export default function register(app) {
 
   router.delete('/', function *() {
     const id = this.request.body.id;
-    this.body = yield this.mongo.collection('invoices').remove(id.toObjectId());
+    yield this.mongo.collection('invoices').remove(id.toObjectId());
+    yield this.mongo.collection('attachments').remove(id.toObjectId());
+    this.body = id;
   });
 
   router.post('/preview', function *() {
