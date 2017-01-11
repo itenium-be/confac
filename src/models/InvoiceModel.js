@@ -17,6 +17,7 @@ export class InvoiceModel {
     this.client = obj.client;
     this.your = obj.company || config.company;
     this.date = obj.date || moment().endOf('month');
+    this.orderNr = obj.orderNr || '';
     this._lines = obj.lines || [];
   }
 
@@ -43,6 +44,10 @@ export class InvoiceModel {
   }
   setDate(date) {
     this.date = date;
+    return this;
+  }
+  setOrderNr(orderNr) {
+    this.orderNr = orderNr;
     return this;
   }
 

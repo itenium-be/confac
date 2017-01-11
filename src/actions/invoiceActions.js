@@ -93,6 +93,7 @@ export function updateInvoice(data) {
 }
 
 export function createInvoice(data) {
+  delete data.isNew;
   return dispatch => {
     dispatch(busyToggle());
     request.post(buildUrl('/invoices'))
@@ -107,7 +108,8 @@ export function createInvoice(data) {
         });
 
         dispatch(success(t('invoice.createConfirm')));
-        browserHistory.push('/invoice/' + res.body._id);
+        //browserHistory.push('/invoice/' + res.body._id);
+        browserHistory.push('/');
       })
       .catch(catchHandler)
       .then(() => dispatch(busyToggle()));

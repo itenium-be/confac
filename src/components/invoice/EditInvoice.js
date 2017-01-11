@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { t, InvoiceModel } from '../util.js';
 
-import { DatePicker, ClientSelect, NumericInput, BusyButton } from '../controls.js';
+import { DatePicker, ClientSelect, NumericInput, StringInput, BusyButton } from '../controls.js';
 import { Grid, Row, Col, Form } from 'react-bootstrap';
 import ClientDetails from '../client/ClientDetails.js';
 import EditInvoiceLines from './EditInvoiceLines.js';
@@ -102,6 +102,12 @@ class EditInvoice extends Component {
                 label={t('invoice.date')}
                 value={model.date}
                 onChange={momentInstance => this.setState({model: model.setDate(momentInstance)})}
+              />
+
+              <StringInput
+                label={t('invoice.orderNr')}
+                value={model.orderNr}
+                onChange={value => this.setState({model: model.setOrderNr(value)})}
               />
             </Col>
           </Row>

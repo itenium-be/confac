@@ -33,6 +33,7 @@ const trans = {
     subtotal: 'Subtotaal',
     taxtotal: 'BTW {}%',
     total: 'Totaal',
+    orderNr: 'Bestelbon nr',
   },
   client: {
     projectDesc: 'Omschrijving',
