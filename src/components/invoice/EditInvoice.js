@@ -112,22 +112,28 @@ class EditInvoice extends Component {
             />
           </Row>
           <Row style={{textAlign: 'center', marginBottom: 8}}>
-            {!model.isNew ? (
-              <BusyButton onClick={this._createInvoice.bind(this, 'update')}>{t('save')}</BusyButton>
-            ) : (
-              <div>
-                <BusyButton bsStyle="default" onClick={this._createInvoice.bind(this, 'preview')} style={{marginRight: 14}}>
-                  {t('invoice.preview')}
-                </BusyButton>
-                <BusyButton onClick={this._createInvoice.bind(this, 'create')}>{t('invoice.create')}</BusyButton>
-              </div>
-            )}
+            <SaveButtons onClick={this._createInvoice.bind(this)} isNewInvoice={model.isNew} />
           </Row>
         </Form>
       </Grid>
     );
   }
 }
+
+const SaveButtons = ({isNewInvoice, onClick}) => {
+  if (isNewInvoice) {
+    return (
+      <div>
+        <BusyButton bsStyle="default" onClick={onClick.bind(this, 'preview')} style={{marginRight: 14}}>
+          {t('invoice.preview')}
+        </BusyButton>
+        <BusyButton onClick={onClick.bind(this, 'create')}>{t('invoice.create')}</BusyButton>
+      </div>
+    );
+  }
+  return <BusyButton onClick={onClick.bind(this, 'update')}>{t('save')}</BusyButton>;
+};
+
 
 export default connect(state => ({
   config: state.config,
