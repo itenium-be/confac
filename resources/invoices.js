@@ -51,12 +51,10 @@ export default function register(app) {
 
 
 
-  router.post('/create', function *() {
+  router.post('/', function *() {
     const params = this.request.body;
     const compiledFunction = pug.compileFile('./templates/' + params.your.template);
     const html = compiledFunction(Object.assign({}, locals, params, {origin: this.request.origin}));
-
-    yield createBase64Pdf.call(this, html);
 
     const pdfBuffer = yield new Promise((resolve, reject) => {
       pdf.create(html).toBuffer((err, buffer) => {
@@ -69,8 +67,10 @@ export default function register(app) {
 
     const insertedInvoice = yield this.mongo.collection('invoices').insert(params);
     const insertedInvoiceId = insertedInvoice.insertedIds[1];
-    yield this.mongo.collection('pdfs').insert({invoiceId: insertedInvoiceId, pdf: pdfBuffer});
 
+    this.body = yield this.mongo.collection('invoices').findOne({_id: insertedInvoiceId});
+
+    yield this.mongo.collection('attachments').insert({_id: insertedInvoiceId, pdf: pdfBuffer});
     yield this.mongo.collection('config').update({name: 'pongit'}, {$set: { nextInvoiceNumber: params.number + 1}});
   });
 
