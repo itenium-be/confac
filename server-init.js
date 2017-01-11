@@ -27,6 +27,7 @@ export const createApp = () => {
   require('./resources/config.js').default(app);
   require('./resources/clients.js').default(app);
   require('./resources/invoices.js').default(app);
+  require('./resources/attachments.js').default(app);
 
   return app;
 };
