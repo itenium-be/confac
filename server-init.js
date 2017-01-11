@@ -5,8 +5,8 @@ import koaServe from 'koa-static';
 import koaMongo from 'koa-mongo';
 
 const ObjectId = require('mongodb').ObjectId;
-String.prototype.toObjectId = function() {
-  return {_id: new ObjectId(this)};
+String.prototype.toObjectId = function(key = '_id') {
+  return {[key]: new ObjectId(this)};
 };
 
 export const createApp = () => {
