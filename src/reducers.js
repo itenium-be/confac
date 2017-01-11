@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
 import moment from 'moment';
 import { ACTION_TYPES } from './actions/ActionTypes.js';
 
@@ -13,7 +11,7 @@ const defaultAppState = {
 };
 
 // Config is stored on the backend
-const config = (state = defaultConfig, action) => {
+export const config = (state = defaultConfig, action) => {
   switch (action.type) {
   case ACTION_TYPES.CONFIG_FETCHED:
     console.log('CONFIG_FETCHED', action.config); // eslint-disable-line
@@ -31,7 +29,7 @@ const config = (state = defaultConfig, action) => {
 };
 
 // App is also config but only relevant for the session
-const app = (state = defaultAppState, action) => {
+export const app = (state = defaultAppState, action) => {
   switch (action.type) {
   case ACTION_TYPES.INITIAL_LOAD:
     return {...state, isLoaded: true};
@@ -41,7 +39,7 @@ const app = (state = defaultAppState, action) => {
   }
 };
 
-const clients = (state = [], action) => {
+export const clients = (state = [], action) => {
   if (action.type === ACTION_TYPES.CLIENTS_FETCHED) {
     console.log('CLIENTS_FETCHED', action.clients); // eslint-disable-line
     return action.clients;
@@ -54,7 +52,7 @@ function mapInvoice(invoice) {
   return invoice;
 }
 
-const invoices = (state = [], action) => {
+export const invoices = (state = [], action) => {
   switch (action.type) {
   case ACTION_TYPES.INVOICES_FETCHED:
     console.log('INVOICES_FETCHED', action.invoices); // eslint-disable-line
@@ -76,13 +74,3 @@ const invoices = (state = [], action) => {
     return state;
   }
 };
-
-const rootReducer = combineReducers({
-  config,
-  app,
-  clients,
-  invoices,
-  routing: routerReducer
-});
-
-export default rootReducer;

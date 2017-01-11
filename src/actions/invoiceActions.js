@@ -1,7 +1,10 @@
 import request from 'superagent';
 import { browserHistory } from 'react-router';
+
 import { ACTION_TYPES } from './ActionTypes.js';
+import { success } from './appActions.js';
 import { buildUrl } from './fetch.js';
+import t from '../trans.js';
 
 function downloadFile(fileName, base64) {
   var link = document.createElement('a');
@@ -13,6 +16,7 @@ function downloadFile(fileName, base64) {
 
 export function downloadInvoice(invoice, type) {
   // ATTN: Non-dispatchable
+  // We're not storing entire files in the state!
   return request.get(buildUrl(`/attachments/${invoice._id}/${type}`))
     .set('Content-Type', 'application/json')
     .send()
@@ -33,6 +37,7 @@ export function deleteInvoice(invoice) {
           type: ACTION_TYPES.INVOICE_DELETED,
           id: invoice._id
         });
+        dispatch(success(t('invoice.deleteConfirm')));
       });
   };
 }
@@ -72,6 +77,9 @@ export function updateInvoice(data) {
           type: ACTION_TYPES.INVOICE_UPDATED,
           invoice: data
         });
+
+        dispatch(success(t('toastrConfirm')));
+        browserHistory.push('/');
       });
   };
 }
@@ -89,13 +97,7 @@ export function createInvoice(data) {
           invoice: res.body
         });
 
-        // TODO: move this to download buttonz:
-        // var link = document.createElement('a');
-        // link.download = getInvoiceFileName(data);
-        // link.target = '_blank';
-        // link.href = 'data:application/octet-stream;base64,' + res.text;
-        // link.click();
-
+        dispatch(success(t('invoice.createConfirm')));
         browserHistory.push('/invoice/' + res.body._id);
       });
   };
