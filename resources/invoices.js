@@ -24,15 +24,38 @@ function createBase64Pdf(html) {
   });
 }
 
+export function htmlToBuffer(html) {
+  return new Promise((resolve, reject) => {
+    pdf.create(html).toBuffer((err, buffer) => {
+      if (err) {
+        console.log('htmlToBuffer error', err); // eslint-disable-line
+        reject();
+      }
+
+      resolve(buffer);
+    });
+  });
+}
+
+export function createHtml(params, assetsPath) {
+  const compiledFunction = pug.compileFile('./templates/' + params.your.template);
+  return compiledFunction(Object.assign({}, locals, params, {origin: assetsPath}));
+}
+
 export default function register(app) {
-  // app.set('view engine', 'pug');
-  // app.set('views', './templates');
   const router = new Router({
     prefix: '/api/invoices'
   });
 
   router.get('/', function *() {
     this.body = yield this.mongo.collection('invoices').find().toArray();
+  });
+
+  router.put('/', function *() {
+    const {_id, ...params} = this.request.body;
+    yield this.mongo.collection('invoices').update(_id.toObjectId(), params);
+    // TODO: updateInvoice: property to mark that pdf is no longer in sync with invoice data?
+    this.body = this.request.body;
   });
 
   router.delete('/', function *() {
@@ -44,26 +67,14 @@ export default function register(app) {
 
   router.post('/preview', function *() {
     const params = this.request.body;
-    const compiledFunction = pug.compileFile('./templates/' + params.your.template);
-    const html = compiledFunction(Object.assign({}, locals, params, {origin: this.request.origin}));
+    const html = createHtml(params, this.request.origin);
     yield createBase64Pdf.call(this, html);
   });
 
-
-
   router.post('/', function *() {
     const params = this.request.body;
-    const compiledFunction = pug.compileFile('./templates/' + params.your.template);
-    const html = compiledFunction(Object.assign({}, locals, params, {origin: this.request.origin}));
-
-    const pdfBuffer = yield new Promise((resolve, reject) => {
-      pdf.create(html).toBuffer((err, buffer) => {
-        if (err) {
-          reject();
-        }
-        resolve(buffer);
-      });
-    });
+    const html = createHtml(params, this.request.origin);
+    const pdfBuffer = yield htmlToBuffer(html);
 
     const insertedInvoice = yield this.mongo.collection('invoices').insert(params);
     const insertedInvoiceId = insertedInvoice.insertedIds[1];
