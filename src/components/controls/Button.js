@@ -22,12 +22,15 @@ export class Button extends Component {
   }
 }
 
-export const EnhanceWithClickOnce = ComposedComponent => class extends Component {
-  static propTypes = {isBusy: PropTypes.bool.isRequired};
+
+const EnhanceButtonWithClickOnce = ComposedComponent => class extends Component {
+  static propTypes = {
+    isBusy: PropTypes.bool.isRequired
+  }
+
   render() {
     const {isBusy, ...props} = this.props;
     return <ComposedComponent {...props} disabled={isBusy} />;
   }
 };
-
-export const BusyButton = connect(state => ({isBusy: state.app.isBusy}), {})(EnhanceWithClickOnce(Button));
+export const BusyButton = connect(state => ({isBusy: state.app.isBusy}), {})(EnhanceButtonWithClickOnce(Button));

@@ -33,7 +33,7 @@ export function createInvoice(data) {
   };
 }
 
-export function updateInvoice(data, successMsg) {
+function updateInvoiceRequest(data, successMsg, andGoHome) {
   return dispatch => {
     dispatch(busyToggle());
     request.put(buildUrl('/invoices'))
@@ -47,11 +47,21 @@ export function updateInvoice(data, successMsg) {
         });
 
         dispatch(success(successMsg || t('toastrConfirm')));
-        browserHistory.push('/');
+        if (andGoHome) {
+          browserHistory.push('/');
+        }
       })
       .catch(catchHandler)
       .then(() => dispatch(busyToggle.off()));
   };
+}
+export function updateInvoice(data) {
+  return updateInvoiceRequest(data, undefined, true);
+}
+export function toggleInvoiceVerify(data) {
+  const successMsg = data.verified ? t('invoice.isNotVerifiedConfirm') : t('invoice.isVerifiedConfirm');
+  const newData = {...data, verified: !data.verified};
+  return updateInvoiceRequest(newData, successMsg, false);
 }
 
 export function deleteInvoice(invoice) {

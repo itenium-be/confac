@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Modal } from 'react-bootstrap';
 import { Button, BusyButton } from './Button.js';
-import { t } from '../util.js';
 
 export class Popup extends Component {
   static propTypes = {
@@ -36,42 +35,3 @@ export class Popup extends Component {
     );
   }
 }
-
-export const EnhanceWithConfirmation = ComposedComponent => class extends Component {
-  static propTypes = {
-    onClick: PropTypes.func,
-    title: PropTypes.string,
-    children: PropTypes.node,
-  };
-  constructor() {
-    super();
-    this.state = {popupActive: false};
-  }
-  render() {
-    const {onClick, title, children,...props} = this.props;
-    const buttons = [{
-      text: t('no'),
-      onClick: () => this.setState({popupActive: false}),
-      busy: true,
-    }, {
-      text: t('delete'),
-      bsStyle: 'danger',
-      onClick: () => onClick(),
-      busy: true,
-    }];
-    return (
-      <div style={{display: 'inline'}}>
-        {this.state.popupActive ? (
-          <div style={{display: 'inline'}}>
-            <Popup title={title} buttons={buttons} onHide={() => this.setState({popupActive: false})}>
-              {children}
-            </Popup>
-            <ComposedComponent {...props} onClick={() => this.setState({popupActive: false})} />
-          </div>
-        ) : (
-          <ComposedComponent {...props} onClick={() => this.setState({popupActive: true})} />
-        )}
-      </div>
-    );
-  }
-};

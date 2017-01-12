@@ -6,7 +6,8 @@ import { DatePicker, ClientSelect, NumericInput, StringInput, BusyButton } from 
 import { Grid, Row, Col, Form } from 'react-bootstrap';
 import ClientDetails from '../client/ClientDetails.js';
 import EditInvoiceLines from './EditInvoiceLines.js';
-import InvoiceTotal from './InvoiceTotal.js';
+import InvoiceNotVerifiedAlert from './controls/InvoiceNotVerifiedAlert.js';
+import InvoiceTotal from './controls/InvoiceTotal.js';
 import { createInvoice, previewInvoice, updateInvoice } from '../../actions/index.js';
 
 class EditInvoice extends Component {
@@ -49,7 +50,10 @@ class EditInvoice extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.app.isLoaded !== this.props.app.isLoaded || nextProps.params.id !== this.props.params.id) {
+    if (nextProps.app.isLoaded !== this.props.app.isLoaded
+      || nextProps.params.id !== this.props.params.id
+      || nextProps.invoices !== this.props.invoices) {
+
       this.setState({invoice: this.createModel(nextProps)});
     }
   }
@@ -72,6 +76,7 @@ class EditInvoice extends Component {
       <Grid>
         <Form>
           <Row>
+            <InvoiceNotVerifiedAlert invoice={model} />
             <Col sm={6}>
               <ClientSelect
                 label={t('invoice.client')}

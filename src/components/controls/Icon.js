@@ -1,10 +1,10 @@
 import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import ReactTooltip from 'react-tooltip';
 import cn from 'classnames';
-import { EnhanceWithConfirmation } from './Popup.js';
+import { EnhanceWithConfirmation, EnhanceWithBusySpinner } from '../enhancers/index.js';
 import t from '../../trans.js';
-
 
 export class Icon extends Component {
   static propTypes = {
@@ -53,6 +53,7 @@ export class Icon extends Component {
 export const VerifyIcon = ({...props}) => (
   <Icon fa="fa fa-check fa-2x" color="green" {...props} />
 );
+export const BusyVerifyIcon = connect(state => ({isBusy: state.app.isBusy}))(EnhanceWithBusySpinner(VerifyIcon));
 
 export const SpinnerIcon = ({...props}) => (
   <Icon fa="fa fa-spinner fa-pulse fa-2x fa-fw" {...props} />
