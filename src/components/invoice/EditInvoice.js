@@ -137,7 +137,11 @@ const SaveButtons = ({isNewInvoice, onClick}) => {
       </div>
     );
   }
-  return <BusyButton onClick={onClick.bind(this, 'update')}>{t('save')}</BusyButton>;
+  return (
+    <div>
+      <BusyButton onClick={onClick.bind(this, 'update')}>{t('save')}</BusyButton>
+    </div>
+  );
 };
 
 

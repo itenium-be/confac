@@ -1,6 +1,28 @@
 import React, { Component, PropTypes } from 'react';
-import { Icon, SpinnerIcon } from './Icon.js';
+import { connect } from 'react-redux';
+import { Icon, SpinnerIcon, VerifyIcon } from './Icon.js';
 import { downloadInvoice } from '../../actions/index.js';
+import t from '../../trans.js';
+import { updateInvoice } from '../../actions/index.js';
+
+class InvoiceVerifyIcon extends Component {
+  static propTypes = {
+    invoice: PropTypes.object.isRequired,
+    updateInvoice: PropTypes.func.isRequired,
+  }
+  render() {
+    const {invoice} = this.props;
+    const successMsg = invoice.verified ? t('invoice.isNotVerified') : t('invoice.isVerified');
+    return (
+      <VerifyIcon
+        onClick={() => this.props.updateInvoice({...invoice, verified: !invoice.verified}, successMsg)}
+        title={t('invoice.verifyAction')}
+      />
+    );
+  }
+}
+
+export const InvoiceVerifyIconToggle = connect(() => ({}), {updateInvoice})(InvoiceVerifyIcon);
 
 export class AttachmentDownloadIcon extends Component {
   static propTypes = {
@@ -9,7 +31,7 @@ export class AttachmentDownloadIcon extends Component {
   }
   constructor() {
     super();
-    this.state = {isDownloading: false};
+    this.state = {isBusy: false};
   }
   static defaultProps = {
     type: 'pdf'
@@ -17,11 +39,11 @@ export class AttachmentDownloadIcon extends Component {
   render() {
     const {invoice, type, ...props} = this.props;
     const onClick = () => {
-      this.setState({isDownloading: true});
-      downloadInvoice(invoice, type).then(() => this.setState({isDownloading: false}));
+      this.setState({isBusy: true});
+      downloadInvoice(invoice, type).then(() => this.setState({isBusy: false}));
     };
 
-    if (this.state.isDownloading) {
+    if (this.state.isBusy) {
       const offset = type === 'pdf' ? -12 : 0;
       return <SpinnerIcon style={{marginLeft: offset}} />;
     }
@@ -29,9 +51,10 @@ export class AttachmentDownloadIcon extends Component {
     return (
       <Icon
         fa="fa fa-file-pdf-o fa-2x"
+        title={t('invoice.downloadttachment', {type})}
         {...props}
         onClick={() => onClick()}
-        color={this.state.isDownloading ? '#DCDAD1' : undefined} />
+        color={this.state.isBusy ? '#DCDAD1' : undefined} />
     );
   }
 }

@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { t, moneyFormat } from '../util.js';
 
-import { ConfirmedDeleteIcon, EditIcon, AttachmentDownloadIcon } from '../controls.js';
-import { deleteInvoice } from '../../actions/index.js';
+import { ConfirmedDeleteIcon, EditIcon, AttachmentDownloadIcon, InvoiceVerifyIconToggle } from '../controls.js';
+import { updateInvoice, deleteInvoice } from '../../actions/index.js';
 
 class InvoiceListRow extends Component {
   static propTypes = {
@@ -13,7 +13,7 @@ class InvoiceListRow extends Component {
   render() {
     const invoice = this.props.invoice;
     return (
-      <tr>
+      <tr className={invoice.verified ? undefined : 'warning'}>
         <td>{invoice.number}</td>
         <td>{invoice.client.name}</td>
         <td>{invoice.date.format('YYYY-MM-DD')}</td>
@@ -21,6 +21,10 @@ class InvoiceListRow extends Component {
         <td style={{textAlign: 'right'}}>{moneyFormat(invoice.money.total)}</td>
         <td className="icons-cell">
           <EditIcon onClick={'/invoice/' + invoice._id} />
+          <InvoiceVerifyIconToggle
+            invoice={invoice}
+            title={t('invoice.verifyAction')}
+          />
           <AttachmentDownloadIcon invoice={invoice} />
           <ConfirmedDeleteIcon
             title={t('invoice.deleteTitle')}
@@ -34,4 +38,4 @@ class InvoiceListRow extends Component {
   }
 }
 
-export default connect(() => ({}), {deleteInvoice})(InvoiceListRow);
+export default connect(() => ({}), {updateInvoice, deleteInvoice})(InvoiceListRow);

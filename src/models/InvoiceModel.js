@@ -18,6 +18,7 @@ export class InvoiceModel {
     this.your = obj.company || config.company;
     this.date = obj.date || moment().endOf('month');
     this.orderNr = obj.orderNr || '';
+    this.verified = obj.verified || false;
     this._lines = obj.lines || [];
   }
 

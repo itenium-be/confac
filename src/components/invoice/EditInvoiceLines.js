@@ -59,7 +59,7 @@ export default class EditInvoiceLines extends Component {
           {lines.length ? (
             <tr>
               <td colSpan={4}>
-                <AddIcon onClick={() => onChange(invoice.addLine())} />
+                <AddIcon onClick={() => onChange(invoice.addLine())} title={t('invoice.addLine')} />
               </td>
             </tr>
           ) : null}

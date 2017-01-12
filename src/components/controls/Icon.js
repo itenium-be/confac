@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { browserHistory } from 'react-router';
 import cn from 'classnames';
 import { EnhanceWithConfirmation } from './Popup.js';
+import t from '../../trans.js';
 
 export class Icon extends Component {
   static propTypes = {
@@ -35,12 +36,16 @@ export class Icon extends Component {
   }
 }
 
+export const VerifyIcon = ({...props}) => (
+  <Icon fa="fa fa-check fa-2x" color="green" {...props} />
+);
+
 export const SpinnerIcon = ({...props}) => (
   <Icon fa="fa fa-spinner fa-pulse fa-2x fa-fw" {...props} />
 );
 
 export const DeleteIcon = ({...props}) => (
-  <Icon fa="fa fa-minus-circle fa-2x" color="#CC1100" {...props} />
+  <Icon fa="fa fa-minus-circle fa-2x" color="#CC1100" title={t('delete')} {...props} />
 );
 
 export const AddIcon = ({...props}) => {
@@ -48,7 +53,7 @@ export const AddIcon = ({...props}) => {
 };
 
 export const EditIcon = ({...props}) => {
-  return <Icon fa="fa fa-pencil-square-o fa-2x" {...props} />;
+  return <Icon fa="fa fa-pencil-square-o fa-2x" title={t('edit')} {...props} />;
 };
 
 export const ConfirmedDeleteIcon = EnhanceWithConfirmation(DeleteIcon);
