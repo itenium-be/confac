@@ -22,6 +22,7 @@ class InvoiceVerifyIcon extends Component {
   }
 }
 
+// TODO: we need to extract the spinner replacement as HOC
 export const InvoiceVerifyIconToggle = connect(() => ({}), {updateInvoice})(InvoiceVerifyIcon);
 
 export class AttachmentDownloadIcon extends Component {
@@ -51,7 +52,7 @@ export class AttachmentDownloadIcon extends Component {
     return (
       <Icon
         fa="fa fa-file-pdf-o fa-2x"
-        title={t('invoice.downloadttachment', {type})}
+        title={t('invoice.downloadAttachment', {type})}
         {...props}
         onClick={() => onClick()}
         color={this.state.isBusy ? '#DCDAD1' : undefined} />

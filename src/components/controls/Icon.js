@@ -1,8 +1,10 @@
 import React, { PropTypes, Component } from 'react';
 import { browserHistory } from 'react-router';
+import ReactTooltip from 'react-tooltip';
 import cn from 'classnames';
 import { EnhanceWithConfirmation } from './Popup.js';
 import t from '../../trans.js';
+
 
 export class Icon extends Component {
   static propTypes = {
@@ -12,10 +14,11 @@ export class Icon extends Component {
     onClick: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
     className: PropTypes.string,
     label: PropTypes.string,
+    title: PropTypes.string,
   };
 
   render() {
-    const {fa, color, style, onClick, className, label, ...props} = this.props;
+    const {fa, color, style, onClick, className, label, title, ...props} = this.props;
     var realClick = onClick;
     if (typeof onClick === 'string') {
       realClick = () => {
@@ -23,7 +26,7 @@ export class Icon extends Component {
       };
     }
 
-    return (
+    const FinalIcon = (
       <i
         {...props}
         className={cn(fa, className, {clickable: !!onClick})}
@@ -33,6 +36,17 @@ export class Icon extends Component {
         {label ? <span style={{marginLeft: 6}}>{label}</span> : null}
       </i>
     );
+
+    if (title) {
+      return (
+        <div style={{display: 'inline'}} data-tip={title}>
+          <ReactTooltip />
+          {FinalIcon}
+        </div>
+      );
+    }
+
+    return FinalIcon;
   }
 }
 

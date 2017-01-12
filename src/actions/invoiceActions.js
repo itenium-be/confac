@@ -11,7 +11,6 @@ function updateNextInvoiceNumber() {
 }
 
 export function createInvoice(data) {
-  delete data.isNew;
   return dispatch => {
     dispatch(busyToggle());
     request.post(buildUrl('/invoices'))

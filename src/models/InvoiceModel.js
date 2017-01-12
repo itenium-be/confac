@@ -7,8 +7,11 @@ export class InvoiceModel {
       number: config.nextInvoiceNumber || 1,
     });
     model = model.setClient(client);
-    model.isNew = true;
     return model;
+  }
+
+  get isNew() {
+    return this._id === undefined;
   }
 
   constructor(config, obj = {}) {

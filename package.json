@@ -18,6 +18,7 @@
     "react-router-bootstrap": "^0.23.1",
     "react-router-redux": "^4.0.6",
     "react-select": "^1.0.0-rc.2",
+    "react-tooltip": "^3.2.2",
     "reapop": "^1.0.0",
     "reapop-theme-bootstrap": "^0.3.0",
     "redux": "^3.6.0",

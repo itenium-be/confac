@@ -38,7 +38,7 @@ const trans = {
     verifyAction: 'Factuur verifiëren',
     isVerified: 'Factuur nu geverifieerd',
     isNotVerified: 'Factuur niet meer geverifieerd',
-    downloadttachment: 'Invoice {type} downloaden',
+    downloadAttachment: 'Invoice {type} downloaden',
     addLine: 'Factuurlijn toevoegen',
   },
   client: {
