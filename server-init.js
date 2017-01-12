@@ -11,6 +11,10 @@ String.prototype.toObjectId = function(key = '_id') {
 
 export const createApp = () => {
   const app = koa();
+
+  // var delay = require('koa-delay');
+  // app.use(delay(1000, 20));
+
   app.use(koaCors());
   app.use(koaBodyParser());
   app.use(koaServe('./templates/'));
