@@ -4,6 +4,46 @@ import { t, moneyFormat } from '../util.js';
 
 import { ConfirmedDeleteIcon, EditIcon, AttachmentDownloadIcon, InvoiceVerifyIconToggle } from '../controls.js';
 import { updateInvoice, deleteInvoice } from '../../actions/index.js';
+import { InvoiceWorkedDays } from './InvoiceWorkedDays.js';
+import { InvoicesTotal } from './controls/InvoiceTotal.js';
+
+
+
+export const InvoiceListHeader = () => (
+  <thead>
+    <tr>
+      <th>{t('invoice.numberShort')}</th>
+      <th>{t('invoice.client')}</th>
+      <th>{t('invoice.date')}</th>
+      <th>{t('invoice.hoursShort')}</th>
+      <th>{t('invoice.days')}</th>
+      <th width="10%">{t('invoice.totalTitle')}</th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
+);
+
+
+export const InvoiceListFooter = ({invoices}) => {
+  if (invoices.length === 0) {
+    return null;
+  }
+
+  const moneys = invoices.map(i => i.money);
+  return (
+    <tfoot>
+      <tr>
+        <td colSpan={3}>{invoices.length} {t('invoice.invoices').toLowerCase()}</td>
+        <td>{moneys.map(i => i.totalHours).reduce((a, b) => a + b, 0)}</td>
+        <td><InvoiceWorkedDays invoices={invoices} /></td>
+        <td colSpan={2}><InvoicesTotal invoices={invoices} /></td>
+      </tr>
+    </tfoot>
+  );
+};
+
+
+
 
 class InvoiceListRow extends Component {
   static propTypes = {
@@ -18,6 +58,7 @@ class InvoiceListRow extends Component {
         <td>{invoice.client.name}</td>
         <td>{invoice.date.format('YYYY-MM-DD')}</td>
         <td>{invoice.money.totalHours}</td>
+        <td><InvoiceWorkedDays invoices={invoice} /></td>
         <td style={{textAlign: 'right'}}>{moneyFormat(invoice.money.total)}</td>
         <td className="icons-cell">
           <EditIcon onClick={'/invoice/' + invoice._id} />

@@ -87,15 +87,19 @@ export class InvoiceModel {
     };
   }
 
+  static emptyMoney = function() {
+    return {
+      totalHours: 0,
+      totalWithoutTax: 0,
+      taxPercentage: 0,
+      totalTax: 0,
+      total: 0,
+    };
+  }
+
   _calculateMoneys() {
     if (!this.client) {
-      return {
-        totalHours: 0,
-        totalWithoutTax: 0,
-        taxPercentage: 0,
-        totalTax: 0,
-        total: 0,
-      };
+      return InvoiceModel.emptyMoney();
     }
 
     const totalHours = this._lines.reduce((prev, cur) => prev + cur.hours, 0);

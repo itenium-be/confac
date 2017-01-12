@@ -4,7 +4,7 @@ import { t } from '../util.js';
 
 import { AddIcon } from '../controls.js';
 import { Grid, Table } from 'react-bootstrap';
-import InvoiceListRow from './InvoiceListRow.js';
+import InvoiceListRow, { InvoiceListHeader, InvoiceListFooter } from './InvoiceListRow.js';
 
 class InvoiceList extends Component {
   static propTypes = {
@@ -15,21 +15,13 @@ class InvoiceList extends Component {
       <Grid>
         <AddIcon onClick="/invoice/create" label={t('nav.create')} />
         <Table condensed style={{marginTop: 10}}>
-          <thead>
-            <tr>
-              <th>{t('invoice.numberShort')}</th>
-              <th>{t('invoice.client')}</th>
-              <th>{t('invoice.date')}</th>
-              <th>{t('invoice.hoursShort')}</th>
-              <th width="10%">{t('invoice.totalTitle')}</th>
-              <th>&nbsp;</th>
-            </tr>
-          </thead>
+          <InvoiceListHeader />
           <tbody>
             {this.props.invoices.sort((a, b) => b.number - a.number).map(invoice => (
               <InvoiceListRow invoice={invoice} key={invoice._id} />
             ))}
           </tbody>
+          <InvoiceListFooter invoices={this.props.invoices} />
         </Table>
       </Grid>
     );

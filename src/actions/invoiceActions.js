@@ -56,7 +56,7 @@ function updateInvoiceRequest(data, successMsg, andGoHome) {
   };
 }
 export function updateInvoice(data) {
-  return updateInvoiceRequest(data, undefined, false);
+  return updateInvoiceRequest(data, undefined, true);
 }
 export function toggleInvoiceVerify(data) {
   const successMsg = data.verified ? t('invoice.isNotVerifiedConfirm') : t('invoice.isVerifiedConfirm');

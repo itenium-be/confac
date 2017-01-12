@@ -22,3 +22,7 @@ body {
 .button-row > button:not(:last-child) {
 	margin-right: 46px;
 }
+
+tfoot td {
+	font-weight: bold;
+}
