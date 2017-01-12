@@ -34,9 +34,11 @@ export function failure() {
 
 
 export function busyToggle() {
-  return {type: ACTION_TYPES.APP_BUSYTOGGLE};
+  return {type: ACTION_TYPES.APP_BUSYTOGGLE, why: 'moreBusy'};
 }
-
+busyToggle.off = function() {
+  return {type: ACTION_TYPES.APP_BUSYTOGGLE, why: 'lessBusy'};
+};
 
 
 export function updateConfig(newConfig) {
@@ -47,6 +49,6 @@ export function updateConfig(newConfig) {
       .send(newConfig)
       .then(() => dispatch(success(t('config.popupMessage'))))
       .catch(catchHandler)
-      .then(() => dispatch(busyToggle()));
+      .then(() => dispatch(busyToggle.off()));
   };
 }

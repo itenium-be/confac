@@ -9,6 +9,7 @@ const defaultConfig = {
 const defaultAppState = {
   isLoaded: false,
   isBusy: false,
+  busyCount: 0,
 };
 
 // Config is stored on the backend
@@ -35,8 +36,10 @@ export const app = (state = defaultAppState, action) => {
   case ACTION_TYPES.INITIAL_LOAD:
     return {...state, isLoaded: true};
 
-  case ACTION_TYPES.APP_BUSYTOGGLE:
-    return {...state, isBusy: !state.isBusy};
+  case ACTION_TYPES.APP_BUSYTOGGLE: {
+    const busyCount = state.busyCount + (action.why === 'moreBusy' ? 1 : -1);
+    return {...state, busyCount, isBusy: busyCount > 0};
+  }
 
   default:
     return state;
@@ -70,7 +73,7 @@ export const invoices = (state = [], action) => {
 
   case ACTION_TYPES.INVOICE_UPDATED: {
     let newState = state.filter(invoice => invoice._id !== action.invoice._id);
-    newState.push(action.invoice);
+    newState.push(mapInvoice(action.invoice));
     return newState;
   }
 

@@ -29,7 +29,7 @@ export function createInvoice(data) {
         browserHistory.push('/');
       })
       .catch(catchHandler)
-      .then(() => dispatch(busyToggle()));
+      .then(() => dispatch(busyToggle.off()));
   };
 }
 
@@ -43,14 +43,14 @@ export function updateInvoice(data, successMsg) {
       .then(function(res) {
         dispatch({
           type: ACTION_TYPES.INVOICE_UPDATED,
-          invoice: data
+          invoice: res.body
         });
 
         dispatch(success(successMsg || t('toastrConfirm')));
         browserHistory.push('/');
       })
       .catch(catchHandler)
-      .then(() => dispatch(busyToggle()));
+      .then(() => dispatch(busyToggle.off()));
   };
 }
 
@@ -70,7 +70,7 @@ export function deleteInvoice(invoice) {
         return true;
       })
       .catch(catchHandler)
-      .then(() => dispatch(busyToggle())); // TODO: popup buttons also busybutton
+      .then(() => dispatch(busyToggle.off()));
   };
 }
 
@@ -85,7 +85,7 @@ export function previewInvoice(data) {
         openWindow(pdfAsDataUri, getInvoiceFileName(data));
       })
       .catch(catchHandler)
-      .then(() => dispatch(busyToggle()));
+      .then(() => dispatch(busyToggle.off()));
   };
 }
 

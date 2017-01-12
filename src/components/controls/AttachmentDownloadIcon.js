@@ -14,16 +14,48 @@ class InvoiceVerifyIcon extends Component {
     const {invoice} = this.props;
     const successMsg = invoice.verified ? t('invoice.isNotVerified') : t('invoice.isVerified');
     return (
-      <VerifyIcon
+      <BusyVerifyIcon
+        model={invoice}
+        style={{marginLeft: 8}}
         onClick={() => this.props.updateInvoice({...invoice, verified: !invoice.verified}, successMsg)}
         title={t('invoice.verifyAction')}
       />
     );
   }
 }
-
-// TODO: we need to extract the spinner replacement as HOC
 export const InvoiceVerifyIconToggle = connect(() => ({}), {updateInvoice})(InvoiceVerifyIcon);
+
+export const EnhanceWithBusySpinner = ComposedComponent => class extends Component {
+  static propTypes = {
+    isBusy: PropTypes.bool.isRequired,
+    onClick: PropTypes.func.isRequired,
+    model: PropTypes.any.isRequired,
+  };
+  constructor() {
+    super();
+    this.state = {isBusy: false};
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.state.isBusy && this.props.model !== nextProps.model) {
+      this.setState({isBusy: false});
+    }
+  }
+  render() {
+    const {isBusy, onClick, dispatch, model, ...props} = this.props; // eslint-disable-line
+    if (isBusy && this.state.isBusy) {
+      return <SpinnerIcon style={{marginLeft: 0}} />;
+    }
+
+    const realOnclick = () => {
+      this.setState({isBusy: true});
+      onClick();
+    };
+    return <ComposedComponent {...props} onClick={realOnclick} />;
+  }
+};
+
+const BusyVerifyIcon = connect(state => ({isBusy: state.app.isBusy}))(EnhanceWithBusySpinner(VerifyIcon));
+
 
 export class AttachmentDownloadIcon extends Component {
   static propTypes = {
