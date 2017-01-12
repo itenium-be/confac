@@ -11,15 +11,19 @@ class InvoiceNotVerifiedAlert extends Component {
     invoice: PropTypes.object.isRequired,
     toggleInvoiceVerify: PropTypes.func.isRequired,
   }
+  constructor() {
+    super();
+    this.state = {dismissed: false};
+  }
   render() {
-    const {invoice, toggleInvoiceVerify} = this.props;
-    if (invoice.isNew || invoice.verified) {
+    const {invoice, toggleInvoiceVerify} = this.props; // eslint-disable-line
+    if (this.state.dismissed || invoice.isNew || invoice.verified) {
       return <div />;
     }
 
     return (
       <div>
-        <Alert bsSize="small" bsStyle="info">
+        <Alert bsSize="small" bsStyle="info" onDismiss={() => this.setState({dismissed: true})}>
           {t('invoice.isNotVerified')}
           <div className="pull-right">
             <BusyButton

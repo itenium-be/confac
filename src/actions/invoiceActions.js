@@ -47,7 +47,7 @@ function updateInvoiceRequest(data, successMsg, andGoHome) {
         });
 
         dispatch(success(successMsg || t('toastrConfirm')));
-        if (andGoHome) {
+        if (andGoHome) { // TODO: check: do we always stay on the same page after insert? Then delete this!
           browserHistory.push('/');
         }
       })
@@ -56,12 +56,45 @@ function updateInvoiceRequest(data, successMsg, andGoHome) {
   };
 }
 export function updateInvoice(data) {
-  return updateInvoiceRequest(data, undefined, true);
+  return updateInvoiceRequest(data, undefined, false);
 }
 export function toggleInvoiceVerify(data) {
   const successMsg = data.verified ? t('invoice.isNotVerifiedConfirm') : t('invoice.isVerifiedConfirm');
   const newData = {...data, verified: !data.verified};
   return updateInvoiceRequest(newData, successMsg, false);
+}
+
+export function updateInvoicePdf(invoice) {
+  return dispatch => {
+    dispatch(busyToggle());
+    request.put(buildAttachmentUrl(invoice, 'pdf'))
+      .set('Content-Type', 'application/json')
+      .then(function(res) {
+        dispatch(success());
+        return true;
+      })
+      .catch(catchHandler)
+      .then(() => dispatch(busyToggle.off()));
+  };
+}
+
+export function updateInvoiceAttachment(invoice, type, files) {
+  return dispatch => {
+    dispatch(busyToggle());
+    var req = request.put(buildAttachmentUrl(invoice, type));
+      //.set('Content-Type', 'application/json');
+
+    files.forEach(file => {
+      req.attach(file.name, file);
+    });
+
+    req.then(function(res) {
+      dispatch(success());
+      return true;
+    })
+    .catch(catchHandler)
+    .then(() => dispatch(busyToggle.off()));
+  };
 }
 
 export function deleteInvoice(invoice) {
@@ -111,13 +144,17 @@ export function downloadInvoice(invoice, type) {
   // ATTN: Non-dispatchable
   // We're not storing entire files in the state!
   // + Would break the AttachmentDownloadIcon
-  return request.get(buildUrl(`/attachments/${invoice._id}/${type}`))
+  return request.get(buildAttachmentUrl(invoice, type))
     .set('Content-Type', 'application/json')
     .then(function(res) {
       downloadFile(getInvoiceFileName(invoice), res.body);
       return true;
     })
     .catch(catchHandler);
+}
+
+function buildAttachmentUrl(invoice, type) {
+  return buildUrl(`/attachments/${invoice._id}/${type}`);
 }
 
 function getInvoiceFileName(data) {

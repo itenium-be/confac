@@ -14,7 +14,7 @@ class InvoiceList extends Component {
     return (
       <Grid>
         <AddIcon onClick="/invoice/create" label={t('nav.create')} />
-        <Table condensed>
+        <Table condensed style={{marginTop: 10}}>
           <thead>
             <tr>
               <th>{t('invoice.numberShort')}</th>

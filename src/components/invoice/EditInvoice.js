@@ -2,13 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { t, InvoiceModel } from '../util.js';
 
-import { DatePicker, ClientSelect, NumericInput, StringInput, BusyButton } from '../controls.js';
+import { DatePicker, ClientSelect, NumericInput, StringInput } from '../controls.js';
 import { Grid, Row, Col, Form } from 'react-bootstrap';
 import ClientDetails from '../client/ClientDetails.js';
 import EditInvoiceLines from './EditInvoiceLines.js';
 import InvoiceNotVerifiedAlert from './controls/InvoiceNotVerifiedAlert.js';
+import { EditInvoiceSaveButtons } from './controls/EditInvoiceSaveButtons.js';
 import InvoiceTotal from './controls/InvoiceTotal.js';
-import { createInvoice, previewInvoice, updateInvoice } from '../../actions/index.js';
+import { InvoiceAttachmentsForm } from './controls/InvoiceAttachmentsForm.js';
+import { createInvoice, previewInvoice, updateInvoice, updateInvoicePdf } from '../../actions/index.js';
 
 class EditInvoice extends Component {
   static propTypes = {
@@ -25,6 +27,7 @@ class EditInvoice extends Component {
     createInvoice: PropTypes.func.isRequired,
     previewInvoice: PropTypes.func.isRequired,
     updateInvoice: PropTypes.func.isRequired,
+    updateInvoicePdf: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string
     }),
@@ -65,6 +68,8 @@ class EditInvoice extends Component {
       this.props.previewInvoice(this.state.invoice);
     } else if (type === 'update') {
       this.props.updateInvoice(this.state.invoice);
+    } else if (type === 'update-pdf') {
+      this.props.updateInvoicePdf(this.state.invoice);
     }
   }
 
@@ -122,8 +127,11 @@ class EditInvoice extends Component {
               onChange={m => this.setState({model: m})}
             />
           </Row>
-          <Row style={{textAlign: 'center', marginBottom: 8}}>
-            <SaveButtons onClick={this._createInvoice.bind(this)} isNewInvoice={model.isNew} />
+          <Row style={{marginTop: -20}}>
+            <InvoiceAttachmentsForm invoice={model} />
+          </Row>
+          <Row style={{marginBottom: 8}}>
+            <EditInvoiceSaveButtons onClick={this._createInvoice.bind(this)} isNewInvoice={model.isNew} />
           </Row>
         </Form>
       </Grid>
@@ -131,28 +139,9 @@ class EditInvoice extends Component {
   }
 }
 
-const SaveButtons = ({isNewInvoice, onClick}) => {
-  if (isNewInvoice) {
-    return (
-      <div>
-        <BusyButton bsStyle="default" onClick={onClick.bind(this, 'preview')} style={{marginRight: 14}}>
-          {t('invoice.preview')}
-        </BusyButton>
-        <BusyButton onClick={onClick.bind(this, 'create')}>{t('invoice.create')}</BusyButton>
-      </div>
-    );
-  }
-  return (
-    <div>
-      <BusyButton onClick={onClick.bind(this, 'update')}>{t('save')}</BusyButton>
-    </div>
-  );
-};
-
-
 export default connect(state => ({
   config: state.config,
   app: state.app,
   clients: state.clients,
   invoices: state.invoices,
-}), {createInvoice, previewInvoice, updateInvoice})(EditInvoice);
+}), {createInvoice, previewInvoice, updateInvoice, updateInvoicePdf})(EditInvoice);

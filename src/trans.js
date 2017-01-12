@@ -41,6 +41,10 @@ const trans = {
     isNotVerifiedConfirm: 'Factuur niet meer geverifieerd',
     downloadAttachment: 'Invoice {type} downloaden',
     addLine: 'Factuurlijn toevoegen',
+    attachments: 'Bijlagen',
+    attachmentsAdd: 'Bijlage toevoegen',
+    attachmentsDropzone: 'Drop hier bestanden of klik hier om factuur bijlagen op te laden',
+    updatePdf: 'Pdf updaten',
   },
   client: {
     projectDesc: 'Omschrijving',

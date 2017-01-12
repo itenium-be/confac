@@ -15,3 +15,10 @@ body {
 .icons-cell > div:not(:last-child), .icons-cell > i:not(:last-child) {
 	margin-right: 18px;
 }
+
+.button-row {
+	text-align: center;
+}
+.button-row > button:not(:last-child) {
+	margin-right: 46px;
+}

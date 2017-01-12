@@ -15,10 +15,14 @@ export class Icon extends Component {
     className: PropTypes.string,
     label: PropTypes.string,
     title: PropTypes.string,
+    size: PropTypes.number,
   };
+  static defaultProps = {
+    size: 2
+  }
 
   render() {
-    const {fa, color, style, onClick, className, label, title, ...props} = this.props;
+    const {fa, color, style, onClick, className, label, title, size, ...props} = this.props;
     var realClick = onClick;
     if (typeof onClick === 'string') {
       realClick = () => {
@@ -29,7 +33,7 @@ export class Icon extends Component {
     const FinalIcon = (
       <i
         {...props}
-        className={cn(fa, className, {clickable: !!onClick})}
+        className={cn(fa, `fa-${size}x`, className, {clickable: !!onClick})}
         onClick={realClick}
         style={{color: color, ...style}}
       >
@@ -51,24 +55,24 @@ export class Icon extends Component {
 }
 
 export const VerifyIcon = ({...props}) => (
-  <Icon fa="fa fa-check fa-2x" color="green" {...props} />
+  <Icon fa="fa fa-check" color="green" {...props} />
 );
 export const BusyVerifyIcon = connect(state => ({isBusy: state.app.isBusy}))(EnhanceWithBusySpinner(VerifyIcon));
 
 export const SpinnerIcon = ({...props}) => (
-  <Icon fa="fa fa-spinner fa-pulse fa-2x fa-fw" {...props} />
+  <Icon fa="fa fa-spinner fa-pulse fa-fw" {...props} />
 );
 
 export const DeleteIcon = ({...props}) => (
-  <Icon fa="fa fa-minus-circle fa-2x" color="#CC1100" title={t('delete')} {...props} />
+  <Icon fa="fa fa-minus-circle" color="#CC1100" title={t('delete')} {...props} />
 );
 
 export const AddIcon = ({...props}) => {
-  return <Icon fa="fa fa-plus fa-2x" color="#FF8C00" {...props} />;
+  return <Icon fa="fa fa-plus" {...props} />;
 };
 
 export const EditIcon = ({...props}) => {
-  return <Icon fa="fa fa-pencil-square-o fa-2x" title={t('edit')} {...props} />;
+  return <Icon fa="fa fa-pencil-square-o" title={t('edit')} {...props} />;
 };
 
 export const ConfirmedDeleteIcon = EnhanceWithConfirmation(DeleteIcon);
