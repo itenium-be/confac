@@ -58,9 +58,9 @@ class InvoiceListRow extends Component {
         <td>{invoice.client.name}</td>
         <td>{invoice.date.format('YYYY-MM-DD')}</td>
         <td>{invoice.money.totalValue}</td>
-        <td><InvoiceWorkedDays invoices={invoice} /></td>
+        <td style={{whiteSpace: 'nowrap'}}><InvoiceWorkedDays invoices={invoice} /></td>
         <td style={{textAlign: 'right'}}>{moneyFormat(invoice.money.total)}</td>
-        <td className="icons-cell">
+        <td className="icons-cell" width="240px">
           <EditIcon onClick={'/invoice/' + invoice._id} />
           <InvoiceVerifyIconToggle invoice={invoice}/>
           <AttachmentDownloadIcon invoice={invoice} />

@@ -45,8 +45,8 @@ class ClientListRow extends Component {
         </td>
         <td>{client.rate.value}</td>
         <td><InvoiceWorkedDays invoices={invoices} display="client" /></td>
-        <td><InvoicesSummary invoices={invoices} /></td>
-        <td className="icons-cell">
+        <td style={{whiteSpace: 'nowrap'}}><InvoicesSummary invoices={invoices} /></td>
+        <td className="icons-cell" width="120px">
           <EditIcon onClick={'/client/' + client._id} />
           <DeleteIcon
             onClick={() => this.props.saveClient({...client, active: !client.active})}
