@@ -1,6 +1,6 @@
 import React from 'react';
-import {t } from '../../util.js';
-import {BusyButton } from '../../controls.js';
+import {t} from '../../util.js';
+import {BusyButton} from '../../controls.js';
 
 export const EditInvoiceSaveButtons = ({isNewInvoice, onClick}) => {
   if (isNewInvoice) {

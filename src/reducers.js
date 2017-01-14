@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {ACTION_TYPES } from './actions/ActionTypes.js';
+import {ACTION_TYPES} from './actions/ActionTypes.js';
 
 const defaultConfig = {
   defaultClient: undefined,

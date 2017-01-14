@@ -1,5 +1,5 @@
 import React from 'react';
-import {EditIcon } from '../../controls.js';
+import {EditIcon} from '../../controls.js';
 
 const ClientDetails = ({client}) => (
   <div>

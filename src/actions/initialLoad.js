@@ -1,5 +1,5 @@
-import {ACTION_TYPES } from './ActionTypes.js';
-import {httpGet } from './fetch';
+import {ACTION_TYPES} from './ActionTypes.js';
+import {httpGet} from './fetch';
 
 function fetchClients() {
   return dispatch => {

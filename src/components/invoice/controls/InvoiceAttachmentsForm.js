@@ -1,10 +1,10 @@
-import React, {Component, PropTypes } from 'react';
-import {connect } from 'react-redux';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
 import Dropzone from 'react-dropzone';
-import {t } from '../../util.js';
+import {t} from '../../util.js';
 
-import {AttachmentDownloadIcon, AddIcon } from '../../controls.js';
-import {updateInvoiceAttachment } from '../../../actions/index.js';
+import {AttachmentDownloadIcon, AddIcon} from '../../controls.js';
+import {updateInvoiceAttachment} from '../../../actions/index.js';
 
 export class InvoiceAttachmentsForm extends Component {
   static propTypes = {

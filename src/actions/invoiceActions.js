@@ -1,9 +1,9 @@
 import request from 'superagent-bluebird-promise';
-import {browserHistory } from 'react-router';
+import {browserHistory} from 'react-router';
 
-import {ACTION_TYPES } from './ActionTypes.js';
-import {success, busyToggle } from './appActions.js';
-import {buildUrl, catchHandler } from './fetch.js';
+import {ACTION_TYPES} from './ActionTypes.js';
+import {success, busyToggle} from './appActions.js';
+import {buildUrl, catchHandler} from './fetch.js';
 import t from '../trans.js';
 
 

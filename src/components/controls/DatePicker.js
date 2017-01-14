@@ -1,7 +1,7 @@
-import React, {Component, PropTypes } from 'react';
+import React, {Component, PropTypes} from 'react';
 import moment from 'moment';
 
-import {LabeledInput } from './Inputs.js';
+import {LabeledInput} from './Inputs.js';
 import BootstrapDatePicker from 'react-bootstrap-date-picker';
 
 export class DatePicker extends Component {

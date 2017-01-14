@@ -1,8 +1,8 @@
 import React from 'react';
-import {t } from '../util.js';
+import {t} from '../util.js';
 
-import {StringInputArray } from '../controls.js';
-import {Row } from 'react-bootstrap';
+import {StringInputArray} from '../controls.js';
+import {Row} from 'react-bootstrap';
 
 export const EditCompany = ({company, onChange}) => {
   if (!company) {

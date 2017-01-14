@@ -197,7 +197,7 @@ For example:
 ### `Button.js`
 
 ```js
-import React, {Component } from 'react';
+import React, {Component} from 'react';
 
 class Button extends Component {
   render() {
@@ -212,7 +212,7 @@ export default Button; // Don’t forget to use export default!
 
 
 ```js
-import React, {Component } from 'react';
+import React, {Component} from 'react';
 import Button from './Button'; // Import a component from another file
 
 class DangerButton extends Component {
@@ -251,7 +251,7 @@ This project setup uses [Webpack](https://webpack.github.io/) for handling all a
 ### `Button.js`
 
 ```js
-import React, {Component } from 'react';
+import React, {Component} from 'react';
 import './Button.css'; // Tell Webpack that Button.js uses these styles
 
 class Button extends Component {
@@ -404,7 +404,7 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 Import required React Bootstrap components within ```src/App.js``` file or your custom component files:
 
 ```js
-import {Navbar, Jumbotron, Button } from 'react-bootstrap';
+import {Navbar, Jumbotron, Button} from 'react-bootstrap';
 ```
 
 Now you are ready to use the imported React Bootstrap components within your component hierarchy defined in the render method. Here is an example [`App.js`](https://gist.githubusercontent.com/gaearon/85d8c067f6af1e56277c82d19fd4da7b/raw/6158dd991b67284e9fc8d70b9d973efe87659d72/App.js) redone using React Bootstrap.
@@ -711,7 +711,7 @@ npm install --save-dev enzyme react-addons-test-utils
 
 ```js
 import React from 'react';
-import {shallow } from 'enzyme';
+import {shallow} from 'enzyme';
 import App from './App';
 
 it('renders without crashing', () => {
@@ -727,7 +727,7 @@ Here is an example from Enzyme documentation that asserts specific output, rewri
 
 ```js
 import React from 'react';
-import {shallow } from 'enzyme';
+import {shallow} from 'enzyme';
 import App from './App';
 
 it('renders welcome message', () => {
@@ -749,7 +749,7 @@ However, if you are used to other libraries, such as [Chai](http://chaijs.com/) 
 
 ```js
 import sinon from 'sinon';
-import {expect } from 'chai';
+import {expect} from 'chai';
 ```
 
 and then use them in your tests like you normally do.

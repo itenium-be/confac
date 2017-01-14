@@ -1,6 +1,6 @@
-import React, {Component, PropTypes } from 'react';
-import {Icon, SpinnerIcon } from '../../controls/Icon.js';
-import {downloadInvoice } from '../../../actions/index.js';
+import React, {Component, PropTypes} from 'react';
+import {Icon, SpinnerIcon} from '../../controls/Icon.js';
+import {downloadInvoice} from '../../../actions/index.js';
 import t from '../../../trans.js';
 
 export class AttachmentDownloadIcon extends Component {

@@ -1,10 +1,10 @@
-import React, {Component, PropTypes } from 'react';
-import {connect } from 'react-redux';
-import {t } from '../util.js';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+import {t} from '../util.js';
 
-import {AddIcon, Switch } from '../controls.js';
-import {Grid, Table } from 'react-bootstrap';
-import ClientListRow, {ClientListHeader } from './ClientListRow.js';
+import {AddIcon, Switch} from '../controls.js';
+import {Grid, Table} from 'react-bootstrap';
+import ClientListRow, {ClientListHeader} from './ClientListRow.js';
 
 class ClientList extends Component {
   static propTypes = {

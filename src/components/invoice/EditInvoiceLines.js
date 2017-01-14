@@ -1,8 +1,8 @@
-import React, {Component, PropTypes } from 'react';
-import {t, InvoiceModel } from '../util.js';
+import React, {Component, PropTypes} from 'react';
+import {t, InvoiceModel} from '../util.js';
 
-import {NumericInput, StringInput, AddIcon, DeleteIcon } from '../controls.js';
-import {Table } from 'react-bootstrap';
+import {NumericInput, StringInput, AddIcon, DeleteIcon} from '../controls.js';
+import {Table} from 'react-bootstrap';
 
 export default class EditInvoiceLines extends Component {
   static propTypes = {

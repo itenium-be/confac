@@ -1,5 +1,5 @@
-import React, {Component, PropTypes } from 'react';
-import {SpinnerIcon } from '../controls/Icon.js';
+import React, {Component, PropTypes} from 'react';
+import {SpinnerIcon} from '../controls/Icon.js';
 
 export const EnhanceWithBusySpinner = ComposedComponent => class extends Component {
   static propTypes = {

@@ -1,8 +1,8 @@
 import request from 'superagent-bluebird-promise';
 
-import {ACTION_TYPES } from './ActionTypes.js';
-import {buildUrl, catchHandler } from './fetch.js';
-import {addNotification as notify } from 'reapop';
+import {ACTION_TYPES} from './ActionTypes.js';
+import {buildUrl, catchHandler} from './fetch.js';
+import {addNotification as notify} from 'reapop';
 import t from '../trans.js';
 
 // https://github.com/LouisBarranqueiro/reapop/blob/master/docs/api.md#customize-default-values-for-notifications
