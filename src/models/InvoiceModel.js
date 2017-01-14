@@ -6,7 +6,7 @@ export class InvoiceModel {
   static createNew(config, client) {
     var model = new InvoiceModel(config, {
       client,
-      number: config.nextInvoiceNumber || 1,
+      number: 1,
     });
     model = model.setClient(client);
     return model;

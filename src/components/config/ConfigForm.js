@@ -2,14 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { t } from '../util.js';
 
-import { ClientSelect, NumericInput, BusyButton } from '../controls.js';
+import { ClientSelect/*, NumericInput*/, BusyButton } from '../controls.js';
 import { Grid, Row, Col, Form } from 'react-bootstrap';
 import { updateConfig } from '../../actions/index.js';
 
 class ConfigForm extends Component {
   static propTypes = {
     config: PropTypes.shape({
-      nextInvoiceNumber: PropTypes.number,
       defaultClient: PropTypes.string,
       company: PropTypes.object,
     }).isRequired,
@@ -41,11 +40,8 @@ class ConfigForm extends Component {
               />
             </Col>
             <Col sm={6}>
-              <NumericInput
-                label={t('config.nextInvoiceNumber')}
-                value={this.state.nextInvoiceNumber}
-                onChange={value => this.setState({nextInvoiceNumber: value})}
-              />
+
+
             </Col>
           </Row>
           <Row style={{textAlign: 'center'}}>
@@ -56,5 +52,12 @@ class ConfigForm extends Component {
     );
   }
 }
+
+
+//<NumericInput
+//  label={t('config.nextInvoiceNumber')}
+//  value={this.state.nextInvoiceNumber}
+//  onChange={value => this.setState({nextInvoiceNumber: value})}
+///>
 
 export default connect(state => ({config: state.config}), {updateConfig})(ConfigForm);

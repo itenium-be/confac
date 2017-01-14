@@ -47,7 +47,10 @@ export function updateConfig(newConfig) {
     return request.post(buildUrl('/config'))
       .set('Content-Type', 'application/json')
       .send(newConfig)
-      .then(() => dispatch(success(t('config.popupMessage'))))
+      .then(() => {
+        dispatch({type: ACTION_TYPES.CONFIG_UPDATE, config: newConfig});
+        dispatch(success(t('config.popupMessage')));
+      })
       .catch(catchHandler)
       .then(() => dispatch(busyToggle.off()));
   };

@@ -6,9 +6,6 @@ import { success, busyToggle } from './appActions.js';
 import { buildUrl, catchHandler } from './fetch.js';
 import t from '../trans.js';
 
-function updateNextInvoiceNumber() {
-  return {type: ACTION_TYPES.CONFIG_UPDATE_NEXTINVOICE_NUMBER};
-}
 
 export function createInvoice(data) {
   return dispatch => {
@@ -18,7 +15,6 @@ export function createInvoice(data) {
       .set('Accept', 'application/json')
       .send(data)
       .then(function(res) {
-        dispatch(updateNextInvoiceNumber());
         dispatch({
           type: ACTION_TYPES.INVOICE_ADDED,
           invoice: res.body

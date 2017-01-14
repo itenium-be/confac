@@ -2,7 +2,6 @@ import moment from 'moment';
 import { ACTION_TYPES } from './actions/ActionTypes.js';
 
 const defaultConfig = {
-  nextInvoiceNumber: undefined,
   defaultClient: undefined,
 };
 
@@ -23,8 +22,8 @@ export const config = (state = defaultConfig, action) => {
     console.log('CONFIG_FETCHED', action.config); // eslint-disable-line
     return action.config;
 
-  case ACTION_TYPES.CONFIG_UPDATE_NEXTINVOICE_NUMBER:
-    return {...state, nextInvoiceNumber: state.nextInvoiceNumber + 1};
+  case ACTION_TYPES.CONFIG_UPDATE:
+    return action.config;
 
   case ACTION_TYPES.INITIAL_LOAD:
     return {...state, isLoaded: true};

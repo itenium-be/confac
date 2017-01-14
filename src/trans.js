@@ -16,7 +16,6 @@ const trans = {
   config: {
     popupMessage: 'Instellingen bewaard',
     defaultClient: 'Standaard klant',
-    nextInvoiceNumber: 'Volgend factuurnummer',
   },
   invoice: {
     invoices: 'Facturen',

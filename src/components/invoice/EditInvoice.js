@@ -16,7 +16,6 @@ class EditInvoice extends Component {
   static propTypes = {
     invoices: PropTypes.array.isRequired,
     config: PropTypes.shape({
-      nextInvoiceNumber: PropTypes.number,
       defaultClient: PropTypes.string,
       company: PropTypes.object,
     }).isRequired,
@@ -48,7 +47,9 @@ class EditInvoice extends Component {
       if (props.config.defaultClient) {
         client = props.clients.find(c => c._id === props.config.defaultClient);
       }
-      return InvoiceModel.createNew(props.config, client);
+      var model = InvoiceModel.createNew(props.config, client);
+      model.number = props.invoices.map(i => i.number).reduce((a, b) => Math.max(a, b), 0) + 1;
+      return model;
     }
   }
 
