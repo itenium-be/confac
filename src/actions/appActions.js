@@ -21,13 +21,13 @@ export function success(msg) {
     message: msg
   });
 }
-export function failure() {
+export function failure(title, msg, timeout) {
   return notify({
     status: 'error',
     position: 'tc',
-    dismissAfter: 4000,
-    title: t('toastrFailureTitle'),
-    message: t('toastrFailure'),
+    dismissAfter: timeout || 4000,
+    title: title || t('toastrFailureTitle'),
+    message: msg || t('toastrFailure'),
   });
 }
 

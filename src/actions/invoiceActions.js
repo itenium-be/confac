@@ -1,8 +1,9 @@
 import request from 'superagent-bluebird-promise';
 import {browserHistory} from 'react-router';
+import {store} from '../store.js';
 
 import {ACTION_TYPES} from './ActionTypes.js';
-import {success, busyToggle} from './appActions.js';
+import {success, failure, busyToggle} from './appActions.js';
 import {buildUrl, catchHandler} from './fetch.js';
 import t from '../trans.js';
 
@@ -184,9 +185,9 @@ function openWindow(pdf, fileName) {
   //window.open('data:application/pdf,' + escape(pdf));
   // (that could work right?)
 
-  // Does work on Chrome and Firefox
+  // Does work on Chrome, Firefox and Chrome
   var win = window.open('', '', '');
-  if (win.document) {
+  if (win && win.document) {
     const html = `
       <html>
         <head>
@@ -206,5 +207,8 @@ function openWindow(pdf, fileName) {
 
     win.document.write(html);
     win.document.title = fileName;
+
+  } else {
+    store.dispatch(failure(t('controls.popupBlockerTitle'), t('controls.popupBlocker'), 8000));
   }
 }

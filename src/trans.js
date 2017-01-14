@@ -90,6 +90,8 @@ const trans = {
     },
   },
   controls: {
+    popupBlockerTitle: 'Mislukt!? Popup blocker misschien?',
+    popupBlocker: 'Schakel de popupblocker voor deze pagina uit. Pdf preview is anders niet beschikbaar.',
     dateTimeToday: 'Vandaag',
     noResultsText: 'Geen resultaten',
     clearValueText: 'Filter verwijderen',
