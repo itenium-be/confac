@@ -85,12 +85,12 @@ html
 
 						td(align="center")
 							each line in lines
-								span #{line.value}
+								span #{line.value / client.rate.hoursInDay}
 								br
 
 						td(align="center")
 							each line in lines
-								span € #{numberFormat(line.rate)}
+								span € #{numberFormat(line.rate * client.rate.hoursInDay)}
 								br
 
 						td(align="center")
