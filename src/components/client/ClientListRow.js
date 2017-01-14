@@ -49,7 +49,7 @@ class ClientListRow extends Component {
         <td className="icons-cell" width="120px">
           <EditIcon onClick={'/client/' + client._id} />
           <DeleteIcon
-            onClick={() => this.props.saveClient({...client, active: !client.active})}
+            onClick={() => this.props.saveClient({...client, active: !client.active}, true)}
             title={client.active ? t('client.deactivateTitle') : t('client.activateTitle')}
           />
         </td>
