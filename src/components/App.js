@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import NotificationsSystem from 'reapop';
 import theme from 'reapop-theme-bootstrap';
+import 'react-ios-switch/build/bundle.css';
 
 import Header from './skeleton/Header.js';
 

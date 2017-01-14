@@ -4,6 +4,7 @@ const trans = {
     create: 'Nieuwe factuur',
     config: 'Config',
   },
+  search: 'Zoeken',
   edit: 'Aanpassen',
   save: 'Bewaren',
   delete: 'Verwijderen',
@@ -40,6 +41,7 @@ const trans = {
     total: 'Totaal',
     orderNr: 'Bestelbon nr',
     verifyAction: 'Factuur verifiëren',
+    notVerifiedOnly: 'Toon enkel de niet geverifiëerde',
     isNotVerified: 'Factuur nog niet geverifieerd!',
     isVerifiedConfirm: 'Factuur nu geverifieerd',
     isNotVerifiedConfirm: 'Factuur niet meer geverifieerd',
@@ -56,6 +58,10 @@ const trans = {
   },
   controls: {
     dateTimeToday: 'Vandaag',
+    noResultsText: 'Geen resultaten',
+    clearValueText: 'Filter verwijderen',
+    clearAllText: 'Alle filters verwijderen',
+    addLabelText: 'Filter "{value}" toevoegen?',
   }
 };
 

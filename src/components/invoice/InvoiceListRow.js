@@ -4,7 +4,7 @@ import { t, moneyFormat } from '../util.js';
 
 import { ConfirmedDeleteIcon, EditIcon, AttachmentDownloadIcon, InvoiceVerifyIconToggle } from '../controls.js';
 import { updateInvoice, deleteInvoice } from '../../actions/index.js';
-import { InvoiceWorkedDays } from './InvoiceWorkedDays.js';
+import { InvoiceWorkedDays } from './controls/InvoiceWorkedDays.js';
 import { InvoicesTotal } from './controls/InvoiceTotal.js';
 
 

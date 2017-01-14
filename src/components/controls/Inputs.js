@@ -1,5 +1,17 @@
 import React from 'react';
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import ReactSwitch from 'react-ios-switch';
+
+export const Switch = ({checked, onChange, label, style}) => (
+  <div style={style}>
+    <ReactSwitch
+      checked={checked}
+      onChange={onChange}
+    />
+    <span style={{position: 'absolute', left: 75, bottom: 8}}>{label}</span>
+  </div>
+);
+
 
 export const LabeledInput = ({label, children}) => (
   <FormGroup>
@@ -18,6 +30,7 @@ function parseIntOrFloat(str, asFloat) {
   return parseInt(str, 10);
 }
 
+
 export const NumericInput = ({label, value, onChange, float = false}) => {
   const Input = (
     <FormControl
@@ -32,6 +45,7 @@ export const NumericInput = ({label, value, onChange, float = false}) => {
   }
   return Input;
 };
+
 
 export const StringInput = ({label, value, onChange}) => {
   const Input = (

@@ -1,5 +1,7 @@
 import moment from 'moment';
 
+//const getInvoiceString = invoice => `${invoice.number} - ${invoice.client.name} (${invoice.date.format('YYYY-MM')})`;
+
 export class InvoiceModel {
   static createNew(config, client) {
     var model = new InvoiceModel(config, {
