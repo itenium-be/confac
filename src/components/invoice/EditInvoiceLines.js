@@ -37,8 +37,8 @@ export default class EditInvoiceLines extends Component {
                 <td>
                   <NumericInput
                     float
-                    value={line.hours}
-                    onChange={value => onChange(invoice.updateLine(index, {hours: value}))}
+                    value={line.value}
+                    onChange={value => onChange(invoice.updateLine(index, {value: value}))}
                   />
                 </td>
 

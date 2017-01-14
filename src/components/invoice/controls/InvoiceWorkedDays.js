@@ -30,7 +30,7 @@ function getWorkDaysInMonth(momentInst) {
   var date = new Date(momentInst.year(), curMonth, 1);
   var result = [];
   while (date.getMonth() === curMonth) {
-  // date.getDay = index of ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    // date.getDay = index of ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
     if (date.getDay() !== 0 && date.getDay() !== 6) {
       result.push(date);
     }
@@ -40,7 +40,7 @@ function getWorkDaysInMonth(momentInst) {
 }
 
 function daysCalc(invoice) {
-  const daysWorked = invoice.money.totalHours / invoice.client.rate.hoursInDay;
+  const daysWorked = invoice.money.totalValue / invoice.client.rate.hoursInDay;
   const workDays = getWorkDaysInMonth(invoice.date);
   const totalWorkDays = workDays.length;
   return {

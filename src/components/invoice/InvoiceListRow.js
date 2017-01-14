@@ -34,7 +34,7 @@ export const InvoiceListFooter = ({invoices}) => {
     <tfoot>
       <tr>
         <td colSpan={3}>{invoices.length} {t('invoice.invoices').toLowerCase()}</td>
-        <td>{moneys.map(i => i.totalHours).reduce((a, b) => a + b, 0)}</td>
+        <td>{moneys.map(i => i.totalValue).reduce((a, b) => a + b, 0)}</td>
         <td><InvoiceWorkedDays invoices={invoices} /></td>
         <td colSpan={2}><InvoicesTotal invoices={invoices} /></td>
       </tr>
@@ -57,7 +57,7 @@ class InvoiceListRow extends Component {
         <td>{invoice.number}</td>
         <td>{invoice.client.name}</td>
         <td>{invoice.date.format('YYYY-MM-DD')}</td>
-        <td>{invoice.money.totalHours}</td>
+        <td>{invoice.money.totalValue}</td>
         <td><InvoiceWorkedDays invoices={invoice} /></td>
         <td style={{textAlign: 'right'}}>{moneyFormat(invoice.money.total)}</td>
         <td className="icons-cell">

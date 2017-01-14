@@ -77,21 +77,23 @@ export class InvoiceModel {
   getLine(getEmpty = false) {
     if (!this.client || getEmpty) {
       return {
+        type: 'hourly',
         desc: '',
-        hours: 0,
+        value: 0,
         rate: 0
       };
     }
     return {
+      type: 'hourly',
       desc: this.client.rate.description,
-      hours: 0,
-      rate: this.client.rate.hourly
+      value: 0,
+      rate: this.client.rate.value
     };
   }
 
   static emptyMoney = function() {
     return {
-      totalHours: 0,
+      totalValue: 0,
       totalWithoutTax: 0,
       taxPercentage: 0,
       totalTax: 0,
@@ -104,12 +106,12 @@ export class InvoiceModel {
       return InvoiceModel.emptyMoney();
     }
 
-    const totalHours = this._lines.reduce((prev, cur) => prev + cur.hours, 0);
-    const totalWithoutTax = this._lines.reduce((prev, cur) => prev + cur.hours * cur.rate, 0);
+    const totalValue = this._lines.reduce((prev, cur) => prev + cur.value, 0);
+    const totalWithoutTax = this._lines.reduce((prev, cur) => prev + cur.value * cur.rate, 0);
     const taxPercentage = 21;
     const totalTax = totalWithoutTax / 100 * taxPercentage;
     return {
-      totalHours,
+      totalValue,
       totalWithoutTax,
       taxPercentage,
       totalTax,
