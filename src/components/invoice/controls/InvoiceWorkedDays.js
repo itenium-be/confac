@@ -25,7 +25,7 @@ function calcPer(daysWorked) {
 }
 
 function getWorkDaysInMonth(momentInst) {
-  const curMonth = momentInst.month() - 1;
+  const curMonth = momentInst.month();
 
   var date = new Date(momentInst.year(), curMonth, 1);
   var result = [];

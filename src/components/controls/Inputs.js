@@ -22,7 +22,7 @@ export const LabeledInput = ({label, children}) => (
 
 function parseIntOrFloat(str, asFloat) {
   if (!str) {
-    return '';
+    return 0;
   }
   if (asFloat) {
     return parseFloat(str, 10);
@@ -35,7 +35,7 @@ export const NumericInput = ({label, value, onChange, float = false}) => {
   const Input = (
     <FormControl
       type="number"
-      value={value}
+      value={value || ''}
       placeholder={label}
       onChange={e => onChange(parseIntOrFloat(e.target.value, float))}
     />
