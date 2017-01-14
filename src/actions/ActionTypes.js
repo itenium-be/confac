@@ -9,6 +9,7 @@ export const ACTION_TYPES = keyMirror({
   CONFIG_UPDATE: '',
 
   CLIENTS_FETCHED: '',
+  CLIENT_UPDATE: '', // client inserts are also done with update
 
   INVOICES_FETCHED: '',
   INVOICE_DELETED: '',

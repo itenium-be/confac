@@ -1,4 +1,5 @@
 import request from 'superagent-bluebird-promise';
+import { browserHistory } from 'react-router';
 
 import { ACTION_TYPES } from './ActionTypes.js';
 import { buildUrl, catchHandler } from './fetch.js';
@@ -63,10 +64,26 @@ export function updateInvoiceFilters(filters) {
   };
 }
 
-export function deleteClient() {
-
-}
-
-export function saveClient() {
-
+export function saveClient(client) {
+  // console.log('saveingClient', client);
+  return dispatch => {
+    dispatch(busyToggle());
+    return request.post(buildUrl('/clients'))
+      .set('Content-Type', 'application/json')
+      .send(client)
+      .then(res => {
+        // console.log('savedClient return', res.body);
+        dispatch({
+          type: ACTION_TYPES.CLIENT_UPDATE,
+          client: res.body,
+          isNewClient: !client._id
+        });
+        dispatch(success(t('config.popupMessage')));
+        if (res.body.active === client.active) {
+          browserHistory.push('/clients');
+        }
+      })
+      .catch(catchHandler)
+      .then(() => dispatch(busyToggle.off()));
+  };
 }

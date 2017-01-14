@@ -1,6 +1,7 @@
 import React from 'react';
+import { t } from '../../util.js';
 
-export const InvoiceWorkedDays = ({invoices}) => {
+export const InvoiceWorkedDays = ({invoices, display = 'month'}) => {
   var days;
   if (typeof invoices.length !== 'number') {
     // one invoice object
@@ -11,11 +12,23 @@ export const InvoiceWorkedDays = ({invoices}) => {
     const invoiceDays = invoices.map(daysCalc);
     days = invoiceDays.reduce((a, b) => ({
       worked: a.worked + b.worked,
-      total: a.total + b.total
-    }), {worked: 0, total: 0});
+      total: a.total + b.total,
+      hours: a.hours + b.hours,
+    }), {worked: 0, total: 0, hours: 0});
   }
 
-  return <span>{days.worked.toFixed(1)} / {days.total} ({calcPer(days)})</span>;
+  if (display === 'month') {
+    return <span>{days.worked.toFixed(1)} / {days.total} ({calcPer(days)})</span>;
+  }
+  if (display === 'client') {
+    return (
+      <span>
+        {t('client.hoursWorked', {hours: days.hours})}
+        <br />
+        {t('client.daysWorked', {days: days.worked.toFixed(1)})}
+      </span>
+    );
+  }
 };
 
 
@@ -44,6 +57,7 @@ function daysCalc(invoice) {
   const workDays = getWorkDaysInMonth(invoice.date);
   const totalWorkDays = workDays.length;
   return {
+    hours: invoice.money.totalValue,
     worked: daysWorked,
     total: totalWorkDays,
   };

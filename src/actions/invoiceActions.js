@@ -170,6 +170,10 @@ function getInvoiceFileName(data) {
     fileName = fileName.replace(dateRegex, data.date.format(dateFormat));
   }
 
+  if (fileName.indexOf('{orderNr}') !== -1) {
+    fileName = fileName.replace('{orderNr}', data.orderNr);
+  }
+
   return fileName + '.pdf';
 }
 

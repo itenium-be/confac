@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { LabeledInput } from './Inputs.js';
 import Select from 'react-select';
 
+// TODO: move this to client folder
+
 class ClientSelectComponent extends Component {
   static propTypes = {
     clients: PropTypes.array.isRequired,
@@ -17,10 +19,19 @@ class ClientSelectComponent extends Component {
   }
 
   render() {
+    const {value} = this.props;
+    const selectedClientId = typeof value === 'object' ? value._id : value;
+    const selectedClient = this.props.clients.find(c => c._id === selectedClientId);
+
+    var clients = this.props.clients.filter(c => c.active);
+    if (selectedClient && !selectedClient.active) {
+      clients.push(selectedClient);
+    }
+
     const Selecter = (
       <Select
-        value={typeof this.props.value === 'object' ? this.props.value._id : this.props.value}
-        options={this.props.clients.map(item => ({value: item._id, label: item.name}))}
+        value={selectedClientId}
+        options={clients.map(item => ({value: item._id, label: item.name}))}
         onChange={item => this.props.onChange(this.getClient(item.value))}
         clearable={false}
       />

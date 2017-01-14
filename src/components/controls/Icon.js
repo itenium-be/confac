@@ -44,7 +44,7 @@ export class Icon extends Component {
     if (title) {
       return (
         <div style={{display: 'inline'}} data-tip={title}>
-          <ReactTooltip />
+          <ReactTooltip multiline={true} />
           {FinalIcon}
         </div>
       );

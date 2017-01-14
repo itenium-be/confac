@@ -2,9 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { t } from '../util.js';
 
-import { BusyButton, NumericInput, StringInput, StringInputArray } from '../controls.js';
+import { BusyButton, StringInput, StringInputArray } from '../controls.js';
 import { Grid, Row, Col, Form } from 'react-bootstrap';
 import { saveClient } from '../../actions/index.js';
+import { EditClientRate } from './controls/EditClientRate.js';
 
 class EditClient extends Component {
   static propTypes = {
@@ -40,7 +41,21 @@ class EditClient extends Component {
     }
 
     // New client
-    return {rate: {}};
+    return {
+      active: true,
+      name: '',
+      address: '',
+      city: '',
+      telephone: '',
+      btw: '',
+      invoiceFileName: '{date:YYYY-MM} {nr:4} - ',
+      rate: {
+        type: 'hourly',
+        hoursInDay: 8,
+        value: 0,
+        description: '',
+      }
+    };
   }
 
   _onSave() {
@@ -57,16 +72,24 @@ class EditClient extends Component {
       <Grid>
         <Form>
           <Row>
+            <h4>{t('client.contact')}</h4>
             <StringInputArray
               keys={['name', 'address', 'city', 'btw', 'telephone']}
               model={client}
+              onChange={value => this.setState({...client, ...value})}
               tPrefix="config.company."
             />
           </Row>
           <Row>
-            <Col sm={4}>
+            <h4>{t('client.rate.title')}</h4>
+            <EditClientRate rate={client.rate} onChange={value => this.setState({...client, rate: value})} />
+          </Row>
+          <Row>
+            <h4>{t('config.company.template')}</h4>
+            <Col sm={8}>
               <StringInput
                 label={t('invoice.fileName')}
+                placeHolder={t('invoice.fileNamePlaceHolder')}
                 value={client.invoiceFileName}
                 onChange={value => this.setState({...client, invoiceFileName: value})}
               />

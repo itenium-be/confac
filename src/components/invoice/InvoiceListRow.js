@@ -62,15 +62,9 @@ class InvoiceListRow extends Component {
         <td style={{textAlign: 'right'}}>{moneyFormat(invoice.money.total)}</td>
         <td className="icons-cell">
           <EditIcon onClick={'/invoice/' + invoice._id} />
-          <InvoiceVerifyIconToggle
-            invoice={invoice}
-            title={t('invoice.verifyAction')}
-          />
+          <InvoiceVerifyIconToggle invoice={invoice}/>
           <AttachmentDownloadIcon invoice={invoice} />
-          <ConfirmedDeleteIcon
-            title={t('invoice.deleteTitle')}
-            onClick={() => this.props.deleteInvoice(invoice)}
-          >
+          <ConfirmedDeleteIcon title={t('invoice.deleteTitle')} onClick={() => this.props.deleteInvoice(invoice)}>
             {t('invoice.deletePopup', {number: invoice.number, client: invoice.client.name})}
           </ConfirmedDeleteIcon>
         </td>

@@ -3,13 +3,14 @@ import { Col, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import ReactSwitch from 'react-ios-switch';
 import { t } from '../util.js';
 
-export const Switch = ({checked, onChange, label, style}) => (
-  <div style={style}>
+export const Switch = ({checked, onChange, label, style, ...props}) => (
+  <div style={{...style, position: 'relative'}}>
     <ReactSwitch
       checked={checked}
       onChange={onChange}
+      {...props}
     />
-    <span style={{position: 'absolute', left: 75, bottom: 10}}>{label}</span>
+    <span style={{position: 'absolute', left: 60, bottom: 10}}>{label}</span>
   </div>
 );
 
@@ -48,12 +49,12 @@ export const NumericInput = ({label, value, onChange, float = false}) => {
 };
 
 
-export const StringInput = ({label, value, onChange}) => {
+export const StringInput = ({label, value, onChange, placeHolder}) => {
   const Input = (
     <FormControl
       type="text"
       value={value}
-      placeholder={label}
+      placeholder={placeHolder || label}
       onChange={e => onChange(e.target.value)}
     />
   );
