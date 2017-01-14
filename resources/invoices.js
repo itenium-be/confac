@@ -82,7 +82,7 @@ export default function register(app) {
     this.body = yield this.mongo.collection('invoices').findOne({_id: insertedInvoiceId});
 
     yield this.mongo.collection('attachments').insert({_id: insertedInvoiceId, pdf: pdfBuffer});
-    yield this.mongo.collection('config').update({name: 'pongit'}, {$set: { nextInvoiceNumber: params.number + 1}});
+    //yield this.mongo.collection('config').update({name: 'pongit'}, {$set: { nextInvoiceNumber: params.number + 1}});
   });
 
   app.use(router.routes());
