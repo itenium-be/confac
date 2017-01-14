@@ -29,7 +29,7 @@ class InvoiceSearchComponent extends Component {
     const {search, unverifiedOnly} = this.props.filters;
     return (
       <Row>
-        <Col sm={6} md={4}>
+        <Col sm={8}>
           <LabeledInput label={t('search')}>
             <InvoiceSearchSelect onChange={value => this.onFilterChange({search: value})} value={search} />
           </LabeledInput>
