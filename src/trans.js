@@ -14,8 +14,22 @@ const trans = {
   toastrFailure: 'Boem! Crash! Kapot!',
   toastrConfirm: 'Wijzigingen bewaard',
   config: {
+    title: 'Instellingen',
     popupMessage: 'Instellingen bewaard',
     defaultClient: 'Standaard klant',
+    company: {
+      title: 'Jouw bedrijfsgegevens',
+      name: 'Bedrijfsnaam',
+      address: 'Straat',
+      city: 'Stad',
+      telephone: 'Telefoon nr',
+      email: 'Email',
+      iban: 'IBAN',
+      bank: 'Naam bank',
+      bic: 'BIC',
+      btw: 'BTW',
+      template: 'Html template',
+    },
   },
   invoice: {
     invoices: 'Facturen',

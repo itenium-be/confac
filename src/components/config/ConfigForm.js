@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { t } from '../util.js';
 
-import { ClientSelect/*, NumericInput*/, BusyButton } from '../controls.js';
+import { ClientSelect, StringInput, BusyButton } from '../controls.js';
 import { Grid, Row, Col, Form } from 'react-bootstrap';
 import { updateConfig } from '../../actions/index.js';
 
@@ -31,19 +31,21 @@ class ConfigForm extends Component {
     return (
       <Grid>
         <Form>
+          <h3>{t('config.title')}</h3>
           <Row>
-            <Col sm={6}>
+            <Col sm={4}>
               <ClientSelect
                 label={t('config.defaultClient')}
                 value={this.state.defaultClient}
                 onChange={item => this.setState({defaultClient: item._id})}
               />
             </Col>
-            <Col sm={6}>
-
-
-            </Col>
           </Row>
+          <CompanyForm
+            company={this.state.company}
+            onChange={company => this.setState({company})}
+          />
+
           <Row style={{textAlign: 'center'}}>
             <BusyButton onClick={this._save.bind(this)}>{t('save')}</BusyButton>
           </Row>
@@ -53,11 +55,31 @@ class ConfigForm extends Component {
   }
 }
 
+const tc = key => t('config.company.' + key);
 
-//<NumericInput
-//  label={t('config.nextInvoiceNumber')}
-//  value={this.state.nextInvoiceNumber}
-//  onChange={value => this.setState({nextInvoiceNumber: value})}
-///>
+const CompanyForm = ({company, onChange}) => {
+  if (!company) {
+    return null;
+  }
+
+  var keys = ['name', 'address', 'city', 'telephone', 'email', 'btw', 'iban', 'bic', 'template'];
+  keys = keys.concat(Object.keys(company).filter(k => !keys.includes(k)));
+
+  return (
+    <Row>
+      <h4>{tc('title')}</h4>
+      {keys.map(key => (
+        <Col sm={4} key={key}>
+          <StringInput
+            label={tc(key)}
+            value={company[key]}
+            onChange={value => onChange({...company, [key]: value})}
+          />
+        </Col>
+      ))}
+    </Row>
+  );
+};
+
 
 export default connect(state => ({config: state.config}), {updateConfig})(ConfigForm);
