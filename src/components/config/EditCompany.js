@@ -9,7 +9,7 @@ export const EditCompany = ({company, onChange}) => {
     return null;
   }
 
-  var keys = ['name', 'address', 'city', 'telephone', 'email', 'btw', 'iban', 'bic', 'template'];
+  var keys = ['name', 'address', 'city', 'telephone', 'email', 'website', 'btw', 'iban', 'bic', 'template'];
   keys = keys.concat(Object.keys(company).filter(k => !keys.includes(k)));
 
   return (

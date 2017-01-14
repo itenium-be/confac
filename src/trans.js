@@ -29,6 +29,7 @@ const trans = {
       bic: 'BIC',
       btw: 'BTW',
       template: 'Html template',
+      website: 'Website',
     },
   },
   invoice: {
