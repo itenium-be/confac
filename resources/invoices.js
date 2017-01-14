@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import { locals } from '../pug-helpers.js';
+import {locals} from '../pug-helpers.js';
 
 const pug = require('pug');
 const pdf = require('html-pdf');

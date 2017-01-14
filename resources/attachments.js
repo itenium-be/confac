@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import { htmlToBuffer, createHtml } from './invoices.js';
+import {htmlToBuffer, createHtml} from './invoices.js';
 
 export default function register(app) {
   const router = new Router({
