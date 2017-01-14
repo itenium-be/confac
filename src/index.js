@@ -7,20 +7,20 @@ import 'react-select/dist/react-select.css';
 
 
 
-import { store } from './store.js';
+import {store } from './store.js';
 
 
 // Fetch data from the db
-import { initialLoad } from './actions/index.js';
+import {initialLoad } from './actions/index.js';
 store.dispatch(initialLoad());
 
 
 
 
 // Create the AppRoot
-import { syncHistoryWithStore } from 'react-router-redux';
-import { Router, browserHistory } from 'react-router';
-import { Provider } from 'react-redux';
+import {syncHistoryWithStore } from 'react-router-redux';
+import {Router, browserHistory } from 'react-router';
+import {Provider } from 'react-redux';
 import Routes from './routes.js';
 
 const history = syncHistoryWithStore(browserHistory, store);

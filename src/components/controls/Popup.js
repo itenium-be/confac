@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react';
-import { Modal } from 'react-bootstrap';
-import { Button, BusyButton } from './Button.js';
+import React, {Component, PropTypes } from 'react';
+import {Modal } from 'react-bootstrap';
+import {Button, BusyButton } from './Button.js';
 
 export class Popup extends Component {
   static propTypes = {

@@ -1,16 +1,16 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { t, InvoiceModel } from '../util.js';
+import React, {Component, PropTypes } from 'react';
+import {connect } from 'react-redux';
+import {t, InvoiceModel } from '../util.js';
 
-import { DatePicker, ClientSelect, NumericInput, StringInput } from '../controls.js';
-import { Grid, Row, Col, Form } from 'react-bootstrap';
+import {DatePicker, ClientSelect, NumericInput, StringInput } from '../controls.js';
+import {Grid, Row, Col, Form } from 'react-bootstrap';
 import ClientDetails from '../client/controls/ClientDetails.js';
 import EditInvoiceLines from './EditInvoiceLines.js';
 import InvoiceNotVerifiedAlert from './controls/InvoiceNotVerifiedAlert.js';
-import { EditInvoiceSaveButtons } from './controls/EditInvoiceSaveButtons.js';
+import {EditInvoiceSaveButtons } from './controls/EditInvoiceSaveButtons.js';
 import InvoiceTotal from './controls/InvoiceTotal.js';
-import { InvoiceAttachmentsForm } from './controls/InvoiceAttachmentsForm.js';
-import { createInvoice, previewInvoice, updateInvoice, updateInvoicePdf } from '../../actions/index.js';
+import {InvoiceAttachmentsForm } from './controls/InvoiceAttachmentsForm.js';
+import {createInvoice, previewInvoice, updateInvoice, updateInvoicePdf } from '../../actions/index.js';
 
 class EditInvoice extends Component {
   static propTypes = {

@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { Button as ReactButton } from 'react-bootstrap';
+import React, {Component, PropTypes } from 'react';
+import {connect } from 'react-redux';
+import {Button as ReactButton } from 'react-bootstrap';
 
 export class Button extends Component {
   static propTypes = {

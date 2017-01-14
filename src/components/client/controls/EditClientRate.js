@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react';
-import { t } from '../../util.js';
+import React, {Component, PropTypes } from 'react';
+import {t } from '../../util.js';
 
-import { NumericInput, StringInput } from '../../controls.js';
-import { Col } from 'react-bootstrap';
+import {NumericInput, StringInput } from '../../controls.js';
+import {Col } from 'react-bootstrap';
 
 export class EditClientRate extends Component {
   static propTypes = {

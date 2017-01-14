@@ -1,5 +1,5 @@
 import React from 'react';
-import { t } from '../../util.js';
+import {t } from '../../util.js';
 
 export const InvoiceWorkedDays = ({invoices, display = 'month'}) => {
   var days;

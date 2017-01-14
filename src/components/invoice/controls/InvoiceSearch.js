@@ -1,11 +1,11 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
+import React, {Component, PropTypes } from 'react';
+import {connect } from 'react-redux';
 import moment from 'moment';
-import { t } from '../../util.js';
+import {t } from '../../util.js';
 
-import { Row, Col } from 'react-bootstrap';
+import {Row, Col } from 'react-bootstrap';
 import Select from 'react-select';
-import { LabeledInput, Switch } from '../../controls/Inputs.js';
+import {LabeledInput, Switch } from '../../controls/Inputs.js';
 
 class InvoiceSearchComponent extends Component {
   static propTypes = {

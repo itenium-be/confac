@@ -1,5 +1,5 @@
 import React from 'react';
-import { t, moneyFormat } from '../../util.js';
+import {t, moneyFormat } from '../../util.js';
 
 const amountsStyle = {textAlign: 'right', float: 'right'};
 

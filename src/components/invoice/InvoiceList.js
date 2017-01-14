@@ -1,12 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { t, getNumeric } from '../util.js';
+import React, {Component, PropTypes } from 'react';
+import {connect } from 'react-redux';
+import {t, getNumeric } from '../util.js';
 
-import { AddIcon } from '../controls.js';
-import { Grid, Table } from 'react-bootstrap';
-import InvoiceListRow, { InvoiceListHeader, InvoiceListFooter } from './InvoiceListRow.js';
-import { InvoiceSearch } from './controls/InvoiceSearch.js';
-import { updateInvoiceFilters } from '../../actions/index.js';
+import {AddIcon } from '../controls.js';
+import {Grid, Table } from 'react-bootstrap';
+import InvoiceListRow, {InvoiceListHeader, InvoiceListFooter } from './InvoiceListRow.js';
+import {InvoiceSearch } from './controls/InvoiceSearch.js';
+import {updateInvoiceFilters } from '../../actions/index.js';
 
 function searchInvoiceFor(invoice, text) {
   text = text.toLowerCase();

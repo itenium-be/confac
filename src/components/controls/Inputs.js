@@ -1,7 +1,7 @@
 import React from 'react';
-import { Col, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import {Col, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import ReactSwitch from 'react-ios-switch';
-import { t } from '../util.js';
+import {t } from '../util.js';
 
 export const Switch = ({checked, onChange, label, style, ...props}) => (
   <div style={{...style, position: 'relative'}}>

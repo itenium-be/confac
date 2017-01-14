@@ -1,11 +1,11 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { t } from '../util.js';
+import React, {Component, PropTypes } from 'react';
+import {connect } from 'react-redux';
+import {t } from '../util.js';
 
-import { Grid, Row, Col, Form } from 'react-bootstrap';
-import { EditCompany } from './EditCompany.js';
-import { ClientSelect, BusyButton } from '../controls.js';
-import { updateConfig } from '../../actions/index.js';
+import {Grid, Row, Col, Form } from 'react-bootstrap';
+import {EditCompany } from './EditCompany.js';
+import {ClientSelect, BusyButton } from '../controls.js';
+import {updateConfig } from '../../actions/index.js';
 
 class EditConfig extends Component {
   static propTypes = {

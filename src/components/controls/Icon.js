@@ -1,9 +1,9 @@
-import React, { PropTypes, Component } from 'react';
-import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
+import React, {PropTypes, Component } from 'react';
+import {connect } from 'react-redux';
+import {browserHistory } from 'react-router';
 import ReactTooltip from 'react-tooltip';
 import cn from 'classnames';
-import { EnhanceWithConfirmation, EnhanceWithBusySpinner } from '../enhancers/index.js';
+import {EnhanceWithConfirmation, EnhanceWithBusySpinner } from '../enhancers/index.js';
 import t from '../../trans.js';
 
 export class Icon extends Component {

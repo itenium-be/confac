@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
-import { t, moneyFormat } from '../../util.js';
+import {t, moneyFormat } from '../../util.js';
 
 export const InvoicesSummary = ({invoices}) => {
   const moneys = invoices.map(i => i.money);

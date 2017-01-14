@@ -1,7 +1,7 @@
 import React from 'react';
-import { Nav, Navbar, NavItem } from 'react-bootstrap';
-import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
-import { t } from '../util.js';
+import {Nav, Navbar, NavItem } from 'react-bootstrap';
+import {LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
+import {t } from '../util.js';
 
 const Header = () => (
   <Navbar>

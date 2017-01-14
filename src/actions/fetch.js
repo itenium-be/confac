@@ -1,5 +1,5 @@
-import { failure } from './appActions.js';
-import { store } from '../store.js';
+import {failure } from './appActions.js';
+import {store } from '../store.js';
 
 const urlPrefix = 'http://localhost:3001/api'; // TODO: put this in some environment config
 
