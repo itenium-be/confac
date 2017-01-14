@@ -1,10 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { LabeledInput } from './Inputs.js';
+import { LabeledInput } from '../../controls.js';
 import Select from 'react-select';
-
-// TODO: move this to client folder
 
 class ClientSelectComponent extends Component {
   static propTypes = {
