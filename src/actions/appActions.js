@@ -52,3 +52,10 @@ export function updateConfig(newConfig) {
       .then(() => dispatch(busyToggle.off()));
   };
 }
+
+export function updateInvoiceFilters(filters) {
+  return {
+    type: ACTION_TYPES.APP_INVOICE_FILTERSUPDATED,
+    filters
+  };
+}

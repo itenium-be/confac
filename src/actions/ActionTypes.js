@@ -3,6 +3,7 @@ import keyMirror from 'keymirror';
 export const ACTION_TYPES = keyMirror({
   INITIAL_LOAD: '',
   APP_BUSYTOGGLE: '',
+  APP_INVOICE_FILTERSUPDATED: '',
 
   CONFIG_FETCHED: '',
   CONFIG_UPDATE_NEXTINVOICE_NUMBER: '',

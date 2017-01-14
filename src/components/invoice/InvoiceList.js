@@ -6,6 +6,7 @@ import { AddIcon } from '../controls.js';
 import { Grid, Table } from 'react-bootstrap';
 import InvoiceListRow, { InvoiceListHeader, InvoiceListFooter } from './InvoiceListRow.js';
 import { InvoiceSearch } from './controls/InvoiceSearch.js';
+import { updateInvoiceFilters } from '../../actions/index.js';
 
 const getNumeric = text => text.replace(/[^0-9]+/g, '');
 
@@ -40,20 +41,15 @@ function searchInvoiceFor(invoice, text) {
 class InvoiceList extends Component {
   static propTypes = {
     invoices: PropTypes.array.isRequired,
-  }
-
-  constructor() {
-    super();
-    this.state = {
-      filters: {
-        search: [],
-        unverifiedOnly: false,
-      },
-    };
+    updateInvoiceFilters: PropTypes.func.isRequired,
+    filters: PropTypes.shape({
+      search: PropTypes.array.isRequired,
+      unverifiedOnly: PropTypes.bool.isRequired,
+    }),
   }
 
   render() {
-    const {search, unverifiedOnly} = this.state.filters;
+    const {search, unverifiedOnly} = this.props.filters;
 
     var invoices = this.props.invoices;
     if (unverifiedOnly) {
@@ -96,7 +92,7 @@ class InvoiceList extends Component {
         </Table>
 
 
-        <InvoiceSearch onChange={filters => this.setState({filters})} filters={this.state.filters} />
+        <InvoiceSearch onChange={filters => this.props.updateInvoiceFilters(filters)} filters={this.props.filters} />
 
 
       </Grid>
@@ -104,4 +100,4 @@ class InvoiceList extends Component {
   }
 }
 
-export default connect(state => ({invoices: state.invoices}), {})(InvoiceList);
+export default connect(state => ({invoices: state.invoices, filters: state.app.invoiceFilters}), {updateInvoiceFilters})(InvoiceList);

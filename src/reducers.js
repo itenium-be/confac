@@ -10,6 +10,10 @@ const defaultAppState = {
   isLoaded: false,
   isBusy: false,
   busyCount: 0,
+  invoiceFilters: {
+    search: [],
+    unverifiedOnly: false,
+  },
 };
 
 // Config is stored on the backend
@@ -40,6 +44,9 @@ export const app = (state = defaultAppState, action) => {
     const busyCount = state.busyCount + (action.why === 'moreBusy' ? 1 : -1);
     return {...state, busyCount, isBusy: busyCount > 0};
   }
+
+  case ACTION_TYPES.APP_INVOICE_FILTERSUPDATED:
+    return Object.assign({}, state, {invoiceFilters: action.filters});
 
   default:
     return state;
