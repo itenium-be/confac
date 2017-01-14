@@ -7,7 +7,7 @@ html
 			include pongit.css
 
 	body
-		img.logo(src=origin + "/pongit.png")
+		img(src=origin + "/pongit.png")
 
 		.your-company
 			dl
@@ -76,9 +76,9 @@ html
 					each line in lines
 						tr
 							td #{line.desc}
-							td(align="right") #{numberFormat(line.hours)}
+							td(align="right") #{numberFormat(line.value)}
 							td(align="right") #{numberFormat(line.rate)}
-							td(align="right") #{numberFormat(line.rate * line.hours)}
+							td(align="right") #{numberFormat(line.rate * line.value)}
 
 
 		.total-container

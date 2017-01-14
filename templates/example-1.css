@@ -2,6 +2,7 @@ body {
 	font-family: 'Roboto', sans-serif;
 	padding-top: 25px;
 	padding-left: 25px;
+	font-size: 12px;
 }
 
 dl {
@@ -54,19 +55,8 @@ hr {
 
 .their-company {
 	position: absolute;
-	left: 75px;
-	top: 100px;
-}
-.their-company .to {
-	margin-right: 7px;
-}
-
-
-.container {
-	position: absolute;
-	top: 200px;
-	left: 50px;
-	right: 50px;
+	left: 250px;
+	top: 220px;
 }
 
 
@@ -75,38 +65,59 @@ hr {
 }
 
 
-.total-container {
-	margin-top: 800px;
-	margin-right: 25px;
-	width: 350px;
-	padding: 14px;
-	float: right;
+.container {
+	position: absolute;
+	top: 330px;
+	left: 50px;
+	right: 50px;
 }
-.total {
-	font-weight: bolder;
+
+table {
+	border-collapse: collapse;
+	margin-top: 20px;
+	border: 0;
 }
-.total-container div span {
-	width: 20%;
-	display: inline-block;
+
+table td {
+	padding: 5px;
 }
-.total-container div span:first-child {
-	width: 55%;
+
+th {
+	padding: 5px;
+	color: #128AF0;
+	text-transform: uppercase;
 }
-.total-container div span:last-child {
-	width: 25%;
+
+tbody tr {
+	height: 400px;
+	vertical-align: top
+}
+
+tfoot td {
+	border-bottom: 0;
+	border-top: 0;
+}
+
+tfoot tr:last-child td:last-child {
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+}
+
+tfoot tr td:first-child, tfoot tr {
+	border-left: 0;
+}
+
+tfoot tr:last-child td:last-child {
+	border-top: 1px solid black;
+}
+
+tfoot tr td:first-child {
 	text-align: right;
+	text-transform: uppercase;
 }
-.total-container div:first-child .amount {
-	border-top: 1px dotted #ccc;
-	margin-top: 10px;
-	padding-top: 10px;
-}
-.total-container div:last-child .amount {
-	border-top: 1px dotted #ccc;
-	border-bottom: 1px dotted #ccc;
-	margin-top: 10px;
-	padding-top: 10px;
-	padding-bottom: 10px;
+
+tfoot tr td:last-child {
+	text-align: center;
 }
 
 
