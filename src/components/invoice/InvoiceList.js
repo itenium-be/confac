@@ -46,7 +46,7 @@ class InvoiceList extends Component {
     const invoices = filterInvoices(this.props.invoices, this.props.filters);
     return (
       <Grid>
-        <AddIcon onClick="/invoice/create" label={t('nav.create')} />
+        <AddIcon onClick="/invoice/create" label={t('invoice.createNew')} />
         <Table condensed style={{marginTop: 10}}>
           <InvoiceListHeader />
           <tbody>

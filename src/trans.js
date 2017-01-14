@@ -1,8 +1,8 @@
 const trans = {
   title: 'Facturen',
   nav: {
-    create: 'Nieuwe factuur',
     config: 'Config',
+    clients: 'Klanten',
   },
   search: 'Zoeken',
   edit: 'Aanpassen',
@@ -32,6 +32,8 @@ const trans = {
     },
   },
   invoice: {
+    fileName: 'Invoice pdf bestandsnaam',
+    createNew: 'Nieuwe factuur',
     invoices: 'Facturen',
     client: 'Klant',
     number: 'Factuurnummer',
@@ -66,6 +68,11 @@ const trans = {
     updatePdf: 'Pdf updaten',
   },
   client: {
+    createNew: 'Nieuwe klant',
+    name: 'Klant',
+    contact: 'Contact',
+    rate: 'Tarief',
+    totals: 'Totalen',
     projectDesc: 'Omschrijving',
     hourlyRate: 'Uurprijs',
   },

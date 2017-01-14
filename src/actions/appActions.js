@@ -62,3 +62,11 @@ export function updateInvoiceFilters(filters) {
     filters
   };
 }
+
+export function deleteClient() {
+
+}
+
+export function saveClient() {
+
+}

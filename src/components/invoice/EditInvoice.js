@@ -4,7 +4,7 @@ import { t, InvoiceModel } from '../util.js';
 
 import { DatePicker, ClientSelect, NumericInput, StringInput } from '../controls.js';
 import { Grid, Row, Col, Form } from 'react-bootstrap';
-import ClientDetails from '../client/ClientDetails.js';
+import ClientDetails from '../client/controls/ClientDetails.js';
 import EditInvoiceLines from './EditInvoiceLines.js';
 import InvoiceNotVerifiedAlert from './controls/InvoiceNotVerifiedAlert.js';
 import { EditInvoiceSaveButtons } from './controls/EditInvoiceSaveButtons.js';
@@ -62,7 +62,7 @@ class EditInvoice extends Component {
     }
   }
 
-  _createInvoice(type) {
+  _onSave(type) {
     if (type === 'create') {
       this.props.createInvoice(this.state.invoice);
     } else if (type === 'preview') {
@@ -132,7 +132,7 @@ class EditInvoice extends Component {
             <InvoiceAttachmentsForm invoice={model} />
           </Row>
           <Row style={{marginBottom: 8}}>
-            <EditInvoiceSaveButtons onClick={this._createInvoice.bind(this)} isNewInvoice={model.isNew} />
+            <EditInvoiceSaveButtons onClick={this._onSave.bind(this)} isNewInvoice={model.isNew} />
           </Row>
         </Form>
       </Grid>

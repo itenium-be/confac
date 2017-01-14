@@ -18,6 +18,7 @@ body {
 
 .button-row {
 	text-align: center;
+	margin-bottom: 8px;
 }
 .button-row > button:not(:last-child) {
 	margin-right: 46px;

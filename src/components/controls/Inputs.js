@@ -1,6 +1,7 @@
 import React from 'react';
-import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Col, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import ReactSwitch from 'react-ios-switch';
+import { t } from '../util.js';
 
 export const Switch = ({checked, onChange, label, style}) => (
   <div style={style}>
@@ -8,7 +9,7 @@ export const Switch = ({checked, onChange, label, style}) => (
       checked={checked}
       onChange={onChange}
     />
-    <span style={{position: 'absolute', left: 75, bottom: 8}}>{label}</span>
+    <span style={{position: 'absolute', left: 75, bottom: 10}}>{label}</span>
   </div>
 );
 
@@ -60,4 +61,20 @@ export const StringInput = ({label, value, onChange}) => {
     return <LabeledInput label={label}>{Input}</LabeledInput>;
   }
   return Input;
+};
+
+export const StringInputArray = ({keys, model, onChange, tPrefix}) => {
+  return (
+    <div>
+      {keys.map(key => (
+        <Col sm={4} key={key}>
+          <StringInput
+            label={t(tPrefix + key)}
+            value={model[key]}
+            onChange={value => onChange({...model, [key]: value})}
+          />
+        </Col>
+      ))}
+    </div>
+  );
 };

@@ -7,8 +7,11 @@ const Header = () => (
   <Navbar>
     <Nav>
       <IndexLinkContainer to="/">
-        <NavItem eventKey={3}>{t('title')}</NavItem>
+        <NavItem eventKey={1}>{t('title')}</NavItem>
       </IndexLinkContainer>
+      <LinkContainer to={{pathname: '/clients'}}>
+        <NavItem eventKey={3} href="#">{t('nav.clients')}</NavItem>
+      </LinkContainer>
       <LinkContainer to={{pathname: '/config'}}>
         <NavItem eventKey={2} href="#">{t('nav.config')}</NavItem>
       </LinkContainer>
