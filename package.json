@@ -19,7 +19,8 @@
     "koa-static": "^2.0.0",
     "moment": "^2.15.2",
     "numeral": "^1.5.3",
-    "pug": "^2.0.0-beta6"
+    "pug": "^2.0.0-beta6",
+    "slugify": "^1.1.0"
   },
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
