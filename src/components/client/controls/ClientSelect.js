@@ -29,7 +29,7 @@ class ClientSelectComponent extends Component {
     const Selecter = (
       <Select
         value={selectedClientId}
-        options={clients.map(item => ({value: item._id, label: item.name}))}
+        options={clients.sort((a, b) => a.name.localeCompare(b.name)).map(item => ({value: item._id, label: item.name}))}
         onChange={item => this.props.onChange(this.getClient(item.value))}
         clearable={false}
       />
