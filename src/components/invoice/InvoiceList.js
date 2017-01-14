@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { t } from '../util.js';
+import { t, getNumeric } from '../util.js';
 
 import { AddIcon } from '../controls.js';
 import { Grid, Table } from 'react-bootstrap';
@@ -8,16 +8,10 @@ import InvoiceListRow, { InvoiceListHeader, InvoiceListFooter } from './InvoiceL
 import { InvoiceSearch } from './controls/InvoiceSearch.js';
 import { updateInvoiceFilters } from '../../actions/index.js';
 
-const getNumeric = text => text.replace(/[^0-9]+/g, '');
-
 function searchInvoiceFor(invoice, text) {
   text = text.toLowerCase();
 
   if (invoice.orderNr.toLowerCase().includes(text)) {
-    return true;
-  }
-
-  if (invoice.number === parseInt(text, 10)) {
     return true;
   }
 
@@ -49,35 +43,7 @@ class InvoiceList extends Component {
   }
 
   render() {
-    const {search, unverifiedOnly} = this.props.filters;
-
-    var invoices = this.props.invoices;
-    if (unverifiedOnly) {
-      invoices = invoices.filter(i => !i.verified);
-    }
-
-    if (search.length) {
-      const yearFilters = search.filter(f => f.type === 'year').map(f => f.value);
-      if (yearFilters.length) {
-        invoices = invoices.filter(i => yearFilters.includes(i.date.year()));
-      }
-
-      const clientFilters = search.filter(f => f.type === 'client').map(f => f.value);
-      if (clientFilters.length) {
-        invoices = invoices.filter(i => clientFilters.includes(i.client._id));
-      }
-
-      const invoiceLineDescFilters = search.filter(f => f.type === 'invoice_line').map(f => f.value);
-      if (invoiceLineDescFilters.length) {
-        invoices = invoices.filter(i => invoiceLineDescFilters.some(descFilter => i.lines.map(l => l.desc).includes(descFilter)));
-      }
-
-      const otherFilters = search.filter(f => !f.type).map(f => f.value);
-      otherFilters.forEach(otherFilter => {
-        invoices = invoices.filter(i => searchInvoiceFor(i, otherFilter));
-      });
-    }
-
+    const invoices = filterInvoices(this.props.invoices, this.props.filters);
     return (
       <Grid>
         <AddIcon onClick="/invoice/create" label={t('nav.create')} />
@@ -99,5 +65,47 @@ class InvoiceList extends Component {
     );
   }
 }
+
+function filterInvoices(invoices, filters) {
+  const {search, unverifiedOnly} = filters;
+
+  const directInvoiceNrSearches = search.filter(f => f.type === 'invoice-nr').map(f => f.value);
+  if (directInvoiceNrSearches.length) {
+    return invoices.filter(i => directInvoiceNrSearches.includes(i.number));
+  }
+
+
+
+  if (unverifiedOnly) {
+    invoices = invoices.filter(i => !i.verified);
+  }
+
+
+
+  if (search.length) {
+    const yearFilters = search.filter(f => f.type === 'year').map(f => f.value);
+    if (yearFilters.length) {
+      invoices = invoices.filter(i => yearFilters.includes(i.date.year()));
+    }
+
+    const clientFilters = search.filter(f => f.type === 'client').map(f => f.value);
+    if (clientFilters.length) {
+      invoices = invoices.filter(i => clientFilters.includes(i.client._id));
+    }
+
+    const invoiceLineDescFilters = search.filter(f => f.type === 'invoice_line').map(f => f.value);
+    if (invoiceLineDescFilters.length) {
+      invoices = invoices.filter(i => invoiceLineDescFilters.some(descFilter => i.lines.map(l => l.desc).includes(descFilter)));
+    }
+
+    const otherFilters = search.filter(f => !f.type).map(f => f.value);
+    otherFilters.forEach(otherFilter => {
+      invoices = invoices.filter(i => searchInvoiceFor(i, otherFilter));
+    });
+  }
+
+  return invoices;
+}
+
 
 export default connect(state => ({invoices: state.invoices, filters: state.app.invoiceFilters}), {updateInvoiceFilters})(InvoiceList);

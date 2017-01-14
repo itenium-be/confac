@@ -59,6 +59,17 @@ class InvoiceSearchSelectComponent extends Component {
     onChange: PropTypes.func.isRequired,
   }
 
+  onChange(value) {
+    // Consider pure int manual input
+    // to be search on invoice number
+    value.filter(f => !f.type && +f.value).forEach(f => {
+      f.type = 'invoice-nr';
+      f.value = parseInt(f.value, 10);
+    });
+
+    this.props.onChange(value);
+  }
+
   render() {
     const {clients, invoices} = this.props;
     if (invoices.length === 0) {
@@ -80,7 +91,7 @@ class InvoiceSearchSelectComponent extends Component {
       <Select.Creatable
         value={this.props.value}
         options={options}
-        onChange={value => this.props.onChange(value)}
+        onChange={this.onChange.bind(this)}
         clearable
         multi
         clearValueText={t('controls.clearValueText')}
