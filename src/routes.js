@@ -19,6 +19,8 @@ const Routes = (
     <Route path="/client/:id" component={EditClient} />
 
     <Route path="/config" component={EditConfig} />
+
+    <Route path="*" component={InvoiceList}/>
   </Route>
 );
 
