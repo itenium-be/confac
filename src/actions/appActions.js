@@ -1,5 +1,4 @@
 import request from 'superagent-bluebird-promise';
-import { browserHistory } from 'react-router';
 
 import { ACTION_TYPES } from './ActionTypes.js';
 import { buildUrl, catchHandler } from './fetch.js';
@@ -80,7 +79,7 @@ export function saveClient(client) {
         });
         dispatch(success(t('config.popupMessage')));
         if (res.body.active === client.active) {
-          browserHistory.push('/clients');
+          window.history.back();
         }
       })
       .catch(catchHandler)
