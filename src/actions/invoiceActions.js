@@ -178,6 +178,13 @@ function getInvoiceFileName(data) {
 }
 
 function openWindow(pdf, fileName) {
+  // TODO: this solution doesn't work on Internet Exploder
+  // GET request /attachment that just returns the bytestream
+  // and then here:
+  //window.open('data:application/pdf,' + escape(pdf));
+  // (that could work right?)
+
+  // Does work on Chrome and Firefox
   var win = window.open('', '', '');
   if (win.document) {
     const html = `
