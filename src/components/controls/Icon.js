@@ -75,4 +75,8 @@ export const EditIcon = ({...props}) => {
   return <Icon fa="fa fa-pencil-square-o" title={t('edit')} {...props} />;
 };
 
+export const ClientEditIcon = ({client, ...props}) => {
+  return <EditIcon onClick={'/client/' + client.slug} {...props} />;
+};
+
 export const ConfirmedDeleteIcon = EnhanceWithConfirmation(DeleteIcon);

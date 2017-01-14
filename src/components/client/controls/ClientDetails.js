@@ -1,12 +1,12 @@
 import React from 'react';
-import {EditIcon} from '../../controls.js';
+import {ClientEditIcon} from '../../controls.js';
 
 const ClientDetails = ({client}) => (
   <div>
     <h4>
       {client.name}
       <small style={{marginLeft: 6}}>
-        <EditIcon title="" size={1} onClick={'/client/' + client._id} />
+        <ClientEditIcon client={client} title="" size={1} />
       </small>
     </h4>
     <div>{client.address}</div>

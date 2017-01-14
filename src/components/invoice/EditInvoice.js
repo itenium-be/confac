@@ -39,7 +39,8 @@ class EditInvoice extends Component {
   createModel(props) {
     if (props.params.id) {
       // Existing invoice
-      return new InvoiceModel(props.config, props.invoices.find(invoice => invoice._id === props.params.id));
+      const invoice = props.invoices.find(i => i.number === parseInt(props.params.id, 10));
+      return new InvoiceModel(props.config, invoice);
 
     } else {
       // New invoice

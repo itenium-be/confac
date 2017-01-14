@@ -30,6 +30,7 @@ const trans = {
       btw: 'BTW',
       template: 'Html template',
       website: 'Website',
+      slug: 'Bedrijfsnaam in de url',
     },
   },
   invoice: {

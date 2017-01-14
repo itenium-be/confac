@@ -22,7 +22,7 @@ export function createInvoice(data) {
         });
 
         dispatch(success(t('invoice.createConfirm')));
-        //browserHistory.push('/invoice/' + res.body._id);
+        //browserHistory.push('/invoice/' + res.body.number);
         browserHistory.push('/');
       })
       .catch(catchHandler)

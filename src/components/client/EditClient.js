@@ -33,7 +33,7 @@ class EditClient extends Component {
   copyClient(props) {
     if (props.params.id) {
       // Existing client
-      const client = props.clients.find(c => c._id === props.params.id);
+      const client = props.clients.find(c => c.slug === props.params.id);
       if (client) {
         return JSON.parse(JSON.stringify(client));
       }
@@ -74,7 +74,7 @@ class EditClient extends Component {
           <Row>
             <h4>{t('client.contact')}</h4>
             <StringInputArray
-              keys={['name', 'address', 'city', 'btw', 'telephone']}
+              keys={['name', 'address', 'city', 'btw', 'telephone', 'slug']}
               model={client}
               onChange={value => this.setState({...client, ...value})}
               tPrefix="config.company."

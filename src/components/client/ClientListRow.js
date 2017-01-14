@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {t} from '../util.js';
 
-import {EditIcon, InvoiceWorkedDays, InvoicesSummary, DeleteIcon} from '../controls.js';
+import {ClientEditIcon, InvoiceWorkedDays, InvoicesSummary, DeleteIcon} from '../controls.js';
 import {saveClient} from '../../actions/index.js';
 
 
@@ -47,7 +47,7 @@ class ClientListRow extends Component {
         <td><InvoiceWorkedDays invoices={invoices} display="client" /></td>
         <td style={{whiteSpace: 'nowrap'}}><InvoicesSummary invoices={invoices} /></td>
         <td className="icons-cell" width="120px">
-          <EditIcon onClick={'/client/' + client._id} />
+          <ClientEditIcon client={client} />
           <DeleteIcon
             onClick={() => this.props.saveClient({...client, active: !client.active}, true)}
             title={client.active ? t('client.deactivateTitle') : t('client.activateTitle')}
