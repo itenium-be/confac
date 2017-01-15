@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon -e js,pug,css --exec babel-node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "http-server ./dist -o"
+    "serve": "http-server ./dist -o",
+    "prod": "babel-node server.js"
   },
   "author": "Wouter Van Schandevijl <woutervs@hotmail.com>",
   "license": "MIT",
