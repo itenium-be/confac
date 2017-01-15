@@ -18,7 +18,7 @@ class ClientSelectComponent extends Component {
 
   render() {
     const {value} = this.props;
-    const selectedClientId = typeof value === 'object' ? value._id : value;
+    const selectedClientId = value && typeof value === 'object' ? value._id : value;
     const selectedClient = this.props.clients.find(c => c._id === selectedClientId);
 
     var clients = this.props.clients.filter(c => c.active);
