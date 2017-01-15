@@ -1,4 +1,6 @@
 import {createApp} from './server-init.js';
 
+const config = require('./config.json');
+
 const app = createApp();
-app.listen(3001);
+app.listen(config.server.port);

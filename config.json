@@ -1,7 +1,10 @@
 {
 	"db" : {
 		"host": "localhost",
-		"db": "confac",
-		"port": 27017
+		"db": "confac-dev",
+		"port": 27018
+	},
+	"server": {
+		"port": 3001
 	}
 }
