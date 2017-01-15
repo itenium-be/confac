@@ -7,10 +7,9 @@ import {Row, Col} from 'react-bootstrap';
 import Select from 'react-select';
 import {LabeledInput, Switch} from '../../controls/Inputs.js';
 
-class InvoiceSearchComponent extends Component {
+export class InvoiceSearch extends Component {
   static propTypes = {
-    invoices: PropTypes.array.isRequired,
-    clients: PropTypes.array.isRequired,
+    filteredInvoices: PropTypes.array.isRequired,
     filters: PropTypes.shape({
       search: PropTypes.array.isRequired,
       unverifiedOnly: PropTypes.bool.isRequired,
@@ -31,7 +30,11 @@ class InvoiceSearchComponent extends Component {
       <Row>
         <Col sm={8}>
           <LabeledInput label={t('search')}>
-            <InvoiceSearchSelect onChange={value => this.onFilterChange({search: value})} value={search} />
+            <InvoiceSearchSelect
+              onChange={value => this.onFilterChange({search: value})}
+              value={search}
+              invoices={this.props.filteredInvoices}
+            />
           </LabeledInput>
         </Col>
         <Col sm={4}>
@@ -77,7 +80,9 @@ class InvoiceSearchSelectComponent extends Component {
     }
 
     var options = [];
-    options = options.concat(clients.map(client => ({value: client._id, label: client.name, type: 'client'})));
+    const invoiceIds = invoices.map(i => i.client._id);
+    const relevantClients = clients.filter(c => invoiceIds.includes(c._id));
+    options = options.concat(relevantClients.map(client => ({value: client._id, label: client.name, type: 'client'})));
 
     const invoiceYears = getInvoiceYears(invoices);
     options = options.concat(invoiceYears.map(year => ({value: year, label: year, type: 'year'})));
@@ -104,8 +109,7 @@ class InvoiceSearchSelectComponent extends Component {
   }
 }
 
-export const InvoiceSearch = connect(state => ({invoices: state.invoices, clients: state.clients}))(InvoiceSearchComponent);
-export const InvoiceSearchSelect = connect(state => ({invoices: state.invoices, clients: state.clients}))(InvoiceSearchSelectComponent);
+const InvoiceSearchSelect = connect(state => ({clients: state.clients}))(InvoiceSearchSelectComponent);
 
 
 

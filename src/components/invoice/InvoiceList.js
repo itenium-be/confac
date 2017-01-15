@@ -57,9 +57,11 @@ class InvoiceList extends Component {
           <InvoiceListFooter invoices={invoices} />
         </Table>
 
-
-        <InvoiceSearch onChange={filters => this.props.updateInvoiceFilters(filters)} filters={this.props.filters} />
-
+        <InvoiceSearch
+          onChange={filters => this.props.updateInvoiceFilters(filters)}
+          filters={this.props.filters}
+          filteredInvoices={invoices}
+        />
 
       </Grid>
     );
