@@ -1,11 +1,12 @@
 {
   "name": "confac-back",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "server.js",
   "scripts": {
     "start": "nodemon -e js,pug,css --exec babel-node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "http-server ./dist -o"
   },
   "author": "Wouter Van Schandevijl <woutervs@hotmail.com>",
   "license": "MIT",
@@ -23,10 +24,14 @@
     "slugify": "^1.1.0"
   },
   "devDependencies": {
-    "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.0",
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-es2015": "^6.18.0",
+    "gulp": "^3.9.1",
+    "gulp-plumber": "^1.1.0",
+    "gulp-pug": "^3.2.0",
+    "http-server": "^0.9.0",
     "nodemon": "^1.11.0"
   }
 }

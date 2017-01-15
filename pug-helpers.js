@@ -1,5 +1,5 @@
-import moment from 'moment';
-import numeral from 'numeral';
+var moment = require('moment');
+var numeral = require('numeral');
 
 numeral.language('nl', {
   delimiters: {thousands: '.', decimal: ','},
@@ -7,7 +7,9 @@ numeral.language('nl', {
 });
 numeral.language('nl');
 
-export const locals = {
-  formatDate: dateString => moment(dateString).format('DD/MM/YYYY'),
-  numberFormat: number => numeral(number).format('0,0.00'),
+module.exports = {
+  locals: {
+    formatDate: dateString => moment(dateString).format('DD/MM/YYYY'),
+    numberFormat: number => numeral(number).format('0,0.00'),
+  }
 };
