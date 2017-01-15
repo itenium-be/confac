@@ -17,7 +17,7 @@ export const createApp = () => {
 
   app.use(koaCors());
   app.use(koaBodyParser());
-  app.use(koaServe('./templates/'));
+  app.use(koaServe(__dirname + '/public'));
 
   const db = require('./config.json').db;
   app.use(koaMongo({
