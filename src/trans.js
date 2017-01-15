@@ -91,9 +91,14 @@ const trans = {
     },
   },
   controls: {
+    // browser
     popupBlockerTitle: 'Mislukt!? Popup blocker misschien?',
     popupBlocker: 'Schakel de popupblocker voor deze pagina uit. Pdf preview is anders niet beschikbaar.',
-    dateTimeToday: 'Vandaag',
+
+    // TODO: datepicker has some dutch labels in /controls/DatePicker.js
+    today: 'Vandaag',
+
+    // select
     noResultsText: 'Geen resultaten',
     clearValueText: 'Filter verwijderen',
     clearAllText: 'Alle filters verwijderen',

@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import moment from 'moment';
+import { t } from '../util.js';
 
 import {LabeledInput} from './Inputs.js';
 import BootstrapDatePicker from 'react-bootstrap-date-picker';
@@ -19,6 +20,9 @@ export class DatePicker extends Component {
         dateFormat="DD/MM/YYYY"
         monthLabels={['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'October', 'November', 'December']}
         dayLabels={['Zon', 'Ma', 'Di', 'Woe', 'Do', 'Vr', 'Zat']}
+        showTodayButton={true}
+        todayButtonLabel={t('controls.today')}
+        weekStartsOnMonday={true}
       />
     );
 
