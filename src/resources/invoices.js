@@ -2,6 +2,7 @@ import Router from 'koa-router';
 import {locals} from '../pug-helpers.js';
 import pug from 'pug';
 import pdf from 'html-pdf';
+import path from 'path';
 
 export default function register(app) {
   const router = new Router({

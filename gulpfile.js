@@ -11,7 +11,7 @@ var dest = './dist/';
 var gulp = require('gulp');
 var plumber = require('gulp-plumber');
 var pug = require('gulp-pug');
-var locals = require('./pug-helpers.js').locals;
+var locals = require('./src/pug-helpers.js').locals;
 
 gulp.task('pug', function() {
   gulp.src(src + '*.pug')

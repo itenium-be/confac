@@ -17,9 +17,11 @@ export const createApp = () => {
 
   app.use(koaCors());
   app.use(koaBodyParser());
-  app.use(koaServe(__dirname + '/public'));
+  // app.use(koaServe(__dirname + '../public'));
+  app.use(koaServe('./public'));
+  app.use(koaServe('./templates'));
 
-  const db = require('./config.json').db;
+  const db = require('../config.json').db;
   app.use(koaMongo({
     uri: `mongodb://${db.host}:${db.port}/${db.db}`,
     max: 100,

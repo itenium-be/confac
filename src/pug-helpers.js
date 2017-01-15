@@ -1,3 +1,5 @@
+// ES5: Usage from gulpfile
+
 var moment = require('moment');
 var numeral = require('numeral');
 
