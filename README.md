@@ -3,17 +3,13 @@ confac-back
 Starting DEV
 ------------
 
+Expects running mongo with `config.json` settings.
+
 ```
-# Start Mongo
-cd ../vagrant/
-vagrant up
-
-# Run Mongo Migrations
-npm run mm
-
 # Start server
 npm start
 ```
+
 
 Template testing
 ----------------

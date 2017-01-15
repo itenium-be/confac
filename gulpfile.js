@@ -1,5 +1,9 @@
 'use strict';
 
+// Generate html templates on file save
+// To start a static http server:
+// $ npm run serve
+
 var src = './templates/';
 var dest = './dist/';
 
