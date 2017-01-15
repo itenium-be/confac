@@ -18,8 +18,8 @@ export const createApp = config => {
   app.use(koaCors());
   app.use(koaBodyParser());
   // app.use(koaServe(__dirname + '../public'));
-  app.use(koaServe('./public'));
-  app.use(koaServe('./templates'));
+  app.use(koaServe(`./${config.basePath}public`));
+  app.use(koaServe(`./${config.basePath}templates`));
 
   const db = config.db;
   app.use(koaMongo({

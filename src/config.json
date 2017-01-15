@@ -5,6 +5,7 @@
 		"port": 27018
 	},
 	"server": {
-		"port": 3001
+		"port": 3001,
+		"basePath": ""
 	}
 }
