@@ -79,3 +79,23 @@ export const StringInputArray = ({keys, model, onChange, tPrefix}) => {
     </div>
   );
 };
+
+export const InputArray = ({config, model, onChange, tPrefix}) => {
+  if (!model._id) {
+    config = config.filter(c => !c.updateOnly);
+  }
+
+  return (
+    <div>
+      {config.map(col => (
+        <Col sm={4} key={col.key}>
+          <StringInput
+            label={t(tPrefix + col.key)}
+            value={model[col.key]}
+            onChange={value => onChange({...model, [col.key]: value})}
+          />
+        </Col>
+      ))}
+    </div>
+  );
+};

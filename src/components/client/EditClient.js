@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {t} from '../util.js';
 
-import {BusyButton, StringInput, StringInputArray} from '../controls.js';
+import {BusyButton, StringInput, InputArray} from '../controls.js';
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import {saveClient} from '../../actions/index.js';
 import {EditClientRate} from './controls/EditClientRate.js';
@@ -68,13 +68,28 @@ class EditClient extends Component {
       return <div />;
     }
 
+    const frmConfig = [{
+      key: 'name'
+    }, {
+      key: 'address'
+    }, {
+      key: 'city',
+    }, {
+      key: 'btw',
+    }, {
+      key: 'telephone',
+    }, {
+      key: 'slug',
+      updateOnly: true,
+    }];
+
     return (
       <Grid>
         <Form>
           <Row>
             <h4>{t('client.contact')}</h4>
-            <StringInputArray
-              keys={['name', 'address', 'city', 'btw', 'telephone', 'slug']}
+            <InputArray
+              config={frmConfig}
               model={client}
               onChange={value => this.setState({...client, ...value})}
               tPrefix="config.company."
