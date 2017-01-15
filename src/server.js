@@ -1,6 +1,6 @@
-import {createApp} from './server-init.js';
+require('babel-polyfill');
 
-const config = require('../config.json');
-
-const app = createApp();
+var createApp = require('./server-init.js').createApp;
+var config = require('../config.json');
+var app = createApp();
 app.listen(config.server.port);
