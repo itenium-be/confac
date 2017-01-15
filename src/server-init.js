@@ -9,7 +9,7 @@ String.prototype.toObjectId = function(key = '_id') {
   return {[key]: new ObjectId(this)};
 };
 
-export const createApp = () => {
+export const createApp = config => {
   const app = koa();
 
   // var delay = require('koa-delay');
@@ -21,7 +21,7 @@ export const createApp = () => {
   app.use(koaServe('./public'));
   app.use(koaServe('./templates'));
 
-  const db = require('../config.json').db;
+  const db = config.db;
   app.use(koaMongo({
     uri: `mongodb://${db.host}:${db.port}/${db.db}`,
     max: 100,
