@@ -70,6 +70,8 @@ const trans = {
     attachmentsAdd: 'Bijlage toevoegen',
     attachmentsDropzone: 'Drop hier bestanden of klik hier om factuur bijlagen op te laden',
     updatePdf: 'Pdf updaten',
+    pdfTemplateNotFoundTitle: 'Pdf template niet gevonden!',
+    pdfTemplateNotFound: 'De pdf template was niet gevonden (check Config)',
   },
   client: {
     createNew: 'Nieuwe klant',

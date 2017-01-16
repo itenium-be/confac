@@ -11,5 +11,5 @@ export const httpGet = url => fetch(buildUrl(url)).then(res => res.json());
 
 export function catchHandler(err) {
   console.log('oepsie', err); // eslint-disable-line
-  store.dispatch(failure(err));
+  store.dispatch(failure());
 }

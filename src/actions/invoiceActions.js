@@ -24,6 +24,12 @@ export function createInvoice(data) {
         dispatch(success(t('invoice.createConfirm')));
         //browserHistory.push('/invoice/' + res.body.number);
         browserHistory.push('/');
+      }, function(err) {
+        if (err.res.text === 'TemplateNotFound') {
+          dispatch(failure(t('invoice.pdfTemplateNotFoundTitle'), t('invoice.pdfTemplateNotFound')));
+        } else {
+          catchHandler(err);
+        }
       })
       .catch(catchHandler)
       .then(() => dispatch(busyToggle.off()));
