@@ -10,7 +10,7 @@ import InvoiceNotVerifiedAlert from './controls/InvoiceNotVerifiedAlert.js';
 import {EditInvoiceSaveButtons} from './controls/EditInvoiceSaveButtons.js';
 import InvoiceTotal from './controls/InvoiceTotal.js';
 import {InvoiceAttachmentsForm} from './controls/InvoiceAttachmentsForm.js';
-import {createInvoice, previewInvoice, updateInvoice, updateInvoicePdf} from '../../actions/index.js';
+import {invoiceAction} from '../../actions/index.js';
 
 class EditInvoice extends Component {
   static propTypes = {
@@ -23,10 +23,7 @@ class EditInvoice extends Component {
       isLoaded: PropTypes.bool,
     }).isRequired,
     clients: PropTypes.array.isRequired,
-    createInvoice: PropTypes.func.isRequired,
-    previewInvoice: PropTypes.func.isRequired,
-    updateInvoice: PropTypes.func.isRequired,
-    updateInvoicePdf: PropTypes.func.isRequired,
+    invoiceAction: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string
     }),
@@ -60,18 +57,6 @@ class EditInvoice extends Component {
       || nextProps.invoices !== this.props.invoices) {
 
       this.setState({invoice: this.createModel(nextProps)});
-    }
-  }
-
-  _onSave(type) {
-    if (type === 'create') {
-      this.props.createInvoice(this.state.invoice);
-    } else if (type === 'preview') {
-      this.props.previewInvoice(this.state.invoice);
-    } else if (type === 'update') {
-      this.props.updateInvoice(this.state.invoice);
-    } else if (type === 'update-pdf') {
-      this.props.updateInvoicePdf(this.state.invoice);
     }
   }
 
@@ -129,11 +114,11 @@ class EditInvoice extends Component {
               onChange={m => this.setState({model: m})}
             />
           </Row>
-          <Row style={{marginTop: -20}}>
+          <div style={{marginTop: -20}}>
             <InvoiceAttachmentsForm invoice={model} />
-          </Row>
+          </div>
           <Row style={{marginBottom: 8}}>
-            <EditInvoiceSaveButtons onClick={this._onSave.bind(this)} isNewInvoice={model.isNew} />
+            <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, this.state.invoice)} isNewInvoice={model.isNew} />
           </Row>
         </Form>
       </Grid>
@@ -146,4 +131,4 @@ export default connect(state => ({
   app: state.app,
   clients: state.clients,
   invoices: state.invoices,
-}), {createInvoice, previewInvoice, updateInvoice, updateInvoicePdf})(EditInvoice);
+}), {invoiceAction})(EditInvoice);

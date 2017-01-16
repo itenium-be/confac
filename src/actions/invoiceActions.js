@@ -58,6 +58,20 @@ function updateInvoiceRequest(data, successMsg, andGoHome) {
       .then(() => dispatch(busyToggle.off()));
   };
 }
+
+export function invoiceAction(invoice, type) {
+  if (type === 'create') {
+    return createInvoice(invoice);
+  } else if (type === 'preview') {
+    return previewInvoice(invoice);
+  } else if (type === 'update') {
+    return updateInvoice(invoice);
+  } else if (type === 'update-pdf') {
+    return updateInvoicePdf(invoice);
+  }
+  console.log('unknown incoiceAction', type, invoice);
+}
+
 export function updateInvoice(data) {
   return updateInvoiceRequest(data, undefined, true);
 }
