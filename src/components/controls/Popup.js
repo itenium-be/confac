@@ -11,6 +11,7 @@ export class Popup extends Component {
       onClick: PropTypes.func.isRequired,
       bsStyle: PropTypes.string,
       busy: PropTypes.bool,
+      disabled: PropTypes.bool
     })),
     onHide: PropTypes.func.isRequired,
   };
@@ -28,7 +29,16 @@ export class Popup extends Component {
         <Modal.Footer>
           {this.props.buttons.map((button, i) => {
             const UsedButton = button.busy ? BusyButton : Button;
-            return <UsedButton key={i} bsStyle={button.bsStyle || 'default'} onClick={button.onClick}>{button.text}</UsedButton>;
+            return (
+              <UsedButton
+                key={i}
+                bsStyle={button.bsStyle || 'default'}
+                onClick={button.onClick}
+                disabled={button.disabled}
+              >
+                {button.text}
+              </UsedButton>
+            );
           })}
         </Modal.Footer>
       </Modal>

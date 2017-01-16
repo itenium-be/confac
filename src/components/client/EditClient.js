@@ -104,7 +104,7 @@ class EditClient extends Component {
             <Col sm={8}>
               <StringInput
                 label={t('invoice.fileName')}
-                placeHolder={t('invoice.fileNamePlaceHolder')}
+                placeholder={t('invoice.fileNamePlaceHolder')}
                 value={client.invoiceFileName}
                 onChange={value => this.setState({...client, invoiceFileName: value})}
               />

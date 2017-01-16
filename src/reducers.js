@@ -3,6 +3,7 @@ import {ACTION_TYPES} from './actions/ActionTypes.js';
 
 const defaultConfig = {
   defaultClient: undefined,
+  attachmentTypes: [],
 };
 
 const defaultAppState = {
@@ -24,9 +25,6 @@ export const config = (state = defaultConfig, action) => {
 
   case ACTION_TYPES.CONFIG_UPDATE:
     return action.config;
-
-  case ACTION_TYPES.INITIAL_LOAD:
-    return {...state, isLoaded: true};
 
   default:
     return state;

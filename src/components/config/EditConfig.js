@@ -4,7 +4,7 @@ import {t} from '../util.js';
 
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import {EditCompany} from './EditCompany.js';
-import {ClientSelect, BusyButton} from '../controls.js';
+import {ClientSelect, BusyButton, StringInput} from '../controls.js';
 import {updateConfig} from '../../actions/index.js';
 
 class EditConfig extends Component {
@@ -39,6 +39,14 @@ class EditConfig extends Component {
                 label={t('config.defaultClient')}
                 value={this.state.defaultClient}
                 onChange={item => this.setState({defaultClient: item._id})}
+              />
+            </Col>
+            <Col sm={8}>
+              <StringInput
+                label={t('attachment.types')}
+                placeholder={t('attachment.typesPlaceholder')}
+                value={this.state.attachmentTypes.join(',')}
+                onChange={value => this.setState({attachmentTypes: value.split(',')})}
               />
             </Col>
           </Row>

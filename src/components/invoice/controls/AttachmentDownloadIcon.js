@@ -6,7 +6,7 @@ import t from '../../../trans.js';
 export class AttachmentDownloadIcon extends Component {
   static propTypes = {
     invoice: PropTypes.object.isRequired,
-    type: PropTypes.oneOf(['pdf', 'timesheet']),
+    type: PropTypes.string.isRequired,
   }
   constructor() {
     super();

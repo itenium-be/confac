@@ -7,7 +7,9 @@ const trans = {
   search: 'Zoeken',
   edit: 'Aanpassen',
   save: 'Bewaren',
+  cancel: 'Annuleren',
   delete: 'Verwijderen',
+  add: 'Toevoegen',
   no: 'Nee',
   toastrSuccessTitle: 'Mucho succes',
   toastrFailureTitle: 'Oh noes!',
@@ -68,10 +70,19 @@ const trans = {
     addLine: 'Factuurlijn toevoegen',
     attachments: 'Bijlagen',
     attachmentsAdd: 'Bijlage toevoegen',
-    attachmentsDropzone: 'Drop hier bestanden of klik hier om factuur bijlagen op te laden',
+    attachmentsDropzone: 'Drop hier een bestand of klik hier om een factuur bijlage op te laden',
     updatePdf: 'Pdf updaten',
     pdfTemplateNotFoundTitle: 'Pdf template niet gevonden!',
     pdfTemplateNotFound: 'De pdf template was niet gevonden (check Config)',
+    search: {
+      placeholder: 'Facturen filteren',
+    }
+  },
+  attachment: {
+    types: 'Bijlage types',
+    typesPlaceholder: 'Komma separated string :)',
+    type: 'Type bijlage',
+    typeExists: 'Dit type bijlage bestaat reeds voor deze factuur.',
   },
   client: {
     createNew: 'Nieuwe klant',
@@ -102,9 +113,13 @@ const trans = {
 
     // select
     noResultsText: 'Geen resultaten',
+    clearFilterValueText: 'Filter verwijderen',
     clearValueText: 'Filter verwijderen',
-    clearAllText: 'Alle filters verwijderen',
-    addLabelText: 'Filter "{value}" toevoegen?',
+    clearAllFiltersText: 'Alle filters verwijderen',
+    clearAllText: 'Alle verwijderen',
+    addFilterText: 'Filter "{value}" toevoegen?',
+    addLabelText: '"{value}" toevoegen?',
+    selectPlaceholder: 'Maak een keuze',
   }
 };
 

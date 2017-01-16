@@ -22,8 +22,8 @@ export function createInvoice(data) {
         });
 
         dispatch(success(t('invoice.createConfirm')));
-        //browserHistory.push('/invoice/' + res.body.number);
-        browserHistory.push('/');
+        browserHistory.push('/invoice/' + res.body.number);
+        //browserHistory.push('/');
       }, function(err) {
         if (err.res.text === 'TemplateNotFound') {
           dispatch(failure(t('invoice.pdfTemplateNotFoundTitle'), t('invoice.pdfTemplateNotFound')));
@@ -69,7 +69,7 @@ export function invoiceAction(invoice, type) {
   } else if (type === 'update-pdf') {
     return updateInvoicePdf(invoice);
   }
-  console.log('unknown incoiceAction', type, invoice);
+  console.log('unknown incoiceAction', type, invoice); // eslint-disable-line
 }
 
 export function updateInvoice(data) {
@@ -95,15 +95,17 @@ export function updateInvoicePdf(invoice) {
   };
 }
 
-export function updateInvoiceAttachment(invoice, type, files) {
+export function updateInvoiceAttachment(invoice, {type, file}) {
   return dispatch => {
     dispatch(busyToggle());
     var req = request.put(buildAttachmentUrl(invoice, type));
       //.set('Content-Type', 'application/json');
 
-    files.forEach(file => {
-      req.attach(file.name, file);
-    });
+    req.attach(file.name, file);
+
+    // file.forEach(f => {
+    //   req.attach(f.name, f);
+    // });
 
     req.then(function(res) {
       dispatch(success());

@@ -49,12 +49,12 @@ export const NumericInput = ({label, value, onChange, float = false}) => {
 };
 
 
-export const StringInput = ({label, value, onChange, placeHolder}) => {
+export const StringInput = ({label, value, onChange, placeholder}) => {
   const Input = (
     <FormControl
       type="text"
       value={value}
-      placeholder={placeHolder || label}
+      placeholder={placeholder || label}
       onChange={e => onChange(e.target.value)}
     />
   );

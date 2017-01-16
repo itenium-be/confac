@@ -1,7 +1,9 @@
-export * from './controls/DatePicker.js';
-export * from './controls/Inputs.js';
-export * from './controls/Icon.js';
 export * from './controls/Button.js';
+export * from './controls/DatePicker.js';
+export * from './controls/Icon.js';
+export * from './controls/Inputs.js';
+export * from './controls/Popup.js';
+export * from './controls/Select.js';
 
 export * from './client/controls/ClientSelect.js';
 

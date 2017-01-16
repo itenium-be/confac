@@ -75,9 +75,6 @@ class InvoiceSearchSelectComponent extends Component {
 
   render() {
     const {clients, invoices} = this.props;
-    if (invoices.length === 0) {
-      return <div />;
-    }
 
     var options = [];
     const invoiceIds = invoices.map(i => i.client._id);
@@ -99,11 +96,11 @@ class InvoiceSearchSelectComponent extends Component {
         onChange={this.onChange.bind(this)}
         clearable
         multi
-        clearValueText={t('controls.clearValueText')}
-        clearAllText={t('controls.clearAllText')}
+        clearValueText={t('controls.clearFilterValueText')}
+        clearAllText={t('controls.clearAllFiltersText')}
         noResultsText={t('controls.noResultsText')}
-        addLabelText={t('controls.addLabelText')}
-        promptTextCreator={value => t('controls.addLabelText', {value})}
+        promptTextCreator={value => t('controls.addFilterText', {value})}
+        placeholder={t('invoice.search.placeholder')}
       />
     );
   }
