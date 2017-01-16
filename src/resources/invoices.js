@@ -2,7 +2,6 @@ import Router from 'koa-router';
 import {locals} from '../pug-helpers.js';
 import pug from 'pug';
 import pdf from 'html-pdf';
-import path from 'path';
 
 export default function register(app) {
   const router = new Router({
@@ -16,6 +15,13 @@ export default function register(app) {
   router.post('/', function *() {
     const params = this.request.body;
     const html = createHtml(params, this.request.origin);
+
+    if (html.error) {
+      this.body = html.error;
+      this.status = 500;
+      return;
+    }
+
     const pdfBuffer = yield htmlToBuffer(html);
 
     const insertedInvoice = yield this.mongo.collection('invoices').insert(params);
@@ -55,7 +61,12 @@ export default function register(app) {
 
 
 export function createHtml(params, assetsPath) {
-  const compiledFunction = pug.compileFile('./templates/' + params.your.template);
+  var compiledFunction;
+  try {
+    compiledFunction = pug.compileFile('./templates/' + params.your.template);
+  } catch (e) {
+    return {error: 'TemplateNotFound'};
+  }
   return compiledFunction(Object.assign({}, locals, params, {origin: assetsPath}));
 }
 
