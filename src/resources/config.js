@@ -24,6 +24,7 @@ export default function register(app) {
           website: 'www.clicky-me-IT.be'
         },
         defaultClient: null,
+        attachmentTypes: ['Timesheet'],
       };
     } else {
       this.body = conf;
