@@ -2,6 +2,7 @@ import koa from 'koa';
 import koaCors from 'kcors';
 import koaBodyParser from 'koa-bodyparser';
 import koaServe from 'koa-static';
+import koaSend from 'koa-send';
 import koaMongo from 'koa-mongo';
 
 const ObjectId = require('mongodb').ObjectId;
@@ -34,6 +35,25 @@ export const createApp = config => {
   require('./resources/clients.js').default(app);
   require('./resources/invoices.js').default(app);
   require('./resources/attachments.js').default(app);
+
+  app.use(function *pageNotFound(next) {
+    yield next;
+
+    if (this.status !== 404) {
+      return;
+    }
+
+    this.status = 404;
+    console.log('404', this.req.url); // eslint-disable-line
+
+    if (this.req.url.startsWith('/api')) {
+      this.body = {message: 'Page Not Found: ' + this.req.url};
+      return;
+    }
+
+    //this.type = 'html';
+    yield koaSend(this, `./${config.server.basePath}public/index.html`);
+  });
 
   return app;
 };

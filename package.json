@@ -18,6 +18,7 @@
     "koa-bodyparser": "^2.2.0",
     "koa-mongo": "^0.6.0",
     "koa-router": "^5.4.0",
+    "koa-send": "^3.3.0",
     "koa-static": "^2.0.0",
     "moment": "^2.15.2",
     "numeral": "^1.5.3",
