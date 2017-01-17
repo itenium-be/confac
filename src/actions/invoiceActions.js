@@ -95,14 +95,14 @@ export function updateInvoicePdf(invoice) {
   };
 }
 
-export function deleteInvoiceAttachment(invoice, {type}) {
+export function deleteAttachment(model, modelType, {type}) {
   return dispatch => {
     dispatch(busyToggle());
-    request.delete(buildAttachmentUrl(invoice, type))
+    request.delete(buildAttachmentUrl(model, type))
       .then(function(res) {
         dispatch({
-          type: ACTION_TYPES.INVOICE_UPDATED,
-          invoice: res.body
+          type: modelType === 'invoice' ? ACTION_TYPES.INVOICE_UPDATED : ACTION_TYPES.CLIENT_UPDATE,
+          [modelType]: res.body
         });
 
         dispatch(success());
@@ -113,10 +113,10 @@ export function deleteInvoiceAttachment(invoice, {type}) {
   };
 }
 
-export function updateInvoiceAttachment(invoice, {type, file}) {
+export function updateAttachment(model, modelType, {type, file}) {
   return dispatch => {
     dispatch(busyToggle());
-    var req = request.put(buildAttachmentUrl(invoice, type));
+    var req = request.put(buildAttachmentUrl(model, type));
       //.set('Content-Type', 'application/json');
 
     req.attach(file.name, file);
@@ -127,8 +127,8 @@ export function updateInvoiceAttachment(invoice, {type, file}) {
 
     req.then(function(res) {
       dispatch({
-        type: ACTION_TYPES.INVOICE_UPDATED,
-        invoice: res.body
+        type: modelType === 'invoice' ? ACTION_TYPES.INVOICE_UPDATED : ACTION_TYPES.CLIENT_UPDATE,
+        [modelType]: res.body
       });
 
       dispatch(success());
@@ -231,11 +231,26 @@ export function downloadInvoice(invoice, attachment) {
     .catch(catchHandler);
 }
 
-function buildAttachmentUrl(invoice, type) {
-  return buildUrl(`/attachments/${invoice._id}/${type}`);
+export function downloadClientAttachment(client, attachment) {
+  // ATTN: Non-dispatchable
+  // We're not storing entire files in the state!
+  // + Would break the AttachmentDownloadIcon
+  return request.get(buildAttachmentUrl(client, attachment.type))
+    .set('Content-Type', 'application/json')
+    .then(function(res) {
+      //console.log('grr', attachment, res.body);
+      downloadFile(attachment, res.body);
+      return true;
+    })
+    .catch(catchHandler);
 }
 
-function getInvoiceFileName(data) {
+function buildAttachmentUrl(invoiceOrClient, type) {
+  const model = invoiceOrClient.money ? 'invoice' : 'client'; // HACK: dangerous stuff...
+  return buildUrl(`/attachments/${model}/${invoiceOrClient._id}/${type}`);
+}
+
+export function getInvoiceFileName(data) {
   var fileName = data.client.invoiceFileName;
 
   const nrRegex = /\{nr:(\d+)\}/;

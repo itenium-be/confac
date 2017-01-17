@@ -1,16 +1,51 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Dropzone from 'react-dropzone';
-import {t} from '../../util.js';
+import {t} from '../util.js';
 
 import {Row, Col, ControlLabel, FormGroup, Alert} from 'react-bootstrap';
-import {AttachmentDownloadIcon, AddIcon, Popup, SimpleSelect, ConfirmedDeleteIcon, EditIcon} from '../../controls.js';
-import {updateInvoiceAttachment, deleteInvoiceAttachment} from '../../../actions/index.js';
+import {AttachmentDownloadIcon, AddIcon, Popup, SimpleSelect, ConfirmedDeleteIcon, EditIcon} from '../controls.js';
+import {updateAttachment, deleteAttachment} from '../../actions/index.js';
 
-class InvoiceAttachmentsFormComponent extends Component {
+class AttachmentsFormComponent extends Component {
   static propTypes = {
-    deleteInvoiceAttachment: PropTypes.func.isRequired,
-    invoice: PropTypes.object.isRequired,
+    deleteAttachment: PropTypes.func.isRequired,
+    updateAttachment: PropTypes.func.isRequired,
+    invoice: PropTypes.object,
+    client: PropTypes.object,
+  }
+
+  render() {
+    const {invoice, client} = this.props;
+    const model = invoice || client;
+    const modelType = model === invoice ? 'invoice' : 'client';
+
+    if (!model._id) {
+      return <div />;
+    }
+
+    return (
+      <AbstractAttachmentsForm
+        attachments={model.attachments}
+        onDelete={att => this.props.deleteAttachment(model, modelType, att)}
+        onAdd={att => this.props.updateAttachment(model, modelType, att)}
+        model={model}
+        modelType={modelType}
+      />
+    );
+  }
+}
+
+export const AttachmentsForm = connect(() => ({}), {updateAttachment, deleteAttachment})(AttachmentsFormComponent);
+
+
+class AbstractAttachmentsForm extends Component {
+  static propTypes = {
+    attachments: PropTypes.array.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onAdd: PropTypes.func.isRequired,
+    model: PropTypes.object.isRequired,
+    modelType: PropTypes.oneOf(['invoice', 'client']),
   }
 
   constructor() {
@@ -23,35 +58,34 @@ class InvoiceAttachmentsFormComponent extends Component {
   }
 
   render() {
-    const {invoice} = this.props;
-    if (invoice.isNew) {
-      return <div />;
-    }
+    const canDeleteAttachments = this.props.attachments.length > (this.props.modelType === 'invoice' ? 1 : 0);
     return (
       <div>
         <Row>
           <h4>
             {t('invoice.attachments')}
-            <small>
+            {canDeleteAttachments ? (
+              <small>
                 <EditIcon
-                onClick={() => this.setState({isFormOpen: !this.state.isFormOpen})}
-                title=""
-                size={1}
-                style={{display: 'inline', marginLeft: 10}} />
-            </small>
+                  onClick={() => this.setState({isFormOpen: !this.state.isFormOpen})}
+                  title=""
+                  size={1}
+                  style={{display: 'inline', marginLeft: 10}} />
+              </small>
+            ) : null}
           </h4>
-          {invoice.attachments.map(att => (
+          {this.props.attachments.map(att => (
             <Col sm={3} key={att.type} style={{height: 45}}>
               <div
                 style={{padding: 5, marginTop: 10, border: this.state.isFormOpen && att.type === this.state.hoverId ? '1px gray dotted' : ''}}
                 onMouseOver={() => this.setState({hoverId: att.type !== 'pdf' ? att.type : null})}
                 onMouseOut={() => this.setState({hoverId: null})}
               >
-                <AttachmentDownloadIcon invoice={invoice} attachment={att} />
+                <AttachmentDownloadIcon model={this.props.model} attachment={att} modelType={this.props.modelType} />
                 <span style={{marginLeft: 10}}>{att.type !== 'pdf' ? att.type : t('invoice.invoice')}</span>
                 {this.state.isFormOpen && att.type !== 'pdf' ? (
                   <div style={{display: 'inline', position: 'absolute', right: 20}}>
-                    <ConfirmedDeleteIcon title={t('attachment.deleteTitle')} onClick={() => this.props.deleteInvoiceAttachment(invoice, att)}>
+                    <ConfirmedDeleteIcon title={t('attachment.deleteTitle')} onClick={this.props.onDelete.bind(this, att)}>
                       {t('attachment.deletePopup')}
                     </ConfirmedDeleteIcon>
                   </div>
@@ -69,7 +103,11 @@ class InvoiceAttachmentsFormComponent extends Component {
               size={1}
             />
           ) : (
-            <AddAttachmentPopup invoice={invoice} onClose={() => this.setState({isOpen: false})} />
+            <AddAttachmentPopup
+              attachments={this.props.attachments}
+              onClose={() => this.setState({isOpen: false})}
+              onAdd={att => this.props.onAdd(att)}
+            />
           )}
         </Row>
       </div>
@@ -77,13 +115,12 @@ class InvoiceAttachmentsFormComponent extends Component {
   }
 }
 
-export const InvoiceAttachmentsForm = connect(() => ({}), {deleteInvoiceAttachment})(InvoiceAttachmentsFormComponent);
 
 class AddAttachmentPopupComponent extends Component {
   static propTypes = {
-    updateInvoiceAttachment: PropTypes.func.isRequired,
-    invoice: PropTypes.object.isRequired,
+    attachments: PropTypes.array.isRequired,
     onClose: PropTypes.func.isRequired,
+    onAdd: PropTypes.func.isRequired,
     attachmentTypes: PropTypes.array.isRequired,
   }
 
@@ -96,14 +133,14 @@ class AddAttachmentPopupComponent extends Component {
   }
 
   _onUpload() {
-    this.props.updateInvoiceAttachment(this.props.invoice, this.state);
+    this.props.onAdd(this.state);
     this.props.onClose();
   }
 
   render() {
-    const {invoice, onClose} = this.props;
+    const {attachments, onClose} = this.props;
     const currentType = this.state.type;
-    const canAdd = currentType && !invoice.attachments.map(a => a.type.toUpperCase()).includes(currentType.toUpperCase());
+    const canAdd = currentType && !attachments.map(a => a.type.toUpperCase()).includes(currentType.toUpperCase());
 
     const buttons = [{
       text: t('cancel'),
@@ -136,7 +173,7 @@ class AddAttachmentPopupComponent extends Component {
 
 export const AddAttachmentPopup = connect(state => ({
   attachmentTypes: state.config.attachmentTypes,
-}), {updateInvoiceAttachment})(AddAttachmentPopupComponent);
+}), {})(AddAttachmentPopupComponent);
 
 
 

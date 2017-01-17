@@ -1,17 +1,26 @@
 import React, {Component, PropTypes} from 'react';
 import {Icon, SpinnerIcon} from '../../controls/Icon.js';
-import {downloadInvoice} from '../../../actions/index.js';
+import {downloadInvoice, downloadClientAttachment} from '../../../actions/index.js';
 import t from '../../../trans.js';
+
+export const InvoiceDownloadIcon = ({invoice}) => (
+  <AttachmentDownloadIcon
+    model={invoice}
+    attachment={invoice.attachments.find(a => a.type === 'pdf')}
+    modelType="invoice"
+  />
+);
 
 export class AttachmentDownloadIcon extends Component {
   static propTypes = {
-    invoice: PropTypes.object.isRequired,
+    model: PropTypes.object.isRequired,
     attachment: PropTypes.shape({
       type: PropTypes.string.isRequired,
       fileName: PropTypes.string,
       fileType: PropTypes.string,
       lastModifiedDate: PropTypes.string,
     }),
+    modelType: PropTypes.oneOf(['invoice', 'client']).isRequired,
   }
   constructor() {
     super();
@@ -21,24 +30,23 @@ export class AttachmentDownloadIcon extends Component {
     type: 'pdf'
   }
   render() {
-    const {invoice, attachment, ...props} = this.props;
-
-    const att = attachment || invoice.attachments.find(a => a.type === 'pdf');
+    const {model, attachment, modelType, ...props} = this.props;
 
     const onClick = () => {
       this.setState({isBusy: true});
-      downloadInvoice(invoice, att).then(() => this.setState({isBusy: false}));
+      const downloader = modelType === 'invoice' ? downloadInvoice : downloadClientAttachment;
+      downloader(model, attachment).then(() => this.setState({isBusy: false}));
     };
 
     if (this.state.isBusy) {
-      const offset = att.type === 'pdf' ? -12 : 0;
+      const offset = attachment.type === 'pdf' ? -12 : 0;
       return <SpinnerIcon style={{marginLeft: offset}} />;
     }
 
-    const fileType = getAwesomeFileType(att);
-    var attTitle = t('invoice.downloadAttachment', {type: att.fileName || att.type});
-    // if (att.lastModifiedDate) {
-    //   attTitle += '<br>' + moment(att.lastModifiedDate).format('DD/MM/YYYY HH:mm') + '<br>' + att.lastModifiedDate;
+    const fileType = getAwesomeFileType(attachment);
+    var attTitle = t('invoice.downloadAttachment', {type: attachment.fileName || attachment.type});
+    // if (attachment.lastModifiedDate) {
+    //   attTitle += '<br>' + moment(attachment.lastModifiedDate).format('DD/MM/YYYY HH:mm') + '<br>' + attachment.lastModifiedDate;
     // }
 
     return (

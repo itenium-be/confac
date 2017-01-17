@@ -2,14 +2,13 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {t, InvoiceModel} from '../util.js';
 
-import {DatePicker, ClientSelect, NumericInput, StringInput} from '../controls.js';
+import {DatePicker, ClientSelect, NumericInput, StringInput, AttachmentsForm} from '../controls.js';
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import ClientDetails from '../client/controls/ClientDetails.js';
 import EditInvoiceLines from './EditInvoiceLines.js';
 import InvoiceNotVerifiedAlert from './controls/InvoiceNotVerifiedAlert.js';
 import {EditInvoiceSaveButtons} from './controls/EditInvoiceSaveButtons.js';
 import InvoiceTotal from './controls/InvoiceTotal.js';
-import {InvoiceAttachmentsForm} from './controls/InvoiceAttachmentsForm.js';
 import {invoiceAction} from '../../actions/index.js';
 
 class EditInvoice extends Component {
@@ -115,7 +114,7 @@ class EditInvoice extends Component {
             />
           </Row>
           <div style={{marginTop: -20}}>
-            <InvoiceAttachmentsForm invoice={model} />
+            <AttachmentsForm invoice={model} />
           </div>
           <Row style={{marginBottom: 8}}>
             <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, this.state.invoice)} isNewInvoice={model.isNew} />

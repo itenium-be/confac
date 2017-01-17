@@ -1,3 +1,4 @@
+export * from './controls/Attachments.js';
 export * from './controls/Button.js';
 export * from './controls/DatePicker.js';
 export * from './controls/Icon.js';
