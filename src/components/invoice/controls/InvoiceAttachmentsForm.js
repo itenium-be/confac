@@ -4,17 +4,22 @@ import Dropzone from 'react-dropzone';
 import {t} from '../../util.js';
 
 import {Row, Col, ControlLabel, FormGroup, Alert} from 'react-bootstrap';
-import {AttachmentDownloadIcon, AddIcon, Popup, SimpleSelect} from '../../controls.js';
-import {updateInvoiceAttachment} from '../../../actions/index.js';
+import {AttachmentDownloadIcon, AddIcon, Popup, SimpleSelect, ConfirmedDeleteIcon, EditIcon} from '../../controls.js';
+import {updateInvoiceAttachment, deleteInvoiceAttachment} from '../../../actions/index.js';
 
-export class InvoiceAttachmentsForm extends Component {
+class InvoiceAttachmentsFormComponent extends Component {
   static propTypes = {
+    deleteInvoiceAttachment: PropTypes.func.isRequired,
     invoice: PropTypes.object.isRequired,
   }
 
   constructor() {
     super();
-    this.state = {isOpen: false};
+    this.state = {
+      isOpen: false,
+      isFormOpen: false,
+      hoverId: null,
+    };
   }
 
   render() {
@@ -25,20 +30,44 @@ export class InvoiceAttachmentsForm extends Component {
     return (
       <div>
         <Row>
-          <h4>{t('invoice.attachments')}</h4>
-          <Col sm={3} key="pdf">
-            <AttachmentDownloadIcon invoice={invoice} />
-          </Col>
-          {invoice.attachments.filter(att => att !== 'pdf').map(att => (
-            <Col sm={3} key={att}>
-              <AttachmentDownloadIcon invoice={invoice} type={att} />
-              <span style={{marginLeft: 10}}>{att}</span>
+          <h4>
+            {t('invoice.attachments')}
+            <small>
+                <EditIcon
+                onClick={() => this.setState({isFormOpen: !this.state.isFormOpen})}
+                title=""
+                size={1}
+                style={{display: 'inline', marginLeft: 10}} />
+            </small>
+          </h4>
+          {invoice.attachments.map(att => (
+            <Col sm={3} key={att.type} style={{height: 45}}>
+              <div
+                style={{padding: 5, marginTop: 10, border: this.state.isFormOpen && att.type === this.state.hoverId ? '1px gray dotted' : ''}}
+                onMouseOver={() => this.setState({hoverId: att.type !== 'pdf' ? att.type : null})}
+                onMouseOut={() => this.setState({hoverId: null})}
+              >
+                <AttachmentDownloadIcon invoice={invoice} attachment={att} />
+                <span style={{marginLeft: 10}}>{att.type !== 'pdf' ? att.type : t('invoice.invoice')}</span>
+                {this.state.isFormOpen && att.type !== 'pdf' ? (
+                  <div style={{display: 'inline', position: 'absolute', right: 20}}>
+                    <ConfirmedDeleteIcon title={t('attachment.deleteTitle')} onClick={() => this.props.deleteInvoiceAttachment(invoice, att)}>
+                      {t('attachment.deletePopup')}
+                    </ConfirmedDeleteIcon>
+                  </div>
+                ) : null}
+              </div>
             </Col>
           ))}
         </Row>
         <Row>
           {!this.state.isOpen ? (
-            <AddIcon onClick={() => this.setState({isOpen: true})} label={t('invoice.attachmentsAdd')} size={1} />
+            <AddIcon
+              style={{marginTop: 25}}
+              onClick={() => this.setState({isOpen: true})}
+              label={t('invoice.attachmentsAdd')}
+              size={1}
+            />
           ) : (
             <AddAttachmentPopup invoice={invoice} onClose={() => this.setState({isOpen: false})} />
           )}
@@ -47,6 +76,8 @@ export class InvoiceAttachmentsForm extends Component {
     );
   }
 }
+
+export const InvoiceAttachmentsForm = connect(() => ({}), {deleteInvoiceAttachment})(InvoiceAttachmentsFormComponent);
 
 class AddAttachmentPopupComponent extends Component {
   static propTypes = {
@@ -72,7 +103,7 @@ class AddAttachmentPopupComponent extends Component {
   render() {
     const {invoice, onClose} = this.props;
     const currentType = this.state.type;
-    const canAdd = currentType && !invoice.attachments.map(a => a.toUpperCase()).includes(currentType.toUpperCase());
+    const canAdd = currentType && !invoice.attachments.map(a => a.type.toUpperCase()).includes(currentType.toUpperCase());
 
     const buttons = [{
       text: t('cancel'),

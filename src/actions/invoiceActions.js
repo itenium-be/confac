@@ -95,6 +95,24 @@ export function updateInvoicePdf(invoice) {
   };
 }
 
+export function deleteInvoiceAttachment(invoice, {type}) {
+  return dispatch => {
+    dispatch(busyToggle());
+    request.delete(buildAttachmentUrl(invoice, type))
+      .then(function(res) {
+        dispatch({
+          type: ACTION_TYPES.INVOICE_UPDATED,
+          invoice: res.body
+        });
+
+        dispatch(success());
+        return true;
+      })
+    .catch(catchHandler)
+    .then(() => dispatch(busyToggle.off()));
+  };
+}
+
 export function updateInvoiceAttachment(invoice, {type, file}) {
   return dispatch => {
     dispatch(busyToggle());
@@ -108,6 +126,11 @@ export function updateInvoiceAttachment(invoice, {type, file}) {
     // });
 
     req.then(function(res) {
+      dispatch({
+        type: ACTION_TYPES.INVOICE_UPDATED,
+        invoice: res.body
+      });
+
       dispatch(success());
       return true;
     })
@@ -151,22 +174,58 @@ export function previewInvoice(data) {
   };
 }
 
-function downloadFile(fileName, base64) {
+function downloadBase64File(fileName, content) {
   var link = document.createElement('a');
   link.download = fileName;
   link.target = '_blank';
-  link.href = 'data:application/octet-stream;base64,' + base64;
+  link.href = 'data:application/octet-stream;base64,' + content;
   link.click();
 }
 
-export function downloadInvoice(invoice, type) {
+function downloadFile(attachment, content) {
+  var link = document.createElement('a');
+  link.download = attachment.fileName;
+  const blob = b64ToBlob(content, attachment.fileType);
+  const blobUrl = URL.createObjectURL(blob);
+  link.href = blobUrl;
+  link.click();
+}
+
+function b64ToBlob(b64Data, contentType = '', sliceSize = 512) {
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  const blob = new Blob(byteArrays, { type: contentType });
+  return blob;
+}
+
+export function downloadInvoice(invoice, attachment) {
   // ATTN: Non-dispatchable
   // We're not storing entire files in the state!
   // + Would break the AttachmentDownloadIcon
-  return request.get(buildAttachmentUrl(invoice, type))
+  return request.get(buildAttachmentUrl(invoice, attachment.type))
     .set('Content-Type', 'application/json')
     .then(function(res) {
-      downloadFile(getInvoiceFileName(invoice), res.body);
+      var fileName;
+      if (attachment.type === 'pdf') {
+        fileName = getInvoiceFileName(invoice);
+        downloadBase64File(fileName, res.body);
+      } else {
+        //console.log('grr', attachment, res.body);
+        downloadFile(attachment, res.body);
+      }
+
       return true;
     })
     .catch(catchHandler);

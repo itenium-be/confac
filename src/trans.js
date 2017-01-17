@@ -36,6 +36,7 @@ const trans = {
     },
   },
   invoice: {
+    invoice: 'Factuur',
     fileName: 'Pdf bestandsnaam factuur',
     fileNamePlaceHolder: '{date:YYYY-MM-DD} {nr:4} {orderNr}',
     createNew: 'Nieuwe factuur',
@@ -66,7 +67,7 @@ const trans = {
     isNotVerified: 'Factuur nog niet geverifieerd!',
     isVerifiedConfirm: 'Factuur nu geverifieerd',
     isNotVerifiedConfirm: 'Factuur niet meer geverifieerd',
-    downloadAttachment: 'Invoice {type} downloaden',
+    downloadAttachment: '{type} downloaden',
     addLine: 'Factuurlijn toevoegen',
     attachments: 'Bijlagen',
     attachmentsAdd: 'Bijlage toevoegen',
@@ -83,6 +84,9 @@ const trans = {
     typesPlaceholder: 'Komma separated string :)',
     type: 'Type bijlage',
     typeExists: 'Dit type bijlage bestaat reeds voor deze factuur.',
+    toggleEditForm: 'Bijlagen verwijderen',
+    deleteTitle: 'Bijlage verwijderen?',
+    deletePopup: 'Deze bijlage uit de factuur gooien?',
   },
   client: {
     createNew: 'Nieuwe klant',

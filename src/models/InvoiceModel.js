@@ -25,7 +25,7 @@ export class InvoiceModel {
     this.orderNr = obj.orderNr || '';
     this.verified = obj.verified || false;
     this._lines = obj.lines || [];
-    this.attachments = obj.attachments || ['pdf'];
+    this.attachments = obj.attachments || [{type: 'pdf'}];
   }
 
   get _lines() {
