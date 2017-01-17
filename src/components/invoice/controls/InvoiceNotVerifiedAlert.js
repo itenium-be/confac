@@ -23,18 +23,16 @@ class InvoiceNotVerifiedAlert extends Component {
 
     return (
       <div>
-        <Alert bsSize="small" bsStyle="info" onDismiss={() => this.setState({dismissed: true})}>
+        <Alert style={{height: 52}} bsSize="small" bsStyle="info" onDismiss={() => this.setState({dismissed: true})}>
+          <BusyButton
+            bsStyle="info"
+            onClick={() => toggleInvoiceVerify(invoice)}
+            bsSize="small"
+            style={{marginTop: -5, marginRight: 20, textTransform: 'uppercase'}}
+          >
+            {t('invoice.verifyAction')}
+          </BusyButton>
           {t('invoice.isNotVerified')}
-          <div className="pull-right">
-            <BusyButton
-              bsStyle="success"
-              onClick={() => toggleInvoiceVerify(invoice)}
-              bsSize="small"
-              style={{marginTop: -5, textTransform: 'uppercase'}}
-            >
-              {t('invoice.verifyAction')}
-            </BusyButton>
-          </div>
         </Alert>
       </div>
     );

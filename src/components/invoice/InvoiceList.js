@@ -1,8 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {t, getNumeric} from '../util.js';
+import {getNumeric} from '../util.js';
 
-import {AddIcon} from '../controls.js';
 import {Grid, Table} from 'react-bootstrap';
 import InvoiceListRow, {InvoiceListHeader, InvoiceListFooter} from './InvoiceListRow.js';
 import {InvoiceSearch} from './controls/InvoiceSearch.js';
@@ -46,7 +45,6 @@ class InvoiceList extends Component {
     const invoices = filterInvoices(this.props.invoices, this.props.filters);
     return (
       <Grid>
-        <AddIcon onClick="/invoice/create" label={t('invoice.createNew')} />
         <Table condensed style={{marginTop: 10}}>
           <InvoiceListHeader />
           <tbody>
