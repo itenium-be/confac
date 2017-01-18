@@ -105,6 +105,12 @@ class EditInvoice extends Component {
                 value={model.orderNr}
                 onChange={value => this.setState({model: model.setOrderNr(value)})}
               />
+
+              <StringInput
+                label={t('invoice.fileName')}
+                value={model.fileName}
+                onChange={value => this.setState({model: model.setFileName(value)})}
+              />
             </Col>
           </Row>
           <Row style={{marginTop: 8}}>

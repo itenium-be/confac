@@ -251,7 +251,7 @@ function buildAttachmentUrl(invoiceOrClient, type) {
 }
 
 export function getInvoiceFileName(data) {
-  var fileName = data.client.invoiceFileName;
+  var fileName = data.fileName;
 
   const nrRegex = /\{nr:(\d+)\}/;
   const nrMatch = fileName.match(nrRegex);

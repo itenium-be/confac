@@ -7,6 +7,7 @@ export class InvoiceModel {
     var model = new InvoiceModel(config, {
       client,
       number: 1,
+      fileName: client ? client.invoiceFileName : '',
     });
     model = model.setClient(client);
     return model;
@@ -25,6 +26,7 @@ export class InvoiceModel {
     this.orderNr = obj.orderNr || '';
     this.verified = obj.verified || false;
     this._lines = obj.lines || [];
+    this.fileName = obj.fileName;
     this.attachments = obj.attachments || [{type: 'pdf'}];
   }
 
@@ -43,6 +45,7 @@ export class InvoiceModel {
   setClient(client) {
     this.client = client;
     this._lines = [this.getLine()];
+    this.fileName = client ? client.invoiceFileName : '';
     return this;
   }
   setNumber(number) {
@@ -55,6 +58,10 @@ export class InvoiceModel {
   }
   setOrderNr(orderNr) {
     this.orderNr = orderNr;
+    return this;
+  }
+  setFileName(fileName) {
+    this.fileName = fileName;
     return this;
   }
 
