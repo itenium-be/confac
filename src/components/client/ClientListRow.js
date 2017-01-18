@@ -11,7 +11,6 @@ export const ClientListHeader = () => (
     <tr>
       <th>{t('client.name')}</th>
       <th>{t('client.contact')}</th>
-      <th>{t('client.rate.title')}</th>
       <th>{t('client.timeTitle')}</th>
       <th>{t('invoice.invoices')}</th>
       <th>&nbsp;</th>
@@ -43,7 +42,6 @@ class ClientListRow extends Component {
           <br />
           {client.telephone}
         </td>
-        <td>{client.rate.value}</td>
         <td><InvoiceWorkedDays invoices={invoices} display="client" /></td>
         <td style={{whiteSpace: 'nowrap'}}><InvoicesSummary invoices={invoices} /></td>
         <td className="icons-cell" width="120px">
