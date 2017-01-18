@@ -80,6 +80,10 @@ class EditClient extends Component {
     }, {
       key: 'telephone',
     }, {
+      key: 'contact',
+    }, {
+      key: 'contactEmail',
+    }, {
       key: 'slug',
       updateOnly: true,
     }];

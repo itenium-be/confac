@@ -33,6 +33,8 @@ const trans = {
       template: 'Html template',
       website: 'Website',
       slug: 'Bedrijfsnaam in de url',
+      contact: 'Contact persoon',
+      contactEmail: 'Email contact persoon',
     },
   },
   invoice: {
