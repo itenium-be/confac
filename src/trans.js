@@ -60,7 +60,7 @@ const trans = {
     taxtotalShort: 'Btw',
     taxtotal: 'BTW {}%',
     total: 'Totaal',
-    orderNr: 'Bestelbon nr',
+    orderNr: 'Bestelbon referentie',
     verifyAction: 'Factuur nu verifiëren',
     verifyActionTooltip: 'Factuur verifiëren<br>Openstaand voor {days} dagen',
     notVerifiedOnly: 'Toon enkel de niet geverifiëerde',
