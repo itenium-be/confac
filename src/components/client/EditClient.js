@@ -54,7 +54,8 @@ class EditClient extends Component {
         hoursInDay: 8,
         value: 0,
         description: '',
-      }
+      },
+      attachments: [],
     };
   }
 
