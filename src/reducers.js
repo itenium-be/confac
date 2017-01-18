@@ -4,6 +4,7 @@ import {ACTION_TYPES} from './actions/ActionTypes.js';
 const defaultConfig = {
   defaultClient: undefined,
   attachmentTypes: [],
+  company: {},
 };
 
 const defaultAppState = {

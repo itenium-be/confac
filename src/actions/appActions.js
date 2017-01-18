@@ -47,8 +47,8 @@ export function updateConfig(newConfig) {
     return request.post(buildUrl('/config'))
       .set('Content-Type', 'application/json')
       .send(newConfig)
-      .then(() => {
-        dispatch({type: ACTION_TYPES.CONFIG_UPDATE, config: newConfig});
+      .then(res => {
+        dispatch({type: ACTION_TYPES.CONFIG_UPDATE, config: res.body});
         dispatch(success(t('config.popupMessage')));
       })
       .catch(catchHandler)
