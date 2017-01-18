@@ -35,7 +35,7 @@ export default function register(app) {
     const {_id, ...params} = this.request.body;
     if (_id) {
       yield this.mongo.collection('config').update(_id.toObjectId(), params);
-      this.body = params;
+      this.body = Object.assign(params, _id.toObjectId());
 
     } else {
       const inserted = yield this.mongo.collection('config').insert(params);
