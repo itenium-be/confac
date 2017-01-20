@@ -270,6 +270,13 @@ export function getInvoiceFileName(data) {
   if (fileName.indexOf('{orderNr}') !== -1) {
     fileName = fileName.replace('{orderNr}', data.orderNr);
   }
+  if (fileName.indexOf('{clientName}') !== -1) {
+    fileName = fileName.replace('{clientName}', data.client.name);
+  }
+
+  // Object.keys(data).forEach(invoiceProp => {
+  //   fileName = fileName.replace('{' + invoiceProp + '}', data[invoiceProp]);
+  // });
 
   return fileName + '.pdf';
 }
