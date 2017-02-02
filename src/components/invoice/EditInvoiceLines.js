@@ -1,12 +1,12 @@
 import React, {Component, PropTypes} from 'react';
-import {t, InvoiceModel} from '../util.js';
+import {t, EditInvoiceViewModel} from '../util.js';
 
 import {NumericInput, StringInput, AddIcon, DeleteIcon} from '../controls.js';
 import {Table} from 'react-bootstrap';
 
 export default class EditInvoiceLines extends Component {
   static propTypes = {
-    invoice: PropTypes.instanceOf(InvoiceModel).isRequired,
+    invoice: PropTypes.instanceOf(EditInvoiceViewModel).isRequired,
     onChange: PropTypes.func.isRequired,
   }
 

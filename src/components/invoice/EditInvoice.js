@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {t, InvoiceModel} from '../util.js';
+import {t, EditInvoiceViewModel} from '../util.js';
 
 import {DatePicker, ClientSelect, NumericInput, StringInput, AttachmentsForm} from '../controls.js';
 import {Grid, Row, Col, Form} from 'react-bootstrap';
@@ -36,7 +36,7 @@ class EditInvoice extends Component {
     if (props.params.id) {
       // Existing invoice
       const invoice = props.invoices.find(i => i.number === parseInt(props.params.id, 10));
-      return new InvoiceModel(props.config, invoice);
+      return new EditInvoiceViewModel(props.config, invoice);
 
     } else {
       // New invoice
@@ -44,7 +44,7 @@ class EditInvoice extends Component {
       if (props.config.defaultClient) {
         client = props.clients.find(c => c._id === props.config.defaultClient);
       }
-      var model = InvoiceModel.createNew(props.config, client);
+      var model = EditInvoiceViewModel.createNew(props.config, client);
       model.number = props.invoices.map(i => i.number).reduce((a, b) => Math.max(a, b), 0) + 1;
       return model;
     }

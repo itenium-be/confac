@@ -2,9 +2,9 @@ import moment from 'moment';
 
 //const getInvoiceString = invoice => `${invoice.number} - ${invoice.client.name} (${invoice.date.format('YYYY-MM')})`;
 
-export class InvoiceModel {
+export default class EditInvoiceViewModel {
   static createNew(config, client) {
-    var model = new InvoiceModel(config, {
+    var model = new EditInvoiceViewModel(config, {
       client,
       number: 1,
       fileName: client ? client.invoiceFileName : '',
@@ -111,7 +111,7 @@ export class InvoiceModel {
 
   _calculateMoneys() {
     if (!this.client) {
-      return InvoiceModel.emptyMoney();
+      return EditInvoiceViewModel.emptyMoney();
     }
 
     const totalValue = this._lines.reduce((prev, cur) => prev + cur.value, 0);

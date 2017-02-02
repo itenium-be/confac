@@ -6,7 +6,6 @@ export function moneyFormat(input) {
 
 export const getNumeric = text => text.replace(/[^0-9]+/g, '');
 
-export { default as t } from '../trans.js';
+export {default as t} from '../trans.js';
 
-
-export { InvoiceModel } from '../models/InvoiceModel.js';
+export {default as EditInvoiceViewModel} from './invoice/EditInvoiceViewModel.js';
