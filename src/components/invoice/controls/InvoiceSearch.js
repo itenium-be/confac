@@ -1,19 +1,26 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import moment from 'moment';
 import {t} from '../../util.js';
 
 import {Row, Col} from 'react-bootstrap';
 import Select from 'react-select';
 import {LabeledInput, Switch} from '../../controls/Inputs.js';
 
+// The object returned by InvoiceListViewModel::getFilterOptions
+const filterOptionsPropType = PropTypes.arrayOf(PropTypes.shape({
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  value: PropTypes.any.isRequired,
+  type: PropTypes.oneOf(['client', 'invoice_line', 'year', 'invoice-nr', 'manual_input']).isRequired,
+})).isRequired;
+
+
+
 export class InvoiceSearch extends Component {
   static propTypes = {
-    filteredInvoices: PropTypes.array.isRequired,
+    filterOptions: filterOptionsPropType,
     filters: PropTypes.shape({
       search: PropTypes.array.isRequired,
       unverifiedOnly: PropTypes.bool.isRequired,
-    }),
+    }).isRequired,
     onChange: PropTypes.func.isRequired,
   }
 
@@ -33,7 +40,7 @@ export class InvoiceSearch extends Component {
             <InvoiceSearchSelect
               onChange={value => this.onFilterChange({search: value})}
               value={search}
-              invoices={this.props.filteredInvoices}
+              options={this.props.filterOptions}
             />
           </LabeledInput>
         </Col>
@@ -52,12 +59,9 @@ export class InvoiceSearch extends Component {
 
 
 
-
-
-class InvoiceSearchSelectComponent extends Component {
+class InvoiceSearchSelect extends Component {
   static propTypes = {
-    invoices: PropTypes.array.isRequired,
-    clients: PropTypes.array.isRequired,
+    options: filterOptionsPropType,
     value: PropTypes.any,
     onChange: PropTypes.func.isRequired,
   }
@@ -70,29 +74,19 @@ class InvoiceSearchSelectComponent extends Component {
       f.value = parseInt(f.value, 10);
     });
 
+    // All remaining are pure text searches
+    value.filter(f => !f.type).forEach(f => {
+      f.type = 'manual_input';
+    });
+
     this.props.onChange(value);
   }
 
   render() {
-    const {clients, invoices} = this.props;
-
-    var options = [];
-    const invoiceIds = invoices.map(i => i.client._id);
-    const relevantClients = clients.filter(c => invoiceIds.includes(c._id));
-    options = options.concat(relevantClients.map(client => ({value: client._id, label: client.name, type: 'client'})));
-
-    const invoiceYears = getInvoiceYears(invoices);
-    options = options.concat(invoiceYears.map(year => ({value: year, label: year, type: 'year'})));
-
-    const lines = invoices.map(i => i.lines);
-    const lineDescs = [].concat.apply([], lines).map(l => l.desc);
-    const uniqueLines = lineDescs.filter((desc, index, arr) => arr.indexOf(desc) === index);
-    options = options.concat(uniqueLines.map(lineDesc => ({value: lineDesc, label: lineDesc, type: 'invoice_line'})));
-
     return (
       <Select.Creatable
         value={this.props.value}
-        options={options}
+        options={this.props.options}
         onChange={this.onChange.bind(this)}
         clearable
         multi
@@ -104,22 +98,4 @@ class InvoiceSearchSelectComponent extends Component {
       />
     );
   }
-}
-
-const InvoiceSearchSelect = connect(state => ({clients: state.clients}))(InvoiceSearchSelectComponent);
-
-
-
-
-
-function getInvoiceYears(invoices) {
-  const dates = invoices.map(i => i.date.toDate());
-  const firstInvoiceYear = moment(Math.min.apply(null, dates)).year();
-  const lastInvoiceYear = moment(Math.max.apply(null, dates)).year();
-
-  var years = [];
-  for (let i = firstInvoiceYear; i <= lastInvoiceYear; i++) {
-    years.push(i);
-  }
-  return years;
 }
