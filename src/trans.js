@@ -16,6 +16,7 @@ const trans = {
   toastrFailure: 'Boem! Crash! Kapot!',
   toastrConfirm: 'Wijzigingen bewaard',
   notes: 'Notitie',
+  extraFields: 'Extra velden',
   config: {
     title: 'Instellingen',
     popupMessage: 'Instellingen bewaard',
@@ -31,7 +32,7 @@ const trans = {
       bank: 'Naam bank',
       bic: 'BIC',
       btw: 'BTW',
-      template: 'Html template',
+      other: 'Ander',
       website: 'Website',
       slug: 'Bedrijfsnaam in de url',
       contact: 'Contact persoon',
@@ -127,6 +128,8 @@ const trans = {
     addFilterText: 'Filter "{value}" toevoegen?',
     addLabelText: '"{value}" toevoegen?',
     selectPlaceholder: 'Maak een keuze',
+
+    propertiesPlaceholder: 'Geef extra veldnamen in',
   }
 };
 

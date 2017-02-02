@@ -4,7 +4,20 @@ import {ACTION_TYPES} from './actions/ActionTypes.js';
 const defaultConfig = {
   defaultClient: undefined,
   attachmentTypes: [],
-  company: {},
+  company: {
+    template: 'example-1.pug',
+    name: 'Jouw bedrijfsnaam',
+    address: 'Streetname 15',
+    city: '9000 Brussel',
+    btw: '0000.000.000',
+    bank: 'Banknaam',
+    iban: 'BE00 0000 0000 0000',
+    bic: 'GKCCBEAD',
+    telephone: '0000 / 00 00 00',
+    email: 'ceo@yahoo.com',
+    website: 'www.clicky-me-IT.be'
+  },
+  extraFields: [],
 };
 
 const defaultAppState = {

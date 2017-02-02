@@ -4,7 +4,7 @@ import {t} from '../util.js';
 
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import {EditCompany} from './EditCompany.js';
-import {ClientSelect, BusyButton, StringInput} from '../controls.js';
+import {ClientSelect, BusyButton, StringInput, PropertiesSelect, ExtraFieldsInput} from '../controls.js';
 import {updateConfig} from '../../actions/index.js';
 
 class EditConfig extends Component {
@@ -12,6 +12,7 @@ class EditConfig extends Component {
     config: PropTypes.shape({
       defaultClient: PropTypes.string,
       company: PropTypes.object,
+      extraFields: PropTypes.array.isRequired,
     }).isRequired,
     updateConfig: PropTypes.func.isRequired,
   }
@@ -41,7 +42,7 @@ class EditConfig extends Component {
                 onChange={item => this.setState({defaultClient: item._id})}
               />
             </Col>
-            <Col sm={8}>
+            <Col sm={4}>
               <StringInput
                 label={t('attachment.types')}
                 placeholder={t('attachment.typesPlaceholder')}
@@ -54,6 +55,25 @@ class EditConfig extends Component {
             company={this.state.company}
             onChange={company => this.setState({company})}
           />
+
+
+          <Row>
+            <h4>{t('config.company.other')}</h4>
+            <Col sm={4}>
+              <PropertiesSelect
+                label={t('extraFields')}
+                values={this.state.extraFields}
+                onChange={value => this.setState({extraFields: value})}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <ExtraFieldsInput
+              properties={this.state.extraFields}
+              onChange={value => this.setState({extraFields: value})}
+            />
+          </Row>
+
 
           <Row className="button-row">
             <BusyButton onClick={this._save.bind(this)}>{t('save')}</BusyButton>

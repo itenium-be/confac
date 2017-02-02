@@ -2,10 +2,29 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {t} from '../util.js';
 
-import {BusyButton, StringInput, InputArray, AttachmentsForm, TextareaInput} from '../controls.js';
+import {BusyButton, StringInput, InputArray, AttachmentsForm, TextareaInput, PropertiesSelect, ExtraFieldsInput} from '../controls.js';
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import {saveClient} from '../../actions/index.js';
 import {EditClientRate} from './controls/EditClientRate.js';
+
+const defaultClientProperties = [{
+  key: 'name',
+}, {
+  key: 'slug',
+  updateOnly: true,
+}, {
+  key: 'address',
+}, {
+  key: 'city',
+}, {
+  key: 'btw',
+}, {
+  key: 'telephone',
+}, {
+  key: 'contact',
+}, {
+  key: 'contactEmail',
+}];
 
 class EditClient extends Component {
   static propTypes = {
@@ -56,6 +75,7 @@ class EditClient extends Component {
         description: '',
       },
       attachments: [],
+      extraFields: [],
     };
   }
 
@@ -69,32 +89,13 @@ class EditClient extends Component {
       return <div />;
     }
 
-    const frmConfig = [{
-      key: 'name'
-    }, {
-      key: 'address'
-    }, {
-      key: 'city',
-    }, {
-      key: 'btw',
-    }, {
-      key: 'telephone',
-    }, {
-      key: 'contact',
-    }, {
-      key: 'contactEmail',
-    }, {
-      key: 'slug',
-      updateOnly: true,
-    }];
-
     return (
       <Grid>
         <Form>
           <Row>
             <h4>{t('client.contact')}</h4>
             <InputArray
-              config={frmConfig}
+              config={defaultClientProperties}
               model={client}
               onChange={value => this.setState({...client, ...value})}
               tPrefix="config.company."
@@ -105,8 +106,8 @@ class EditClient extends Component {
             <EditClientRate rate={client.rate} onChange={value => this.setState({...client, rate: value})} />
           </Row>
           <Row>
-            <h4>{t('config.company.template')}</h4>
-            <Col sm={8}>
+            <h4>{t('config.company.other')}</h4>
+            <Col sm={4}>
               <TextareaInput
                 label={t('notes')}
                 placeholder={t('notes')}
@@ -122,6 +123,20 @@ class EditClient extends Component {
                 onChange={value => this.setState({...client, invoiceFileName: value})}
               />
             </Col>
+
+            <Col sm={4}>
+              <PropertiesSelect
+                label={t('extraFields')}
+                values={client.extraFields}
+                onChange={value => this.setState({...client, extraFields: value})}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <ExtraFieldsInput
+              properties={client.extraFields}
+              onChange={value => this.setState({...client, extraFields: value})}
+            />
           </Row>
 
           <Row>

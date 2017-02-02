@@ -114,3 +114,31 @@ export const InputArray = ({config, model, onChange, tPrefix}) => {
     </div>
   );
 };
+
+export const ExtraFieldsInput = ({properties, onChange}) => {
+  const updater = (updateLabel, newText) => {
+    onChange(properties.map(col => {
+      if (col.label === updateLabel) {
+        return {
+          label: col.label,
+          value: newText,
+        };
+      }
+      return col;
+    }));
+  };
+
+  return (
+    <div>
+      {properties.map(col => (
+        <Col sm={4} key={col.label}>
+          <StringInput
+            label={col.label}
+            value={col.value}
+            onChange={updater.bind(this, col.label)}
+          />
+        </Col>
+      ))}
+    </div>
+  );
+};
