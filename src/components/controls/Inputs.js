@@ -64,6 +64,21 @@ export const StringInput = ({label, value, onChange, placeholder}) => {
   return Input;
 };
 
+export const TextareaInput = ({label, value, onChange, placeholder}) => {
+  const Input = (
+    <FormControl
+      componentClass="textarea"
+      value={value}
+      placeholder={placeholder || label}
+      onChange={e => onChange(e.target.value)}
+    />
+  );
+  if (label) {
+    return <LabeledInput label={label}>{Input}</LabeledInput>;
+  }
+  return Input;
+};
+
 export const StringInputArray = ({keys, model, onChange, tPrefix}) => {
   return (
     <div>

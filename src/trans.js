@@ -15,6 +15,7 @@ const trans = {
   toastrFailureTitle: 'Oh noes!',
   toastrFailure: 'Boem! Crash! Kapot!',
   toastrConfirm: 'Wijzigingen bewaard',
+  notes: 'Notitie',
   config: {
     title: 'Instellingen',
     popupMessage: 'Instellingen bewaard',

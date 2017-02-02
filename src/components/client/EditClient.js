@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {t} from '../util.js';
 
-import {BusyButton, StringInput, InputArray, AttachmentsForm} from '../controls.js';
+import {BusyButton, StringInput, InputArray, AttachmentsForm, TextareaInput} from '../controls.js';
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import {saveClient} from '../../actions/index.js';
 import {EditClientRate} from './controls/EditClientRate.js';
@@ -107,6 +107,14 @@ class EditClient extends Component {
           <Row>
             <h4>{t('config.company.template')}</h4>
             <Col sm={8}>
+              <TextareaInput
+                label={t('notes')}
+                placeholder={t('notes')}
+                value={client.notes}
+                onChange={value => this.setState({...client, notes: value})}
+              />
+            </Col>
+            <Col sm={4}>
               <StringInput
                 label={t('invoice.fileName')}
                 placeholder={t('invoice.fileNamePlaceHolder')}
