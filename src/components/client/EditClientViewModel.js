@@ -26,11 +26,11 @@ export const defaultClientProperties = [{
   key: 'slug',
   updateOnly: true,
 }, {
+  key: 'btw',
+}, {
   key: 'address',
 }, {
   key: 'city',
-}, {
-  key: 'btw',
 }, {
   key: 'telephone',
 }, {

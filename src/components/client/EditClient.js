@@ -119,11 +119,28 @@ class EditClient extends Component {
           </Row>
 
           <Row className="button-row">
-            <BusyButton onClick={this._onSave.bind(this)}>{t('save')}</BusyButton>
+            <BusyButton
+              onClick={this._onSave.bind(this)}
+              disabled={this.isClientDisabled(client)}
+            >
+              {t('save')}
+            </BusyButton>
           </Row>
         </Form>
       </Grid>
     );
+  }
+
+  isClientDisabled(client) {
+    if (client.name.length === 0) {
+      return true;
+    }
+    if (client.slug !== undefined && client.slug.length === 0) {
+      // slug can only be filled in for an existing invoice
+      // (it's set on the backend create)
+      return true;
+    }
+    return false;
   }
 }
 
