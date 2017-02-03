@@ -25,6 +25,12 @@ export default function register(app) {
         },
         defaultClient: null,
         attachmentTypes: ['Timesheet'],
+        extraConfigFields: [],
+        defaultExtraClientFields: [],
+        defaultExtraClientInvoiceFields: [{
+          label: 'orderNr',
+          value: ''
+        }],
       };
     } else {
       this.body = conf;
