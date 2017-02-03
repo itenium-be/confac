@@ -7,24 +7,7 @@ import {Grid, Row, Col, Form} from 'react-bootstrap';
 import {saveClient} from '../../actions/index.js';
 import {EditClientRate} from './controls/EditClientRate.js';
 
-const defaultClientProperties = [{
-  key: 'name',
-}, {
-  key: 'slug',
-  updateOnly: true,
-}, {
-  key: 'address',
-}, {
-  key: 'city',
-}, {
-  key: 'btw',
-}, {
-  key: 'telephone',
-}, {
-  key: 'contact',
-}, {
-  key: 'contactEmail',
-}];
+import {getNewClient, defaultClientProperties} from './EditClientViewModel.js';
 
 class EditClient extends Component {
   static propTypes = {
@@ -60,25 +43,7 @@ class EditClient extends Component {
       return null;
     }
 
-    // New client
-    return {
-      active: true,
-      name: '',
-      address: '',
-      city: '',
-      telephone: '',
-      btw: '',
-      invoiceFileName: '{date:YYYY-MM} {nr:4} - ',
-      rate: {
-        type: 'hourly',
-        hoursInDay: 8,
-        value: 0,
-        description: '',
-      },
-      attachments: [],
-      extraFields: props.config.defaultExtraClientFields.slice(),
-      defaultExtraInvoiceFields: props.config.defaultExtraClientInvoiceFields.slice(),
-    };
+    return getNewClient(props.config);
   }
 
   _onSave() {

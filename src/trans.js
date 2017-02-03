@@ -88,7 +88,8 @@ const trans = {
     pdfTemplateNotFound: 'De pdf template was niet gevonden (check Config)',
     search: {
       placeholder: 'Facturen filteren',
-    }
+    },
+    editExtraFields: 'Extra velden bewerken',
   },
   attachment: {
     types: 'Bijlage types',

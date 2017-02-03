@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {t, EditInvoiceViewModel} from '../util.js';
 
-import {DatePicker, ClientSelect, NumericInput, StringInput, AttachmentsForm, ExtraFieldsInput, PropertiesSelect} from '../controls.js';
+import {DatePicker, ClientSelect, NumericInput, StringInput, AttachmentsForm, ExtraFieldsInput, PropertiesSelect, HeaderWithEditIcon} from '../controls.js';
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import ClientDetails from '../client/controls/ClientDetails.js';
 import EditInvoiceLines from './EditInvoiceLines.js';
@@ -115,22 +115,10 @@ class EditInvoice extends Component {
             </Col>
           </Row>
 
-          <Row>
-            <h4>{t('config.company.other')}</h4>
-            <Col sm={4}>
-              <PropertiesSelect
-                label={t('extraFields')}
-                values={invoice.extraFields}
-                onChange={this.updateInvoice.bind(this, 'extraFields')}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <ExtraFieldsInput
-              properties={invoice.extraFields}
-              onChange={this.updateInvoice.bind(this, 'extraFields')}
-            />
-          </Row>
+          <EditInvoiceExtraFields
+            invoice={invoice}
+            onChange={this.updateInvoice.bind(this, 'extraFields')}
+          />
 
           <Row style={{marginTop: 8}}>
             <EditInvoiceLines
@@ -156,3 +144,55 @@ export default connect(state => ({
   clients: state.clients,
   invoices: state.invoices,
 }), {invoiceAction})(EditInvoice);
+
+
+
+
+class EditInvoiceExtraFields extends Component {
+  static propTypes = {
+    invoice: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+  }
+
+  constructor() {
+    super();
+    this.state = {extraFieldFormOpen: false};
+  }
+
+  render() {
+    const {invoice, onChange} = this.props;
+
+    if (invoice.extraFields.length === 0) {
+      return <div />;
+    }
+
+    return (
+      <div>
+        <Row>
+          <HeaderWithEditIcon
+            label={t('extraFields')}
+            onEditClick={() => this.setState({extraFieldFormOpen: !this.state.extraFieldFormOpen})}
+          />
+          {this.state.extraFieldFormOpen ? (
+            <Col sm={4} style={{height: 75}}>
+              <PropertiesSelect
+                label={t('invoice.editExtraFields')}
+                values={invoice.extraFields}
+                onChange={onChange}
+              />
+            </Col>
+          ) : null}
+        </Row>
+
+        {invoice.extraFields.length ? (
+          <Row>
+            <ExtraFieldsInput
+              properties={invoice.extraFields}
+              onChange={onChange}
+            />
+          </Row>
+        ) : null}
+      </div>
+    );
+  }
+}

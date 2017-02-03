@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 import {t} from '../util.js';
 
 import {Row, Col, ControlLabel, FormGroup, Alert} from 'react-bootstrap';
-import {AttachmentDownloadIcon, AddIcon, Popup, SimpleSelect, ConfirmedDeleteIcon, EditIcon} from '../controls.js';
+import {AttachmentDownloadIcon, AddIcon, Popup, SimpleSelect, ConfirmedDeleteIcon, HeaderWithEditIcon} from '../controls.js';
 import {updateAttachment, deleteAttachment} from '../../actions/index.js';
 
 class AttachmentsFormComponent extends Component {
@@ -62,18 +62,11 @@ class AbstractAttachmentsForm extends Component {
     return (
       <div>
         <Row>
-          <h4>
-            {t('invoice.attachments')}
-            {canDeleteAttachments ? (
-              <small>
-                <EditIcon
-                  onClick={() => this.setState({isFormOpen: !this.state.isFormOpen})}
-                  title=""
-                  size={1}
-                  style={{display: 'inline', marginLeft: 10}} />
-              </small>
-            ) : null}
-          </h4>
+          <HeaderWithEditIcon
+            label={t('invoice.attachments')}
+            editIconVisible={canDeleteAttachments}
+            onEditClick={() => this.setState({isFormOpen: !this.state.isFormOpen})}
+          />
           {this.props.attachments.map(att => (
             <Col sm={3} key={att.type} style={{height: 45}}>
               <div

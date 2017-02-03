@@ -1,6 +1,7 @@
 export * from './controls/Attachments.js';
 export * from './controls/Button.js';
 export * from './controls/DatePicker.js';
+export * from './controls/Headers.js';
 export * from './controls/Icon.js';
 export * from './controls/Inputs.js';
 export * from './controls/Popup.js';
