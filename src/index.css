@@ -27,3 +27,16 @@ body {
 tfoot td {
 	font-weight: bold;
 }
+
+div.split {
+	width: 100%;
+	margin: auto;
+}
+div.split > div:first-child {
+	float: left;
+	width: 50%;
+	margin-right: 10px;
+}
+div.split > div:nth-child(2) {
+	overflow: hidden;
+}

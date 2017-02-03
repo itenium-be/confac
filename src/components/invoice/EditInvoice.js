@@ -84,10 +84,10 @@ class EditInvoice extends Component {
 
               {client ? (
                 <Row>
-                  <Col sm={6}>
+                  <Col xs={6}>
                     <ClientDetails client={client} />
                   </Col>
-                  <Col sm={6}>
+                  <Col xs={6}>
                     <h4>{t('invoice.totalTitle')}</h4>
                     <InvoiceTotal {...money} />
                   </Col>
@@ -95,23 +95,36 @@ class EditInvoice extends Component {
               ) : null}
             </Col>
             <Col sm={6}>
-              <NumericInput
-                label={t('invoice.number')}
-                value={invoice.number}
-                onChange={this.updateInvoice.bind(this, 'number')}
-              />
+              <div className="split">
+                <NumericInput
+                  label={t('invoice.number')}
+                  value={invoice.number}
+                  onChange={this.updateInvoice.bind(this, 'number')}
+                />
 
-              <DatePicker
-                label={t('invoice.date')}
-                value={invoice.date}
-                onChange={this.updateInvoice.bind(this, 'date')}
-              />
+                <DatePicker
+                  label={t('invoice.date')}
+                  value={invoice.date}
+                  onChange={this.updateInvoice.bind(this, 'date')}
+                />
+              </div>
+            </Col>
 
-              <StringInput
-                label={t('invoice.fileName')}
-                value={invoice.fileName}
-                onChange={this.updateInvoice.bind(this, 'fileName')}
-              />
+
+            <Col sm={6}>
+              <div className="split">
+                <StringInput
+                  label={t('invoice.fileName')}
+                  value={invoice.fileName}
+                  onChange={this.updateInvoice.bind(this, 'fileName')}
+                />
+
+                <StringInput
+                  label={t('invoice.orderNr')}
+                  value={invoice.orderNr}
+                  onChange={this.updateInvoice.bind(this, 'orderNr')}
+                />
+              </div>
             </Col>
           </Row>
 
