@@ -33,10 +33,17 @@ const trans = {
       bic: 'BIC',
       btw: 'BTW',
       other: 'Ander',
+      template: 'Html template',
       website: 'Website',
       slug: 'Bedrijfsnaam in de url',
       contact: 'Contact persoon',
       contactEmail: 'Email contact persoon',
+    },
+    extraFields: {
+      title: 'Eigen velden',
+      config: 'Extra config velden',
+      client: 'Extra klant velden',
+      clientInvoice: 'Extra factuur velden',
     },
   },
   invoice: {
@@ -106,10 +113,12 @@ const trans = {
     hoursWorked: '{hours} uren',
     daysWorked: '{days} dagen',
     rate: {
-      title: 'Tarief',
-      desc: 'Standaard project',
+      title: 'Standaard factuurwaarden',
+      desc: 'Project',
       hoursInDay: 'Uren per dag',
     },
+    extraInvoiceFields: 'Extra factuur velden',
+    extraFields: 'Extra klant velden',
   },
   controls: {
     // browser

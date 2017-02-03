@@ -12,7 +12,9 @@ class EditConfig extends Component {
     config: PropTypes.shape({
       defaultClient: PropTypes.string,
       company: PropTypes.object,
-      extraFields: PropTypes.array.isRequired,
+      extraConfigFields: PropTypes.array.isRequired,
+      defaultExtraClientFields: PropTypes.array.isRequired,
+      defaultExtraClientInvoiceFields: PropTypes.array.isRequired,
     }).isRequired,
     updateConfig: PropTypes.func.isRequired,
   }
@@ -58,19 +60,33 @@ class EditConfig extends Component {
 
 
           <Row>
-            <h4>{t('config.company.other')}</h4>
+            <h4>{t('config.extraFields.title')}</h4>
             <Col sm={4}>
               <PropertiesSelect
-                label={t('extraFields')}
-                values={this.state.extraFields}
-                onChange={value => this.setState({extraFields: value})}
+                label={t('config.extraFields.config')}
+                values={this.state.extraConfigFields}
+                onChange={value => this.setState({extraConfigFields: value})}
+              />
+            </Col>
+            <Col sm={4}>
+              <PropertiesSelect
+                label={t('config.extraFields.client')}
+                values={this.state.defaultExtraClientFields}
+                onChange={value => this.setState({defaultExtraClientFields: value})}
+              />
+            </Col>
+            <Col sm={4}>
+              <PropertiesSelect
+                label={t('config.extraFields.clientInvoice')}
+                values={this.state.defaultExtraClientInvoiceFields}
+                onChange={value => this.setState({defaultExtraClientInvoiceFields: value})}
               />
             </Col>
           </Row>
           <Row>
             <ExtraFieldsInput
-              properties={this.state.extraFields}
-              onChange={value => this.setState({extraFields: value})}
+              properties={this.state.extraConfigFields}
+              onChange={value => this.setState({extraConfigFields: value})}
             />
           </Row>
 

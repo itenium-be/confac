@@ -8,6 +8,7 @@ export default class EditInvoiceViewModel {
       client,
       number: 1,
       fileName: client ? client.invoiceFileName : '',
+      extraFields: client ? client.defaultExtraInvoiceFields : config.defaultExtraClientInvoiceFields,
     });
     model = model.setClient(client);
     return model;
@@ -28,6 +29,7 @@ export default class EditInvoiceViewModel {
     this._lines = obj.lines || [];
     this.fileName = obj.fileName;
     this.attachments = obj.attachments || [{type: 'pdf'}];
+    this.extraFields = obj.extraFields || [];
   }
 
   get _lines() {
@@ -46,25 +48,9 @@ export default class EditInvoiceViewModel {
     this.client = client;
     this._lines = [this.getLine()];
     this.fileName = client ? client.invoiceFileName : '';
+    this.extraFields = client ? (client.defaultExtraInvoiceFields || []) : [];
     return this;
   }
-  setNumber(number) {
-    this.number = number;
-    return this;
-  }
-  setDate(date) {
-    this.date = date;
-    return this;
-  }
-  setOrderNr(orderNr) {
-    this.orderNr = orderNr;
-    return this;
-  }
-  setFileName(fileName) {
-    this.fileName = fileName;
-    return this;
-  }
-
   addLine() {
     this._lines = this._lines.concat([this.getLine(true)]);
     return this;
@@ -80,6 +66,12 @@ export default class EditInvoiceViewModel {
     newArr.splice(index, 1);
     this._lines = newArr;
     return this;
+  }
+
+  updateField(key, value) {
+    // HACK: Workaround for not updating state directly while
+    // still having an instance of this class in component state
+    this[key] = value;
   }
 
   getLine(getEmpty = false) {

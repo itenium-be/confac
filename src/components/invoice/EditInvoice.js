@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {t, EditInvoiceViewModel} from '../util.js';
 
-import {DatePicker, ClientSelect, NumericInput, StringInput, AttachmentsForm} from '../controls.js';
+import {DatePicker, ClientSelect, NumericInput, StringInput, AttachmentsForm, ExtraFieldsInput, PropertiesSelect} from '../controls.js';
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import ClientDetails from '../client/controls/ClientDetails.js';
 import EditInvoiceLines from './EditInvoiceLines.js';
@@ -59,20 +59,27 @@ class EditInvoice extends Component {
     }
   }
 
+  updateInvoice(key, value) {
+    // Naughty naughty: We are manipulating state directly!
+    // To fix this: state should be a regular object, and a
+    // EditInvoiceViewModel should be created in the render
+    this.state.invoice.updateField(key, value);
+    this.forceUpdate();
+  }
+
   render() {
-    const model = this.state.invoice;
-    const client = this.state.invoice.client;
-    const money = this.state.invoice.money;
+    const {invoice} = this.state;
+    const {client, money} = invoice;
     return (
       <Grid>
         <Form>
           <Row>
-            <InvoiceNotVerifiedAlert invoice={model} />
+            <InvoiceNotVerifiedAlert invoice={invoice} />
             <Col sm={6}>
               <ClientSelect
                 label={t('invoice.client')}
                 value={client}
-                onChange={c => this.setState({model: model.setClient(c)})}
+                onChange={c => this.setState({invoice: invoice.setClient(c)})}
               />
 
               {client ? (
@@ -90,40 +97,52 @@ class EditInvoice extends Component {
             <Col sm={6}>
               <NumericInput
                 label={t('invoice.number')}
-                value={model.number}
-                onChange={value => this.setState({model: model.setNumber(value)})}
+                value={invoice.number}
+                onChange={this.updateInvoice.bind(this, 'number')}
               />
 
               <DatePicker
                 label={t('invoice.date')}
-                value={model.date}
-                onChange={momentInstance => this.setState({model: model.setDate(momentInstance)})}
-              />
-
-              <StringInput
-                label={t('invoice.orderNr')}
-                value={model.orderNr}
-                onChange={value => this.setState({model: model.setOrderNr(value)})}
+                value={invoice.date}
+                onChange={this.updateInvoice.bind(this, 'date')}
               />
 
               <StringInput
                 label={t('invoice.fileName')}
-                value={model.fileName}
-                onChange={value => this.setState({model: model.setFileName(value)})}
+                value={invoice.fileName}
+                onChange={this.updateInvoice.bind(this, 'fileName')}
               />
             </Col>
           </Row>
+
+          <Row>
+            <h4>{t('config.company.other')}</h4>
+            <Col sm={4}>
+              <PropertiesSelect
+                label={t('extraFields')}
+                values={invoice.extraFields}
+                onChange={this.updateInvoice.bind(this, 'extraFields')}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <ExtraFieldsInput
+              properties={invoice.extraFields}
+              onChange={this.updateInvoice.bind(this, 'extraFields')}
+            />
+          </Row>
+
           <Row style={{marginTop: 8}}>
             <EditInvoiceLines
-              invoice={model}
-              onChange={m => this.setState({model: m})}
+              invoice={invoice}
+              onChange={m => this.setState({invoice: m})}
             />
           </Row>
           <div style={{marginTop: -20}}>
-            <AttachmentsForm invoice={model} />
+            <AttachmentsForm invoice={invoice} />
           </div>
           <Row style={{marginBottom: 8}}>
-            <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, this.state.invoice)} isNewInvoice={model.isNew} />
+            <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, invoice)} isNewInvoice={invoice.isNew} />
           </Row>
         </Form>
       </Grid>

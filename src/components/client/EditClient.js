@@ -31,6 +31,7 @@ class EditClient extends Component {
     clients: PropTypes.array.isRequired,
     isLoaded: PropTypes.bool,
     saveClient: PropTypes.func.isRequired,
+    config: PropTypes.object.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string
     }),
@@ -75,7 +76,8 @@ class EditClient extends Component {
         description: '',
       },
       attachments: [],
-      extraFields: [],
+      extraFields: props.config.defaultExtraClientFields.slice(),
+      defaultExtraInvoiceFields: props.config.defaultExtraClientInvoiceFields.slice(),
     };
   }
 
@@ -104,6 +106,14 @@ class EditClient extends Component {
           <Row>
             <h4>{t('client.rate.title')}</h4>
             <EditClientRate rate={client.rate} onChange={value => this.setState({...client, rate: value})} />
+
+            <Col sm={4}>
+              <PropertiesSelect
+                label={t('client.extraInvoiceFields')}
+                values={client.defaultExtraInvoiceFields || []}
+                onChange={value => this.setState({...client, defaultExtraInvoiceFields: value})}
+              />
+            </Col>
           </Row>
           <Row>
             <h4>{t('config.company.other')}</h4>
@@ -126,7 +136,7 @@ class EditClient extends Component {
 
             <Col sm={4}>
               <PropertiesSelect
-                label={t('extraFields')}
+                label={t('client.extraFields')}
                 values={client.extraFields}
                 onChange={value => this.setState({...client, extraFields: value})}
               />
@@ -155,4 +165,5 @@ class EditClient extends Component {
 export default connect(state => ({
   clients: state.clients,
   isLoaded: state.app.isLoaded,
+  config: state.config,
 }), {saveClient})(EditClient);

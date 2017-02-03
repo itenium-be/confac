@@ -17,7 +17,9 @@ const defaultConfig = {
     email: 'ceo@yahoo.com',
     website: 'www.clicky-me-IT.be'
   },
-  extraFields: [],
+  extraConfigFields: [],
+  defaultExtraClientFields: [],
+  defaultExtraClientInvoiceFields: [],
 };
 
 const defaultAppState = {
