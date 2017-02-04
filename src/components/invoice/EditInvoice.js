@@ -29,7 +29,10 @@ class EditInvoice extends Component {
   }
   constructor(props) {
     super(props);
-    this.state = {invoice: this.createModel(props)};
+    this.state = {
+      invoice: this.createModel(props),
+      showExtraFields: false,
+    };
   }
 
   createModel(props) {
@@ -126,9 +129,20 @@ class EditInvoice extends Component {
                 />
               </div>
             </Col>
+
+            {invoice.extraFields.length === 0 && !this.state.showExtraFields ? (
+              <div style={{textAlign: 'center'}}>
+                <Control.Icon
+                  fa="fa fa-chevron-circle-down"
+                  title={t('config.extraFields.open')}
+                  onClick={() => this.setState({showExtraFields: !this.state.showExtraFields})}
+                />
+              </div>
+            ) : null}
           </Row>
 
           <EditInvoiceExtraFields
+            forceOpen={this.state.showExtraFields}
             invoice={invoice}
             onChange={this.updateInvoice.bind(this, 'extraFields')}
           />
@@ -165,17 +179,23 @@ class EditInvoiceExtraFields extends Component {
   static propTypes = {
     invoice: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
+    forceOpen: PropTypes.bool.isRequired,
   }
 
-  constructor() {
-    super();
-    this.state = {extraFieldFormOpen: false};
+  constructor(props) {
+    super(props);
+    this.state = {extraFieldFormOpen: props.forceOpen};
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.forceOpen !== nextProps.forceOpen) {
+      this.setState({extraFieldFormOpen: nextProps.forceOpen});
+    }
   }
 
   render() {
     const {invoice, onChange} = this.props;
 
-    if (invoice.extraFields.length === 0) {
+    if (!this.props.forceOpen && invoice.extraFields.length === 0) {
       return <div />;
     }
 
