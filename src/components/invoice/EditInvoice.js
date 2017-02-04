@@ -131,13 +131,12 @@ class EditInvoice extends Component {
             </Col>
 
             {invoice.extraFields.length === 0 && !this.state.showExtraFields ? (
-              <div style={{textAlign: 'center'}}>
-                <Control.Icon
-                  fa="fa fa-chevron-circle-down"
-                  title={t('config.extraFields.open')}
-                  onClick={() => this.setState({showExtraFields: !this.state.showExtraFields})}
-                />
-              </div>
+              <Control.DownArrowIcon
+                center
+                color="#D3D3D3"
+                title={t('config.extraFields.open')}
+                onClick={() => this.setState({showExtraFields: !this.state.showExtraFields})}
+              />
             ) : null}
           </Row>
 

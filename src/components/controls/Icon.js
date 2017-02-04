@@ -6,7 +6,18 @@ import cn from 'classnames';
 import {EnhanceWithConfirmation, EnhanceWithBusySpinner} from '../enhancers/index.js';
 import t from '../../trans.js';
 
-export class Icon extends Component {
+export const EnhanceIconWithCenter = ComposedComponent => ({center, ...props}) => {
+  if (center) {
+    return (
+      <div style={{textAlign: 'center'}}>
+        <ComposedComponent {...props} />
+      </div>
+    );
+  }
+  return <ComposedComponent {...props} />;
+};
+
+export const Icon = EnhanceIconWithCenter(class Icon extends Component {
   static propTypes = {
     fa: PropTypes.string.isRequired,
     color: PropTypes.string,
@@ -52,7 +63,8 @@ export class Icon extends Component {
 
     return FinalIcon;
   }
-}
+});
+
 
 export const VerifyIcon = ({...props}) => (
   <Icon fa="fa fa-check" color="green" {...props} />
@@ -77,6 +89,10 @@ export const EditIcon = ({...props}) => {
 
 export const ClientEditIcon = ({client, ...props}) => {
   return <EditIcon onClick={'/client/' + client.slug} {...props} />;
+};
+
+export const DownArrowIcon = ({...props}) => {
+  return <Icon fa="fa fa-chevron-circle-down" {...props} />;
 };
 
 export const ConfirmedDeleteIcon = EnhanceWithConfirmation(DeleteIcon);
