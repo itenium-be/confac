@@ -99,7 +99,6 @@ export default class EditInvoiceViewModel {
 
   static emptyMoney = function() {
     return {
-      totalValue: 0,
       totalWithoutTax: 0,
       totalTax: 0,
       total: 0,
@@ -111,14 +110,71 @@ export default class EditInvoiceViewModel {
       return EditInvoiceViewModel.emptyMoney();
     }
 
-    const totalValue = this._lines.reduce((prev, cur) => prev + cur.amount, 0);
     const totalWithoutTax = this._lines.reduce((prev, cur) => prev + cur.amount * cur.price, 0);
     const totalTax = this._lines.reduce((prev, cur) => prev + cur.amount * cur.price * cur.tax / 100, 0);
     return {
-      totalValue,
       totalWithoutTax,
       totalTax,
       total: totalWithoutTax + totalTax,
     };
   }
+}
+
+
+
+function daysCalc(invoice) {
+  const daysWorked = invoice.lines.reduce((prev, cur) => {
+    if (cur.type === 'daily') {
+      return prev + cur.amount;
+    }
+    if (cur.type === 'hourly') {
+      return prev + cur.amount / invoice.client.rate.hoursInDay;
+    }
+    return prev;
+  }, 0);
+
+  const hoursWorked = invoice.lines.reduce((prev, cur) => {
+    if (cur.type === 'daily') {
+      return prev + cur.amount * invoice.client.rate.hoursInDay;
+    }
+    if (cur.type === 'hourly') {
+      return prev + cur.amount;
+    }
+    return prev;
+  }, 0);
+
+  const workDays = getWorkDaysInMonth(invoice.date);
+  return {
+    daysWorked: daysWorked,
+    workDaysInMonth: workDays.length,
+    hoursWorked: hoursWorked,
+  };
+}
+
+
+
+
+function getWorkDaysInMonth(momentInst) {
+  const curMonth = momentInst.month();
+
+  var date = new Date(momentInst.year(), curMonth, 1);
+  var result = [];
+  while (date.getMonth() === curMonth) {
+    // date.getDay = index of ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    if (date.getDay() !== 0 && date.getDay() !== 6) {
+      result.push(date);
+    }
+    date.setDate(date.getDate() + 1);
+  }
+  return result;
+}
+
+
+export function calculateDaysWorked(invoices) {
+  const invoiceDays = invoices.map(daysCalc);
+  return invoiceDays.reduce((a, b) => ({
+    daysWorked: a.daysWorked + b.daysWorked,
+    workDaysInMonth: a.workDaysInMonth + b.workDaysInMonth,
+    hoursWorked: a.hoursWorked + b.hoursWorked,
+  }), {daysWorked: 0, workDaysInMonth: 0, hoursWorked: 0});
 }

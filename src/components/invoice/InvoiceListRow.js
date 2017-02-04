@@ -53,7 +53,7 @@ class InvoiceListRow extends Component {
     return (
       <tr className={invoice.verified ? undefined : 'warning'}>
         {this.props.columns.map((col, i) => <td key={i}>{col.value(invoice)}</td>)}
-        <td style={{whiteSpace: 'nowrap'}}><InvoiceWorkedDays invoices={invoice} /></td>
+        <td style={{whiteSpace: 'nowrap'}}><InvoiceWorkedDays invoices={[invoice]} /></td>
         <td style={{textAlign: 'right'}}>{moneyFormat(invoice.money.total)}</td>
         <td className="icons-cell" width="240px">
           <EditIcon onClick={'/invoice/' + invoice.number} />

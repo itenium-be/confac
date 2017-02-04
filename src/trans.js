@@ -128,7 +128,6 @@ const trans = {
     showInactive: 'Inactieve klanten tonen',
     invoiceAmount: '{amount} facturen',
     timeTitle: 'Geïnvesteerd',
-    hoursWorked: '{hours} uren',
     daysWorked: '{days} dagen',
     rate: {
       title: 'Standaard factuurwaarden',
