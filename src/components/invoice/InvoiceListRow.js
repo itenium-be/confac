@@ -8,14 +8,10 @@ import {InvoiceWorkedDays} from './controls/InvoiceWorkedDays.js';
 import {InvoicesTotal} from './controls/InvoiceTotal.js';
 
 
-
-export const InvoiceListHeader = () => (
+export const InvoiceListHeader = ({columns}) => (
   <thead>
     <tr>
-      <th>{t('invoice.numberShort')}</th>
-      <th>{t('invoice.client')}</th>
-      <th>{t('invoice.date')}</th>
-      <th>{t('invoice.hoursShort')}</th>
+      {columns.map((col, i) => <th key={i}>{col.header}</th>)}
       <th>{t('invoice.days')}</th>
       <th width="10%">{t('invoice.totalTitle')}</th>
       <th>&nbsp;</th>
@@ -24,17 +20,15 @@ export const InvoiceListHeader = () => (
 );
 
 
-export const InvoiceListFooter = ({invoices}) => {
+export const InvoiceListFooter = ({columns, invoices}) => {
   if (invoices.length === 0) {
     return null;
   }
 
-  const moneys = invoices.map(i => i.money);
   return (
     <tfoot>
       <tr>
-        <td colSpan={3}>{invoices.length} {t('invoice.invoices').toLowerCase()}</td>
-        <td>{moneys.map(i => i.totalValue).reduce((a, b) => a + b, 0)}</td>
+        <td colSpan={columns.length}>{invoices.length} {t('invoice.invoices').toLowerCase()}</td>
         <td><InvoiceWorkedDays invoices={invoices} /></td>
         <td colSpan={2}><InvoicesTotal invoices={invoices} /></td>
       </tr>
@@ -47,6 +41,10 @@ export const InvoiceListFooter = ({invoices}) => {
 
 class InvoiceListRow extends Component {
   static propTypes = {
+    columns: PropTypes.arrayOf(PropTypes.shape({
+      header: PropTypes.string.isRequired,
+      value: PropTypes.func.isRequired,
+    }).isRequired).isRequired,
     invoice: PropTypes.object.isRequired,
     deleteInvoice: PropTypes.func.isRequired,
   }
@@ -54,10 +52,7 @@ class InvoiceListRow extends Component {
     const invoice = this.props.invoice;
     return (
       <tr className={invoice.verified ? undefined : 'warning'}>
-        <td>{invoice.number}</td>
-        <td>{invoice.client.name}</td>
-        <td>{invoice.date.format('YYYY-MM-DD')}</td>
-        <td>{invoice.money.totalValue}</td>
+        {this.props.columns.map((col, i) => <td key={i}>{col.value(invoice)}</td>)}
         <td style={{whiteSpace: 'nowrap'}}><InvoiceWorkedDays invoices={invoice} /></td>
         <td style={{textAlign: 'right'}}>{moneyFormat(invoice.money.total)}</td>
         <td className="icons-cell" width="240px">

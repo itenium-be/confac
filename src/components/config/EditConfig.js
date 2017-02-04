@@ -48,6 +48,12 @@ class EditConfig extends Component {
           />
 
 
+          <EditConfigUserSettings
+            config={this.state}
+            onChange={this.setState.bind(this)}
+          />
+
+
           <EditConfigExtraFields
             config={this.state}
             onChange={this.setState.bind(this)}
@@ -66,6 +72,21 @@ class EditConfig extends Component {
 
 export default connect(state => ({config: state.config}), {updateConfig})(EditConfig);
 
+
+
+
+const EditConfigUserSettings = ({config, onChange}) => (
+  <Row>
+    <h1>{t('config.settingsTitle')}</h1>
+    <Col sm={4}>
+      <Control.Switch
+        label={t('config.showOrderNr')}
+        checked={config.showOrderNr}
+        onChange={checked => onChange({showOrderNr: checked})}
+      />
+    </Col>
+  </Row>
+);
 
 
 

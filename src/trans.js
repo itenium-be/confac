@@ -30,8 +30,10 @@ const trans = {
   },
   config: {
     invoiceTitle: 'Standaard factuurinstellingen',
+    settingsTitle: 'Andere instellingen',
     popupMessage: 'Instellingen bewaard',
     defaultClient: 'Standaard klant',
+    showOrderNr: 'Bestelbon nummer tonen', // in invoice list
     defaultTax: 'Standaard btw',
     defaultInvoiceLineType: 'Standaard factuurlijn eenheid',
     company: {
@@ -77,7 +79,6 @@ const trans = {
     createConfirm: 'Factuur aangemaakt',
     date: 'Factuurdatum',
     hours: 'Totaal uren',
-    hoursShort: 'Uren',
     days: 'Dagen',
     create: 'Maak factuur',
     preview: 'Preview',
@@ -88,6 +89,7 @@ const trans = {
     taxtotal: 'BTW {}%',
     total: 'Totaal',
     orderNr: 'Bestelbon referentie',
+    orderNrShort: 'Bestelbon ref',
     verifyAction: 'Factuur nu verifiëren',
     verifyActionTooltip: 'Factuur verifiëren<br>Openstaand voor {days} dagen',
     notVerifiedOnly: 'Toon enkel de niet geverifiëerde',
@@ -121,7 +123,6 @@ const trans = {
     name: 'Klant',
     contact: 'Contact gegevens',
     projectDesc: 'Omschrijving',
-    hourlyRate: 'Uurprijs',
     deactivateTitle: 'Klant deactiveren',
     activateTitle: 'Klant activeren',
     showInactive: 'Inactieve klanten tonen',
@@ -131,8 +132,9 @@ const trans = {
     daysWorked: '{days} dagen',
     rate: {
       title: 'Standaard factuurwaarden',
-      desc: 'Project',
+      desc: 'Standaard omschrijving',
       hoursInDay: 'Uren per dag',
+      defaultPrice: 'Standaard dagprijs',
     },
     extraInvoiceFields: 'Extra factuur velden',
     extraFields: 'Extra klant velden',
