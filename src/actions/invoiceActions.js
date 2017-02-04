@@ -7,6 +7,14 @@ import {success, failure, busyToggle} from './appActions.js';
 import {buildUrl, catchHandler} from './fetch.js';
 import t from '../trans.js';
 
+function cleanViewModel(data) {
+  var invoice = Object.assign({}, data);
+  Object.keys(invoice).filter(k => k[0] === '_' && k !== '_id').forEach(k => {
+    delete invoice[k];
+  });
+  return invoice;
+}
+
 
 export function createInvoice(data) {
   return dispatch => {
@@ -14,7 +22,7 @@ export function createInvoice(data) {
     request.post(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .send(data)
+      .send(cleanViewModel(data))
       .then(function(res) {
         dispatch({
           type: ACTION_TYPES.INVOICE_ADDED,
@@ -42,7 +50,7 @@ function updateInvoiceRequest(data, successMsg, andGoHome) {
     request.put(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .send(data)
+      .send(cleanViewModel(data))
       .then(function(res) {
         dispatch({
           type: ACTION_TYPES.INVOICE_UPDATED,
