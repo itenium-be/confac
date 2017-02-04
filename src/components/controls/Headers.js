@@ -16,8 +16,9 @@ function getHeader(size) {
     return Header3;
   case 4:
     return Header4;
+  default:
+    return Header1;
   }
-  return Header1;
 }
 
 export const HeaderWithEditIcon = ({label, onEditClick, children, editIconVisible = true, size = 1}) => {
