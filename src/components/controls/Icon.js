@@ -6,7 +6,7 @@ import cn from 'classnames';
 import {EnhanceWithConfirmation, EnhanceWithBusySpinner} from '../enhancers/index.js';
 import t from '../../trans.js';
 
-export const EnhanceIconWithCenter = ComposedComponent => ({center, ...props}) => {
+const EnhanceIconWithCenter = ComposedComponent => ({center, ...props}) => {
   if (center) {
     return (
       <div style={{textAlign: 'center'}}>

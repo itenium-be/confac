@@ -19,6 +19,9 @@ export default class EditInvoiceViewModel {
   }
 
   constructor(config, obj = {}) {
+    this._defaultTax = config.defaultTax;
+    console.log('def', this._defaultTax);
+
     this._id = obj._id;
     this.number = obj.number || 1;
     this.client = obj.client;
@@ -75,20 +78,24 @@ export default class EditInvoiceViewModel {
   }
 
   getLine(getEmpty = false) {
+    const defaultLine = {
+      value: 0,
+      tax: this._defaultTax,
+    };
+
     if (!this.client || getEmpty) {
-      return {
+      return Object.assign(defaultLine, {
         type: 'hourly',
         desc: '',
-        value: 0,
-        rate: 0
-      };
+        rate: 0,
+      });
     }
-    return {
+
+    return Object.assign(defaultLine, {
       type: 'hourly',
       desc: this.client.rate.description,
-      value: 0,
-      rate: this.client.rate.value
-    };
+      rate: this.client.rate.value,
+    });
   }
 
   static emptyMoney = function() {

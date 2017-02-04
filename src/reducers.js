@@ -2,6 +2,7 @@ import moment from 'moment';
 import {ACTION_TYPES} from './actions/ActionTypes.js';
 
 const defaultConfig = {
+  defaultTax: 21,
   defaultClient: undefined,
   attachmentTypes: [],
   company: {

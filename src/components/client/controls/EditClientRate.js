@@ -27,6 +27,7 @@ export class EditClientRate extends Component {
         </Col>
         <Col sm={4}>
           <NumericInput
+            prefix="€"
             label={t('client.hourlyRate')}
             value={rate.value}
             onChange={value => this.props.onChange({...rate, value: value})}

@@ -21,6 +21,7 @@ const trans = {
     title: 'Instellingen',
     popupMessage: 'Instellingen bewaard',
     defaultClient: 'Standaard klant',
+    defaultTax: 'Standaard btw',
     company: {
       title: 'Jouw bedrijfsgegevens',
       name: 'Bedrijfsnaam',

@@ -10,6 +10,7 @@ import {updateConfig} from '../../actions/index.js';
 class EditConfig extends Component {
   static propTypes = {
     config: PropTypes.shape({
+      defaultTax: PropTypes.number,
       defaultClient: PropTypes.string,
       company: PropTypes.object,
       extraConfigFields: PropTypes.array.isRequired,
@@ -42,6 +43,14 @@ class EditConfig extends Component {
                 label={t('config.defaultClient')}
                 value={this.state.defaultClient}
                 onChange={item => this.setState({defaultClient: item._id})}
+              />
+            </Col>
+            <Col sm={4}>
+              <StringInput
+                label={t('config.defaultTax')}
+                value={this.state.defaultTax}
+                onChange={value => this.setState({defaultTax: value})}
+                suffix="%"
               />
             </Col>
             <Col sm={4}>

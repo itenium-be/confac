@@ -2,18 +2,21 @@ import React, {Component, PropTypes} from 'react';
 import moment from 'moment';
 import { t } from '../util.js';
 
-import {LabeledInput} from './Inputs.js';
+import {EnhanceIputWithLabel} from './Inputs.js';
 import BootstrapDatePicker from 'react-bootstrap-date-picker';
 
-export class DatePicker extends Component {
+export const DatePicker = EnhanceIputWithLabel(class extends Component {
   static propTypes = {
-    label: PropTypes.string,
     value: PropTypes.object,
     onChange: PropTypes.func.isRequired,
   }
 
+  // calendarContainer={document.body}:
+  // Workaround for making the dropdown visible when placed
+  // in the second cell of a container with className split
+
   render() {
-    const Picker = (
+    return (
       <BootstrapDatePicker
         value={this.props.value ? this.props.value.toISOString() : undefined}
         onChange={dateString => this.props.onChange(dateString ? moment(dateString) : null)}
@@ -23,12 +26,8 @@ export class DatePicker extends Component {
         showTodayButton={true}
         todayButtonLabel={t('controls.today')}
         weekStartsOnMonday={true}
+        calendarContainer={document.body}
       />
     );
-
-    if (this.props.label) {
-      return <LabeledInput label={this.props.label}>{Picker}</LabeledInput>;
-    }
-    return Picker;
   }
-}
+});

@@ -17,9 +17,10 @@ export default class EditInvoiceLines extends Component {
       <Table condensed>
         <thead>
           <tr>
-            <th width="60%">{t('client.projectDesc')}</th>
+            <th width="40%">{t('client.projectDesc')}</th>
             <th width="20%">{t('invoice.hours')}</th>
-            <th width="19%">{t('client.hourlyRate')}</th>
+            <th width="20%">{t('client.hourlyRate')}</th>
+            <th width="19%">{t('config.company.btw')}</th>
             <th width="1%">&nbsp;</th>
           </tr>
         </thead>
@@ -44,9 +45,19 @@ export default class EditInvoiceLines extends Component {
 
                 <td>
                   <NumericInput
+                    prefix="€"
                     float
                     value={line.rate}
                     onChange={value => onChange(invoice.updateLine(index, {rate: value}))}
+                  />
+                </td>
+
+                <td>
+                  <NumericInput
+                    suffix="%"
+                    float
+                    value={line.tax}
+                    onChange={value => onChange(invoice.updateLine(index, {tax: value}))}
                   />
                 </td>
 

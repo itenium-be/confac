@@ -3,7 +3,7 @@ import {t} from '../../util.js';
 
 import {Row, Col} from 'react-bootstrap';
 import Select from 'react-select';
-import {LabeledInput, Switch} from '../../controls/Inputs.js';
+import {EnhanceIputWithLabel, Switch} from '../../controls/Inputs.js';
 
 // The object returned by InvoiceListViewModel::getFilterOptions
 const filterOptionsPropType = PropTypes.arrayOf(PropTypes.shape({
@@ -36,13 +36,12 @@ export class InvoiceSearch extends Component {
     return (
       <Row>
         <Col sm={8}>
-          <LabeledInput label={t('search')}>
-            <InvoiceSearchSelect
-              onChange={value => this.onFilterChange({search: value})}
-              value={search}
-              options={this.props.filterOptions}
-            />
-          </LabeledInput>
+          <InvoiceSearchSelect
+            label={t('search')}
+            onChange={value => this.onFilterChange({search: value})}
+            value={search}
+            options={this.props.filterOptions}
+          />
         </Col>
         <Col sm={4}>
           <Switch
@@ -59,7 +58,7 @@ export class InvoiceSearch extends Component {
 
 
 
-class InvoiceSearchSelect extends Component {
+const InvoiceSearchSelect = EnhanceIputWithLabel(class extends Component {
   static propTypes = {
     options: filterOptionsPropType,
     value: PropTypes.any,
@@ -98,4 +97,4 @@ class InvoiceSearchSelect extends Component {
       />
     );
   }
-}
+});

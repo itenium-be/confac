@@ -1,5 +1,5 @@
-import React from 'react';
-import {Col, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import React, {Component, PropTypes} from 'react';
+import {Col, FormGroup, ControlLabel, FormControl, InputGroup} from 'react-bootstrap';
 import ReactSwitch from 'react-ios-switch';
 import {t} from '../util.js';
 
@@ -15,12 +15,55 @@ export const Switch = ({checked, onChange, label, style, ...props}) => (
 );
 
 
-export const LabeledInput = ({label, children}) => (
-  <FormGroup>
-    <ControlLabel>{label}</ControlLabel>
-    {children}
-  </FormGroup>
-);
+
+export const EnhanceIputWithLabel = ComposedComponent => ({label, placeholder, ...props}) => {
+  if (label) {
+    return (
+      <FormGroup>
+        <ControlLabel>{label}</ControlLabel>
+        <ComposedComponent {...props} placeholder={placeholder || label} />
+      </FormGroup>
+    );
+  }
+  return <ComposedComponent {...props} placeholder={placeholder} />;
+};
+
+export const EnhanceIputWithAddons = ComposedComponent => ({prefix, suffix, ...props}) => {
+  if (prefix || suffix) {
+    return (
+      <InputGroup>
+        {prefix ? <InputGroup.Addon>{prefix}</InputGroup.Addon> : null}
+        <ComposedComponent {...props} />
+        {suffix ? <InputGroup.Addon>{suffix}</InputGroup.Addon> : null}
+      </InputGroup>
+    );
+  }
+  return <ComposedComponent {...props} />;
+};
+
+
+const BaseInput = EnhanceIputWithLabel(EnhanceIputWithAddons(class extends Component {
+  static propTypes = {
+    type: PropTypes.string.isRequired,
+    value: PropTypes.any,
+    onChange: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
+  }
+
+  render() {
+    const {type, value, placeholder, onChange} = this.props;
+    return (
+      <FormControl
+        type={type === 'textarea' ? 'text' : type}
+        componentClass={type === 'textarea' ? 'textarea' : undefined}
+        value={value}
+        placeholder={placeholder}
+        onChange={onChange}
+      />
+    );
+  }
+}));
+
 
 function parseIntOrFloat(str, asFloat) {
   if (!str) {
@@ -33,50 +76,38 @@ function parseIntOrFloat(str, asFloat) {
 }
 
 
-export const NumericInput = ({label, value, onChange, float = false}) => {
-  const Input = (
-    <FormControl
+export const NumericInput = ({value, onChange, ...props, float = false}) => {
+  return (
+    <BaseInput
       type="number"
       value={value || ''}
-      placeholder={label}
       onChange={e => onChange(parseIntOrFloat(e.target.value, float))}
+      {...props}
     />
   );
-  if (label) {
-    return <LabeledInput label={label}>{Input}</LabeledInput>;
-  }
-  return Input;
 };
 
 
-export const StringInput = ({label, value, onChange, placeholder}) => {
-  const Input = (
-    <FormControl
+export const StringInput = ({value, onChange, ...props}) => {
+  return (
+    <BaseInput
       type="text"
-      value={value}
-      placeholder={placeholder || label}
+      value={value || ''}
       onChange={e => onChange(e.target.value)}
+      {...props}
     />
   );
-  if (label) {
-    return <LabeledInput label={label}>{Input}</LabeledInput>;
-  }
-  return Input;
 };
 
-export const TextareaInput = ({label, value, onChange, placeholder}) => {
-  const Input = (
-    <FormControl
-      componentClass="textarea"
-      value={value}
-      placeholder={placeholder || label}
+export const TextareaInput = ({value, onChange, ...props}) => {
+  return (
+    <BaseInput
+      type="textarea"
+      value={value || ''}
       onChange={e => onChange(e.target.value)}
+      {...props}
     />
   );
-  if (label) {
-    return <LabeledInput label={label}>{Input}</LabeledInput>;
-  }
-  return Input;
 };
 
 export const StringInputArray = ({keys, model, onChange, tPrefix}) => {

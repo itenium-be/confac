@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
-import {LabeledInput} from '../../controls.js';
+import {EnhanceIputWithLabel} from '../../controls.js';
 import Select from 'react-select';
 
 class ClientSelectComponent extends Component {
@@ -9,7 +9,6 @@ class ClientSelectComponent extends Component {
     clients: PropTypes.array.isRequired,
     value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     onChange: PropTypes.func.isRequired,
-    label: PropTypes.string,
   }
 
   getClient(clientId) {
@@ -26,7 +25,7 @@ class ClientSelectComponent extends Component {
       clients.push(selectedClient);
     }
 
-    const Selecter = (
+    return (
       <Select
         value={selectedClientId}
         options={clients.sort((a, b) => a.name.localeCompare(b.name)).map(item => ({value: item._id, label: item.name}))}
@@ -34,16 +33,7 @@ class ClientSelectComponent extends Component {
         clearable={false}
       />
     );
-
-    if (this.props.label) {
-      return (
-        <LabeledInput label={this.props.label}>
-          {Selecter}
-        </LabeledInput>
-      );
-    }
-    return Selecter;
   }
 }
 
-export const ClientSelect = connect(state => ({clients: state.clients}))(ClientSelectComponent);
+export const ClientSelect = EnhanceIputWithLabel(connect(state => ({clients: state.clients}))(ClientSelectComponent));
