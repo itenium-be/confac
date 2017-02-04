@@ -23,7 +23,7 @@ const trans = {
     rate: 'Eenheidsprijs',
     types: {
       hourly: 'Uren',
-      dayly: 'Dagen',
+      daily: 'Dagen',
       km: 'Km',
       items: 'Ander',
     },
@@ -86,7 +86,7 @@ const trans = {
     subtotal: 'Subtotaal',
     subtotalLong: 'Subtotaal (zonder btw)',
     taxtotalShort: 'Btw',
-    taxtotal: 'BTW {}%',
+    taxtotal: 'BTW',
     total: 'Totaal',
     orderNr: 'Bestelbon referentie',
     orderNrShort: 'Bestelbon ref',

@@ -20,16 +20,15 @@ describe('no lines', () => {
   });
 });
 
-describe('2 hourly lines', () => {
+describe('2 daily lines', () => {
   beforeEach(function() {
     this.vm = createViewModel();
-    this.vm.addLine({type: 'hourly', value: 1, tax: 21, rate: 500});
-    this.vm.addLine({type: 'hourly', value: 1, tax: 21, rate: 500});
+    this.vm.addLine({type: 'daily', amount: 1, tax: 21, price: 500});
+    this.vm.addLine({type: 'daily', amount: 1, tax: 21, price: 500});
   });
 
   it('should have correct total', function() {
     expect(this.vm.money).toEqual({
-      taxPercentage: 21,
       total: 1210,
       totalTax: 210,
       totalValue: 2,

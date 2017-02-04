@@ -41,7 +41,6 @@ export default class EditInvoiceViewModel {
   set _lines(value) {
     this.lines = value;
     this.money = this._calculateMoneys();
-    console.log('moneyz', this.money);
   }
   setLines(lines) {
     this._lines = lines;
@@ -102,7 +101,6 @@ export default class EditInvoiceViewModel {
     return {
       totalValue: 0,
       totalWithoutTax: 0,
-      taxPercentage: 0,
       totalTax: 0,
       total: 0,
     };
@@ -115,12 +113,10 @@ export default class EditInvoiceViewModel {
 
     const totalValue = this._lines.reduce((prev, cur) => prev + cur.amount, 0);
     const totalWithoutTax = this._lines.reduce((prev, cur) => prev + cur.amount * cur.price, 0);
-    const taxPercentage = 21;
-    const totalTax = totalWithoutTax / 100 * taxPercentage;
+    const totalTax = this._lines.reduce((prev, cur) => prev + cur.amount * cur.price * cur.tax / 100, 0);
     return {
       totalValue,
       totalWithoutTax,
-      taxPercentage,
       totalTax,
       total: totalWithoutTax + totalTax,
     };

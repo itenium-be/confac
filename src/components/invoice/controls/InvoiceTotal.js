@@ -29,7 +29,7 @@ export const InvoicesTotal = ({invoices}) => {
   );
 };
 
-const InvoiceTotal = ({totalWithoutTax, taxPercentage, totalTax, total}) => {
+const InvoiceTotal = ({totalWithoutTax, totalTax, total}) => {
   return (
     <div>
       <div>
@@ -37,7 +37,7 @@ const InvoiceTotal = ({totalWithoutTax, taxPercentage, totalTax, total}) => {
         <span style={amountsStyle}>{moneyFormat(totalWithoutTax)}</span>
       </div>
       <div>
-        {t('invoice.taxtotal', taxPercentage)}
+        {t('invoice.taxtotal')}
         <span style={amountsStyle}>{moneyFormat(totalTax)}</span>
       </div>
       <div>
