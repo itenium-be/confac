@@ -54,8 +54,8 @@ export default class EditInvoiceViewModel {
     this.extraFields = client ? (client.defaultExtraInvoiceFields || []) : [];
     return this;
   }
-  addLine() {
-    this._lines = this._lines.concat([this.getLine(true)]);
+  addLine(line) {
+    this._lines = this._lines.concat([line || this.getLine(true)]);
     return this;
   }
   updateLine(index, updateWith) {

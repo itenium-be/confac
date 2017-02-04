@@ -1,7 +1,7 @@
 import moment from 'moment';
 import {ACTION_TYPES} from './actions/ActionTypes.js';
 
-const defaultConfig = {
+export const defaultConfig = {
   defaultTax: 21,
   defaultClient: undefined,
   attachmentTypes: [],
