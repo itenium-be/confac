@@ -14,7 +14,7 @@ export const EditCompany = ({company, onChange}) => {
 
   return (
     <Row>
-      <h3>{t('config.company.title')}</h3>
+      <h1>{t('config.company.title')}</h1>
       <StringInputArray
         keys={keys}
         model={company}

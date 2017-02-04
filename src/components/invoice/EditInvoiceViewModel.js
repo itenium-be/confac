@@ -20,7 +20,7 @@ export default class EditInvoiceViewModel {
 
   constructor(config, obj = {}) {
     this._defaultTax = config.defaultTax;
-    console.log('def', this._defaultTax);
+    this._defaultType = config.defaultInvoiceLineType;
 
     this._id = obj._id;
     this.number = obj.number || 1;
@@ -81,18 +81,17 @@ export default class EditInvoiceViewModel {
     const defaultLine = {
       value: 0,
       tax: this._defaultTax,
+      type: this._defaultType,
     };
 
     if (!this.client || getEmpty) {
       return Object.assign(defaultLine, {
-        type: 'hourly',
         desc: '',
         rate: 0,
       });
     }
 
     return Object.assign(defaultLine, {
-      type: 'hourly',
       desc: this.client.rate.description,
       rate: this.client.rate.value,
     });

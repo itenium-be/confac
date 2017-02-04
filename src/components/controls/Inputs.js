@@ -28,8 +28,10 @@ export const EnhanceIputWithLabel = ComposedComponent => ({label, placeholder, .
   return <ComposedComponent {...props} placeholder={placeholder} />;
 };
 
-export const EnhanceIputWithAddons = ComposedComponent => ({prefix, suffix, ...props}) => {
-  if (prefix || suffix) {
+export const EnhanceIputWithAddons = ComposedComponent => ({prefix, suffix, addOnMinWidth, ...props}) => {
+  // ATTN: window.outerWidth is not part of the state, so a
+  // rerender does not happen when the user resizes the window
+  if ((!addOnMinWidth || addOnMinWidth < window.outerWidth) && (prefix || suffix)) {
     return (
       <InputGroup>
         {prefix ? <InputGroup.Addon>{prefix}</InputGroup.Addon> : null}
@@ -48,17 +50,19 @@ const BaseInput = EnhanceIputWithLabel(EnhanceIputWithAddons(class extends Compo
     value: PropTypes.any,
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
+    style: PropTypes.object,
   }
 
   render() {
-    const {type, value, placeholder, onChange} = this.props;
+    const {type} = this.props;
     return (
       <FormControl
         type={type === 'textarea' ? 'text' : type}
         componentClass={type === 'textarea' ? 'textarea' : undefined}
-        value={value}
-        placeholder={placeholder}
-        onChange={onChange}
+        value={this.props.value}
+        placeholder={this.props.placeholder}
+        onChange={this.props.onChange}
+        style={this.props.style}
       />
     );
   }

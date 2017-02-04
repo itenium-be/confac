@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 import {t} from '../util.js';
 
 import {Row, Col, ControlLabel, FormGroup, Alert} from 'react-bootstrap';
-import {AttachmentDownloadIcon, AddIcon, Popup, SimpleSelect, ConfirmedDeleteIcon, HeaderWithEditIcon} from '../controls.js';
+import {AttachmentDownloadIcon, AddIcon, Popup, SimpleCreatableSelect, ConfirmedDeleteIcon, HeaderWithEditIcon} from '../controls.js';
 import {updateAttachment, deleteAttachment} from '../../actions/index.js';
 
 class AttachmentsFormComponent extends Component {
@@ -60,50 +60,49 @@ class AbstractAttachmentsForm extends Component {
   render() {
     const canDeleteAttachments = this.props.attachments.length > (this.props.modelType === 'invoice' ? 1 : 0);
     return (
-      <div>
-        <Row>
-          <HeaderWithEditIcon
-            label={t('invoice.attachments')}
-            editIconVisible={canDeleteAttachments}
-            onEditClick={() => this.setState({isFormOpen: !this.state.isFormOpen})}
-          />
-          {this.props.attachments.map(att => (
-            <Col sm={3} key={att.type} style={{height: 45}}>
-              <div
-                style={{padding: 5, marginTop: 10, border: this.state.isFormOpen && att.type === this.state.hoverId ? '1px gray dotted' : ''}}
-                onMouseOver={() => this.setState({hoverId: att.type !== 'pdf' ? att.type : null})}
-                onMouseOut={() => this.setState({hoverId: null})}
-              >
-                <AttachmentDownloadIcon model={this.props.model} attachment={att} modelType={this.props.modelType} />
-                <span style={{marginLeft: 10}}>{att.type !== 'pdf' ? att.type : t('invoice.invoice')}</span>
-                {this.state.isFormOpen && att.type !== 'pdf' ? (
-                  <div style={{display: 'inline', position: 'absolute', right: 20}}>
-                    <ConfirmedDeleteIcon title={t('attachment.deleteTitle')} onClick={this.props.onDelete.bind(this, att)}>
-                      {t('attachment.deletePopup')}
-                    </ConfirmedDeleteIcon>
-                  </div>
-                ) : null}
-              </div>
-            </Col>
-          ))}
-        </Row>
-        <Row>
-          {!this.state.isOpen ? (
-            <AddIcon
-              style={{marginTop: 25}}
-              onClick={() => this.setState({isOpen: true})}
-              label={t('invoice.attachmentsAdd')}
-              size={1}
-            />
-          ) : (
-            <AddAttachmentPopup
-              attachments={this.props.attachments}
-              onClose={() => this.setState({isOpen: false})}
-              onAdd={att => this.props.onAdd(att)}
-            />
-          )}
-        </Row>
-      </div>
+      <Row>
+        <HeaderWithEditIcon
+          label={t('invoice.attachments')}
+          editIconVisible={canDeleteAttachments}
+          onEditClick={() => this.setState({isFormOpen: !this.state.isFormOpen})}
+        />
+
+        <AddIcon
+          style={{marginTop: 0, marginLeft: 16}}
+          onClick={() => this.setState({isOpen: true})}
+          label={t('invoice.attachmentsAdd')}
+          size={1}
+        />
+
+        <AddAttachmentPopup
+          isOpen={this.state.isOpen}
+          attachments={this.props.attachments}
+          onClose={() => this.setState({isOpen: false})}
+          onAdd={att => this.props.onAdd(att)}
+        />
+
+        <br />
+
+        {this.props.attachments.map(att => (
+          <Col sm={3} key={att.type} style={{height: 45}}>
+            <div
+              style={{padding: 5, marginTop: 10, border: this.state.isFormOpen && att.type === this.state.hoverId ? '1px gray dotted' : ''}}
+              onMouseOver={() => this.setState({hoverId: att.type !== 'pdf' ? att.type : null})}
+              onMouseOut={() => this.setState({hoverId: null})}
+            >
+              <AttachmentDownloadIcon model={this.props.model} attachment={att} modelType={this.props.modelType} />
+              <span style={{marginLeft: 10}}>{att.type !== 'pdf' ? att.type : t('invoice.invoice')}</span>
+              {this.state.isFormOpen && att.type !== 'pdf' ? (
+                <div style={{display: 'inline', position: 'absolute', right: 20}}>
+                  <ConfirmedDeleteIcon title={t('attachment.deleteTitle')} onClick={this.props.onDelete.bind(this, att)}>
+                    {t('attachment.deletePopup')}
+                  </ConfirmedDeleteIcon>
+                </div>
+              ) : null}
+            </div>
+          </Col>
+        ))}
+      </Row>
     );
   }
 }
@@ -115,6 +114,7 @@ class AddAttachmentPopupComponent extends Component {
     onClose: PropTypes.func.isRequired,
     onAdd: PropTypes.func.isRequired,
     attachmentTypes: PropTypes.array.isRequired,
+    isOpen: PropTypes.bool.isRequired,
   }
 
   constructor() {
@@ -131,6 +131,10 @@ class AddAttachmentPopupComponent extends Component {
   }
 
   render() {
+    if (!this.props.isOpen) {
+      return <div />;
+    }
+
     const {attachments, onClose} = this.props;
     const currentType = this.state.type;
     const canAdd = currentType && !attachments.map(a => a.type.toUpperCase()).includes(currentType.toUpperCase());
@@ -148,7 +152,7 @@ class AddAttachmentPopupComponent extends Component {
       <Popup title={t('invoice.attachmentsAdd')} buttons={buttons} onHide={onClose}>
         <FormGroup>
           <ControlLabel>{t('attachment.type')}</ControlLabel>
-          <SimpleSelect
+          <SimpleCreatableSelect
             value={currentType}
             options={this.props.attachmentTypes}
             onChange={text => this.setState({type: text})}

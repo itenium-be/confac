@@ -40,3 +40,23 @@ div.split > div:first-child {
 div.split > div:nth-child(2) {
 	overflow: hidden;
 }
+
+
+h1 {
+	font-size: 28px;
+}
+
+.edit-container {
+	margin-top: -26px;
+}
+
+
+@media (max-width: 1200px) {
+	.container {
+		width: 100%;
+	}
+
+	.edit-container h1 {
+		margin-left: 10px;
+	}
+}

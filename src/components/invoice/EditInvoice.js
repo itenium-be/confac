@@ -74,10 +74,13 @@ class EditInvoice extends Component {
     const {invoice} = this.state;
     const {client, money} = invoice;
     return (
-      <Grid>
+      <Grid className="edit-container">
         <Form>
           <Row>
+            <h1>{invoice._id ? t('invoice.editTitle') : t('invoice.createTitle')}</h1>
+
             <InvoiceNotVerifiedAlert invoice={invoice} />
+
             <Col sm={6}>
               <Control.ClientSelect
                 label={t('invoice.client')}
@@ -100,6 +103,7 @@ class EditInvoice extends Component {
             <Col sm={6}>
               <div className="split">
                 <Control.NumericInput
+                  prefix={invoice.verified ? <Control.VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} /> : undefined}
                   label={t('invoice.number')}
                   value={invoice.number}
                   onChange={this.updateInvoice.bind(this, 'number')}

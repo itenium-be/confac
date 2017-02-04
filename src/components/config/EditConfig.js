@@ -4,7 +4,7 @@ import {t} from '../util.js';
 
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import {EditCompany} from './EditCompany.js';
-import {ClientSelect, BusyButton, StringInput, PropertiesSelect, ExtraFieldsInput} from '../controls.js';
+import * as Control from '../controls.js';
 import {updateConfig} from '../../actions/index.js';
 
 class EditConfig extends Component {
@@ -34,74 +34,29 @@ class EditConfig extends Component {
 
   render() {
     return (
-      <Grid>
+      <Grid className="edit-container">
         <Form>
-          <Row>
-            <h3>{t('config.title')}</h3>
-            <Col sm={4}>
-              <ClientSelect
-                label={t('config.defaultClient')}
-                value={this.state.defaultClient}
-                onChange={item => this.setState({defaultClient: item._id})}
-              />
-            </Col>
-            <Col sm={4}>
-              <StringInput
-                label={t('config.defaultTax')}
-                value={this.state.defaultTax}
-                onChange={value => this.setState({defaultTax: value})}
-                suffix="%"
-              />
-            </Col>
-            <Col sm={4}>
-              <StringInput
-                label={t('attachment.types')}
-                placeholder={t('attachment.typesPlaceholder')}
-                value={this.state.attachmentTypes.join(',')}
-                onChange={value => this.setState({attachmentTypes: value.split(',')})}
-              />
-            </Col>
-          </Row>
           <EditCompany
             company={this.state.company}
             onChange={company => this.setState({company})}
           />
 
 
-          <Row>
-            <h4>{t('config.extraFields.title')}</h4>
-            <Col sm={4}>
-              <PropertiesSelect
-                label={t('config.extraFields.config')}
-                values={this.state.extraConfigFields}
-                onChange={value => this.setState({extraConfigFields: value})}
-              />
-            </Col>
-            <Col sm={4}>
-              <PropertiesSelect
-                label={t('config.extraFields.client')}
-                values={this.state.defaultExtraClientFields}
-                onChange={value => this.setState({defaultExtraClientFields: value})}
-              />
-            </Col>
-            <Col sm={4}>
-              <PropertiesSelect
-                label={t('config.extraFields.clientInvoice')}
-                values={this.state.defaultExtraClientInvoiceFields}
-                onChange={value => this.setState({defaultExtraClientInvoiceFields: value})}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <ExtraFieldsInput
-              properties={this.state.extraConfigFields}
-              onChange={value => this.setState({extraConfigFields: value})}
-            />
-          </Row>
+          <EditConfigInvoice
+            config={this.state}
+            onChange={this.setState.bind(this)}
+          />
+
+
+          <EditConfigExtraFields
+            config={this.state}
+            onChange={this.setState.bind(this)}
+          />
+
 
 
           <Row className="button-row">
-            <BusyButton onClick={this._save.bind(this)}>{t('save')}</BusyButton>
+            <Control.BusyButton onClick={this._save.bind(this)}>{t('save')}</Control.BusyButton>
           </Row>
         </Form>
       </Grid>
@@ -110,3 +65,84 @@ class EditConfig extends Component {
 }
 
 export default connect(state => ({config: state.config}), {updateConfig})(EditConfig);
+
+
+
+
+const EditConfigInvoice = ({config, onChange}) => (
+  <Row>
+    <h1>{t('config.invoiceTitle')}</h1>
+    <Col sm={4}>
+      <Control.ClientSelect
+        label={t('config.defaultClient')}
+        value={config.defaultClient}
+        onChange={item => onChange({defaultClient: item._id})}
+      />
+    </Col>
+
+    <Col sm={4}>
+      <Control.StringInput
+        label={t('config.defaultTax')}
+        value={config.defaultTax}
+        onChange={value => onChange({defaultTax: value})}
+        suffix="%"
+      />
+    </Col>
+
+    <Col sm={4}>
+      <Control.StringsSelect
+        label={t('attachment.types')}
+        values={config.attachmentTypes}
+        onChange={values => onChange({attachmentTypes: values})}
+      />
+    </Col>
+
+    <Col sm={4}>
+      <Control.InvoiceLineTypeSelect
+        label={t('config.defaultInvoiceLineType')}
+        type={config.defaultInvoiceLineType}
+        onChange={value => onChange({defaultInvoiceLineType: value})}
+      />
+    </Col>
+  </Row>
+);
+
+
+
+
+
+
+const EditConfigExtraFields = ({config, onChange}) => (
+  <div>
+    <Row>
+      <h1>{t('config.extraFields.title')}</h1>
+      <Col sm={4}>
+        <Control.PropertiesSelect
+          label={t('config.extraFields.config')}
+          values={config.extraConfigFields}
+          onChange={value => onChange({extraConfigFields: value})}
+        />
+      </Col>
+      <Col sm={4}>
+        <Control.PropertiesSelect
+          label={t('config.extraFields.client')}
+          values={config.defaultExtraClientFields}
+          onChange={value => onChange({defaultExtraClientFields: value})}
+        />
+      </Col>
+      <Col sm={4}>
+        <Control.PropertiesSelect
+          label={t('config.extraFields.clientInvoice')}
+          values={config.defaultExtraClientInvoiceFields}
+          onChange={value => onChange({defaultExtraClientInvoiceFields: value})}
+        />
+      </Col>
+    </Row>
+    <Row>
+      <Control.ExtraFieldsInput
+        properties={config.extraConfigFields}
+        onChange={value => onChange({extraConfigFields: value})}
+      />
+    </Row>
+  </div>
+);

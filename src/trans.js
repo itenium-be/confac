@@ -17,11 +17,23 @@ const trans = {
   toastrConfirm: 'Wijzigingen bewaard',
   notes: 'Notitie',
   extraFields: 'Extra velden',
+  rates: {
+    type: 'Eenheid',
+    value: 'Aantal',
+    rate: 'Eenheidsprijs',
+    types: {
+      hourly: 'Uren',
+      dayly: 'Dagen',
+      km: 'Km',
+      items: 'Ander',
+    },
+  },
   config: {
-    title: 'Instellingen',
+    invoiceTitle: 'Standaard factuurinstellingen',
     popupMessage: 'Instellingen bewaard',
     defaultClient: 'Standaard klant',
     defaultTax: 'Standaard btw',
+    defaultInvoiceLineType: 'Standaard factuurlijn eenheid',
     company: {
       title: 'Jouw bedrijfsgegevens',
       name: 'Bedrijfsnaam',
@@ -50,6 +62,8 @@ const trans = {
   },
   invoice: {
     invoice: 'Factuur',
+    createTitle: 'Nieuwe factuur maken',
+    editTitle: 'Factuur details',
     fileName: 'Pdf bestandsnaam factuur',
     fileNamePlaceHolder: '{date:YYYY-MM-DD} {nr:4} {orderNr}',
     createNew: 'Nieuwe factuur',
@@ -77,6 +91,7 @@ const trans = {
     verifyAction: 'Factuur nu verifiëren',
     verifyActionTooltip: 'Factuur verifiëren<br>Openstaand voor {days} dagen',
     notVerifiedOnly: 'Toon enkel de niet geverifiëerde',
+    isVerified: 'Deze factuur is geverifieerd!',
     isNotVerified: 'Deze factuur is nog niet geverifieerd!',
     isVerifiedConfirm: 'Factuur nu geverifieerd',
     isNotVerifiedConfirm: 'Factuur niet meer geverifieerd',
@@ -95,7 +110,6 @@ const trans = {
   },
   attachment: {
     types: 'Bijlage types',
-    typesPlaceholder: 'Komma separated string :)',
     type: 'Type bijlage',
     typeExists: 'Dit type bijlage bestaat reeds voor deze factuur.',
     toggleEditForm: 'Bijlagen verwijderen',
@@ -105,7 +119,7 @@ const trans = {
   client: {
     createNew: 'Nieuwe klant',
     name: 'Klant',
-    contact: 'Contact',
+    contact: 'Contact gegevens',
     projectDesc: 'Omschrijving',
     hourlyRate: 'Uurprijs',
     deactivateTitle: 'Klant deactiveren',

@@ -57,10 +57,10 @@ class EditClient extends Component {
     }
 
     return (
-      <Grid>
+      <Grid className="edit-container">
         <Form>
           <Row>
-            <h4>{t('client.contact')}</h4>
+            <h1>{t('client.contact')}</h1>
             <InputArray
               config={defaultClientProperties}
               model={client}
@@ -69,7 +69,7 @@ class EditClient extends Component {
             />
           </Row>
           <Row>
-            <h4>{t('client.rate.title')}</h4>
+            <h1>{t('client.rate.title')}</h1>
             <EditClientRate rate={client.rate} onChange={value => this.setState({...client, rate: value})} />
 
             <Col sm={4}>
@@ -81,7 +81,7 @@ class EditClient extends Component {
             </Col>
           </Row>
           <Row>
-            <h4>{t('config.company.other')}</h4>
+            <h1>{t('config.company.other')}</h1>
             <Col sm={4}>
               <TextareaInput
                 label={t('notes')}
@@ -114,9 +114,7 @@ class EditClient extends Component {
             />
           </Row>
 
-          <Row>
-            <AttachmentsForm client={client} />
-          </Row>
+          <AttachmentsForm client={client} />
 
           <Row className="button-row">
             <BusyButton

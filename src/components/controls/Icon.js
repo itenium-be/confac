@@ -53,6 +53,7 @@ export const Icon = EnhanceIconWithCenter(class Icon extends Component {
     );
 
     if (title) {
+      // TODO: inline doesn't seem to be always working (for example in EditInvoiceLines:Notes th)
       return (
         <div style={{display: 'inline'}} data-tip={title}>
           <ReactTooltip multiline={true} />
