@@ -28,7 +28,7 @@ const defaultAppState = {
   isBusy: false,
   busyCount: 0,
   invoiceFilters: {
-    search: [],
+    search: [{value: moment().year(), label: moment().year(), type: 'year'}],
     unverifiedOnly: false,
   },
 };
