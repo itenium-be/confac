@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {t, EditInvoiceViewModel} from '../util.js';
 
-import {DatePicker, ClientSelect, NumericInput, StringInput, AttachmentsForm, ExtraFieldsInput, PropertiesSelect, HeaderWithEditIcon} from '../controls.js';
+import * as Control from '../controls.js';
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import ClientDetails from '../client/controls/ClientDetails.js';
 import EditInvoiceLines from './EditInvoiceLines.js';
@@ -76,7 +76,7 @@ class EditInvoice extends Component {
           <Row>
             <InvoiceNotVerifiedAlert invoice={invoice} />
             <Col sm={6}>
-              <ClientSelect
+              <Control.ClientSelect
                 label={t('invoice.client')}
                 value={client}
                 onChange={c => this.setState({invoice: invoice.setClient(c)})}
@@ -96,13 +96,13 @@ class EditInvoice extends Component {
             </Col>
             <Col sm={6}>
               <div className="split">
-                <NumericInput
+                <Control.NumericInput
                   label={t('invoice.number')}
                   value={invoice.number}
                   onChange={this.updateInvoice.bind(this, 'number')}
                 />
 
-                <DatePicker
+                <Control.DatePicker
                   label={t('invoice.date')}
                   value={invoice.date}
                   onChange={this.updateInvoice.bind(this, 'date')}
@@ -113,16 +113,16 @@ class EditInvoice extends Component {
 
             <Col sm={6}>
               <div className="split">
-                <StringInput
-                  label={t('invoice.fileName')}
-                  value={invoice.fileName}
-                  onChange={this.updateInvoice.bind(this, 'fileName')}
-                />
-
-                <StringInput
+                <Control.StringInput
                   label={t('invoice.orderNr')}
                   value={invoice.orderNr}
                   onChange={this.updateInvoice.bind(this, 'orderNr')}
+                />
+
+                <Control.StringInput
+                  label={t('invoice.fileName')}
+                  value={invoice.fileName}
+                  onChange={this.updateInvoice.bind(this, 'fileName')}
                 />
               </div>
             </Col>
@@ -140,7 +140,7 @@ class EditInvoice extends Component {
             />
           </Row>
           <div style={{marginTop: -20}}>
-            <AttachmentsForm invoice={invoice} />
+            <Control.AttachmentsForm invoice={invoice} />
           </div>
           <Row style={{marginBottom: 8}}>
             <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, invoice)} isNewInvoice={invoice.isNew} />
@@ -182,13 +182,13 @@ class EditInvoiceExtraFields extends Component {
     return (
       <div>
         <Row>
-          <HeaderWithEditIcon
+          <Control.HeaderWithEditIcon
             label={t('extraFields')}
             onEditClick={() => this.setState({extraFieldFormOpen: !this.state.extraFieldFormOpen})}
           />
           {this.state.extraFieldFormOpen ? (
             <Col sm={4} style={{height: 75}}>
-              <PropertiesSelect
+              <Control.PropertiesSelect
                 label={t('invoice.editExtraFields')}
                 values={invoice.extraFields}
                 onChange={onChange}
@@ -199,7 +199,7 @@ class EditInvoiceExtraFields extends Component {
 
         {invoice.extraFields.length ? (
           <Row>
-            <ExtraFieldsInput
+            <Control.ExtraFieldsInput
               properties={invoice.extraFields}
               onChange={onChange}
             />
