@@ -10,6 +10,10 @@ export const InvoicesSummary = ({invoices}) => {
     total: a.total + b.total,
   }), {totalWithoutTax: 0, totalTax: 0, total: 0});
 
+  if (money.total === 0) {
+    return <div />;
+  }
+
   var tooltip = t('invoice.subtotal') + ': ' + moneyFormat(money.totalWithoutTax);
   tooltip += '<br>';
   tooltip += t('invoice.taxtotalShort') + ': ' + moneyFormat(money.totalTax);
