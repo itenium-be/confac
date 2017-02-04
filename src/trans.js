@@ -25,7 +25,8 @@ const trans = {
       hourly: 'Uren',
       daily: 'Dagen',
       km: 'Km',
-      items: 'Ander',
+      items: 'Producten',
+      other: 'Ander',
     },
   },
   config: {
