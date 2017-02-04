@@ -3,7 +3,7 @@ import {t} from '../../util.js';
 import {SimpleSelect} from '../../controls/Select.js';
 
 
-const invoiceLineTypes = ['hourly', 'dayly', 'km', 'items'];
+export const invoiceLineTypes = ['hourly', 'dayly', 'km', 'items'];
 
 
 export class InvoiceLineTypeSelect extends Component {

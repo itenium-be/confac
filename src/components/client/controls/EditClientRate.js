@@ -1,13 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import {t} from '../../util.js';
 
-import {NumericInput, StringInput} from '../../controls.js';
+import {NumericInput, StringInput, invoiceLineTypes} from '../../controls.js';
 import {Col} from 'react-bootstrap';
 
 export class EditClientRate extends Component {
   static propTypes = {
     rate: PropTypes.shape({
-      type: PropTypes.oneOf(['hourly']).isRequired,
+      type: PropTypes.oneOf(invoiceLineTypes).isRequired,
       hoursInDay: PropTypes.number,
       value: PropTypes.number.isRequired,
       description: PropTypes.string,
@@ -40,7 +40,6 @@ export class EditClientRate extends Component {
             onChange={value => this.props.onChange({...rate, hoursInDay: value})}
           />
         </Col>
-
       </div>
     );
   }

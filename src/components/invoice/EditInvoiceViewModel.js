@@ -41,6 +41,7 @@ export default class EditInvoiceViewModel {
   set _lines(value) {
     this.lines = value;
     this.money = this._calculateMoneys();
+    console.log('moneyz', this.money);
   }
   setLines(lines) {
     this._lines = lines;
@@ -79,7 +80,7 @@ export default class EditInvoiceViewModel {
 
   getLine(getEmpty = false) {
     const defaultLine = {
-      value: 0,
+      amount: 0,
       tax: this._defaultTax,
       type: this._defaultType,
     };
@@ -87,13 +88,13 @@ export default class EditInvoiceViewModel {
     if (!this.client || getEmpty) {
       return Object.assign(defaultLine, {
         desc: '',
-        rate: 0,
+        price: 0,
       });
     }
 
     return Object.assign(defaultLine, {
       desc: this.client.rate.description,
-      rate: this.client.rate.value,
+      price: this.client.rate.value,
     });
   }
 
@@ -112,8 +113,8 @@ export default class EditInvoiceViewModel {
       return EditInvoiceViewModel.emptyMoney();
     }
 
-    const totalValue = this._lines.reduce((prev, cur) => prev + cur.value, 0);
-    const totalWithoutTax = this._lines.reduce((prev, cur) => prev + cur.value * cur.rate, 0);
+    const totalValue = this._lines.reduce((prev, cur) => prev + cur.amount, 0);
+    const totalWithoutTax = this._lines.reduce((prev, cur) => prev + cur.amount * cur.price, 0);
     const taxPercentage = 21;
     const totalTax = totalWithoutTax / 100 * taxPercentage;
     return {
