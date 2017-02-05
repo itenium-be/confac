@@ -2,9 +2,6 @@ import moment from 'moment';
 import {ACTION_TYPES} from './actions/ActionTypes.js';
 
 export const defaultConfig = {
-  defaultTax: 21,
-  defaultClient: undefined,
-  attachmentTypes: [],
   company: {
     template: 'example-1.pug',
     name: 'Jouw bedrijfsnaam',
@@ -18,9 +15,15 @@ export const defaultConfig = {
     email: 'ceo@yahoo.com',
     website: 'www.clicky-me-IT.be'
   },
+  defaultClient: null,
+  defaultTax: 21,
+  attachmentTypes: [],
   extraConfigFields: [],
   defaultExtraClientFields: [],
   defaultExtraClientInvoiceFields: [],
+  showOrderNr: false,
+  groupInvoiceListByMonth: false,
+  defaultInvoiceLineType: 'daily',
 };
 
 const defaultAppState = {
