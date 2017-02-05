@@ -30,6 +30,7 @@ const defaultAppState = {
   invoiceFilters: {
     search: [{value: moment().year(), label: moment().year(), type: 'year'}],
     unverifiedOnly: false,
+    groupedByMonth: false,
   },
 };
 
@@ -51,6 +52,12 @@ export const config = (state = defaultConfig, action) => {
 // App is also config but only relevant for the session
 export const app = (state = defaultAppState, action) => {
   switch (action.type) {
+  case ACTION_TYPES.CONFIG_FETCHED:
+    return {
+      ...state,
+      invoiceFilters: Object.assign({}, state.invoiceFilters, {groupedByMonth: action.config.groupInvoiceListByMonth})
+    };
+
   case ACTION_TYPES.INITIAL_LOAD:
     return {...state, isLoaded: true};
 

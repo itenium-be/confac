@@ -2,11 +2,47 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {updateInvoiceFilters} from '../../actions/index.js';
 import InvoiceListViewModel from './InvoiceListViewModel.js';
+import {groupInvoicesPerMonth} from './EditInvoiceViewModel.js';
 import t from '../../trans.js';
 
 import {Grid, Table} from 'react-bootstrap';
-import InvoiceListRow, {InvoiceListHeader, InvoiceListFooter} from './InvoiceListRow.js';
+import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from './InvoiceListRow.js';
 import {InvoiceSearch} from './controls/InvoiceSearch.js';
+import {InvoiceWorkedDays} from './controls/InvoiceWorkedDays.js';
+import {InvoicesTotal} from './controls/InvoiceTotal.js';
+
+
+function getColumns(fields, showOrderNr) {
+  var columns = [{
+    key: 'date-month',
+    header: t('invoice.date'),
+    value: i => i.date.format('MMM YYYY'),
+    groupedBy: true,
+  }, {
+    key: 'number',
+    header: t('invoice.numberShort'),
+    value: i => i.number,
+  }, {
+    key: 'client',
+    header: t('invoice.client'),
+    value: i => i.client.name,
+  }, {
+    key: 'date-full',
+    header: t('invoice.date'),
+    value: i => i.date.format('DD/MM/YYYY'),
+  }];
+
+  if (showOrderNr) {
+    columns.push({
+      key: 'orderNr',
+      header: t('invoice.orderNrShort'),
+      value: i => i.orderNr,
+    });
+  }
+
+  return columns.filter(col => fields.includes(col.key));
+}
+
 
 class InvoiceList extends Component {
   static propTypes = {
@@ -17,51 +53,31 @@ class InvoiceList extends Component {
     filters: PropTypes.shape({
       search: PropTypes.array.isRequired,
       unverifiedOnly: PropTypes.bool.isRequired,
+      groupedByMonth: PropTypes.bool.isRequired,
     }),
   }
 
   render() {
-    const {invoices, clients, filters} = this.props;
-    const vm = new InvoiceListViewModel(invoices, clients, filters);
+    const vm = new InvoiceListViewModel(this.props.invoices, this.props.clients, this.props.filters);
     const filteredInvoices = vm.getFilteredInvoices();
-    const filterOptions = vm.getFilterOptions();
 
-    var columns = [{
-      header: t('invoice.numberShort'),
-      value: invoice => invoice.number,
-    }, {
-      header: t('invoice.client'),
-      value: invoice => invoice.client.name,
-    }, {
-      header: t('invoice.date'),
-      value: invoice => invoice.date.format('DD/MM/YYYY'),
-    }];
-
-    if (this.props.config.showOrderNr) {
-      columns.push({
-        header: t('invoice.orderNrShort'),
-        value: invoice => invoice.orderNr,
-      });
-    }
-
+    // TODO: from React 16 it will be possible to return an array. that
+    // would solve the root element problem when returning an array of tbodys
+    // --> ie create a InvoiceListGroupedRows component then :)
+    const isGrouped = this.props.filters.groupedByMonth;
     return (
       <Grid>
-        <Table condensed style={{marginTop: 10}}>
-          <InvoiceListHeader columns={columns} />
-          <tbody>
-            {filteredInvoices.sort((a, b) => b.number - a.number).map(invoice => (
-              <InvoiceListRow columns={columns} invoice={invoice} key={invoice._id} />
-            ))}
-          </tbody>
-          <InvoiceListFooter columns={columns} invoices={filteredInvoices} />
-        </Table>
+        {isGrouped ? (
+          <GroupedInvoiceTable invoices={filteredInvoices} config={this.props.config} />
+        ) : (
+          <NonGroupedInvoiceTable invoices={filteredInvoices} config={this.props.config} />
+        )}
 
         <InvoiceSearch
           onChange={newFilter => this.props.updateInvoiceFilters(newFilter)}
-          filterOptions={filterOptions}
-          filters={filters}
+          filterOptions={vm.getFilterOptions()}
+          filters={this.props.filters}
         />
-
       </Grid>
     );
   }
@@ -73,3 +89,61 @@ export default connect(state => ({
   filters: state.app.invoiceFilters,
   config: state.config,
 }), {updateInvoiceFilters})(InvoiceList);
+
+
+
+const NonGroupedInvoiceTable = ({invoices, config}) => {
+  const columns = getColumns(['number', 'client', 'date-full'], config.showOrderNr);
+  return (
+    <Table condensed style={{marginTop: 10}}>
+      <InvoiceListHeader columns={columns} />
+      <tbody>
+        {invoices.sort((a, b) => b.number - a.number).map(invoice => (
+          <InvoiceListRow columns={columns} invoice={invoice} key={invoice._id} />
+        ))}
+      </tbody>
+      <InvoiceListFooter columns={columns} invoices={invoices} />
+    </Table>
+  );
+};
+
+
+const GroupedInvoiceTable = ({invoices, config}) => {
+  const columns = getColumns(['date-month', 'number', 'client'], config.showOrderNr);
+  const invoicesPerMonth = groupInvoicesPerMonth(invoices);
+
+
+  const hideBorderStyle = {borderBottom: 0, borderTop: 0};
+
+  return (
+    <Table condensed style={{marginTop: 10}}>
+      <InvoiceListHeader columns={columns} />
+
+      {invoicesPerMonth.map(({key, invoiceList}) => [
+        <tbody key={key}>
+          {invoiceList.sort((a, b) => b.number - a.number).map((invoice, index) => (
+            <InvoiceListRow columns={columns} invoice={invoice} key={invoice._id} isFirstRow={index === 0} />
+          ))}
+        </tbody>,
+        <tbody key={key + '-group-row'} style={hideBorderStyle}>
+          <tr style={hideBorderStyle}>
+            <td style={hideBorderStyle}>&nbsp;</td>
+            <td colSpan={columns.length - 1}><strong><InvoiceAmountLabel invoices={invoiceList} /></strong></td>
+            <td><strong><InvoiceWorkedDays invoices={invoiceList} /></strong></td>
+            <td><InvoicesTotal invoices={invoiceList} totalOnly /></td>
+            <td>&nbsp;</td>
+          </tr>
+        </tbody>
+      ])}
+
+      <InvoiceListFooter columns={columns} invoices={invoices} />
+    </Table>
+  );
+};
+
+const InvoiceAmountLabel = ({invoices}) => {
+  if (invoices.length === 1) {
+    return <span>{t('invoice.invoicesOne')}</span>;
+  }
+  return <span>{invoices.length} {t('invoice.invoices').toLowerCase()}</span>;
+};

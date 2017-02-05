@@ -143,15 +143,24 @@ function daysCalc(invoice) {
     return prev;
   }, 0);
 
-  const workDays = getWorkDaysInMonth(invoice.date);
   return {
     daysWorked: daysWorked,
-    workDaysInMonth: workDays.length,
     hoursWorked: hoursWorked,
   };
 }
 
-
+export function groupInvoicesPerMonth(invoices) {
+  return invoices.reduce((list, invoice) => {
+    const month = invoice.date.format('YYYYMM');
+    const invoicesForMonth = list.find(i => i.key === month);
+    if (invoicesForMonth) {
+      invoicesForMonth.invoiceList.push(invoice);
+    } else {
+      list.push({key: month, invoiceList: [invoice]});
+    }
+    return list;
+  }, []);
+}
 
 
 function getWorkDaysInMonth(momentInst) {
@@ -169,12 +178,21 @@ function getWorkDaysInMonth(momentInst) {
   return result;
 }
 
+function getWorkDaysInMonths(invoices) {
+  const invoicesPerMonth = groupInvoicesPerMonth(invoices);
+  const result = invoicesPerMonth.map(({invoiceList}) => getWorkDaysInMonth(invoiceList[0].date).length);
+  return result.reduce((prev, cur) => prev + cur, 0);
+}
+
 
 export function calculateDaysWorked(invoices) {
   const invoiceDays = invoices.map(daysCalc);
-  return invoiceDays.reduce((a, b) => ({
+  const invoiceDayTotals = invoiceDays.reduce((a, b) => ({
     daysWorked: a.daysWorked + b.daysWorked,
-    workDaysInMonth: a.workDaysInMonth + b.workDaysInMonth,
     hoursWorked: a.hoursWorked + b.hoursWorked,
-  }), {daysWorked: 0, workDaysInMonth: 0, hoursWorked: 0});
+  }), {daysWorked: 0, hoursWorked: 0});
+
+
+  const workDaysInMonth = getWorkDaysInMonths(invoices);
+  return Object.assign(invoiceDayTotals, {workDaysInMonth});
 }

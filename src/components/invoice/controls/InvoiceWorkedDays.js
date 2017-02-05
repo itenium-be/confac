@@ -5,7 +5,7 @@ import {calculateDaysWorked} from '../EditInvoiceViewModel.js';
 export class InvoiceWorkedDays extends Component {
   static propTypes = {
     invoices: PropTypes.array.isRequired,
-    display: PropTypes.oneOf(['month', 'client']).isRequired,
+    display: PropTypes.oneOf(['month', 'client', 'invoice']).isRequired,
   }
   static defaultProps = {
     display: 'month'
@@ -19,12 +19,19 @@ export class InvoiceWorkedDays extends Component {
       return <div />;
     }
 
+    if (display === 'invoice') {
+      return <span>{days.daysWorked.toFixed(1)}</span>;
+    }
+
     if (display === 'month') {
       return <span>{days.daysWorked.toFixed(1)} / {days.workDaysInMonth} ({calcPer(days)})</span>;
     }
+
     if (display === 'client') {
       return <span>{t('client.daysWorked', {days: days.daysWorked.toFixed(1)})}</span>;
     }
+
+    return <div />;
   }
 }
 

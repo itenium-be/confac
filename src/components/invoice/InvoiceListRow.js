@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {t, moneyFormat} from '../util.js';
 
 import {ConfirmedDeleteIcon, EditIcon, InvoiceDownloadIcon, InvoiceVerifyIconToggle} from '../controls.js';
-import {updateInvoice, deleteInvoice} from '../../actions/index.js';
+import {deleteInvoice} from '../../actions/index.js';
 import {InvoiceWorkedDays} from './controls/InvoiceWorkedDays.js';
 import {InvoicesTotal} from './controls/InvoiceTotal.js';
 
@@ -37,9 +37,7 @@ export const InvoiceListFooter = ({columns, invoices}) => {
 };
 
 
-
-
-class InvoiceListRow extends Component {
+export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Component {
   static propTypes = {
     columns: PropTypes.arrayOf(PropTypes.shape({
       header: PropTypes.string.isRequired,
@@ -47,13 +45,23 @@ class InvoiceListRow extends Component {
     }).isRequired).isRequired,
     invoice: PropTypes.object.isRequired,
     deleteInvoice: PropTypes.func.isRequired,
+    isFirstRow: PropTypes.bool,
   }
+
   render() {
-    const invoice = this.props.invoice;
+    const {invoice, isFirstRow, columns} = this.props;
+    const borderStyle = columns.some(col => col.groupedBy) ? {borderBottom: 0, borderTop: 0} : undefined;
     return (
-      <tr className={invoice.verified ? undefined : 'warning'}>
-        {this.props.columns.map((col, i) => <td key={i}>{col.value(invoice)}</td>)}
-        <td style={{whiteSpace: 'nowrap'}}><InvoiceWorkedDays invoices={[invoice]} /></td>
+      <tr className={invoice.verified ? undefined : 'warning'} style={borderStyle}>
+        {columns.map((col, i) => {
+          const hideValue = !isFirstRow && col.groupedBy;
+          return (
+            <td key={i} style={col.groupedBy ? borderStyle : undefined}>
+              {hideValue ? null : col.value(invoice)}
+            </td>
+          );
+        })}
+        <td style={{whiteSpace: 'nowrap'}}><InvoiceWorkedDays invoices={[invoice]} display="invoice" /></td>
         <td style={{textAlign: 'right'}}>{moneyFormat(invoice.money.total)}</td>
         <td className="icons-cell" width="240px">
           <EditIcon onClick={'/invoice/' + invoice.number} />
@@ -66,6 +74,4 @@ class InvoiceListRow extends Component {
       </tr>
     );
   }
-}
-
-export default connect(() => ({}), {updateInvoice, deleteInvoice})(InvoiceListRow);
+});

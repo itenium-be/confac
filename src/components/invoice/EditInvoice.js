@@ -72,7 +72,6 @@ class EditInvoice extends Component {
 
   render() {
     const {invoice} = this.state;
-    const {client, money} = invoice;
     return (
       <Grid className="edit-container">
         <Form>
@@ -82,57 +81,16 @@ class EditInvoice extends Component {
             <InvoiceNotVerifiedAlert invoice={invoice} />
 
             <Col sm={6}>
-              <Control.ClientSelect
-                label={t('invoice.client')}
-                value={client}
-                onChange={c => this.setState({invoice: invoice.setClient(c)})}
+              <EditInvoiceClient
+                invoice={invoice}
+                onChange={val => this.setState(val)}
               />
-
-              {client ? (
-                <Row>
-                  <Col xs={6}>
-                    <ClientDetails client={client} />
-                  </Col>
-                  <Col xs={6}>
-                    <h4>{t('invoice.totalTitle')}</h4>
-                    <InvoiceTotal {...money} />
-                  </Col>
-                </Row>
-              ) : null}
-            </Col>
-            <Col sm={6}>
-              <div className="split">
-                <Control.NumericInput
-                  prefix={invoice.verified ? <Control.VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} /> : undefined}
-                  label={t('invoice.number')}
-                  value={invoice.number}
-                  onChange={this.updateInvoice.bind(this, 'number')}
-                />
-
-                <Control.DatePicker
-                  label={t('invoice.date')}
-                  value={invoice.date}
-                  onChange={this.updateInvoice.bind(this, 'date')}
-                />
-              </div>
             </Col>
 
-
-            <Col sm={6}>
-              <div className="split">
-                <Control.StringInput
-                  label={t('invoice.orderNr')}
-                  value={invoice.orderNr}
-                  onChange={this.updateInvoice.bind(this, 'orderNr')}
-                />
-
-                <Control.StringInput
-                  label={t('invoice.fileName')}
-                  value={invoice.fileName}
-                  onChange={this.updateInvoice.bind(this, 'fileName')}
-                />
-              </div>
-            </Col>
+            <EditInvoiceDetails
+              invoice={invoice}
+              onChange={(fieldName, value) => this.updateInvoice(fieldName, value)}
+            />
 
             {invoice.extraFields.length === 0 && !this.state.showExtraFields ? (
               <Control.DownArrowIcon
@@ -174,6 +132,74 @@ export default connect(state => ({
   clients: state.clients,
   invoices: state.invoices,
 }), {invoiceAction})(EditInvoice);
+
+
+
+const EditInvoiceDetails = ({invoice, onChange}) => (
+  <div>
+    <Col sm={6}>
+      <div className="split">
+        <Control.NumericInput
+          prefix={invoice.verified ? <Control.VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} /> : undefined}
+          label={t('invoice.number')}
+          value={invoice.number}
+          onChange={value => onChange('number', value)}
+        />
+
+        <Control.DatePicker
+          label={t('invoice.date')}
+          value={invoice.date}
+          onChange={value => onChange('date', value)}
+        />
+      </div>
+    </Col>
+
+    <Col sm={6}>
+      <div className="split">
+        <Control.StringInput
+          label={t('invoice.orderNr')}
+          value={invoice.orderNr}
+          onChange={value => onChange('orderNr', value)}
+        />
+
+        <Control.StringInput
+          label={t('invoice.fileName')}
+          value={invoice.fileName}
+          onChange={value => onChange('fileName', value)}
+        />
+      </div>
+    </Col>
+  </div>
+);
+
+
+
+
+
+
+
+const EditInvoiceClient = ({invoice, onChange}) => (
+  <div>
+    <Control.ClientSelect
+      label={t('invoice.client')}
+      value={invoice.client}
+      onChange={c => onChange({invoice: invoice.setClient(c)})}
+    />
+
+    {invoice.client ? (
+      <Row>
+        <Col xs={6}>
+          <ClientDetails client={invoice.client} />
+        </Col>
+        <Col xs={6}>
+          <h4>{t('invoice.totalTitle')}</h4>
+          <InvoiceTotal {...invoice.money} />
+        </Col>
+      </Row>
+    ) : null}
+  </div>
+);
+
 
 
 

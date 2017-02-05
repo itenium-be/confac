@@ -3,13 +3,17 @@ import {t, moneyFormat} from '../../util.js';
 
 const amountsStyle = {textAlign: 'right', float: 'right'};
 
-export const InvoicesTotal = ({invoices}) => {
+export const InvoicesTotal = ({invoices, totalOnly = false}) => {
   const moneys = invoices.map(i => i.money);
   const money = moneys.reduce((a, b) => ({
     totalWithoutTax: a.totalWithoutTax + b.totalWithoutTax,
     totalTax: a.totalTax + b.totalTax,
     total: a.total + b.total,
   }), {totalWithoutTax: 0, totalTax: 0, total: 0});
+
+  if (totalOnly) {
+    return <span style={amountsStyle}><strong>{moneyFormat(money.total)}</strong></span>;
+  }
 
   return (
     <div>

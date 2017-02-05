@@ -20,6 +20,7 @@ export class InvoiceSearch extends Component {
     filters: PropTypes.shape({
       search: PropTypes.array.isRequired,
       unverifiedOnly: PropTypes.bool.isRequired,
+      groupedByMonth: PropTypes.bool.isRequired,
     }).isRequired,
     onChange: PropTypes.func.isRequired,
   }
@@ -35,7 +36,7 @@ export class InvoiceSearch extends Component {
     const {search, unverifiedOnly} = this.props.filters;
     return (
       <Row>
-        <Col sm={8}>
+        <Col sm={6}>
           <InvoiceSearchSelect
             label={t('search')}
             onChange={value => this.onFilterChange({search: value})}
@@ -43,11 +44,19 @@ export class InvoiceSearch extends Component {
             options={this.props.filterOptions}
           />
         </Col>
-        <Col sm={4}>
+        <Col sm={3}>
           <Switch
             checked={unverifiedOnly}
             onChange={checked => this.onFilterChange({unverifiedOnly: checked})}
             label={t('invoice.notVerifiedOnly')}
+            style={{marginTop: 28}}
+          />
+        </Col>
+        <Col sm={3}>
+          <Switch
+            checked={this.props.filters.groupedByMonth}
+            onChange={checked => this.onFilterChange({groupedByMonth: checked})}
+            label={t('invoice.groupByMonth')}
             style={{marginTop: 28}}
           />
         </Col>

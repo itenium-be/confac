@@ -85,6 +85,14 @@ const EditConfigUserSettings = ({config, onChange}) => (
         onChange={checked => onChange({showOrderNr: checked})}
       />
     </Col>
+
+    <Col sm={4}>
+      <Control.Switch
+        label={t('invoice.groupByMonth')}
+        checked={config.groupInvoiceListByMonth}
+        onChange={checked => onChange({groupInvoiceListByMonth: checked})}
+      />
+    </Col>
   </Row>
 );
 
