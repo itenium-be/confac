@@ -111,7 +111,7 @@ function searchInvoiceFor(invoice, text) {
 }
 
 
-function getInvoiceYears(invoices) {
+export function getInvoiceYears(invoices) {
   const dates = invoices.map(i => i.date.toDate());
   const firstInvoiceYear = moment(Math.min.apply(null, dates)).year();
   const lastInvoiceYear = moment(Math.max.apply(null, dates)).year();

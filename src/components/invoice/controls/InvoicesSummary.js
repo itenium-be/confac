@@ -2,6 +2,13 @@ import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import {t, moneyFormat} from '../../util.js';
 
+export const InvoiceAmountLabel = ({invoices}) => {
+  if (invoices.length === 1) {
+    return <span>{t('invoice.invoicesOne')}</span>;
+  }
+  return <span>{invoices.length} {t('invoice.invoices').toLowerCase()}</span>;
+};
+
 export const InvoicesSummary = ({invoices}) => {
   const moneys = invoices.map(i => i.money);
   const money = moneys.reduce((a, b) => ({
@@ -24,7 +31,7 @@ export const InvoicesSummary = ({invoices}) => {
     <div data-tip={tooltip}>
       <ReactTooltip multiline={true} />
       <div>
-        {t('client.invoiceAmount', {amount: invoices.length})}
+        <InvoiceAmountLabel invoices={invoices} />
         <br />
         <span>{moneyFormat(money.total)}</span>
       </div>

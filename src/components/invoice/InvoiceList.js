@@ -10,6 +10,7 @@ import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from './InvoiceLis
 import {InvoiceSearch} from './controls/InvoiceSearch.js';
 import {InvoiceWorkedDays} from './controls/InvoiceWorkedDays.js';
 import {InvoicesTotal} from './controls/InvoiceTotal.js';
+import {InvoiceAmountLabel} from './controls/InvoicesSummary.js';
 
 
 function getColumns(fields, showOrderNr) {
@@ -140,11 +141,4 @@ const GroupedInvoiceTable = ({invoices, config}) => {
       <InvoiceListFooter columns={columns} invoices={invoices} />
     </Table>
   );
-};
-
-const InvoiceAmountLabel = ({invoices}) => {
-  if (invoices.length === 1) {
-    return <span>{t('invoice.invoicesOne')}</span>;
-  }
-  return <span>{invoices.length} {t('invoice.invoices').toLowerCase()}</span>;
 };

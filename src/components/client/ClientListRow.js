@@ -56,4 +56,4 @@ class ClientListRow extends Component {
   }
 }
 
-export default connect(state => ({invoices: state.invoices}), {saveClient})(ClientListRow);
+export default connect(null, {saveClient})(ClientListRow);

@@ -34,6 +34,7 @@ const defaultAppState = {
     search: [{value: moment().year(), label: moment().year(), type: 'year'}],
     unverifiedOnly: false,
     groupedByMonth: false,
+    clientListYears: [moment().year()],
   },
 };
 

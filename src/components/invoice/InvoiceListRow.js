@@ -6,6 +6,7 @@ import {ConfirmedDeleteIcon, EditIcon, InvoiceDownloadIcon, InvoiceVerifyIconTog
 import {deleteInvoice} from '../../actions/index.js';
 import {InvoiceWorkedDays} from './controls/InvoiceWorkedDays.js';
 import {InvoicesTotal} from './controls/InvoiceTotal.js';
+import {InvoiceAmountLabel} from './controls/InvoicesSummary.js';
 
 
 export const InvoiceListHeader = ({columns}) => (
@@ -28,7 +29,7 @@ export const InvoiceListFooter = ({columns, invoices}) => {
   return (
     <tfoot>
       <tr>
-        <td colSpan={columns.length}>{invoices.length} {t('invoice.invoices').toLowerCase()}</td>
+        <td colSpan={columns.length}><InvoiceAmountLabel invoices={invoices} /></td>
         <td><InvoiceWorkedDays invoices={invoices} /></td>
         <td colSpan={2}><InvoicesTotal invoices={invoices} /></td>
       </tr>
