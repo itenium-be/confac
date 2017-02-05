@@ -1,6 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+const environment = require('../config-front.json').environment;
+if (environment !== 'prod') {
+  document.title += ' - ' + (environment || '???');
+}
+
+
+
 // Load extra css
 import './index.css';
 import 'react-select/dist/react-select.css';
