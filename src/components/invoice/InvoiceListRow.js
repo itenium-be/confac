@@ -46,10 +46,11 @@ export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Compo
     invoice: PropTypes.object.isRequired,
     deleteInvoice: PropTypes.func.isRequired,
     isFirstRow: PropTypes.bool,
+    onlyRowForMonth: PropTypes.bool,
   }
 
   render() {
-    const {invoice, isFirstRow, columns} = this.props;
+    const {invoice, isFirstRow, onlyRowForMonth, columns} = this.props;
     const borderStyle = columns.some(col => col.groupedBy) ? {borderBottom: 0, borderTop: 0} : undefined;
     return (
       <tr className={invoice.verified ? undefined : 'warning'} style={borderStyle}>
@@ -61,7 +62,7 @@ export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Compo
             </td>
           );
         })}
-        <td style={{whiteSpace: 'nowrap'}}><InvoiceWorkedDays invoices={[invoice]} display="invoice" /></td>
+        <td style={{whiteSpace: 'nowrap'}}><InvoiceWorkedDays invoices={[invoice]} display={onlyRowForMonth ? undefined : 'invoice'} /></td>
         <td style={{textAlign: 'right'}}>{moneyFormat(invoice.money.total)}</td>
         <td className="icons-cell" width="240px">
           <EditIcon onClick={'/invoice/' + invoice.number} />

@@ -117,7 +117,7 @@ class EditInvoice extends Component {
           <div style={{marginTop: -20}}>
             <Control.AttachmentsForm invoice={invoice} />
           </div>
-          <Row style={{marginBottom: 8}}>
+          <Row style={{marginBottom: 8, marginTop: 20}}>
             <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, invoice)} isNewInvoice={invoice.isNew} />
           </Row>
         </Form>
@@ -235,8 +235,10 @@ class EditInvoiceExtraFields extends Component {
             label={t('extraFields')}
             onEditClick={() => this.setState({extraFieldFormOpen: !this.state.extraFieldFormOpen})}
           />
+
+
           {this.state.extraFieldFormOpen ? (
-            <Col sm={4} style={{height: 75}}>
+            <Col sm={12} style={{minHeight: 75}}>
               <Control.PropertiesSelect
                 label={t('invoice.editExtraFields')}
                 values={invoice.extraFields}
@@ -245,6 +247,7 @@ class EditInvoiceExtraFields extends Component {
             </Col>
           ) : null}
         </Row>
+
 
         {invoice.extraFields.length ? (
           <Row>
