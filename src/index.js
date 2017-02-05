@@ -8,6 +8,11 @@ if (environment !== 'prod') {
 
 
 
+import moment from 'moment';
+moment.locale('nl');
+
+
+
 // Load extra css
 import './index.css';
 import 'react-select/dist/react-select.css';
