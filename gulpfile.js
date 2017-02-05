@@ -77,20 +77,17 @@ function getSomeInvoice() {
       {
         type: 'hourly',
         desc: 'osx²',
-        value: 10,
-        rate: 100
-      },
-      {
-        type: 'hourly',
+        amount: 10,
+        price: 100
+      }, {
+        type: 'daily',
         desc: 'yuplaa',
-        value: 1,
-        rate: 50
+        amount: 1,
+        price: 50
       }
     ],
     money: {
-      totalValue: 11,
       totalWithoutTax: 1050,
-      taxPercentage: 21,
       totalTax: 220.5,
       total: 1270.5
     }

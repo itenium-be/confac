@@ -24,10 +24,13 @@ export default function register(app) {
           website: 'www.clicky-me-IT.be'
         },
         defaultClient: null,
+        defaultTax: 21,
         attachmentTypes: ['Timesheet'],
         extraConfigFields: [],
         defaultExtraClientFields: [],
         defaultExtraClientInvoiceFields: [],
+        showOrderNr: false,
+        groupInvoiceListByMonth: false,
       };
     } else {
       this.body = conf;

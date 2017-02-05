@@ -71,10 +71,11 @@ html
 			table(width="100%" border="1" cellpadding="0" cellspacing="0")
 				thead
 					tr
-						th(width="55%" align="left") Omschrijving
-						th(width="15%" align="center") Dagen
-						th(width="15%" align="center") Tarief
-						th(width="15%" align="center") Bedrag
+						th(width="60%" align="left") Omschrijving
+						th(width="10%" align="center") Eenheid
+						th(width="10%" align="center") Aantal
+						th(width="10%" align="center") Eenheidsprijs
+						th(width="10%" align="center") Bedrag
 
 				tbody
 					tr
@@ -85,30 +86,35 @@ html
 
 						td(align="center")
 							each line in lines
-								span #{line.value / client.rate.hoursInDay}
+								span #{line.type}
 								br
 
 						td(align="center")
 							each line in lines
-								span € #{numberFormat(line.rate * client.rate.hoursInDay)}
+								span #{line.amount}
 								br
 
 						td(align="center")
 							each line in lines
-								span € #{numberFormat(line.rate * line.value)}
+								span € #{numberFormat(line.price)}
+								br
+
+						td(align="center")
+							each line in lines
+								span € #{numberFormat(line.price * line.amount)}
 								br
 
 				tfoot
 					tr
-						td(colspan="3") Subtotaal
+						td(colspan="4") Subtotaal
 						td € #{numberFormat(money.totalWithoutTax)}
 
 					tr
-						td(colspan="3") BTW #{money.taxPercentage} %
+						td(colspan="4") BTW 21 %
 						td € #{numberFormat(money.totalTax)}
 
 					tr
-						td(colspan="3")
+						td(colspan="4")
 							strong Totaal te voldoen
 						td
 							strong € #{numberFormat(money.total)}
