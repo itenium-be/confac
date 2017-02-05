@@ -88,7 +88,7 @@ const EditConfigUserSettings = ({config, onChange}) => (
 
     <Col sm={4}>
       <Control.Switch
-        label={t('invoice.groupByMonth')}
+        label={t('config.groupByMonth')}
         checked={config.groupInvoiceListByMonth}
         onChange={checked => onChange({groupInvoiceListByMonth: checked})}
       />

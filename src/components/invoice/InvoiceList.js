@@ -33,6 +33,7 @@ function getColumns(fields, showOrderNr) {
   }];
 
   if (showOrderNr) {
+    fields.push('orderNr');
     columns.push({
       key: 'orderNr',
       header: t('invoice.orderNrShort'),
