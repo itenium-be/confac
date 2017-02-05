@@ -25,12 +25,13 @@ export default function register(app) {
         },
         defaultClient: null,
         defaultTax: 21,
-        attachmentTypes: ['Timesheet'],
+        attachmentTypes: ['Getekende timesheet'],
         extraConfigFields: [],
         defaultExtraClientFields: [],
         defaultExtraClientInvoiceFields: [],
         showOrderNr: false,
         groupInvoiceListByMonth: false,
+        defaultInvoiceLineType: 'daily',
       };
     } else {
       this.body = conf;
