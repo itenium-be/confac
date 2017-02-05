@@ -52,6 +52,7 @@ export default class EditInvoiceViewModel {
     this._lines = [this.getLine()];
     this.fileName = client ? client.invoiceFileName : '';
     this.extraFields = client ? (client.defaultExtraInvoiceFields || []) : [];
+    this._defaultType = client.rate.type || this._defaultType;
     return this;
   }
   addLine(line) {
@@ -87,7 +88,7 @@ export default class EditInvoiceViewModel {
     if (!this.client || getEmpty) {
       return Object.assign(defaultLine, {
         desc: '',
-        price: 0,
+        price: this.client ? this.client.rate.value : 0,
       });
     }
 

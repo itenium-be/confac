@@ -137,7 +137,7 @@ const trans = {
       title: 'Standaard factuurwaarden',
       desc: 'Standaard omschrijving',
       hoursInDay: 'Uren per dag',
-      defaultPrice: 'Standaard dagprijs',
+      defaultPrice: 'Standaard prijs',
     },
     extraInvoiceFields: 'Extra factuur velden',
     extraFields: 'Extra klant velden',

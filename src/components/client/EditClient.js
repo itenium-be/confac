@@ -68,6 +68,8 @@ class EditClient extends Component {
               tPrefix="config.company."
             />
           </Row>
+
+
           <Row>
             <h1>{t('client.rate.title')}</h1>
             <EditClientRate rate={client.rate} onChange={value => this.setState({...client, rate: value})} />
@@ -80,41 +82,13 @@ class EditClient extends Component {
               />
             </Col>
           </Row>
-          <Row>
-            <h1>{t('config.company.other')}</h1>
-            <Col sm={4}>
-              <TextareaInput
-                label={t('notes')}
-                placeholder={t('notes')}
-                value={client.notes}
-                onChange={value => this.setState({...client, notes: value})}
-              />
-            </Col>
-            <Col sm={4}>
-              <StringInput
-                label={t('invoice.fileName')}
-                placeholder={t('invoice.fileNamePlaceHolder')}
-                value={client.invoiceFileName}
-                onChange={value => this.setState({...client, invoiceFileName: value})}
-              />
-            </Col>
 
-            <Col sm={4}>
-              <PropertiesSelect
-                label={t('client.extraFields')}
-                values={client.extraFields}
-                onChange={value => this.setState({...client, extraFields: value})}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <ExtraFieldsInput
-              properties={client.extraFields}
-              onChange={value => this.setState({...client, extraFields: value})}
-            />
-          </Row>
+
+          <EditClientDefaultOther client={client} onChange={value => this.setState(value)} />
+
 
           <AttachmentsForm client={client} />
+
 
           <Row className="button-row">
             <BusyButton
@@ -147,3 +121,43 @@ export default connect(state => ({
   isLoaded: state.app.isLoaded,
   config: state.config,
 }), {saveClient})(EditClient);
+
+
+
+const EditClientDefaultOther = ({client, onChange}) => (
+  <div>
+    <Row>
+      <h1>{t('config.company.other')}</h1>
+      <Col sm={4}>
+        <TextareaInput
+          label={t('notes')}
+          placeholder={t('notes')}
+          value={client.notes}
+          onChange={value => onChange({...client, notes: value})}
+        />
+      </Col>
+      <Col sm={4}>
+        <StringInput
+          label={t('invoice.fileName')}
+          placeholder={t('invoice.fileNamePlaceHolder')}
+          value={client.invoiceFileName}
+          onChange={value => onChange({...client, invoiceFileName: value})}
+        />
+      </Col>
+
+      <Col sm={4}>
+        <PropertiesSelect
+          label={t('client.extraFields')}
+          values={client.extraFields}
+          onChange={value => onChange({...client, extraFields: value})}
+        />
+      </Col>
+    </Row>
+    <Row>
+      <ExtraFieldsInput
+        properties={client.extraFields}
+        onChange={value => onChange({...client, extraFields: value})}
+      />
+    </Row>
+  </div>
+);
