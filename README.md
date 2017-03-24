@@ -3,7 +3,7 @@ confac-back
 Starting DEV
 ------------
 
-Expects running mongo with `src/config.json` settings.
+Expects running mongo with `src/config.js` settings.
 
 ```
 # Start dev server
