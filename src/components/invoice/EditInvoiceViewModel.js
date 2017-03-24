@@ -52,7 +52,7 @@ export default class EditInvoiceViewModel {
     this._lines = [this.getLine()];
     this.fileName = client ? client.invoiceFileName : '';
     this.extraFields = client ? (client.defaultExtraInvoiceFields || []) : [];
-    this._defaultType = client.rate.type || this._defaultType;
+    this._defaultType = client && client.rate ? client.rate.type : this._defaultType;
     return this;
   }
   addLine(line) {
