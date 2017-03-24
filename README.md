@@ -10,6 +10,12 @@ Expects running mongo with `src/config.json` settings.
 npm start
 ```
 
+Invoice list & EditInvoice: Preview button
+EditInvoice: Popup with update pdf (on bewaren) YES, NO, CANCEL
+
+Uren per dag: config: Invullen streefdoel uren per week? :)  --> stats daarop gebaseerd
+
+
 Template testing
 ----------------
 
@@ -47,12 +53,13 @@ MoSCoW
 --> of sowieso groeperen per maand in de "dagen" kolom (wat borders wegdoen...)
 - upload new templates / manage existing ones
 - klantenlisting: naast edit ook een meer info icon om alle statistieken te zien... (ie resultaten per jaar)
+- Nieuwe factuur button right aligned with the container
 
 **Technical debt**:  
 
 - isLoaded checks: replace with just one in App.js
 - config.defaultClient&InvoiceExtraFields could be converted to StringsSelects instead (now label+value is stored in the db with value always empty)
-- create pdf: opens a window with phantomjs
+- create pdf: opens a window with phantomjs --> html-pdf option? "phantomPath": "./node_modules/phantomjs/bin/phantomjs"
 - Template testing: css for #pageFooter so that elements with bottom: 0 are above the footer in the Html view
 
 DOM Test example
