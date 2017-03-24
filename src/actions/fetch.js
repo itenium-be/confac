@@ -1,7 +1,7 @@
 import {failure} from './appActions.js';
 import {store} from '../store.js';
 
-const urlPrefix = require('../../config-front.json').backend;
+const urlPrefix = require('../../config-front.js').backend;
 
 export function buildUrl(url) {
   return urlPrefix + url;

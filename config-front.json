@@ -1,4 +1,0 @@
-{
-	"backend": "http://localhost:3001/api",
-	"environment": "dev"
-}
