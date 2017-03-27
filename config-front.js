@@ -4,7 +4,7 @@ function getBackend() {
     return 'http://192.168.1.4:9000/api';
   case 'pongit':
     return 'http://synology-pongit:9000/api';
-  default
+  default:
     return 'oepsie!';
   }
 }
