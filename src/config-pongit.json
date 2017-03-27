@@ -1,6 +1,6 @@
 {
    "db": {
-      "host": "localhost",
+      "host": "synology-pongit",
       "db": "confac",
       "port": 32770
    },
