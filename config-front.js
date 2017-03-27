@@ -1,9 +1,10 @@
 function getBackend() {
+  // Port 9000 is hardcoded in backend/config-xxx.json
   switch (process.env.REACT_APP_DEPLOY) {
   case 'jos':
-    return 'http://192.168.1.4:9000/api';
+    return 'http://localhost:9000/api';
   case 'pongit':
-    return 'http://synology-pongit:9000/api';
+    return 'http://localhost:9000/api';
   default:
     return 'oepsie!';
   }
