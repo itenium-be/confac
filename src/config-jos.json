@@ -2,7 +2,7 @@
    "db": {
       "host": "localhost",
       "db": "confac",
-      "port": 32770
+      "port": 32768
    },
    "server": {
       "port": 9000,
