@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const environment = require('../config-front.js').environment;
-if (environment !== 'prod') {
+if (environment !== 'production') {
   document.title += ' - ' + (environment || '???');
 }
 
