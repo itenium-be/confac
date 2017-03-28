@@ -3,9 +3,9 @@ function getBackend() {
   // Could just use: process.env.PUBLIC provided by react-create-app?
   switch (process.env.REACT_APP_DEPLOY) {
   case 'jos':
-    return 'http://' + window.location.origin + '/api';
+    return window.location.origin + '/api';
   case 'pongit':
-    return 'http://' + window.location.origin + '/api';
+    return window.location.origin + '/api';
   default:
     return 'oepsie!';
   }
