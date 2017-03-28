@@ -1,10 +1,11 @@
 function getBackend() {
   // Port 9000 is hardcoded in backend/config-xxx.json
+  // Could just use: process.env.PUBLIC provided by react-create-app?
   switch (process.env.REACT_APP_DEPLOY) {
   case 'jos':
-    return 'http://localhost:9000/api';
+    return `http://${process.env.PUBLIC_URL}:9000/api`;
   case 'pongit':
-    return 'http://localhost:9000/api';
+    return `http://${process.env.PUBLIC_URL}:9000/api`;
   default:
     return 'oepsie!';
   }
