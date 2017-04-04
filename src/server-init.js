@@ -13,6 +13,16 @@ String.prototype.toObjectId = function(key = '_id') {
 export const createApp = config => {
   const app = koa();
 
+  app.use(function *(next) {
+    try {
+      yield next;
+    } catch (err) {
+      this.status = err.statusCode || err.status || 500;
+      console.error(err);
+      this.body = {message: err.message, stack: err.stack};
+    }
+  });
+
   // var delay = require('koa-delay');
   // app.use(delay(1000, 20));
 
