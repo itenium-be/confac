@@ -7,6 +7,16 @@ npm run build
 npm run eject
 ```
 
+Jos wou ook nog: halve dagen ingeven...
+custom type: name + hours + price?
+
+Deployment
+----------
+- shared folder for templates
+- test pdf generation (might need to install additional stuff? fontlib?)
+
+
+
 - meerdere configs gesaved... nieuwe klanten ook zonder 
 - tav veld bij klanten
 - jobomschrijving gekozen per factuur
