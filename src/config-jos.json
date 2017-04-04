@@ -1,6 +1,6 @@
 {
    "db": {
-      "host": "localhost",
+      "host": "http://192.168.1.4",
       "db": "confac",
       "port": 32768
    },
