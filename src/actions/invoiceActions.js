@@ -33,7 +33,7 @@ export function createInvoice(data) {
         browserHistory.push('/invoice/' + res.body.number);
         //browserHistory.push('/');
       }, function(err) {
-        if (err.res.text === 'TemplateNotFound') {
+        if (err.res && err.res.text === 'TemplateNotFound') {
           dispatch(failure(t('invoice.pdfTemplateNotFoundTitle'), t('invoice.pdfTemplateNotFound')));
         } else {
           catchHandler(err);
