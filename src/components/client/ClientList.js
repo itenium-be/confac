@@ -37,7 +37,7 @@ class ClientList extends Component {
 
     return (
       <Grid>
-        <Control.AddIcon onClick="/client/create" label={t('client.createNew')} />
+        <Control.AddIcon onClick="/client/create" label={t('client.createNew')} data-tst="new-client" />
 
         <div className="pull-right" style={{width: 220}}>
           <Control.Switch

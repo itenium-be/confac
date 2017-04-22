@@ -8,20 +8,21 @@ import {AddIcon} from '../controls.js';
 const Header = () => (
   <Navbar>
     <Nav>
-      <IndexLinkContainer to="/">
+      <IndexLinkContainer to="/" data-tst="link-invoices">
         <NavItem eventKey={1}>{t('title')}</NavItem>
       </IndexLinkContainer>
-      <LinkContainer to={{pathname: '/clients'}}>
+      <LinkContainer to={{pathname: '/clients'}} data-tst="link-clients">
         <NavItem eventKey={3} href="#">{t('nav.clients')}</NavItem>
       </LinkContainer>
-      <LinkContainer to={{pathname: '/config'}}>
+      <LinkContainer to={{pathname: '/config'}} data-tst="link-config">
         <NavItem eventKey={2} href="#">{t('nav.config')}</NavItem>
       </LinkContainer>
     </Nav>
     <button
       className="btn btn-success"
       style={{top: 8, position: 'absolute', right: 35}}
-      onClick={() => browserHistory.push('/invoice/create')}>
+      onClick={() => browserHistory.push('/invoice/create')}
+      data-tst="invoice-create">
       <AddIcon size={1} style={{marginRight: 15}} />
       {t('invoice.createNew')}
     </button>

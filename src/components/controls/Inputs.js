@@ -51,6 +51,7 @@ const BaseInput = EnhanceIputWithLabel(EnhanceIputWithAddons(class extends Compo
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
     style: PropTypes.object,
+    'data-tst': PropTypes.string
   }
 
   render() {
@@ -63,6 +64,7 @@ const BaseInput = EnhanceIputWithLabel(EnhanceIputWithAddons(class extends Compo
         placeholder={this.props.placeholder}
         onChange={this.props.onChange}
         style={this.props.style}
+        data-tst={this.props['data-tst']}
       />
     );
   }
@@ -123,6 +125,7 @@ export const StringInputArray = ({keys, model, onChange, tPrefix}) => {
             label={t(tPrefix + key)}
             value={model[key]}
             onChange={value => onChange({...model, [key]: value})}
+            data-tst={tPrefix + key}
           />
         </Col>
       ))}
@@ -143,6 +146,7 @@ export const InputArray = ({config, model, onChange, tPrefix}) => {
             label={t(tPrefix + col.key)}
             value={model[col.key]}
             onChange={value => onChange({...model, [col.key]: value})}
+            data-tst={tPrefix + col.key}
           />
         </Col>
       ))}

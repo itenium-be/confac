@@ -62,7 +62,7 @@ class EditConfig extends Component {
 
 
           <Row className="button-row">
-            <Control.BusyButton onClick={this._save.bind(this)}>{t('save')}</Control.BusyButton>
+            <Control.BusyButton onClick={this._save.bind(this)} data-tst="save">{t('save')}</Control.BusyButton>
           </Row>
         </Form>
       </Grid>
@@ -106,6 +106,7 @@ const EditConfigInvoice = ({config, onChange}) => (
         label={t('config.defaultClient')}
         value={config.defaultClient}
         onChange={item => onChange({defaultClient: item._id})}
+        data-tst="config.defaultClient"
       />
     </Col>
 
@@ -115,6 +116,7 @@ const EditConfigInvoice = ({config, onChange}) => (
         value={config.defaultTax}
         onChange={value => onChange({defaultTax: value})}
         suffix="%"
+        data-tst="config.defaultTax"
       />
     </Col>
 
@@ -123,6 +125,7 @@ const EditConfigInvoice = ({config, onChange}) => (
         label={t('attachment.types')}
         values={config.attachmentTypes}
         onChange={values => onChange({attachmentTypes: values})}
+        data-tst="config.attachmentTypes"
       />
     </Col>
 
@@ -131,6 +134,7 @@ const EditConfigInvoice = ({config, onChange}) => (
         label={t('config.defaultInvoiceLineType')}
         type={config.defaultInvoiceLineType}
         onChange={value => onChange({defaultInvoiceLineType: value})}
+        data-tst="config.defaultInvoiceLineType"
       />
     </Col>
   </Row>
