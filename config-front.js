@@ -7,7 +7,7 @@ function getBackend() {
   case 'pongit':
     return window.location.origin + '/api';
   default:
-    return 'oepsie!';
+    return window.location.origin + '/api';
   }
 }
 
