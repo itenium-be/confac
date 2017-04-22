@@ -15,6 +15,8 @@ EditInvoice: Popup with update pdf (on bewaren) YES, NO, CANCEL
 
 Uren per dag: config: Invullen streefdoel uren per week? :)  --> stats daarop gebaseerd
 
+--> Templates shared volume in Dockerfile
+
 
 Template testing
 ----------------
