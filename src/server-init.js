@@ -30,7 +30,11 @@ export const createApp = config => {
   app.use(koaBodyParser());
   // app.use(koaServe(__dirname + '../public'));
   app.use(koaServe(`./${config.server.basePath}public`));
-  app.use(koaServe(`./${config.server.basePath}templates`));
+  if (process.env.ENABLE_ROOT_TEMPLATES) {
+    app.use(koaServe('/templates'));
+  } else {
+    app.use(koaServe(`./${config.server.basePath}templates`));
+  }
 
   const db = config.db;
   app.use(koaMongo({
