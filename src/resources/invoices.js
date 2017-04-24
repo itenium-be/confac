@@ -63,7 +63,6 @@ export default function register(app) {
 export function createHtml(params, assetsPath) {
   var compiledFunction;
   try {
-    console.log('NODE_NV', process.env.ENABLE_ROOT_TEMPLATES, process.env);
     if (process.env.ENABLE_ROOT_TEMPLATES) {
       compiledFunction = pug.compileFile('/templates/' + params.your.template);
     } else {
