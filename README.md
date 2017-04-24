@@ -1,46 +1,27 @@
 confac-front
 ============
 
+react-create-app
+
 ```
 npm start
 npm run build
 npm run eject
 ```
 
-Jos wou ook nog: halve dagen ingeven...
-custom type: name + hours + price?
+Runing the dev environment
+--------------------------
 
-Deployment
-----------
-- shared folder for templates
-- test pdf generation (might need to install additional stuff? fontlib?)
+Projects:
 
-
-
-- meerdere configs gesaved... nieuwe klanten ook zonder 
-- tav veld bij klanten
-- jobomschrijving gekozen per factuur
-- notitie veld, zelf velden toevoegen
-- alle velden mogelijk ter replacement in factuur pdf naam + aanpassen per factuur 
-- in klanten lijst verberg tarief
-- factuurlijn: extra veld omschrijving
-- preview: geen melding van template niet gevonden
-
-Synology
-https://192.168.1.4:5001/
-
-ssh 192.168.1.4
-
-Confac
-https://192.168.1.4:9000/
-
-Port synology mongodb 32768
-
-https://hallard.me/synology-ipkg-optware-installation/
-and then
-https://forum.synology.com/enu/viewtopic.php?t=15260
+- confac-front: React/Redux Bootstrap
+- confac-back: Koa, Html2Pdf
+- confac-vagrant: MongoDb
 
 
+
+
+Some stuff from create-react-app below:
 
 create-react-app
 ================
