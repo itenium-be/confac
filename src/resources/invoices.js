@@ -63,7 +63,11 @@ export default function register(app) {
 export function createHtml(params, assetsPath) {
   var compiledFunction;
   try {
-    compiledFunction = pug.compileFile('./templates/' + params.your.template);
+    if (process.env.NODE_ENV) {
+      compiledFunction = pug.compileFile('/templates/' + params.your.template);
+    } else {
+      compiledFunction = pug.compileFile('./templates/' + params.your.template);
+    }
   } catch (e) {
     return {error: 'TemplateNotFound'};
   }
