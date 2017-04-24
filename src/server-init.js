@@ -18,7 +18,7 @@ export const createApp = config => {
       yield next;
     } catch (err) {
       this.status = err.statusCode || err.status || 500;
-      console.error(err);
+      console.error(err); // eslint-disable-line
       this.body = {message: err.message, stack: err.stack};
     }
   });
