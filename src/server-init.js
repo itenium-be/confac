@@ -5,8 +5,6 @@ import koaServe from 'koa-static';
 import koaSend from 'koa-send';
 import koaMongo from 'koa-mongo';
 
-console.log('this is da test');
-
 const ObjectId = require('mongodb').ObjectId;
 String.prototype.toObjectId = function(key = '_id') {
   return {[key]: new ObjectId(this)};

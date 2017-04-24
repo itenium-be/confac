@@ -63,13 +63,14 @@ export default function register(app) {
 export function createHtml(params, assetsPath) {
   var compiledFunction;
   try {
-    console.log('NODE_NV', process.env.NODE_ENV, process.env);
-    if (process.env.NODE_ENV) {
+    console.log('NODE_NV', process.env.ENABLE_ROOT_TEMPLATES, process.env);
+    if (process.env.ENABLE_ROOT_TEMPLATES) {
       compiledFunction = pug.compileFile('/templates/' + params.your.template);
     } else {
       compiledFunction = pug.compileFile('./templates/' + params.your.template);
     }
   } catch (e) {
+    console.log('TemplateNotFound', e); // eslint-disable-line
     return {error: 'TemplateNotFound'};
   }
   return compiledFunction(Object.assign({}, locals, params, {origin: assetsPath}));
