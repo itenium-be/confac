@@ -10,12 +10,14 @@ Expects running mongo with `src/config.js` settings.
 npm start
 ```
 
-Invoice list & EditInvoice: Preview button
+Invoice list & EditInvoice: Preview button doesn't work?
 EditInvoice: Popup with update pdf (on bewaren) YES, NO, CANCEL
 
-Uren per dag: config: Invullen streefdoel uren per week? :)  --> stats daarop gebaseerd
 
 --> Templates shared volume in Dockerfile
+
+
+TODO: next invoice nr --> last date invoice nr + 1
 
 
 Template testing
