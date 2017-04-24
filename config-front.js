@@ -17,3 +17,7 @@ if (process.env.REACT_APP_DEPLOY) {
 } else {
   module.exports = {backend: 'http://localhost:3001/api', environment: process.env.NODE_ENV || 'dev'};
 }
+
+if (process.env.REACT_APP_DEPLOY === 'pongit-test') {
+  module.exports.environment = 'test'; // o'rly
+}
