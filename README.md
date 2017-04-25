@@ -1,6 +1,8 @@
 confac-front
 ============
 
+[Try it out live][demo] (without backend:)
+
 Runing the dev environment
 --------------------------
 Projects:
@@ -23,3 +25,4 @@ npm run eject
 [confac-back]: https://github.com/be-pongit/confac-back
 [confac-vagrant]: https://github.com/be-pongit/confac-vagrant
 [vagrant]: https://www.vagrantup.com/
+[demo]: https://be-pongit.github.io/assets/confac-demo/index.html
