@@ -19,6 +19,7 @@ const EnhanceIconWithCenter = ComposedComponent => ({center, ...props}) => {
 
 export const Icon = EnhanceIconWithCenter(class Icon extends Component {
   static propTypes = {
+    'data-tst': PropTypes.string.isRequired,
     fa: PropTypes.string.isRequired,
     color: PropTypes.string,
     style: PropTypes.object,

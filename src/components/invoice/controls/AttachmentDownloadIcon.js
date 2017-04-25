@@ -3,16 +3,18 @@ import {Icon, SpinnerIcon} from '../../controls/Icon.js';
 import {downloadInvoice, downloadClientAttachment} from '../../../actions/index.js';
 import t from '../../../trans.js';
 
-export const InvoiceDownloadIcon = ({invoice}) => (
+export const InvoiceDownloadIcon = ({invoice, ...props}) => (
   <AttachmentDownloadIcon
     model={invoice}
     attachment={invoice.attachments.find(a => a.type === 'pdf')}
     modelType="invoice"
+    {...props}
   />
 );
 
 export class AttachmentDownloadIcon extends Component {
   static propTypes = {
+    'data-tst': PropTypes.string.isRequired,
     model: PropTypes.object.isRequired,
     attachment: PropTypes.shape({
       type: PropTypes.string.isRequired,
@@ -31,7 +33,6 @@ export class AttachmentDownloadIcon extends Component {
   }
   render() {
     const {model, attachment, modelType, ...props} = this.props;
-
     const onClick = () => {
       this.setState({isBusy: true});
       const downloader = modelType === 'invoice' ? downloadInvoice : downloadClientAttachment;
@@ -40,7 +41,7 @@ export class AttachmentDownloadIcon extends Component {
 
     if (this.state.isBusy) {
       const offset = attachment.type === 'pdf' ? -12 : 0;
-      return <SpinnerIcon style={{marginLeft: offset}} />;
+      return <SpinnerIcon style={{marginLeft: offset}} data-tst={this.props['data-tst']} />;
     }
 
     const fileType = getAwesomeFileType(attachment);

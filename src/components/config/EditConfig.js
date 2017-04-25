@@ -83,6 +83,7 @@ const EditConfigUserSettings = ({config, onChange}) => (
         label={t('config.showOrderNr')}
         checked={config.showOrderNr}
         onChange={checked => onChange({showOrderNr: checked})}
+        data-tst="config.showOrderNr"
       />
     </Col>
 
@@ -91,6 +92,7 @@ const EditConfigUserSettings = ({config, onChange}) => (
         label={t('config.groupByMonth')}
         checked={config.groupInvoiceListByMonth}
         onChange={checked => onChange({groupInvoiceListByMonth: checked})}
+        data-tst="config.groupByMonth"
       />
     </Col>
   </Row>
@@ -154,6 +156,7 @@ const EditConfigExtraFields = ({config, onChange}) => (
           label={t('config.extraFields.config')}
           values={config.extraConfigFields}
           onChange={value => onChange({extraConfigFields: value})}
+          data-tst="config.extraFields.title"
         />
       </Col>
       <Col sm={4}>
@@ -161,6 +164,7 @@ const EditConfigExtraFields = ({config, onChange}) => (
           label={t('config.extraFields.client')}
           values={config.defaultExtraClientFields}
           onChange={value => onChange({defaultExtraClientFields: value})}
+          data-tst="config.extraFields.client"
         />
       </Col>
       <Col sm={4}>
@@ -168,6 +172,7 @@ const EditConfigExtraFields = ({config, onChange}) => (
           label={t('config.extraFields.clientInvoice')}
           values={config.defaultExtraClientInvoiceFields}
           onChange={value => onChange({defaultExtraClientInvoiceFields: value})}
+          data-tst="config.extraFields.clientInvoice"
         />
       </Col>
     </Row>
@@ -175,6 +180,7 @@ const EditConfigExtraFields = ({config, onChange}) => (
       <Control.ExtraFieldsInput
         properties={config.extraConfigFields}
         onChange={value => onChange({extraConfigFields: value})}
+        data-tst="config.extraConfigFields"
       />
     </Row>
   </div>

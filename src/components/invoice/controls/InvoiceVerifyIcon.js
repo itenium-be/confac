@@ -7,18 +7,20 @@ import {toggleInvoiceVerify} from '../../../actions/index.js';
 
 class InvoiceVerifyIcon extends Component {
   static propTypes = {
+    'data-tst': PropTypes.string.isRequired,
     invoice: PropTypes.object.isRequired,
     toggleInvoiceVerify: PropTypes.func.isRequired,
   }
 
   render() {
-    const {invoice} = this.props;
+    const {invoice, toggleInvoiceVerify, ...props} = this.props; // eslint-disable-line
     return (
       <BusyVerifyIcon
         model={invoice}
         style={{marginLeft: 8}}
-        onClick={() => this.props.toggleInvoiceVerify(invoice)}
+        onClick={() => toggleInvoiceVerify(invoice)}
         title={invoice.verified ? t('invoice.verifyAction') : t('invoice.verifyActionTooltip', {days: moment().diff(invoice.date, 'days')})}
+        {...props}
       />
     );
   }

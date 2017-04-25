@@ -21,9 +21,8 @@ const Header = () => (
     <button
       className="btn btn-success"
       style={{top: 8, position: 'absolute', right: 35}}
-      onClick={() => browserHistory.push('/invoice/create')}
-      data-tst="invoice-create">
-      <AddIcon size={1} style={{marginRight: 15}} />
+      onClick={() => browserHistory.push('/invoice/create')}>
+      <AddIcon size={1} style={{marginRight: 15}} data-tst="invoice-create" />
       {t('invoice.createNew')}
     </button>
   </Navbar>

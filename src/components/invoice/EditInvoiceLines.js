@@ -51,6 +51,7 @@ export default class EditInvoiceLines extends Component {
                   <Control.StringInput
                     value={line.desc}
                     onChange={value => onChange(invoice.updateLine(index, {desc: value}))}
+                    data-tst={`line-${index}-desc`}
                   />
                 </td>
 
@@ -58,6 +59,7 @@ export default class EditInvoiceLines extends Component {
                   <Control.InvoiceLineTypeSelect
                     type={line.type}
                     onChange={value => onChange(invoice.updateLine(index, {type: value}))}
+                    data-tst={`line-${index}-type`}
                   />
                 </td>
 
@@ -66,6 +68,7 @@ export default class EditInvoiceLines extends Component {
                     float
                     value={line.amount}
                     onChange={value => onChange(invoice.updateLine(index, {amount: value}))}
+                    data-tst={`line-${index}-amount`}
                   />
                 </td>
 
@@ -76,6 +79,7 @@ export default class EditInvoiceLines extends Component {
                     float
                     value={line.price}
                     onChange={value => onChange(invoice.updateLine(index, {price: value}))}
+                    data-tst={`line-${index}-price`}
                   />
                 </td>
 
@@ -86,6 +90,7 @@ export default class EditInvoiceLines extends Component {
                     float
                     value={line.tax}
                     onChange={value => onChange(invoice.updateLine(index, {tax: value}))}
+                    data-tst={`line-${index}-tax`}
                   />
                 </td>
 
@@ -94,6 +99,7 @@ export default class EditInvoiceLines extends Component {
                     style={{height: 35}}
                     value={line.notes}
                     onChange={value => onChange(invoice.updateLine(index, {notes: value}))}
+                    data-tst={`line-${index}-notes`}
                   />
                 </td>
 

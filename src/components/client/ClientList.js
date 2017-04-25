@@ -64,6 +64,7 @@ class ClientList extends Component {
               values={filters.clientListYears}
               years={getInvoiceYears(invoices)}
               onChange={values => this.props.updateInvoiceFilters({...filters, clientListYears: values})}
+              data-tst="filter-years"
             />
           </Col>
         </Row>

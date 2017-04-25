@@ -42,6 +42,7 @@ export class InvoiceSearch extends Component {
             onChange={value => this.onFilterChange({search: value})}
             value={search}
             options={this.props.filterOptions}
+            data-tst="filter-all"
           />
         </Col>
         <Col sm={3}>
@@ -50,6 +51,7 @@ export class InvoiceSearch extends Component {
             onChange={checked => this.onFilterChange({unverifiedOnly: checked})}
             label={t('invoice.notVerifiedOnly')}
             style={{marginTop: 28}}
+            data-tst="filter-unverified"
           />
         </Col>
         <Col sm={3}>
@@ -58,6 +60,7 @@ export class InvoiceSearch extends Component {
             onChange={checked => this.onFilterChange({groupedByMonth: checked})}
             label={t('invoice.groupByMonth')}
             style={{marginTop: 28}}
+            data-tst="filter-groupedByMonth"
           />
         </Col>
       </Row>
@@ -69,6 +72,7 @@ export class InvoiceSearch extends Component {
 
 const InvoiceSearchSelect = EnhanceIputWithLabel(class extends Component {
   static propTypes = {
+    'data-tst': PropTypes.string.isRequired,
     options: filterOptionsPropType,
     value: PropTypes.any,
     onChange: PropTypes.func.isRequired,
@@ -103,6 +107,7 @@ const InvoiceSearchSelect = EnhanceIputWithLabel(class extends Component {
         noResultsText={t('controls.noResultsText')}
         promptTextCreator={value => t('controls.addFilterText', {value})}
         placeholder={t('invoice.search.placeholder')}
+        className={'tst-' + this.props['data-tst']}
       />
     );
   }

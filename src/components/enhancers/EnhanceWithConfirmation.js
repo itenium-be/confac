@@ -4,6 +4,7 @@ import {t} from '../util.js';
 
 export const EnhanceWithConfirmation = ComposedComponent => class extends Component {
   static propTypes = {
+    'data-tst': PropTypes.string.isRequired,
     onClick: PropTypes.func,
     title: PropTypes.string,
     children: PropTypes.node,
@@ -31,7 +32,7 @@ export const EnhanceWithConfirmation = ComposedComponent => class extends Compon
       <div style={{display: 'inline'}}>
         {this.state.popupActive ? (
           <div style={{display: 'inline'}}>
-            <Popup title={title} buttons={buttons} onHide={() => this.setState({popupActive: false})}>
+            <Popup title={title} buttons={buttons} onHide={() => this.setState({popupActive: false})} data-tst={props['data-tst'] + '-popup'}>
               {children}
             </Popup>
             <ComposedComponent {...props} onClick={() => this.setState({popupActive: false})} />

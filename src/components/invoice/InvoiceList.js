@@ -114,8 +114,8 @@ const GroupedInvoiceTable = ({invoices, config}) => {
   const columns = getColumns(['date-month', 'number', 'client'], config.showOrderNr);
   const invoicesPerMonth = groupInvoicesPerMonth(invoices).sort((a, b) => b.key.localeCompare(a.key));
 
-
   const hideBorderStyle = {borderBottom: 0, borderTop: 0};
+  const tst = (key, key2) => `invoice-${key}-${key2}`;
 
   return (
     <Table condensed style={{marginTop: 10}}>
@@ -124,15 +124,21 @@ const GroupedInvoiceTable = ({invoices, config}) => {
       {invoicesPerMonth.map(({key, invoiceList}) => [
         <tbody key={key}>
           {invoiceList.sort((a, b) => b.number - a.number).map((invoice, index) => (
-            <InvoiceListRow columns={columns} invoice={invoice} key={invoice._id} isFirstRow={index === 0} onlyRowForMonth={invoiceList.length === 1} />
+            <InvoiceListRow
+              key={invoice._id}
+              columns={columns}
+              invoice={invoice}
+              isFirstRow={index === 0}
+              onlyRowForMonth={invoiceList.length === 1}
+            />
           ))}
         </tbody>,
         invoiceList.length > 1 ? <tbody key={key + '-group-row'} style={hideBorderStyle}>
           <tr style={{...hideBorderStyle, height: 60}}>
             <td style={hideBorderStyle}>&nbsp;</td>
-            <td colSpan={columns.length - 1}><strong><InvoiceAmountLabel invoices={invoiceList} /></strong></td>
-            <td><strong><InvoiceWorkedDays invoices={invoiceList} /></strong></td>
-            <td><InvoicesTotal invoices={invoiceList} totalOnly /></td>
+            <td colSpan={columns.length - 1}><strong><InvoiceAmountLabel invoices={invoiceList} data-tst={tst(key, 'invoices')} /></strong></td>
+            <td><strong><InvoiceWorkedDays invoices={invoiceList} data-tst={tst(key, 'days')} /></strong></td>
+            <td><InvoicesTotal invoices={invoiceList} totalOnly data-tst={tst(key, 'money')} /></td>
             <td>&nbsp;</td>
           </tr>
         </tbody> : null

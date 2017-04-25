@@ -10,6 +10,7 @@ const BaseSelect = EnhanceIputWithLabel(props => (
     clearAllText={t('controls.clearAllText')}
     noResultsText={t('controls.noResultsText')}
     placeholder={t('controls.selectPlaceholder')}
+    className={'tst-' + props['data-tst']}
     {...props}
   />
 ));
@@ -33,6 +34,7 @@ export const YearsSelect = ({values, years, onChange, ...props}) => {
 
 export const SimpleSelect = EnhanceIputWithLabel(class extends Component {
   static propTypes = {
+    'data-tst': PropTypes.string.isRequired,
     value: PropTypes.any,
     options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     onChange: PropTypes.func.isRequired,
@@ -56,6 +58,7 @@ export const SimpleSelect = EnhanceIputWithLabel(class extends Component {
         onChange={itm => onChange(itm.value)}
         clearable={clearable}
         multi={false}
+        className={'tst-' + this.props['data-tst']}
         {...props}
       />
     );
@@ -66,7 +69,7 @@ export const SimpleSelect = EnhanceIputWithLabel(class extends Component {
 
 
 
-export const SimpleCreatableSelect = ({options, value, onChange, clearable = false}) => {
+export const SimpleCreatableSelect = ({options, value, onChange, clearable = false, ...props}) => {
   const opts = options.map(itm => ({
     label: itm,
     value: itm
@@ -84,6 +87,7 @@ export const SimpleCreatableSelect = ({options, value, onChange, clearable = fal
       noResultsText={t('controls.noResultsText')}
       promptTextCreator={itm => t('controls.addLabelText', {value: itm})}
       placeholder={t('controls.selectPlaceholder')}
+      className={'tst-' + props['data-tst']}
     />
   );
 };
@@ -91,6 +95,7 @@ export const SimpleCreatableSelect = ({options, value, onChange, clearable = fal
 
 export const PropertiesSelect = EnhanceIputWithLabel(class extends Component {
   static propTypes = {
+    'data-tst': PropTypes.string.isRequired,
     label: PropTypes.string,
     values: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -125,6 +130,7 @@ export const PropertiesSelect = EnhanceIputWithLabel(class extends Component {
         noResultsText={""}
         promptTextCreator={itm => t('controls.addLabelText', {value: itm})}
         placeholder={t('controls.propertiesPlaceholder')}
+        className={'tst-' + this.props['data-tst']}
       />
     );
   }
@@ -135,6 +141,7 @@ export const PropertiesSelect = EnhanceIputWithLabel(class extends Component {
 
 export const StringsSelect = EnhanceIputWithLabel(class extends Component {
   static propTypes = {
+    'data-tst': PropTypes.string.isRequired,
     values: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     onChange: PropTypes.func.isRequired,
   }
@@ -156,6 +163,7 @@ export const StringsSelect = EnhanceIputWithLabel(class extends Component {
         noResultsText={""}
         promptTextCreator={itm => t('controls.addLabelText', {value: itm})}
         placeholder={t('controls.selectPlaceholder')}
+        className={'tst-' + this.props['data-tst']}
       />
     );
   }

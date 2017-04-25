@@ -4,6 +4,7 @@ import {Button, BusyButton} from './Button.js';
 
 export class Popup extends Component {
   static propTypes = {
+    'data-tst': PropTypes.string.isRequired,
     title: PropTypes.string,
     children: PropTypes.node,
     buttons: PropTypes.arrayOf(PropTypes.shape({
@@ -35,6 +36,7 @@ export class Popup extends Component {
                 bsStyle={button.bsStyle || 'default'}
                 onClick={button.onClick}
                 disabled={button.disabled}
+                data-tst={this.props['data-tst'] + '-btn-' + i}
               >
                 {button.text}
               </UsedButton>

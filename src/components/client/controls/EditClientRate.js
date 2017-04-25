@@ -24,6 +24,7 @@ export class EditClientRate extends Component {
             label={t('client.rate.defaultPrice')}
             value={rate.value}
             onChange={value => this.props.onChange({...rate, value: value})}
+            data-tst="client.rate.value"
           />
         </Col>
 
@@ -32,6 +33,7 @@ export class EditClientRate extends Component {
             label={t('client.rate.hoursInDay')}
             value={rate.hoursInDay}
             onChange={value => this.props.onChange({...rate, hoursInDay: value})}
+            data-tst="client.rate.hoursInDay"
           />
         </Col>
         <Col sm={4}>
@@ -39,6 +41,7 @@ export class EditClientRate extends Component {
             label={t('config.defaultInvoiceLineType')}
             type={rate.type}
             onChange={value => this.props.onChange({...rate, type: value})}
+            data-tst="client.rate.type"
           />
         </Col>
 
@@ -47,6 +50,7 @@ export class EditClientRate extends Component {
             label={t('client.rate.desc')}
             value={rate.description}
             onChange={value => this.props.onChange({...rate, description: value})}
+            data-tst="client.rate.desc"
           />
         </Col>
 

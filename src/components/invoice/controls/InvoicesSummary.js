@@ -2,14 +2,14 @@ import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import {t, moneyFormat} from '../../util.js';
 
-export const InvoiceAmountLabel = ({invoices}) => {
+export const InvoiceAmountLabel = ({invoices, ...props}) => {
   if (invoices.length === 1) {
-    return <span>{t('invoice.invoicesOne')}</span>;
+    return <span data-tst={props['data-tst']}>{t('invoice.invoicesOne')}</span>; //eslint-disable-line
   }
-  return <span>{invoices.length} {t('invoice.invoices').toLowerCase()}</span>;
+  return <span data-tst={props['data-tst']}>{invoices.length} {t('invoice.invoices').toLowerCase()}</span>; //eslint-disable-line
 };
 
-export const InvoicesSummary = ({invoices}) => {
+export const InvoicesSummary = ({invoices, ...props}) => {
   const moneys = invoices.map(i => i.money);
   const money = moneys.reduce((a, b) => ({
     totalWithoutTax: a.totalWithoutTax + b.totalWithoutTax,
@@ -27,13 +27,14 @@ export const InvoicesSummary = ({invoices}) => {
   tooltip += '<br>';
   tooltip += t('invoice.total') + ': ' + moneyFormat(money.total);
 
+  const tst = props['data-tst']; //eslint-disable-line
   return (
     <div data-tip={tooltip}>
       <ReactTooltip multiline={true} />
       <div>
-        <InvoiceAmountLabel invoices={invoices} />
+        <InvoiceAmountLabel invoices={invoices} data-tst={tst + '-amount'} />
         <br />
-        <span>{moneyFormat(money.total)}</span>
+        <span data-tst={tst + '-total'}>{moneyFormat(money.total)}</span>
       </div>
     </div>
   );

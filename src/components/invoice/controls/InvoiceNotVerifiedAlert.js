@@ -29,6 +29,7 @@ class InvoiceNotVerifiedAlert extends Component {
             onClick={() => toggleInvoiceVerify(invoice)}
             bsSize="small"
             style={{marginTop: -5, marginRight: 10, textTransform: 'uppercase'}}
+            data-tst="invoice-verify"
           >
             {t('invoice.verifyAction')}
           </BusyButton>

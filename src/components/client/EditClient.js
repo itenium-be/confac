@@ -79,6 +79,7 @@ class EditClient extends Component {
                 label={t('client.extraInvoiceFields')}
                 values={client.defaultExtraInvoiceFields || []}
                 onChange={value => this.setState({...client, defaultExtraInvoiceFields: value})}
+                data-tst="client.extraInvoiceFields"
               />
             </Col>
           </Row>
@@ -135,6 +136,7 @@ const EditClientDefaultOther = ({client, onChange}) => (
           placeholder={t('notes')}
           value={client.notes}
           onChange={value => onChange({...client, notes: value})}
+          data-tst="client.notes"
         />
       </Col>
       <Col sm={4}>
@@ -143,6 +145,7 @@ const EditClientDefaultOther = ({client, onChange}) => (
           placeholder={t('invoice.fileNamePlaceHolder')}
           value={client.invoiceFileName}
           onChange={value => onChange({...client, invoiceFileName: value})}
+          data-tst="client.invoiceFileName"
         />
       </Col>
 
@@ -151,6 +154,7 @@ const EditClientDefaultOther = ({client, onChange}) => (
           label={t('client.extraFields')}
           values={client.extraFields}
           onChange={value => onChange({...client, extraFields: value})}
+          data-tst="client.extraFields"
         />
       </Col>
     </Row>
@@ -158,6 +162,7 @@ const EditClientDefaultOther = ({client, onChange}) => (
       <ExtraFieldsInput
         properties={client.extraFields}
         onChange={value => onChange({...client, extraFields: value})}
+        data-tst="client.extraFields"
       />
     </Row>
   </div>

@@ -8,6 +8,7 @@ export const Switch = ({checked, onChange, label, style, ...props}) => (
     <ReactSwitch
       checked={checked}
       onChange={onChange}
+      className={props['data-tst']}
       {...props}
     />
     <span style={{position: 'absolute', left: 60, bottom: 10}}>{label}</span>
@@ -154,7 +155,7 @@ export const InputArray = ({config, model, onChange, tPrefix}) => {
   );
 };
 
-export const ExtraFieldsInput = ({properties, onChange}) => {
+export const ExtraFieldsInput = ({properties, onChange, ...props}) => {
   const updater = (updateLabel, newText) => {
     onChange(properties.map(col => {
       if (col.label === updateLabel) {
@@ -175,6 +176,7 @@ export const ExtraFieldsInput = ({properties, onChange}) => {
             label={col.label}
             value={col.value}
             onChange={updater.bind(this, col.label)}
+            data-tst={props['data-tst'] + '_' + col.label}
           />
         </Col>
       ))}

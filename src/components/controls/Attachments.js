@@ -60,7 +60,7 @@ class AbstractAttachmentsForm extends Component {
   render() {
     const canDeleteAttachments = this.props.attachments.length > (this.props.modelType === 'invoice' ? 1 : 0);
     return (
-      <Row>
+      <Row className="tst-attachments">
         <HeaderWithEditIcon
           label={t('invoice.attachments')}
           editIconVisible={canDeleteAttachments}
@@ -72,6 +72,7 @@ class AbstractAttachmentsForm extends Component {
           onClick={() => this.setState({isOpen: true})}
           label={t('invoice.attachmentsAdd')}
           size={1}
+          data-tst="add-attachment"
         />
 
         <AddAttachmentPopup
@@ -90,11 +91,11 @@ class AbstractAttachmentsForm extends Component {
               onMouseOver={() => this.setState({hoverId: att.type !== 'pdf' ? att.type : null})}
               onMouseOut={() => this.setState({hoverId: null})}
             >
-              <AttachmentDownloadIcon model={this.props.model} attachment={att} modelType={this.props.modelType} />
+              <AttachmentDownloadIcon model={this.props.model} attachment={att} modelType={this.props.modelType} data-tst={`att-download-${att.type}`} />
               <span style={{marginLeft: 10}}>{att.type !== 'pdf' ? att.type : t('invoice.invoice')}</span>
               {this.state.isFormOpen && att.type !== 'pdf' ? (
                 <div style={{display: 'inline', position: 'absolute', right: 20}}>
-                  <ConfirmedDeleteIcon title={t('attachment.deleteTitle')} onClick={this.props.onDelete.bind(this, att)}>
+                  <ConfirmedDeleteIcon title={t('attachment.deleteTitle')} onClick={this.props.onDelete.bind(this, att)} data-tst={`att-delete-${att.type}`}>
                     {t('attachment.deletePopup')}
                   </ConfirmedDeleteIcon>
                 </div>
@@ -149,7 +150,7 @@ class AddAttachmentPopupComponent extends Component {
       disabled: !canAdd || !this.state.file,
     }];
     return (
-      <Popup title={t('invoice.attachmentsAdd')} buttons={buttons} onHide={onClose}>
+      <Popup title={t('invoice.attachmentsAdd')} buttons={buttons} onHide={onClose} data-tst="add-att">
         <FormGroup>
           <ControlLabel>{t('attachment.type')}</ControlLabel>
           <SimpleCreatableSelect
@@ -157,10 +158,13 @@ class AddAttachmentPopupComponent extends Component {
             options={this.props.attachmentTypes}
             onChange={text => this.setState({type: text})}
             promptTextCreator={text => t('controls.addLabelText', {text})}
+            data-tst="add-att-type"
           />
         </FormGroup>
 
-        {!canAdd && currentType ?<Alert bsSize="small" bsStyle="danger">{t('attachment.typeExists')}</Alert>: null}
+        {!canAdd && currentType ? (
+          <Alert bsSize="small" bsStyle="danger" data-tst="add-att-type-warning">{t('attachment.typeExists')}</Alert>
+        ) : null}
 
         <AddAttachment onAdd={file => this.setState({file})} />
       </Popup>
@@ -201,7 +205,7 @@ class AddAttachment extends Component {
 
     return (
       <div>
-        <Dropzone onDrop={this.onDrop.bind(this)} multiple={false} style={style}>
+        <Dropzone onDrop={this.onDrop.bind(this)} multiple={false} style={style} className="tst-dropzone">
           <div>{t('invoice.attachmentsDropzone')}</div>
         </Dropzone>
       </div>

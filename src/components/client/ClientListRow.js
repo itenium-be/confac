@@ -28,27 +28,29 @@ class ClientListRow extends Component {
   render() {
     const {client} = this.props;
     const invoices = this.props.invoices.filter(i => i.client._id === client._id);
+    const tst = key => `client-${client.name}-${key}`;
     return (
-      <tr className={client.active ? undefined : 'danger'}>
+      <tr className={client.active ? undefined : 'danger'} data-tst={tst('row')}>
         <td>
-          <strong>{client.name}</strong>
+          <strong data-tst={tst('name')}>{client.name}</strong>
           <br />
-          {client.btw}
+          <span data-tst={tst('btw')}>{client.btw}</span>
         </td>
         <td>
-          {client.address}
+          <span data-tst={tst('address')}>{client.address}</span>
           <br />
-          {client.city}
+          <span data-tst={tst('city')}>{client.city}</span>
           <br />
-          {client.telephone}
+          <span data-tst={tst('telephone')}>{client.telephone}</span>
         </td>
-        <td><InvoiceWorkedDays invoices={invoices} display="client" /></td>
-        <td style={{whiteSpace: 'nowrap'}}><InvoicesSummary invoices={invoices} /></td>
+          <td><InvoiceWorkedDays invoices={invoices} display="client" data-tst={tst('days')} /></td>
+        <td style={{whiteSpace: 'nowrap'}}><InvoicesSummary invoices={invoices} data-tst={tst('summary')} /></td>
         <td className="icons-cell" width="120px">
-          <ClientEditIcon client={client} />
+          <ClientEditIcon client={client} data-tst={tst('edit')} />
           <DeleteIcon
             onClick={() => this.props.saveClient({...client, active: !client.active}, true)}
             title={client.active ? t('client.deactivateTitle') : t('client.activateTitle')}
+             data-tst={tst('delete')}
           />
         </td>
       </tr>

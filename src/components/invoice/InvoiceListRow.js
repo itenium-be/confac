@@ -29,9 +29,9 @@ export const InvoiceListFooter = ({columns, invoices}) => {
   return (
     <tfoot>
       <tr>
-        <td colSpan={columns.length}><InvoiceAmountLabel invoices={invoices} /></td>
-        <td><InvoiceWorkedDays invoices={invoices} /></td>
-        <td colSpan={2}><InvoicesTotal invoices={invoices} /></td>
+        <td colSpan={columns.length}><InvoiceAmountLabel invoices={invoices} data-tst="list-total-invoices" /></td>
+        <td><InvoiceWorkedDays invoices={invoices} data-tst="list-total-days" /></td>
+        <td colSpan={2}><InvoicesTotal invoices={invoices} data-tst="list-total-money" /></td>
       </tr>
     </tfoot>
   );
@@ -53,23 +53,28 @@ export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Compo
   render() {
     const {invoice, isFirstRow, onlyRowForMonth, columns} = this.props;
     const borderStyle = columns.some(col => col.groupedBy) ? {borderBottom: 0, borderTop: 0} : undefined;
+    const tst = key => `list-${invoice._id}-${key}`;
     return (
       <tr className={invoice.verified ? undefined : 'warning'} style={borderStyle}>
         {columns.map((col, i) => {
           const hideValue = !isFirstRow && col.groupedBy;
           return (
-            <td key={i} style={col.groupedBy ? borderStyle : undefined}>
+            <td key={i} style={col.groupedBy ? borderStyle : undefined} data-tst={tst(col.header)}>
               {hideValue ? null : col.value(invoice)}
             </td>
           );
         })}
-        <td style={{whiteSpace: 'nowrap'}}><InvoiceWorkedDays invoices={[invoice]} display={onlyRowForMonth ? undefined : 'invoice'} /></td>
-        <td style={{textAlign: 'right'}}>{moneyFormat(invoice.money.total)}</td>
+        <td style={{whiteSpace: 'nowrap'}}>
+          <InvoiceWorkedDays invoices={[invoice]} display={onlyRowForMonth ? undefined : 'invoice'} data-tst={tst('days')} />
+        </td>
+        <td style={{textAlign: 'right'}} data-tst={tst('money-total')}>
+          {moneyFormat(invoice.money.total)}
+        </td>
         <td className="icons-cell" width="240px">
-          <EditIcon onClick={'/invoice/' + invoice.number} />
-          <InvoiceVerifyIconToggle invoice={invoice}/>
-          <InvoiceDownloadIcon invoice={invoice} />
-          <ConfirmedDeleteIcon title={t('invoice.deleteTitle')} onClick={() => this.props.deleteInvoice(invoice)}>
+          <EditIcon onClick={'/invoice/' + invoice.number} data-tst={tst('edit')} />
+          <InvoiceVerifyIconToggle invoice={invoice} data-tst={tst('verify')} />
+          <InvoiceDownloadIcon invoice={invoice} data-tst={tst('download')} />
+          <ConfirmedDeleteIcon title={t('invoice.deleteTitle')} onClick={() => this.props.deleteInvoice(invoice)} data-tst={tst('delete')}>
             {t('invoice.deletePopup', {number: invoice.number, client: invoice.client.name})}
           </ConfirmedDeleteIcon>
         </td>

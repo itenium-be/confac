@@ -4,6 +4,7 @@ import {Button as ReactButton} from 'react-bootstrap';
 
 export class Button extends Component {
   static propTypes = {
+    'data-tst': PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     disabled: PropTypes.bool,
@@ -15,7 +16,7 @@ export class Button extends Component {
   render() {
     const {children, ...props} = this.props;
     return (
-      <ReactButton bsSize="large" {...props}>
+      <ReactButton bsSize="large" {...props} data-tst={this.props['data-tst']}>
         {children}
       </ReactButton>
     );
