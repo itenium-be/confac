@@ -98,6 +98,7 @@ class EditInvoice extends Component {
                 color="#D3D3D3"
                 title={t('config.extraFields.open')}
                 onClick={() => this.setState({showExtraFields: !this.state.showExtraFields})}
+                data-tst="extra-fields-open"
               />
             ) : null}
           </Row>
@@ -144,12 +145,14 @@ const EditInvoiceDetails = ({invoice, onChange}) => (
           label={t('invoice.number')}
           value={invoice.number}
           onChange={value => onChange('number', value)}
+          data-tst="invoice.number"
         />
 
         <Control.DatePicker
           label={t('invoice.date')}
           value={invoice.date}
           onChange={value => onChange('date', value)}
+          data-tst="invoice.date"
         />
       </div>
     </Col>
@@ -160,12 +163,14 @@ const EditInvoiceDetails = ({invoice, onChange}) => (
           label={t('invoice.orderNr')}
           value={invoice.orderNr}
           onChange={value => onChange('orderNr', value)}
+          data-tst="invoice.orderNr"
         />
 
         <Control.StringInput
           label={t('invoice.fileName')}
           value={invoice.fileName}
           onChange={value => onChange('fileName', value)}
+          data-tst="invoice.fileName"
         />
       </div>
     </Col>
@@ -193,7 +198,7 @@ const EditInvoiceClient = ({invoice, onChange}) => (
         </Col>
         <Col xs={6}>
           <h4>{t('invoice.totalTitle')}</h4>
-          <InvoiceTotal {...invoice.money} />
+          <InvoiceTotal {...invoice.money} data-tst="invoice-total" />
         </Col>
       </Row>
     ) : null}
@@ -234,6 +239,7 @@ class EditInvoiceExtraFields extends Component {
           <Control.HeaderWithEditIcon
             label={t('extraFields')}
             onEditClick={() => this.setState({extraFieldFormOpen: !this.state.extraFieldFormOpen})}
+            data-tst="extra-fields-header-icon"
           />
 
 
@@ -243,6 +249,7 @@ class EditInvoiceExtraFields extends Component {
                 label={t('invoice.editExtraFields')}
                 values={invoice.extraFields}
                 onChange={onChange}
+                data-tst="invoice.editExtraFields"
               />
             </Col>
           ) : null}
@@ -254,6 +261,7 @@ class EditInvoiceExtraFields extends Component {
             <Control.ExtraFieldsInput
               properties={invoice.extraFields}
               onChange={onChange}
+              data-tst="invoice.editExtraFields"
             />
           </Row>
         ) : null}

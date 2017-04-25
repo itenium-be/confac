@@ -31,7 +31,7 @@ class ClientSelectComponent extends Component {
         options={clients.sort((a, b) => a.name.localeCompare(b.name)).map(item => ({value: item._id, label: item.name}))}
         onChange={item => this.props.onChange(this.getClient(item.value))}
         clearable={false}
-        className="client-select"
+        className="tst-client-select"
       />
     );
   }

@@ -23,7 +23,7 @@ class InvoiceNotVerifiedAlert extends Component {
 
     return (
       <div>
-        <Alert style={{height: 52}} bsSize="small" bsStyle="info" onDismiss={() => this.setState({dismissed: true})}>
+        <Alert style={{height: 52}} bsSize="small" bsStyle="info" onDismiss={() => this.setState({dismissed: true})} data-tst="invoice-verify-alert">
           <BusyButton
             bsStyle="info"
             onClick={() => toggleInvoiceVerify(invoice)}

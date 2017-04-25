@@ -37,6 +37,7 @@ export default class EditInvoiceLines extends Component {
                   title=""
                   size={1}
                   onClick={() => this.setState({notesVisible: !notesVisible})}
+                  data-tst="line-notes-toggle"
                 />
               </div>
             </th>
@@ -104,7 +105,7 @@ export default class EditInvoiceLines extends Component {
                 </td>
 
                 <td>
-                  {index > 0 ? <Control.DeleteIcon onClick={() => onChange(invoice.removeLine(index))} /> : <div />}
+                  {index > 0 ? <Control.DeleteIcon onClick={() => onChange(invoice.removeLine(index))} data-tst={`line-${index}-delete`} /> : <div />}
                 </td>
               </tr>
             );
@@ -112,7 +113,7 @@ export default class EditInvoiceLines extends Component {
           {lines.length ? (
             <tr>
               <td colSpan={nrOfColumns}>
-                <Control.AddIcon onClick={() => onChange(invoice.addLine())} label={t('invoice.addLine')} size={1} />
+                <Control.AddIcon onClick={() => onChange(invoice.addLine())} label={t('invoice.addLine')} size={1} data-tst="line-add" />
               </td>
             </tr>
           ) : null}

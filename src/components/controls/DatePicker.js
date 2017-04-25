@@ -7,6 +7,7 @@ import BootstrapDatePicker from 'react-bootstrap-date-picker';
 
 export const DatePicker = EnhanceIputWithLabel(class extends Component {
   static propTypes = {
+    'data-tst': PropTypes.string.isRequired,
     value: PropTypes.object,
     onChange: PropTypes.func.isRequired,
   }
@@ -27,6 +28,7 @@ export const DatePicker = EnhanceIputWithLabel(class extends Component {
         todayButtonLabel={t('controls.today')}
         weekStartsOnMonday={true}
         calendarContainer={document.body}
+        className={'tst-' + this.props['data-tst']}
       />
     );
   }

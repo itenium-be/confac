@@ -3,13 +3,13 @@ import {ClientEditIcon, HeaderWithEditIcon} from '../../controls.js';
 
 const ClientDetails = ({client}) => (
   <div>
-    <HeaderWithEditIcon label={client.name} size={4}>
-      <ClientEditIcon client={client} title="" size={1} style={{marginLeft: 6}} />
+    <HeaderWithEditIcon label={client.name} size={4} data-tst="client-header">
+      <ClientEditIcon client={client} title="" size={1} style={{marginLeft: 6}} data-tst="client-header-edit" />
     </HeaderWithEditIcon>
-    <div>{client.address}</div>
-    <div>{client.city}</div>
-    <div>{client.telephone}</div>
-    <div>{client.btw}</div>
+    <div data-tst="client-address">{client.address}</div>
+    <div data-tst="client-city">{client.city}</div>
+    <div data-tst="client-telephone">{client.telephone}</div>
+    <div data-tst="client-btw">{client.btw}</div>
   </div>
 );
 
