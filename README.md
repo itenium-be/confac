@@ -9,6 +9,12 @@ A vagrant box with this configuration can be found in [confac-vagrant][confac-va
 ```
 # Start dev server
 npm start
+
+# Build project
+npm run build
+
+# Start forever
+npm run prod
 ```
 
 Template testing
