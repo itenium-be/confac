@@ -62,11 +62,11 @@ class EditInvoice extends Component {
     }
   }
 
-  updateInvoice(key, value) {
+  updateInvoice(key, value, calcMoneys = false) {
     // Naughty naughty: We are manipulating state directly!
     // To fix this: state should be a regular object, and a
     // EditInvoiceViewModel should be created in the render
-    this.state.invoice.updateField(key, value);
+    this.state.invoice.updateField(key, value, calcMoneys);
     this.forceUpdate();
   }
 
@@ -100,7 +100,17 @@ class EditInvoice extends Component {
                 onClick={() => this.setState({showExtraFields: !this.state.showExtraFields})}
                 data-tst="extra-fields-open"
               />
-            ) : null}
+            ) : (
+              <Col sm={6}>
+                <Control.StringInput
+                  label={t('invoice.discount')}
+                  placeholder={t('invoice.discountPlaceholder')}
+                  value={invoice.discount}
+                  onChange={value => this.updateInvoice('discount', value, true)}
+                  data-tst="invoice.discount"
+                />
+              </Col>
+            )}
           </Row>
 
           <EditInvoiceExtraFields

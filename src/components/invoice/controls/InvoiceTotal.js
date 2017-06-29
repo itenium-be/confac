@@ -3,6 +3,16 @@ import {t, moneyFormat} from '../../util.js';
 
 const amountsStyle = {textAlign: 'right', float: 'right'};
 
+function discountFormat(value) {
+  if (!value) {
+    return '';
+  }
+  if (value.toString().slice(-1) === '%') {
+    return value;
+  }
+  return moneyFormat(value);
+}
+
 export const InvoicesTotal = ({invoices, totalOnly = false, ...props}) => {
   const moneys = invoices.map(i => i.money);
   const money = moneys.reduce((a, b) => ({
@@ -35,7 +45,7 @@ export const InvoicesTotal = ({invoices, totalOnly = false, ...props}) => {
   );
 };
 
-const InvoiceTotal = ({totalWithoutTax, totalTax, total, ...props}) => {
+const InvoiceTotal = ({totalWithoutTax, totalTax, total, discount, ...props}) => {
   const tst = key => `${props['data-tst']}-${key}`;
   return (
     <div>
@@ -47,6 +57,12 @@ const InvoiceTotal = ({totalWithoutTax, totalTax, total, ...props}) => {
         {t('invoice.taxtotal')}
         <span style={amountsStyle} data-tst={tst('totalTax')}>{moneyFormat(totalTax)}</span>
       </div>
+      {discount ? (
+        <div>
+          {t('invoice.discount')}
+          <span style={amountsStyle} data-tst={tst('totalDiscount')}>{discountFormat(discount)}</span>
+        </div>
+      ) : null}
       <div>
         {t('invoice.total')}
         <span style={amountsStyle}><strong data-tst={tst('total')}>{moneyFormat(total)}</strong></span>

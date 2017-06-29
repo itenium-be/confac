@@ -33,6 +33,7 @@ export default class EditInvoiceViewModel {
     this.fileName = obj.fileName;
     this.attachments = obj.attachments || [{type: 'pdf'}];
     this.extraFields = obj.extraFields || [];
+    this.discount = obj.discount;
   }
 
   get _lines() {
@@ -72,10 +73,13 @@ export default class EditInvoiceViewModel {
     return this;
   }
 
-  updateField(key, value) {
+  updateField(key, value, calcMoneys = false) {
     // HACK: Workaround for not updating state directly while
     // still having an instance of this class in component state
     this[key] = value;
+    if (calcMoneys) {
+      this.money = this._calculateMoneys();
+    }
   }
 
   getLine(getEmpty = false) {
@@ -111,12 +115,27 @@ export default class EditInvoiceViewModel {
       return EditInvoiceViewModel.emptyMoney();
     }
 
-    const totalWithoutTax = this._lines.reduce((prev, cur) => prev + cur.amount * cur.price, 0);
-    const totalTax = this._lines.reduce((prev, cur) => prev + cur.amount * cur.price * cur.tax / 100, 0);
+    const relevantLines = this._lines.filter(line => line.type !== 'section');
+    const totalWithoutTax = relevantLines.reduce((prev, cur) => prev + cur.amount * cur.price, 0);
+    const totalTax = relevantLines.reduce((prev, cur) => prev + cur.amount * cur.price * cur.tax / 100, 0);
+    var total = totalWithoutTax + totalTax;
+
+    var discount = this.discount || 0;
+    if (discount) {
+      if (discount.slice(-1) === '%') {
+        const discountPercentage = parseInt(discount.slice(0, -1), 10);
+        total *= 1 - discountPercentage / 100;
+      } else {
+        discount = parseInt(discount, 10);
+        total -= discount;
+      }
+    }
+
     return {
       totalWithoutTax,
       totalTax,
-      total: totalWithoutTax + totalTax,
+      discount,
+      total,
     };
   }
 }

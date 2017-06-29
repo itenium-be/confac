@@ -52,7 +52,7 @@ const BaseInput = EnhanceIputWithLabel(EnhanceIputWithAddons(class extends Compo
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
     style: PropTypes.object,
-    'data-tst': PropTypes.string
+    'data-tst': PropTypes.string,
   }
 
   render() {

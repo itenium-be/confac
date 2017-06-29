@@ -21,15 +21,52 @@ describe('calculating money (taxes and totals)', () => {
   });
 
 
+  it('should ignore "section" lines', function() {
+    var vm = createViewModel();
+    vm.addLine({type: 'section', amount: 1, tax: 21, price: 500});
+    expect(vm.money.total).toEqual(0);
+  });
+
+
   it('should have correct money values for daily/hourly invoice lines mixed', function() {
     var vm = createViewModel();
     vm.addLine({type: 'daily', amount: 1, tax: 21, price: 500});
     vm.addLine({type: 'hourly', amount: 1, tax: 21, price: 500});
 
     expect(vm.money).toEqual({
-      total: 1210,
-      totalTax: 210,
       totalWithoutTax: 1000,
+      totalTax: 210,
+      discount: 0,
+      total: 1210,
+    });
+  });
+
+
+  describe('discounts', function() {
+    it('should use a fixed amount when the discount is a number', function() {
+      var vm = createViewModel();
+      vm.discount = '200';
+      vm.addLine({type: 'daily', amount: 1, tax: 10, price: 500});
+
+      expect(vm.money).toEqual({
+        totalWithoutTax: 500,
+        totalTax: 50,
+        discount: 200,
+        total: 350,
+      });
+    });
+
+    it('should use a percentage when the discount ends with the % sign', function() {
+      var vm = createViewModel();
+      vm.discount = '10%';
+      vm.addLine({type: 'daily', amount: 1, tax: 10, price: 500});
+
+      expect(vm.money).toEqual({
+        totalWithoutTax: 500,
+        totalTax: 50,
+        discount: '10%',
+        total: 495,
+      });
     });
   });
 });
