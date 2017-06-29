@@ -29,11 +29,12 @@ export default class EditInvoiceViewModel {
     this.date = obj.date || moment(); //.subtract(1, 'months').endOf('month');
     this.orderNr = obj.orderNr || '';
     this.verified = obj.verified || false;
-    this._lines = obj.lines || [];
     this.fileName = obj.fileName;
+    this.discount = obj.discount;
     this.attachments = obj.attachments || [{type: 'pdf'}];
     this.extraFields = obj.extraFields || [];
-    this.discount = obj.discount;
+
+    this._lines = obj.lines || [];
   }
 
   get _lines() {
