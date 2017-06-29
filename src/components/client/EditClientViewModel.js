@@ -7,7 +7,7 @@ export function getNewClient(config) {
     city: '',
     telephone: '',
     btw: '',
-    invoiceFileName: '{date:YYYY-MM} {nr:4} - ',
+    invoiceFileName: '{date:YYYY-MM} {nr:4} - {clientName}',
     rate: {
       type: config.defaultInvoiceLineType,
       hoursInDay: 8,
