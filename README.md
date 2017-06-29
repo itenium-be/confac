@@ -11,7 +11,9 @@ A vagrant box with this configuration can be found in [confac-vagrant][confac-va
 npm start
 
 # Build project
-npm run build
+npm run deploy
+# Copy some config.json to deploy folder
+npm run start:deploy
 
 # Start forever
 npm run prod

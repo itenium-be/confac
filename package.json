@@ -6,8 +6,9 @@
   "scripts": {
     "start": "nodemon -e js,pug,css --watch src --exec babel-node ./src/server.js",
     "serve": "http-server ./dist -o",
-    "build": "babel src -d build",
-    "prod": "forever start ./build/server.js"
+    "deploy": "babel src -d deploy",
+    "start:deploy": "node ./deploy/server.js",
+    "prod": "forever start ./deploy/server.js"
   },
   "author": "Wouter Van Schandevijl <woutervs@hotmail.com>",
   "license": "MIT",
