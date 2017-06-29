@@ -27,6 +27,7 @@ const trans = {
       km: 'Km',
       items: 'Producten',
       other: 'Ander',
+      section: 'Sectie'
     },
   },
   config: {
