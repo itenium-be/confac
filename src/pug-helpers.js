@@ -9,8 +9,12 @@ numeral.language('nl', {
 });
 numeral.language('nl');
 
+moment.locale('nl');
+
 module.exports = {
   locals: {
+    moment: moment,
+    numeral: numeral,
     formatDate: dateString => moment(dateString).format('DD/MM/YYYY'),
     numberFormat: number => numeral(number).format('0,0.00'),
   }
