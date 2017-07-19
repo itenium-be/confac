@@ -61,6 +61,13 @@ export default function register(app) {
 
 
 export function createHtml(params, assetsPath) {
+  if (params.extraFields) {
+    params.extraFields = params.extraFields.reduce((acc, cur) => {
+      acc[cur.label.toLowerCase()] = cur.value;
+      return acc;
+    }, {});
+  }
+
   var compiledFunction;
   try {
     if (process.env.ENABLE_ROOT_TEMPLATES) {
