@@ -112,6 +112,7 @@ export default class EditInvoiceViewModel {
       totalWithoutTax: 0,
       totalTax: 0,
       total: 0,
+      totals: {},
     };
   }
 
@@ -124,6 +125,13 @@ export default class EditInvoiceViewModel {
     const totalWithoutTax = relevantLines.reduce((prev, cur) => prev + cur.amount * cur.price, 0);
     const totalTax = relevantLines.reduce((prev, cur) => prev + cur.amount * cur.price * cur.tax / 100, 0);
     var total = totalWithoutTax + totalTax;
+    var totalsPerLineType = relevantLines.reduce((acc, cur) => {
+      if (!acc[cur.type]) {
+        acc[cur.type] = 0;
+      }
+      acc[cur.type] += cur.amount * cur.price;
+      return acc;
+    }, {});
 
     var discount = this.discount || 0;
     if (discount) {
@@ -141,6 +149,7 @@ export default class EditInvoiceViewModel {
       totalTax,
       discount,
       total,
+      totals: totalsPerLineType,
     };
   }
 }

@@ -38,6 +38,7 @@ describe('calculating money (taxes and totals)', () => {
       totalTax: 210,
       discount: 0,
       total: 1210,
+      totals: jasmine.any(Object),
     });
   });
 
@@ -53,6 +54,7 @@ describe('calculating money (taxes and totals)', () => {
         totalTax: 50,
         discount: 200,
         total: 350,
+        totals: jasmine.any(Object),
       });
     });
 
@@ -66,6 +68,21 @@ describe('calculating money (taxes and totals)', () => {
         totalTax: 50,
         discount: '10%',
         total: 495,
+        totals: jasmine.any(Object),
+      });
+    });
+  });
+
+
+  describe('totals per line.type', function() {
+    it('should calculate total without tax for each line.type', function() {
+      var vm = createViewModel();
+      vm.addLine({type: 'daily', amount: 1, tax: 0, price: 500});
+      vm.addLine({type: 'hourly', amount: 2, tax: 10, price: 500});
+
+      expect(vm.money.totals).toEqual({
+        daily: 500,
+        hourly: 1000,
       });
     });
   });
