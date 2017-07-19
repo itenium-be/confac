@@ -75,9 +75,14 @@ export function createHtml(params, assetsPath) {
   return compiledFunction(Object.assign({}, locals, params, {origin: assetsPath}));
 }
 
+// https://www.npmjs.com/package/html-pdf
+// const options = {
+//   base: '/templates/'
+// };
+
 export function htmlToBuffer(html) {
   return new Promise((resolve, reject) => {
-    pdf.create(html).toBuffer((err, buffer) => {
+    pdf.create(html/*, options*/).toBuffer((err, buffer) => {
       if (err) {
         console.log('htmlToBuffer error', err); // eslint-disable-line
         reject();
