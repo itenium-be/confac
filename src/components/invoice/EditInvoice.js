@@ -151,7 +151,7 @@ const EditInvoiceDetails = ({invoice, onChange}) => (
     <Col sm={6}>
       <div className="split">
         <Control.NumericInput
-          prefix={invoice.verified ? <Control.VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} /> : undefined}
+          prefix={invoice.verified ? <Control.VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} data-tst="invoice-is-verified" /> : undefined}
           label={t('invoice.number')}
           value={invoice.number}
           onChange={value => onChange('number', value)}
