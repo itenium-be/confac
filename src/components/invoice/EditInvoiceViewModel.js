@@ -51,9 +51,13 @@ export default class EditInvoiceViewModel {
 
   setClient(client) {
     this.client = client;
-    this._lines = [this.getLine()];
+    if (!this.lines || this.lines.length <= 1) {
+      this._lines = [this.getLine()];
+    }
     this.fileName = client ? client.invoiceFileName : '';
-    this.extraFields = client ? (client.defaultExtraInvoiceFields || []) : [];
+    if (!this.extraFields.length) {
+      this.extraFields = client ? (client.defaultExtraInvoiceFields || []) : [];
+    }
     this._defaultType = client && client.rate ? client.rate.type : this._defaultType;
     return this;
   }
