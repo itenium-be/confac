@@ -1,0 +1,11 @@
+{
+   "db": {
+      "host": "itenium",
+      "db": "confac",
+      "port": 32772
+   },
+   "server": {
+      "port": 9000,
+      "basePath": ""
+   }
+}
