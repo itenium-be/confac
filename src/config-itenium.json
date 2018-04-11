@@ -1,11 +1,11 @@
 {
    "db": {
-      "host": "itenium",
+      "host": "pongit",
       "db": "confac",
-      "port": 32772
+      "port": 6001
    },
    "server": {
-      "port": 9000,
+      "port": 6000,
       "basePath": ""
    }
 }
