@@ -2,7 +2,7 @@
    "db": {
       "host": "pongit",
       "db": "confac",
-      "port": 6001
+      "port": 9009
    },
    "server": {
       "port": 9000,
