@@ -1,11 +1,11 @@
 {
    "db": {
-      "host": "Nassimodo",
+      "host": "pongit",
       "db": "confac",
       "port": 6001
    },
    "server": {
-      "port": 6000,
+      "port": 9000,
       "basePath": ""
    }
 }
