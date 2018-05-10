@@ -22,6 +22,7 @@ export class EditClientRate extends Component {
           <Control.NumericInput
             prefix="€"
             label={t('client.rate.defaultPrice')}
+            float
             value={rate.value}
             onChange={value => this.props.onChange({...rate, value: value})}
             data-tst="client.rate.value"
