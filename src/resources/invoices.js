@@ -61,6 +61,10 @@ export default function register(app) {
 
 
 export function createHtml(params, assetsPath) {
+  // BUG: extraFields was an array [{key, value}, {}, ...]
+  // But this code converted it to an object {key1, key2, ...}
+  // Was saved like this in the db and then crashed because Object.prototype doesn't have a reduce function
+  params = JSON.parse(JSON.stringify(params));
   if (params.extraFields) {
     params.extraFields = params.extraFields.reduce((acc, cur) => {
       acc[cur.label.toLowerCase()] = cur.value;
