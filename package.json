@@ -11,6 +11,7 @@
     "moment": "^2.15.2",
     "numeral": "^1.5.3",
     "react": "^15.3.2",
+    "react-beautiful-dnd": "^8.0.7",
     "react-bootstrap": "^0.30.7",
     "react-bootstrap-date-picker": "^4.0.0",
     "react-dom": "^15.3.2",
