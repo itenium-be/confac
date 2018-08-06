@@ -1,5 +1,6 @@
 Zeker te doen:
 - Dragula
+- itenium logo/link top left
 - Inloggen Google met email (config)
 - Template selecteren met dropdown
 - New invoice & New Quotation
