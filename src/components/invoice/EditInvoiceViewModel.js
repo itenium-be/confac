@@ -77,6 +77,13 @@ export default class EditInvoiceViewModel {
     this._lines = newArr;
     return this;
   }
+  reorderLines(startIndex, endIndex) {
+    var newArr = this.lines.slice();
+    const [removed] = newArr.splice(startIndex, 1);
+    newArr.splice(endIndex, 0, removed);
+    this._lines = newArr;
+    return this;
+  }
 
   updateField(key, value, calcMoneys = false) {
     // HACK: Workaround for not updating state directly while

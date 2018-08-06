@@ -3,15 +3,8 @@ import {t, EditInvoiceViewModel} from '../util.js';
 
 import * as Control from '../controls.js';
 import {Table} from 'react-bootstrap';
-// import {DragSource} from 'react-dnd';
-import {EditInvoiceDefaultLine} from './invoice-lines/EditInvoiceDefaultLine.js';
-import {EditInvoiceSectionLine} from './invoice-lines/EditInvoiceSectionLine.js';
-
-
-const lineTypeComponentMapping = {
-  section: EditInvoiceSectionLine
-};
-
+// import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import {createEditInvoiceLine} from './invoice-lines/EditInvoiceLineFactory.js';
 
 
 export default class EditInvoiceLines extends Component {
@@ -24,9 +17,21 @@ export default class EditInvoiceLines extends Component {
     this.state = {notesVisible: false};
   }
 
+  // onDragEnd(result) {
+  //   // dropped outside the list
+  //   console.log('onDragEnd', result);
+  //   if (!result.destination) {
+  //     return;
+  //   }
+
+  //   this.props.onChange(this.props.invoice.reorderLines(result.source.index, result.destination.index));
+  // }
+
   render() {
     const {invoice, onChange} = this.props;
     const lines = invoice.lines;
+
+    // console.log('lines', invoice.lines);
 
     const {notesVisible} = this.state;
     const nrOfColumns = 7;
@@ -55,29 +60,47 @@ export default class EditInvoiceLines extends Component {
           </tr>
         </thead>
         <tbody>
-          {lines.map((line, index) => {
-            const CustomLineComponent = lineTypeComponentMapping[line.type];
-            if (CustomLineComponent) {
-              return (
-                <CustomLineComponent
-                  key={index}
-                  index={index}
-                  onChange={onChange}
-                  invoice={invoice}
-                  line={line}
-                />
-              );
-            }
-
-            return <EditInvoiceDefaultLine key={index} index={index} line={line} {...this.props} />;
+          {lines.map((item, index) => {
+            const EditInvoiceLine = createEditInvoiceLine(item);
+            return (
+              <EditInvoiceLine key={index} index={index} line={item} {...this.props} />
+            )
           })}
-          {lines.length ? (
-            <tr>
-              <td colSpan={nrOfColumns}>
-                <Control.AddIcon onClick={() => onChange(invoice.addLine())} label={t('invoice.addLine')} size={1} data-tst="line-add" />
-              </td>
-            </tr>
-          ) : null}
+
+          {/*<DragDropContext onDragEnd={this.onDragEnd}>
+          <Droppable droppableId="droppable">
+            {(provided, snapshot) => (
+              <div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
+                {lines.map((item, index) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided, snapshot) => {
+                      const EditInvoiceLine = createEditInvoiceLine(item);
+                      return (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                          )}
+                        >
+                          <EditInvoiceLine key={index} index={index} line={item} {...this.props} />
+                        </div>
+                      )
+                    }}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+            </Droppable>
+          </DragDropContext>*/}
+          <tr>
+            <td colSpan={nrOfColumns}>
+              <Control.AddIcon onClick={() => onChange(invoice.addLine())} label={t('invoice.addLine')} size={1} data-tst="line-add" />
+            </td>
+          </tr>
         </tbody>
       </Table>
     );
