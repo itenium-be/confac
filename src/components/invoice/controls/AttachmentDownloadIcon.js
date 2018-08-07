@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Icon, SpinnerIcon} from '../../controls/Icon.js';
 import {downloadInvoice, downloadClientAttachment} from '../../../actions/index.js';
 import t from '../../../trans.js';
