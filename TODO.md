@@ -6,7 +6,6 @@ Zeker te doen:
 - remember on edit page that there are changes and need to be saved?
 - Jos zijn template
 - CarPass & stuff
-- do not go back to overview after saving (add extra button "save and return?")
 
 DEPLOY STUFF
 

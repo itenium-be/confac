@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {EnhanceIputWithLabel} from '../../controls.js';
+import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel.js';
 import Select from 'react-select';
 
 class ClientSelectComponent extends Component {
@@ -38,4 +38,4 @@ class ClientSelectComponent extends Component {
   }
 }
 
-export const ClientSelect = EnhanceIputWithLabel(connect(state => ({clients: state.clients}))(ClientSelectComponent));
+export const ClientSelect = EnhanceInputWithLabel(connect(state => ({clients: state.clients}))(ClientSelectComponent));

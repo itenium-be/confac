@@ -1,52 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Col, FormGroup, ControlLabel, FormControl, InputGroup} from 'react-bootstrap';
-import ReactSwitch from 'react-ios-switch';
+import {Col, FormControl} from 'react-bootstrap';
 import {t} from '../util.js';
-
-export const Switch = ({checked, onChange, label, style, ...props}) => (
-  <div style={{...style, position: 'relative'}}>
-    <ReactSwitch
-      checked={checked}
-      onChange={onChange}
-      className={props['data-tst']}
-      {...props}
-    />
-    <span style={{position: 'absolute', left: 60, bottom: 10}}>{label}</span>
-  </div>
-);
+import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel.js';
+import {EnhanceInputWithAddons} from '../enhancers/EnhanceInputWithAddons.js';
 
 
-
-export const EnhanceIputWithLabel = ComposedComponent => ({label, placeholder, ...props}) => {
-  if (label) {
-    return (
-      <FormGroup>
-        <ControlLabel>{label}</ControlLabel>
-        <ComposedComponent {...props} placeholder={placeholder || label} />
-      </FormGroup>
-    );
-  }
-  return <ComposedComponent {...props} placeholder={placeholder} />;
-};
-
-export const EnhanceIputWithAddons = ComposedComponent => ({prefix, suffix, addOnMinWidth, ...props}) => {
-  // ATTN: window.outerWidth is not part of the state, so a
-  // rerender does not happen when the user resizes the window
-  if ((!addOnMinWidth || addOnMinWidth < window.outerWidth) && (prefix || suffix)) {
-    return (
-      <InputGroup>
-        {prefix ? <InputGroup.Addon>{prefix}</InputGroup.Addon> : null}
-        <ComposedComponent {...props} />
-        {suffix ? <InputGroup.Addon>{suffix}</InputGroup.Addon> : null}
-      </InputGroup>
-    );
-  }
-  return <ComposedComponent {...props} />;
-};
-
-
-const BaseInput = EnhanceIputWithLabel(EnhanceIputWithAddons(class extends Component {
+const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
     value: PropTypes.any,
@@ -136,22 +96,32 @@ export const StringInputArray = ({keys, model, onChange, tPrefix}) => {
 };
 
 export const InputArray = ({config, model, onChange, tPrefix}) => {
+  config = config.map(x => {
+    if (typeof x === 'string') {
+      return {key: x};
+    }
+    return x;
+  });
+
   if (!model._id) {
     config = config.filter(c => !c.updateOnly);
   }
 
   return (
     <div>
-      {config.map(col => (
-        <Col sm={4} key={col.key}>
-          <StringInput
-            label={t(tPrefix + col.key)}
-            value={model[col.key]}
-            onChange={value => onChange({...model, [col.key]: value})}
-            data-tst={tPrefix + col.key}
-          />
-        </Col>
-      ))}
+      {config.map(col => {
+        const EditComponent = col.component || StringInput;
+        return (
+          <Col sm={4} key={col.key}>
+            <EditComponent
+              label={t(tPrefix + col.key)}
+              value={model[col.key]}
+              onChange={value => onChange({...model, [col.key]: value})}
+              data-tst={tPrefix + col.key}
+            />
+          </Col>
+        );
+      })}
     </div>
   );
 };

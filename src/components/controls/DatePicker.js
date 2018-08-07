@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { t } from '../util.js';
 
-import {EnhanceIputWithLabel} from './Inputs.js';
+import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel.js';
 import BootstrapDatePicker from 'react-16-bootstrap-date-picker';
 
-export const DatePicker = EnhanceIputWithLabel(class extends Component {
+export const DatePicker = EnhanceInputWithLabel(class extends Component {
   static propTypes = {
     'data-tst': PropTypes.string.isRequired,
     value: PropTypes.object,

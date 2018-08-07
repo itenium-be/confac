@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import {t} from '../util.js';
 
-import {EnhanceIputWithLabel} from './Inputs.js';
+import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel.js';
 
-const BaseSelect = EnhanceIputWithLabel(props => (
+const BaseSelect = EnhanceInputWithLabel(props => (
   <Select
     clearValueText={t('controls.clearValueText')}
     clearAllText={t('controls.clearAllText')}
@@ -33,13 +33,13 @@ export const YearsSelect = ({values, years, onChange, ...props}) => {
 
 
 
-export const SimpleSelect = EnhanceIputWithLabel(class extends Component {
+export const SimpleSelect = EnhanceInputWithLabel(class extends Component {
   static propTypes = {
     'data-tst': PropTypes.string.isRequired,
     value: PropTypes.any,
     options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     onChange: PropTypes.func.isRequired,
-    transFn: PropTypes.func.isRequired,
+    transFn: PropTypes.func,
     clearable: PropTypes.bool.isRequired,
   }
 
@@ -94,7 +94,7 @@ export const SimpleCreatableSelect = ({options, value, onChange, clearable = fal
 };
 
 
-export const PropertiesSelect = EnhanceIputWithLabel(class extends Component {
+export const PropertiesSelect = EnhanceInputWithLabel(class extends Component {
   static propTypes = {
     'data-tst': PropTypes.string.isRequired,
     label: PropTypes.string,
@@ -140,7 +140,7 @@ export const PropertiesSelect = EnhanceIputWithLabel(class extends Component {
 
 
 
-export const StringsSelect = EnhanceIputWithLabel(class extends Component {
+export const StringsSelect = EnhanceInputWithLabel(class extends Component {
   static propTypes = {
     'data-tst': PropTypes.string.isRequired,
     values: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,

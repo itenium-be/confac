@@ -7,6 +7,7 @@ export * from './controls/Inputs.js';
 export * from './controls/Modal.js';
 export * from './controls/Popup.js';
 export * from './controls/Select.js';
+export * from './controls/Switch.js';
 
 export * from './client/controls/ClientSelect.js';
 

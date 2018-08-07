@@ -4,7 +4,8 @@ import {t} from '../../util.js';
 
 import {Row, Col} from 'react-bootstrap';
 import Select from 'react-select';
-import {EnhanceIputWithLabel, Switch} from '../../controls/Inputs.js';
+import {Switch} from '../../controls.js';
+import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel.js';
 
 // The object returned by InvoiceListViewModel::getFilterOptions
 const filterOptionsPropType = PropTypes.arrayOf(PropTypes.shape({
@@ -71,7 +72,7 @@ export class InvoiceSearch extends Component {
 
 
 
-const InvoiceSearchSelect = EnhanceIputWithLabel(class extends Component {
+const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component {
   static propTypes = {
     'data-tst': PropTypes.string.isRequired,
     options: filterOptionsPropType,

@@ -1,7 +1,8 @@
 import React from 'react';
 import {t} from '../util.js';
 
-import {StringInputArray} from '../controls.js';
+import {InputArray} from '../controls.js';
+import {TemplatePicker} from '../controls/TemplatePicker';
 import {Row} from 'react-bootstrap';
 
 export const EditCompany = ({company, onChange}) => {
@@ -9,14 +10,19 @@ export const EditCompany = ({company, onChange}) => {
     return null;
   }
 
-  var keys = ['name', 'address', 'city', 'telephone', 'email', 'website', 'btw', 'iban', 'bic', 'template'];
-  keys = keys.concat(Object.keys(company).filter(k => !keys.includes(k)));
+  const templatePicker = {
+    key: 'template',
+    component: TemplatePicker,
+  };
+  var config = ['name', 'address', 'city', 'telephone', 'email', 'website', 'btw', 'iban', 'bic', templatePicker];
+  const configKeys = config.map(x => x.key ? x.key : x);
+  config = config.concat(Object.keys(company).filter(k => !configKeys.includes(k)));
 
   return (
     <Row>
       <h1>{t('config.company.title')}</h1>
-      <StringInputArray
-        keys={keys}
+      <InputArray
+        config={config}
         model={company}
         onChange={onChange}
         tPrefix="config.company."
