@@ -25,6 +25,10 @@ class EditClient extends Component {
     this.state = this.copyClient(props);
   }
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.isLoaded !== this.props.isLoaded
       || nextProps.params.id !== this.props.params.id

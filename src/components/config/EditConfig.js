@@ -20,10 +20,16 @@ class EditConfig extends Component {
     }).isRequired,
     updateConfig: PropTypes.func.isRequired,
   }
+
   constructor(props) {
     super(props);
     this.state = JSON.parse(JSON.stringify(props.config));
   }
+
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   componentWillReceiveProps(nextProps) {
     this.setState(JSON.parse(JSON.stringify(nextProps.config)));
   }

@@ -54,6 +54,10 @@ class EditInvoice extends Component {
     }
   }
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.app.isLoaded !== this.props.app.isLoaded
       || nextProps.params.id !== this.props.params.id

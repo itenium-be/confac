@@ -2,13 +2,11 @@ Zeker te doen:
 - remove the "update pdf" button: just do always (always see the preview button)
 - Inloggen Google met email (config)
 - Template selecteren met dropdown
-- New invoice & New Quotation
-- New invoice: Create/Edit client with popup
+- New Quotation / offertes
 - remember on edit page that there are changes and need to be saved?
 - Jos zijn template
 - CarPass & stuff
 - do not go back to overview after saving (add extra button "save and return?")
-- componentDidMount invoice, client, config -> scroll.toTop()
 
 DEPLOY STUFF
 
