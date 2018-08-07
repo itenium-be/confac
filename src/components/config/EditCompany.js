@@ -14,7 +14,11 @@ export const EditCompany = ({company, onChange}) => {
     key: 'template',
     component: TemplatePicker,
   };
-  var config = ['name', 'address', 'city', 'telephone', 'email', 'website', 'btw', 'iban', 'bic', templatePicker];
+  const templateQuotationsPicker = {
+    key: 'templateQuotation',
+    component: TemplatePicker,
+  };
+  var config = ['name', 'address', 'city', 'telephone', 'email', 'website', 'btw', 'iban', 'bic', templatePicker, templateQuotationsPicker];
   const configKeys = config.map(x => x.key ? x.key : x);
   config = config.concat(Object.keys(company).filter(k => !configKeys.includes(k)));
 

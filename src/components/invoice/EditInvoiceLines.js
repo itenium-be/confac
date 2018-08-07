@@ -32,6 +32,7 @@ export default class EditInvoiceLines extends Component {
     const {invoice, onChange} = this.props;
     const lines = invoice.lines;
 
+    const tp = transKey => t(invoice.getType() + transKey);
     // console.log('lines', invoice.lines);
 
     const {notesVisible} = this.state;
@@ -88,7 +89,7 @@ export default class EditInvoiceLines extends Component {
         <tbody>
           <tr>
             <td colSpan={nrOfColumns}>
-              <Control.AddIcon onClick={() => onChange(invoice.addLine())} label={t('invoice.addLine')} size={1} data-tst="line-add" />
+              <Control.AddIcon onClick={() => onChange(invoice.addLine())} label={tp('.addLine')} size={1} data-tst="line-add" />
             </td>
           </tr>
         </tbody>

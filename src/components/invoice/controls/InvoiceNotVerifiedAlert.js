@@ -18,7 +18,7 @@ class InvoiceNotVerifiedAlert extends Component {
   }
   render() {
     const {invoice, toggleInvoiceVerify} = this.props; // eslint-disable-line
-    if (this.state.dismissed || invoice.isNew || invoice.verified) {
+    if (this.state.dismissed || invoice.isNew || invoice.verified || invoice.isQuotation) {
       return <div />;
     }
 

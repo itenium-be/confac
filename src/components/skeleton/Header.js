@@ -15,6 +15,9 @@ const Header = () => (
       </Navbar.Brand>
     </Navbar.Header>
     <Nav>
+    <IndexLinkContainer to="/quotations" data-tst="link-quotations">
+      <NavItem eventKey={4}>{t('nav.quotations')}</NavItem>
+    </IndexLinkContainer>
       <IndexLinkContainer to="/" data-tst="link-invoices">
         <NavItem eventKey={1}>{t('title')}</NavItem>
       </IndexLinkContainer>

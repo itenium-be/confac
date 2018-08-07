@@ -12,7 +12,7 @@ import {invoiceAction} from '../../actions/index.js';
 import {EditInvoiceClient} from './invoice-client/EditInvoiceClient.js';
 import {EditInvoiceExtraFields} from './invoice-extra-fields/EditInvoiceExtraFields.js';
 
-class EditInvoice extends Component {
+export class EditInvoice extends Component {
   static propTypes = {
     invoices: PropTypes.array.isRequired,
     config: PropTypes.shape({
@@ -28,6 +28,15 @@ class EditInvoice extends Component {
       id: PropTypes.string
     }),
   }
+
+  get isQuotation() {
+    return window.location.pathname.startsWith('/quotation/');
+  }
+
+  get type() {
+    return this.isQuotation ? 'quotation' : 'invoice';
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,19 +46,22 @@ class EditInvoice extends Component {
   }
 
   createModel(props) {
+    const invoicesOrQuotations = this.isQuotation ? props.invoices.filter(x => x.isQuotation) : props.invoices.filter(x => !x.isQuotation);
     if (props.params.id) {
-      // Existing invoice
-      const invoice = props.invoices.find(i => i.number === parseInt(props.params.id, 10));
+      // Existing invoice / quotation
+      const invoice = invoicesOrQuotations.find(i => i.number === parseInt(props.params.id, 10));
       return new EditInvoiceViewModel(props.config, invoice);
 
     } else {
-      // New invoice
+      // New invoice / quotation
       var client;
       if (props.config.defaultClient) {
         client = props.clients.find(c => c._id === props.config.defaultClient);
       }
       var model = EditInvoiceViewModel.createNew(props.config, client);
-      model.number = props.invoices.map(i => i.number).reduce((a, b) => Math.max(a, b), 0) + 1;
+
+      model.number = invoicesOrQuotations.map(i => i.number).reduce((a, b) => Math.max(a, b), 0) + 1;
+      model.isQuotation = this.isQuotation;
       return model;
     }
   }
@@ -81,7 +93,7 @@ class EditInvoice extends Component {
       <Grid className="edit-container">
         <Form>
           <Row>
-            <h1>{invoice._id ? t('invoice.editTitle') : t('invoice.createTitle')}</h1>
+            <h1>{invoice._id ? t(this.type + '.editTitle') : t(this.type + '.createTitle')}</h1>
 
             <InvoiceNotVerifiedAlert invoice={invoice} />
 
@@ -134,7 +146,7 @@ class EditInvoice extends Component {
             <Control.AttachmentsForm invoice={invoice} />
           </div>
           <Row style={{marginBottom: 8, marginTop: 20}}>
-            <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, invoice)} isNewInvoice={invoice.isNew} />
+            <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, invoice)} invoice={invoice} />
           </Row>
         </Form>
       </Grid>
@@ -151,43 +163,46 @@ export default connect(state => ({
 
 
 
-const EditInvoiceDetails = ({invoice, onChange}) => (
-  <div>
-    <Col sm={6}>
-      <div className="split">
-        <Control.NumericInput
-          prefix={invoice.verified ? <Control.VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} data-tst="invoice-is-verified" /> : undefined}
-          label={t('invoice.number')}
-          value={invoice.number}
-          onChange={value => onChange('number', value)}
-          data-tst="invoice.number"
-        />
+const EditInvoiceDetails = ({invoice, onChange}) => {
+  const tp = transKey => t((invoice.getType()) + transKey);
+  return (
+    <div>
+      <Col sm={6}>
+        <div className="split">
+          <Control.NumericInput
+            prefix={invoice.verified ? <Control.VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} data-tst="invoice-is-verified" /> : undefined}
+            label={tp('.number')}
+            value={invoice.number}
+            onChange={value => onChange('number', value)}
+            data-tst="invoice.number"
+          />
 
-        <Control.DatePicker
-          label={t('invoice.date')}
-          value={invoice.date}
-          onChange={value => onChange('date', value)}
-          data-tst="invoice.date"
-        />
-      </div>
-    </Col>
+          <Control.DatePicker
+            label={tp('.date')}
+            value={invoice.date}
+            onChange={value => onChange('date', value)}
+            data-tst="invoice.date"
+          />
+        </div>
+      </Col>
 
-    <Col sm={6}>
-      <div className="split">
-        <Control.StringInput
-          label={t('invoice.orderNr')}
-          value={invoice.orderNr}
-          onChange={value => onChange('orderNr', value)}
-          data-tst="invoice.orderNr"
-        />
+      <Col sm={6}>
+        <div className="split">
+          <Control.StringInput
+            label={t('invoice.orderNr')}
+            value={invoice.orderNr}
+            onChange={value => onChange('orderNr', value)}
+            data-tst="invoice.orderNr"
+          />
 
-        <Control.StringInput
-          label={t('invoice.fileName')}
-          value={invoice.fileName}
-          onChange={value => onChange('fileName', value)}
-          data-tst="invoice.fileName"
-        />
-      </div>
-    </Col>
-  </div>
-);
+          <Control.StringInput
+            label={tp('.fileName')}
+            value={invoice.fileName}
+            onChange={value => onChange('fileName', value)}
+            data-tst="invoice.fileName"
+          />
+        </div>
+      </Col>
+    </div>
+  );
+};

@@ -118,6 +118,7 @@ export const invoices = (state = [], action) => {
     return state.concat([mapInvoice(action.invoice)]);
 
   case ACTION_TYPES.INVOICE_UPDATED: {
+    console.log('UPDATED', action);
     let newState = state.filter(invoice => invoice._id !== action.invoice._id);
     newState.push(mapInvoice(action.invoice));
     return newState;

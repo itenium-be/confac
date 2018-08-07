@@ -26,7 +26,7 @@ class TemplatePickerComponent extends Component {
     const {value, ...props} = this.props;
 
     let options = this.state.templates;
-    if (options.every(x => x !== value)) {
+    if (value && options.every(x => x !== value)) {
       options = options.concat([value]);
     }
 

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t, moneyFormat} from '../util.js';
+import cn from 'classnames';
 
 import {ConfirmedDeleteIcon, EditIcon, InvoiceDownloadIcon, InvoiceVerifyIconToggle} from '../controls.js';
 import {deleteInvoice} from '../../actions/index.js';
@@ -22,7 +23,7 @@ export const InvoiceListHeader = ({columns}) => (
 );
 
 
-export const InvoiceListFooter = ({columns, invoices}) => {
+export const InvoiceListFooter = ({columns, invoices, isQuotation}) => {
   if (invoices.length === 0) {
     return null;
   }
@@ -30,7 +31,7 @@ export const InvoiceListFooter = ({columns, invoices}) => {
   return (
     <tfoot>
       <tr>
-        <td colSpan={columns.length}><InvoiceAmountLabel invoices={invoices} data-tst="list-total-invoices" /></td>
+        <td colSpan={columns.length}><InvoiceAmountLabel invoices={invoices} isQuotation={isQuotation} data-tst="list-total-invoices" /></td>
         <td><InvoiceWorkedDays invoices={invoices} data-tst="list-total-days" /></td>
         <td colSpan={2}><InvoicesTotal invoices={invoices} data-tst="list-total-money" /></td>
       </tr>
@@ -55,8 +56,11 @@ export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Compo
     const {invoice, isFirstRow, onlyRowForMonth, columns} = this.props;
     const borderStyle = columns.some(col => col.groupedBy) ? {borderBottom: 0, borderTop: 0} : undefined;
     const tst = key => `list-${invoice._id}-${key}`;
+
+    const invoiceType = invoice.isQuotation ? 'quotation' : 'invoice';
+
     return (
-      <tr className={invoice.verified ? undefined : 'warning'} style={borderStyle}>
+      <tr className={cn({warning: !invoice.verified && !invoice.isQuotation})} style={borderStyle}>
         {columns.map((col, i) => {
           const hideValue = !isFirstRow && col.groupedBy;
           return (
@@ -72,11 +76,11 @@ export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Compo
           {moneyFormat(invoice.money.total)}
         </td>
         <td className="icons-cell" width="240px">
-          <EditIcon onClick={'/invoice/' + invoice.number} data-tst={tst('edit')} />
+          <EditIcon onClick={`/${invoiceType}/${invoice.number}`} data-tst={tst('edit')} />
           <InvoiceVerifyIconToggle invoice={invoice} data-tst={tst('verify')} />
           <InvoiceDownloadIcon invoice={invoice} data-tst={tst('download')} />
-          <ConfirmedDeleteIcon title={t('invoice.deleteTitle')} onClick={() => this.props.deleteInvoice(invoice)} data-tst={tst('delete')}>
-            {t('invoice.deletePopup', {number: invoice.number, client: invoice.client.name})}
+          <ConfirmedDeleteIcon title={t(invoiceType + '.deleteTitle')} onClick={() => this.props.deleteInvoice(invoice)} data-tst={tst('delete')}>
+            {t(invoiceType + '.deletePopup', {number: invoice.number, client: invoice.client.name})}
           </ConfirmedDeleteIcon>
         </td>
       </tr>

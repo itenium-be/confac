@@ -15,12 +15,13 @@ function transformFilters(search) {
 
 
 export default class InvoiceListViewModel {
-  constructor(invoices, clients, filters) {
+  constructor(invoices, clients, filters, isQuotation) {
     this.invoices = invoices;
     this.clients = clients;
     this.hasFilters = filters.search.length;
     this.fs = transformFilters(filters.search);
     this.unverifiedOnly = filters.unverifiedOnly;
+    this.isQuotation = isQuotation || false;
   }
 
   getFilterOptions() {

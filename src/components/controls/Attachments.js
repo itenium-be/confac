@@ -19,7 +19,7 @@ class AttachmentsFormComponent extends Component {
   render() {
     const {invoice, client} = this.props;
     const model = invoice || client;
-    const modelType = model === invoice ? 'invoice' : 'client';
+    const modelType = model === client ? 'client' : model.getType();
 
     if (!model._id) {
       return <div />;
@@ -46,7 +46,7 @@ class AbstractAttachmentsForm extends Component {
     onDelete: PropTypes.func.isRequired,
     onAdd: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
-    modelType: PropTypes.oneOf(['invoice', 'client']),
+    modelType: PropTypes.oneOf(['invoice', 'client', 'quotation']),
   }
 
   constructor() {
@@ -59,7 +59,8 @@ class AbstractAttachmentsForm extends Component {
   }
 
   render() {
-    const canDeleteAttachments = this.props.attachments.length > (this.props.modelType === 'invoice' ? 1 : 0);
+    const canDeleteAttachments = this.props.attachments.length > (this.props.modelType === 'client' ? 0 : 1);
+    const transPrefix = this.props.modelType;
     return (
       <Row className="tst-attachments">
         <HeaderWithEditIcon
@@ -93,7 +94,7 @@ class AbstractAttachmentsForm extends Component {
               onMouseOut={() => this.setState({hoverId: null})}
             >
               <AttachmentDownloadIcon model={this.props.model} attachment={att} modelType={this.props.modelType} data-tst={`att-download-${att.type}`} />
-              <span style={{marginLeft: 10}}>{att.type !== 'pdf' ? att.type : t('invoice.invoice')}</span>
+              <span style={{marginLeft: 10}}>{att.type !== 'pdf' ? att.type : t(transPrefix + '.pdfName')}</span>
               {this.state.isFormOpen && att.type !== 'pdf' ? (
                 <div style={{display: 'inline', position: 'absolute', right: 20}}>
                   <ConfirmedDeleteIcon title={t('attachment.deleteTitle')} onClick={this.props.onDelete.bind(this, att)} data-tst={`att-delete-${att.type}`}>

@@ -24,8 +24,8 @@ export function updateAttachment(model, modelType, {type, file}) {
 
     req.then(function(res) {
       dispatch({
-        type: modelType === 'invoice' ? ACTION_TYPES.INVOICE_UPDATED : ACTION_TYPES.CLIENT_UPDATE,
-        [modelType]: res.body
+        type: modelType === 'client' ? ACTION_TYPES.CLIENT_UPDATE : ACTION_TYPES.INVOICE_UPDATED,
+        [modelType === 'client' ? 'client' : 'invoice']: res.body
       });
 
       dispatch(success());
@@ -44,8 +44,8 @@ export function deleteAttachment(model, modelType, {type}) {
     request.delete(buildAttachmentUrl(model, type))
       .then(function(res) {
         dispatch({
-          type: modelType === 'invoice' ? ACTION_TYPES.INVOICE_UPDATED : ACTION_TYPES.CLIENT_UPDATE,
-          [modelType]: res.body
+          type: modelType === 'client' ? ACTION_TYPES.CLIENT_UPDATE : ACTION_TYPES.INVOICE_UPDATED,
+          [modelType === 'client' ? 'client' : 'invoice']: res.body
         });
 
         dispatch(success());

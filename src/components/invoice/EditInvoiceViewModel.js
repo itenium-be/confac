@@ -33,8 +33,13 @@ export default class EditInvoiceViewModel {
     this.discount = obj.discount;
     this.attachments = obj.attachments || [{type: 'pdf'}];
     this.extraFields = obj.extraFields || [];
+    this.isQuotation = obj.isQuotation || false;
 
     this._lines = obj.lines || [];
+  }
+
+  getType() {
+    return this.isQuotation ? 'quotation' : 'invoice';
   }
 
   get _lines() {

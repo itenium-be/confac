@@ -15,6 +15,10 @@ class InvoiceVerifyIcon extends Component {
 
   render() {
     const {invoice, toggleInvoiceVerify, ...props} = this.props; // eslint-disable-line
+    if (invoice.isQuotation) {
+      return null;
+    }
+
     return (
       <BusyVerifyIcon
         model={invoice}

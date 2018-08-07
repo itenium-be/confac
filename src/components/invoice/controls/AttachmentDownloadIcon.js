@@ -23,7 +23,7 @@ export class AttachmentDownloadIcon extends Component {
       fileType: PropTypes.string,
       lastModifiedDate: PropTypes.string,
     }),
-    modelType: PropTypes.oneOf(['invoice', 'client']).isRequired,
+    modelType: PropTypes.oneOf(['invoice', 'client', 'quotation']).isRequired,
   }
   constructor() {
     super();
@@ -36,7 +36,7 @@ export class AttachmentDownloadIcon extends Component {
     const {model, attachment, modelType, ...props} = this.props;
     const onClick = () => {
       this.setState({isBusy: true});
-      const downloader = modelType === 'invoice' ? downloadInvoice : downloadClientAttachment;
+      const downloader = modelType === 'client' ? downloadClientAttachment : downloadInvoice;
       downloader(model, attachment).then(() => this.setState({isBusy: false}));
     };
 

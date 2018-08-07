@@ -25,6 +25,7 @@ export class InvoiceSearch extends Component {
       groupedByMonth: PropTypes.bool.isRequired,
     }).isRequired,
     onChange: PropTypes.func.isRequired,
+    isQuotation: PropTypes.bool.isRequired,
   }
 
   onFilterChange(updateObj) {
@@ -47,15 +48,17 @@ export class InvoiceSearch extends Component {
             data-tst="filter-all"
           />
         </Col>
-        <Col sm={3}>
-          <Switch
-            checked={unverifiedOnly}
-            onChange={checked => this.onFilterChange({unverifiedOnly: checked})}
-            label={t('invoice.notVerifiedOnly')}
-            style={{marginTop: 28}}
-            data-tst="filter-unverified"
-          />
-        </Col>
+        {!this.props.isQuotation ? (
+          <Col sm={3}>
+            <Switch
+              checked={unverifiedOnly}
+              onChange={checked => this.onFilterChange({unverifiedOnly: checked})}
+              label={t('invoice.notVerifiedOnly')}
+              style={{marginTop: 28}}
+              data-tst="filter-unverified"
+            />
+          </Col>
+        ) : null}
         <Col sm={3}>
           <Switch
             checked={this.props.filters.groupedByMonth}
