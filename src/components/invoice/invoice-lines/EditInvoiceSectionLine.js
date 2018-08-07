@@ -14,28 +14,28 @@ export class EditInvoiceSectionLine extends Component {
 
   render() {
     const {index, onChange, invoice, line} = this.props;
-    return (
-      <tr key={index}>
-        <td>
-          <Control.StringInput
-            value={line.desc}
-            onChange={value => onChange(invoice.updateLine(index, {desc: value}))}
-            data-tst={`line-${index}-desc`}
-          />
-        </td>
-
-        <td>
-          <Control.InvoiceLineTypeSelect
-            type={line.type}
-            onChange={value => onChange(invoice.updateLine(index, {type: value}))}
-            data-tst={`line-${index}-type`}
-          />
-        </td>
-        <td colSpan={4}>&nbsp;</td>
-        <td>
-          <EditInvoiceDeleteLineIcon {...this.props} />
-        </td>
-      </tr>
-    );
+    return [
+      <td key="0">
+        <Control.StringInput
+          value={line.desc}
+          onChange={value => onChange(invoice.updateLine(index, {desc: value}))}
+          data-tst={`line-${index}-desc`}
+        />
+      </td>
+      ,
+      <td key="1">
+        <Control.InvoiceLineTypeSelect
+          type={line.type}
+          onChange={value => onChange(invoice.updateLine(index, {type: value}))}
+          data-tst={`line-${index}-type`}
+        />
+      </td>
+      ,
+      <td key="2" colSpan={4}>&nbsp;</td>
+      ,
+      <td key="3">
+        <EditInvoiceDeleteLineIcon {...this.props} />
+      </td>
+    ];
   }
 }

@@ -14,68 +14,66 @@ export class EditInvoiceDefaultLine extends Component {
 
   render() {
     const {index, onChange, invoice, line} = this.props;
-    return (
-      <tr key={index}>
-        <td>
-          <Control.StringInput
-            value={line.desc}
-            onChange={value => onChange(invoice.updateLine(index, {desc: value}))}
-            data-tst={`line-${index}-desc`}
-          />
-        </td>
-
-        <td>
-          <Control.InvoiceLineTypeSelect
-            type={line.type}
-            onChange={value => onChange(invoice.updateLine(index, {type: value}))}
-            data-tst={`line-${index}-type`}
-          />
-        </td>
-
-        <td>
-          <Control.NumericInput
-            float
-            value={line.amount}
-            onChange={value => onChange(invoice.updateLine(index, {amount: value}))}
-            data-tst={`line-${index}-amount`}
-          />
-        </td>
-
-        <td>
-          <Control.NumericInput
-            prefix="€"
-            addOnMinWidth={925}
-            float
-            value={line.price}
-            onChange={value => onChange(invoice.updateLine(index, {price: value}))}
-            data-tst={`line-${index}-price`}
-          />
-        </td>
-
-        <td>
-          <Control.NumericInput
-            suffix="%"
-            addOnMinWidth={925}
-            float
-            value={line.tax}
-            onChange={value => onChange(invoice.updateLine(index, {tax: value}))}
-            data-tst={`line-${index}-tax`}
-          />
-        </td>
-
-        <td>
-          <Control.TextareaInput
-            style={{height: 35}}
-            value={line.notes}
-            onChange={value => onChange(invoice.updateLine(index, {notes: value}))}
-            data-tst={`line-${index}-notes`}
-          />
-        </td>
-
-        <td>
-          <EditInvoiceDeleteLineIcon {...this.props} />
-        </td>
-      </tr>
-    );
+    return [
+      <td key="0">
+        <Control.StringInput
+          value={line.desc}
+          onChange={value => onChange(invoice.updateLine(index, {desc: value}))}
+          data-tst={`line-${index}-desc`}
+        />
+      </td>
+      ,
+      <td key="1">
+        <Control.InvoiceLineTypeSelect
+          type={line.type}
+          onChange={value => onChange(invoice.updateLine(index, {type: value}))}
+          data-tst={`line-${index}-type`}
+        />
+      </td>
+      ,
+      <td key="2">
+        <Control.NumericInput
+          float
+          value={line.amount}
+          onChange={value => onChange(invoice.updateLine(index, {amount: value}))}
+          data-tst={`line-${index}-amount`}
+        />
+      </td>
+      ,
+      <td key="3">
+        <Control.NumericInput
+          prefix="€"
+          addOnMinWidth={925}
+          float
+          value={line.price}
+          onChange={value => onChange(invoice.updateLine(index, {price: value}))}
+          data-tst={`line-${index}-price`}
+        />
+      </td>
+      ,
+      <td key="4">
+        <Control.NumericInput
+          suffix="%"
+          addOnMinWidth={925}
+          float
+          value={line.tax}
+          onChange={value => onChange(invoice.updateLine(index, {tax: value}))}
+          data-tst={`line-${index}-tax`}
+        />
+      </td>
+      ,
+      <td key="5">
+        <Control.TextareaInput
+          style={{height: 35}}
+          value={line.notes}
+          onChange={value => onChange(invoice.updateLine(index, {notes: value}))}
+          data-tst={`line-${index}-notes`}
+        />
+      </td>
+      ,
+      <td key="6">
+        <EditInvoiceDeleteLineIcon {...this.props} />
+      </td>
+    ];
   }
 }

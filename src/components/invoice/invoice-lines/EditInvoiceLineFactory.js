@@ -12,4 +12,4 @@ export const createEditInvoiceLine = function(line) {
   }
 
   return EditInvoiceDefaultLine;
-}
+};
