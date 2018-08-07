@@ -60,6 +60,15 @@ export default function register(app) {
 }
 
 
+export function getTemplatesPath() {
+  if (process.env.ENABLE_ROOT_TEMPLATES) {
+    return '/templates/';
+  } else {
+    return './templates/';
+  }
+}
+
+
 export function createHtml(params, assetsPath) {
   // BUG: extraFields was an array [{key, value}, {}, ...]
   // But this code converted it to an object {key1, key2, ...}
@@ -74,11 +83,7 @@ export function createHtml(params, assetsPath) {
 
   var compiledFunction;
   try {
-    if (process.env.ENABLE_ROOT_TEMPLATES) {
-      compiledFunction = pug.compileFile('/templates/' + params.your.template);
-    } else {
-      compiledFunction = pug.compileFile('./templates/' + params.your.template);
-    }
+    compiledFunction = pug.compileFile(getTemplatesPath() + params.your.template);
   } catch (e) {
     console.log('TemplateNotFound', e); // eslint-disable-line
     return {error: 'TemplateNotFound'};

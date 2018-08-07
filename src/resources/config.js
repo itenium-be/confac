@@ -1,4 +1,6 @@
 import Router from 'koa-router';
+import fs from 'fs';
+import {getTemplatesPath} from './invoices.js';
 
 export default function register(app) {
   const router = new Router({
@@ -50,6 +52,10 @@ export default function register(app) {
       const insertedId = inserted.insertedIds[1];
       this.body = Object.assign(params, insertedId.toString().toObjectId());
     }
+  });
+
+  router.get('/templates', function *() {
+    this.body = fs.readdirSync(getTemplatesPath()).filter(fileName => fileName.endsWith('.pug'));
   });
 
   app.use(router.routes());
