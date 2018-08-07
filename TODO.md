@@ -1,6 +1,4 @@
 Zeker te doen:
-- Dragula
-- itenium logo/link top left
 - Inloggen Google met email (config)
 - Template selecteren met dropdown
 - New invoice & New Quotation
@@ -8,6 +6,8 @@ Zeker te doen:
 - Invoice list: make client clickable
 - Jos zijn template
 - CarPass & stuff
+- remember on edit page that there are changes and need to be saved?
+- remove the "update pdf" button: just do always
 
 
 DEPLOY STUFF

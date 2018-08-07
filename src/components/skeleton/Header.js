@@ -7,6 +7,13 @@ import {AddIcon} from '../controls.js';
 
 const Header = () => (
   <Navbar>
+  <Navbar.Header>
+      <Navbar.Brand>
+        <a href="http://itenium.be" target="_blank" style={{marginTop: -4}}>
+          <img src="/img/itenium.png" />
+        </a>
+      </Navbar.Brand>
+    </Navbar.Header>
     <Nav>
       <IndexLinkContainer to="/" data-tst="link-invoices">
         <NavItem eventKey={1}>{t('title')}</NavItem>
