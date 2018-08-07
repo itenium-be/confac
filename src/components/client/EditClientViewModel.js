@@ -1,6 +1,8 @@
 
 export function getNewClient(config) {
   return {
+    _id: null,
+    slug: null,
     active: true,
     name: '',
     address: '',
@@ -20,6 +22,7 @@ export function getNewClient(config) {
   };
 }
 
+// Used by the ClientModal
 export const requiredClientProperties = [
   {key: 'name'},
   {key: 'address'},

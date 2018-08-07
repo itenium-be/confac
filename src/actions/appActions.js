@@ -63,7 +63,7 @@ export function updateInvoiceFilters(filters) {
   };
 }
 
-export function saveClient(client, stayOnPage = false) {
+export function saveClient(client, stayOnPage = false, callback = null) {
   return dispatch => {
     dispatch(busyToggle());
     return request.post(buildUrl('/clients'))
@@ -78,6 +78,9 @@ export function saveClient(client, stayOnPage = false) {
         dispatch(success(t('config.popupMessage')));
         if (!stayOnPage) {
           window.history.back();
+        }
+        if (callback) {
+          callback(res.body);
         }
       })
       .catch(catchHandler)

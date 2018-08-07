@@ -8,6 +8,7 @@ Zeker te doen:
 - Jos zijn template
 - CarPass & stuff
 - do not go back to overview after saving (add extra button "save and return?")
+- componentDidMount invoice, client, config -> scroll.toTop()
 
 DEPLOY STUFF
 

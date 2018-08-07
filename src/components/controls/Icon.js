@@ -90,6 +90,10 @@ export const DragAndDropIcon = ({...props}) => {
   return <Icon fa="fa fa-arrows" color="#EEE9E9" data-tst="dnd" {...props} />;
 };
 
+export const ViewIcon = ({...props}) => {
+  return <Icon fa="fa fa-eye" title={t('view')} {...props} />;
+};
+
 export const EditIcon = ({...props}) => {
   return <Icon fa="fa fa-pencil-square-o" title={t('edit')} {...props} />;
 };

@@ -14,6 +14,11 @@ export class Modal extends Component {
     children: PropTypes.any.isRequired,
   }
 
+  onConfirm() {
+    this.props.onConfirm();
+    this.props.onClose();
+  }
+
   render() {
     return (
       <ReactModal show={this.props.show} onHide={this.props.onClose}>
@@ -25,7 +30,7 @@ export class Modal extends Component {
         </ReactModal.Body>
         <ReactModal.Footer>
           {this.props.onConfirm ? (
-            <Button onClick={this.props.onConfirm} bsStyle="success">{t('save')}</Button>
+            <Button onClick={this.onConfirm.bind(this)} bsStyle="success">{t('save')}</Button>
           ) : null}
           <Button onClick={this.props.onClose}>{t('close')}</Button>
         </ReactModal.Footer>

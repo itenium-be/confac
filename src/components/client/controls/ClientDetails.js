@@ -1,5 +1,6 @@
 import React from 'react';
-import {ClientEditIcon, HeaderWithEditIcon} from '../../controls.js';
+import {ClientEditIcon, HeaderWithEditIcon, ViewIcon} from '../../controls.js';
+import {t} from '../../util.js';
 
 const ClientDetails = ({client, onOpenDetails}) => (
   <div>
@@ -7,10 +8,16 @@ const ClientDetails = ({client, onOpenDetails}) => (
       <ClientEditIcon
         onClick={onOpenDetails}
         client={client}
-        title=""
+        title={t('edit')}
         size={1}
         style={{marginLeft: 6}}
         data-tst="client-header-edit"
+      />
+      <ViewIcon
+        onClick={'/client/' + client.slug}
+        size={1}
+        style={{marginLeft: 6}}
+        data-tst="client-header-view"
       />
     </HeaderWithEditIcon>
     <div data-tst="client-address">{client.address}</div>

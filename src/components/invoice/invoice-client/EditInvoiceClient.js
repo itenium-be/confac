@@ -25,7 +25,7 @@ export class EditInvoiceClient extends Component {
     return (
       <div>
         <ClientModal
-          client={invoice.client}
+          client={this.state.modalClientId !== 'new' ? invoice.client : null}
           show={!!this.state.modalClientId}
           onClose={() => this.setState({modalClientId: null})}
           onConfirm={updatedClient => onChange({invoice: invoice.setClient(updatedClient)})}
@@ -40,7 +40,7 @@ export class EditInvoiceClient extends Component {
           </div>
           <div style={{width: 120, position: 'relative'}}>
             <Control.Button
-              onClick={() => {}}
+              onClick={() => this.setState({modalClientId: 'new'})}
               bsSize="small"
               bsStyle="default"
               style={{position: 'absolute', bottom: 18, left: 5}}

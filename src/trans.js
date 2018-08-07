@@ -12,6 +12,7 @@ const trans = {
   add: 'Toevoegen',
   no: 'Nee',
   close: 'Sluiten',
+  view: 'Details',
   toastrSuccessTitle: 'Mucho succes',
   toastrFailureTitle: 'Oh noes!',
   toastrFailure: 'Boem! Crash! Kapot!',
