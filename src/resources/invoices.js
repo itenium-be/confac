@@ -93,7 +93,8 @@ export function createHtml(params, assetsPath) {
 
   var compiledFunction;
   try {
-    compiledFunction = pug.compileFile(getTemplatesPath() + params.your.template);
+    const templateType = params.isQuotation ? params.your.templateQuotation : params.your.template;
+    compiledFunction = pug.compileFile(getTemplatesPath() + templateType);
   } catch (e) {
     console.log('TemplateNotFound', e); // eslint-disable-line
     return {error: 'TemplateNotFound'};
