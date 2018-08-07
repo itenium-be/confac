@@ -4,6 +4,7 @@ export * from './controls/DatePicker.js';
 export * from './controls/Headers.js';
 export * from './controls/Icon.js';
 export * from './controls/Inputs.js';
+export * from './controls/Modal.js';
 export * from './controls/Popup.js';
 export * from './controls/Select.js';
 

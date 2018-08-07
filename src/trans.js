@@ -11,6 +11,7 @@ const trans = {
   delete: 'Verwijderen',
   add: 'Toevoegen',
   no: 'Nee',
+  close: 'Sluiten',
   toastrSuccessTitle: 'Mucho succes',
   toastrFailureTitle: 'Oh noes!',
   toastrFailure: 'Boem! Crash! Kapot!',

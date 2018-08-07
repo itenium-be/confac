@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-// import {connect} from 'react-redux';
 import {t} from '../../util.js';
 
 import * as Control from '../../controls.js';
 import {Row, Col} from 'react-bootstrap';
 import ClientDetails from '../../client/controls/ClientDetails.js';
 import InvoiceTotal from '../controls/InvoiceTotal.js';
-// import {invoiceAction} from '../../../actions/index.js';
+import {ClientModal} from '../../client/controls/ClientModal.js';
 
 
 export class EditInvoiceClient extends Component {
@@ -16,10 +15,21 @@ export class EditInvoiceClient extends Component {
     onChange: PropTypes.func.isRequired,
   }
 
+  constructor() {
+    super();
+    this.state = {modalClientId: undefined};
+  }
+
   render() {
     const {invoice, onChange} = this.props;
     return (
       <div>
+        <ClientModal
+          client={invoice.client}
+          show={!!this.state.modalClientId}
+          onClose={() => this.setState({modalClientId: null})}
+          onConfirm={updatedClient => onChange({invoice: invoice.setClient(updatedClient)})}
+        />
         <div className="unset-split">
           <div>
             <Control.ClientSelect
@@ -44,7 +54,10 @@ export class EditInvoiceClient extends Component {
         {invoice.client ? (
           <Row>
             <Col xs={6}>
-              <ClientDetails client={invoice.client} />
+              <ClientDetails
+                client={invoice.client}
+                onOpenDetails={() => this.setState({modalClientId: invoice.client._id})}
+              />
             </Col>
             <Col xs={6}>
               <h4>{t('invoice.totalTitle')}</h4>

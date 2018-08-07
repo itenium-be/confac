@@ -20,6 +20,14 @@ export function getNewClient(config) {
   };
 }
 
+export const requiredClientProperties = [
+  {key: 'name'},
+  {key: 'address'},
+  {key: 'city'},
+  {key: 'telephone'},
+  {key: 'btw'},
+];
+
 export const defaultClientProperties = [{
   key: 'name',
 }, {
