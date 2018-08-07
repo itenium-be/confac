@@ -1,14 +1,13 @@
 Zeker te doen:
+- remove the "update pdf" button: just do always (always see the preview button)
 - Inloggen Google met email (config)
 - Template selecteren met dropdown
 - New invoice & New Quotation
 - New invoice: Create/Edit client with popup
-- Invoice list: make client clickable
+- remember on edit page that there are changes and need to be saved?
 - Jos zijn template
 - CarPass & stuff
-- remember on edit page that there are changes and need to be saved?
-- remove the "update pdf" button: just do always
-
+- do not go back to overview after saving (add extra button "save and return?")
 
 DEPLOY STUFF
 

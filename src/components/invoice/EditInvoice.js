@@ -5,12 +5,12 @@ import {t, EditInvoiceViewModel} from '../util.js';
 
 import * as Control from '../controls.js';
 import {Grid, Row, Col, Form} from 'react-bootstrap';
-import ClientDetails from '../client/controls/ClientDetails.js';
 import EditInvoiceLines from './EditInvoiceLines.js';
 import InvoiceNotVerifiedAlert from './controls/InvoiceNotVerifiedAlert.js';
 import {EditInvoiceSaveButtons} from './controls/EditInvoiceSaveButtons.js';
-import InvoiceTotal from './controls/InvoiceTotal.js';
 import {invoiceAction} from '../../actions/index.js';
+import {EditInvoiceClient} from './invoice-client/EditInvoiceClient.js';
+import {EditInvoiceExtraFields} from './invoice-extra-fields/EditInvoiceExtraFields.js';
 
 class EditInvoice extends Component {
   static propTypes = {
@@ -187,96 +187,3 @@ const EditInvoiceDetails = ({invoice, onChange}) => (
     </Col>
   </div>
 );
-
-
-
-
-
-
-
-const EditInvoiceClient = ({invoice, onChange}) => (
-  <div>
-    <Control.ClientSelect
-      label={t('invoice.client')}
-      value={invoice.client}
-      onChange={c => onChange({invoice: invoice.setClient(c)})}
-    />
-
-    {invoice.client ? (
-      <Row>
-        <Col xs={6}>
-          <ClientDetails client={invoice.client} />
-        </Col>
-        <Col xs={6}>
-          <h4>{t('invoice.totalTitle')}</h4>
-          <InvoiceTotal {...invoice.money} data-tst="invoice-total" />
-        </Col>
-      </Row>
-    ) : null}
-  </div>
-);
-
-
-
-
-
-class EditInvoiceExtraFields extends Component {
-  static propTypes = {
-    invoice: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
-    forceOpen: PropTypes.bool.isRequired,
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {extraFieldFormOpen: props.forceOpen};
-  }
-  componentWillReceiveProps(nextProps) {
-    if (this.props.forceOpen !== nextProps.forceOpen) {
-      this.setState({extraFieldFormOpen: nextProps.forceOpen});
-    }
-  }
-
-  render() {
-    const {invoice, onChange} = this.props;
-
-    if (!this.props.forceOpen && invoice.extraFields.length === 0) {
-      return <div />;
-    }
-
-    return (
-      <div>
-        <Row>
-          <Control.HeaderWithEditIcon
-            label={t('extraFields')}
-            onEditClick={() => this.setState({extraFieldFormOpen: !this.state.extraFieldFormOpen})}
-            data-tst="extra-fields-header-icon"
-          />
-
-
-          {this.state.extraFieldFormOpen ? (
-            <Col sm={12} style={{minHeight: 75}}>
-              <Control.PropertiesSelect
-                label={t('invoice.editExtraFields')}
-                values={invoice.extraFields}
-                onChange={onChange}
-                data-tst="invoice.editExtraFields"
-              />
-            </Col>
-          ) : null}
-        </Row>
-
-
-        {invoice.extraFields.length ? (
-          <Row>
-            <Control.ExtraFieldsInput
-              properties={invoice.extraFields}
-              onChange={onChange}
-              data-tst="invoice.editExtraFields"
-            />
-          </Row>
-        ) : null}
-      </div>
-    );
-  }
-}

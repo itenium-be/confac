@@ -10,14 +10,16 @@ export class Button extends Component {
     children: PropTypes.node.isRequired,
     disabled: PropTypes.bool,
     bsStyle: PropTypes.string,
+    bsSize: PropTypes.string,
   }
   static defaultProps = {
     bsStyle: 'primary',
+    bsSize: 'large',
   }
   render() {
     const {children, ...props} = this.props;
     return (
-      <ReactButton bsSize="large" {...props} data-tst={this.props['data-tst']}>
+      <ReactButton {...props} data-tst={this.props['data-tst']}>
         {children}
       </ReactButton>
     );

@@ -75,6 +75,7 @@ const trans = {
     invoices: 'Facturen',
     invoicesOne: '1 factuur',
     client: 'Klant',
+    clientNew: 'Nieuwe klant',
     number: 'Factuurnummer',
     numberShort: 'Nr',
     discount: 'Korting',

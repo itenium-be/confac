@@ -41,6 +41,18 @@ div.split > div:nth-child(2) {
 	overflow: hidden;
 }
 
+.unset-split {
+	display: table;
+	width: 100%;
+}
+
+.unset-split > div:first-child {
+	display: table-cell;
+}
+
+.unset-split > div:nth-child(2) {
+	display: table-cell;
+}
 
 h1 {
 	font-size: 28px;
