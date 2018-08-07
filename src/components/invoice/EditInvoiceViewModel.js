@@ -99,6 +99,8 @@ export default class EditInvoiceViewModel {
       amount: 0,
       tax: this._defaultTax,
       type: this._defaultType,
+      // sort is not the actual sort order (index in array is). It is the unique id for drag&drop
+      sort: this._lines.reduce((acc, line) => acc <= line.sort ? line.sort + 1 : acc, 0),
     };
 
     if (!this.client || getEmpty) {

@@ -19,20 +19,20 @@ export default class EditInvoiceLines extends Component {
   }
 
   onDragEnd(result) {
-    // dropped outside the list
-    console.log('onDragEnd', result);
-    if (!result.destination) {
+    // dropped outside the list or didn't actually move
+    if (!result.destination || result.source.index === result.destination.index) {
       return;
     }
 
-    //this.props.onChange(this.props.invoice.reorderLines(result.source.index, result.destination.index));
+    // console.log('onDragEnd', result);
+    this.props.onChange(this.props.invoice.reorderLines(result.source.index, result.destination.index));
   }
 
   render() {
     const {invoice, onChange} = this.props;
     const lines = invoice.lines;
 
-    console.log('lines', invoice.lines);
+    // console.log('lines', invoice.lines);
 
     const {notesVisible} = this.state;
     const nrOfColumns = 7;
@@ -61,12 +61,12 @@ export default class EditInvoiceLines extends Component {
             <th width="1%">&nbsp;</th>
           </tr>
         </thead>
-        <DragDropContext onDragEnd={this.onDragEnd}>
+        <DragDropContext onDragEnd={this.onDragEnd.bind(this)}>
           <Droppable droppableId="droppable">
             {(provided, snapshot) => (
               <tbody ref={provided.innerRef}>
                 {lines.map((item, index) => (
-                  <Draggable key={item.desc} draggableId={item.desc} index={index}>
+                  <Draggable key={item.sort || item.desc} draggableId={item.sort || item.desc} index={index}>
                     {(provided, snapshot) => {
                       const EditInvoiceLine = createEditInvoiceLine(item);
                       const props = {index, line: item, ...this.props};
