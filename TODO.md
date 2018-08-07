@@ -1,7 +1,5 @@
 Zeker te doen:
-- remove the "update pdf" button: just do always (always see the preview button)
 - Inloggen Google met email (config)
-- Template selecteren met dropdown
 - New Quotation / offertes
 - remember on edit page that there are changes and need to be saved?
 - Jos zijn template
@@ -23,5 +21,3 @@ Templates: W:\confac-templates
 --> if there is a db config file in /templates, use that one?
 --> use alpine for docker and check size then?
 --> registry: use versions instead of always overwriting latest?
-
-
