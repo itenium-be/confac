@@ -22,30 +22,30 @@ export default function register(app) {
     var modelObj = yield this.mongo.collection(modelColl).findOne(id.toObjectId());
 
     var fileBuffer;
-    if (type === 'pdf' && model === 'invoice') {
-      const html = createHtml(modelObj, this.request.origin);
-      fileBuffer = yield htmlToBuffer(html);
+    // if (type === 'pdf' && model === 'invoice') {
+    //   // TODO: this is no longer relevant:
+    //   // --> delete here and always do on invoice.put!
+    //   const html = createHtml(modelObj, this.request.origin);
+    //   fileBuffer = yield htmlToBuffer(html);
 
-    } else {
-      const {_id, ...newInvoice} = modelObj;
+    const {_id, ...newInvoice} = modelObj;
 
-      // koa-better-body:
-      const file = this.request.files[0];
-      // console.log(this.request.files[0]);
-      // console.log(this.request.fields);
+    // koa-better-body:
+    const file = this.request.files[0];
+    // console.log(this.request.files[0]);
+    // console.log(this.request.fields);
 
-      // o'rly?
-      var fs = require('fs');
-      fileBuffer = fs.readFileSync(file.path);
+    // o'rly?
+    var fs = require('fs');
+    fileBuffer = fs.readFileSync(file.path);
 
-      newInvoice.attachments.push({
-        type,
-        fileName: file.name,
-        fileType: file.type,
-        lastModifiedDate: file.lastModifiedDate
-      });
-      yield this.mongo.collection(modelColl).update(_id.toString().toObjectId(), newInvoice);
-    }
+    newInvoice.attachments.push({
+      type,
+      fileName: file.name,
+      fileType: file.type,
+      lastModifiedDate: file.lastModifiedDate
+    });
+    yield this.mongo.collection(modelColl).update(_id.toString().toObjectId(), newInvoice);
 
     const coll = model === 'invoice' ? 'attachments' : 'attachments_client';
     yield this.mongo.collection(coll).update(id.toObjectId(), {$set: {[type]: fileBuffer}}, {upsert: true});

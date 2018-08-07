@@ -3,6 +3,20 @@ import {locals} from '../pug-helpers.js';
 import pug from 'pug';
 import pdf from 'html-pdf';
 
+function * createPdf(params) {
+  const html = createHtml(params, this.request.origin);
+
+  if (html.error) {
+    this.body = html.error;
+    this.status = 500;
+    return;
+  }
+
+  const pdfBuffer = yield htmlToBuffer(html);
+  return pdfBuffer;
+}
+
+
 export default function register(app) {
   const router = new Router({
     prefix: '/api/invoices'
@@ -14,15 +28,8 @@ export default function register(app) {
 
   router.post('/', function *() {
     const params = this.request.body;
-    const html = createHtml(params, this.request.origin);
 
-    if (html.error) {
-      this.body = html.error;
-      this.status = 500;
-      return;
-    }
-
-    const pdfBuffer = yield htmlToBuffer(html);
+    const pdfBuffer = yield createPdf.call(this, params);
 
     const insertedInvoice = yield this.mongo.collection('invoices').insert(params);
     const insertedInvoiceId = insertedInvoice.insertedIds[1];
@@ -36,7 +43,10 @@ export default function register(app) {
   router.put('/', function *() {
     const {_id, ...params} = this.request.body;
     yield this.mongo.collection('invoices').update(_id.toObjectId(), params);
-    // TODO: updateInvoice: property to mark that pdf is no longer in sync with invoice data?
+
+    const pdfBuffer = yield createPdf.call(this, params);
+    yield this.mongo.collection('attachments').update(_id.toObjectId(), {$set: {'pdf': pdfBuffer}}, {upsert: true});
+
     this.body = this.request.body;
   });
 
