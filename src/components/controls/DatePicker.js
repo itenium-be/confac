@@ -4,7 +4,7 @@ import moment from 'moment';
 import { t } from '../util.js';
 
 import {EnhanceIputWithLabel} from './Inputs.js';
-import BootstrapDatePicker from 'react-bootstrap-date-picker';
+import BootstrapDatePicker from 'react-16-bootstrap-date-picker';
 
 export const DatePicker = EnhanceIputWithLabel(class extends Component {
   static propTypes = {
@@ -18,6 +18,7 @@ export const DatePicker = EnhanceIputWithLabel(class extends Component {
   // in the second cell of a container with className split
 
   render() {
+    const MONDAY = 1;
     return (
       <BootstrapDatePicker
         value={this.props.value ? this.props.value.toISOString() : undefined}
@@ -27,7 +28,7 @@ export const DatePicker = EnhanceIputWithLabel(class extends Component {
         dayLabels={['Zon', 'Ma', 'Di', 'Woe', 'Do', 'Vr', 'Zat']}
         showTodayButton={true}
         todayButtonLabel={t('controls.today')}
-        weekStartsOnMonday={true}
+        weekStartsOn={MONDAY}
         calendarContainer={document.body}
         className={'tst-' + this.props['data-tst']}
       />
