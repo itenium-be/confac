@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {EditInvoiceViewModel} from '../../util.js';
 import * as Control from '../../controls.js';
-import {EditInvoiceDeleteLineIcon} from './EditInvoiceDeleteLineIcon.js';
 
 export class EditInvoiceSectionLine extends Component {
   static propTypes = {
@@ -32,10 +31,6 @@ export class EditInvoiceSectionLine extends Component {
       </td>
       ,
       <td key="2" colSpan={4}>&nbsp;</td>
-      ,
-      <td key="3">
-        <EditInvoiceDeleteLineIcon {...this.props} />
-      </td>
     ];
   }
 }

@@ -6,7 +6,7 @@ import * as Control from '../controls.js';
 import {Table} from 'react-bootstrap';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import {createEditInvoiceLine} from './invoice-lines/EditInvoiceLineFactory.js';
-
+import {EditInvoiceLineIcons, EditInvoiceDragHandle} from './invoice-lines/EditInvoiceLineIcons.js';
 
 export default class EditInvoiceLines extends Component {
   static propTypes = {
@@ -40,6 +40,7 @@ export default class EditInvoiceLines extends Component {
       <Table condensed>
         <thead>
           <tr>
+            <th width="1%">&nbsp;</th>
             <th width="30%">{t('client.projectDesc')}</th>
             <th width="10%">{t('rates.type')}</th>
             <th width="10%">{t('rates.value')}</th>
@@ -68,9 +69,12 @@ export default class EditInvoiceLines extends Component {
                   <Draggable key={item.desc} draggableId={item.desc} index={index}>
                     {(provided, snapshot) => {
                       const EditInvoiceLine = createEditInvoiceLine(item);
+                      const props = {index, line: item, ...this.props};
                       return (
                         <tr ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                          <EditInvoiceLine index={index} line={item} {...this.props} />
+                          <EditInvoiceDragHandle />
+                          <EditInvoiceLine {...props} />
+                          <EditInvoiceLineIcons {...props} />
                         </tr>
                       );
                     }}

@@ -86,6 +86,10 @@ export const AddIcon = ({...props}) => {
   return <Icon fa="fa fa-plus" {...props} />;
 };
 
+export const DragAndDropIcon = ({...props}) => {
+  return <Icon fa="fa fa-arrows" color="#EEE9E9" data-tst="dnd" {...props} />;
+};
+
 export const EditIcon = ({...props}) => {
   return <Icon fa="fa fa-pencil-square-o" title={t('edit')} {...props} />;
 };

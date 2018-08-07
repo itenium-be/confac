@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {EditInvoiceViewModel} from '../../util.js';
 import * as Control from '../../controls.js';
-import {EditInvoiceDeleteLineIcon} from './EditInvoiceDeleteLineIcon.js';
 
 export class EditInvoiceDefaultLine extends Component {
   static propTypes = {
@@ -69,10 +68,6 @@ export class EditInvoiceDefaultLine extends Component {
           onChange={value => onChange(invoice.updateLine(index, {notes: value}))}
           data-tst={`line-${index}-notes`}
         />
-      </td>
-      ,
-      <td key="6">
-        <EditInvoiceDeleteLineIcon {...this.props} />
       </td>
     ];
   }
