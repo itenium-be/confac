@@ -85,6 +85,7 @@ const trans = {
     deletePopup: 'Offerte {number} ({client}) permanent verwijderen?',
     deleteConfirm: 'Offerte verwijderd',
     createConfirm: 'Offerte aangemaakt',
+    viewPdf: 'Pdf offerte bekijken',
   },
   invoice: {
     invoice: 'Factuur',
@@ -111,6 +112,7 @@ const trans = {
     days: 'Dagen',
     create: 'Maak factuur',
     preview: 'Preview',
+    viewPdf: 'Pdf factuur bekijken',
     totalTitle: 'Totaal',
     subtotal: 'Subtotaal',
     subtotalLong: 'Subtotaal (zonder btw)',
@@ -135,7 +137,7 @@ const trans = {
     pdfTemplateNotFoundTitle: 'Pdf template niet gevonden!',
     pdfTemplateNotFound: 'De pdf template was niet gevonden (check Config)',
     search: {
-      placeholder: 'Facturen filteren',
+      placeholder: 'Lijst filteren',
     },
     editExtraFields: 'Extra velden bewerken',
   },

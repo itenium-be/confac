@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {t, moneyFormat} from '../util.js';
 import cn from 'classnames';
 
-import {ConfirmedDeleteIcon, EditIcon, InvoiceDownloadIcon, InvoiceVerifyIconToggle} from '../controls.js';
+import {ConfirmedDeleteIcon, EditIcon, InvoiceDownloadIcon, InvoicePreviewIcon, InvoiceVerifyIconToggle} from '../controls.js';
 import {deleteInvoice} from '../../actions/index.js';
 import {InvoiceWorkedDays} from './controls/InvoiceWorkedDays.js';
 import {InvoicesTotal} from './controls/InvoiceTotal.js';
@@ -79,6 +79,7 @@ export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Compo
           <EditIcon onClick={`/${invoiceType}/${invoice.number}`} data-tst={tst('edit')} />
           <InvoiceVerifyIconToggle invoice={invoice} data-tst={tst('verify')} />
           <InvoiceDownloadIcon invoice={invoice} data-tst={tst('download')} />
+          <InvoicePreviewIcon invoice={invoice} data-tst={tst('preview')} />
           <ConfirmedDeleteIcon title={t(invoiceType + '.deleteTitle')} onClick={() => this.props.deleteInvoice(invoice)} data-tst={tst('delete')}>
             {t(invoiceType + '.deletePopup', {number: invoice.number, client: invoice.client.name})}
           </ConfirmedDeleteIcon>

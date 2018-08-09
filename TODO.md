@@ -1,18 +1,15 @@
-Zeker te doen:
+
+
 - New Quotation / offertes
 --> convert quotation to invoice
-
 - InvoiceList: add icon to view the pdf instead of downloading it
-
-oh boy
---> move from quotation to invoice detail pages
---> translations get all messed up :(
-
---> go from offerte to "new invoice" --> not translated stuff remains
-
-
-
 - Inloggen Google met email (config)
+
+
+
+Can't download client attachment anymore...
+
+
 - Jos zijn template
 - CarPass & stuff
 - remember on edit page that there are changes and need to be saved?

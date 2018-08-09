@@ -93,11 +93,21 @@ class AbstractAttachmentsForm extends Component {
               onMouseOver={() => this.setState({hoverId: att.type !== 'pdf' ? att.type : null})}
               onMouseOut={() => this.setState({hoverId: null})}
             >
-              <AttachmentDownloadIcon model={this.props.model} attachment={att} modelType={this.props.modelType} data-tst={`att-download-${att.type}`} />
+              <AttachmentDownloadIcon
+                model={this.props.model}
+                attachment={att}
+                modelType={this.props.modelType}
+                data-tst={`att-download-${att.type}`}
+                actionType="download"
+              />
               <span style={{marginLeft: 10}}>{att.type !== 'pdf' ? att.type : t(transPrefix + '.pdfName')}</span>
               {this.state.isFormOpen && att.type !== 'pdf' ? (
                 <div style={{display: 'inline', position: 'absolute', right: 20}}>
-                  <ConfirmedDeleteIcon title={t('attachment.deleteTitle')} onClick={this.props.onDelete.bind(this, att)} data-tst={`att-delete-${att.type}`}>
+                  <ConfirmedDeleteIcon
+                    title={t('attachment.deleteTitle')}
+                    onClick={this.props.onDelete.bind(this, att)}
+                    data-tst={`att-delete-${att.type}`}
+                  >
                     {t('attachment.deletePopup')}
                   </ConfirmedDeleteIcon>
                 </div>

@@ -1,17 +1,31 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Icon, SpinnerIcon} from '../../controls/Icon.js';
-import {downloadInvoice, downloadClientAttachment} from '../../../actions/index.js';
+import {downloadInvoice, downloadClientAttachment, previewInvoice} from '../../../actions/index.js';
 import t from '../../../trans.js';
 
 export const InvoiceDownloadIcon = ({invoice, ...props}) => (
   <AttachmentDownloadIcon
     model={invoice}
     attachment={invoice.attachments.find(a => a.type === 'pdf')}
-    modelType="invoice"
+    modelType={invoice.isQuotation ? 'quotation' : 'invoice'}
+    actionType="download"
     {...props}
   />
 );
+
+
+export const InvoicePreviewIcon = ({invoice, ...props}) => (
+  <AttachmentDownloadIcon
+    model={invoice}
+    attachment={invoice.attachments.find(a => a.type === 'pdf')}
+    modelType={invoice.isQuotation ? 'quotation' : 'invoice'}
+    actionType="preview"
+    {...props}
+  />
+);
+
+
 
 export class AttachmentDownloadIcon extends Component {
   static propTypes = {
@@ -24,39 +38,47 @@ export class AttachmentDownloadIcon extends Component {
       lastModifiedDate: PropTypes.string,
     }),
     modelType: PropTypes.oneOf(['invoice', 'client', 'quotation']).isRequired,
+    actionType: PropTypes.oneOf(['download', 'preview']).isRequired,
   }
+
   constructor() {
     super();
     this.state = {isBusy: false};
   }
-  static defaultProps = {
-    type: 'pdf'
-  }
+
   render() {
-    const {model, attachment, modelType, ...props} = this.props;
-    const onClick = () => {
-      this.setState({isBusy: true});
-      const downloader = modelType === 'client' ? downloadClientAttachment : downloadInvoice;
-      downloader(model, attachment).then(() => this.setState({isBusy: false}));
-    };
+    const {model, attachment, modelType, actionType, ...props} = this.props;
+
+    let fileType, onClick, attTitle;
+    if (actionType === 'download') {
+      fileType = getAwesomeFileType(attachment);
+      attTitle = t('invoice.downloadAttachment', {type: attachment.fileName || attachment.type});
+      onClick = () => {
+        this.setState({isBusy: true});
+        const downloader = modelType === 'client' ? downloadClientAttachment : downloadInvoice;
+        downloader(model, attachment).then(() => this.setState({isBusy: false}));
+        this.setState({isBusy: false});
+      };
+
+    } else if (actionType === 'preview') {
+      fileType = 'fa-eye';
+      attTitle = t(modelType + '.viewPdf');
+      onClick = () => {
+        previewInvoice(model);
+      };
+    }
 
     if (this.state.isBusy) {
       const offset = attachment.type === 'pdf' ? -12 : 0;
       return <SpinnerIcon style={{marginLeft: offset}} data-tst={this.props['data-tst']} />;
     }
 
-    const fileType = getAwesomeFileType(attachment);
-    var attTitle = t('invoice.downloadAttachment', {type: attachment.fileName || attachment.type});
-    // if (attachment.lastModifiedDate) {
-    //   attTitle += '<br>' + moment(attachment.lastModifiedDate).format('DD/MM/YYYY HH:mm') + '<br>' + attachment.lastModifiedDate;
-    // }
-
     return (
       <Icon
         fa={`fa ${fileType} fa-2x`}
         title={attTitle}
         {...props}
-        onClick={() => onClick()}
+        onClick={onClick}
         color={this.state.isBusy ? '#DCDAD1' : undefined} />
     );
   }
