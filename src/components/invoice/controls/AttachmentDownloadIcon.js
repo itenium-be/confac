@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Icon, SpinnerIcon} from '../../controls/Icon.js';
 import {downloadInvoice, downloadClientAttachment, previewInvoice} from '../../../actions/index.js';
@@ -26,9 +27,9 @@ export const InvoicePreviewIcon = ({invoice, ...props}) => (
 );
 
 
-
-export class AttachmentDownloadIcon extends Component {
+class AttachmentDownloadIconComponent extends Component {
   static propTypes = {
+    previewInvoice: PropTypes.func.isRequired,
     'data-tst': PropTypes.string.isRequired,
     model: PropTypes.object.isRequired,
     attachment: PropTypes.shape({
@@ -47,7 +48,7 @@ export class AttachmentDownloadIcon extends Component {
   }
 
   render() {
-    const {model, attachment, modelType, actionType, ...props} = this.props;
+    const {model, attachment, modelType, actionType, previewInvoice, ...props} = this.props;
 
     let fileType, onClick, attTitle;
     if (actionType === 'download') {
@@ -83,6 +84,9 @@ export class AttachmentDownloadIcon extends Component {
     );
   }
 }
+
+export const AttachmentDownloadIcon = connect(undefined, {previewInvoice})(AttachmentDownloadIconComponent);
+
 
 function getAwesomeFileType(att) {
   if (att.type === 'pdf' || att.fileType === 'application/pdf') {

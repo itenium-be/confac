@@ -13,7 +13,7 @@ body {
 	text-align: right;
 }
 .icons-cell > div:not(:last-child), .icons-cell > i:not(:last-child) {
-	margin-right: 18px;
+	margin-right: 12px;
 }
 
 .button-row {

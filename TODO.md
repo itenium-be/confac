@@ -2,12 +2,10 @@
 
 - New Quotation / offertes
 --> convert quotation to invoice
-- InvoiceList: add icon to view the pdf instead of downloading it
+
+
 - Inloggen Google met email (config)
 
-
-
-Can't download client attachment anymore...
 
 
 - Jos zijn template
