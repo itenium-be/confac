@@ -114,7 +114,7 @@ class EditClient extends Component {
     if (client.name.length === 0) {
       return true;
     }
-    if (client.slug !== undefined && client.slug.length === 0) {
+    if (client.slug && client.slug.length === 0) {
       // slug can only be filled in for an existing invoice
       // (it's set on the backend create)
       return true;
