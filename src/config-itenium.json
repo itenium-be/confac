@@ -1,6 +1,6 @@
 {
    "db": {
-      "host": "Nassimodo",
+      "host": "localhost",
       "db": "confac",
       "port": 9009
    },
