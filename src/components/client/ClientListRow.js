@@ -13,7 +13,7 @@ export const ClientListHeader = () => (
       <th>{t('client.name')}</th>
       <th>{t('client.contact')}</th>
       <th>{t('client.timeTitle')}</th>
-      <th>{t('invoice.invoices')}</th>
+      <th>{t('invoice.amount')}</th>
       <th>&nbsp;</th>
     </tr>
   </thead>
