@@ -9,7 +9,7 @@ const Header = () => (
   <Navbar>
   <Navbar.Header>
       <Navbar.Brand>
-        <a href="http://itenium.be" target="_blank" style={{marginTop: -4}}>
+        <a href="https://itenium.be" target="_blank" style={{marginTop: -4}}>
           <img src="/img/itenium.png" role="presentation" />
         </a>
       </Navbar.Brand>
