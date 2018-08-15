@@ -1,23 +1,9 @@
-function getBackend() {
-  // Port 9000 is hardcoded in backend/config-xxx.json
-  // Could just use: process.env.PUBLIC provided by react-create-app?
-  switch (process.env.REACT_APP_DEPLOY) {
-  case 'jos':
-    return window.location.origin + '/api';
-  case 'pongit':
-    return window.location.origin + '/api';
-  default:
-    return window.location.origin + '/api';
-  }
-}
+console.log('config', process.env);
 
 if (process.env.REACT_APP_DEPLOY) {
-  const backend = getBackend();
-  module.exports = {backend: backend, environment: process.env.NODE_ENV || '???'};
+  // Could just use: process.env.PUBLIC provided by react-create-app?
+  const backend = window.location.origin + '/api';
+  module.exports = {backend: backend, environment: process.env.REACT_APP_ENV || '???'};
 } else {
-  module.exports = {backend: 'http://localhost:3001/api', environment: process.env.NODE_ENV || 'dev'};
-}
-
-if (process.env.REACT_APP_DEPLOY === 'pongit-test') {
-  module.exports.environment = 'test'; // o'rly
+  module.exports = {backend: 'http://localhost:3001/api', environment: 'localhost-dev'};
 }
