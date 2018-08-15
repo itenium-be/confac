@@ -2,6 +2,8 @@ require('babel-polyfill');
 
 var createApp = require('./server-init.js').createApp;
 
+console.log('process.env', JSON.stringify(process.env));
+
 var json = require('./config.json');
 if (process.env.MONGO_HOST) {
   json = {
@@ -18,6 +20,8 @@ if (process.env.MONGO_HOST) {
 }
 
 var config = Object.assign({env: process.env.NODE_ENV || 'dev'}, json);
+
+console.log('final config', JSON.stringify(config));
 
 var app = createApp(config);
 console.log('Starting at ' + config.server.port);
