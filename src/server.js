@@ -21,8 +21,6 @@ if (process.env.MONGO_HOST) {
 
 var config = Object.assign({env: process.env.NODE_ENV || 'dev'}, json);
 
-console.log('final config', JSON.stringify(config));
-
 var app = createApp(config);
 console.log('Starting at ' + config.server.port);
 console.log('Config', JSON.stringify(config));
