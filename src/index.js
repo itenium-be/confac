@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const environment = require('../config-front.js').environment;
-if (environment !== 'production') {
-  document.title += ' - ' + (environment || '???');
+// TODO: need to fetch this from the backend
+if (process.env.NODE_ENV !== 'production') {
+  document.title += ' - ' + (process.env.NODE_ENV || '???');
 }
 
 
