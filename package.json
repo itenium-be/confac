@@ -16,7 +16,7 @@
     "react-16-bootstrap-date-picker": "^5.1.2",
     "react-beautiful-dnd": "^8.0.7",
     "react-bootstrap": "^0.32.1",
-    "react-dom": "16.4.1",
+    "react-dom": "16.4.2",
     "react-dropzone": "^3.9.0",
     "react-ios-switch": "^0.1.10",
     "react-redux": "^4.4.5",
