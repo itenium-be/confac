@@ -66,6 +66,7 @@ class EditClient extends Component {
         <Form>
           <Row>
             <h1>{t('client.contact')}</h1>
+            <h4>{t('createdOn')} {new Date(client.createdOn).toLocaleDateString()}</h4>
             <InputArray
               config={defaultClientProperties}
               model={client}

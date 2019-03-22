@@ -97,6 +97,7 @@ export class EditInvoice extends Component {
 
             <InvoiceNotVerifiedAlert invoice={invoice} />
 
+            <h4>{t('createdOn')} {new Date(invoice.createdOn).toLocaleDateString()}</h4>
             <Col sm={6}>
               <EditInvoiceClient
                 invoice={invoice}

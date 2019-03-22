@@ -20,6 +20,7 @@ const trans = {
   toastrConfirm: 'Wijzigingen bewaard',
   notes: 'Notitie',
   extraFields: 'Extra velden',
+  createdOn: 'Aangemaakt op:',
   rates: {
     type: 'Eenheid',
     value: 'Aantal',
@@ -168,6 +169,7 @@ const trans = {
     extraInvoiceFields: 'Extra factuur velden',
     extraFields: 'Extra klant velden',
     yearsFilter: 'Filter op jaar',
+    
   },
   controls: {
     // browser
