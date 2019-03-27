@@ -1,3 +1,4 @@
+import moment from 'moment';
 
 export function getNewClient(config) {
   return {
@@ -19,7 +20,7 @@ export function getNewClient(config) {
     attachments: [],
     extraFields: config.defaultExtraClientFields.slice(),
     defaultExtraInvoiceFields: config.defaultExtraClientInvoiceFields.slice(),
-    createdOn: new Date().getTime()
+    createdOn: moment()
   };
 }
 

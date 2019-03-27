@@ -34,7 +34,7 @@ export default class EditInvoiceViewModel {
     this.attachments = obj.attachments || [{type: 'pdf'}];
     this.extraFields = obj.extraFields || [];
     this.isQuotation = obj.isQuotation || false;
-    this.createdOn = new Date().getTime();
+    this.createdOn = obj.createdOn || moment();
 
     this._lines = obj.lines || [];
   }

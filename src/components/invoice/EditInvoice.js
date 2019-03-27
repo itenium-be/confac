@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t, EditInvoiceViewModel} from '../util.js';
-
+import moment, { locale } from 'moment';
 import * as Control from '../controls.js';
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import EditInvoiceLines from './EditInvoiceLines.js';
@@ -97,7 +97,7 @@ export class EditInvoice extends Component {
 
             <InvoiceNotVerifiedAlert invoice={invoice} />
 
-            <h4>{t('createdOn')} {new Date(invoice.createdOn).toLocaleDateString()}</h4>
+            <h4>{t('createdOn')} {moment(invoice.createdOn).format("DD/MM/YYYY HH:mm")}</h4>
             <Col sm={6}>
               <EditInvoiceClient
                 invoice={invoice}

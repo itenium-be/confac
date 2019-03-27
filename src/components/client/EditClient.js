@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t} from '../util.js';
 
+import moment from 'moment';
 import {BusyButton, StringInput, InputArray, AttachmentsForm, TextareaInput, PropertiesSelect, ExtraFieldsInput} from '../controls.js';
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import {saveClient} from '../../actions/index.js';
@@ -66,7 +67,7 @@ class EditClient extends Component {
         <Form>
           <Row>
             <h1>{t('client.contact')}</h1>
-            <h4>{t('createdOn')} {new Date(client.createdOn).toLocaleDateString()}</h4>
+            <h4>{t('createdOn')} {moment(client.createdOn).format("DD/MM/YYYY")}</h4>
             <InputArray
               config={defaultClientProperties}
               model={client}
