@@ -1,4 +1,3 @@
-import moment from 'moment';
 
 export function getNewClient(config) {
   return {
@@ -19,8 +18,7 @@ export function getNewClient(config) {
     },
     attachments: [],
     extraFields: config.defaultExtraClientFields.slice(),
-    defaultExtraInvoiceFields: config.defaultExtraClientInvoiceFields.slice(),
-    createdOn: moment()
+    defaultExtraInvoiceFields: config.defaultExtraClientInvoiceFields.slice()
   };
 }
 
@@ -50,4 +48,4 @@ export const defaultClientProperties = [{
   key: 'contact',
 }, {
   key: 'contactEmail',
-}];
+},];

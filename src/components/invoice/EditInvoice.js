@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t, EditInvoiceViewModel} from '../util.js';
-import moment, { locale } from 'moment';
+import moment from 'moment';
 import * as Control from '../controls.js';
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import EditInvoiceLines from './EditInvoiceLines.js';
@@ -93,11 +93,14 @@ export class EditInvoice extends Component {
       <Grid className="edit-container">
         <Form>
           <Row>
+            
             <h1>{invoice._id ? t(this.type + '.editTitle') : t(this.type + '.createTitle')}</h1>
+            
 
             <InvoiceNotVerifiedAlert invoice={invoice} />
-
-            <h4>{t('createdOn')} {moment(invoice.createdOn).format("DD/MM/YYYY HH:mm")}</h4>
+            { invoice.createdOn ? 
+            <h4>{t('createdOn')} {moment(invoice.createdOn).format('DD/MM/YYYY')}</h4>
+            : null }
             <Col sm={6}>
               <EditInvoiceClient
                 invoice={invoice}
