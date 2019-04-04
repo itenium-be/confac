@@ -4,3 +4,4 @@ dist
 public
 build
 templates/
+src\config.json

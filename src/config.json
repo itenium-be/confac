@@ -1,8 +1,8 @@
 {
    "db": {
-      "host": "pongit",
+      "host": "localhost",
       "db": "confac-dev",
-      "port": 32772
+      "port": 27018
    },
    "server": {
       "port": 3001,
