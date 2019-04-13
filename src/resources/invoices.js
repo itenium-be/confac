@@ -27,10 +27,11 @@ export default function register(app) {
   });
 
   router.post('/', function *() {
-    const params = this.request.body;
+    let params = this.request.body;
 
     const pdfBuffer = yield createPdf.call(this, params);
 
+    params = {...params, createdOn : new Date().toISOString()};
     const insertedInvoice = yield this.mongo.collection('invoices').insert(params);
     const insertedInvoiceId = insertedInvoice.insertedIds[1];
 

@@ -19,9 +19,10 @@ export default function register(app) {
 
     } else {
       params.slug = slugify(params.name).toLowerCase();
+      params = {...params, createdOn: new Date().toISOString()}; //to prevent value provided is not in a recognized RFC2822 or ISO format
 
       const inserted = yield this.mongo.collection('clients').insert(params);
-      // console.log('inserted', inserted);
+
       const insertedId = inserted.insertedIds[1];
       this.body = Object.assign(params, insertedId.toString().toObjectId());
     }
