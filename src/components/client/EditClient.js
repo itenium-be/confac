@@ -64,13 +64,12 @@ class EditClient extends Component {
 
     return (
       <Grid className="edit-container">
-        <Form> 
+        <Form>
           <Row>
             <h1>{t('client.contact')}</h1>
 
-            {client.createdOn ?
-            <h4>{t('createdOn')} {moment(client.createdOn).format('DD/MM/YYYY')}</h4>
-            : null }
+            {client.createdOn ? <h4>{t('createdOn')} {moment(client.createdOn).format('DD/MM/YYYY')}</h4> : null}
+
             <InputArray
               config={defaultClientProperties}
               model={client}

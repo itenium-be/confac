@@ -93,14 +93,12 @@ export class EditInvoice extends Component {
       <Grid className="edit-container">
         <Form>
           <Row>
-            
             <h1>{invoice._id ? t(this.type + '.editTitle') : t(this.type + '.createTitle')}</h1>
-            
+
+            {invoice.createdOn ? <h4>{t('createdOn')} {moment(invoice.createdOn).format('DD/MM/YYYY')}</h4> : null}
 
             <InvoiceNotVerifiedAlert invoice={invoice} />
-            { invoice.createdOn ? 
-            <h4>{t('createdOn')} {moment(invoice.createdOn).format('DD/MM/YYYY')}</h4>
-            : null }
+
             <Col sm={6}>
               <EditInvoiceClient
                 invoice={invoice}
