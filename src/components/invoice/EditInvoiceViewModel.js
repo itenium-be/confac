@@ -1,3 +1,4 @@
+import moment from 'moment';
 
 //const getInvoiceString = invoice => `${invoice.number} - ${invoice.client.name} (${invoice.date.format('YYYY-MM')})`;
 
@@ -25,7 +26,7 @@ export default class EditInvoiceViewModel {
     this.number = obj.number || 1;
     this.client = obj.client;
     this.your = obj.company || config.company;
-    this.date = obj.date || new Date(); //.subtract(1, 'months').endOf('month');
+    this.date = obj.date || moment(); //.subtract(1, 'months').endOf('month');
     this.orderNr = obj.orderNr || '';
     this.verified = obj.verified || false;
     this.fileName = obj.fileName;
