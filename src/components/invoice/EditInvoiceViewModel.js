@@ -36,6 +36,7 @@ export default class EditInvoiceViewModel {
     this.isQuotation = obj.isQuotation || false;
 
     this._lines = obj.lines || [];
+    this.createdOn = obj.createdOn;
   }
 
   getType() {

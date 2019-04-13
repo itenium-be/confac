@@ -18,7 +18,7 @@ export function getNewClient(config) {
     },
     attachments: [],
     extraFields: config.defaultExtraClientFields.slice(),
-    defaultExtraInvoiceFields: config.defaultExtraClientInvoiceFields.slice(),
+    defaultExtraInvoiceFields: config.defaultExtraClientInvoiceFields.slice()
   };
 }
 
@@ -48,4 +48,4 @@ export const defaultClientProperties = [{
   key: 'contact',
 }, {
   key: 'contactEmail',
-}];
+},];
