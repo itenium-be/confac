@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {t} from '../../util.js';
 
 import * as Control from '../../controls.js';
-import {Row, Form} from 'react-bootstrap';
+import {Row, Form, Col} from 'react-bootstrap';
 import {saveClient} from '../../../actions/appActions.js';
 import {getNewClient, requiredClientProperties} from '../../client/EditClientViewModel.js';
 
@@ -61,6 +61,15 @@ class ClientModalComponent extends Component {
               onChange={value => this.setState({...client, ...value})}
               tPrefix="config.company."
             />
+
+            <Col sm={4}>
+              <Control.TextareaInput
+                label={t('notes')}
+                placeholder={t('notes')}
+                value={client.notes}
+                onChange={value => this.setState({...client, notes: value})}
+              />
+            </Col>
           </Form>
         </Row>
       </Control.Modal>
