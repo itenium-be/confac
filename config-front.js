@@ -6,3 +6,4 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   module.exports = {backend: 'http://localhost:3001/api'};
 }
+
