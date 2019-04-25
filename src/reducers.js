@@ -1,6 +1,5 @@
 import moment from 'moment';
 import {ACTION_TYPES} from './actions/ActionTypes.js';
-import {browserHistory} from 'react-router';
 
 export const defaultConfig = {
   company: {
@@ -138,7 +137,7 @@ export const session = (state = defaultAppState.session, action) => {
       //update state with location to redirect?
       return !!sessionStorage.jwt
     case ACTION_TYPES.USER_LOG_OUT:
-    //again redirect  
+      //again redirect  
     return !!sessionStorage.jwt
     default:
       return state;

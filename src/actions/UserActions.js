@@ -1,14 +1,14 @@
 import request from 'superagent-bluebird-promise';
-import {browserHistory} from 'react-router';
 
 import {ACTION_TYPES} from './ActionTypes.js';
 import {busyToggle} from './appActions.js';
 import {buildUrl, catchHandler} from './fetch.js';
 
 export function authenticateUser(data) {
+    console.log('we in here \n' + data)
     return dispatch => {
       dispatch(busyToggle());
-      alert('we in here \n' + data)
+      console.log('we in the dispatch \n' + data)
       request.post(buildUrl('/user/auth'))
         .set('Content-Type', 'application/json')
         .set('Accept', 'application/json')
