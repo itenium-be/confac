@@ -16,4 +16,7 @@ export const ACTION_TYPES = keyMirror({
   INVOICE_ADDED: '',
   INVOICE_UPDATED: '',
 
+  USER_AUTHENTICATE_SUCCESS: '',
+  USER_LOG_OUT: '',
+
 });

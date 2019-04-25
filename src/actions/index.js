@@ -5,6 +5,7 @@ export * from './initialLoad.js';
 export * from './invoiceActions.js';
 export * from './attachmentActions.js';
 export * from './downloadActions.js';
+export * from './UserActions.js';
 
 // TODO: superagent-bluebird-promise bug:
 // https://github.com/KyleAMathews/superagent-bluebird-promise/issues/68

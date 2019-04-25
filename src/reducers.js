@@ -1,5 +1,6 @@
 import moment from 'moment';
 import {ACTION_TYPES} from './actions/ActionTypes.js';
+import {browserHistory} from 'react-router';
 
 export const defaultConfig = {
   company: {
@@ -36,6 +37,7 @@ const defaultAppState = {
     groupedByMonth: false,
     clientListYears: [moment().year()],
   },
+  session: !!sessionStorage.jwt,
 };
 
 // Config is stored on the backend
@@ -128,3 +130,17 @@ export const invoices = (state = [], action) => {
     return state;
   }
 };
+
+export const session = (state = defaultAppState.session, action) => {
+  switch (action.type) {
+    case ACTION_TYPES.USER_AUTHENTICATE_SUCCESS:
+      console.log("Login called in reducer: " + action.token);
+      //update state with location to redirect?
+      return !!sessionStorage.jwt
+    case ACTION_TYPES.USER_LOG_OUT:
+    //again redirect  
+    return !!sessionStorage.jwt
+    default:
+      return state;
+  }
+}

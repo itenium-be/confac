@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, IndexRoute, Redirect} from 'react-router';
+import {Switch, Route, IndexRoute, Redirect} from 'react-router';
 
 import App from './components/App.js';
 import EditInvoice from './components/invoice/EditInvoice.js';
@@ -8,46 +8,60 @@ import QuotationList from './components/quotation/QuotationList.js';
 import ClientList from './components/client/ClientList.js';
 import EditClient from './components/client/EditClient.js';
 import EditConfig from './components/config/EditConfig.js';
-import Login from './components/login/Login.js';
-import Switch from 'react-ios-switch/lib/Switch';
+import GoogleLoginComponent from './components/login/GoogleLogin';
 
-export const PrivateRoute = ({ component: Component, ...rest}) => (
-  <Route {...rest} render={props =>
-    localStorage.getItem("authToken") ? (
-      <Component {...props} />
-    ) : (
-      <Redirect to={{
-        pathname: '/login',
-        state: { from: props.location }
-        }}
-       />
-    )
-   }
-  />
-);
+/*const PrivateRoute = ({ component: Component, loggedIn, path, ...rest}) => {
+  return (
+  <Route
+    path={path}
+    {...rest}
+    render={props => {
+      return loggedIn === true ? <Component {...props} />
+      : <Redirect to={{
+        pathname:"/login",
+        state: {
+          history: path
+        },
+      }} />
+    }}
+    />
+  );  
+}; this is the way the docs tell you how to do it*/
 
+function requireAuth(nextState, replace) {
+  if (!sessionStorage.jwt) {
+    replace({
+      pathname: '/login',
+      state: { nextPathname: nextState.location.pathname}
+    })
+  }
+}
+    
 const Routes = (
+
   <Route path="/" component={App}>
-  <Switch>
-    <IndexRoute component={InvoiceList} />
-    <Route path="/invoice/create" component={EditInvoice} />
-    <Route path="/invoice/:id" component={EditInvoice} />
 
-    <PrivateRoute path="/quotations" component={QuotationList} />
-    <PrivateRoute path="/quotation/create" component={EditInvoice} />
-    <PrivateRoute path="/quotation/:id" component={EditInvoice} />
+    <IndexRoute component={InvoiceList} onEnter={requireAuth} />
+    <Route path="/invoice/create" component={EditInvoice} onEnter={requireAuth} />
+    <Route path="/invoice/:id" component={EditInvoice} onEnter={requireAuth} />
 
-    <Route path="/clients" component={ClientList} />
-    <Route path="/client/create" component={EditClient} />
-    <Route path="/client/:id" component={EditClient} />
+    <Route path="/quotations" loggedIn={false} component={QuotationList} onEnter={requireAuth} />
+    <Route path="/quotation/create" loggedIn={false} component={EditInvoice} onEnter={requireAuth} />
+    <Route path="/quotation/:id" loggedIn={false} component={EditInvoice} onEnter={requireAuth} />
 
-    <PrivateRoute path="/config" component={EditConfig} />
+    <Route path="/clients" component={ClientList} onEnter={requireAuth} />
+    <Route path="/client/create" component={EditClient} onEnter={requireAuth} />
+    <Route path="/client/:id" component={EditClient} onEnter={requireAuth} />
 
-    <Route path="/login" component={Login}/>
+    <Route path="/config" component={EditConfig} onEnter={requireAuth} />
 
-    <Route path="*" component={InvoiceList}/>
-    </Switch>
+    <Route path="/login" component={GoogleLoginComponent}/>
+
+    <Route path="*" component={InvoiceList} onEnter={requireAuth}/>
+    
   </Route>
+
+  
 
 );
 

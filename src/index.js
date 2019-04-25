@@ -38,7 +38,9 @@ import Routes from './routes.js';
 const history = syncHistoryWithStore(browserHistory, store);
 const Root = param => (
   <Provider store={param.store}>
+
     <Router history={param.history} routes={Routes} />
+    
   </Provider>
 );
 

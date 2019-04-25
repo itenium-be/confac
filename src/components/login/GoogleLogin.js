@@ -1,50 +1,41 @@
 import React, { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
+import { authenticateUser } from '../../actions/index.js';
+import { PropTypes} from 'prop-types';
 
 class GoogleLoginComponent extends Component {
+    
+    static propTypes = {
+        authenticateUser: PropTypes.func.isRequired
+    }
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = { isAuthenticated: false, user: null, token:''};
     }
 
     logout = () => {
+        sessionStorage.removeItem('jwt');
         this.setState({isAuthenticated: false, token: '', user: null});
     };
 
     onSuccess = (response) => {
         console.log(JSON.stringify(response));
-        alert(JSON.stringify(response['Zi']['access_token']));
-        
-        const tokenBlob = new Blob([JSON.stringify({access_token: response['Zi']['access_token']}, null, 2)],
-         {type : 'application/json'});
-        const options = {
-            method: 'POST',
-            body: tokenBlob,
-            mode: 'cors',
-            cache: 'default'
-        };
-        fetch('http://localhost:3001/api/users/auth', options).then(r => {
-            const token = r.headers.get('x-auth-token');
-            r.json().then(user => {
-                if (token) {
-                    this.setState({isAuthenticated: true, user, token})
-                }
-            });
-        })
+        //mapdispatchtoprops?
+        this.props.authenticateUser(JSON.stringify(response));
     };
 
     onFailure = (error) => {
-        alert(JSON.stringify(error));
+         console.log(JSON.stringify(error));
     }
 
     render() {
-        let content = !!this.state.isAuthenticated ?
+        let content = !!sessionStorage.jwt ?
         (
             <div>
-                <p>Authenticated</p>
+                <p>Testing if authenticated</p>
                 <div>
-                    {this.state.user.email}
+                    {this.state.token}
                 </div>
                 <div>
                     <button onClick={this.logout} className="button">
@@ -68,5 +59,5 @@ class GoogleLoginComponent extends Component {
         )
     }
 }
-
+//connect redux store
 export default GoogleLoginComponent;
