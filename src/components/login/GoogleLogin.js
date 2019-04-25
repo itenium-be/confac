@@ -15,12 +15,7 @@ class GoogleLoginComponent extends Component {
         super(props);
         this.state = { isAuthenticated: false, user: null, token:''};
     }
-
-    logout = () => {
-        sessionStorage.removeItem('jwt');
-        this.setState({isAuthenticated: false, token: '', user: null});
-    };
-
+    
     onSuccess = (response) => {
         console.log(JSON.stringify(response));
         //mapdispatchtoprops? because if accessed directly the dispatch wont fire
@@ -32,20 +27,7 @@ class GoogleLoginComponent extends Component {
     }
 
     render() {
-        let content = !!sessionStorage.jwt ? //this could be tampered with by adding your own key value in sessionstorage but it wouldnt matter because the token would be invalid in backend
-        (
-            <div>
-                <p>Testing if authenticated</p>
-                <div>
-                    {this.state.token}
-                </div>
-                <div>
-                    <button onClick={this.logout} className="button">
-                        Log out
-                    </button>
-                </div>
-            </div>
-        ) : (
+        return (
             <Col sm={3}>
                 <GoogleLogin
                     clientId="436216511900-0dc8av7rbqlrgp2ka3gsjn5bk99hchjr.apps.googleusercontent.com"
@@ -55,12 +37,6 @@ class GoogleLoginComponent extends Component {
                     />
             </Col>
         );
-
-        return (
-            <div>
-                {content}
-            </div>
-        )
     }
 }
 //connect redux store

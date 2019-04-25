@@ -4,6 +4,12 @@ import {browserHistory} from 'react-router';
 import {LinkContainer, IndexLinkContainer} from 'react-router-bootstrap';
 import {t} from '../util.js';
 import {AddIcon} from '../controls.js';
+import { Button } from '../controls/Button.js';
+
+function logout() {
+  //setstate / fire logout action?
+  sessionStorage.removeItem('jwt');
+};
 
 const Header = () => (
   <Navbar>
@@ -27,6 +33,9 @@ const Header = () => (
       <LinkContainer to={{pathname: '/config'}} data-tst="link-config">
         <NavItem eventKey={2} href="#">{t('nav.config')}</NavItem>
       </LinkContainer>
+        {!!sessionStorage.jwt ? (
+          <Button data-tst='logout' onClick={logout}>Logout</Button>
+        ) : null}
     </Nav>
     <button
       className="btn btn-success"
