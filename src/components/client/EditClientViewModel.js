@@ -29,6 +29,8 @@ export const requiredClientProperties = [
   {key: 'city'},
   {key: 'telephone'},
   {key: 'btw'},
+  {key: 'contact'},
+  {key: 'contactEmail'}
 ];
 
 export const defaultClientProperties = [{
