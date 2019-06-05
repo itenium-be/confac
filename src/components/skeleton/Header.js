@@ -28,11 +28,11 @@ const Header = () => (
         <NavItem eventKey={2} href="#">{t('nav.config')}</NavItem>
       </LinkContainer>
     </Nav>
-      <Link onlyActiveOnIndex={false} to={"/invoice/create"}>
-          <Button bsStyle={"success"} style={{top: 8, position: 'absolute', right: 35}}>
-        <AddIcon size={1} style={{marginRight: 15}} data-tst="invoice-create" />
-        {t('invoice.createNew')}
-          </Button>
+      <Link onlyActiveOnIndex={false} to="/invoice/create">
+        <Button bsStyle="success" style={{top: 8, position: 'absolute', right: 35}}>
+          <AddIcon size={1} style={{marginRight: 15}} data-tst="invoice-create" />
+          {t('invoice.createNew')}
+        </Button>
       </Link>
   </Navbar>
 );
