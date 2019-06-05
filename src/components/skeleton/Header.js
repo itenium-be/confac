@@ -1,7 +1,7 @@
 import React from 'react';
-import {Nav, Navbar, NavItem} from 'react-bootstrap';
-import {browserHistory} from 'react-router';
-import {LinkContainer, IndexLinkContainer} from 'react-router-bootstrap';
+import {Button, Nav, Navbar, NavItem} from 'react-bootstrap';
+import {Link} from 'react-router';
+import {IndexLinkContainer, LinkContainer} from 'react-router-bootstrap';
 import {t} from '../util.js';
 import {AddIcon} from '../controls.js';
 
@@ -28,13 +28,12 @@ const Header = () => (
         <NavItem eventKey={2} href="#">{t('nav.config')}</NavItem>
       </LinkContainer>
     </Nav>
-    <button
-      className="btn btn-success"
-      style={{top: 8, position: 'absolute', right: 35}}
-      onClick={() => browserHistory.push('/invoice/create')}>
-      <AddIcon size={1} style={{marginRight: 15}} data-tst="invoice-create" />
-      {t('invoice.createNew')}
-    </button>
+      <Link onlyActiveOnIndex={false} to={"/invoice/create"}>
+          <Button bsStyle={"success"} style={{top: 8, position: 'absolute', right: 35}}>
+        <AddIcon size={1} style={{marginRight: 15}} data-tst="invoice-create" />
+        {t('invoice.createNew')}
+          </Button>
+      </Link>
   </Navbar>
 );
 

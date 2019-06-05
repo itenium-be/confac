@@ -27,7 +27,8 @@ export class EditInvoice extends Component {
     params: PropTypes.shape({
       id: PropTypes.string
     }),
-  }
+    renavigated: PropTypes.bool,
+  };
 
   get isQuotation() {
     return window.location.pathname.startsWith('/quotation/');
@@ -73,7 +74,8 @@ export class EditInvoice extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.app.isLoaded !== this.props.app.isLoaded
       || nextProps.params.id !== this.props.params.id
-      || nextProps.invoices !== this.props.invoices) {
+      || nextProps.invoices !== this.props.invoices
+      || nextProps.renavigated) {
 
       this.setState({invoice: this.createModel(nextProps)});
     }
@@ -156,12 +158,20 @@ export class EditInvoice extends Component {
   }
 }
 
-export default connect(state => ({
-  config: state.config,
-  app: state.app,
-  clients: state.clients,
-  invoices: state.invoices,
-}), {invoiceAction})(EditInvoice);
+function mapStateToProps(state, props) {
+  let renavigated = state.routing.locationBeforeTransitions.pathname === props.router.location.pathname
+    && state.routing.locationBeforeTransitions.key === props.router.location.key;
+
+  return {
+    config: state.config,
+    app: state.app,
+    clients: state.clients,
+    invoices: state.invoices,
+    renavigated: renavigated,
+  }
+}
+
+export default connect(mapStateToProps, {invoiceAction})(EditInvoice);
 
 
 
