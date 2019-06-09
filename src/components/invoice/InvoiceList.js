@@ -8,6 +8,8 @@ import {Grid} from 'react-bootstrap';
 import {InvoiceSearch} from './controls/InvoiceSearch.js';
 import {GroupedInvoiceTable} from './invoice-table/GroupedInvoiceTable.js';
 import {NonGroupedInvoiceTable} from './invoice-table/NonGroupedInvoiceTable.js';
+import {INVOICE_LIST_SHOW_CLIENT_DETAILS_EVENT} from "./InvoiceListRow";
+import {ClientModal} from "../client/controls/ClientModal";
 
 
 export class InvoiceList extends Component {
@@ -21,6 +23,43 @@ export class InvoiceList extends Component {
       unverifiedOnly: PropTypes.bool.isRequired,
       groupedByMonth: PropTypes.bool.isRequired,
     }),
+  };
+
+
+  constructor(props, context,) {
+    super(props, context);
+    this.state = {
+      showClientDetailsModal: false,
+      selectedInvoice: null,
+    };
+    this.onShowClientDetails = this.onShowClientDetails.bind(this);
+    this.onConfirmClientChanges = this.onConfirmClientChanges.bind(this);
+  }
+
+  componentDidMount() {
+    addEventListener(INVOICE_LIST_SHOW_CLIENT_DETAILS_EVENT, this.onShowClientDetails, true);
+  }
+
+  componentWillUnmount() {
+    removeEventListener(INVOICE_LIST_SHOW_CLIENT_DETAILS_EVENT, this.onShowClientDetails, false);
+  }
+
+  onShowClientDetails(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let selectedInvoice = this.props.invoices.find(inv => inv._id === e.detail.invoiceId);
+    this.selectedInvoice = selectedInvoice;
+
+    this.setState({
+      showClientDetailsModal: true,
+      selectedInvoice: selectedInvoice,
+    })
+  }
+
+  onConfirmClientChanges(updatedClient){
+    this.selectedInvoice.client = updatedClient;
+    this.setState({showClientDetailsModal: false, selectedInvoice: null});
   }
 
   render() {
@@ -36,6 +75,12 @@ export class InvoiceList extends Component {
           filterOptions={vm.getFilterOptions()}
           filters={this.props.filters}
           isQuotation={vm.isQuotation}
+        />
+        <ClientModal
+          client={this.state.selectedInvoice ? this.state.selectedInvoice.client : null}
+          show={this.state.showClientDetailsModal}
+          onClose={() => this.setState({showClientDetailsModal: false, selectedInvoice: null})}
+          onConfirm={this.onConfirmClientChanges}
         />
       </Grid>
     );
