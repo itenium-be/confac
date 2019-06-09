@@ -116,7 +116,7 @@ export const InputArray = ({config, model, onChange, tPrefix}) => {
 
         const EditComponent = col.component || StringInput;
         return (
-          <Col sm={4} key={col.key || index} smOffset={col.offset}>
+          <Col sm={col.cols || 4} key={col.key || index} smOffset={col.offset}>
             <EditComponent
               label={t(tPrefix + col.key)}
               value={model[col.key]}

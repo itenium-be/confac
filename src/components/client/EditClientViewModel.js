@@ -25,14 +25,14 @@ export function getNewClient(config) {
 
 // Used by the ClientModal
 export const requiredClientProperties = [
-  {key: 'name'},
+  {key: 'name', cols: 8},
+  {key: 'btw'},
   {key: 'address'},
   {key: 'city'},
   {key: 'telephone'},
-  {key: 'btw'},
   {forceRow: true},
-  {key: 'contact'},
-  {key: 'contactEmail'},
+  {key: 'contact', cols: 6},
+  {key: 'contactEmail', cols: 6},
 ];
 
 export const defaultClientProperties = [{

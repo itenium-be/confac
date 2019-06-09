@@ -20,6 +20,15 @@ body {
 	color: grey;
 }
 
+a,
+a:hover {
+	color: black;
+}
+
+a.invoice-list-client:hover {
+	text-decoration: none;
+}
+
 .button-row {
 	text-align: center;
 	margin-bottom: 8px;
