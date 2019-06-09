@@ -100,6 +100,7 @@ const trans = {
     amountOne: '1 factuur',
     client: 'Klant',
     clientNew: 'Nieuwe klant',
+    clientEditModal: 'Open details in modal',
     number: 'Factuurnummer',
     numberShort: 'Nr',
     discount: 'Korting',
@@ -169,7 +170,7 @@ const trans = {
     extraInvoiceFields: 'Extra factuur velden',
     extraFields: 'Extra klant velden',
     yearsFilter: 'Filter op jaar',
-    
+    viewDetails: 'Ga naar detail scherm',
   },
   controls: {
     // browser

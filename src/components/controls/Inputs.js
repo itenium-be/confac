@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Col, FormControl} from 'react-bootstrap';
+import {Col, FormControl, Clearfix} from 'react-bootstrap';
 import {t} from '../util.js';
 import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel.js';
 import {EnhanceInputWithAddons} from '../enhancers/EnhanceInputWithAddons.js';
@@ -109,10 +109,14 @@ export const InputArray = ({config, model, onChange, tPrefix}) => {
 
   return (
     <div>
-      {config.map(col => {
+      {config.map((col, index) => {
+        if (col.forceRow) {
+          return <Clearfix key={index} />;
+        }
+
         const EditComponent = col.component || StringInput;
         return (
-          <Col sm={4} key={col.key}>
+          <Col sm={4} key={col.key || index} smOffset={col.offset}>
             <EditComponent
               label={t(tPrefix + col.key)}
               value={model[col.key]}

@@ -97,7 +97,7 @@ export class EditInvoice extends Component {
           <Row>
             <h1>{invoice._id ? t(this.type + '.editTitle') : t(this.type + '.createTitle')}</h1>
 
-            {invoice.createdOn ? <h4>{t('createdOn')} {moment(invoice.createdOn).format('DD/MM/YYYY')}</h4> : null}
+            {invoice.createdOn && <h4 className="created-on">{t('createdOn')} {moment(invoice.createdOn).format('DD/MM/YYYY')}</h4>}
 
             <InvoiceNotVerifiedAlert invoice={invoice} />
 

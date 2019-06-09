@@ -15,6 +15,10 @@ body {
 .icons-cell > div:not(:last-child), .icons-cell > i:not(:last-child) {
 	margin-right: 12px;
 }
+.icon-link,
+.icon-link:hover {
+	color: grey;
+}
 
 .button-row {
 	text-align: center;
@@ -59,6 +63,10 @@ h1 {
 }
 
 h4 {
+	margin-left: 13px;
+}
+
+h4.created-on {
 	font-size: 12px;
 	color: grey;
 	margin-left: 13px;

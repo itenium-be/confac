@@ -18,7 +18,8 @@ export function getNewClient(config) {
     },
     attachments: [],
     extraFields: config.defaultExtraClientFields.slice(),
-    defaultExtraInvoiceFields: config.defaultExtraClientInvoiceFields.slice()
+    defaultExtraInvoiceFields: config.defaultExtraClientInvoiceFields.slice(),
+    notes: '',
   };
 }
 
@@ -29,8 +30,9 @@ export const requiredClientProperties = [
   {key: 'city'},
   {key: 'telephone'},
   {key: 'btw'},
+  {forceRow: true},
   {key: 'contact'},
-  {key: 'contactEmail'}
+  {key: 'contactEmail'},
 ];
 
 export const defaultClientProperties = [{

@@ -57,6 +57,7 @@ export class EditInvoiceClient extends Component {
               <ClientDetails
                 client={invoice.client}
                 onOpenDetails={() => this.setState({modalClientId: invoice.client._id})}
+                onOpenDetailsTitle="invoice.clientEditModal"
               />
             </Col>
             <Col xs={6}>

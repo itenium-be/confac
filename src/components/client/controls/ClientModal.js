@@ -46,6 +46,7 @@ class ClientModalComponent extends Component {
     if (!client) {
       return null;
     }
+
     return (
       <Control.Modal
         show={this.props.show}
@@ -62,12 +63,13 @@ class ClientModalComponent extends Component {
               tPrefix="config.company."
             />
 
-            <Col sm={4}>
+            <Col sm={12}>
               <Control.TextareaInput
                 label={t('notes')}
                 placeholder={t('notes')}
                 value={client.notes}
                 onChange={value => this.setState({...client, notes: value})}
+                style={{height: 120}}
               />
             </Col>
           </Form>
