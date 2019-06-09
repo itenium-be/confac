@@ -38,7 +38,8 @@ class ClientModalComponent extends Component {
 
   onSave() {
     const updatedClient = this.state;
-    this.props.saveClient(updatedClient, true, clientWithServerValues => this.props.onConfirm(clientWithServerValues));
+    const onSuccess = this.props.onConfirm ? clientWithServerValues => this.props.onConfirm(clientWithServerValues) : null;
+    this.props.saveClient(updatedClient, true, onSuccess);
   }
 
   render() {
