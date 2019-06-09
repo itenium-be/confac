@@ -8,7 +8,7 @@ import {deleteInvoice} from '../../actions/index.js';
 import {InvoiceWorkedDays} from './controls/InvoiceWorkedDays.js';
 import {InvoicesTotal} from './controls/InvoiceTotal.js';
 import {InvoiceAmountLabel} from './controls/InvoicesSummary.js';
-import {ClientEditIcon} from "../controls";
+
 
 
 export const InvoiceListHeader = ({columns}) => (
@@ -39,7 +39,6 @@ export const InvoiceListFooter = ({columns, invoices, isQuotation}) => {
   );
 };
 
-export const INVOICE_LIST_SHOW_CLIENT_DETAILS_EVENT = 'onInvoiceListShowClientDetails';
 
 export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Component {
   static propTypes = {
@@ -67,25 +66,6 @@ export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Compo
           return (
             <td key={i} style={col.groupedBy ? borderStyle : undefined} data-tst={tst(col.header)}>
               {hideValue ? null : col.value(invoice)}
-              {col.key === 'client' &&
-              <ClientEditIcon
-                title={t('edit')}
-                size={1}
-                style={{marginLeft: 6}}
-                client={invoice.client}
-                data-tst={tst('edit-client')}
-                onClick={() => {
-                  dispatchEvent(new CustomEvent(INVOICE_LIST_SHOW_CLIENT_DETAILS_EVENT,
-                    {
-                      detail:
-                        {
-                          invoiceId: invoice._id
-                        }
-                    }
-                  ))
-                }}
-              />
-              }
             </td>
           );
         })}

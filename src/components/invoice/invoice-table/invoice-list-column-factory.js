@@ -1,4 +1,6 @@
+import React from 'react';
 import t from '../../../trans.js';
+import {InvoiceClientCell} from './InvoiceClientCell.js';
 
 export function getColumns(fields, showOrderNr, isQuotation) {
   const transPrefix = isQuotation ? 'quotation' : 'invoice';
@@ -14,7 +16,7 @@ export function getColumns(fields, showOrderNr, isQuotation) {
   }, {
     key: 'client',
     header: t('invoice.client'),
-    value: i => i.client.name,
+    value: i => <InvoiceClientCell client={i.client} />,
   }, {
     key: 'date-full',
     header: t(transPrefix + '.date'),
