@@ -24,12 +24,12 @@ export class EditInvoiceClient extends Component {
     const {invoice, onChange} = this.props;
     return (
       <div>
-        <ClientModal
+        {this.state.modalClientId && <ClientModal
           client={this.state.modalClientId !== 'new' ? invoice.client : null}
           show={!!this.state.modalClientId}
           onClose={() => this.setState({modalClientId: null})}
           onConfirm={updatedClient => onChange({invoice: invoice.setClient(updatedClient)})}
-        />
+        />}
         <div className="unset-split">
           <div>
             <Control.ClientSelect
