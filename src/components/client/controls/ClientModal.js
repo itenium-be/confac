@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t} from '../../util.js';
-
 import * as Control from '../../controls.js';
 import {Row, Form, Col} from 'react-bootstrap';
 import {saveClient} from '../../../actions/appActions.js';
 import {getNewClient, requiredClientProperties} from '../../client/EditClientViewModel.js';
+
 
 class ClientModalComponent extends Component {
   static propTypes = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {ClientEditIcon, HeaderWithEditIcon, ViewIcon} from '../../controls.js';
+import {ClientEditIcon, HeaderWithEditIcon, EditIcon} from '../../controls.js';
 import {t} from '../../util.js';
 
 const ClientDetails = ({client, onOpenDetails, onOpenDetailsTitle}) => (
@@ -11,11 +11,12 @@ const ClientDetails = ({client, onOpenDetails, onOpenDetailsTitle}) => (
         client={client}
         title={t(onOpenDetailsTitle || 'edit')}
         size={1}
-        style={{marginLeft: 6}}
+        style={{marginLeft: 8, marginRight: 8}}
         data-tst="client-header-edit"
+        fa="fa fa-external-link"
       />
       <Link to={'/client/' + client.slug} className="icon-link">
-        <ViewIcon
+        <EditIcon
           size={1}
           style={{marginLeft: 6}}
           data-tst="client-header-view"

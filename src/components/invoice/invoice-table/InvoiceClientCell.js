@@ -45,6 +45,7 @@ class extends Component {
           client={client}
           onClick={() => this.setState({modal: true})}
           data-tst="edit"
+          fa="fa fa-external-link"
         />
 
         {this.state.modal && <ClientModal
