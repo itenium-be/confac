@@ -15,7 +15,7 @@ const endOfMonth = () => {
 
 
 export const getInvoiceDate = (client, config) => {
-  switch (client && client.defaultInvoiceDateStrategy || config.defaultInvoiceDateStrategy) {
+  switch ((client || {}).defaultInvoiceDateStrategy || config.defaultInvoiceDateStrategy) {
   case 'prev-month-last-day':
     return endOfMonth();
   case 'today':
