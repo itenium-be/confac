@@ -24,6 +24,7 @@ export const defaultConfig = {
   showOrderNr: false,
   groupInvoiceListByMonth: false,
   defaultInvoiceLineType: 'daily',
+  defaultInvoiceDateStrategy: 'prev-month-last-day',
 };
 
 const defaultAppState = {

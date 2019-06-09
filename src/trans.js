@@ -43,6 +43,7 @@ const trans = {
     showOrderNr: 'Bestelbon nummer tonen', // in invoice list
     defaultTax: 'Standaard btw',
     defaultInvoiceLineType: 'Standaard factuurlijn eenheid',
+    defaultInvoiceDateStrategy: 'Standaard factuurdatum',
     company: {
       title: 'Jouw bedrijfsgegevens',
       name: 'Bedrijfsnaam',
@@ -110,6 +111,10 @@ const trans = {
     deleteConfirm: 'Factuur verwijderd',
     createConfirm: 'Factuur aangemaakt',
     date: 'Factuurdatum',
+    dateStrategies: {
+      'prev-month-last-day': 'Laatste dag vorige maand',
+      today: 'Vandaag',
+    },
     hours: 'Totaal uren',
     days: 'Dagen',
     create: 'Maak factuur',

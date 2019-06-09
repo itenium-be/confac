@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t} from '../util.js';
-
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import {EditCompany} from './EditCompany.js';
 import * as Control from '../controls.js';
 import {updateConfig} from '../../actions/index.js';
+
+
 
 class EditConfig extends Component {
   static propTypes = {
@@ -17,6 +18,7 @@ class EditConfig extends Component {
       extraConfigFields: PropTypes.array.isRequired,
       defaultExtraClientFields: PropTypes.array.isRequired,
       defaultExtraClientInvoiceFields: PropTypes.array.isRequired,
+      defaultInvoiceDateStrategy: PropTypes.string,
     }).isRequired,
     updateConfig: PropTypes.func.isRequired,
   }
@@ -144,6 +146,15 @@ const EditConfigInvoice = ({config, onChange}) => (
         type={config.defaultInvoiceLineType}
         onChange={value => onChange({defaultInvoiceLineType: value})}
         data-tst="config.defaultInvoiceLineType"
+      />
+    </Col>
+
+    <Col sm={4}>
+      <Control.InvoiceDateStrategySelect
+        label={t('config.defaultInvoiceDateStrategy')}
+        value={config.defaultInvoiceDateStrategy}
+        data-tst="config.defaultInvoiceDateStrategy"
+        onChange={value => onChange({defaultInvoiceDateStrategy: value})}
       />
     </Col>
   </Row>

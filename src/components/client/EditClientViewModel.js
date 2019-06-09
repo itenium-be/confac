@@ -20,6 +20,7 @@ export function getNewClient(config) {
     extraFields: config.defaultExtraClientFields.slice(),
     defaultExtraInvoiceFields: config.defaultExtraClientInvoiceFields.slice(),
     notes: '',
+    defaultInvoiceDateStrategy: config.defaultInvoiceDateStrategy,
   };
 }
 

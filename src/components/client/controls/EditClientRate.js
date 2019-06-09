@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {t} from '../../util.js';
-
 import * as Control from '../../controls.js';
 import {Col} from 'react-bootstrap';
 

@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t} from '../util.js';
-
 import moment from 'moment';
 import {BusyButton, StringInput, InputArray, AttachmentsForm, TextareaInput, PropertiesSelect, ExtraFieldsInput} from '../controls.js';
 import {Grid, Row, Col, Form} from 'react-bootstrap';
 import {saveClient} from '../../actions/index.js';
 import {EditClientRate} from './controls/EditClientRate.js';
-
 import {getNewClient, defaultClientProperties} from './EditClientViewModel.js';
+import * as Control from '../controls.js';
+
 
 class EditClient extends Component {
   static propTypes = {
@@ -80,8 +80,31 @@ class EditClient extends Component {
 
 
           <Row>
+            <Col sm={12}>
+              <TextareaInput
+                label={t('notes')}
+                placeholder={t('notes')}
+                value={client.notes}
+                onChange={value => this.setState({...client, notes: value})}
+                data-tst="client.notes"
+                style={{height: 140}}
+              />
+            </Col>
+          </Row>
+
+
+          <Row>
             <h1>{t('client.rate.title')}</h1>
             <EditClientRate rate={client.rate} onChange={value => this.setState({...client, rate: value})} />
+
+            <Col sm={4}>
+              <Control.InvoiceDateStrategySelect
+                label={t('config.defaultInvoiceDateStrategy')}
+                value={client.defaultInvoiceDateStrategy}
+                data-tst="defaultInvoiceDateStrategy"
+                onChange={value => this.setState({...client, defaultInvoiceDateStrategy: value})}
+              />
+            </Col>
 
             <Col sm={4}>
               <PropertiesSelect
@@ -139,15 +162,6 @@ const EditClientDefaultOther = ({client, onChange}) => (
   <div>
     <Row>
       <h1>{t('config.company.other')}</h1>
-      <Col sm={4}>
-        <TextareaInput
-          label={t('notes')}
-          placeholder={t('notes')}
-          value={client.notes}
-          onChange={value => onChange({...client, notes: value})}
-          data-tst="client.notes"
-        />
-      </Col>
       <Col sm={4}>
         <StringInput
           label={t('invoice.fileName')}

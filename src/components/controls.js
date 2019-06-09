@@ -17,3 +17,4 @@ export * from './invoice/controls/InvoiceWorkedDays.js';
 export * from './invoice/controls/InvoiceTotal.js';
 export * from './invoice/controls/InvoicesSummary.js';
 export * from './invoice/controls/InvoiceLineTypeSelect.js';
+export * from './invoice/controls/InvoiceDateStrategySelect.js';
