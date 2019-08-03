@@ -29,6 +29,21 @@ export default function register(app) {
   router.post('/', function *() {
     let params = this.request.body;
 
+    let last = yield this.mongo.collection('invoices')
+      .find({})
+      .sort({ number: -1 })
+      .limit(1)
+      .toArray();
+
+    if (last.length > 0) {
+      last = last[0];
+      if (params.number <= last.number) {
+        this.status = 400;
+        this.body = {msg: `Invoice number ${params.number} cannot be made because nr ${last.number} already exists`};
+        return;
+      }
+    }
+
     const pdfBuffer = yield createPdf.call(this, params);
 
     params = {...params, createdOn : new Date().toISOString()};
