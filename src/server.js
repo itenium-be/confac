@@ -2,7 +2,7 @@ require('babel-polyfill');
 
 var createApp = require('./server-init.js').createApp;
 
-console.log('process.env', JSON.stringify(process.env));
+// console.log('process.env', JSON.stringify(process.env));
 
 var json = require('./config.json');
 if (process.env.MONGO_HOST) {
