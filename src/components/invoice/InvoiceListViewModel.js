@@ -74,18 +74,19 @@ export default class InvoiceListViewModel {
   }
 
   filterByDescription(invoices) {
+    // TODO: more invoiceLineDescs... Kill this?
     if (this.fs.invoiceLineDescs.length) {
       invoices = invoices.filter(i => this.fs.invoiceLineDescs.some(descFilter => i.lines.map(l => l.desc).includes(descFilter)));
     }
 
     this.fs.other.forEach(otherFilter => {
-      const lastXMonths = otherFilter.match(/(?:last|laatste) (\d+) (.*)/);
+      const lastXMonths = otherFilter.match(/last (\d+) (.*)/);
       if (lastXMonths) {
         // ATTN: Last x months also shows all unverified invoices
         const amount = lastXMonths[1];
         const unit = lastXMonths[2];
-        invoices = invoices.filter(i => !i.verified || i.date.isAfter(moment().subtract(amount, unit)));
-        return invoices;
+        invoices = invoices.filter(i => !i.verified || i.date.isSameOrAfter(moment().startOf('day').subtract(amount, unit)));
+        return;
       }
       invoices = invoices.filter(i => searchInvoiceFor(i, otherFilter));
     });
@@ -105,6 +106,13 @@ function searchInvoiceFor(invoice, text) {
   const client = invoice.client;
   if (client.city.toLowerCase().includes(text) || client.address.toLowerCase().includes(text)) {
     return true;
+  }
+
+  for (let i = 0; i < invoice.lines.length; i++) {
+    const line = invoice.lines[i];
+    if (line.desc.toLowerCase().includes(text)) {
+      return true;
+    }
   }
 
   const numericText = getNumeric(text);
