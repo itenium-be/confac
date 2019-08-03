@@ -76,6 +76,9 @@ export default class EditInvoiceViewModel {
   }
   updateLine(index, updateWith) {
     var newArr = this.lines.slice();
+
+    this.daysVsHoursSwitchFix(newArr[index], updateWith);
+
     newArr[index] = Object.assign({}, newArr[index], updateWith);
     this._lines = newArr;
     return this;
@@ -100,6 +103,32 @@ export default class EditInvoiceViewModel {
     this[key] = value;
     if (calcMoneys) {
       this.money = this._calculateMoneys();
+    }
+  }
+
+  daysVsHoursSwitchFix(oldLine, updateWith) {
+    if (updateWith.type && updateWith.type !== oldLine.type && (oldLine.price || oldLine.amount)
+      && this.client && this.client.rate && this.client.rate.hoursInDay) {
+
+      const newType = updateWith.type;
+      const oldType = oldLine.type;
+
+      if (oldType === 'daily' && newType === 'hourly') {
+        if (oldLine.price) {
+          oldLine.price /= this.client.rate.hoursInDay;
+        }
+        if (oldLine.amount) {
+          oldLine.amount *= this.client.rate.hoursInDay;
+        }
+
+      } else if (oldType === 'hourly' && newType === 'daily') {
+        if (oldLine.price) {
+          oldLine.price *= this.client.rate.hoursInDay;
+        }
+        if (oldLine.amount) {
+          oldLine.amount /= this.client.rate.hoursInDay;
+        }
+      }
     }
   }
 

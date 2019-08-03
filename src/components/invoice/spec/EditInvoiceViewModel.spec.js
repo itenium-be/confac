@@ -151,3 +151,38 @@ describe('calculating days worked', () => {
   });
 });
 
+
+describe('Switch between days and hours', function() {
+  it('Fixes price & amount when switching from daily to hourly', function() {
+    var vm = createViewModel();
+    vm.updateLine(0, { type: 'daily', amount: 1, price: 800 });
+
+    vm.updateLine(0, { type: 'hourly' });
+
+    expect(vm.lines[0].type).toBe('hourly');
+    expect(vm.lines[0].price).toBe(100);
+    expect(vm.lines[0].amount).toBe(8);
+  });
+
+  it('Fixes price & amount when switching from hourly to daily', function () {
+    var vm = createViewModel();
+    vm.updateLine(0, { type: 'hourly' });
+    vm.updateLine(0, { amount: 8, price: 100 });
+
+    vm.updateLine(0, { type: 'daily' });
+
+    expect(vm.lines[0].type).toBe('daily');
+    expect(vm.lines[0].price).toBe(800);
+    expect(vm.lines[0].amount).toBe(1);
+  });
+
+  it('Takes the client rate.hoursInDay into account', function () {
+    var vm = createViewModel();
+    vm.client.rate.hoursInDay = 10;
+    vm.updateLine(0, { type: 'daily', amount: 1 });
+
+    vm.updateLine(0, { type: 'hourly' });
+
+    expect(vm.lines[0].amount).toBe(10);
+  });
+});
