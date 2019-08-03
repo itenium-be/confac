@@ -75,6 +75,7 @@ const trans = {
     pdfName: 'Offerte',
     createNew: 'Nieuwe offerte',
     date: 'Offertedatum',
+    orderNrShort: 'Bestelbon ref',
     editTitle: 'Offerte details',
     createTitle: 'Nieuwe offerte',
     number: 'Offertenummer',
