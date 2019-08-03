@@ -79,6 +79,14 @@ export default class InvoiceListViewModel {
     }
 
     this.fs.other.forEach(otherFilter => {
+      const lastXMonths = otherFilter.match(/(?:last|laatste) (\d+) (.*)/);
+      if (lastXMonths) {
+        // ATTN: Last x months also shows all unverified invoices
+        const amount = lastXMonths[1];
+        const unit = lastXMonths[2];
+        invoices = invoices.filter(i => !i.verified || i.date.isAfter(moment().subtract(amount, unit)));
+        return invoices;
+      }
       invoices = invoices.filter(i => searchInvoiceFor(i, otherFilter));
     });
 
