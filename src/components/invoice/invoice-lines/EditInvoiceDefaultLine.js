@@ -31,7 +31,7 @@ export class EditInvoiceDefaultLine extends Component {
       </td>
       ,
       <td key="2">
-        <Control.NumericInput
+        <Control.BasicMathInput
           float
           value={line.amount}
           onChange={value => onChange(invoice.updateLine(index, {amount: value}))}
@@ -40,7 +40,7 @@ export class EditInvoiceDefaultLine extends Component {
       </td>
       ,
       <td key="3">
-        <Control.NumericInput
+        <Control.BasicMathInput
           prefix="€"
           addOnMinWidth={925}
           float

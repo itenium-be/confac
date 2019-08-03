@@ -11,6 +11,7 @@ const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Com
     type: PropTypes.string.isRequired,
     value: PropTypes.any,
     onChange: PropTypes.func.isRequired,
+    onBlur: PropTypes.func,
     placeholder: PropTypes.string,
     style: PropTypes.object,
     'data-tst': PropTypes.string,
@@ -25,6 +26,7 @@ const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Com
         value={this.props.value}
         placeholder={this.props.placeholder}
         onChange={this.props.onChange}
+        onBlur={this.props.onBlur}
         style={this.props.style}
         data-tst={this.props['data-tst']}
       />
@@ -50,6 +52,76 @@ export const NumericInput = ({value, onChange, ...props, float = false}) => {
       type="number"
       value={value || ''}
       onChange={e => onChange(parseIntOrFloat(e.target.value, float))}
+      {...props}
+    />
+  );
+};
+
+
+
+function mathCleanup(str, asFloat) {
+  if (typeof str === 'number') {
+    return str;
+  }
+
+  if (str.includes(',') && str.includes('.')) {
+    if (str.lastIndexOf(',') > str.lastIndexOf('.')) {
+      str = str.replace(/\./g, '');
+    } else {
+      str = str.replace(/,/g, '');
+    }
+  }
+  str = str.replace(',', '.');
+  return parseIntOrFloat(str, asFloat);
+}
+
+function mathEval(str, asFloat) {
+  // ATTN: This is pretty basic!!
+  //       !!! 5+5*2 === 10*2 !!!
+  if (str.includes('*')) {
+    const parts = str.split('*');
+    str = parts.reduce((acc, cur) => acc * mathEval(cur, asFloat), 1);
+
+  } else if (str.includes('/')) {
+    const parts = str.split('/');
+    if (parts.length !== 2) {
+      throw Error('Multiple "/" Not implemented');
+    }
+    str = mathEval(parts[0], asFloat) / mathEval(parts[1], asFloat);
+
+  } else if (str.includes('+')) {
+    const parts = str.split('+');
+    str = parts.reduce((acc, cur) => acc + mathEval(cur, asFloat), 0);
+
+  } else if (str.includes('-')) {
+    const parts = str.split('-');
+    if (parts.length > 2) {
+      throw Error('Multiple "-" Not implemented');
+    }
+    if (parts.length === 2) {
+      str = mathEval(parts[0], asFloat) - mathEval(parts[1], asFloat);
+    }
+  }
+  return mathCleanup(str, asFloat);
+}
+
+export function basicMath(str, asFloat) {
+  str = str.replace(/€/g, '');
+  str = str.replace(/ /g, '');
+
+  str = mathEval(str, asFloat);
+
+  return str;
+}
+
+
+export const BasicMathInput = ({ value, onChange, ...props, float = false }) => {
+  return (
+    <BaseInput
+      type="text"
+      value={value || ''}
+      onChange={e => onChange(e.target.value)}
+      onBlur={e => onChange(basicMath(e.target.value, float))}
       {...props}
     />
   );
