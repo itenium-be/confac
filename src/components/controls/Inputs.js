@@ -75,7 +75,7 @@ function mathCleanup(str, asFloat) {
   return parseIntOrFloat(str, asFloat);
 }
 
-function mathEval(str, asFloat) {
+function mathEval(str, asFloat, allowHours) {
   // ATTN: This is pretty basic!!
   //       !!! 5+5*2 === 10*2 !!!
   if (str.includes('*')) {
@@ -101,27 +101,30 @@ function mathEval(str, asFloat) {
     if (parts.length === 2) {
       str = mathEval(parts[0], asFloat) - mathEval(parts[1], asFloat);
     }
+  } else if (allowHours && str.includes(':')) {
+    const parts = str.split(':').map(s => parseInt(s, 10));
+    str = parts[0] + '.' + (parts[1] / 60 * 100);
   }
   return mathCleanup(str, asFloat);
 }
 
-export function basicMath(str, asFloat) {
+export function basicMath(str, asFloat, allowHours) {
   str = str.replace(/€/g, '');
   str = str.replace(/ /g, '');
 
-  str = mathEval(str, asFloat);
+  str = mathEval(str, asFloat, allowHours);
 
   return str;
 }
 
 
-export const BasicMathInput = ({ value, onChange, ...props, float = false }) => {
+export const BasicMathInput = ({ value, onChange, ...props, float = false, allowHours = false }) => {
   return (
     <BaseInput
       type="text"
       value={value || ''}
       onChange={e => onChange(e.target.value)}
-      onBlur={e => onChange(basicMath(e.target.value, float))}
+      onBlur={e => onChange(basicMath(e.target.value, float, allowHours))}
       {...props}
     />
   );

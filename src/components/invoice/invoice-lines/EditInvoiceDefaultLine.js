@@ -33,6 +33,7 @@ export class EditInvoiceDefaultLine extends Component {
       <td key="2">
         <Control.BasicMathInput
           float
+          allowHours={line.type === 'hourly'}
           value={line.amount}
           onChange={value => onChange(invoice.updateLine(index, {amount: value}))}
           data-tst={`line-${index}-amount`}

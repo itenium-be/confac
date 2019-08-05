@@ -59,6 +59,16 @@ fdescribe('BasicMathInput', () => {
     expect(result).toBe(98);
   });
 
+  it('It does not evaluate hh:mm unless allowHours=true', () => {
+    const result = basicMath('5:30', true, false);
+    expect(result).toBe(5);
+  });
+
+  it('It evaluates hh:mm when allowHours=true', () => {
+    const result = basicMath('5:30', true, true);
+    expect(result).toBe(5.5);
+  });
+
   it('works for a real world number (be locale)', () => {
     const result = basicMath('€ 1.000.000,20', true);
     expect(result).toBe(1000000.2);
