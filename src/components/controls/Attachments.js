@@ -99,8 +99,8 @@ class AbstractAttachmentsForm extends Component {
                 modelType={this.props.modelType}
                 data-tst={`att-download-${att.type}`}
                 actionType="download"
+                label={att.type !== 'pdf' ? att.type : t(transPrefix + '.pdfName')}
               />
-              <span style={{marginLeft: 10}}>{att.type !== 'pdf' ? att.type : t(transPrefix + '.pdfName')}</span>
               {this.state.isFormOpen && att.type !== 'pdf' ? (
                 <div style={{display: 'inline', position: 'absolute', right: 20}}>
                   <ConfirmedDeleteIcon

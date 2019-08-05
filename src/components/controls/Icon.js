@@ -27,6 +27,7 @@ export const Icon = EnhanceIconWithCenter(class Icon extends Component {
     onClick: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
     className: PropTypes.string,
     label: PropTypes.string,
+    labelStyle: PropTypes.object,
     title: PropTypes.string,
     size: PropTypes.number,
   };
@@ -50,7 +51,7 @@ export const Icon = EnhanceIconWithCenter(class Icon extends Component {
         onClick={realClick}
         style={{color: color, ...style}}
       >
-        {label ? <span style={{marginLeft: 6}}>{label}</span> : null}
+        {label ? <span style={{marginLeft: 6, ...this.props.labelStyle}}>{label}</span> : null}
       </i>
     );
 
