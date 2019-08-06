@@ -36,7 +36,7 @@ export const Icon = EnhanceIconWithCenter(class Icon extends Component {
   }
 
   render() {
-    const {fa, color, style, onClick, className, label, title, size, ...props} = this.props;
+    const {fa, color, style, onClick, className, label, labelStyle, title, size, ...props} = this.props;
     var realClick = onClick;
     if (typeof onClick === 'string') {
       realClick = () => {
@@ -51,7 +51,7 @@ export const Icon = EnhanceIconWithCenter(class Icon extends Component {
         onClick={realClick}
         style={{color: color, ...style}}
       >
-        {label ? <span style={{marginLeft: 6, ...this.props.labelStyle}}>{label}</span> : null}
+        {label ? <span style={{marginLeft: 6, ...labelStyle}}>{label}</span> : null}
       </i>
     );
 

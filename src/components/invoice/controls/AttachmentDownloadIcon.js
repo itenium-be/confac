@@ -40,7 +40,7 @@ class AttachmentDownloadIconComponent extends Component {
     }),
     modelType: PropTypes.oneOf(['invoice', 'client', 'quotation']).isRequired,
     actionType: PropTypes.oneOf(['download', 'preview']).isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
   }
 
   constructor() {
