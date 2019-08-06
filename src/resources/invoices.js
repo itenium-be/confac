@@ -2,6 +2,7 @@ import Router from 'koa-router';
 import {locals} from '../pug-helpers.js';
 import pug from 'pug';
 import pdf from 'html-pdf';
+import moment from 'moment';
 
 function * createPdf(params) {
   const html = createHtml(params, this.request.origin);
@@ -40,6 +41,11 @@ export default function register(app) {
       if (params.number <= last.number) {
         this.status = 400;
         this.body = {msg: `Invoice number ${params.number} cannot be made because nr ${last.number} already exists`};
+        return;
+      } else if (moment(params.date).startOf('day') < moment(last.date).startOf('day')) {
+        this.status = 400;
+        this.body = {msg: `An invoice on ${moment(params.date).format('DD/MM/YYYY')} cannot be made because`
+          + ` invoice nr ${last.number} was made on ${moment(last.date).format('DD/MM/YYYY')}`};
         return;
       }
     }
