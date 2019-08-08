@@ -27,7 +27,7 @@ export class EditInvoice extends Component {
     params: PropTypes.shape({
       id: PropTypes.string
     }),
-    renavigated: PropTypes.bool,
+    renavigationKey: PropTypes.string.isRequired,
   };
 
   get isQuotation() {
@@ -74,10 +74,10 @@ export class EditInvoice extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.app.isLoaded !== this.props.app.isLoaded
       || (nextProps.params.id !== this.props.params.id)
-      // || nextProps.invoices !== this.props.invoices
-      || nextProps.renavigated !== this.props.renavigated) {
+      || nextProps.invoices !== this.props.invoices // Changing this? Check confac-back::invoices.js
+      || nextProps.renavigationKey !== this.state.renavigationKey) {
 
-      this.setState({invoice: this.createModel(nextProps)});
+      this.setState({invoice: this.createModel(nextProps), renavigationKey: nextProps.renavigationKey});
     }
   }
 
@@ -159,16 +159,13 @@ export class EditInvoice extends Component {
 }
 
 function mapStateToProps(state, props) {
-  const renavigated = state.routing.locationBeforeTransitions.pathname === props.router.location.pathname
-    && state.routing.locationBeforeTransitions.key === props.router.location.key;
-
   return {
     config: state.config,
     app: state.app,
     clients: state.clients,
     invoices: state.invoices,
-    renavigated: renavigated,
-  }
+    renavigationKey: state.routing.locationBeforeTransitions.key,
+  };
 }
 
 export default connect(mapStateToProps, {invoiceAction})(EditInvoice);

@@ -148,6 +148,10 @@ const trans = {
       placeholder: 'Lijst filteren',
     },
     editExtraFields: 'Extra velden bewerken',
+    badRequest: {
+      nrExists: 'Nr {nr} kan niet gemaakt worden omdat nr {lastNr} reeds bestaat',
+      dateAfterExists: 'Op {date} kan niet gemaakt worden om dat nr {lastNr} op {lastDate} gemaakt is',
+    },
   },
   attachment: {
     types: 'Bijlage types',
