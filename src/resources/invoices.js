@@ -40,12 +40,21 @@ export default function register(app) {
       last = last[0];
       if (params.number <= last.number) {
         this.status = 400;
-        this.body = {msg: `Invoice number ${params.number} cannot be made because nr ${last.number} already exists`};
+        // BUG: reload: true ==> invoices list reloads which triggers componentWillReceiveProps of EditInvoice.js
+        // BUG: Without the invoice list check in componentWillReceiveProps, it doesn't work when opening an invoice
+        // BUG: by directly pasting the url in the browser
+        this.body = { msg: 'invoice.badRequest.nrExists', data: {nr: params.number, lastNr: last.number}, reload: false};
         return;
       } else if (moment(params.date).startOf('day') < moment(last.date).startOf('day')) {
         this.status = 400;
-        this.body = {msg: `An invoice on ${moment(params.date).format('DD/MM/YYYY')} cannot be made because`
-          + ` invoice nr ${last.number} was made on ${moment(last.date).format('DD/MM/YYYY')}`};
+        this.body = {
+          msg: 'invoice.badRequest.dateAfterExists',
+          data: {
+            lastNr: last.number,
+            date: moment(params.date).format('DD/MM/YYYY'),
+            lastDate: moment(last.date).format('DD/MM/YYYY'),
+          }
+        };
         return;
       }
     }
