@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t} from '../../util.js';
+import moment from 'moment';
 
 import {BusyButton} from '../../controls.js';
 import {Alert} from 'react-bootstrap';
@@ -22,6 +23,7 @@ class InvoiceNotVerifiedAlert extends Component {
       return <div />;
     }
 
+    const daysOpen = moment().diff(invoice.date, 'days');
     return (
       <div>
         <Alert style={{height: 52}} bsSize="small" bsStyle="info" onDismiss={() => this.setState({dismissed: true})} data-tst="invoice-verify-alert">
@@ -34,7 +36,7 @@ class InvoiceNotVerifiedAlert extends Component {
           >
             {t('invoice.verifyAction')}
           </BusyButton>
-          {t('invoice.isNotVerified')}
+          {t('invoice.isNotVerified')} <small>{t('invoice.notVerifiedFor', { days: daysOpen })}</small>
         </Alert>
       </div>
     );

@@ -135,6 +135,7 @@ const trans = {
     groupByMonth: 'Groepeer per maand',
     isVerified: 'Deze factuur is geverifieerd!',
     isNotVerified: 'Deze factuur is nog niet geverifieerd!',
+    notVerifiedFor: '{days} dagen openstaand',
     isVerifiedConfirm: 'Factuur nu geverifieerd',
     isNotVerifiedConfirm: 'Factuur niet meer geverifieerd',
     downloadAttachment: '{type} downloaden',
