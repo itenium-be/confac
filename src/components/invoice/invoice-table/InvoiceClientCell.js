@@ -29,6 +29,9 @@ class extends Component {
   render() {
     const invoiceClient = this.props.client;
     const client = this.props.clients.find(c => c._id === invoiceClient._id);
+    if (!client) {
+      return <span>{invoiceClient.name}</span>;
+    }
     return (
       <div
         onMouseEnter={() => this.setState({hover: true})}
