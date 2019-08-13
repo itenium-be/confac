@@ -4,8 +4,8 @@ import pug from 'pug';
 import pdf from 'html-pdf';
 import moment from 'moment';
 
-function * createPdf(params) {
-  const html = createHtml(params, this.request.origin);
+function * createPdf(params, config) {
+  const html = createHtml(params, config);
 
   if (html.error) {
     this.body = html.error;
@@ -18,7 +18,7 @@ function * createPdf(params) {
 }
 
 
-export default function register(app) {
+export default function register(app, config) {
   const router = new Router({
     prefix: '/api/invoices'
   });
@@ -59,7 +59,7 @@ export default function register(app) {
       }
     }
 
-    const pdfBuffer = yield createPdf.call(this, params);
+    const pdfBuffer = yield createPdf.call(this, params, config);
 
     params = {...params, createdOn : new Date().toISOString()};
     const insertedInvoice = yield this.mongo.collection('invoices').insert(params);
@@ -75,7 +75,7 @@ export default function register(app) {
     const {_id, ...params} = this.request.body;
     yield this.mongo.collection('invoices').update(_id.toObjectId(), params);
 
-    const pdfBuffer = yield createPdf.call(this, params);
+    const pdfBuffer = yield createPdf.call(this, params, config);
     yield this.mongo.collection('attachments').update(_id.toObjectId(), {$set: {'pdf': pdfBuffer}}, {upsert: true});
 
     this.body = this.request.body;
@@ -91,7 +91,7 @@ export default function register(app) {
 
   router.post('/preview', function *() {
     const params = this.request.body;
-    const html = createHtml(params, this.request.origin);
+    const html = createHtml(params, config);
     yield createBase64Pdf.call(this, html);
   });
 
@@ -110,7 +110,7 @@ export function getTemplatesPath() {
 }
 
 
-export function createHtml(params, assetsPath) {
+export function createHtml(params, config) {
   // BUG: extraFields was an array [{key, value}, {}, ...]
   // But this code converted it to an object {key1, key2, ...}
   // Was saved like this in the db and then crashed because Object.prototype doesn't have a reduce function
@@ -130,6 +130,8 @@ export function createHtml(params, assetsPath) {
     console.log('TemplateNotFound', e); // eslint-disable-line
     return {error: 'TemplateNotFound'};
   }
+
+  const assetsPath = 'http://' + config.server.host + ':' + config.server.port;
   return compiledFunction(Object.assign({}, locals, params, {origin: assetsPath}));
 }
 

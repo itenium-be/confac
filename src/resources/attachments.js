@@ -1,5 +1,4 @@
 import Router from 'koa-router';
-import {htmlToBuffer, createHtml} from './invoices.js';
 import body from 'koa-better-body';
 
 function getCollectionName(model) {

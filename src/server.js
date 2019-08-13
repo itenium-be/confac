@@ -5,7 +5,7 @@ var createApp = require('./server-init.js').createApp;
 // console.log('process.env', JSON.stringify(process.env));
 
 var json = require('./config.json');
-if (process.env.MONGO_HOST) {
+if (process.env) {
   json = {
     db: {
       host: process.env.MONGO_HOST || json.db.host,
@@ -13,6 +13,7 @@ if (process.env.MONGO_HOST) {
       port: process.env.MONGO_PORT || json.db.port,
     },
     server: {
+      host: process.env.SERVER_HOST || json.server.host,
       port: process.env.SERVER_PORT || json.server.port,
       basePath: process.env.SERVER_BASEPATH || json.server.basePath,
     }

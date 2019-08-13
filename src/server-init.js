@@ -47,7 +47,7 @@ export const createApp = config => {
 
   require('./resources/config.js').default(app);
   require('./resources/clients.js').default(app);
-  require('./resources/invoices.js').default(app);
+  require('./resources/invoices.js').default(app, config);
   require('./resources/attachments.js').default(app);
 
   app.use(function *pageNotFound(next) {
