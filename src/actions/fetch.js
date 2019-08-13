@@ -3,7 +3,7 @@ import {store} from '../store.js';
 import {initialLoad} from './initialLoad.js';
 import t from '../trans.js';
 
-const urlPrefix = require('../../config-front.js').backend;
+const urlPrefix = require('../config-front.js').backend;
 
 export function buildUrl(url) {
   return urlPrefix + url;

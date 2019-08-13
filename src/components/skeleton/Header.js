@@ -9,8 +9,8 @@ const Header = () => (
   <Navbar>
   <Navbar.Header>
       <Navbar.Brand>
-        <a href="https://itenium.be" target="_blank" style={{marginTop: -4}}>
-          <img src="/img/itenium.png" role="presentation" />
+        <a href="https://itenium.be" target="_blank" style={{ marginTop: -4 }} rel="noopener noreferrer">
+          <img src="/img/itenium.png" role="presentation" alt="itenium logo" />
         </a>
       </Navbar.Brand>
     </Navbar.Header>

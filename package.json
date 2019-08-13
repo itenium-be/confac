@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.7.0"
+    "react-addons-perf": "^15.4.2",
+    "react-scripts": "3.1.1"
   },
   "dependencies": {
     "bluebird": "^3.4.7",
@@ -12,11 +13,11 @@
     "moment": "^2.15.2",
     "numeral": "^1.5.3",
     "prop-types": "^15.6.2",
-    "react": "16.4.1",
+    "react": "16.9.0",
     "react-16-bootstrap-date-picker": "^5.1.2",
     "react-beautiful-dnd": "^8.0.7",
     "react-bootstrap": "^0.32.1",
-    "react-dom": "16.4.2",
+    "react-dom": "16.9.0",
     "react-dropzone": "^3.9.0",
     "react-ios-switch": "^0.1.10",
     "react-redux": "^4.4.5",
@@ -38,5 +39,17 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

@@ -46,7 +46,7 @@ function parseIntOrFloat(str, asFloat) {
 }
 
 
-export const NumericInput = ({value, onChange, ...props, float = false}) => {
+export const NumericInput = ({ value, onChange, float = false, ...props}) => {
   return (
     <BaseInput
       type="number"
@@ -118,7 +118,7 @@ export function basicMath(str, asFloat, allowHours) {
 }
 
 
-export const BasicMathInput = ({ value, onChange, ...props, float = false, allowHours = false }) => {
+export const BasicMathInput = ({ value, onChange, float = false, allowHours = false, ...props }) => {
   return (
     <BaseInput
       type="text"

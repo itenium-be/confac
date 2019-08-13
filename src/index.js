@@ -1,5 +1,7 @@
+/* eslint-disable import/first */
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 
 // TODO: need to fetch this from the backend
 if (process.env.NODE_ENV !== 'production') {
