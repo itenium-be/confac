@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {t, EditInvoiceViewModel} from '../util.js';
 import moment from 'moment';
 import * as Control from '../controls.js';
-import {Grid, Row, Col, Form} from 'react-bootstrap';
+import {Container, Row, Col, Form} from 'react-bootstrap';
 import EditInvoiceLines from './EditInvoiceLines.js';
 import InvoiceNotVerifiedAlert from './controls/InvoiceNotVerifiedAlert.js';
 import {EditInvoiceSaveButtons} from './controls/EditInvoiceSaveButtons.js';
@@ -94,7 +94,7 @@ export class EditInvoice extends Component {
   render() {
     const {invoice} = this.state;
     return (
-      <Grid className="edit-container">
+      <Container className="edit-container">
         <Form>
           <Row>
             <h1>{invoice._id ? t(this.type + '.editTitle') : t(this.type + '.createTitle')}</h1>
@@ -155,7 +155,7 @@ export class EditInvoice extends Component {
             <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, invoice)} invoice={invoice} />
           </Row>
         </Form>
-      </Grid>
+      </Container>
     );
   }
 }

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {t} from '../util.js';
 import moment from 'moment';
 import {BusyButton, StringInput, InputArray, AttachmentsForm, TextareaInput, PropertiesSelect, ExtraFieldsInput} from '../controls.js';
-import {Grid, Row, Col, Form} from 'react-bootstrap';
+import {Container, Row, Col, Form} from 'react-bootstrap';
 import {saveClient} from '../../actions/index.js';
 import {EditClientRate} from './controls/EditClientRate.js';
 import {getNewClient, defaultClientProperties} from './EditClientViewModel.js';
@@ -65,7 +65,7 @@ class EditClient extends Component {
     }
 
     return (
-      <Grid className="edit-container">
+      <Container className="edit-container">
         <Form>
           <Row>
             <h1>{t('client.contact')}</h1>
@@ -135,7 +135,7 @@ class EditClient extends Component {
             </BusyButton>
           </Row>
         </Form>
-      </Grid>
+      </Container>
     );
   }
 

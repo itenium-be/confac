@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t} from '../util.js';
-import {Grid, Row, Col, Form} from 'react-bootstrap';
+import {Container, Row, Col, Form} from 'react-bootstrap';
 import {EditCompany} from './EditCompany.js';
 import * as Control from '../controls.js';
 import {updateConfig} from '../../actions/index.js';
@@ -43,7 +43,7 @@ class EditConfig extends Component {
 
   render() {
     return (
-      <Grid className="edit-container">
+      <Container className="edit-container">
         <Form>
           <EditCompany
             company={this.state.company}
@@ -74,7 +74,7 @@ class EditConfig extends Component {
             <Control.BusyButton onClick={this._save.bind(this)} data-tst="save">{t('save')}</Control.BusyButton>
           </Row>
         </Form>
-      </Grid>
+      </Container>
     );
   }
 }

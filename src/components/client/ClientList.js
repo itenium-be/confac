@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {t} from '../util.js';
 
 import * as Control from '../controls.js';
-import {Grid, Table, Row, Col} from 'react-bootstrap';
+import {Container, Table, Row, Col} from 'react-bootstrap';
 import ClientListRow, {ClientListHeader} from './ClientListRow.js';
 import {updateInvoiceFilters} from '../../actions/index.js';
 import {getInvoiceYears} from '../invoice/InvoiceListViewModel.js';
@@ -37,7 +37,7 @@ class ClientList extends Component {
     }
 
     return (
-      <Grid>
+      <Container>
         <Control.AddIcon onClick="/client/create" label={t('client.createNew')} data-tst="new-client" />
 
         <div className="pull-right" style={{width: 220}}>
@@ -69,7 +69,7 @@ class ClientList extends Component {
             />
           </Col>
         </Row>
-      </Grid>
+      </Container>
     );
   }
 }
