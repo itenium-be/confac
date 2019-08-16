@@ -17,7 +17,7 @@ export class EditClientRate extends Component {
   render() {
     const {rate} = this.props;
     return (
-      <div>
+      <>
         <Col sm={4}>
           <Control.NumericInput
             prefix="€"
@@ -55,7 +55,7 @@ export class EditClientRate extends Component {
           />
         </Col>
 
-      </div>
+      </>
     );
   }
 }

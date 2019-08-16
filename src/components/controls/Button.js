@@ -10,13 +10,13 @@ export class Button extends Component {
     onClick: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     disabled: PropTypes.bool,
-    bsStyle: PropTypes.string,
-    bsSize: PropTypes.string,
+    variant: PropTypes.string,
+    size: PropTypes.string,
     icon: PropTypes.string,
   }
   static defaultProps = {
-    bsStyle: 'primary',
-    bsSize: 'large',
+    variant: 'primary',
+    size: 'lg',
   }
   render() {
     const {children, icon, ...props} = this.props;

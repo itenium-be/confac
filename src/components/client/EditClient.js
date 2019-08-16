@@ -68,9 +68,10 @@ class EditClient extends Component {
       <Container className="edit-container">
         <Form>
           <Row>
-            <h1>{t('client.contact')}</h1>
-
-            {client.createdOn && <h4 className="created-on">{t('createdOn')} {moment(client.createdOn).format('DD/MM/YYYY')}</h4>}
+            <h1>
+              {t('client.contact')}
+              {client.createdOn && <h4 className="created-on">{t('createdOn')} {moment(client.createdOn).format('DD/MM/YYYY')}</h4>}
+            </h1>
 
             <InputArray
               config={defaultClientProperties}
@@ -126,13 +127,15 @@ class EditClient extends Component {
 
 
           <Row className="button-row">
-            <BusyButton
-              onClick={this._onSave.bind(this)}
-              disabled={this.isClientDisabled(client)}
-              data-tst="save"
-            >
-              {t('save')}
-            </BusyButton>
+            <Col>
+              <BusyButton
+                onClick={this._onSave.bind(this)}
+                disabled={this.isClientDisabled(client)}
+                data-tst="save"
+              >
+                {t('save')}
+              </BusyButton>
+            </Col>
           </Row>
         </Form>
       </Container>

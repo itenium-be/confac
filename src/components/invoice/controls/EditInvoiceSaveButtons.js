@@ -13,7 +13,7 @@ export const EditInvoiceSaveButtonsComponent = ({history, invoice, onClick}) => 
   const tp = transKey => t(invoice.getType() + transKey);
   return (
     <div className="button-row">
-      <BusyButton bsStyle="default" onClick={onClick.bind(this, 'preview', history)} data-tst="preview" icon="fa fa-eye">
+      <BusyButton variant="default" onClick={onClick.bind(this, 'preview', history)} data-tst="preview" icon="fa fa-eye">
         {t('invoice.preview')}
       </BusyButton>
       <BusyButton onClick={onClick.bind(this, isNewInvoice ? 'create' : 'update', history)} data-tst="save" icon="fa fa-floppy-o">

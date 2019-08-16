@@ -49,7 +49,7 @@ class ClientList extends Component {
           />
         </div>
 
-        <Table condensed style={{marginTop: 10}}>
+        <Table size="sm" style={{marginTop: 10}}>
           <ClientListHeader />
           <tbody>
             {clients.sort((a, b) => a.name.localeCompare(b.name)).map(client => (

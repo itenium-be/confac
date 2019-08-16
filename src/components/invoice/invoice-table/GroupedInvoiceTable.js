@@ -18,7 +18,7 @@ export const GroupedInvoiceTable = ({vm, config}) => {
   const tst = (key, key2) => `invoice-${key}-${key2}`;
 
   return (
-    <Table condensed style={{marginTop: 10}}>
+    <Table size="sm" style={{marginTop: 10}}>
       <InvoiceListHeader columns={columns} />
 
       {invoicesPerMonth.map(({key, invoiceList}) => [

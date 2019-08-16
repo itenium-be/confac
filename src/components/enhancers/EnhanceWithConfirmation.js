@@ -22,7 +22,7 @@ export const EnhanceWithConfirmation = ComposedComponent => class extends Compon
       busy: true,
     }, {
       text: t('delete'),
-      bsStyle: 'danger',
+      variant: 'danger',
       onClick: () => {
         this.setState({popupActive: false});
         onClick();

@@ -152,7 +152,9 @@ export class EditInvoice extends Component {
             <Control.AttachmentsForm invoice={invoice} />
           </div>
           <Row style={{marginBottom: 8, marginTop: 20}}>
-            <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, invoice)} invoice={invoice} />
+            <Col>
+              <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, invoice)} invoice={invoice} />
+            </Col>
           </Row>
         </Form>
       </Container>
@@ -177,7 +179,7 @@ export default connect(mapStateToProps, {invoiceAction})(EditInvoice);
 const EditInvoiceDetails = ({invoice, onChange}) => {
   const tp = transKey => t((invoice.getType()) + transKey);
   return (
-    <div>
+    <>
       <Col sm={6}>
         <div className="split">
           <Control.NumericInput
@@ -214,6 +216,6 @@ const EditInvoiceDetails = ({invoice, onChange}) => {
           />
         </div>
       </Col>
-    </div>
+    </>
   );
 };

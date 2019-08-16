@@ -1,7 +1,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	font-family: sans-serif;
+  font-family: 'Lato', serif;
 }
 
 
@@ -10,7 +10,8 @@ body {
 }
 
 .icons-cell {
-	text-align: right;
+  text-align: right;
+  font-size: 0.8rem;
 }
 .icons-cell > div:not(:last-child), .icons-cell > i:not(:last-child) {
 	margin-right: 12px;
@@ -33,6 +34,7 @@ a.invoice-list-client:hover {
 	text-align: center;
 	margin-bottom: 8px;
 }
+
 .button-row > button:not(:last-child) {
 	margin-right: 46px;
 }
@@ -81,8 +83,8 @@ h4.created-on {
 	margin-left: 13px;
 }
 
-.edit-container {
-	margin-top: -26px;
+.edit-container h1 {
+  width: 100%;
 }
 
 

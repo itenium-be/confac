@@ -11,7 +11,7 @@ export class Popup extends Component {
     buttons: PropTypes.arrayOf(PropTypes.shape({
       text: PropTypes.string.required,
       onClick: PropTypes.func.isRequired,
-      bsStyle: PropTypes.string,
+      variant: PropTypes.string,
       busy: PropTypes.bool,
       disabled: PropTypes.bool
     })),
@@ -34,7 +34,7 @@ export class Popup extends Component {
             return (
               <UsedButton
                 key={i}
-                bsStyle={button.bsStyle || 'default'}
+                variant={button.variant || 'default'}
                 onClick={button.onClick}
                 disabled={button.disabled}
                 data-tst={this.props['data-tst'] + '-btn-' + i}

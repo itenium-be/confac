@@ -22,7 +22,7 @@ const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Com
     return (
       <FormControl
         type={type === 'textarea' ? 'text' : type}
-        componentClass={type === 'textarea' ? 'textarea' : undefined}
+        className={type === 'textarea' ? 'textarea' : undefined}
         value={this.props.value}
         placeholder={this.props.placeholder}
         onChange={this.props.onChange}
@@ -155,7 +155,7 @@ export const TextareaInput = ({value, onChange, ...props}) => {
 
 export const StringInputArray = ({keys, model, onChange, tPrefix}) => {
   return (
-    <div>
+    <>
       {keys.map(key => (
         <Col sm={4} key={key}>
           <StringInput
@@ -166,7 +166,7 @@ export const StringInputArray = ({keys, model, onChange, tPrefix}) => {
           />
         </Col>
       ))}
-    </div>
+    </>
   );
 };
 
@@ -183,7 +183,7 @@ export const InputArray = ({config, model, onChange, tPrefix}) => {
   }
 
   return (
-    <div>
+    <>
       {config.map((col, index) => {
         if (col.forceRow) {
           return <div key={index} style={{clear: 'both'}} />;
@@ -191,7 +191,7 @@ export const InputArray = ({config, model, onChange, tPrefix}) => {
 
         const EditComponent = col.component || StringInput;
         return (
-          <Col sm={col.cols || 4} key={col.key || index} smOffset={col.offset}>
+          <Col sm={col.cols || 4} key={col.key || index} offset={col.offset}>
             <EditComponent
               label={t(tPrefix + col.key)}
               value={model[col.key]}
@@ -201,7 +201,7 @@ export const InputArray = ({config, model, onChange, tPrefix}) => {
           </Col>
         );
       })}
-    </div>
+    </>
   );
 };
 
@@ -219,7 +219,7 @@ export const ExtraFieldsInput = ({properties, onChange, ...props}) => {
   };
 
   return (
-    <div>
+    <>
       {properties.map(col => (
         <Col sm={4} key={col.label}>
           <StringInput
@@ -230,6 +230,6 @@ export const ExtraFieldsInput = ({properties, onChange, ...props}) => {
           />
         </Col>
       ))}
-    </div>
+    </>
   );
 };

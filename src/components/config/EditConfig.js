@@ -71,7 +71,9 @@ class EditConfig extends Component {
 
 
           <Row className="button-row">
-            <Control.BusyButton onClick={this._save.bind(this)} data-tst="save">{t('save')}</Control.BusyButton>
+            <Col>
+              <Control.BusyButton onClick={this._save.bind(this)} data-tst="save">{t('save')}</Control.BusyButton>
+            </Col>
           </Row>
         </Form>
       </Container>

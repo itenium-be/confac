@@ -7,9 +7,9 @@ export const EnhanceInputWithAddons = ComposedComponent => ({prefix, suffix, add
   if ((!addOnMinWidth || addOnMinWidth < window.outerWidth) && (prefix || suffix)) {
     return (
       <InputGroup>
-        {prefix ? <InputGroup.Addon>{prefix}</InputGroup.Addon> : null}
+        {prefix ? <InputGroup.Prepend><InputGroup.Text>{prefix}</InputGroup.Text></InputGroup.Prepend> : null}
         <ComposedComponent {...props} />
-        {suffix ? <InputGroup.Addon>{suffix}</InputGroup.Addon> : null}
+        {suffix ? <InputGroup.Append><InputGroup.Text>{suffix}</InputGroup.Text></InputGroup.Append> : null}
       </InputGroup>
     );
   }

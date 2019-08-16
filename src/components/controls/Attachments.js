@@ -157,7 +157,7 @@ class AddAttachmentPopupComponent extends Component {
       onClick: () => onClose(),
     }, {
       text: t('add'),
-      bsStyle: 'primary',
+      variant: 'primary',
       onClick: this._onUpload.bind(this),
       disabled: !canAdd || !this.state.file,
     }];
@@ -175,7 +175,7 @@ class AddAttachmentPopupComponent extends Component {
         </FormGroup>
 
         {!canAdd && currentType ? (
-          <Alert bsSize="small" bsStyle="danger" data-tst="add-att-type-warning">{t('attachment.typeExists')}</Alert>
+          <Alert size="sm" variant="danger" data-tst="add-att-type-warning">{t('attachment.typeExists')}</Alert>
         ) : null}
 
         <AddAttachment onAdd={file => this.setState({file})} />

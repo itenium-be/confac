@@ -38,7 +38,7 @@ export default class EditInvoiceLines extends Component {
     const {notesVisible} = this.state;
     const nrOfColumns = 7;
     return (
-      <Table condensed>
+      <Table size="sm">
         <thead>
           <tr>
             <th width="1%">&nbsp;</th>

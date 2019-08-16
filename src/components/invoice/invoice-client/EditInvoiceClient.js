@@ -41,8 +41,8 @@ export class EditInvoiceClient extends Component {
           <div style={{width: 120, position: 'relative'}}>
             <Control.Button
               onClick={() => this.setState({modalClientId: 'new'})}
-              bsSize="small"
-              bsStyle="default"
+              size="sm"
+              variant="default"
               style={{position: 'absolute', bottom: 18, left: 5}}
               data-tst="new-client"
             >
