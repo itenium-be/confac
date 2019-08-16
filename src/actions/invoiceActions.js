@@ -31,12 +31,12 @@ export function createInvoice(data) {
         });
 
         const invoiceType = data.isQuotation ? 'quotation': 'invoice';
-        dispatch(success(t(invoiceType + '.createConfirm')));
+        success(t(invoiceType + '.createConfirm'));
         browserHistory.push(`/${invoiceType}/${res.body.number}`);
 
       }, function(err) {
         if (err.res && err.res.text === 'TemplateNotFound') {
-          dispatch(failure(t('invoice.pdfTemplateNotFoundTitle'), t('invoice.pdfTemplateNotFound')));
+          failure(t('invoice.pdfTemplateNotFoundTitle'), t('invoice.pdfTemplateNotFound'));
         } else {
           catchHandler(err);
         }
@@ -59,7 +59,7 @@ function updateInvoiceRequest(data, successMsg, andGoHome) {
           invoice: res.body
         });
 
-        dispatch(success(successMsg || t('toastrConfirm')));
+        success(successMsg || t('toastrConfirm'));
         if (andGoHome) {
           const invoiceType = data.isQuotation ? 'quotations' : 'invoices';
           browserHistory.push('/' + invoiceType);
@@ -104,7 +104,7 @@ export function deleteInvoice(invoice) {
           type: ACTION_TYPES.INVOICE_DELETED,
           id: invoice._id
         });
-        dispatch(success(t((invoice.isQuotation ? 'quotation' : 'invoice') + '.deleteConfirm')));
+        success(t((invoice.isQuotation ? 'quotation' : 'invoice') + '.deleteConfirm'));
         return true;
       })
       .catch(catchHandler)

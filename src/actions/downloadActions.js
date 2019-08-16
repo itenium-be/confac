@@ -1,5 +1,4 @@
 import request from 'superagent-bluebird-promise';
-import {store} from '../store.js';
 
 import {failure, busyToggle} from './appActions.js';
 import {buildUrl, catchHandler} from './fetch.js';
@@ -123,7 +122,7 @@ export function openWindow(pdf, fileName) {
     win.document.title = fileName;
 
   } else {
-    store.dispatch(failure(t('controls.popupBlockerTitle'), t('controls.popupBlocker'), 8000));
+    failure(t('controls.popupBlockerTitle'), t('controls.popupBlocker'), 8000);
   }
 }
 

@@ -1,34 +1,51 @@
+import React from 'react';
 import request from 'superagent-bluebird-promise';
 
 import {ACTION_TYPES} from './ActionTypes.js';
 import {buildUrl, catchHandler} from './fetch.js';
-import {addNotification as notify} from 'reapop';
+import { toast } from 'react-toastify';
 import t from '../trans.js';
 
-// https://github.com/LouisBarranqueiro/reapop/blob/master/docs/api.md#customize-default-values-for-notifications
-export const notifySettings = {
-  status: 'success',
-  position: 'br',
-  dismissible: true,
-  dismissAfter: 2000,
-  closeButton: false,
-  allowHTML: false,
-};
-export function success(msg) {
-  return notify({
-    status: 'success',
-    title: t('toastrSuccessTitle'),
-    message: msg
-  });
+function getIcon(type) {
+  switch (type) {
+  case 'error':
+    return 'fa fa-times-circle';
+  case 'success':
+  default:
+    return 'fa fa-check-circle';
+  }
 }
-export function failure(title, msg, timeout) {
-  return notify({
-    status: 'error',
-    position: 'tc',
-    dismissAfter: timeout || 4000,
-    title: title || t('toastrFailureTitle'),
-    message: msg || t('toastrFailure'),
-  });
+
+const ToastMessage = ({ closeToast, msg, title, type }) => (
+  <div className={'reapop ' + type}>
+    <div class="icon">
+      <i className={getIcon(type)} />
+    </div>
+    <div className="content">
+      <b>{title}</b>
+      <p>{msg}</p>
+    </div>
+  </div>
+);
+
+
+export function success(msg, title, timeout = 2000) {
+  toast(
+    <ToastMessage msg={msg} title={t('toastrSuccessTitle')} type="success" />,
+    { autoClose: timeout, position: toast.POSITION.BOTTOM_RIGHT }
+  );
+}
+
+
+export function failure(msg, title, timeout = 4000) {
+  toast.error(
+    <ToastMessage
+      msg={msg || t('toastrFailure')}
+      title={title || t('toastrFailureTitle')}
+      type="error"
+    />,
+    { autoClose: timeout, position: toast.POSITION.TOP_CENTER }
+  );
 }
 
 
@@ -49,7 +66,7 @@ export function updateConfig(newConfig) {
       .send(newConfig)
       .then(res => {
         dispatch({type: ACTION_TYPES.CONFIG_UPDATE, config: res.body});
-        dispatch(success(t('config.popupMessage')));
+        success(t('config.popupMessage'));
       })
       .catch(catchHandler)
       .then(() => dispatch(busyToggle.off()));
@@ -75,7 +92,7 @@ export function saveClient(client, stayOnPage = false, callback = null) {
           client: res.body,
           isNewClient: !client._id
         });
-        dispatch(success(t('config.popupMessage')));
+        success(t('config.popupMessage'));
         if (!stayOnPage) {
           window.history.back();
         }

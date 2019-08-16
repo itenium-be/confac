@@ -28,7 +28,7 @@ export function updateAttachment(model, modelType, {type, file}) {
         [modelType === 'client' ? 'client' : 'invoice']: res.body
       });
 
-      dispatch(success());
+      success();
       return true;
     })
     .catch(catchHandler)
@@ -48,7 +48,7 @@ export function deleteAttachment(model, modelType, {type}) {
           [modelType === 'client' ? 'client' : 'invoice']: res.body
         });
 
-        dispatch(success());
+        success();
         return true;
       })
     .catch(catchHandler)

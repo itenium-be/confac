@@ -16,7 +16,7 @@ export function catchHandler(err) {
     console.log('BadRequest', err.body); // eslint-disable-line
 
     const msg = t(err.body.msg, err.body.data);
-    store.dispatch(failure('BadRequest', msg, 8000));
+    failure('BadRequest', msg, 8000);
 
     if (err.body.reload) {
       store.dispatch(initialLoad());
@@ -24,5 +24,5 @@ export function catchHandler(err) {
     return;
   }
   console.log('oepsie', err); // eslint-disable-line
-  store.dispatch(failure());
+  failure();
 }
