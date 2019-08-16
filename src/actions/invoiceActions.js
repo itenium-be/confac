@@ -1,6 +1,4 @@
 import request from 'superagent-bluebird-promise';
-import {browserHistory} from 'react-router';
-
 import {ACTION_TYPES} from './ActionTypes.js';
 import {success, failure, busyToggle} from './appActions.js';
 import {buildUrl, catchHandler} from './fetch.js';
@@ -17,7 +15,7 @@ function cleanViewModel(data) {
 }
 
 
-export function createInvoice(data) {
+export function createInvoice(data, history) {
   return dispatch => {
     dispatch(busyToggle());
     request.post(buildUrl('/invoices'))
@@ -32,11 +30,11 @@ export function createInvoice(data) {
 
         const invoiceType = data.isQuotation ? 'quotation': 'invoice';
         success(t(invoiceType + '.createConfirm'));
-        browserHistory.push(`/${invoiceType}/${res.body.number}`);
+        history.push(`/${invoiceType}/${res.body.number}`);
 
       }, function(err) {
         if (err.res && err.res.text === 'TemplateNotFound') {
-          failure(t('invoice.pdfTemplateNotFoundTitle'), t('invoice.pdfTemplateNotFound'));
+          failure(t('invoice.pdfTemplateNotFound'), t('invoice.pdfTemplateNotFoundTitle'));
         } else {
           catchHandler(err);
         }
@@ -46,7 +44,7 @@ export function createInvoice(data) {
   };
 }
 
-function updateInvoiceRequest(data, successMsg, andGoHome) {
+function updateInvoiceRequest(data, successMsg, andGoHome, history) {
   return dispatch => {
     dispatch(busyToggle());
     request.put(buildUrl('/invoices'))
@@ -62,7 +60,7 @@ function updateInvoiceRequest(data, successMsg, andGoHome) {
         success(successMsg || t('toastrConfirm'));
         if (andGoHome) {
           const invoiceType = data.isQuotation ? 'quotations' : 'invoices';
-          browserHistory.push('/' + invoiceType);
+          history.push('/' + invoiceType);
         }
       })
       .catch(catchHandler)
@@ -70,25 +68,25 @@ function updateInvoiceRequest(data, successMsg, andGoHome) {
   };
 }
 
-export function invoiceAction(invoice, type) {
+export function invoiceAction(invoice, type, history) {
   if (type === 'create') {
-    return createInvoice(invoice);
+    return createInvoice(invoice, history);
   } else if (type === 'preview') {
     return previewInvoice(invoice);
   } else if (type === 'update') {
-    return updateInvoice(invoice);
+    return updateInvoice(invoice, history);
   }
   console.log('unknown invoiceAction', type, invoice); // eslint-disable-line
 }
 
-export function updateInvoice(data) {
-  return updateInvoiceRequest(data, undefined, true);
+function updateInvoice(data, history) {
+  return updateInvoiceRequest(data, undefined, false, history);
 }
 
 export function toggleInvoiceVerify(data) {
   const successMsg = data.verified ? t('invoice.isNotVerifiedConfirm') : t('invoice.isVerifiedConfirm');
   const newData = {...data, verified: !data.verified};
-  return updateInvoiceRequest(newData, successMsg, false);
+  return updateInvoiceRequest(newData, successMsg, false); // change andGoHome? also need 'history' from router
 }
 
 

@@ -18,7 +18,7 @@ function getIcon(type) {
 
 const ToastMessage = ({ closeToast, msg, title, type }) => (
   <div className={'reapop ' + type}>
-    <div class="icon">
+    <div className="icon">
       <i className={getIcon(type)} />
     </div>
     <div className="content">

@@ -24,8 +24,10 @@ export class EditInvoice extends Component {
     }).isRequired,
     clients: PropTypes.array.isRequired,
     invoiceAction: PropTypes.func.isRequired,
-    params: PropTypes.shape({
-      id: PropTypes.string
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string
+      }),
     }),
     renavigationKey: PropTypes.string.isRequired,
   };
@@ -48,9 +50,9 @@ export class EditInvoice extends Component {
 
   createModel(props) {
     const invoicesOrQuotations = this.isQuotation ? props.invoices.filter(x => x.isQuotation) : props.invoices.filter(x => !x.isQuotation);
-    if (props.params.id) {
+    if (props.match.params.id) {
       // Existing invoice / quotation
-      const invoice = invoicesOrQuotations.find(i => i.number === parseInt(props.params.id, 10));
+      const invoice = invoicesOrQuotations.find(i => i.number === parseInt(props.match.params.id, 10));
       return new EditInvoiceViewModel(props.config, invoice);
 
     } else {
@@ -73,7 +75,7 @@ export class EditInvoice extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.app.isLoaded !== this.props.app.isLoaded
-      || (nextProps.params.id !== this.props.params.id)
+      || (nextProps.match.params.id !== this.props.match.params.id)
       || nextProps.invoices !== this.props.invoices // Changing this? Check confac-back::invoices.js
       || nextProps.renavigationKey !== this.state.renavigationKey) {
 
@@ -164,7 +166,7 @@ function mapStateToProps(state, props) {
     app: state.app,
     clients: state.clients,
     invoices: state.invoices,
-    renavigationKey: state.routing.locationBeforeTransitions.key,
+    renavigationKey: props.location.key,
   };
 }
 

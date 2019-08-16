@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {browserHistory} from 'react-router';
+import {withRouter} from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
 import cn from 'classnames';
 import {EnhanceWithConfirmation, EnhanceWithBusySpinner} from '../enhancers/index.js';
@@ -18,7 +18,9 @@ const EnhanceIconWithCenter = ComposedComponent => ({center, ...props}) => {
   return <ComposedComponent {...props} />;
 };
 
-export const Icon = EnhanceIconWithCenter(class Icon extends Component {
+export const Icon = EnhanceIconWithCenter(withRouter(({ match, location, history, staticContext, ...props }) => <IconComponent history={history} {...props} />));
+
+class IconComponent extends Component {
   static propTypes = {
     'data-tst': PropTypes.string.isRequired,
     fa: PropTypes.string.isRequired,
@@ -30,17 +32,18 @@ export const Icon = EnhanceIconWithCenter(class Icon extends Component {
     labelStyle: PropTypes.object,
     title: PropTypes.string,
     size: PropTypes.number,
+    history: PropTypes.object.isRequired,
   };
   static defaultProps = {
     size: 2
   }
 
   render() {
-    const {fa, color, style, onClick, className, label, labelStyle, title, size, ...props} = this.props;
+    const {fa, color, style, onClick, className, label, labelStyle, title, size, history, ...props} = this.props;
     var realClick = onClick;
     if (typeof onClick === 'string') {
       realClick = () => {
-        browserHistory.push(onClick);
+        history.push(onClick);
       };
     }
 
@@ -67,7 +70,7 @@ export const Icon = EnhanceIconWithCenter(class Icon extends Component {
 
     return FinalIcon;
   }
-});
+}
 
 
 export const VerifyIcon = ({...props}) => (

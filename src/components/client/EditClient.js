@@ -17,8 +17,10 @@ class EditClient extends Component {
     isLoaded: PropTypes.bool,
     saveClient: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,
-    params: PropTypes.shape({
-      id: PropTypes.string
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string
+      }),
     }),
   }
   constructor(props) {
@@ -32,7 +34,7 @@ class EditClient extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isLoaded !== this.props.isLoaded
-      || nextProps.params.id !== this.props.params.id
+      || nextProps.match.params.id !== this.props.match.params.id
       || nextProps.clients !== this.props.clients) {
 
       this.setState({...this.copyClient(nextProps)});
@@ -40,9 +42,9 @@ class EditClient extends Component {
   }
 
   copyClient(props) {
-    if (props.params.id) {
+    if (props.match.params.id) {
       // Existing client
-      const client = props.clients.find(c => c.slug === props.params.id);
+      const client = props.clients.find(c => c.slug === props.match.params.id);
       if (client) {
         return JSON.parse(JSON.stringify(client));
       }

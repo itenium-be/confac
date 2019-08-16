@@ -32,19 +32,12 @@ store.dispatch(initialLoad());
 
 
 // Create the AppRoot
-import {syncHistoryWithStore} from 'react-router-redux';
-import {Router, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
 import Routes from './routes.js';
 
-const history = syncHistoryWithStore(browserHistory, store);
-const Root = param => (
-  <Provider store={param.store}>
-    <Router history={param.history} routes={Routes} />
-  </Provider>
-);
-
 ReactDOM.render(
-  <Root store={store} history={history} />,
+  <Provider store={store}>
+    <Routes />
+  </Provider>,
   document.getElementById('root')
 );

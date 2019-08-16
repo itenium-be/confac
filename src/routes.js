@@ -1,7 +1,7 @@
 import React from 'react';
-import {Route, IndexRoute} from 'react-router';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
-import App from './components/App.js';
+import {AppWithLayout} from './components/AppWithLayout';
 import EditInvoice from './components/invoice/EditInvoice.js';
 import InvoiceList from './components/invoice/InvoiceList.js';
 import QuotationList from './components/quotation/QuotationList.js';
@@ -9,24 +9,25 @@ import ClientList from './components/client/ClientList.js';
 import EditClient from './components/client/EditClient.js';
 import EditConfig from './components/config/EditConfig.js';
 
-const Routes = (
-  <Route path="/" component={App}>
-    <IndexRoute component={InvoiceList} />
-    <Route path="/invoice/create" component={EditInvoice} />
-    <Route path="/invoice/:id" component={EditInvoice} />
+const Routes = () => (
+  <BrowserRouter>
+    <Switch>
+      <Route path="/invoice/create" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
+      <Route path="/invoice/:id" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
 
-    <Route path="/quotations" component={QuotationList} />
-    <Route path="/quotation/create" component={EditInvoice} />
-    <Route path="/quotation/:id" component={EditInvoice} />
+      <Route path="/quotation/create" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
+      <Route path="/quotation/:id" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
+      <Route path="/quotations" render={props => <AppWithLayout Component={QuotationList} {...props} />} />
 
-    <Route path="/clients" component={ClientList} />
-    <Route path="/client/create" component={EditClient} />
-    <Route path="/client/:id" component={EditClient} />
+      <Route path="/client/create" render={props => <AppWithLayout Component={EditClient} {...props} />} />
+      <Route path="/client/:id" render={props => <AppWithLayout Component={EditClient} {...props} />} />
+      <Route path="/clients" render={props => <AppWithLayout Component={ClientList} {...props} />} />
 
-    <Route path="/config" component={EditConfig} />
+      <Route path="/config" render={props => <AppWithLayout Component={EditConfig} {...props} />} />
 
-    <Route path="*" component={InvoiceList}/>
-  </Route>
+      <Route path="/" render={props => <AppWithLayout Component={InvoiceList} {...props} />} />
+    </Switch>
+  </BrowserRouter>
 );
 
 export default Routes;

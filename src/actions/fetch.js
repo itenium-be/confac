@@ -16,7 +16,7 @@ export function catchHandler(err) {
     console.log('BadRequest', err.body); // eslint-disable-line
 
     const msg = t(err.body.msg, err.body.data);
-    failure('BadRequest', msg, 8000);
+    failure(msg, 'BadRequest', 5000);
 
     if (err.body.reload) {
       store.dispatch(initialLoad());

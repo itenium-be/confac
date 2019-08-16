@@ -122,7 +122,7 @@ export function openWindow(pdf, fileName) {
     win.document.title = fileName;
 
   } else {
-    failure(t('controls.popupBlockerTitle'), t('controls.popupBlocker'), 8000);
+    failure(t('controls.popupBlocker'), t('controls.popupBlockerTitle'), 8000);
   }
 }
 
