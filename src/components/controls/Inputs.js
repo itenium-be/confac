@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Col, FormControl, Clearfix} from 'react-bootstrap';
+import {Col, FormControl} from 'react-bootstrap';
 import {t} from '../util.js';
 import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel.js';
 import {EnhanceInputWithAddons} from '../enhancers/EnhanceInputWithAddons.js';
@@ -186,7 +186,7 @@ export const InputArray = ({config, model, onChange, tPrefix}) => {
     <div>
       {config.map((col, index) => {
         if (col.forceRow) {
-          return <Clearfix key={index} />;
+          return <div key={index} style={{clear: 'both'}} />;
         }
 
         const EditComponent = col.component || StringInput;

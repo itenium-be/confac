@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import Dropzone from 'react-dropzone';
 import {t} from '../util.js';
 
-import {Row, Col, ControlLabel, FormGroup, Alert} from 'react-bootstrap';
+import {Row, Col, FormLabel, FormGroup, Alert} from 'react-bootstrap';
 import {AttachmentDownloadIcon, AddIcon, Popup, SimpleCreatableSelect, ConfirmedDeleteIcon, HeaderWithEditIcon} from '../controls.js';
 import {updateAttachment, deleteAttachment} from '../../actions/index.js';
 
@@ -164,7 +164,7 @@ class AddAttachmentPopupComponent extends Component {
     return (
       <Popup title={t('invoice.attachmentsAdd')} buttons={buttons} onHide={onClose} data-tst="add-att">
         <FormGroup>
-          <ControlLabel>{t('attachment.type')}</ControlLabel>
+          <FormLabel>{t('attachment.type')}</FormLabel>
           <SimpleCreatableSelect
             value={currentType}
             options={this.props.attachmentTypes}
