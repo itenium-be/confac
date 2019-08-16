@@ -73,7 +73,7 @@ export class EditInvoice extends Component {
     window.scrollTo(0, 0);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.app.isLoaded !== this.props.app.isLoaded
       || (nextProps.match.params.id !== this.props.match.params.id)
       || nextProps.invoices !== this.props.invoices // Changing this? Check confac-back::invoices.js

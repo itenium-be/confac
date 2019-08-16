@@ -23,7 +23,7 @@ class ClientModalComponent extends Component {
     this.state = this.copyClient(props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.client !== this.props.client) {
       this.setState({...this.copyClient(nextProps)});
     }

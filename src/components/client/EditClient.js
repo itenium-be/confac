@@ -32,7 +32,7 @@ class EditClient extends Component {
     window.scrollTo(0, 0);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.isLoaded !== this.props.isLoaded
       || nextProps.match.params.id !== this.props.match.params.id
       || nextProps.clients !== this.props.clients) {

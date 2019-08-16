@@ -32,7 +32,7 @@ class EditConfig extends Component {
     window.scrollTo(0, 0);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState(JSON.parse(JSON.stringify(nextProps.config)));
   }
 

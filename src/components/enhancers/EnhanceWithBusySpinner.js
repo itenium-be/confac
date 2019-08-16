@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {SpinnerIcon} from '../controls/Icon.js';
 
-export const EnhanceWithBusySpinner = ComposedComponent => class extends Component {
+export const EnhanceWithBusySpinner = ComposedComponent => (class extends Component {
   static propTypes = {
     'data-tst': PropTypes.string.isRequired,
     isBusy: PropTypes.bool.isRequired,
@@ -13,7 +13,7 @@ export const EnhanceWithBusySpinner = ComposedComponent => class extends Compone
     super();
     this.state = {isBusy: false};
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.state.isBusy && this.props.model !== nextProps.model) {
       this.setState({isBusy: false});
     }
@@ -30,4 +30,4 @@ export const EnhanceWithBusySpinner = ComposedComponent => class extends Compone
     };
     return <ComposedComponent {...props} onClick={realOnclick} />;
   }
-};
+});

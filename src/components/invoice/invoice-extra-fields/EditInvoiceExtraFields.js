@@ -17,7 +17,7 @@ export class EditInvoiceExtraFields extends Component {
     super(props);
     this.state = {extraFieldFormOpen: props.forceOpen};
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.forceOpen !== nextProps.forceOpen) {
       this.setState({extraFieldFormOpen: nextProps.forceOpen});
     }
