@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {t} from '../../util.js';
-
+import Creatable from 'react-select/creatable';
 import {Row, Col} from 'react-bootstrap';
-import Select from 'react-select';
 import {Switch} from '../../controls.js';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel.js';
 
@@ -101,14 +100,14 @@ const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component {
 
   render() {
     return (
-      <Select.Creatable
+      <Creatable
         value={this.props.value}
         options={this.props.options}
         onChange={this.onChange.bind(this)}
-        clearable
-        multi
-        noResultsText={t('controls.noResultsText')}
-        promptTextCreator={value => t('controls.addFilterText', {value})}
+        isClearable
+        isMulti
+        noOptionsMessage={() => t('controls.noResultsText')}
+        formatCreateLabel={value => t('controls.addFilterText', {value})}
         placeholder={t('invoice.search.placeholder')}
         className={'tst-' + this.props['data-tst']}
       />

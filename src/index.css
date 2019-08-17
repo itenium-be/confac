@@ -77,14 +77,19 @@ h4 {
 	margin-left: 13px;
 }
 
-h4.created-on {
+small.created-on {
 	font-size: 12px;
 	color: grey;
-	margin-left: 13px;
+  margin-left: 13px;
+  display: block;
 }
 
 .edit-container h1 {
   width: 100%;
+  margin-top: 15px;
+}
+
+.client-list {
   margin-top: 15px;
 }
 

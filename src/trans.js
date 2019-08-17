@@ -193,10 +193,7 @@ const trans = {
 
     // select
     noResultsText: 'Geen resultaten',
-    clearFilterValueText: 'Filter verwijderen',
-    clearValueText: 'Filter verwijderen',
-    clearAllFiltersText: 'Alle filters verwijderen',
-    clearAllText: 'Alle verwijderen',
+    noOptionsMessage: 'Geen keuzes',
     addFilterText: 'Filter "{value}" toevoegen?',
     addLabelText: '"{value}" toevoegen?',
     selectPlaceholder: 'Maak een keuze',

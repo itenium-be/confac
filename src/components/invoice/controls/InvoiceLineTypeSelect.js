@@ -21,7 +21,7 @@ export class InvoiceLineTypeSelect extends Component {
         transFn={key => t('rates.types.' + key)}
         value={type}
         options={invoiceLineTypes}
-        clearable={false}
+        isClearable={false}
         {...props}
       />
     );

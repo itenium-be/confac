@@ -97,9 +97,11 @@ export class EditInvoice extends Component {
       <Container className="edit-container">
         <Form>
           <Row>
-            <h1>{invoice._id ? t(this.type + '.editTitle') : t(this.type + '.createTitle')}</h1>
+            <h1>
+              {invoice._id ? t(this.type + '.editTitle') : t(this.type + '.createTitle')}
+              {invoice.createdOn && <small className="created-on">{t('createdOn')} {moment(invoice.createdOn).format('DD/MM/YYYY')}</small>}
+            </h1>
 
-            {invoice.createdOn && <h4 className="created-on">{t('createdOn')} {moment(invoice.createdOn).format('DD/MM/YYYY')}</h4>}
 
             <InvoiceNotVerifiedAlert invoice={invoice} />
 

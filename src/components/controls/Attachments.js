@@ -62,7 +62,7 @@ class AbstractAttachmentsForm extends Component {
     const canDeleteAttachments = this.props.attachments.length > (this.props.modelType === 'client' ? 0 : 1);
     const transPrefix = this.props.modelType;
     return (
-      <Row className="tst-attachments">
+      <Row className="tst-attachments"><Col>
         <HeaderWithEditIcon
           label={t('invoice.attachments')}
           editIconVisible={canDeleteAttachments}
@@ -115,7 +115,7 @@ class AbstractAttachmentsForm extends Component {
             </div>
           </Col>
         ))}
-      </Row>
+      </Col></Row>
     );
   }
 }
@@ -169,7 +169,7 @@ class AddAttachmentPopupComponent extends Component {
             value={currentType}
             options={this.props.attachmentTypes}
             onChange={text => this.setState({type: text})}
-            promptTextCreator={text => t('controls.addLabelText', {text})}
+            formatCreateLabel={text => t('controls.addLabelText', {text})}
             data-tst="add-att-type"
           />
         </FormGroup>

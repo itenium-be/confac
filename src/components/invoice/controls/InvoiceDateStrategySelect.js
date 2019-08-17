@@ -20,7 +20,7 @@ export class InvoiceDateStrategySelect extends Component {
         transFn={key => t('invoice.dateStrategies.' + key)}
         value={value}
         options={invoiceDateStrategies}
-        clearable={false}
+        isClearable={false}
         {...props}
       />
     );

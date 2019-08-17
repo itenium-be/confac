@@ -34,7 +34,7 @@ class TemplatePickerComponent extends Component {
       <SimpleSelect
         value={value}
         options={options}
-        clearable={false}
+        isClearable={false}
         {...props}
       />
     );

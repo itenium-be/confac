@@ -37,10 +37,10 @@ class ClientList extends Component {
     }
 
     return (
-      <Container>
+      <Container className="client-list">
         <Control.AddIcon onClick="/client/create" label={t('client.createNew')} data-tst="new-client" />
 
-        <div className="pull-right" style={{width: 220}}>
+        <div className="pull-right" style={{width: 250}}>
           <Control.Switch
             checked={this.state.showDeleted}
             onChange={checked => this.setState({showDeleted: checked})}

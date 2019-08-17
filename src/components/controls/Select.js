@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import Creatable from 'react-select/creatable';
 import {t} from '../util.js';
 
 import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel.js';
 
 const BaseSelect = EnhanceInputWithLabel(props => (
   <Select
-    clearValueText={t('controls.clearValueText')}
-    clearAllText={t('controls.clearAllText')}
-    noResultsText={t('controls.noResultsText')}
+    noOptionsMessage={() => t('controls.noResultsText')}
     placeholder={t('controls.selectPlaceholder')}
     className={'tst-' + props['data-tst']}
     {...props}
@@ -24,8 +23,8 @@ export const YearsSelect = ({values, years, onChange, ...props}) => {
       value={values.map(y => ({label: y, value: y}))}
       onChange={newYears => onChange(newYears.map(itm => itm.value))}
       options={years.map(y => ({label: y, value: y}))}
-      clearable={true}
-      multi={true}
+      isClearable={true}
+      isMulti={true}
       {...props}
     />
   );
@@ -40,11 +39,11 @@ export const SimpleSelect = EnhanceInputWithLabel(class extends Component {
     options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     onChange: PropTypes.func.isRequired,
     transFn: PropTypes.func,
-    clearable: PropTypes.bool.isRequired,
+    isClearable: PropTypes.bool.isRequired,
   }
 
   render() {
-    const {transFn, options, value, onChange, clearable, ...props} = this.props;
+    const {transFn, options, value, onChange, isClearable, ...props} = this.props;
     const trans = transKey => transFn ? transFn(transKey) : transKey;
 
     const opts = options.map(itm => ({
@@ -57,8 +56,8 @@ export const SimpleSelect = EnhanceInputWithLabel(class extends Component {
         value={{label: trans(value), value: value}}
         options={opts}
         onChange={itm => onChange(itm.value)}
-        clearable={clearable}
-        multi={false}
+        isClearable={isClearable}
+        isMulti={false}
         className={'tst-' + this.props['data-tst']}
         {...props}
       />
@@ -70,22 +69,21 @@ export const SimpleSelect = EnhanceInputWithLabel(class extends Component {
 
 
 
-export const SimpleCreatableSelect = ({options, value, onChange, clearable = false, ...props}) => {
+export const SimpleCreatableSelect = ({options, value, onChange, isClearable = false, ...props}) => {
   const opts = options.map(itm => ({
     label: itm,
     value: itm
   }));
 
   return (
-    <Select.Creatable
+    <Creatable
       value={{label: value, value: value}}
       options={opts}
       onChange={itm => onChange(itm.value)}
-      clearable={clearable}
+      isClearable={isClearable}
       multi={false}
-      clearValueText={t('controls.clearValueText')}
-      noResultsText={t('controls.noResultsText')}
-      promptTextCreator={itm => t('controls.addLabelText', {value: itm})}
+      noOptionsMessage={() => t('controls.noResultsText')}
+      formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
       placeholder={t('controls.selectPlaceholder')}
       className={'tst-' + props['data-tst']}
     />
@@ -119,15 +117,14 @@ export const PropertiesSelect = EnhanceInputWithLabel(class extends Component {
   render() {
     const {label} = this.props;
     return (
-      <Select.Creatable
+      <Creatable
         label={label}
         value={this.props.values}
         onChange={this.onChange.bind(this)}
-        clearable={true}
-        multi={true}
-        clearValueText={t('controls.clearValueText')}
-        noResultsText={""}
-        promptTextCreator={itm => t('controls.addLabelText', {value: itm})}
+        isClearable={true}
+        isMulti={true}
+        noOptionsMessage={() => ''}
+        formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
         placeholder={t('controls.propertiesPlaceholder')}
         className={'tst-' + this.props['data-tst']}
       />
@@ -146,21 +143,23 @@ export const StringsSelect = EnhanceInputWithLabel(class extends Component {
   }
 
   onChange(values) {
+    if (!values) {
+      this.props.onChange([]);
+      return;
+    }
     const strings = values.map(itm => itm.value);
     this.props.onChange(strings);
   }
 
   render() {
     return (
-      <Select.Creatable
+      <Creatable
         value={this.props.values.map(v => ({label: v, value: v}))}
         onChange={this.onChange.bind(this)}
-        clearable={true}
-        multi={true}
-        clearValueText={t('controls.clearValueText')}
-        clearAllText={t('controls.clearAllText')}
-        noResultsText={""}
-        promptTextCreator={itm => t('controls.addLabelText', {value: itm})}
+        isClearable={false}
+        isMulti={true}
+        noOptionsMessage={() => t('controls.noOptionsMessage')}
+        formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
         placeholder={t('controls.selectPlaceholder')}
         className={'tst-' + this.props['data-tst']}
       />

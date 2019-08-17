@@ -70,7 +70,7 @@ class EditClient extends Component {
           <Row>
             <h1>
               {t('client.contact')}
-              {client.createdOn && <h4 className="created-on">{t('createdOn')} {moment(client.createdOn).format('DD/MM/YYYY')}</h4>}
+              {client.createdOn && <small className="created-on">{t('createdOn')} {moment(client.createdOn).format('DD/MM/YYYY')}</small>}
             </h1>
 
             <InputArray
