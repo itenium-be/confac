@@ -84,7 +84,6 @@ export const SimpleCreatableSelect = ({options, value, onChange, clearable = fal
       clearable={clearable}
       multi={false}
       clearValueText={t('controls.clearValueText')}
-      clearAllText={t('controls.clearAllText')}
       noResultsText={t('controls.noResultsText')}
       promptTextCreator={itm => t('controls.addLabelText', {value: itm})}
       placeholder={t('controls.selectPlaceholder')}
@@ -127,7 +126,6 @@ export const PropertiesSelect = EnhanceInputWithLabel(class extends Component {
         clearable={true}
         multi={true}
         clearValueText={t('controls.clearValueText')}
-        clearAllText={t('controls.clearAllText')}
         noResultsText={""}
         promptTextCreator={itm => t('controls.addLabelText', {value: itm})}
         placeholder={t('controls.propertiesPlaceholder')}

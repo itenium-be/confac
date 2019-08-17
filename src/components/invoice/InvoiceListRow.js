@@ -60,7 +60,7 @@ export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Compo
     const invoiceType = invoice.isQuotation ? 'quotation' : 'invoice';
 
     return (
-      <tr className={cn({warning: !invoice.verified && !invoice.isQuotation})} style={borderStyle}>
+      <tr className={cn({'table-warning': !invoice.verified && !invoice.isQuotation})} style={borderStyle}>
         {columns.map((col, i) => {
           const hideValue = !isFirstRow && col.groupedBy;
           return (

@@ -17,8 +17,6 @@ moment.locale('nl');
 
 // Load extra css
 import './index.css';
-import 'react-select/dist/react-select.css';
-
 
 
 import {store} from './store.js';

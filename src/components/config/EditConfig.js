@@ -118,7 +118,7 @@ const EditConfigInvoice = ({config, onChange}) => (
       <Control.ClientSelect
         label={t('config.defaultClient')}
         value={config.defaultClient}
-        onChange={item => onChange({defaultClient: item._id})}
+        onChange={item => onChange({defaultClient: item ? item._id : null})}
         data-tst="config.defaultClient"
       />
     </Col>

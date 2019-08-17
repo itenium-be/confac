@@ -31,7 +31,7 @@ class ClientListRow extends Component {
     const invoices = this.props.invoices.filter(i => i.client._id === client._id);
     const tst = key => `client-${client.name}-${key}`;
     return (
-      <tr className={client.active ? undefined : 'danger'} data-tst={tst('row')}>
+      <tr className={client.active ? undefined : 'table-danger'} data-tst={tst('row')}>
         <td>
           <strong data-tst={tst('name')}>{client.name}</strong>
           <br />

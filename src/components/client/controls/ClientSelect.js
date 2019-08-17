@@ -26,12 +26,15 @@ class ClientSelectComponent extends Component {
       clients.push(selectedClient);
     }
 
+    const options = clients.sort((a, b) => a.name.localeCompare(b.name)).map(item => ({value: item._id, label: item.name}));
+    const selectedOption = options.find(o => o.value === selectedClientId);
+
     return (
       <Select
-        value={selectedClientId}
-        options={clients.sort((a, b) => a.name.localeCompare(b.name)).map(item => ({value: item._id, label: item.name}))}
-        onChange={item => this.props.onChange(this.getClient(item.value))}
-        clearable={false}
+        value={selectedOption}
+        options={options}
+        onChange={item => this.props.onChange(item ? this.getClient(item.value) : null)}
+        isClearable={true}
         className="tst-client-select"
       />
     );

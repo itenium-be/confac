@@ -1,12 +1,11 @@
 import React from 'react';
-import {Button, Nav, Navbar, NavItem} from 'react-bootstrap';
+import {Button, Nav, Navbar} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import {IndexLinkContainer, LinkContainer} from 'react-router-bootstrap';
 import {t} from '../util.js';
 import {AddIcon} from '../controls.js';
 
 const Header = () => (
-  <Navbar>
+  <Navbar bg="light" expand="lg">
     <Navbar.Brand>
       <a href="https://itenium.be" target="_blank" style={{ marginTop: -4 }} rel="noopener noreferrer">
         <img src="/img/itenium.png" role="presentation" alt="itenium logo" />

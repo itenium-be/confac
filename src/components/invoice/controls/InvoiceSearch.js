@@ -107,8 +107,6 @@ const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component {
         onChange={this.onChange.bind(this)}
         clearable
         multi
-        clearValueText={t('controls.clearFilterValueText')}
-        clearAllText={t('controls.clearAllFiltersText')}
         noResultsText={t('controls.noResultsText')}
         promptTextCreator={value => t('controls.addFilterText', {value})}
         placeholder={t('invoice.search.placeholder')}
