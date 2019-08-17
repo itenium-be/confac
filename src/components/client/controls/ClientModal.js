@@ -55,8 +55,8 @@ class ClientModalComponent extends Component {
         title={client._id ? client.name : t('client.createNew')}
         onConfirm={this.onSave.bind(this)}
       >
-        <Row>
-          <Form>
+        <Form>
+          <Row>
             <Control.InputArray
               config={requiredClientProperties}
               model={client}
@@ -73,8 +73,8 @@ class ClientModalComponent extends Component {
                 style={{height: 120}}
               />
             </Col>
-          </Form>
-        </Row>
+          </Row>
+        </Form>
       </Control.Modal>
     );
   }

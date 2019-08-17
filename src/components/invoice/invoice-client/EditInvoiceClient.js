@@ -22,6 +22,7 @@ export class EditInvoiceClient extends Component {
 
   render() {
     const {invoice, onChange} = this.props;
+    const dottedCellStyle = {border: '1px dotted black', padding: 10, height: '100%', width: '100%'};
     return (
       <div>
         {this.state.modalClientId && <ClientModal
@@ -53,16 +54,20 @@ export class EditInvoiceClient extends Component {
 
         {invoice.client ? (
           <Row>
-            <Col xs={6}>
-              <ClientDetails
-                client={invoice.client}
-                onOpenDetails={() => this.setState({modalClientId: invoice.client._id})}
-                onOpenDetailsTitle="invoice.clientEditModal"
-              />
+            <Col md={6}>
+              <div style={dottedCellStyle}>
+                <ClientDetails
+                  client={invoice.client}
+                  onOpenDetails={() => this.setState({modalClientId: invoice.client._id})}
+                  onOpenDetailsTitle="invoice.clientEditModal"
+                />
+              </div>
             </Col>
-            <Col xs={6}>
-              <h4>{t('invoice.totalTitle')}</h4>
-              <InvoiceTotal {...invoice.money} data-tst="invoice-total" />
+            <Col md={6}>
+              <div style={dottedCellStyle}>
+                <h4>{t('invoice.totalTitle')}</h4>
+                <InvoiceTotal {...invoice.money} data-tst="invoice-total" />
+              </div>
             </Col>
           </Row>
         ) : null}

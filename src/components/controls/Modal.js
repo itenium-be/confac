@@ -32,7 +32,7 @@ export class Modal extends Component {
           {this.props.onConfirm ? (
             <Button onClick={this.onConfirm.bind(this)} variant="success">{t('save')}</Button>
           ) : null}
-          <Button onClick={this.props.onClose}>{t('close')}</Button>
+          <Button onClick={this.props.onClose} variant="default">{t('close')}</Button>
         </ReactModal.Footer>
       </ReactModal>
     );

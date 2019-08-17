@@ -102,8 +102,9 @@ export class EditInvoice extends Component {
               {invoice.createdOn && <small className="created-on">{t('createdOn')} {moment(invoice.createdOn).format('DD/MM/YYYY')}</small>}
             </h1>
 
-
-            <InvoiceNotVerifiedAlert invoice={invoice} />
+            <Col sm={12}>
+              <InvoiceNotVerifiedAlert invoice={invoice} />
+            </Col>
 
             <Col sm={6}>
               <EditInvoiceClient

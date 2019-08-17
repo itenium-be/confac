@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-
+import {t} from '../../util.js';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel.js';
 import Select from 'react-select';
 
@@ -35,6 +35,7 @@ class ClientSelectComponent extends Component {
         options={options}
         onChange={item => this.props.onChange(item ? this.getClient(item.value) : null)}
         isClearable={true}
+        placeholder={t('controls.selectPlaceholder')}
         className="tst-client-select"
       />
     );

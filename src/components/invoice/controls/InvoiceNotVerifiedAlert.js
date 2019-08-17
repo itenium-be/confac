@@ -26,7 +26,7 @@ class InvoiceNotVerifiedAlert extends Component {
     const daysOpen = moment().diff(invoice.date, 'days');
     return (
       <div>
-        <Alert style={{height: 52}} size="sm" variant="info" onDismiss={() => this.setState({dismissed: true})} data-tst="invoice-verify-alert">
+        <Alert style={{height: 52}} size="sm" variant="info" onClose={() => this.setState({dismissed: true})} dismissible  data-tst="invoice-verify-alert">
           <BusyButton
             variant="info"
             onClick={() => toggleInvoiceVerify(invoice)}
