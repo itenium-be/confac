@@ -1,5 +1,5 @@
 import React from 'react';
-import Tooltip from 'rc-tooltip';
+import {Tooltip} from '../../controls/Tooltip';
 import {t, moneyFormat} from '../../util.js';
 
 export const InvoiceAmountLabel = ({invoices, isQuotation, ...props}) => {
@@ -31,7 +31,7 @@ export const InvoicesSummary = ({invoices, ...props}) => {
 
   const tst = props['data-tst']; //eslint-disable-line
   return (
-    <Tooltip placement="left" overlay={tooltip.split('<br>').map((line, i) => <div key={i}>{line}</div>)}>
+    <Tooltip title={tooltip} mouseEnterDelay={0}>
       <div>
         <InvoiceAmountLabel invoices={invoices} data-tst={tst + '-amount'} isQuotation={false} />
         <br />

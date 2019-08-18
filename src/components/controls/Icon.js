@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import Tooltip from 'rc-tooltip';
+import {Tooltip} from './Tooltip';
 import cn from 'classnames';
 import {EnhanceWithConfirmation, EnhanceWithBusySpinner} from '../enhancers/index.js';
 import t from '../../trans.js';
@@ -63,7 +63,7 @@ class IconComponent extends Component {
       // TODO: Not sure if the above still holds: changed tooltip from react-tooltip to rc-tooltip
       return (
         <div style={{display: 'inline'}}>
-          <Tooltip placement="left" overlay={title.split('<br>').map((line, i) => <div key={i}>{line}</div>)} mouseEnterDelay={0.6}>
+          <Tooltip title={title}>
             {FinalIcon}
           </Tooltip>
         </div>
