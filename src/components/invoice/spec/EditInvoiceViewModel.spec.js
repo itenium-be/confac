@@ -1,7 +1,7 @@
 import moment from 'moment';
 import {defaultConfig} from '../../../reducers';
-import {getNewClient} from '../../client/EditClientViewModel';
-import EditInvoiceViewModel, {calculateDaysWorked} from '../EditInvoiceViewModel';
+import {getNewClient} from '../../client/EditClientModel';
+import EditInvoiceModel, {calculateDaysWorked} from '../EditInvoiceModel';
 
 //const defaultHoursInDay = 8;
 
@@ -9,7 +9,7 @@ import EditInvoiceViewModel, {calculateDaysWorked} from '../EditInvoiceViewModel
 function createViewModel(config) {
   config = config || defaultConfig;
   const client = getNewClient(config);
-  var vm = EditInvoiceViewModel.createNew(config, client);
+  var vm = EditInvoiceModel.createNew(config, client);
   vm.date = moment('2017-02-01'); // has 20 working days
   return vm;
 }

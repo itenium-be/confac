@@ -1,8 +1,8 @@
-import InvoiceListViewModel from '../InvoiceListViewModel';
+import InvoiceListModel from '../InvoiceListModel';
 import moment from 'moment';
 
 
-describe('InvoiceListViewModel', () => {
+describe('InvoiceListModel', () => {
   it('filters with last x days', () => {
     const filters = {
       search: [{ value: 'last 1 days', label: 'last 1 days', type: 'manual_input' }],
@@ -16,7 +16,7 @@ describe('InvoiceListViewModel', () => {
       {date: today().subtract(2, 'days'), verified: true},
       {date: today().subtract(3, 'days'), verified: true},
     ];
-    const vm = new InvoiceListViewModel(invoices, [], filters);
+    const vm = new InvoiceListModel(invoices, [], filters);
 
     const result = vm.getFilteredInvoices();
 
@@ -33,7 +33,7 @@ describe('InvoiceListViewModel', () => {
     const invoices = [
       {date: moment().subtract(3, 'days'), verified: false},
     ];
-    const vm = new InvoiceListViewModel(invoices, [], filters);
+    const vm = new InvoiceListModel(invoices, [], filters);
 
     const result = vm.getFilteredInvoices();
 
@@ -57,7 +57,7 @@ describe('InvoiceListViewModel', () => {
       {lines: [{desc: 'Prestaties Koen'}], client: emptyClient, orderNr: ''},
       {lines: [{ desc: 'Prestaties Ilse' }], client: emptyClient, orderNr: ''},
     ];
-    const vm = new InvoiceListViewModel(invoices, [], filters);
+    const vm = new InvoiceListModel(invoices, [], filters);
 
     const result = vm.getFilteredInvoices();
 

@@ -4,10 +4,10 @@ import {failure, busyToggle} from './appActions';
 import {buildUrl, catchHandler} from './fetch';
 import t from '../trans';
 import {buildAttachmentUrl} from './attachmentActions';
+import EditInvoiceModel from '../components/invoice/EditInvoiceModel';
 
 
-export function previewInvoice(data) {
-  console.log('data', data);
+export function previewInvoice(data: EditInvoiceModel): void {
   return dispatch => {
     dispatch(busyToggle());
     request.post(buildUrl('/invoices/preview'))

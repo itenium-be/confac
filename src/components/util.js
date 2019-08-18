@@ -8,4 +8,4 @@ export const getNumeric = text => text.replace(/[^0-9]+/g, '');
 
 export {default as t} from '../trans';
 
-export {default as EditInvoiceViewModel} from './invoice/EditInvoiceViewModel';
+export {default as EditInvoiceViewModel} from './invoice/EditInvoiceModel';

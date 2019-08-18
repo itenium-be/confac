@@ -1,10 +1,17 @@
+import { EditConfigModel } from './../config/EditConfigModel';
 import {getInvoiceDate} from './invoice-date-strategy';
+import { EditClientModel } from '../client/ClientModels';
 
 //const getInvoiceString = invoice => `${invoice.number} - ${invoice.client.name} (${invoice.date.format('YYYY-MM')})`;
 
-export default class EditInvoiceViewModel {
-  static createNew(config, client) {
-    var model = new EditInvoiceViewModel(config, {
+export default class EditInvoiceModel {
+  // private _id: string; // Syntax error: need to turn into getters/setters
+  // private _defaultTax: number;
+  // private _defaultType: EditClientRateType;
+
+
+  static createNew(config: EditConfigModel, client: EditClientModel) {
+    var model = new EditInvoiceModel(config, {
       client,
       number: 1,
       fileName: client ? client.invoiceFileName : '',
@@ -18,7 +25,7 @@ export default class EditInvoiceViewModel {
     return this._id === undefined;
   }
 
-  constructor(config, obj = {}) {
+  constructor(config: EditConfigModel, obj = {}) {
     this._defaultTax = config.defaultTax;
     this._defaultType = config.defaultInvoiceLineType;
 
@@ -165,7 +172,7 @@ export default class EditInvoiceViewModel {
 
   _calculateMoneys() {
     if (!this.client) {
-      return EditInvoiceViewModel.emptyMoney();
+      return EditInvoiceModel.emptyMoney();
     }
 
     const relevantLines = this._lines.filter(line => line.type !== 'section');

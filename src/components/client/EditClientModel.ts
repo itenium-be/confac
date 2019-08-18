@@ -1,5 +1,6 @@
+import { EditConfigModel } from "../config/EditConfigModel";
 
-export function getNewClient(config) {
+export function getNewClient(config: EditConfigModel) {
   return {
     _id: null,
     slug: null,

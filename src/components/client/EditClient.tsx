@@ -7,7 +7,7 @@ import {BusyButton, StringInput, InputArray, AttachmentsForm, TextareaInput, Pro
 import {Container, Row, Col, Form} from 'react-bootstrap';
 import {saveClient} from '../../actions/index';
 import {EditClientRate} from './controls/EditClientRate';
-import {getNewClient, defaultClientProperties} from './EditClientViewModel';
+import {getNewClient, defaultClientProperties} from './EditClientModel';
 import * as Control from '../controls';
 
 

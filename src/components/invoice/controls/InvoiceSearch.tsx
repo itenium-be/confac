@@ -6,7 +6,7 @@ import {Row, Col} from 'react-bootstrap';
 import {Switch} from '../../controls';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 
-// The object returned by InvoiceListViewModel::getFilterOptions
+// The object returned by InvoiceListModel::getFilterOptions
 const filterOptionsPropType = PropTypes.arrayOf(PropTypes.shape({
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   value: PropTypes.any.isRequired,

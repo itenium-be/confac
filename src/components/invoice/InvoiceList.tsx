@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {updateInvoiceFilters} from '../../actions/index';
-import InvoiceListViewModel from './InvoiceListViewModel';
+import InvoiceListModel from './InvoiceListModel';
 import {Container} from 'react-bootstrap';
 import {InvoiceSearch} from './controls/InvoiceSearch';
 import {GroupedInvoiceTable} from './invoice-table/GroupedInvoiceTable';
@@ -24,7 +24,7 @@ export class InvoiceList extends Component {
 
   render() {
     const isQuotation = window.location.pathname === '/quotations';
-    const vm = new InvoiceListViewModel(this.props.invoices, this.props.clients, this.props.filters, isQuotation);
+    const vm = new InvoiceListModel(this.props.invoices, this.props.clients, this.props.filters, isQuotation);
 
     const TableComponent = this.props.filters.groupedByMonth ? GroupedInvoiceTable : NonGroupedInvoiceTable;
     return (

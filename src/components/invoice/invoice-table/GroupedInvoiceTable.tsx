@@ -1,5 +1,5 @@
 import React from 'react';
-import {groupInvoicesPerMonth} from '../EditInvoiceViewModel';
+import {groupInvoicesPerMonth} from '../EditInvoiceModel';
 
 import {Table} from 'react-bootstrap';
 import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from '../InvoiceListRow';

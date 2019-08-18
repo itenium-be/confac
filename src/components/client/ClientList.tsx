@@ -7,7 +7,7 @@ import * as Control from '../controls';
 import {Container, Table, Row, Col} from 'react-bootstrap';
 import ClientListRow, {ClientListHeader} from './ClientListRow';
 import {updateInvoiceFilters} from '../../actions/index';
-import {getInvoiceYears} from '../invoice/InvoiceListViewModel';
+import {getInvoiceYears} from '../invoice/InvoiceListModel';
 
 class ClientList extends Component {
   static propTypes = {

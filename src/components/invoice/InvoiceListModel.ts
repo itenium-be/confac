@@ -14,7 +14,7 @@ function transformFilters(search) {
 
 
 
-export default class InvoiceListViewModel {
+export default class InvoiceListModel {
   constructor(invoices, clients, filters, isQuotation) {
     this.invoices = invoices;
     this.clients = clients;
