@@ -2,6 +2,7 @@
    "db": {
       "host": "pongit",
       "db": "confac-dev",
+      "other-dbs": "confac-dev | confac-test | confac-acc | confac",
       "port": 32772
    },
    "server": {

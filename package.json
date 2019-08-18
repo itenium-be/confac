@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon -e js,pug,css --watch src --exec babel-node ./src/server.js",
+    "start": "nodemon -e js,pug,css,json --watch src --exec babel-node ./src/server.js",
     "serve": "http-server ./dist -o",
     "deploy": "babel src -d deploy",
     "start:deploy": "node ./deploy/server.js",
