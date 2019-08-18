@@ -1,16 +1,29 @@
-import { EditConfigModel } from './../config/EditConfigModel';
+import { EditConfigModel, EditConfigCompanyModel } from './../config/EditConfigModel';
 import {getInvoiceDate} from './invoice-date-strategy';
 import { EditClientModel } from '../client/ClientModels';
+import moment from 'moment';
+import { Attachment } from '../../models';
+
 
 //const getInvoiceString = invoice => `${invoice.number} - ${invoice.client.name} (${invoice.date.format('YYYY-MM')})`;
 
 export default class EditInvoiceModel {
+  number: number;
+  client: EditClientModel;
+  your: EditConfigCompanyModel;
+  date: moment.Moment;
+  orderNr: string;
+  verified: boolean;
+  fileName: string;
+  discount: string;
+  attachments: Attachment[];
+  isQuotation: boolean;
   // private _id: string; // Syntax error: need to turn into getters/setters
   // private _defaultTax: number;
   // private _defaultType: EditClientRateType;
 
 
-  static createNew(config: EditConfigModel, client: EditClientModel) {
+  static createNew(config: EditConfigModel, client: EditClientModel): EditInvoiceModel {
     var model = new EditInvoiceModel(config, {
       client,
       number: 1,
@@ -208,6 +221,9 @@ export default class EditInvoiceModel {
   }
 }
 
+export type EditInvoiceModelProps = {
+  invoice: EditInvoiceModel
+}
 
 
 function daysCalc(invoice) {

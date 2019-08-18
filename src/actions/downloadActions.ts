@@ -5,25 +5,28 @@ import {buildUrl, catchHandler} from './fetch';
 import t from '../trans';
 import {buildAttachmentUrl} from './attachmentActions';
 import EditInvoiceModel from '../components/invoice/EditInvoiceModel';
+import { Attachment } from '../models';
 
 
-export function previewInvoice(data: EditInvoiceModel): void {
+export function previewInvoice(data: EditInvoiceModel) {
   return dispatch => {
     dispatch(busyToggle());
     request.post(buildUrl('/invoices/preview'))
       .set('Content-Type', 'application/json')
       .send(data)
       .then(function(res) {
-        const pdfAsDataUri = 'data:application/pdf;base64,' + res.text;
-        openWindow(pdfAsDataUri, getInvoiceFileName(data));
+        //const pdfAsDataUri = 'data:application/pdf;base64,' + res.text;
+        // openWindow(pdfAsDataUri, getInvoiceFileName(data));
+        dispatch(busyToggle.off());
+        return res.text;
       })
       .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+      //.then(() => dispatch(busyToggle.off()));
   };
 }
 
 
-export function downloadInvoice(invoice, attachment) {
+export function downloadInvoice(invoice: EditInvoiceModel, attachment: Attachment) {
   // ATTN: Non-dispatchable
   // We're not storing entire files in the state!
   // + Would break the AttachmentDownloadIcon
@@ -45,7 +48,7 @@ export function downloadInvoice(invoice, attachment) {
 }
 
 
-export function downloadClientAttachment(client, attachment) {
+export function downloadClientAttachment(client: EditInvoiceModel, attachment: Attachment) {
   // ATTN: Non-dispatchable
   // We're not storing entire files in the state!
   // + Would break the AttachmentDownloadIcon
@@ -60,7 +63,7 @@ export function downloadClientAttachment(client, attachment) {
 }
 
 
-export function getInvoiceFileName(data) {
+export function getInvoiceFileName(data: EditInvoiceModel): string {
   var fileName = data.fileName;
 
   const nrRegex = /\{nr:(\d+)\}/;
@@ -92,7 +95,7 @@ export function getInvoiceFileName(data) {
 }
 
 
-export function openWindow(pdf, fileName) {
+export function openWindow(pdf: string, fileName: string): void {
   // TODO: this solution doesn't work on Internet Exploder
   // GET request /attachment that just returns the bytestream
   // and then here:
@@ -128,7 +131,7 @@ export function openWindow(pdf, fileName) {
 }
 
 
-function downloadBase64File(fileName, content) {
+function downloadBase64File(fileName: string, content: string): void {
   var link = document.createElement('a');
   link.download = fileName;
   link.target = '_blank';
@@ -137,7 +140,7 @@ function downloadBase64File(fileName, content) {
 }
 
 
-function downloadFile(attachment, content) {
+function downloadFile(attachment: Attachment, content: string): void {
   var link = document.createElement('a');
   link.download = attachment.fileName;
   const blob = b64ToBlob(content, attachment.fileType);
@@ -147,7 +150,7 @@ function downloadFile(attachment, content) {
 }
 
 
-function b64ToBlob(b64Data, contentType = '', sliceSize = 512) {
+function b64ToBlob(b64Data: string, contentType = '', sliceSize = 512): Blob {
   const byteCharacters = atob(b64Data);
   const byteArrays = [];
 
