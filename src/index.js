@@ -14,16 +14,19 @@ import moment from 'moment';
 moment.locale('nl');
 
 
+import {registerLocale, setDefaultLocale} from  "react-datepicker";
+import nl from 'date-fns/locale/nl';
+registerLocale('nl', nl);
+setDefaultLocale('nl');
 
-// Load extra css
+
+// Load css
 import './index.scss';
-import 'react-datepicker/dist/react-datepicker.css';
-import 'react-ios-switch/build/bundle.css';
 
-import {store} from './store.js';
 
 
 // Fetch data from the db
+import {store} from './store.js';
 import {initialLoad} from './actions/index.js';
 store.dispatch(initialLoad());
 

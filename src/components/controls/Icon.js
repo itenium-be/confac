@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import ReactTooltip from 'react-tooltip';
+import Tooltip from 'rc-tooltip';
 import cn from 'classnames';
 import {EnhanceWithConfirmation, EnhanceWithBusySpinner} from '../enhancers/index.js';
 import t from '../../trans.js';
@@ -60,10 +60,12 @@ class IconComponent extends Component {
 
     if (title) {
       // TODO: inline doesn't seem to be always working (for example in EditInvoiceLines:Notes th)
+      // TODO: Not sure if the above still holds: changed tooltip from react-tooltip to rc-tooltip
       return (
-        <div style={{display: 'inline'}} data-tip={title}>
-          <ReactTooltip multiline={true} />
-          {FinalIcon}
+        <div style={{display: 'inline'}}>
+          <Tooltip placement="left" overlay={title} mouseEnterDelay={0.6}>
+            {FinalIcon}
+          </Tooltip>
         </div>
       );
     }

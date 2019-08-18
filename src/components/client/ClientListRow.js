@@ -51,7 +51,7 @@ class ClientListRow extends Component {
           <DeleteIcon
             onClick={() => this.props.saveClient({...client, active: !client.active}, true)}
             title={client.active ? t('client.deactivateTitle') : t('client.activateTitle')}
-             data-tst={tst('delete')}
+            data-tst={tst('delete')}
           />
         </td>
       </tr>

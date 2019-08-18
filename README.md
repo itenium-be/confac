@@ -24,6 +24,15 @@ npm run build
 npm run eject
 ```
 
+
+Known Issues
+------------
+
+[react-tooltip: Slow when displaying many tooltips (ex: grid icons)](https://github.com/wwayne/react-tooltip/issues/334)  
+Switched to `rc-tooltip`.
+
+
+
 [confac-back]: https://github.com/be-pongit/confac-back
 [confac-vagrant]: https://github.com/be-pongit/confac-vagrant
 [vagrant]: https://www.vagrantup.com/

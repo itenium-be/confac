@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
+import Tooltip from 'rc-tooltip';
 import {t, moneyFormat} from '../../util.js';
 
 export const InvoiceAmountLabel = ({invoices, isQuotation, ...props}) => {
@@ -31,13 +31,12 @@ export const InvoicesSummary = ({invoices, ...props}) => {
 
   const tst = props['data-tst']; //eslint-disable-line
   return (
-    <div data-tip={tooltip}>
-      <ReactTooltip multiline={true} />
+    <Tooltip placement="left" overlay={tooltip}>
       <div>
         <InvoiceAmountLabel invoices={invoices} data-tst={tst + '-amount'} isQuotation={false} />
         <br />
         <span data-tst={tst + '-total'}>{moneyFormat(money.total)}</span>
       </div>
-    </div>
+    </Tooltip>
   );
 };
