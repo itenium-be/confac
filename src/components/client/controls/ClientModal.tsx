@@ -5,7 +5,7 @@ import {t} from '../../util';
 import * as Control from '../../controls';
 import {Container, Row, Form, Col} from 'react-bootstrap';
 import {saveClient} from '../../../actions/appActions';
-import {getNewClient, requiredClientProperties} from '../../client/EditClientViewModel';
+import {getNewClient, requiredClientProperties} from '../EditClientViewModel';
 
 
 class ClientModalComponent extends Component {
