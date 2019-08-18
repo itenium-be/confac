@@ -17,7 +17,8 @@ moment.locale('nl');
 
 // Load extra css
 import './index.scss';
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css';
+import 'react-ios-switch/build/bundle.css';
 
 import {store} from './store.js';
 

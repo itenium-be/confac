@@ -12,7 +12,7 @@ Projects:
 - [confac-back][confac-back]: Koa, Html2Pdf
 - [confac-vagrant][confac-vagrant]: MongoDB
 
-front/back: `npm install` followed by `npm start`
+front/back: `npm install` followed by `npm start`  
 [vagrant][vagrant]: `vagrant up`
 
 react-create-app

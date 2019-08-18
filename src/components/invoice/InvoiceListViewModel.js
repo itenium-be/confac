@@ -38,11 +38,13 @@ export default class InvoiceListViewModel {
     options = options.concat(invoiceYears.map(year => ({value: year, label: year, type: 'year'})));
 
     // Add options: unique invoice-line descriptions
-    const fullyFilteredInvoices = this.getFilteredInvoices();
-    const lines = fullyFilteredInvoices.map(i => i.lines);
-    const lineDescs = [].concat.apply([], lines).map(l => l.desc);
-    const uniqueLines = lineDescs.filter((desc, index, arr) => arr.indexOf(desc) === index);
-    options = options.concat(uniqueLines.map(lineDesc => ({value: lineDesc, label: lineDesc, type: 'invoice_line'})));
+    // ATTN: In comment, not particularly useful?
+    //       (on delete: also delete other 'invoice_line' filtering)
+    // const fullyFilteredInvoices = this.getFilteredInvoices();
+    // const lines = fullyFilteredInvoices.map(i => i.lines);
+    // const lineDescs = [].concat.apply([], lines).map(l => l.desc);
+    // const uniqueLines = lineDescs.filter((desc, index, arr) => arr.indexOf(desc) === index);
+    // options = options.concat(uniqueLines.map(lineDesc => ({value: lineDesc, label: lineDesc, type: 'invoice_line'})));
 
     return options;
   }

@@ -72,7 +72,7 @@ export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Compo
         <td style={{whiteSpace: 'nowrap'}}>
           <InvoiceWorkedDays invoices={[invoice]} display={onlyRowForMonth ? undefined : 'invoice'} data-tst={tst('days')} />
         </td>
-        <td style={{textAlign: 'right'}} data-tst={tst('money-total')}>
+        <td style={{textAlign: 'right', whiteSpace: 'nowrap'}} data-tst={tst('money-total')}>
           {moneyFormat(invoice.money.total)}
         </td>
         <td className="icons-cell" width="240px">
