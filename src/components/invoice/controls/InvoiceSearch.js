@@ -83,6 +83,11 @@ const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component {
   }
 
   onChange(value) {
+    if (value === null) {
+      this.props.onChange([]);
+      return;
+    }
+
     // Consider pure int manual input
     // to be search on invoice number
     value.filter(f => !f.type && +f.value).forEach(f => {
