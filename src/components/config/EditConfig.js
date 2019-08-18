@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {t} from '../util.js';
+import {t} from '../util';
 import {Container, Row, Col, Form} from 'react-bootstrap';
-import {EditCompany} from './EditCompany.js';
-import * as Control from '../controls.js';
-import {updateConfig} from '../../actions/index.js';
+import {EditCompany} from './EditCompany';
+import * as Control from '../controls';
+import {updateConfig} from '../../actions/index';
 
 
 class EditConfig extends Component {

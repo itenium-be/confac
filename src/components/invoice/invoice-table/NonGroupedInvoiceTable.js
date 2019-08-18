@@ -1,7 +1,7 @@
 import React from 'react';
 import {Table} from 'react-bootstrap';
-import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from '../InvoiceListRow.js';
-import {getColumns} from './invoice-list-column-factory.js';
+import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from '../InvoiceListRow';
+import {getColumns} from './invoice-list-column-factory';
 
 export const NonGroupedInvoiceTable = ({vm, config}) => {
   const invoices = vm.getFilteredInvoices();

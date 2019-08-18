@@ -1,6 +1,6 @@
 import React from 'react';
-import t from '../../../trans.js';
-import {InvoiceClientCell} from './InvoiceClientCell.js';
+import t from '../../../trans';
+import {InvoiceClientCell} from './InvoiceClientCell';
 
 export function getColumns(fields, showOrderNr, isQuotation) {
   const transPrefix = isQuotation ? 'quotation' : 'invoice';

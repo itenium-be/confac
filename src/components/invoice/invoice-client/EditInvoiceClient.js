@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {t} from '../../util.js';
+import {t} from '../../util';
 
-import * as Control from '../../controls.js';
+import * as Control from '../../controls';
 import {Row, Col} from 'react-bootstrap';
-import ClientDetails from '../../client/controls/ClientDetails.js';
-import InvoiceTotal from '../controls/InvoiceTotal.js';
-import {ClientModal} from '../../client/controls/ClientModal.js';
+import ClientDetails from '../../client/controls/ClientDetails';
+import InvoiceTotal from '../controls/InvoiceTotal';
+import {ClientModal} from '../../client/controls/ClientModal';
 
 
 export class EditInvoiceClient extends Component {

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {t} from '../../util.js';
+import {t} from '../../util';
 import moment from 'moment';
 
-import {BusyButton} from '../../controls.js';
+import {BusyButton} from '../../controls';
 import {Alert} from 'react-bootstrap';
-import {toggleInvoiceVerify} from '../../../actions/index.js';
+import {toggleInvoiceVerify} from '../../../actions/index';
 
 class InvoiceNotVerifiedAlert extends Component {
   static propTypes = {

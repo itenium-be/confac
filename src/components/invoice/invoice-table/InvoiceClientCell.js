@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import t from '../../../trans.js';
+import t from '../../../trans';
 import {ClientEditIcon} from '../../controls';
 import {ClientModal} from '../../client/controls/ClientModal';
-import {saveClient} from '../../../actions/index.js';
+import {saveClient} from '../../../actions/index';
 
 
 export const InvoiceClientCell = connect(state => ({

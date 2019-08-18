@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import {t} from '../util.js';
+import {t} from '../util';
 
-import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel.js';
+import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel';
 import {default as ReactDatePicker} from 'react-datepicker';
 
 export const DatePicker = EnhanceInputWithLabel(class extends Component {

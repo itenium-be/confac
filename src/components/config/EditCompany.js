@@ -1,7 +1,7 @@
 import React from 'react';
-import {t} from '../util.js';
+import {t} from '../util';
 
-import {InputArray} from '../controls.js';
+import {InputArray} from '../controls';
 import {TemplatePicker} from '../controls/TemplatePicker';
 import {Row} from 'react-bootstrap';
 

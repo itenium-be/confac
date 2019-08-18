@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {t} from '../../util.js';
-import {SimpleSelect} from '../../controls/Select.js';
+import {t} from '../../util';
+import {SimpleSelect} from '../../controls/Select';
 
 
 export const invoiceLineTypes = ['hourly', 'daily', 'km', 'items', 'section', 'other'];

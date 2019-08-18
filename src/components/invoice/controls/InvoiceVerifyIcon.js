@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import moment from 'moment';
-import {BusyVerifyIcon} from '../../controls.js';
-import t from '../../../trans.js';
-import {toggleInvoiceVerify} from '../../../actions/index.js';
+import {BusyVerifyIcon} from '../../controls';
+import t from '../../../trans';
+import {toggleInvoiceVerify} from '../../../actions/index';
 
 class InvoiceVerifyIcon extends Component {
   static propTypes = {

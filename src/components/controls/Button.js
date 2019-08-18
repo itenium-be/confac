@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Button as ReactButton} from 'react-bootstrap';
-import {Icon} from './Icon.js';
+import {Icon} from './Icon';
 
 export class Button extends Component {
   static propTypes = {

@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {Tooltip} from './Tooltip';
 import cn from 'classnames';
-import {EnhanceWithConfirmation, EnhanceWithBusySpinner} from '../enhancers/index.js';
-import t from '../../trans.js';
+import {EnhanceWithConfirmation, EnhanceWithBusySpinner} from '../enhancers/index';
+import t from '../../trans';
 
 const EnhanceIconWithCenter = ComposedComponent => ({center, ...props}) => {
   if (center) {

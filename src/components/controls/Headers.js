@@ -1,5 +1,5 @@
 import React from 'react';
-import {EditIcon} from './Icon.js';
+import {EditIcon} from './Icon';
 
 const Header1 = ({children, ...props}) => (<h1 {...props}>{children}</h1>);
 const Header2 = ({children, ...props}) => (<h2 {...props}>{children}</h2>);

@@ -1,10 +1,10 @@
 import React from 'react';
 import request from 'superagent-bluebird-promise';
 
-import {ACTION_TYPES} from './ActionTypes.js';
-import {buildUrl, catchHandler} from './fetch.js';
+import {ACTION_TYPES} from './ActionTypes';
+import {buildUrl, catchHandler} from './fetch';
 import { toast } from 'react-toastify';
-import t from '../trans.js';
+import t from '../trans';
 
 function getIcon(type) {
   switch (type) {

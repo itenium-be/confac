@@ -1,4 +1,4 @@
-import {ACTION_TYPES} from './ActionTypes.js';
+import {ACTION_TYPES} from './ActionTypes';
 import {httpGet} from './fetch';
 
 function fetchClients() {

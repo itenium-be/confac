@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {t} from '../util.js';
+import {t} from '../util';
 
-import {ClientEditIcon, InvoiceWorkedDays, InvoicesSummary, DeleteIcon} from '../controls.js';
-import {saveClient} from '../../actions/index.js';
+import {ClientEditIcon, InvoiceWorkedDays, InvoicesSummary, DeleteIcon} from '../controls';
+import {saveClient} from '../../actions/index';
 
 
 export const ClientListHeader = () => (

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {t} from '../../util.js';
+import {t} from '../../util';
 import Creatable from 'react-select/creatable';
 import {Row, Col} from 'react-bootstrap';
-import {Switch} from '../../controls.js';
-import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel.js';
+import {Switch} from '../../controls';
+import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 
 // The object returned by InvoiceListViewModel::getFilterOptions
 const filterOptionsPropType = PropTypes.arrayOf(PropTypes.shape({

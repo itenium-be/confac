@@ -1,7 +1,7 @@
 import request from 'superagent-bluebird-promise';
-import {ACTION_TYPES} from './ActionTypes.js';
-import {success, busyToggle} from './appActions.js';
-import {buildUrl, catchHandler} from './fetch.js';
+import {ACTION_TYPES} from './ActionTypes';
+import {success, busyToggle} from './appActions';
+import {buildUrl, catchHandler} from './fetch';
 
 
 export function buildAttachmentUrl(invoiceOrClient, type) {

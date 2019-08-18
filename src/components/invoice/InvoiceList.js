@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {updateInvoiceFilters} from '../../actions/index.js';
-import InvoiceListViewModel from './InvoiceListViewModel.js';
+import {updateInvoiceFilters} from '../../actions/index';
+import InvoiceListViewModel from './InvoiceListViewModel';
 import {Container} from 'react-bootstrap';
-import {InvoiceSearch} from './controls/InvoiceSearch.js';
-import {GroupedInvoiceTable} from './invoice-table/GroupedInvoiceTable.js';
-import {NonGroupedInvoiceTable} from './invoice-table/NonGroupedInvoiceTable.js';
+import {InvoiceSearch} from './controls/InvoiceSearch';
+import {GroupedInvoiceTable} from './invoice-table/GroupedInvoiceTable';
+import {NonGroupedInvoiceTable} from './invoice-table/NonGroupedInvoiceTable';
 
 
 export class InvoiceList extends Component {

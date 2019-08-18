@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Icon, SpinnerIcon} from '../../controls/Icon.js';
-import {downloadInvoice, downloadClientAttachment, previewInvoice} from '../../../actions/index.js';
-import t from '../../../trans.js';
+import {Icon, SpinnerIcon} from '../../controls/Icon';
+import {downloadInvoice, downloadClientAttachment, previewInvoice} from '../../../actions/index';
+import t from '../../../trans';
 
 export const InvoiceDownloadIcon = ({invoice, ...props}) => (
   <AttachmentDownloadIcon

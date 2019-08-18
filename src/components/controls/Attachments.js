@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Dropzone from 'react-dropzone';
-import {t} from '../util.js';
+import {t} from '../util';
 
 import {Row, Col, FormLabel, FormGroup, Alert} from 'react-bootstrap';
-import {AttachmentDownloadIcon, AddIcon, Popup, SimpleCreatableSelect, ConfirmedDeleteIcon, HeaderWithEditIcon} from '../controls.js';
-import {updateAttachment, deleteAttachment} from '../../actions/index.js';
+import {AttachmentDownloadIcon, AddIcon, Popup, SimpleCreatableSelect, ConfirmedDeleteIcon, HeaderWithEditIcon} from '../controls';
+import {updateAttachment, deleteAttachment} from '../../actions/index';
 
 class AttachmentsFormComponent extends Component {
   static propTypes = {

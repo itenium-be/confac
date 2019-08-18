@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Col, FormControl} from 'react-bootstrap';
-import {t} from '../util.js';
-import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel.js';
-import {EnhanceInputWithAddons} from '../enhancers/EnhanceInputWithAddons.js';
+import {t} from '../util';
+import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel';
+import {EnhanceInputWithAddons} from '../enhancers/EnhanceInputWithAddons';
 
 
 const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Component {

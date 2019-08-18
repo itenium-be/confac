@@ -3,10 +3,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container} from 'react-bootstrap';
 
-import * as Control from '../controls.js';
-import {updateInvoiceFilters} from '../../actions/index.js';
-import {InvoiceList} from '../invoice/InvoiceList.js';
-import {t} from '../util.js';
+import * as Control from '../controls';
+import {updateInvoiceFilters} from '../../actions/index';
+import {InvoiceList} from '../invoice/InvoiceList';
+import {t} from '../util';
 
 
 export default class QuotationList extends Component {

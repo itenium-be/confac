@@ -1,6 +1,6 @@
 import React from 'react';
-import {t} from '../../util.js';
-import {BusyButton} from '../../controls.js';
+import {t} from '../../util';
+import {BusyButton} from '../../controls';
 import {withRouter} from 'react-router-dom';
 
 export const EditInvoiceSaveButtons = withRouter(({ match, location, history, staticContext, ...props }) => (

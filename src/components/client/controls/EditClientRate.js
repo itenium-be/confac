@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {t} from '../../util.js';
-import * as Control from '../../controls.js';
+import {t} from '../../util';
+import * as Control from '../../controls';
 import {Col} from 'react-bootstrap';
 
 export class EditClientRate extends Component {

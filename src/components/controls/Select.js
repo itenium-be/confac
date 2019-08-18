@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import Creatable from 'react-select/creatable';
-import {t} from '../util.js';
+import {t} from '../util';
 
-import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel.js';
+import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel';
 
 const BaseSelect = EnhanceInputWithLabel(props => (
   <Select

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {t} from '../../util.js';
-import {calculateDaysWorked} from '../EditInvoiceViewModel.js';
+import {t} from '../../util';
+import {calculateDaysWorked} from '../EditInvoiceViewModel';
 
 export class InvoiceWorkedDays extends Component {
   static propTypes = {

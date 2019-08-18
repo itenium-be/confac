@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {t} from '../../util.js';
-import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel.js';
+import {t} from '../../util';
+import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import Select from 'react-select';
 
 class ClientSelectComponent extends Component {

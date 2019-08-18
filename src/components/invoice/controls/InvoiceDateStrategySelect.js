@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {t} from '../../util.js';
-import {SimpleSelect} from '../../controls/Select.js';
-import {invoiceDateStrategies} from '../invoice-date-strategy.js';
+import {t} from '../../util';
+import {SimpleSelect} from '../../controls/Select';
+import {invoiceDateStrategies} from '../invoice-date-strategy';
 
 
 export class InvoiceDateStrategySelect extends Component {

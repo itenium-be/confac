@@ -1,9 +1,9 @@
 import request from 'superagent-bluebird-promise';
-import {ACTION_TYPES} from './ActionTypes.js';
-import {success, failure, busyToggle} from './appActions.js';
-import {buildUrl, catchHandler} from './fetch.js';
-import t from '../trans.js';
-import {previewInvoice} from './downloadActions.js';
+import {ACTION_TYPES} from './ActionTypes';
+import {success, failure, busyToggle} from './appActions';
+import {buildUrl, catchHandler} from './fetch';
+import t from '../trans';
+import {previewInvoice} from './downloadActions';
 
 
 function cleanViewModel(data) {

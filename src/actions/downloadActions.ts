@@ -1,12 +1,13 @@
 import request from 'superagent-bluebird-promise';
 
-import {failure, busyToggle} from './appActions.js';
-import {buildUrl, catchHandler} from './fetch.js';
-import t from '../trans.js';
-import {buildAttachmentUrl} from './attachmentActions.js';
+import {failure, busyToggle} from './appActions';
+import {buildUrl, catchHandler} from './fetch';
+import t from '../trans';
+import {buildAttachmentUrl} from './attachmentActions';
 
 
 export function previewInvoice(data) {
+  console.log('data', data);
   return dispatch => {
     dispatch(busyToggle());
     request.post(buildUrl('/invoices/preview'))

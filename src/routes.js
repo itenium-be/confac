@@ -2,12 +2,12 @@ import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import {AppWithLayout} from './components/AppWithLayout';
-import EditInvoice from './components/invoice/EditInvoice.js';
-import InvoiceList from './components/invoice/InvoiceList.js';
-import QuotationList from './components/quotation/QuotationList.js';
-import ClientList from './components/client/ClientList.js';
-import EditClient from './components/client/EditClient.js';
-import EditConfig from './components/config/EditConfig.js';
+import EditInvoice from './components/invoice/EditInvoice';
+import InvoiceList from './components/invoice/InvoiceList';
+import QuotationList from './components/quotation/QuotationList';
+import ClientList from './components/client/ClientList';
+import EditClient from './components/client/EditClient';
+import EditConfig from './components/config/EditConfig';
 
 const Routes = () => (
   <BrowserRouter>

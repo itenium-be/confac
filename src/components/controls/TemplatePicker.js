@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {SimpleSelect} from './Select.js';
-import {httpGet} from '../../actions/fetch.js';
+import {SimpleSelect} from './Select';
+import {httpGet} from '../../actions/fetch';
 
 
 class TemplatePickerComponent extends Component {

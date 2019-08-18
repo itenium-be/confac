@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {t, EditInvoiceViewModel} from '../util.js';
+import {t, EditInvoiceViewModel} from '../util';
 
-import * as Control from '../controls.js';
+import * as Control from '../controls';
 import {Table} from 'react-bootstrap';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import {createEditInvoiceLine} from './invoice-lines/EditInvoiceLineFactory.js';
-import {EditInvoiceLineIcons, EditInvoiceDragHandle} from './invoice-lines/EditInvoiceLineIcons.js';
+import {createEditInvoiceLine} from './invoice-lines/EditInvoiceLineFactory';
+import {EditInvoiceLineIcons, EditInvoiceDragHandle} from './invoice-lines/EditInvoiceLineIcons';
 
 export default class EditInvoiceLines extends Component {
   static propTypes = {

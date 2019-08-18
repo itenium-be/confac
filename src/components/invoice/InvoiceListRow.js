@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {moneyFormat, t} from '../util.js';
+import {moneyFormat, t} from '../util';
 import cn from 'classnames';
-import {ConfirmedDeleteIcon, EditIcon, InvoiceDownloadIcon, InvoicePreviewIcon, InvoiceVerifyIconToggle} from '../controls.js';
-import {deleteInvoice} from '../../actions/index.js';
-import {InvoiceWorkedDays} from './controls/InvoiceWorkedDays.js';
-import {InvoicesTotal} from './controls/InvoiceTotal.js';
-import {InvoiceAmountLabel} from './controls/InvoicesSummary.js';
+import {ConfirmedDeleteIcon, EditIcon, InvoiceDownloadIcon, InvoicePreviewIcon, InvoiceVerifyIconToggle} from '../controls';
+import {deleteInvoice} from '../../actions/index';
+import {InvoiceWorkedDays} from './controls/InvoiceWorkedDays';
+import {InvoicesTotal} from './controls/InvoiceTotal';
+import {InvoiceAmountLabel} from './controls/InvoicesSummary';
 
 
 

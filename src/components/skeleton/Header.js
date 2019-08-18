@@ -1,8 +1,8 @@
 import React from 'react';
 import {Button, Nav, Navbar} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import {t} from '../util.js';
-import {AddIcon} from '../controls.js';
+import {t} from '../util';
+import {AddIcon} from '../controls';
 
 const Header = () => (
   <Navbar bg="light" expand="lg">

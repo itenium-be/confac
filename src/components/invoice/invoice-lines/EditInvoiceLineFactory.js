@@ -1,5 +1,5 @@
-import {EditInvoiceDefaultLine} from './EditInvoiceDefaultLine.js';
-import {EditInvoiceSectionLine} from './EditInvoiceSectionLine.js';
+import {EditInvoiceDefaultLine} from './EditInvoiceDefaultLine';
+import {EditInvoiceSectionLine} from './EditInvoiceSectionLine';
 
 const lineTypeComponentMapping = {
   section: EditInvoiceSectionLine

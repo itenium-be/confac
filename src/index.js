@@ -26,8 +26,8 @@ import './index.scss';
 
 
 // Fetch data from the db
-import {store} from './store.js';
-import {initialLoad} from './actions/index.js';
+import {store} from './store';
+import {initialLoad} from './actions/index';
 store.dispatch(initialLoad());
 
 
@@ -35,7 +35,7 @@ store.dispatch(initialLoad());
 
 // Create the AppRoot
 import {Provider} from 'react-redux';
-import Routes from './routes.js';
+import Routes from './routes';
 
 ReactDOM.render(
   <Provider store={store}>

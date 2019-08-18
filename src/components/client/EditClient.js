@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {t} from '../util.js';
+import {t} from '../util';
 import moment from 'moment';
-import {BusyButton, StringInput, InputArray, AttachmentsForm, TextareaInput, PropertiesSelect, ExtraFieldsInput} from '../controls.js';
+import {BusyButton, StringInput, InputArray, AttachmentsForm, TextareaInput, PropertiesSelect, ExtraFieldsInput} from '../controls';
 import {Container, Row, Col, Form} from 'react-bootstrap';
-import {saveClient} from '../../actions/index.js';
-import {EditClientRate} from './controls/EditClientRate.js';
-import {getNewClient, defaultClientProperties} from './EditClientViewModel.js';
-import * as Control from '../controls.js';
+import {saveClient} from '../../actions/index';
+import {EditClientRate} from './controls/EditClientRate';
+import {getNewClient, defaultClientProperties} from './EditClientViewModel';
+import * as Control from '../controls';
 
 
 class EditClient extends Component {

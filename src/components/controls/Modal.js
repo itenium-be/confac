@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {t} from '../util.js';
+import {t} from '../util';
 
 import {Button, Modal as ReactModal} from 'react-bootstrap';
 

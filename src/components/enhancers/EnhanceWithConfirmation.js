@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Popup} from '../controls/Popup.js';
-import {t} from '../util.js';
+import {Popup} from '../controls/Popup';
+import {t} from '../util';
 
 export const EnhanceWithConfirmation = ComposedComponent => class extends Component {
   static propTypes = {

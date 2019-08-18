@@ -1,6 +1,6 @@
 import React from 'react';
 import {Tooltip} from '../../controls/Tooltip';
-import {t, moneyFormat} from '../../util.js';
+import {t, moneyFormat} from '../../util';
 
 export const InvoiceAmountLabel = ({invoices, isQuotation, ...props}) => {
   const type = isQuotation ? 'quotation' : 'invoice';

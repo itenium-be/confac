@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {t} from '../../util.js';
-import * as Control from '../../controls.js';
+import {t} from '../../util';
+import * as Control from '../../controls';
 import {Container, Row, Form, Col} from 'react-bootstrap';
-import {saveClient} from '../../../actions/appActions.js';
-import {getNewClient, requiredClientProperties} from '../../client/EditClientViewModel.js';
+import {saveClient} from '../../../actions/appActions';
+import {getNewClient, requiredClientProperties} from '../../client/EditClientViewModel';
 
 
 class ClientModalComponent extends Component {

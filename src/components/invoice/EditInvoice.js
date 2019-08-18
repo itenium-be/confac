@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {t, EditInvoiceViewModel} from '../util.js';
+import {t, EditInvoiceViewModel} from '../util';
 import moment from 'moment';
-import * as Control from '../controls.js';
+import * as Control from '../controls';
 import {Container, Row, Col, Form} from 'react-bootstrap';
-import EditInvoiceLines from './EditInvoiceLines.js';
-import InvoiceNotVerifiedAlert from './controls/InvoiceNotVerifiedAlert.js';
-import {EditInvoiceSaveButtons} from './controls/EditInvoiceSaveButtons.js';
-import {invoiceAction} from '../../actions/index.js';
-import {EditInvoiceClient} from './invoice-client/EditInvoiceClient.js';
-import {EditInvoiceExtraFields} from './invoice-extra-fields/EditInvoiceExtraFields.js';
+import EditInvoiceLines from './EditInvoiceLines';
+import InvoiceNotVerifiedAlert from './controls/InvoiceNotVerifiedAlert';
+import {EditInvoiceSaveButtons} from './controls/EditInvoiceSaveButtons';
+import {invoiceAction} from '../../actions/index';
+import {EditInvoiceClient} from './invoice-client/EditInvoiceClient';
+import {EditInvoiceExtraFields} from './invoice-extra-fields/EditInvoiceExtraFields';
 
 export class EditInvoice extends Component {
   static propTypes = {

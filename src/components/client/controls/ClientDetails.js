@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {ClientEditIcon, HeaderWithEditIcon, EditIcon} from '../../controls.js';
-import {t} from '../../util.js';
+import {ClientEditIcon, HeaderWithEditIcon, EditIcon} from '../../controls';
+import {t} from '../../util';
 
 const ClientDetails = ({client, onOpenDetails, onOpenDetailsTitle}) => (
   <div>

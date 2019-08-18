@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {EditInvoiceViewModel} from '../../util.js';
-import * as Control from '../../controls.js';
+import {EditInvoiceViewModel} from '../../util';
+import * as Control from '../../controls';
 
 export class EditInvoiceDefaultLine extends Component {
   static propTypes = {

@@ -1,7 +1,7 @@
 import moment from 'moment';
-import {defaultConfig} from '../../../reducers.js';
-import {getNewClient} from '../../client/EditClientViewModel.js';
-import EditInvoiceViewModel, {calculateDaysWorked} from '../EditInvoiceViewModel.js';
+import {defaultConfig} from '../../../reducers';
+import {getNewClient} from '../../client/EditClientViewModel';
+import EditInvoiceViewModel, {calculateDaysWorked} from '../EditInvoiceViewModel';
 
 //const defaultHoursInDay = 8;
 

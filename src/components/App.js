@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import Header from './skeleton/Header.js';
+import Header from './skeleton/Header';
 
 import {ToastContainer} from 'react-toastify';
-// import { success, failure } from '../actions/appActions.js';
+// import { success, failure } from '../actions/appActions';
 // <button onClick={() => success("greato success")}>Success</button>
 // <button onClick={() => failure("oh noes")}>Error</button>
 

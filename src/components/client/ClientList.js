@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {t} from '../util.js';
+import {t} from '../util';
 
-import * as Control from '../controls.js';
+import * as Control from '../controls';
 import {Container, Table, Row, Col} from 'react-bootstrap';
-import ClientListRow, {ClientListHeader} from './ClientListRow.js';
-import {updateInvoiceFilters} from '../../actions/index.js';
-import {getInvoiceYears} from '../invoice/InvoiceListViewModel.js';
+import ClientListRow, {ClientListHeader} from './ClientListRow';
+import {updateInvoiceFilters} from '../../actions/index';
+import {getInvoiceYears} from '../invoice/InvoiceListViewModel';
 
 class ClientList extends Component {
   static propTypes = {

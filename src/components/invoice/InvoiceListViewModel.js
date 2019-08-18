@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {getNumeric} from '../util.js';
+import {getNumeric} from '../util';
 
 function transformFilters(search) {
   const transformFn = type => search.filter(f => f.type === type).map(f => f.value);

@@ -1,12 +1,12 @@
 import React from 'react';
-import {groupInvoicesPerMonth} from '../EditInvoiceViewModel.js';
+import {groupInvoicesPerMonth} from '../EditInvoiceViewModel';
 
 import {Table} from 'react-bootstrap';
-import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from '../InvoiceListRow.js';
-import {InvoiceWorkedDays} from '../controls/InvoiceWorkedDays.js';
-import {InvoicesTotal} from '../controls/InvoiceTotal.js';
-import {InvoiceAmountLabel} from '../controls/InvoicesSummary.js';
-import {getColumns} from './invoice-list-column-factory.js';
+import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from '../InvoiceListRow';
+import {InvoiceWorkedDays} from '../controls/InvoiceWorkedDays';
+import {InvoicesTotal} from '../controls/InvoiceTotal';
+import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
+import {getColumns} from './invoice-list-column-factory';
 
 
 export const GroupedInvoiceTable = ({vm, config}) => {
