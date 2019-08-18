@@ -63,7 +63,7 @@ class IconComponent extends Component {
       // TODO: Not sure if the above still holds: changed tooltip from react-tooltip to rc-tooltip
       return (
         <div style={{display: 'inline'}}>
-          <Tooltip placement="left" overlay={title} mouseEnterDelay={0.6}>
+          <Tooltip placement="left" overlay={title.split('<br>').map((line, i) => <div key={i}>{line}</div>)} mouseEnterDelay={0.6}>
             {FinalIcon}
           </Tooltip>
         </div>

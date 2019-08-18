@@ -31,7 +31,7 @@ export const InvoicesSummary = ({invoices, ...props}) => {
 
   const tst = props['data-tst']; //eslint-disable-line
   return (
-    <Tooltip placement="left" overlay={tooltip}>
+    <Tooltip placement="left" overlay={tooltip.split('<br>').map((line, i) => <div key={i}>{line}</div>)}>
       <div>
         <InvoiceAmountLabel invoices={invoices} data-tst={tst + '-amount'} isQuotation={false} />
         <br />
