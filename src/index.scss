@@ -1,3 +1,8 @@
+// @media (min-width: 576px) { }
+// @media (min-width: 768px) { }
+// @media (min-width: 992px) { }
+// @media (min-width: 1200px) { }
+
 body {
 	margin: 0;
 	padding: 0;
@@ -94,6 +99,20 @@ small.created-on {
 }
 
 
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 500px;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal-dialog {
+    max-width: 650px;
+  }
+}
+
+
 @media (max-width: 1200px) {
 	.container {
 		width: 100%;
@@ -102,6 +121,10 @@ small.created-on {
 	.edit-container h1 {
 		margin-left: 10px;
 	}
+}
+
+.form-control:focus {
+  box-shadow: unset !important;
 }
 
 .react-datepicker-wrapper {

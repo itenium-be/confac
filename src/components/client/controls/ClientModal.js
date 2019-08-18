@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t} from '../../util.js';
 import * as Control from '../../controls.js';
-import {Row, Form, Col} from 'react-bootstrap';
+import {Container, Row, Form, Col} from 'react-bootstrap';
 import {saveClient} from '../../../actions/appActions.js';
 import {getNewClient, requiredClientProperties} from '../../client/EditClientViewModel.js';
 
@@ -54,26 +54,29 @@ class ClientModalComponent extends Component {
         onClose={this.props.onClose}
         title={client._id ? client.name : t('client.createNew')}
         onConfirm={this.onSave.bind(this)}
+        dialogClassName="modal-client"
       >
         <Form>
-          <Row>
-            <Control.InputArray
-              config={requiredClientProperties}
-              model={client}
-              onChange={value => this.setState({...client, ...value})}
-              tPrefix="config.company."
-            />
-
-            <Col sm={12}>
-              <Control.TextareaInput
-                label={t('notes')}
-                placeholder={t('notes')}
-                value={client.notes}
-                onChange={value => this.setState({...client, notes: value})}
-                style={{height: 120}}
+          <Container>
+            <Row>
+              <Control.InputArray
+                config={requiredClientProperties}
+                model={client}
+                onChange={value => this.setState({...client, ...value})}
+                tPrefix="config.company."
               />
-            </Col>
-          </Row>
+
+              <Col sm={12}>
+                <Control.TextareaInput
+                  label={t('notes')}
+                  placeholder={t('notes')}
+                  value={client.notes}
+                  onChange={value => this.setState({...client, notes: value})}
+                  style={{height: 120}}
+                />
+              </Col>
+            </Row>
+          </Container>
         </Form>
       </Control.Modal>
     );
