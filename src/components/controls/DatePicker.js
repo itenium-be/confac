@@ -4,7 +4,13 @@ import moment from 'moment';
 import { t } from '../util.js';
 
 import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel.js';
-import BootstrapDatePicker from 'react-16-bootstrap-date-picker';
+import {default as ReactDatePicker} from 'react-datepicker';
+
+import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import nl from 'date-fns/locale/nl';
+registerLocale('nl', nl);
+setDefaultLocale('nl');
+
 
 export const DatePicker = EnhanceInputWithLabel(class extends Component {
   static propTypes = {
@@ -13,24 +19,17 @@ export const DatePicker = EnhanceInputWithLabel(class extends Component {
     onChange: PropTypes.func.isRequired,
   }
 
-  // calendarContainer={document.body}:
-  // Workaround for making the dropdown visible when placed
-  // in the second cell of a container with className split
-
   render() {
-    const MONDAY = 1;
     return (
-      <BootstrapDatePicker
-        value={this.props.value ? this.props.value.toISOString() : undefined}
+      <ReactDatePicker
+        className="form-control"
+
+        selected={this.props.value ? this.props.value.toDate() : undefined}
         onChange={dateString => this.props.onChange(dateString ? moment(dateString) : null)}
-        dateFormat="DD/MM/YYYY"
-        monthLabels={['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'October', 'November', 'December']}
-        dayLabels={['Zon', 'Ma', 'Di', 'Woe', 'Do', 'Vr', 'Zat']}
-        showTodayButton={true}
-        todayButtonLabel={t('controls.today')}
-        weekStartsOn={MONDAY}
-        calendarContainer={document.body}
-        className={'tst-' + this.props['data-tst']}
+        locale="nl"
+        dateFormat="dd/MM/yyyy"
+        peekNextMonth={false}
+        todayButton={t('controls.today')}
       />
     );
   }

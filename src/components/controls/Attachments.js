@@ -62,29 +62,29 @@ class AbstractAttachmentsForm extends Component {
     const canDeleteAttachments = this.props.attachments.length > (this.props.modelType === 'client' ? 0 : 1);
     const transPrefix = this.props.modelType;
     return (
-      <Row className="tst-attachments"><Col>
-        <HeaderWithEditIcon
-          label={t('invoice.attachments')}
-          editIconVisible={canDeleteAttachments}
-          onEditClick={() => this.setState({isFormOpen: !this.state.isFormOpen})}
-        />
+      <Row className="tst-attachments">
+        <Col sm={12}>
+          <HeaderWithEditIcon
+            label={t('invoice.attachments')}
+            editIconVisible={canDeleteAttachments}
+            onEditClick={() => this.setState({isFormOpen: !this.state.isFormOpen})}
+          />
 
-        <AddIcon
-          style={{marginTop: 0, marginLeft: 16}}
-          onClick={() => this.setState({isOpen: true})}
-          label={t('invoice.attachmentsAdd')}
-          size={1}
-          data-tst="add-attachment"
-        />
+          <AddIcon
+            style={{marginTop: 0, marginLeft: 16}}
+            onClick={() => this.setState({isOpen: true})}
+            label={t('invoice.attachmentsAdd')}
+            size={1}
+            data-tst="add-attachment"
+          />
 
-        <AddAttachmentPopup
-          isOpen={this.state.isOpen}
-          attachments={this.props.attachments}
-          onClose={() => this.setState({isOpen: false})}
-          onAdd={att => this.props.onAdd(att)}
-        />
-
-        <br />
+          <AddAttachmentPopup
+            isOpen={this.state.isOpen}
+            attachments={this.props.attachments}
+            onClose={() => this.setState({isOpen: false})}
+            onAdd={att => this.props.onAdd(att)}
+          />
+        </Col>
 
         {this.props.attachments.map(att => (
           <Col sm={3} key={att.type} style={{height: 45}}>
@@ -115,7 +115,7 @@ class AbstractAttachmentsForm extends Component {
             </div>
           </Col>
         ))}
-      </Col></Row>
+      </Row>
     );
   }
 }

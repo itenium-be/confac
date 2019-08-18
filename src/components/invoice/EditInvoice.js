@@ -93,6 +93,7 @@ export class EditInvoice extends Component {
 
   render() {
     const {invoice} = this.state;
+    const extraFieldsVisible = invoice.extraFields.length === 0 && !this.state.showExtraFields;
     return (
       <Container className="edit-container">
         <Form>
@@ -105,7 +106,9 @@ export class EditInvoice extends Component {
             <Col sm={12}>
               <InvoiceNotVerifiedAlert invoice={invoice} />
             </Col>
+          </Row>
 
+          <Row>
             <Col sm={6}>
               <EditInvoiceClient
                 invoice={invoice}
@@ -113,31 +116,39 @@ export class EditInvoice extends Component {
               />
             </Col>
 
-            <EditInvoiceDetails
-              invoice={invoice}
-              onChange={(fieldName, value) => this.updateInvoice(fieldName, value)}
-            />
-
-            {invoice.extraFields.length === 0 && !this.state.showExtraFields ? (
-              <Control.DownArrowIcon
-                center
-                color="#D3D3D3"
-                title={t('config.extraFields.open')}
-                onClick={() => this.setState({showExtraFields: !this.state.showExtraFields})}
-                data-tst="extra-fields-open"
-              />
-            ) : (
-              <Col sm={6}>
-                <Control.StringInput
-                  label={t('invoice.discount')}
-                  placeholder={t('invoice.discountPlaceholder')}
-                  value={invoice.discount}
-                  onChange={value => this.updateInvoice('discount', value, true)}
-                  data-tst="invoice.discount"
+            <Col sm={6}>
+              <Row>
+                <EditInvoiceDetails
+                  invoice={invoice}
+                  onChange={(fieldName, value) => this.updateInvoice(fieldName, value)}
                 />
-              </Col>
-            )}
+
+                {extraFieldsVisible ? (
+                  <Col sm={12}>
+                    <Control.DownArrowIcon
+                      center
+                      color="#D3D3D3"
+                      title={t('config.extraFields.open')}
+                      onClick={() => this.setState({showExtraFields: !this.state.showExtraFields})}
+                      data-tst="extra-fields-open"
+                    />
+                  </Col>
+                ) : (
+                  <Col sm={12}>
+                    <Control.StringInput
+                      label={t('invoice.discount')}
+                      placeholder={t('invoice.discountPlaceholder')}
+                      value={invoice.discount}
+                      onChange={value => this.updateInvoice('discount', value, true)}
+                      data-tst="invoice.discount"
+                    />
+                  </Col>
+                )}
+              </Row>
+            </Col>
           </Row>
+
+
 
           <EditInvoiceExtraFields
             forceOpen={this.state.showExtraFields}
@@ -184,40 +195,38 @@ const EditInvoiceDetails = ({invoice, onChange}) => {
   return (
     <>
       <Col sm={6}>
-        <div className="split">
-          <Control.NumericInput
-            prefix={invoice.verified ? <Control.VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} data-tst="invoice-is-verified" /> : undefined}
-            label={tp('.number')}
-            value={invoice.number}
-            onChange={value => onChange('number', value)}
-            data-tst="invoice.number"
-          />
-
-          <Control.DatePicker
-            label={tp('.date')}
-            value={invoice.date}
-            onChange={value => onChange('date', value)}
-            data-tst="invoice.date"
-          />
-        </div>
+        <Control.NumericInput
+          prefix={invoice.verified ? <Control.VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} data-tst="invoice-is-verified" /> : undefined}
+          label={tp('.number')}
+          value={invoice.number}
+          onChange={value => onChange('number', value)}
+          data-tst="invoice.number"
+        />
+      </Col>
+      <Col sm={6}>
+        <Control.DatePicker
+          label={tp('.date')}
+          value={invoice.date}
+          onChange={value => onChange('date', value)}
+          data-tst="invoice.date"
+        />
       </Col>
 
       <Col sm={6}>
-        <div className="split">
-          <Control.StringInput
-            label={t('invoice.orderNr')}
-            value={invoice.orderNr}
-            onChange={value => onChange('orderNr', value)}
-            data-tst="invoice.orderNr"
-          />
-
-          <Control.StringInput
-            label={tp('.fileName')}
-            value={invoice.fileName}
-            onChange={value => onChange('fileName', value)}
-            data-tst="invoice.fileName"
-          />
-        </div>
+        <Control.StringInput
+          label={t('invoice.orderNr')}
+          value={invoice.orderNr}
+          onChange={value => onChange('orderNr', value)}
+          data-tst="invoice.orderNr"
+        />
+      </Col>
+      <Col sm={6}>
+        <Control.StringInput
+          label={tp('.fileName')}
+          value={invoice.fileName}
+          onChange={value => onChange('fileName', value)}
+          data-tst="invoice.fileName"
+        />
       </Col>
     </>
   );

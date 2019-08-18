@@ -22,6 +22,7 @@ const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Com
     return (
       <FormControl
         type={type === 'textarea' ? 'text' : type}
+        as={type === 'textarea' ? 'textarea' : undefined}
         className={type === 'textarea' ? 'textarea' : undefined}
         value={this.props.value}
         placeholder={this.props.placeholder}

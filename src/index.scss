@@ -103,3 +103,11 @@ small.created-on {
 		margin-left: 10px;
 	}
 }
+
+.react-datepicker-wrapper {
+  width: 100%;
+
+  .react-datepicker__input-container {
+    width: 100%;
+  }
+}

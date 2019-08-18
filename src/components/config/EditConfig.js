@@ -8,7 +8,6 @@ import * as Control from '../controls.js';
 import {updateConfig} from '../../actions/index.js';
 
 
-
 class EditConfig extends Component {
   static propTypes = {
     config: PropTypes.shape({
