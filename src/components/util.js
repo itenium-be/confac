@@ -1,5 +1,26 @@
 import numeral from 'numeral';
 
+numeral.register('locale', 'nl', {
+  delimiters: {
+    thousands: '.',
+    decimal: ','
+  },
+  abbreviations: {
+    thousand: 'k',
+    million: 'm',
+    billion: 'b',
+    trillion: 't'
+  },
+  ordinal: function (number) {
+    return number === 1 ? 'ste' : 'de';
+  },
+  currency: {
+    symbol: '€'
+  }
+});
+
+numeral.locale('nl');
+
 export function moneyFormat(input) {
   return '€ ' + numeral(input).format('0,0.00');
 }
