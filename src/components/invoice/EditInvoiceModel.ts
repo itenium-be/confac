@@ -8,6 +8,7 @@ import { Attachment } from '../../models';
 //const getInvoiceString = invoice => `${invoice.number} - ${invoice.client.name} (${invoice.date.format('YYYY-MM')})`;
 
 export default class EditInvoiceModel {
+  _id: string;
   number: number;
   client: EditClientModel;
   your: EditConfigCompanyModel;
@@ -18,7 +19,6 @@ export default class EditInvoiceModel {
   discount: string;
   attachments: Attachment[];
   isQuotation: boolean;
-  // private _id: string; // Syntax error: need to turn into getters/setters
   // private _defaultTax: number;
   // private _defaultType: EditClientRateType;
 

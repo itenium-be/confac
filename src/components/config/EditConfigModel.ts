@@ -2,7 +2,7 @@ import { EditClientRateType, InvoiceDateStrategy } from "../../models";
 
 export type EditConfigModel = {
   company: EditConfigCompanyModel,
-  defaultClient: string,
+  defaultClient: string | null,
   defaultTax: number,
   attachmentTypes: string[],
   extraConfigFields: string[],
@@ -23,6 +23,7 @@ export type EditConfigCompanyModel = {
   city: string,
   btw: string,
   bank: string,
+  iban: string,
   bic: string,
   telephone: string,
   email: string,

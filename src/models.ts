@@ -8,3 +8,18 @@ export type Attachment = {
   fileType: string,
   lastModifiedDate: string,
 }
+
+export type AppState = {
+  isLoaded: boolean,
+  isBusy: boolean,
+  busyCount: number,
+  invoiceFilters: InvoiceFilters,
+  pdf: string | null,
+}
+
+export type InvoiceFilters = {
+  search: Array<{value: string, label: string, type: string}>,
+  unverifiedOnly: boolean,
+  groupedByMonth: boolean,
+  clientListYears: number[],
+}
