@@ -23,6 +23,10 @@ export class InvoiceList extends Component {
   };
 
   render() {
+    if (!this.props.filters) {
+      return null;
+    }
+
     const isQuotation = window.location.pathname === '/quotations';
     const vm = new InvoiceListModel(this.props.invoices, this.props.clients, this.props.filters, isQuotation);
 
