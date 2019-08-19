@@ -5,8 +5,12 @@ import {ACTION_TYPES} from './ActionTypes';
 import {buildUrl, catchHandler} from './fetch';
 import { toast } from 'react-toastify';
 import t from '../trans';
+import { EditConfigModel } from '../components/config/EditConfigModel';
+import { EditClientModel } from '../components/client/ClientModels';
 
-function getIcon(type) {
+type ToastType = 'error' | 'success';
+
+function getIcon(type: ToastType): string {
   switch (type) {
   case 'error':
     return 'fa fa-times-circle';
@@ -16,7 +20,13 @@ function getIcon(type) {
   }
 }
 
-const ToastMessage = ({ closeToast, msg, title, type }) => (
+type ToastMessageProps = {
+  msg: string,
+  title: string,
+  type: ToastType,
+}
+
+const ToastMessage = ({ msg, title, type }: ToastMessageProps) => (
   <div className={'reapop ' + type}>
     <div className="icon">
       <i className={getIcon(type)} />
@@ -29,15 +39,15 @@ const ToastMessage = ({ closeToast, msg, title, type }) => (
 );
 
 
-export function success(msg, title, timeout = 2000) {
+export function success(msg: string, title = '', timeout = 2000): void {
   toast(
-    <ToastMessage msg={msg} title={t('toastrSuccessTitle')} type="success" />,
+    <ToastMessage msg={msg} title={title || t('toastrSuccessTitle')} type="success" />,
     { autoClose: timeout, position: toast.POSITION.BOTTOM_RIGHT }
   );
 }
 
 
-export function failure(msg, title, timeout = 4000) {
+export function failure(msg = '', title = '', timeout = 4000): void {
   toast.error(
     <ToastMessage
       msg={msg || t('toastrFailure')}
@@ -58,7 +68,7 @@ busyToggle.off = function() {
 };
 
 
-export function updateConfig(newConfig) {
+export function updateConfig(newConfig: EditConfigModel) {
   return dispatch => {
     dispatch(busyToggle());
     return request.post(buildUrl('/config'))
@@ -80,7 +90,7 @@ export function updateInvoiceFilters(filters) {
   };
 }
 
-export function saveClient(client, stayOnPage = false, callback = null) {
+export function saveClient(client: EditClientModel, stayOnPage = false, callback?: Function) {
   return dispatch => {
     dispatch(busyToggle());
     return request.post(buildUrl('/clients'))

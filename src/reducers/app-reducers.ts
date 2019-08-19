@@ -1,24 +1,9 @@
 import { ACTION_TYPES } from '../actions';
 import { AppState } from '../models';
 import moment from 'moment';
+import { defaultAppState } from './default-states';
 
 // App is also config but only relevant for the session
-
-export const defaultAppState: AppState = {
-  isLoaded: false,
-  isBusy: false,
-  busyCount: 0,
-  invoiceFilters: {
-    // search: [{value: moment().year(), label: moment().year(), type: 'year'}],
-    search: [{value: 'last 3 months', label: 'last 3 months', type: 'manual_input'}], // See InvoiceListModel
-    unverifiedOnly: false,
-    groupedByMonth: false,
-    clientListYears: [moment().year()],
-  },
-  pdf: null,
-};
-
-
 
 export const app = (state: AppState = defaultAppState, action) => {
   switch (action.type) {
@@ -40,7 +25,6 @@ export const app = (state: AppState = defaultAppState, action) => {
     return {...state, invoiceFilters: action.filter};
 
   case ACTION_TYPES.PDF_LOADED:
-    debugger;
     return {...state, pdf: action.payload};
 
   default:

@@ -19,6 +19,8 @@ import nl from 'date-fns/locale/nl';
 registerLocale('nl', nl);
 setDefaultLocale('nl');
 
+// ATTN: See util.ts for numeral nl configuration
+
 
 // Load css
 import './index.scss';

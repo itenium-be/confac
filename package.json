@@ -51,7 +51,7 @@
     "react-select": "^3.0.3",
     "react-toastify": "^5.3.2",
     "redux": "^4.0.4",
-    "redux-thunk": "*",
+    "redux-thunk": "^2.3.0",
     "superagent": "^3.8.3",
     "superagent-bluebird-promise": "^4.2.0"
   },
