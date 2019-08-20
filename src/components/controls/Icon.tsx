@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {Tooltip} from './Tooltip';
@@ -7,7 +6,7 @@ import cn from 'classnames';
 import {EnhanceWithConfirmation, EnhanceWithBusySpinner} from '../enhancers/index';
 import t from '../../trans';
 
-const EnhanceIconWithCenter = ComposedComponent => ({center, ...props}) => {
+const EnhanceIconWithCenter = ComposedComponent => ({center, ...props}: {center: boolean}) => {
   if (center) {
     return (
       <div style={{textAlign: 'center'}}>
@@ -20,26 +19,29 @@ const EnhanceIconWithCenter = ComposedComponent => ({center, ...props}) => {
 
 export const Icon = EnhanceIconWithCenter(withRouter(({ match, location, history, staticContext, ...props }) => <IconComponent history={history} {...props} />));
 
-class IconComponent extends Component {
-  static propTypes = {
-    'data-tst': PropTypes.string.isRequired,
-    fa: PropTypes.string.isRequired,
-    color: PropTypes.string,
-    style: PropTypes.object,
-    onClick: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-    className: PropTypes.string,
-    label: PropTypes.string,
-    labelStyle: PropTypes.object,
-    title: PropTypes.string,
-    size: PropTypes.number,
-    history: PropTypes.object.isRequired,
-  };
+export type IconProps = {
+  'data-tst'?: string,
+  fa?: string,
+  color?: string,
+  style?: object,
+  onClick?: string | Function,
+  href?: string,
+  className?: string,
+  label?: string,
+  labelStyle?: object,
+  title?: string,
+  size?: number,
+  history?: any,
+}
+
+
+class IconComponent extends Component<IconProps> {
   static defaultProps = {
     size: 2
   }
 
   render() {
-    const {fa, color, style, onClick, className, label, labelStyle, title, size, history, ...props} = this.props;
+    const {fa, color, style, onClick, href, className, label, labelStyle, title, size, history, ...props} = this.props;
     var realClick = onClick;
     if (typeof onClick === 'string') {
       realClick = () => {
@@ -47,10 +49,10 @@ class IconComponent extends Component {
       };
     }
 
-    const FinalIcon = (
+    let FinalIcon = (
       <i
         {...props}
-        className={cn(fa, `fa-${size}x`, className, {clickable: !!onClick})}
+        className={cn(fa, `fa-${size}x`, className, {clickable: !!onClick || !!href})}
         onClick={realClick}
         style={{color: color, ...style}}
       >
@@ -58,9 +60,18 @@ class IconComponent extends Component {
       </i>
     );
 
+    if (href) {
+      FinalIcon = (
+        <a href={href} target="_blank" rel="noopener noreferrer">
+          {FinalIcon}
+        </a>
+      );
+    }
+
     if (title) {
       // TODO: inline doesn't seem to be always working (for example in EditInvoiceLines:Notes th)
       // TODO: Not sure if the above still holds: changed tooltip from react-tooltip to rc-tooltip
+      //       --> Probably the inline div was added for the previous Tooltip to work?
       return (
         <div style={{display: 'inline'}}>
           <Tooltip title={title}>
@@ -75,32 +86,32 @@ class IconComponent extends Component {
 }
 
 
-export const VerifyIcon = ({...props}) => (
+export const VerifyIcon = ({...props}: IconProps) => (
   <Icon fa="fa fa-check" color="green" {...props} />
 );
 export const BusyVerifyIcon = connect(state => ({isBusy: state.app.isBusy}))(EnhanceWithBusySpinner(VerifyIcon));
 
-export const SpinnerIcon = ({...props}) => (
+export const SpinnerIcon = ({...props}: IconProps) => (
   <Icon fa="fa fa-spinner fa-pulse fa-fw" {...props} />
 );
 
-export const DeleteIcon = ({...props}) => (
+export const DeleteIcon = ({...props}: IconProps) => (
   <Icon fa="fa fa-minus-circle" color="#CC1100" title={t('delete')} {...props} />
 );
 
-export const AddIcon = ({...props}) => {
+export const AddIcon = ({...props}: IconProps) => {
   return <Icon fa="fa fa-plus" {...props} />;
 };
 
-export const DragAndDropIcon = ({...props}) => {
+export const DragAndDropIcon = ({...props}: IconProps) => {
   return <Icon fa="fa fa-arrows" color="#EEE9E9" data-tst="dnd" {...props} />;
 };
 
-export const ViewIcon = ({...props}) => {
+export const ViewIcon = ({...props}: IconProps) => {
   return <Icon fa="fa fa-eye" title={t('view')} {...props} />;
 };
 
-export const EditIcon = ({...props}) => {
+export const EditIcon = ({...props}: IconProps) => {
   return <Icon fa="fa fa-pencil-square-o" title={t('edit')} {...props} />;
 };
 
@@ -111,7 +122,7 @@ export const ClientEditIcon = ({client, ...props}) => {
   return <EditIcon onClick={'/client/' + client.slug} {...props} />;
 };
 
-export const DownArrowIcon = ({...props}) => {
+export const DownArrowIcon = ({...props}: IconProps) => {
   return <Icon fa="fa fa-chevron-circle-down" {...props} />;
 };
 

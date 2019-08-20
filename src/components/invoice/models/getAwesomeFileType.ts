@@ -1,4 +1,6 @@
-export function getAwesomeFileType(att: {type: string, fileType: string, fileName: string}): string {
+import { Attachment } from './../../../models';
+
+export function getAwesomeFileType(att: {type: string, fileType: string, fileName: string} | Attachment): string {
   if (att.type === 'pdf' || att.fileType === 'application/pdf') {
     return 'fa-file-pdf-o';
   }

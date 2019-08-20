@@ -3,10 +3,10 @@ import {ACTION_TYPES} from './ActionTypes';
 import {success, failure, busyToggle} from './appActions';
 import {buildUrl, catchHandler} from './fetch';
 import t from '../trans';
-import {previewInvoice} from './downloadActions';
+import EditInvoiceModel from '../components/invoice/EditInvoiceModel';
 
 
-function cleanViewModel(data) {
+function cleanViewModel(data: EditInvoiceModel): EditInvoiceModel {
   var invoice = Object.assign({}, data);
   Object.keys(invoice).filter(k => k[0] === '_' && k !== '_id').forEach(k => {
     delete invoice[k];
@@ -15,7 +15,7 @@ function cleanViewModel(data) {
 }
 
 
-export function createInvoice(data, history) {
+export function createInvoice(data: EditInvoiceModel, history: any) {
   return dispatch => {
     dispatch(busyToggle());
     request.post(buildUrl('/invoices'))
@@ -44,7 +44,7 @@ export function createInvoice(data, history) {
   };
 }
 
-function updateInvoiceRequest(data, successMsg, andGoHome, history) {
+function updateInvoiceRequest(data: EditInvoiceModel, successMsg: string | undefined, andGoHome: boolean, history?: any) {
   return dispatch => {
     dispatch(busyToggle());
     request.put(buildUrl('/invoices'))
@@ -68,29 +68,44 @@ function updateInvoiceRequest(data, successMsg, andGoHome, history) {
   };
 }
 
-export function invoiceAction(invoice, type, history) {
+
+export function previewInvoice(data: EditInvoiceModel) {
+  return dispatch => {
+    dispatch(busyToggle());
+    request.post(buildUrl('/invoices/preview'))
+      .set('Content-Type', 'application/json')
+      .send(data)
+      .then(function(res) {
+        //const pdfAsDataUri = 'data:application/pdf;base64,' + res.text;
+        // openWindow(pdfAsDataUri, getInvoiceFileName(data));
+        dispatch(busyToggle.off());
+        return res.text;
+      })
+      .catch(catchHandler)
+      //.then(() => dispatch(busyToggle.off()));
+  };
+}
+
+export function invoiceAction(invoice: EditInvoiceModel, type: 'create' | 'update' | 'preview', history: any) {
   if (type === 'create') {
     return createInvoice(invoice, history);
   } else if (type === 'preview') {
     return previewInvoice(invoice);
   } else if (type === 'update') {
-    return updateInvoice(invoice, history);
+    return updateInvoiceRequest(invoice, undefined, false, history);
   }
   console.log('unknown invoiceAction', type, invoice); // eslint-disable-line
 }
 
-function updateInvoice(data, history) {
-  return updateInvoiceRequest(data, undefined, false, history);
-}
 
-export function toggleInvoiceVerify(data) {
+export function toggleInvoiceVerify(data: EditInvoiceModel) {
   const successMsg = data.verified ? t('invoice.isNotVerifiedConfirm') : t('invoice.isVerifiedConfirm');
   const newData = {...data, verified: !data.verified};
   return updateInvoiceRequest(newData, successMsg, false); // change andGoHome? also need 'history' from router
 }
 
 
-export function deleteInvoice(invoice) {
+export function deleteInvoice(invoice: EditInvoiceModel) {
   return dispatch => {
     dispatch(busyToggle());
     request.delete(buildUrl('/invoices'))

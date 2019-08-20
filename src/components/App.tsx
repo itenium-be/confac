@@ -19,6 +19,23 @@ const ConfiguredToastContainer = () => (
   />
 );
 
+// Compilation Warnings from react-pdf:
+//https://github.com/wojtekmaj/react-pdf/issues/280
+// import { Document, pdfjs, Page } from 'react-pdf';
+// import { useSelector } from 'react-redux';
+// pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+// const PdfViewer = () => {
+//   const pdf = useSelector(state => state.app.pdf);
+//   if (!pdf) {
+//     return null;
+//   }
+//   return (
+//     <Document file="http://localhost:3001/api/attachments/invoice/5d57086dd8896886d14732f5/pdf">
+//       <Page pageNumber={1} />
+//     </Document>
+//   )
+// }
+
 
 class App extends Component {
   static propTypes = {

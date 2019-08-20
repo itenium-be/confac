@@ -7,15 +7,20 @@ import {t} from '../util';
 import {Row, Col, FormLabel, FormGroup, Alert} from 'react-bootstrap';
 import {AttachmentDownloadIcon, AddIcon, Popup, SimpleCreatableSelect, ConfirmedDeleteIcon, HeaderWithEditIcon} from '../controls';
 import {updateAttachment, deleteAttachment} from '../../actions/index';
+import EditInvoiceModel from '../invoice/EditInvoiceModel';
+import { EditClientModel } from '../client/ClientModels';
+import { Attachment } from '../../models';
+import { ConfacState } from '../../reducers/default-states';
 
-class AttachmentsFormComponent extends Component {
-  static propTypes = {
-    deleteAttachment: PropTypes.func.isRequired,
-    updateAttachment: PropTypes.func.isRequired,
-    invoice: PropTypes.object,
-    client: PropTypes.object,
-  }
 
+type AttachmentsFormProps = {
+  deleteAttachment: Function,
+  updateAttachment: Function,
+  invoice?: EditInvoiceModel,
+  client: EditClientModel,
+}
+
+class AttachmentsFormComponent extends Component<AttachmentsFormProps> {
   render() {
     const {invoice, client} = this.props;
     const model = invoice || client;
@@ -28,8 +33,8 @@ class AttachmentsFormComponent extends Component {
     return (
       <AbstractAttachmentsForm
         attachments={model.attachments}
-        onDelete={att => this.props.deleteAttachment(model, modelType, att)}
-        onAdd={att => this.props.updateAttachment(model, modelType, att)}
+        onDelete={(att: Attachment) => this.props.deleteAttachment(model, modelType, att)}
+        onAdd={(att: Attachment) => this.props.updateAttachment(model, modelType, att)}
         model={model}
         modelType={modelType}
       />
@@ -40,17 +45,23 @@ class AttachmentsFormComponent extends Component {
 export const AttachmentsForm = connect(() => ({}), {updateAttachment, deleteAttachment})(AttachmentsFormComponent);
 
 
-class AbstractAttachmentsForm extends Component {
-  static propTypes = {
-    attachments: PropTypes.array.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    onAdd: PropTypes.func.isRequired,
-    model: PropTypes.object.isRequired,
-    modelType: PropTypes.oneOf(['invoice', 'client', 'quotation']),
-  }
+type AbstractAttachmentsFormProps = {
+  attachments: Attachment[],
+  onDelete: Function,
+  onAdd: Function,
+  model: EditClientModel | EditInvoiceModel,
+  modelType: 'invoice' | 'client' | 'quotation',
+}
 
-  constructor() {
-    super();
+type AbstractAttachmentsFormState = {
+  isOpen: boolean,
+  isFormOpen: boolean,
+  hoverId: string | null,
+}
+
+class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormProps, AbstractAttachmentsFormState> {
+  constructor(props: AbstractAttachmentsFormProps) {
+    super(props);
     this.state = {
       isOpen: false,
       isFormOpen: false,
@@ -82,7 +93,7 @@ class AbstractAttachmentsForm extends Component {
             isOpen={this.state.isOpen}
             attachments={this.props.attachments}
             onClose={() => this.setState({isOpen: false})}
-            onAdd={att => this.props.onAdd(att)}
+            onAdd={(att: Attachment) => this.props.onAdd(att)}
           />
         </Col>
 
@@ -98,7 +109,6 @@ class AbstractAttachmentsForm extends Component {
                 attachment={att}
                 modelType={this.props.modelType}
                 data-tst={`att-download-${att.type}`}
-                actionType="download"
                 label={att.type !== 'pdf' ? att.type : t(transPrefix + '.pdfName')}
               />
               {this.state.isFormOpen && att.type !== 'pdf' ? (
@@ -121,7 +131,20 @@ class AbstractAttachmentsForm extends Component {
 }
 
 
-class AddAttachmentPopupComponent extends Component {
+type AddAttachmentPopupProps = {
+  attachments: Attachment[],
+  onClose: Function,
+  onAdd: Function,
+  attachmentTypes: string[],
+  isOpen: boolean,
+}
+
+type AddAttachmentPopupState = {
+  type: string,
+  file: any,
+}
+
+class AddAttachmentPopupComponent extends Component<AddAttachmentPopupProps, AddAttachmentPopupState> {
   static propTypes = {
     attachments: PropTypes.array.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -130,8 +153,8 @@ class AddAttachmentPopupComponent extends Component {
     isOpen: PropTypes.bool.isRequired,
   }
 
-  constructor() {
-    super();
+  constructor(props: AddAttachmentPopupProps) {
+    super(props);
     this.state = {
       type: '',
       file: null,
@@ -168,14 +191,14 @@ class AddAttachmentPopupComponent extends Component {
           <SimpleCreatableSelect
             value={currentType}
             options={this.props.attachmentTypes}
-            onChange={text => this.setState({type: text})}
-            formatCreateLabel={text => t('controls.addLabelText', {text})}
+            onChange={(text: string) => this.setState({type: text})}
+            formatCreateLabel={(text: string) => t('controls.addLabelText', {text})}
             data-tst="add-att-type"
           />
         </FormGroup>
 
         {!canAdd && currentType ? (
-          <Alert size="sm" variant="danger" data-tst="add-att-type-warning">{t('attachment.typeExists')}</Alert>
+          <Alert variant="danger" data-tst="add-att-type-warning">{t('attachment.typeExists')}</Alert>
         ) : null}
 
         <AddAttachment onAdd={file => this.setState({file})} />
@@ -184,7 +207,7 @@ class AddAttachmentPopupComponent extends Component {
   }
 }
 
-export const AddAttachmentPopup = connect(state => ({
+export const AddAttachmentPopup = connect((state: ConfacState) => ({
   attachmentTypes: state.config.attachmentTypes,
 }), {})(AddAttachmentPopupComponent);
 

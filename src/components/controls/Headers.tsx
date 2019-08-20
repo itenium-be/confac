@@ -1,12 +1,14 @@
 import React from 'react';
-import {EditIcon} from './Icon';
+import {EditIcon, IconProps} from './Icon';
 
-const Header1 = ({children, ...props}) => (<h1 {...props}>{children}</h1>);
-const Header2 = ({children, ...props}) => (<h2 {...props}>{children}</h2>);
-const Header3 = ({children, ...props}) => (<h3 {...props}>{children}</h3>);
-const Header4 = ({children, ...props}) => (<h4 {...props}>{children}</h4>);
+type ChildrenProps = {children: React.ReactNode}
 
-function getHeader(size) {
+const Header1 = ({children, ...props}: ChildrenProps) => (<h1 {...props}>{children}</h1>);
+const Header2 = ({children, ...props}: ChildrenProps) => (<h2 {...props}>{children}</h2>);
+const Header3 = ({children, ...props}: ChildrenProps) => (<h3 {...props}>{children}</h3>);
+const Header4 = ({children, ...props}: ChildrenProps) => (<h4 {...props}>{children}</h4>);
+
+function getHeader(size: number): React.ReactNode {
   switch (size) {
   case 1:
     return Header1;
@@ -21,7 +23,15 @@ function getHeader(size) {
   }
 }
 
-export const HeaderWithEditIcon = ({label, onEditClick, children, editIconVisible = true, size = 1}) => {
+
+
+type HeaderWithEditIconProps = IconProps & {
+  onEditClick: Function,
+  editIconVisible: boolean,
+  children?: React.ReactNode,
+}
+
+export const HeaderWithEditIcon = ({label, onEditClick, children, editIconVisible = true, size = 1}: HeaderWithEditIconProps) => {
   const Header = getHeader(size);
   return (
     <Header>

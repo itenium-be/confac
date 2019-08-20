@@ -1,16 +1,18 @@
+import { EditClientModel } from './../components/client/ClientModels';
 import request from 'superagent-bluebird-promise';
 import {ACTION_TYPES} from './ActionTypes';
 import {success, busyToggle} from './appActions';
 import {buildUrl, catchHandler} from './fetch';
+import EditInvoiceModel from '../components/invoice/EditInvoiceModel';
 
 
-export function buildAttachmentUrl(invoiceOrClient, type) {
+function buildAttachmentUrl(invoiceOrClient: EditInvoiceModel | EditClientModel, type: 'pdf' | string) {
   const model = invoiceOrClient.money ? 'invoice' : 'client'; // HACK: dangerous stuff...
   return buildUrl(`/attachments/${model}/${invoiceOrClient._id}/${type}`);
 }
 
 
-export function updateAttachment(model, modelType, {type, file}) {
+export function updateAttachment(model: EditInvoiceModel | EditClientModel, modelType: 'client' | 'invoice', {type, file}: {type: string, file: any}) {
   return dispatch => {
     dispatch(busyToggle());
     var req = request.put(buildAttachmentUrl(model, type));
@@ -38,7 +40,7 @@ export function updateAttachment(model, modelType, {type, file}) {
 
 
 
-export function deleteAttachment(model, modelType, {type}) {
+export function deleteAttachment(model: EditInvoiceModel | EditClientModel, modelType: 'client' | 'invoice', {type}: {type: string}) {
   return dispatch => {
     dispatch(busyToggle());
     request.delete(buildAttachmentUrl(model, type))

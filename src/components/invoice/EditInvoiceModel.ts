@@ -59,7 +59,7 @@ export default class EditInvoiceModel {
     this.createdOn = obj.createdOn;
   }
 
-  getType() {
+  getType(): 'quotation' | 'invoice' {
     return this.isQuotation ? 'quotation' : 'invoice';
   }
 
@@ -94,7 +94,7 @@ export default class EditInvoiceModel {
     this._lines = this._lines.concat([line || this.getLine(true)]);
     return this;
   }
-  updateLine(index, updateWith) {
+  updateLine(index: number, updateWith) {
     var newArr = this.lines.slice();
 
     this.daysVsHoursSwitchFix(newArr[index], updateWith);

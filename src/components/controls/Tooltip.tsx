@@ -4,7 +4,7 @@ import {default as RcTooltip} from 'rc-tooltip';
 type TooltipProps = {
   title: string,
   placement: 'left' | 'right' | 'top' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight',
-  children: any,
+  children: React.ReactNode,
   mouseEnterDelay: number;
 }
 
