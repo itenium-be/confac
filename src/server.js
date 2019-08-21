@@ -23,6 +23,6 @@ if (process.env) {
 var config = Object.assign({env: process.env.NODE_ENV || 'dev'}, json);
 
 var app = createApp(config);
-console.log('Starting at ' + config.server.port);
+console.log('Starting at ' + config.server.port + ' on ' + new Date().toString());
 console.log('Config', JSON.stringify(config));
 app.listen(config.server.port, () => console.log('Started!'));
