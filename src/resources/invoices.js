@@ -30,32 +30,34 @@ export default function register(app, config) {
   router.post('/', function *() {
     let params = this.request.body;
 
-    let last = yield this.mongo.collection('invoices')
-      .find({})
-      .sort({ number: -1 })
-      .limit(1)
-      .toArray();
+    if (!params.isQuotation) {
+      let last = yield this.mongo.collection('invoices')
+        .find({ isQuotation: false})
+        .sort({ number: -1 })
+        .limit(1)
+        .toArray();
 
-    if (last.length > 0) {
-      last = last[0];
-      if (params.number <= last.number) {
-        this.status = 400;
-        // BUG: reload: true ==> invoices list reloads which triggers componentWillReceiveProps of EditInvoice.js
-        // BUG: Without the invoice list check in componentWillReceiveProps, it doesn't work when opening an invoice
-        // BUG: by directly pasting the url in the browser
-        this.body = { msg: 'invoice.badRequest.nrExists', data: {nr: params.number, lastNr: last.number}, reload: false};
-        return;
-      } else if (moment(params.date).startOf('day') < moment(last.date).startOf('day')) {
-        this.status = 400;
-        this.body = {
-          msg: 'invoice.badRequest.dateAfterExists',
-          data: {
-            lastNr: last.number,
-            date: moment(params.date).format('DD/MM/YYYY'),
-            lastDate: moment(last.date).format('DD/MM/YYYY'),
-          }
-        };
-        return;
+      if (last.length > 0) {
+        last = last[0];
+        if (params.number <= last.number) {
+          this.status = 400;
+          // BUG: reload: true ==> invoices list reloads which triggers componentWillReceiveProps of EditInvoice.js
+          // BUG: Without the invoice list check in componentWillReceiveProps, it doesn't work when opening an invoice
+          // BUG: by directly pasting the url in the browser
+          this.body = { msg: 'invoice.badRequest.nrExists', data: {nr: params.number, lastNr: last.number}, reload: false};
+          return;
+        } else if (moment(params.date).startOf('day') < moment(last.date).startOf('day')) {
+          this.status = 400;
+          this.body = {
+            msg: 'invoice.badRequest.dateAfterExists',
+            data: {
+              lastNr: last.number,
+              date: moment(params.date).format('DD/MM/YYYY'),
+              lastDate: moment(last.date).format('DD/MM/YYYY'),
+            }
+          };
+          return;
+        }
       }
     }
 
