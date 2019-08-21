@@ -93,10 +93,13 @@ export default function register(app, config) {
 
   router.post('/preview', function *() {
     const params = this.request.body;
-    const html = createHtml(params, config);
-    yield createBase64Pdf.call(this, html);
-  });
+    const pdfBuffer = yield createPdf.call(this, params, config);
+    this.body = pdfBuffer;
+    this.type = 'application/pdf';
 
+    // const html = createHtml(params, config);
+    // yield createBase64Pdf.call(this, html);
+  });
 
   app.use(router.routes());
   app.use(router.allowedMethods());

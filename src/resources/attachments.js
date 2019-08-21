@@ -10,11 +10,18 @@ export default function register(app) {
     prefix: '/api/attachments'
   });
 
-  router.get('/:model/:id/:type', function *() {
-    const {id, model, type} = this.params;
+  router.get('/:model/:id/:type/:fileName*', function *() {
+    const {id, model, type, fileName} = this.params;
     const coll = model === 'client' ? 'attachments_client' : 'attachments';
     const attachment = yield this.mongo.collection(coll).findOne(id.toObjectId(), {[type]: 1});
-    this.body = attachment[type];
+    this.body = attachment[type].buffer;
+    if (type === 'pdf' && !this.query.download) {
+      // Open download in-browser in preview mode
+      this.type = 'application/pdf';
+    } else {
+      // Download the file
+      this.set('Content-disposition', 'attachment; filename=' + fileName);
+    }
   });
 
 
