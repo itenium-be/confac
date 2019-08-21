@@ -4,6 +4,7 @@ import {success, failure, busyToggle} from './appActions';
 import {buildUrl, catchHandler} from './fetch';
 import t from '../trans';
 import EditInvoiceModel from '../components/invoice/EditInvoiceModel';
+import { previewInvoice } from './downloadActions';
 
 
 function cleanViewModel(data: EditInvoiceModel): EditInvoiceModel {
@@ -69,22 +70,6 @@ function updateInvoiceRequest(data: EditInvoiceModel, successMsg: string | undef
 }
 
 
-export function previewInvoice(data: EditInvoiceModel) {
-  return dispatch => {
-    dispatch(busyToggle());
-    request.post(buildUrl('/invoices/preview'))
-      .set('Content-Type', 'application/json')
-      .send(data)
-      .then(function(res) {
-        //const pdfAsDataUri = 'data:application/pdf;base64,' + res.text;
-        // openWindow(pdfAsDataUri, getInvoiceFileName(data));
-        dispatch(busyToggle.off());
-        return res.text;
-      })
-      .catch(catchHandler)
-      //.then(() => dispatch(busyToggle.off()));
-  };
-}
 
 export function invoiceAction(invoice: EditInvoiceModel, type: 'create' | 'update' | 'preview', history: any) {
   if (type === 'create') {

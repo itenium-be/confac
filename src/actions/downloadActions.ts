@@ -1,4 +1,5 @@
-import {buildUrl} from './fetch';
+import request from 'superagent-bluebird-promise';
+import {buildUrl, catchHandler} from './fetch';
 import EditInvoiceModel from '../components/invoice/EditInvoiceModel';
 import { Attachment } from '../models';
 import { EditClientModel } from '../components/client/ClientModels';
@@ -50,9 +51,49 @@ function getInvoiceFileName(data: EditInvoiceModel): string {
 }
 
 
+export function previewInvoice(data: EditInvoiceModel) {
+  return dispatch => {
+    request.post(buildUrl('/invoices/preview'))
+      .responseType('blob')
+      .send(data)
+      .then(function(res) {
+        // console.log('previewInvoice response', res.body);
+        previewPdf(getInvoiceFileName(data), res.body);
+        return res.text;
+      })
+      .catch(catchHandler);
+  };
+}
 
 
 
+function previewPdf(fileName: string, content: Blob): void {
+  try {
+    const blobUrl = URL.createObjectURL(content);
+    const previewWindow = window.open(blobUrl);
+    if (previewWindow) {
+      previewWindow.document.title = fileName;
+      previewWindow.document.write('<title>My PDF File Title</title>');
+    }
+  } catch (err) {
+    console.error('previewPdf', err);
+  }
+}
+
+
+
+// ATTN: This works for downloading something
+// function downloadAttachment(fileName: string, content: Blob): void {
+//   var link = document.createElement('a');
+//   link.download = fileName;
+//   const blobUrl = URL.createObjectURL(content);
+//   link.href = blobUrl;
+//   link.click();
+// }
+
+
+
+// ATTN: This doesn't really work once deployed
 // function downloadBase64File(fileName: string, content: string): void {
 //   var link = document.createElement('a');
 //   link.download = fileName;
@@ -62,39 +103,8 @@ function getInvoiceFileName(data: EditInvoiceModel): string {
 // }
 
 
-// function downloadFile(attachment: Attachment, content: string): void {
-//   var link = document.createElement('a');
-//   link.download = attachment.fileName;
-//   const blob = b64ToBlob(content, attachment.fileType);
-//   const blobUrl = URL.createObjectURL(blob);
-//   link.href = blobUrl;
-//   link.click();
-// }
 
-
-// function b64ToBlob(b64Data: string, contentType = '', sliceSize = 512): Blob {
-//   const byteCharacters = atob(b64Data);
-//   const byteArrays = [];
-
-//   for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-//     const slice = byteCharacters.slice(offset, offset + sliceSize);
-//     const byteNumbers = new Array(slice.length);
-//     for (let i = 0; i < slice.length; i++) {
-//       byteNumbers[i] = slice.charCodeAt(i);
-//     }
-
-//     const byteArray = new Uint8Array(byteNumbers);
-//     byteArrays.push(byteArray);
-//   }
-
-//   const blob = new Blob(byteArrays, { type: contentType });
-//   return blob;
-// }
-
-
-
-
-// BUG: this solution doesn't work on Internet Exploder
+// ATTN: this solution doesn't work on Internet Exploder
 // function openWindow(pdf: string, fileName: string): void {
 //   // GET request /attachment that just returns the bytestream
 //   // and then here:

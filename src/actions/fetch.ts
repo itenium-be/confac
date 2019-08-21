@@ -12,6 +12,7 @@ export function buildUrl(url) {
 export const httpGet = url => fetch(buildUrl(url)).then(res => res.json());
 
 export function catchHandler(err) {
+  console.log('oepsie', err); // eslint-disable-line
   if (err.res.badRequest) {
     console.log('BadRequest', err.body); // eslint-disable-line
 
@@ -23,6 +24,5 @@ export function catchHandler(err) {
     }
     return;
   }
-  console.log('oepsie', err); // eslint-disable-line
   failure();
 }
