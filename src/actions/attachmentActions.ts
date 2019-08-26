@@ -7,7 +7,7 @@ import EditInvoiceModel from '../components/invoice/EditInvoiceModel';
 
 
 function buildAttachmentUrl(invoiceOrClient: EditInvoiceModel | EditClientModel, type: 'pdf' | string) {
-  const model = invoiceOrClient.money ? 'invoice' : 'client'; // HACK: dangerous stuff...
+  const model = invoiceOrClient['money'] ? 'invoice' : 'client'; // HACK: dangerous stuff...
   return buildUrl(`/attachments/${model}/${invoiceOrClient._id}/${type}`);
 }
 
