@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t} from '../util';
 
 import {ClientEditIcon, InvoiceWorkedDays, InvoicesSummary, DeleteIcon} from '../controls';
 import {saveClient} from '../../actions/index';
+import EditInvoiceModel from '../invoice/EditInvoiceModel';
+import { EditClientModel } from './ClientModels';
 
 
 export const ClientListHeader = () => (
@@ -20,12 +21,13 @@ export const ClientListHeader = () => (
 );
 
 
-class ClientListRow extends Component {
-  static propTypes = {
-    invoices: PropTypes.array.isRequired,
-    saveClient: PropTypes.func.isRequired,
-    client: PropTypes.object.isRequired,
-  }
+type ClientListRowProps = {
+  invoices: EditInvoiceModel[],
+  saveClient: Function,
+  client: EditClientModel,
+}
+
+class ClientListRow extends Component<ClientListRowProps> {
   render() {
     const {client} = this.props;
     const invoices = this.props.invoices.filter(i => i.client._id === client._id);
@@ -46,7 +48,7 @@ class ClientListRow extends Component {
         </td>
           <td><InvoiceWorkedDays invoices={invoices} display="client" data-tst={tst('days')} /></td>
         <td style={{whiteSpace: 'nowrap'}}><InvoicesSummary invoices={invoices} data-tst={tst('summary')} /></td>
-        <td className="icons-cell" width="120px">
+        <td className="icons-cell">
           <ClientEditIcon client={client} data-tst={tst('edit')} />
           <DeleteIcon
             onClick={() => this.props.saveClient({...client, active: !client.active}, true)}

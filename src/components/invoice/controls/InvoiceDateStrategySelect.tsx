@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {t} from '../../util';
 import {SimpleSelect} from '../../controls/Select';
 import {invoiceDateStrategies} from '../invoice-date-strategy';
+import { InvoiceDateStrategy } from '../../../models';
 
 
-export class InvoiceDateStrategySelect extends Component {
-  static propTypes = {
-    value: PropTypes.oneOf(invoiceDateStrategies).isRequired,
-    onChange: PropTypes.func.isRequired,
-  }
+type InvoiceDateStrategySelectProps = {
+  value: InvoiceDateStrategy,
+  onChange: Function,
+}
+
+export class InvoiceDateStrategySelect extends Component<InvoiceDateStrategySelectProps> {
   static defaultProps = {value: 'prev-month-last-day'}
 
   render() {
@@ -21,6 +22,7 @@ export class InvoiceDateStrategySelect extends Component {
         value={value}
         options={invoiceDateStrategies}
         isClearable={false}
+        placeholder=""
         {...props}
       />
     );

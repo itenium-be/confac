@@ -2,11 +2,35 @@ import { EditConfigModel, EditConfigCompanyModel } from './../config/EditConfigM
 import {getInvoiceDate} from './invoice-date-strategy';
 import { EditClientModel } from '../client/ClientModels';
 import moment from 'moment';
-import { Attachment } from '../../models';
+import { Attachment, EditClientRateType } from '../../models';
 
 
 //const getInvoiceString = invoice => `${invoice.number} - ${invoice.client.name} (${invoice.date.format('YYYY-MM')})`;
 
+type EditInvoiceLine = {
+  desc: string,
+  amount: number,
+  type: EditClientRateType,
+  price: number,
+  tax: number,
+  sort: number,
+}
+
+type InvoiceMoney = {
+  totalWithoutTax: number,
+  totalTax: number,
+  discount?: number,
+  total: number,
+  totals: {
+    // [x in EditClientRateType]: number // When create-react-app supports it
+    daily?: number,
+    hourly?: number,
+  }
+}
+
+/**
+ * The only invoice model
+ */
 export default class EditInvoiceModel {
   _id: string;
   number: number;
@@ -19,9 +43,13 @@ export default class EditInvoiceModel {
   discount: string;
   attachments: Attachment[];
   isQuotation: boolean;
-  // private _defaultTax: number;
-  // private _defaultType: EditClientRateType;
 
+  _defaultTax: number;
+  _defaultType: EditClientRateType;
+  extraFields: string[];
+  createdOn: string;
+  lines: EditInvoiceLine[] = [];
+  money: InvoiceMoney | null = null;
 
   static createNew(config: EditConfigModel, client: EditClientModel): EditInvoiceModel {
     var model = new EditInvoiceModel(config, {
@@ -38,7 +66,7 @@ export default class EditInvoiceModel {
     return this._id === undefined;
   }
 
-  constructor(config: EditConfigModel, obj = {}) {
+  constructor(config: EditConfigModel, obj: any = {}) {
     this._defaultTax = config.defaultTax;
     this._defaultType = config.defaultInvoiceLineType;
 
@@ -63,19 +91,19 @@ export default class EditInvoiceModel {
     return this.isQuotation ? 'quotation' : 'invoice';
   }
 
-  get _lines() {
+  get _lines(): EditInvoiceLine[] {
     return this.lines;
   }
-  set _lines(value) {
+  set _lines(value: EditInvoiceLine[]) {
     this.lines = value;
     this.money = this._calculateMoneys();
   }
-  setLines(lines) {
+  setLines(lines: EditInvoiceLine[]): EditInvoiceModel {
     this._lines = lines;
     return this;
   }
 
-  setClient(client) {
+  setClient(client: EditClientModel): EditInvoiceModel {
     this.client = client;
     if (!this.lines || this.lines.length <= 1) {
       this._lines = [this.getLine()];
@@ -90,11 +118,11 @@ export default class EditInvoiceModel {
     }
     return this;
   }
-  addLine(line) {
+  addLine(line: EditInvoiceLine): EditInvoiceModel {
     this._lines = this._lines.concat([line || this.getLine(true)]);
     return this;
   }
-  updateLine(index: number, updateWith) {
+  updateLine(index: number, updateWith: EditInvoiceLine): EditInvoiceModel {
     var newArr = this.lines.slice();
 
     this.daysVsHoursSwitchFix(newArr[index], updateWith);
@@ -103,13 +131,16 @@ export default class EditInvoiceModel {
     this._lines = newArr;
     return this;
   }
-  removeLine(index) {
+  removeLine(index: number): EditInvoiceModel {
     var newArr = this.lines.slice();
     newArr.splice(index, 1);
     this._lines = newArr;
     return this;
   }
-  reorderLines(startIndex, endIndex) {
+  /**
+   * Switch location of two InvoiceLines
+   */
+  reorderLines(startIndex: number, endIndex: number): EditInvoiceModel {
     var newArr = this.lines.slice();
     const [removed] = newArr.splice(startIndex, 1);
     newArr.splice(endIndex, 0, removed);
@@ -117,7 +148,7 @@ export default class EditInvoiceModel {
     return this;
   }
 
-  updateField(key, value, calcMoneys = false) {
+  updateField(key: string, value: any, calcMoneys = false): void {
     // HACK: Workaround for not updating state directly while
     // still having an instance of this class in component state
     this[key] = value;
@@ -126,7 +157,7 @@ export default class EditInvoiceModel {
     }
   }
 
-  daysVsHoursSwitchFix(oldLine, updateWith) {
+  daysVsHoursSwitchFix(oldLine: EditInvoiceLine, updateWith: EditInvoiceLine): void {
     if (updateWith.type && updateWith.type !== oldLine.type && (oldLine.price || oldLine.amount)
       && this.client && this.client.rate && this.client.rate.hoursInDay) {
 
@@ -152,12 +183,13 @@ export default class EditInvoiceModel {
     }
   }
 
-  getLine(getEmpty = false) {
-    const defaultLine = {
+  getLine(getEmpty = false): EditInvoiceLine {
+    const defaultLine: EditInvoiceLine = {
+      desc: '',
+      price: 0,
       amount: 0,
       tax: this._defaultTax,
       type: this._defaultType,
-      // sort is not the actual sort order (index in array is). It is the unique id for drag&drop
       sort: this._lines.reduce((acc, line) => acc <= line.sort ? line.sort + 1 : acc, 0),
     };
 
@@ -174,7 +206,7 @@ export default class EditInvoiceModel {
     });
   }
 
-  static emptyMoney = function() {
+  static emptyMoney(): InvoiceMoney {
     return {
       totalWithoutTax: 0,
       totalTax: 0,
@@ -183,7 +215,7 @@ export default class EditInvoiceModel {
     };
   }
 
-  _calculateMoneys() {
+  _calculateMoneys(): InvoiceMoney {
     if (!this.client) {
       return EditInvoiceModel.emptyMoney();
     }
@@ -200,21 +232,21 @@ export default class EditInvoiceModel {
       return acc;
     }, {});
 
-    var discount = this.discount || 0;
+    const discount = (this.discount || 0).toString();
     if (discount) {
       if (discount.slice(-1) === '%') {
         const discountPercentage = parseInt(discount.slice(0, -1), 10);
         total *= 1 - discountPercentage / 100;
       } else {
-        discount = parseInt(discount, 10);
-        total -= discount;
+        const discountValue = parseInt(discount, 10);
+        total -= discountValue;
       }
     }
 
     return {
       totalWithoutTax,
       totalTax,
-      discount,
+      discount: parseInt(discount, 10),
       total,
       totals: totalsPerLineType,
     };
@@ -226,7 +258,19 @@ export type EditInvoiceModelProps = {
 }
 
 
-function daysCalc(invoice) {
+/**
+ * Days/hours worked
+ */
+type DaysWorked = {
+  daysWorked: number,
+  hoursWorked: number,
+}
+
+
+/**
+ * Calculate days/hours worked in invoice
+ */
+function daysCalc(invoice: EditInvoiceModel): DaysWorked {
   const daysWorked = invoice.lines.reduce((prev, cur) => {
     if (cur.type === 'daily') {
       return prev + cur.amount;
@@ -253,8 +297,17 @@ function daysCalc(invoice) {
   };
 }
 
-export function groupInvoicesPerMonth(invoices) {
-  return invoices.reduce((list, invoice) => {
+
+type GroupedInvoicesPerMonth = {
+  invoiceList: EditInvoiceModel[],
+  /**
+   * Month in format: YYYYMM
+   */
+  key: string,
+}
+
+export function groupInvoicesPerMonth(invoices: EditInvoiceModel[]): GroupedInvoicesPerMonth[] {
+  return invoices.reduce((list: GroupedInvoicesPerMonth[], invoice: EditInvoiceModel) => {
     const month = invoice.date.format('YYYYMM');
     const invoicesForMonth = list.find(i => i.key === month);
     if (invoicesForMonth) {
@@ -267,11 +320,11 @@ export function groupInvoicesPerMonth(invoices) {
 }
 
 
-function getWorkDaysInMonth(momentInst) {
+function getWorkDaysInMonth(momentInst: moment.Moment): Date[] {
   const curMonth = momentInst.month();
 
   var date = new Date(momentInst.year(), curMonth, 1);
-  var result = [];
+  var result: Date[] = [];
   while (date.getMonth() === curMonth) {
     // date.getDay = index of ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
     if (date.getDay() !== 0 && date.getDay() !== 6) {
@@ -282,14 +335,15 @@ function getWorkDaysInMonth(momentInst) {
   return result;
 }
 
-function getWorkDaysInMonths(invoices) {
+function getWorkDaysInMonths(invoices: EditInvoiceModel[]): number {
   const invoicesPerMonth = groupInvoicesPerMonth(invoices);
   const result = invoicesPerMonth.map(({invoiceList}) => getWorkDaysInMonth(invoiceList[0].date).length);
   return result.reduce((prev, cur) => prev + cur, 0);
 }
 
 
-export function calculateDaysWorked(invoices) {
+
+export function calculateDaysWorked(invoices: EditInvoiceModel[]): DaysWorked & {workDaysInMonth: number} {
   const invoiceDays = invoices.map(daysCalc);
   const invoiceDayTotals = invoiceDays.reduce((a, b) => ({
     daysWorked: a.daysWorked + b.daysWorked,
@@ -298,5 +352,6 @@ export function calculateDaysWorked(invoices) {
 
 
   const workDaysInMonth = getWorkDaysInMonths(invoices);
-  return Object.assign(invoiceDayTotals, {workDaysInMonth});
+  const result = Object.assign(invoiceDayTotals, {workDaysInMonth});
+  return result;
 }

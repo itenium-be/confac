@@ -1,27 +1,30 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {t} from '../../util';
 import {SimpleSelect} from '../../controls/Select';
+import { EditClientRateType } from '../../../models';
 
 
 export const invoiceLineTypes = ['hourly', 'daily', 'km', 'items', 'section', 'other'];
 
+type InvoiceLineTypeSelectProps = {
+  label: string,
+  type: EditClientRateType,
+  onChange: Function,
+}
 
-export class InvoiceLineTypeSelect extends Component {
-  static propTypes = {
-    type: PropTypes.oneOf(invoiceLineTypes).isRequired,
-    onChange: PropTypes.func.isRequired,
-  }
+export class InvoiceLineTypeSelect extends Component<InvoiceLineTypeSelectProps> {
   static defaultProps = {type: 'hourly'}
 
   render() {
-    const {type, ...props} = this.props;
+    const {type, label, ...props} = this.props;
     return (
       <SimpleSelect
-        transFn={key => t('rates.types.' + key)}
+        transFn={(key: string) => t('rates.types.' + key)}
         value={type}
         options={invoiceLineTypes}
         isClearable={false}
+        label={label}
+        placeholder=""
         {...props}
       />
     );

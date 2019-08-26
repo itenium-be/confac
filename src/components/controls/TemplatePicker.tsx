@@ -1,18 +1,21 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
 import {SimpleSelect} from './Select';
 import {httpGet} from '../../actions/fetch';
 
 
-class TemplatePickerComponent extends Component {
-  static propTypes = {
-    value: PropTypes.any,
-    onChange: PropTypes.func.isRequired,
-  }
+type TemplatePickerProps = {
+  value: any,
+  onChange: Function,
+}
 
-  constructor() {
-    super();
+type TemplatePickerState = {
+  templates: any[],
+}
+
+class TemplatePickerComponent extends Component<TemplatePickerProps, TemplatePickerState> {
+  constructor(props: any) {
+    super(props);
     this.state = {templates: []};
   }
 

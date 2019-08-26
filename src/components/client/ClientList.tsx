@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t} from '../util';
 
@@ -8,18 +7,26 @@ import {Container, Table, Row, Col} from 'react-bootstrap';
 import ClientListRow, {ClientListHeader} from './ClientListRow';
 import {updateInvoiceFilters} from '../../actions/index';
 import {getInvoiceYears} from '../invoice/InvoiceListModel';
+import { EditClientModel } from './ClientModels';
+import EditInvoiceModel from '../invoice/EditInvoiceModel';
+import { ConfacState } from '../../reducers/default-states';
 
-class ClientList extends Component {
-  static propTypes = {
-    invoices: PropTypes.array.isRequired,
-    clients: PropTypes.array.isRequired,
-    updateInvoiceFilters: PropTypes.func.isRequired,
-    filters: PropTypes.shape({
-      clientListYears: PropTypes.array.isRequired,
-    }).isRequired,
+type ClientListProps = {
+  invoices: EditInvoiceModel[],
+  clients: EditClientModel[],
+  updateInvoiceFilters: Function,
+  filters: {
+    clientListYears: number[]
   }
-  constructor() {
-    super();
+}
+
+type ClientListState = {
+  showDeleted: boolean,
+}
+
+class ClientList extends Component<ClientListProps, ClientListState> {
+  constructor(props: any) {
+    super(props);
     this.state = {showDeleted: false};
   }
 
@@ -64,7 +71,7 @@ class ClientList extends Component {
               label={t('client.yearsFilter')}
               values={filters.clientListYears}
               years={getInvoiceYears(invoices)}
-              onChange={values => this.props.updateInvoiceFilters({...filters, clientListYears: values})}
+              onChange={(values: number[]) => this.props.updateInvoiceFilters({...filters, clientListYears: values})}
               data-tst="filter-years"
             />
           </Col>
@@ -74,7 +81,7 @@ class ClientList extends Component {
   }
 }
 
-export default connect(state => ({
+export default connect((state: ConfacState) => ({
   clients: state.clients,
   invoices: state.invoices,
   filters: state.app.invoiceFilters,

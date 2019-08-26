@@ -1,7 +1,15 @@
 import React from 'react';
 import ReactSwitch from 'react-ios-switch';
 
-export const Switch = ({checked, onChange, label, style, ...props}) => (
+type SwitchProps = {
+  checked: boolean,
+  onChange: Function,
+  label: string,
+  style?: object,
+  onColor?: string,
+}
+
+export const Switch = ({checked, onChange, label, style, ...props}: SwitchProps) => (
   <div style={{...style, position: 'relative'}}>
     <ReactSwitch
       checked={checked}

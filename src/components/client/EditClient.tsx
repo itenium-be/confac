@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t} from '../util';
 import moment from 'moment';
@@ -9,21 +8,23 @@ import {saveClient} from '../../actions/index';
 import {EditClientRate} from './controls/EditClientRate';
 import {getNewClient, defaultClientProperties} from './EditClientModel';
 import * as Control from '../controls';
+import { EditClientModel } from './ClientModels';
+import { ConfacState } from '../../reducers/default-states';
+import { EditConfigModel } from '../config/EditConfigModel';
 
 
-class EditClient extends Component {
-  static propTypes = {
-    clients: PropTypes.array.isRequired,
-    isLoaded: PropTypes.bool,
-    saveClient: PropTypes.func.isRequired,
-    config: PropTypes.object.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string
-      }),
-    }),
+type EditClientProps = {
+  config: EditConfigModel,
+  clients: EditClientModel[],
+  isLoaded: boolean,
+  saveClient: Function,
+  match: {
+    params: {id: string}
   }
-  constructor(props) {
+}
+
+class EditClient extends Component<EditClientProps, EditClientModel> {
+  constructor(props: any) {
     super(props);
     this.state = this.copyClient(props);
   }
@@ -41,7 +42,7 @@ class EditClient extends Component {
     }
   }
 
-  copyClient(props) {
+  copyClient(props: EditClientProps) {
     if (props.match.params.id) {
       // Existing client
       const client = props.clients.find(c => c.slug === props.match.params.id);
@@ -59,7 +60,7 @@ class EditClient extends Component {
   }
 
   render() {
-    const client = this.state;
+    const client: any = this.state;
     if (!client) {
       return <div />;
     }
@@ -102,7 +103,6 @@ class EditClient extends Component {
 
             <Col sm={4}>
               <Control.InvoiceDateStrategySelect
-                label={t('config.defaultInvoiceDateStrategy')}
                 value={client.defaultInvoiceDateStrategy}
                 data-tst="defaultInvoiceDateStrategy"
                 onChange={value => this.setState({...client, defaultInvoiceDateStrategy: value})}
@@ -142,7 +142,7 @@ class EditClient extends Component {
     );
   }
 
-  isClientDisabled(client) {
+  isClientDisabled(client: EditClientModel) {
     if (client.name.length === 0) {
       return true;
     }
@@ -155,7 +155,7 @@ class EditClient extends Component {
   }
 }
 
-export default connect(state => ({
+export default connect((state: ConfacState) => ({
   clients: state.clients,
   isLoaded: state.app.isLoaded,
   config: state.config,

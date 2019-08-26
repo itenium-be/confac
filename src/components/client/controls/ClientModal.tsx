@@ -1,23 +1,25 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t} from '../../util';
 import * as Control from '../../controls';
 import {Container, Row, Form, Col} from 'react-bootstrap';
 import {saveClient} from '../../../actions/appActions';
 import {getNewClient, requiredClientProperties} from '../EditClientModel';
+import { EditClientModel } from '../ClientModels';
+import { EditConfigModel } from '../../config/EditConfigModel';
 
 
-class ClientModalComponent extends Component {
-  static propTypes = {
-    config: PropTypes.object.isRequired,
-    saveClient: PropTypes.func.isRequired,
-    client: PropTypes.object,
-    show: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    onConfirm: PropTypes.func,
-  }
+type ClientModalProps = {
+  config: EditConfigModel,
+  saveClient: Function,
+  client: EditClientModel,
+  show: boolean,
+  onClose: any,
+  onConfirm: Function,
+}
 
+
+class ClientModalComponent extends Component<ClientModalProps, ClientModalProps> {
   constructor(props) {
     super(props);
     this.state = this.copyClient(props);
@@ -38,12 +40,12 @@ class ClientModalComponent extends Component {
 
   onSave() {
     const updatedClient = this.state;
-    const onSuccess = this.props.onConfirm ? clientWithServerValues => this.props.onConfirm(clientWithServerValues) : null;
+    const onSuccess = this.props.onConfirm ? (clientWithServerValues: EditClientModel) => this.props.onConfirm(clientWithServerValues) : null;
     this.props.saveClient(updatedClient, true, onSuccess);
   }
 
   render() {
-    const client = this.state;
+    const client: any = this.state;
     if (!client) {
       return null;
     }

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Dropzone from 'react-dropzone';
 import {t} from '../util';
@@ -24,7 +23,7 @@ class AttachmentsFormComponent extends Component<AttachmentsFormProps> {
   render() {
     const {invoice, client} = this.props;
     const model = invoice || client;
-    const modelType = model === client ? 'client' : model.getType();
+    const modelType = model === client ? 'client' : model['getType']();
 
     if (!model._id) {
       return <div />;
@@ -133,7 +132,7 @@ class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormProps, Ab
 
 type AddAttachmentPopupProps = {
   attachments: Attachment[],
-  onClose: Function,
+  onClose: (...args: any[]) => any,
   onAdd: Function,
   attachmentTypes: string[],
   isOpen: boolean,
@@ -145,14 +144,6 @@ type AddAttachmentPopupState = {
 }
 
 class AddAttachmentPopupComponent extends Component<AddAttachmentPopupProps, AddAttachmentPopupState> {
-  static propTypes = {
-    attachments: PropTypes.array.isRequired,
-    onClose: PropTypes.func.isRequired,
-    onAdd: PropTypes.func.isRequired,
-    attachmentTypes: PropTypes.array.isRequired,
-    isOpen: PropTypes.bool.isRequired,
-  }
-
   constructor(props: AddAttachmentPopupProps) {
     super(props);
     this.state = {
@@ -214,12 +205,11 @@ export const AddAttachmentPopup = connect((state: ConfacState) => ({
 
 
 
+type AddAttachmentProps = {
+  onAdd: Function,
+}
 
-class AddAttachment extends Component {
-  static propTypes = {
-    onAdd: PropTypes.func.isRequired,
-  }
-
+class AddAttachment extends Component<AddAttachmentProps> {
   onDrop(acceptedFiles, rejectedFiles) {
     this.props.onAdd(acceptedFiles[0]);
     // console.log('Accepted files: ', acceptedFiles);

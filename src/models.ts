@@ -1,6 +1,20 @@
 export type InvoiceDateStrategy = 'prev-month-last-day' | 'today';
 
+/**
+ * Array defined as invoiceLineTypes
+ */
 export type EditClientRateType = 'hourly' | 'daily' | 'km' | 'items' | 'section' | 'other';
+
+export type ClientRate = {
+  type: EditClientRateType,
+  hoursInDay: number,
+  /**
+   * TODO: rename to price?
+   */
+  value: number,
+  description: string,
+}
+
 
 export type Attachment = {
   type: string,

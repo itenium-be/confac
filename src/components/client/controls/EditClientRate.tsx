@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {t} from '../../util';
 import * as Control from '../../controls';
 import {Col} from 'react-bootstrap';
+import { ClientRate } from '../../../models';
 
-export class EditClientRate extends Component {
-  static propTypes = {
-    rate: PropTypes.shape({
-      type: PropTypes.oneOf(Control.invoiceLineTypes).isRequired,
-      hoursInDay: PropTypes.number,
-      value: PropTypes.number.isRequired, // TODO: rename to price?
-      description: PropTypes.string,
-    }).isRequired,
-    onChange: PropTypes.func.isRequired,
-  }
+
+type EditClientRateProps = {
+  rate: ClientRate,
+  onChange: Function,
+}
+
+
+export class EditClientRate extends Component<EditClientRateProps> {
   render() {
     const {rate} = this.props;
     return (

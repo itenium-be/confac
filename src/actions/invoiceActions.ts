@@ -85,7 +85,7 @@ export function invoiceAction(invoice: EditInvoiceModel, type: 'create' | 'updat
 
 export function toggleInvoiceVerify(data: EditInvoiceModel) {
   const successMsg = data.verified ? t('invoice.isNotVerifiedConfirm') : t('invoice.isVerifiedConfirm');
-  const newData = {...data, verified: !data.verified};
+  const newData: EditInvoiceModel | any = {...data, verified: !data.verified};
   return updateInvoiceRequest(newData, successMsg, false); // change andGoHome? also need 'history' from router
 }
 

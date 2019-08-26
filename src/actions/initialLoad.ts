@@ -37,7 +37,7 @@ function fetchInvoices() {
   };
 }
 
-export function initialLoad() {
+export function initialLoad(): any {
   return dispatch => Promise.all([
     dispatch(fetchClients()),
     dispatch(fetchConfig()),
