@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import Header from './skeleton/Header';
 
 import {ToastContainer} from 'react-toastify';
+import { ConfacState } from '../reducers/default-states';
 // import { success, failure } from '../actions/appActions';
 // <button onClick={() => success("greato success")}>Success</button>
 // <button onClick={() => failure("oh noes")}>Error</button>
@@ -52,4 +53,4 @@ class App extends Component {
   }
 }
 
-export default connect(state => ({config: state.config, clients: state.clients}))(App);
+export default connect((state: ConfacState) => ({config: state.config, clients: state.clients}))(App);

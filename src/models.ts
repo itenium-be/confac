@@ -30,6 +30,11 @@ export type AppState = {
   invoiceFilters: InvoiceFilters,
 }
 
+export type FormConfig = string | {
+  key: string,
+  component: React.ReactNode
+}
+
 export type InvoiceFilters = {
   search: Array<{value: string, label: string, type: string}>,
   unverifiedOnly: boolean,

@@ -4,16 +4,22 @@ import {connect} from 'react-redux';
 import {t} from '../../util';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import Select from 'react-select';
+import { ConfacState } from '../../../reducers/default-states';
+import { EditClientModel } from '../ClientModels';
 
-class ClientSelectComponent extends Component {
-  static propTypes = {
-    clients: PropTypes.array.isRequired,
-    value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-    onChange: PropTypes.func.isRequired,
-  }
 
-  getClient(clientId) {
-    return this.props.clients.find(c => c._id === clientId);
+type ClientSelectProps = {
+  clients: EditClientModel[],
+  /**
+   * The client or the _id
+   */
+  value: EditClientModel | string,
+  onChange: Function,
+}
+
+class ClientSelectComponent extends Component<ClientSelectProps> {
+  getClient(clientId: string): EditClientModel {
+    return this.props.clients.find(c => c._id === clientId) as EditClientModel;
   }
 
   render() {
@@ -42,4 +48,4 @@ class ClientSelectComponent extends Component {
   }
 }
 
-export const ClientSelect = EnhanceInputWithLabel(connect(state => ({clients: state.clients}))(ClientSelectComponent));
+export const ClientSelect = EnhanceInputWithLabel(connect((state: ConfacState) => ({clients: state.clients}))(ClientSelectComponent));

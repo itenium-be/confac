@@ -7,6 +7,7 @@ import {saveClient} from '../../../actions/appActions';
 import {getNewClient, requiredClientProperties} from '../EditClientModel';
 import { EditClientModel } from '../ClientModels';
 import { EditConfigModel } from '../../config/EditConfigModel';
+import { ConfacState } from '../../../reducers/default-states';
 
 
 type ClientModalProps = {
@@ -56,7 +57,6 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalProps>
         onClose={this.props.onClose}
         title={client._id ? client.name : t('client.createNew')}
         onConfirm={this.onSave.bind(this)}
-        dialogClassName="modal-client"
       >
         <Form>
           <Container>
@@ -85,4 +85,4 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalProps>
   }
 }
 
-export const ClientModal = connect(state => ({config: state.config}), {saveClient})(ClientModalComponent);
+export const ClientModal = connect((state: ConfacState) => ({config: state.config}), {saveClient})(ClientModalComponent);

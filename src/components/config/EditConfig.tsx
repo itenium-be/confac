@@ -1,28 +1,23 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t} from '../util';
 import {Container, Row, Col, Form} from 'react-bootstrap';
 import {EditCompany} from './EditCompany';
 import * as Control from '../controls';
 import {updateConfig} from '../../actions/index';
+import { EditConfigModel } from './EditConfigModel';
+import { ConfacState } from '../../reducers/default-states';
 
 
-class EditConfig extends Component {
-  static propTypes = {
-    config: PropTypes.shape({
-      defaultTax: PropTypes.number,
-      defaultClient: PropTypes.string,
-      company: PropTypes.object,
-      extraConfigFields: PropTypes.array.isRequired,
-      defaultExtraClientFields: PropTypes.array.isRequired,
-      defaultExtraClientInvoiceFields: PropTypes.array.isRequired,
-      defaultInvoiceDateStrategy: PropTypes.string,
-    }).isRequired,
-    updateConfig: PropTypes.func.isRequired,
-  }
+type EditConfigProps = {
+  config: EditConfigModel,
+  updateConfig: Function,
+}
 
-  constructor(props) {
+type EditConfigState = EditConfigModel;
+
+class EditConfig extends Component<EditConfigProps, EditConfigState> {
+  constructor(props: EditConfigProps) {
     super(props);
     this.state = JSON.parse(JSON.stringify(props.config));
   }
@@ -80,7 +75,7 @@ class EditConfig extends Component {
   }
 }
 
-export default connect(state => ({config: state.config}), {updateConfig})(EditConfig);
+export default connect((state: ConfacState) => ({config: state.config}), {updateConfig})(EditConfig);
 
 
 
@@ -92,7 +87,7 @@ const EditConfigUserSettings = ({config, onChange}) => (
       <Control.Switch
         label={t('config.showOrderNr')}
         checked={config.showOrderNr}
-        onChange={checked => onChange({showOrderNr: checked})}
+        onChange={(checked: boolean) => onChange({showOrderNr: checked})}
         data-tst="config.showOrderNr"
       />
     </Col>
@@ -101,7 +96,7 @@ const EditConfigUserSettings = ({config, onChange}) => (
       <Control.Switch
         label={t('config.groupByMonth')}
         checked={config.groupInvoiceListByMonth}
-        onChange={checked => onChange({groupInvoiceListByMonth: checked})}
+        onChange={(checked: boolean) => onChange({groupInvoiceListByMonth: checked})}
         data-tst="config.groupByMonth"
       />
     </Col>
