@@ -2,7 +2,7 @@ import React from 'react';
 import t from '../../../trans';
 import {InvoiceClientCell} from './InvoiceClientCell';
 
-export function getColumns(fields, showOrderNr, isQuotation) {
+export function getColumns(fields: string[], showOrderNr: boolean, isQuotation: boolean) {
   const transPrefix = isQuotation ? 'quotation' : 'invoice';
   var columns = [{
     key: 'date-month',

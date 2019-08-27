@@ -24,7 +24,6 @@ export const defaultAppState: AppState = {
     groupedByMonth: false,
     clientListYears: [moment().year()],
   },
-  pdf: null,
 };
 
 

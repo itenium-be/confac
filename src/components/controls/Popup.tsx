@@ -1,22 +1,22 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
 import {Button, BusyButton} from './Button';
+import { BootstrapVariant } from '../../models';
 
-export class Popup extends Component {
-  static propTypes = {
-    'data-tst': PropTypes.string.isRequired,
-    title: PropTypes.string,
-    children: PropTypes.node,
-    buttons: PropTypes.arrayOf(PropTypes.shape({
-      text: PropTypes.string.required,
-      onClick: PropTypes.func.isRequired,
-      variant: PropTypes.string,
-      busy: PropTypes.bool,
-      disabled: PropTypes.bool
-    })),
-    onHide: PropTypes.func.isRequired,
-  };
+type PopupProps = {
+  title: string,
+  children: any,
+  onHide: () => void,
+  buttons: Array<{
+    text: string,
+    onClick: Function,
+    variant?: BootstrapVariant,
+    busy?: boolean,
+    disabled?: boolean,
+  }>
+}
+
+export class Popup extends Component<PopupProps> {
   render() {
     return (
       <Modal onHide={this.props.onHide} show={true}>
@@ -34,9 +34,9 @@ export class Popup extends Component {
             return (
               <UsedButton
                 key={i}
-                variant={button.variant || 'default'}
+                variant={button.variant}
                 onClick={button.onClick}
-                disabled={button.disabled}
+                disabled={button.disabled || false}
                 data-tst={this.props['data-tst'] + '-btn-' + i}
               >
                 {button.text}

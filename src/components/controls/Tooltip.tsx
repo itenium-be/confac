@@ -3,9 +3,9 @@ import {default as RcTooltip} from 'rc-tooltip';
 
 type TooltipProps = {
   title: string,
-  placement: 'left' | 'right' | 'top' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight',
+  placement?: 'left' | 'right' | 'top' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight',
   children: React.ReactNode,
-  mouseEnterDelay: number;
+  mouseEnterDelay?: number;
 }
 
 export const Tooltip = ({children, title, placement = 'left', mouseEnterDelay = 0.6}: TooltipProps) => {

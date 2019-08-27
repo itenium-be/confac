@@ -28,7 +28,6 @@ export type AppState = {
   isBusy: boolean,
   busyCount: number,
   invoiceFilters: InvoiceFilters,
-  pdf: string | null,
 }
 
 export type InvoiceFilters = {
@@ -37,3 +36,7 @@ export type InvoiceFilters = {
   groupedByMonth: boolean,
   clientListYears: number[],
 }
+
+export type BootstrapVariant = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | 'link'
+  | 'outline-primary' | 'outline-secondary' | 'outline-success' | 'outline-danger' | 'outline-warning'
+  | 'outline-info' | 'outline-dark' | 'outline-light';

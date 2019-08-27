@@ -1,19 +1,19 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Button as ReactButton} from 'react-bootstrap';
 import {Icon} from './Icon';
+import { ConfacState } from '../../reducers/default-states';
+import { BootstrapVariant } from '../../models';
 
-export class Button extends Component {
-  static propTypes = {
-    'data-tst': PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
-    disabled: PropTypes.bool,
-    variant: PropTypes.string,
-    size: PropTypes.string,
-    icon: PropTypes.string,
-  }
+type ButtonProps = {
+  onClick: any,
+  icon?: string,
+  variant?: BootstrapVariant,
+  size?: 'lg',
+  children?: any,
+}
+
+export class Button extends Component<ButtonProps> {
   static defaultProps = {
     variant: 'primary',
     size: 'lg',
@@ -29,16 +29,18 @@ export class Button extends Component {
   }
 }
 
+type ButtonWithClickOnceProps = ButtonProps & {
+  isBusy: boolean,
+  disabled: boolean,
+}
 
-const EnhanceButtonWithClickOnce = ComposedComponent => class extends Component {
-  static propTypes = {
-    isBusy: PropTypes.bool.isRequired,
-    disabled: PropTypes.bool,
-  }
-
+const EnhanceButtonWithClickOnce = ComposedComponent => class extends Component<ButtonWithClickOnceProps> {
   render() {
     const {isBusy, disabled, ...props} = this.props;
+
     return <ComposedComponent {...props} disabled={isBusy || disabled} />;
   }
 };
-export const BusyButton = connect(state => ({isBusy: state.app.isBusy}), {})(EnhanceButtonWithClickOnce(Button));
+
+
+export const BusyButton = connect((state: ConfacState) => ({isBusy: state.app.isBusy}), {})(EnhanceButtonWithClickOnce(Button));

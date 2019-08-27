@@ -59,6 +59,9 @@
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,ts,tsx src"
   },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "license": "MIT",
   "browserslist": {
     "production": [

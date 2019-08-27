@@ -1,18 +1,15 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import {t} from '../util';
-
 import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel';
 import {default as ReactDatePicker} from 'react-datepicker';
 
-export const DatePicker = EnhanceInputWithLabel(class extends Component {
-  static propTypes = {
-    'data-tst': PropTypes.string.isRequired,
-    value: PropTypes.object,
-    onChange: PropTypes.func.isRequired,
-  }
+type DatePickerProps = {
+  value: any,
+  onChange: Function,
+}
 
+export const DatePicker = EnhanceInputWithLabel(class extends Component<DatePickerProps> {
   render() {
     return (
       <ReactDatePicker

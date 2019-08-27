@@ -5,16 +5,20 @@ import {Tooltip} from './Tooltip';
 import cn from 'classnames';
 import {EnhanceWithConfirmation, EnhanceWithBusySpinner} from '../enhancers/index';
 import t from '../../trans';
+import { ConfacState } from '../../reducers/default-states';
 
-const EnhanceIconWithCenter = ComposedComponent => ({center, ...props}: {center: boolean}) => {
+
+// Well... Let's do the whole Hooks thing instead?
+
+const EnhanceIconWithCenter = (Component) => ({center, ...props}: {center: boolean}) => {
   if (center) {
     return (
       <div style={{textAlign: 'center'}}>
-        <ComposedComponent {...props} />
+        <Component {...props} />
       </div>
     );
   }
-  return <ComposedComponent {...props} />;
+  return <Component {...props} />;
 };
 
 export const Icon = EnhanceIconWithCenter(withRouter(({ match, location, history, staticContext, ...props }) => <IconComponent history={history} {...props} />));
@@ -24,7 +28,14 @@ export type IconProps = {
   fa?: string,
   color?: string,
   style?: object,
+  /**
+   * string: A react-router link
+   * or a function
+   */
   onClick?: string | Function,
+  /**
+   * A link to outside React
+   */
   href?: string,
   className?: string,
   label?: string,
@@ -42,7 +53,7 @@ class IconComponent extends Component<IconProps> {
 
   render() {
     const {fa, color, style, onClick, href, className, label, labelStyle, title, size, history, ...props} = this.props;
-    var realClick = onClick;
+    var realClick: any = onClick;
     if (typeof onClick === 'string') {
       realClick = () => {
         history.push(onClick);
@@ -89,7 +100,7 @@ class IconComponent extends Component<IconProps> {
 export const VerifyIcon = ({...props}: IconProps) => (
   <Icon fa="fa fa-check" color="green" {...props} />
 );
-export const BusyVerifyIcon = connect(state => ({isBusy: state.app.isBusy}))(EnhanceWithBusySpinner(VerifyIcon));
+export const BusyVerifyIcon = connect((state: ConfacState) => ({isBusy: state.app.isBusy}))(EnhanceWithBusySpinner(VerifyIcon));
 
 export const SpinnerIcon = ({...props}: IconProps) => (
   <Icon fa="fa fa-spinner fa-pulse fa-fw" {...props} />
