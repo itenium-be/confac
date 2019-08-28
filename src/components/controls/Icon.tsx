@@ -20,18 +20,18 @@ const EnhanceIconWithCenter = <P extends object>(Component: React.ComponentType<
 };
 
 
-// TODO: BUG! currently don't have withRouter history!!
+type RouterProps = {
+  match: any,
+  location: any,
+  history: any,
+  staticContext: any,
+}
 
-// export const Icon = withRouter(({ match, location, history, staticContext, ...props }) => <IconComponent history={history} {...props as IconProps} />);
-// export const Icon2: () => React.ReactElement = EnhanceIconWithCenter((props: IconProps) => <IconComponent {...props as IconProps} />);
-export const Icon = EnhanceIconWithCenter((props: IconProps) => <IconComponent {...props as IconProps} />);
-// export const Icon = EnhanceIconWithCenter(withRouter(({ match, location, history, staticContext, ...props }) => <IconComponent history={history} {...props as IconProps} />));
-
-
-// export const Icon =
-//   EnhanceIconWithCenter(
-//     withRouter(({ match, location, history, staticContext, ...props }) => <IconComponent history={history} {...props as IconProps} />)
-//   ) as unknown as Component<IconProps>;
+export const Icon = EnhanceIconWithCenter(
+  withRouter(({ match, location, history, staticContext, ...props }: IconProps & RouterProps) =>
+    <IconComponent history={history} {...props as IconProps} />
+  )
+);
 
 export type IconProps = {
   fa?: string,
