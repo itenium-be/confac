@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {t} from '../../util';
-import {SimpleSelect} from '../../controls/Select';
+import {SimpleSelect} from '../../controls/form-controls/select/SimpleSelect';
 import { EditClientRateType } from '../../../models';
 
 

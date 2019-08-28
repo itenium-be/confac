@@ -51,11 +51,24 @@ export type InvoiceFiltersSearch = {
   type: 'invoice-nr' | 'year' | 'client' | 'invoice_line' | 'manual_input',
 }
 
+/**
+ * Filters used on InvoiceList and ClientList
+ * Used for: state.app.invoiceFilters
+ */
 export type InvoiceFilters = {
   search: InvoiceFiltersSearch[],
   unverifiedOnly: boolean,
   groupedByMonth: boolean,
   clientListYears: number[],
+}
+
+/**
+ * Model used for the Select Components
+ */
+export type SelectItem = {
+  label: string | number,
+  value: string | number,
+  className?: string,
 }
 
 export type BootstrapVariant = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | 'link'

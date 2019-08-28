@@ -4,7 +4,7 @@ import {t} from '../util';
 
 import {ClientEditIcon, InvoiceWorkedDays, InvoicesSummary, DeleteIcon} from '../controls';
 import {saveClient} from '../../actions/index';
-import EditInvoiceModel from '../invoice/EditInvoiceModel';
+import EditInvoiceModel from '../invoice/models/EditInvoiceModel';
 import { EditClientModel } from './ClientModels';
 
 

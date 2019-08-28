@@ -3,7 +3,7 @@ import request from 'superagent-bluebird-promise';
 import {ACTION_TYPES} from './ActionTypes';
 import {success, busyToggle} from './appActions';
 import {buildUrl, catchHandler} from './fetch';
-import EditInvoiceModel from '../components/invoice/EditInvoiceModel';
+import EditInvoiceModel from '../components/invoice/models/EditInvoiceModel';
 
 
 function buildAttachmentUrl(invoiceOrClient: EditInvoiceModel | EditClientModel, type: 'pdf' | string) {

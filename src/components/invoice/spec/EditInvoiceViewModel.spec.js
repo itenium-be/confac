@@ -1,7 +1,7 @@
 import moment from 'moment';
 import {defaultConfig} from '../../../reducers';
 import {getNewClient} from '../../client/EditClientModel';
-import EditInvoiceModel, {calculateDaysWorked} from '../EditInvoiceModel';
+import EditInvoiceModel, {calculateDaysWorked} from '../models/EditInvoiceModel';
 
 //const defaultHoursInDay = 8;
 

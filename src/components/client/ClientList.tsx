@@ -6,9 +6,9 @@ import * as Control from '../controls';
 import {Container, Table, Row, Col} from 'react-bootstrap';
 import ClientListRow, {ClientListHeader} from './ClientListRow';
 import {updateInvoiceFilters} from '../../actions/index';
-import {getInvoiceYears} from '../invoice/InvoiceListModel';
+import {getInvoiceYears} from '../invoice/models/InvoiceListModel';
 import { EditClientModel } from './ClientModels';
-import EditInvoiceModel from '../invoice/EditInvoiceModel';
+import EditInvoiceModel from '../invoice/models/EditInvoiceModel';
 import { ConfacState } from '../../reducers/default-states';
 
 type ClientListProps = {
@@ -49,7 +49,7 @@ class ClientList extends Component<ClientListProps, ClientListState> {
           <Col sm={3} xs={6}>
             <Control.AddIcon onClick="/client/create" label={t('client.createNew')} data-tst="new-client" />
           </Col>
-          <Col sm={6} xs={6}>
+          <Col sm={3} xs={6}>
             <Control.YearsSelect
               values={filters.clientListYears}
               years={getInvoiceYears(invoices)}

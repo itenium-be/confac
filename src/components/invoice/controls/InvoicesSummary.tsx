@@ -20,7 +20,7 @@ export const InvoicesSummary = ({invoices, ...props}) => {
   }), {totalWithoutTax: 0, totalTax: 0, total: 0});
 
   if (money.total === 0) {
-    return <div />;
+    return null;
   }
 
   var tooltip = t('invoice.subtotal') + ': ' + moneyFormat(money.totalWithoutTax);

@@ -1,4 +1,4 @@
-import EditInvoiceModel from '../components/invoice/EditInvoiceModel';
+import EditInvoiceModel from '../components/invoice/models/EditInvoiceModel';
 import { ACTION_TYPES } from '../actions';
 import moment from 'moment';
 

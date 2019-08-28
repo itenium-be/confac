@@ -1,4 +1,4 @@
-import InvoiceListModel from '../InvoiceListModel';
+import InvoiceListModel from '../models/InvoiceListModel';
 import moment from 'moment';
 
 

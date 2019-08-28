@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
-import {Button, BusyButton} from './Button';
+import {Button} from './form-controls/Button';
 import { BootstrapVariant } from '../../models';
+import { BusyButton } from '../controls';
 
 export type PopupButton = {
   text: string,

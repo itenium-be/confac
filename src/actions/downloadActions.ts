@@ -1,6 +1,6 @@
 import request from 'superagent-bluebird-promise';
 import {buildUrl, catchHandler} from './fetch';
-import EditInvoiceModel from '../components/invoice/EditInvoiceModel';
+import EditInvoiceModel from '../components/invoice/models/EditInvoiceModel';
 import { Attachment } from '../models';
 import { EditClientModel } from '../components/client/ClientModels';
 

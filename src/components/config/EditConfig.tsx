@@ -5,8 +5,11 @@ import {Container, Row, Col, Form} from 'react-bootstrap';
 import {EditCompany} from './EditCompany';
 import * as Control from '../controls';
 import {updateConfig} from '../../actions/index';
-import { EditConfigModel } from './EditConfigModel';
+import { EditConfigModel, EditConfigCompanyModel } from './EditConfigModel';
 import { ConfacState } from '../../reducers/default-states';
+import { EditConfigInvoice } from './EditConfigInvoice';
+import { EditConfigUserSettings } from './EditConfigUserSettings';
+import { EditConfigExtraFields } from './EditConfigExtraFields';
 
 
 type EditConfigProps = {
@@ -30,7 +33,7 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
     this.setState(JSON.parse(JSON.stringify(nextProps.config)));
   }
 
-  _save() {
+  _save(): void {
     console.log('save', this.state); // eslint-disable-line
     return this.props.updateConfig(this.state);
   }
@@ -41,7 +44,7 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
         <Form>
           <EditCompany
             company={this.state.company}
-            onChange={company => this.setState({company})}
+            onChange={(company: EditConfigCompanyModel) => this.setState({company})}
           />
 
 
@@ -76,125 +79,3 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
 }
 
 export default connect((state: ConfacState) => ({config: state.config}), {updateConfig})(EditConfig);
-
-
-
-
-const EditConfigUserSettings = ({config, onChange}) => (
-  <Row>
-    <h1>{t('config.settingsTitle')}</h1>
-    <Col sm={4}>
-      <Control.Switch
-        label={t('config.showOrderNr')}
-        checked={config.showOrderNr}
-        onChange={(checked: boolean) => onChange({showOrderNr: checked})}
-        data-tst="config.showOrderNr"
-      />
-    </Col>
-
-    <Col sm={4}>
-      <Control.Switch
-        label={t('config.groupByMonth')}
-        checked={config.groupInvoiceListByMonth}
-        onChange={(checked: boolean) => onChange({groupInvoiceListByMonth: checked})}
-        data-tst="config.groupByMonth"
-      />
-    </Col>
-  </Row>
-);
-
-
-
-const EditConfigInvoice = ({config, onChange}) => (
-  <Row>
-    <h1>{t('config.invoiceTitle')}</h1>
-    <Col sm={4}>
-      <Control.ClientSelect
-        label={t('config.defaultClient')}
-        value={config.defaultClient}
-        onChange={item => onChange({defaultClient: item ? item._id : null})}
-        data-tst="config.defaultClient"
-      />
-    </Col>
-
-    <Col sm={4}>
-      <Control.StringInput
-        label={t('config.defaultTax')}
-        value={config.defaultTax}
-        onChange={value => onChange({defaultTax: value})}
-        suffix="%"
-        data-tst="config.defaultTax"
-      />
-    </Col>
-
-    <Col sm={4}>
-      <Control.StringsSelect
-        label={t('attachment.types')}
-        values={config.attachmentTypes}
-        onChange={values => onChange({attachmentTypes: values})}
-        data-tst="config.attachmentTypes"
-      />
-    </Col>
-
-    <Col sm={4}>
-      <Control.InvoiceLineTypeSelect
-        label={t('config.defaultInvoiceLineType')}
-        type={config.defaultInvoiceLineType}
-        onChange={value => onChange({defaultInvoiceLineType: value})}
-        data-tst="config.defaultInvoiceLineType"
-      />
-    </Col>
-
-    <Col sm={4}>
-      <Control.InvoiceDateStrategySelect
-        value={config.defaultInvoiceDateStrategy}
-        data-tst="config.defaultInvoiceDateStrategy"
-        onChange={value => onChange({defaultInvoiceDateStrategy: value})}
-      />
-    </Col>
-  </Row>
-);
-
-
-
-
-
-
-const EditConfigExtraFields = ({config, onChange}) => (
-  <div>
-    <Row>
-      <h1>{t('config.extraFields.title')}</h1>
-      <Col sm={4}>
-        <Control.PropertiesSelect
-          label={t('config.extraFields.config')}
-          values={config.extraConfigFields}
-          onChange={value => onChange({extraConfigFields: value})}
-          data-tst="config.extraFields.title"
-        />
-      </Col>
-      <Col sm={4}>
-        <Control.PropertiesSelect
-          label={t('config.extraFields.client')}
-          values={config.defaultExtraClientFields}
-          onChange={value => onChange({defaultExtraClientFields: value})}
-          data-tst="config.extraFields.client"
-        />
-      </Col>
-      <Col sm={4}>
-        <Control.PropertiesSelect
-          label={t('config.extraFields.clientInvoice')}
-          values={config.defaultExtraClientInvoiceFields}
-          onChange={value => onChange({defaultExtraClientInvoiceFields: value})}
-          data-tst="config.extraFields.clientInvoice"
-        />
-      </Col>
-    </Row>
-    <Row>
-      <Control.ExtraFieldsInput
-        properties={config.extraConfigFields}
-        onChange={value => onChange({extraConfigFields: value})}
-        data-tst="config.extraConfigFields"
-      />
-    </Row>
-  </div>
-);

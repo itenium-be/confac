@@ -1,8 +1,8 @@
 import React from 'react';
 import {t} from '../util';
 
-import {InputArray} from '../controls';
-import {TemplatePicker} from '../controls/TemplatePicker';
+import {ArrayInput} from '../controls';
+import {TemplatePicker} from '../controls/form-controls/select/TemplatePicker';
 import {Row} from 'react-bootstrap';
 import { EditConfigCompanyModel } from './EditConfigModel';
 import { FormConfig } from '../../models';
@@ -32,7 +32,7 @@ export const EditCompany = ({company, onChange}: EditCompanyProps) => {
   return (
     <Row>
       <h1>{t('config.company.title')}</h1>
-      <InputArray
+      <ArrayInput
         config={config}
         model={company}
         onChange={onChange}

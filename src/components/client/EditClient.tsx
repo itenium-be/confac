@@ -2,15 +2,16 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {t} from '../util';
 import moment from 'moment';
-import {BusyButton, StringInput, InputArray, AttachmentsForm, TextareaInput, PropertiesSelect, ExtraFieldsInput} from '../controls';
+import {BusyButton, ArrayInput, AttachmentsForm, TextareaInput, PropertiesSelect} from '../controls';
 import {Container, Row, Col, Form} from 'react-bootstrap';
 import {saveClient} from '../../actions/index';
-import {EditClientRate} from './controls/EditClientRate';
+import {EditClientRate} from './EditClientRate';
 import {getNewClient, defaultClientProperties} from './EditClientModel';
 import * as Control from '../controls';
 import { EditClientModel } from './ClientModels';
 import { ConfacState } from '../../reducers/default-states';
 import { EditConfigModel } from '../config/EditConfigModel';
+import { EditClientDefaultOther } from './EditClientDefaultOther';
 
 
 type EditClientProps = {
@@ -62,7 +63,7 @@ class EditClient extends Component<EditClientProps, EditClientModel> {
   render() {
     const client: any = this.state;
     if (!client) {
-      return <div />;
+      return null;
     }
 
     return (
@@ -74,7 +75,7 @@ class EditClient extends Component<EditClientProps, EditClientModel> {
               {client.createdOn && <small className="created-on">{t('createdOn')} {moment(client.createdOn).format('DD/MM/YYYY')}</small>}
             </h1>
 
-            <InputArray
+            <ArrayInput
               config={defaultClientProperties}
               model={client}
               onChange={value => this.setState({...client, ...value})}
@@ -160,38 +161,3 @@ export default connect((state: ConfacState) => ({
   isLoaded: state.app.isLoaded,
   config: state.config,
 }), {saveClient})(EditClient);
-
-
-
-const EditClientDefaultOther = ({client, onChange}) => (
-  <div>
-    <Row>
-      <h1>{t('config.company.other')}</h1>
-      <Col sm={4}>
-        <StringInput
-          label={t('invoice.fileName')}
-          placeholder={t('invoice.fileNamePlaceHolder')}
-          value={client.invoiceFileName}
-          onChange={value => onChange({...client, invoiceFileName: value})}
-          data-tst="client.invoiceFileName"
-        />
-      </Col>
-
-      <Col sm={4}>
-        <PropertiesSelect
-          label={t('client.extraFields')}
-          values={client.extraFields}
-          onChange={value => onChange({...client, extraFields: value})}
-          data-tst="client.extraFields"
-        />
-      </Col>
-    </Row>
-    <Row>
-      <ExtraFieldsInput
-        properties={client.extraFields}
-        onChange={value => onChange({...client, extraFields: value})}
-        data-tst="client.extraFields"
-      />
-    </Row>
-  </div>
-);

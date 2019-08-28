@@ -3,7 +3,7 @@ import {ACTION_TYPES} from './ActionTypes';
 import {success, failure, busyToggle} from './appActions';
 import {buildUrl, catchHandler} from './fetch';
 import t from '../trans';
-import EditInvoiceModel from '../components/invoice/EditInvoiceModel';
+import EditInvoiceModel from '../components/invoice/models/EditInvoiceModel';
 import { previewInvoice } from './downloadActions';
 
 

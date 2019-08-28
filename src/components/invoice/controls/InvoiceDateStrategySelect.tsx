@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {t} from '../../util';
-import {SimpleSelect} from '../../controls/Select';
-import {invoiceDateStrategies} from '../invoice-date-strategy';
+import {SimpleSelect} from '../../controls/form-controls/select/SimpleSelect';
+import {invoiceDateStrategies} from '../models/invoice-date-strategy';
 import { InvoiceDateStrategy } from '../../../models';
 
 

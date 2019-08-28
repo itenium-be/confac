@@ -1,10 +1,10 @@
 import React from 'react';
-import {groupInvoicesPerMonth} from '../EditInvoiceModel';
+import {groupInvoicesPerMonth} from '../models/EditInvoiceModel';
 
 import {Table} from 'react-bootstrap';
-import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from '../InvoiceListRow';
-import {InvoiceWorkedDays} from '../controls/InvoiceWorkedDays';
-import {InvoicesTotal} from '../controls/InvoiceTotal';
+import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from '../invoice-list/InvoiceListRow';
+import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
+import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import {getColumns} from './invoice-list-column-factory';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Table} from 'react-bootstrap';
-import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from '../InvoiceListRow';
+import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from '../invoice-list/InvoiceListRow';
 import {getColumns} from './invoice-list-column-factory';
 import { EditConfigModel } from '../../config/EditConfigModel';
 

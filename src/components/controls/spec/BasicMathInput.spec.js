@@ -1,4 +1,4 @@
-import {basicMath} from '../Inputs';
+import {basicMath} from '../form-controls/inputs/BaseInput';
 
 fdescribe('BasicMathInput', () => {
   it('Replaces comma to dot', () => {

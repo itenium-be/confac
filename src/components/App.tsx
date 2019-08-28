@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import Header from './skeleton/Header';
+import Header from './Header';
 
 import {ToastContainer} from 'react-toastify';
 import { ConfacState } from '../reducers/default-states';
