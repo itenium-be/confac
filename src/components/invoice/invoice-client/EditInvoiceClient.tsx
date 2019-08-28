@@ -45,6 +45,7 @@ export class EditInvoiceClient extends Component<EditInvoiceClientProps, EditInv
           <div style={{width: 120, position: 'relative'}}>
             <Control.Button
               onClick={() => this.setState({modalClientId: 'new'})}
+              variant="light"
               size="sm"
               style={{position: 'absolute', bottom: 18, left: 5}}
               data-tst="new-client"

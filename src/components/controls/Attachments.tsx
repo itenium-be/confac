@@ -166,6 +166,7 @@ class AddAttachmentPopupComponent extends Component<AddAttachmentPopupProps, Add
     const buttons: PopupButton[] = [{
       text: t('cancel'),
       onClick: () => onClose(),
+      variant: 'light',
     }, {
       text: t('add'),
       variant: 'primary',

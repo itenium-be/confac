@@ -26,6 +26,7 @@ class extends Component<EnhanceWithConfirmationProps & P, EnhanceWithConfirmatio
       text: t('no'),
       onClick: () => this.setState({popupActive: false}),
       busy: true,
+      variant: 'light',
     }, {
       text: t('delete'),
       variant: 'danger',
