@@ -53,6 +53,7 @@ export type IconProps = {
   size?: number,
   history?: any,
   center?: boolean,
+  dispatch?: any,
 }
 
 
@@ -62,7 +63,7 @@ class IconComponent extends Component<IconProps> {
   }
 
   render() {
-    const {fa, color, style, onClick, href, className, label, labelStyle, title, size, history, ...props} = this.props;
+    const {fa, color, style, onClick, href, dispatch, className, label, labelStyle, title, size, history, ...props} = this.props;
     var realClick: any = onClick;
     if (typeof onClick === 'string') {
       realClick = () => {

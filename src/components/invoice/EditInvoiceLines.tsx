@@ -3,7 +3,7 @@ import {t} from '../util';
 
 import * as Control from '../controls';
 import {Table} from 'react-bootstrap';
-import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
+import {DragDropContext, Droppable, Draggable, DropResult} from 'react-beautiful-dnd';
 import {createEditInvoiceLine} from './invoice-lines/EditInvoiceLineFactory';
 import {EditInvoiceLineIcons, EditInvoiceDragHandle} from './invoice-lines/EditInvoiceLineIcons';
 import EditInvoiceModel from './EditInvoiceModel';
@@ -24,7 +24,7 @@ export default class EditInvoiceLines extends Component<EditInvoiceLinesProps, E
     this.state = {notesVisible: false};
   }
 
-  onDragEnd(result) {
+  onDragEnd(result: DropResult): void {
     // dropped outside the list or didn't actually move
     if (!result.destination || result.source.index === result.destination.index) {
       return;

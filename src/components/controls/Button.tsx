@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {connect, useSelector} from 'react-redux';
+import {connect} from 'react-redux';
 import {Button as ReactButton} from 'react-bootstrap';
 import {Icon} from './Icon';
 import { ConfacState } from '../../reducers/default-states';
@@ -36,25 +36,8 @@ type ButtonWithClickOnceProps = {
   disabled?: boolean,
 }
 
-// TODO: still need this?
-// const EnhanceButtonWithClickOnce = <P extends object>(ComposedComponent: React.ComponentType<P>) =>
-// class extends Component<ButtonWithClickOnceProps & P> {
-//   render() {
-//     const {isBusy, disabled, ...props} = this.props;
-
-//     return <ComposedComponent {...props as P} disabled={isBusy || disabled} />;
-//   }
-// };
-
-
-// const EnhanceButtonWithClickOnce = <P extends object>(ComposedComponent: React.ComponentType<P>) =>
-//   ({isBusy, disabled, ...props}: ButtonWithClickOnceProps & P) => {
-//     return <ComposedComponent {...props as P} disabled={isBusy || disabled} />;
-//   };
-
 const EnhanceButtonWithClickOnce = <P extends object>(Component: React.ComponentType<P>): React.FC<P & ButtonWithClickOnceProps> =>
   ({ isBusy, disabled, ...props }: ButtonWithClickOnceProps) => {
-    // const isBusy = useSelector((state: ConfacState) => state.app.isBusy);
     return <Component {...props as P} disabled={isBusy || disabled} />;
   }
 

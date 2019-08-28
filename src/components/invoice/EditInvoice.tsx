@@ -13,6 +13,7 @@ import {EditInvoiceExtraFields} from './invoice-extra-fields/EditInvoiceExtraFie
 import EditInvoiceModel from './EditInvoiceModel';
 import { EditConfigModel } from '../config/EditConfigModel';
 import { EditClientModel } from '../client/ClientModels';
+import { ConfacState } from '../../reducers/default-states';
 
 
 type EditInvoiceProps = {
@@ -181,7 +182,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
   }
 }
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state: ConfacState, props) {
   return {
     config: state.config,
     app: state.app,
@@ -196,7 +197,7 @@ export default connect(mapStateToProps, {invoiceAction})(EditInvoice);
 
 
 const EditInvoiceDetails = ({invoice, onChange}) => {
-  const tp = transKey => t((invoice.getType()) + transKey);
+  const tp = (transKey: string): string => t(invoice.getType() + transKey);
   return (
     <>
       <Col sm={6}>
