@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Header from './skeleton/Header';
 
@@ -39,9 +38,6 @@ const ConfiguredToastContainer = () => (
 
 
 class App extends Component {
-  static propTypes = {
-    children: PropTypes.node
-  }
   render() {
     return (
       <div className="App">

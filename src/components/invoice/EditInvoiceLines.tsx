@@ -1,20 +1,26 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {t, EditInvoiceViewModel} from '../util';
+import {t} from '../util';
 
 import * as Control from '../controls';
 import {Table} from 'react-bootstrap';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import {createEditInvoiceLine} from './invoice-lines/EditInvoiceLineFactory';
 import {EditInvoiceLineIcons, EditInvoiceDragHandle} from './invoice-lines/EditInvoiceLineIcons';
+import EditInvoiceModel from './EditInvoiceModel';
 
-export default class EditInvoiceLines extends Component {
-  static propTypes = {
-    invoice: PropTypes.instanceOf(EditInvoiceViewModel).isRequired,
-    onChange: PropTypes.func.isRequired,
-  }
-  constructor() {
-    super();
+
+type EditInvoiceLinesProps = {
+  invoice: EditInvoiceModel,
+  onChange: any,
+}
+
+type EditInvoiceLinesState = {
+  notesVisible: boolean,
+}
+
+export default class EditInvoiceLines extends Component<EditInvoiceLinesProps, EditInvoiceLinesState> {
+  constructor(props: EditInvoiceLinesProps) {
+    super(props);
     this.state = {notesVisible: false};
   }
 
@@ -32,7 +38,7 @@ export default class EditInvoiceLines extends Component {
     const {invoice, onChange} = this.props;
     const lines = invoice.lines;
 
-    const tp = transKey => t(invoice.getType() + transKey);
+    const tp = (transKey: string): string => t(invoice.getType() + transKey);
     // console.log('lines', invoice.lines);
 
     const {notesVisible} = this.state;
@@ -41,13 +47,13 @@ export default class EditInvoiceLines extends Component {
       <Table size="sm">
         <thead>
           <tr>
-            <th width="1%">&nbsp;</th>
-            <th width="30%">{t('client.projectDesc')}</th>
-            <th width="10%">{t('rates.type')}</th>
-            <th width="10%">{t('rates.value')}</th>
-            <th width="10%">{t('rates.rate')}</th>
-            <th width="10%">{t('config.company.btw')}</th>
-            <th width={notesVisible ? '30%' : '1%'}>
+            <th style={{width: '1'}}>&nbsp;</th>
+            <th style={{width: '30'}}>{t('client.projectDesc')}</th>
+            <th style={{width: '10'}}>{t('rates.type')}</th>
+            <th style={{width: '10'}}>{t('rates.value')}</th>
+            <th style={{width: '10'}}>{t('rates.rate')}</th>
+            <th style={{width: '10'}}>{t('config.company.btw')}</th>
+            <th style={{width: 'notesVisible' ? '30%' : '1%'}}>
               <div style={{whiteSpace: 'nowrap', display: 'inline'}}>
                 {t('notes')}
                 <Control.EditIcon
@@ -59,7 +65,7 @@ export default class EditInvoiceLines extends Component {
                 />
               </div>
             </th>
-            <th width="1%">&nbsp;</th>
+            <th style={{width: '1'}}>&nbsp;</th>
           </tr>
         </thead>
         <DragDropContext onDragEnd={this.onDragEnd.bind(this)}>
@@ -67,7 +73,7 @@ export default class EditInvoiceLines extends Component {
             {(provided, snapshot) => (
               <tbody ref={provided.innerRef}>
                 {lines.map((item, index) => (
-                  <Draggable key={item.sort} draggableId={item.sort} index={index}>
+                  <Draggable key={item.sort} draggableId={item.sort.toString()} index={index}>
                     {(provided, snapshot) => {
                       const EditInvoiceLine = createEditInvoiceLine(item);
                       const props = {index, line: item, ...this.props};

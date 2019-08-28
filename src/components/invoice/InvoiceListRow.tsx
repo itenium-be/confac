@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {moneyFormat, t} from '../util';
 import cn from 'classnames';
@@ -8,6 +7,7 @@ import {deleteInvoice} from '../../actions/index';
 import {InvoiceWorkedDays} from './controls/InvoiceWorkedDays';
 import {InvoicesTotal} from './controls/InvoiceTotal';
 import {InvoiceAmountLabel} from './controls/InvoicesSummary';
+import EditInvoiceModel from './EditInvoiceModel';
 
 
 
@@ -16,7 +16,7 @@ export const InvoiceListHeader = ({columns}) => (
     <tr>
       {columns.map((col, i) => <th key={i}>{col.header}</th>)}
       <th>{t('invoice.days')}</th>
-      <th width="10%">{t('invoice.totalTitle')}</th>
+      <th style={{width: '10%'}}>{t('invoice.totalTitle')}</th>
       <th>&nbsp;</th>
     </tr>
   </thead>
@@ -39,23 +39,23 @@ export const InvoiceListFooter = ({columns, invoices, isQuotation}) => {
   );
 };
 
+type InvoiceListRowProps = {
+  columns: Array<{
+    header: string,
+    value: Function,
+    groupedBy?: boolean,
+  }>,
+  invoice: EditInvoiceModel,
+  isFirstRow?: boolean
+  onlyRowForMonth?: boolean,
+}
 
-export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Component {
-  static propTypes = {
-    columns: PropTypes.arrayOf(PropTypes.shape({
-      header: PropTypes.string.isRequired,
-      value: PropTypes.func.isRequired,
-    }).isRequired).isRequired,
-    invoice: PropTypes.object.isRequired,
-    deleteInvoice: PropTypes.func.isRequired,
-    isFirstRow: PropTypes.bool,
-    onlyRowForMonth: PropTypes.bool,
-  }
 
+export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Component<InvoiceListRowProps & {deleteInvoice: any}> {
   render() {
     const {invoice, isFirstRow, onlyRowForMonth, columns} = this.props;
     const borderStyle = columns.some(col => col.groupedBy) ? {borderBottom: 0, borderTop: 0} : undefined;
-    const tst = key => `list-${invoice._id}-${key}`;
+    const tst = (key: string): string => `list-${invoice._id}-${key}`;
 
     const invoiceType = invoice.isQuotation ? 'quotation' : 'invoice';
 
@@ -75,7 +75,7 @@ export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Compo
         <td style={{textAlign: 'right', whiteSpace: 'nowrap'}} data-tst={tst('money-total')}>
           {moneyFormat(invoice.money.total)}
         </td>
-        <td className="icons-cell" width="240px">
+        <td className="icons-cell" style={{width: 240}}>
           <EditIcon onClick={`/${invoiceType}/${invoice.number}`} data-tst={tst('edit')} style={{marginRight: invoice.isQuotation ? undefined : -15}} />
           <InvoiceVerifyIconToggle invoice={invoice} data-tst={tst('verify')} />
           <InvoiceDownloadIcon invoice={invoice} data-tst={tst('download')} />

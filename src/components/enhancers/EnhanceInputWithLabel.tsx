@@ -1,14 +1,16 @@
 import React from 'react';
 import {FormGroup, FormLabel} from 'react-bootstrap';
 
-export const EnhanceInputWithLabel = ComposedComponent => ({label, placeholder, ...props}) => {
-  if (label) {
-    return (
-      <FormGroup>
-        <FormLabel>{label}</FormLabel>
-        <ComposedComponent {...props} placeholder={placeholder || label} />
-      </FormGroup>
-    );
-  }
-  return <ComposedComponent {...props} placeholder={placeholder} />;
-};
+
+export const EnhanceInputWithLabel = <P extends object>(ComposedComponent: React.ComponentType<P>) =>
+  ({label, placeholder, ...props}: {label?: string, placeholder?: string} & P) => {
+    if (label) {
+      return (
+        <FormGroup>
+          <FormLabel>{label}</FormLabel>
+          <ComposedComponent {...props as P} placeholder={placeholder || label} />
+        </FormGroup>
+      );
+    }
+    return <ComposedComponent {...props as P} placeholder={placeholder} />;
+  };

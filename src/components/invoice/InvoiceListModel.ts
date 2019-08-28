@@ -1,31 +1,49 @@
 import moment from 'moment';
 import {getNumeric} from '../util';
+import EditInvoiceModel from './EditInvoiceModel';
+import { EditClientModel } from '../client/ClientModels';
+import { InvoiceFilters, InvoiceFiltersSearch } from '../../models';
 
-function transformFilters(search) {
-  const transformFn = type => search.filter(f => f.type === type).map(f => f.value);
+function transformFilters(search: InvoiceFiltersSearch[]): TransformedInvoiceFilters {
+  const transformFn = (type: string) => search.filter(f => f.type === type).map(f => f.value);
   return {
-    directInvoiceNrs: transformFn('invoice-nr'),
-    years: transformFn('year'),
-    clients: transformFn('client'),
-    invoiceLineDescs: transformFn('invoice_line'),
-    other: transformFn('manual_input'),
+    directInvoiceNrs: transformFn('invoice-nr') as number[],
+    years: transformFn('year') as number[],
+    clients: transformFn('client') as string[],
+    invoiceLineDescs: transformFn('invoice_line') as string[],
+    other: transformFn('manual_input') as string[],
   };
 }
 
 
+type TransformedInvoiceFilters = {
+  directInvoiceNrs: number[],
+  years: number[],
+  clients: string[],
+  invoiceLineDescs: string[],
+  other: string[],
+}
+
 
 export default class InvoiceListModel {
-  constructor(invoices, clients, filters, isQuotation) {
+  invoices: EditInvoiceModel[];
+  clients: EditClientModel[];
+  hasFilters: boolean;
+  fs: TransformedInvoiceFilters;
+  unverifiedOnly: boolean;
+  isQuotation: boolean;
+
+  constructor(invoices: EditInvoiceModel[], clients: EditClientModel[], filters: InvoiceFilters, isQuotation: boolean) {
     this.invoices = invoices;
     this.clients = clients;
-    this.hasFilters = filters.search.length;
+    this.hasFilters = !!filters.search.length;
     this.fs = transformFilters(filters.search);
     this.unverifiedOnly = filters.unverifiedOnly;
     this.isQuotation = isQuotation || false;
   }
 
   getFilterOptions() {
-    var options = [];
+    var options: InvoiceFiltersSearch[] = [];
 
     // Add options: clients
     const manualFilteredInvoices = this.filterByDescription(this.invoices);
@@ -49,7 +67,7 @@ export default class InvoiceListModel {
     return options;
   }
 
-  getFilteredInvoices() {
+  getFilteredInvoices(): EditInvoiceModel[] {
     const fs = this.fs;
     if (fs.directInvoiceNrs.length) {
       return this.invoices.filter(i => fs.directInvoiceNrs.includes(i.number));
@@ -75,7 +93,7 @@ export default class InvoiceListModel {
     return invoices;
   }
 
-  filterByDescription(invoices) {
+  filterByDescription(invoices: EditInvoiceModel[]): EditInvoiceModel[] {
     // TODO: more invoiceLineDescs... Kill this?
     if (this.fs.invoiceLineDescs.length) {
       invoices = invoices.filter(i => this.fs.invoiceLineDescs.some(descFilter => i.lines.map(l => l.desc).includes(descFilter)));
@@ -87,7 +105,7 @@ export default class InvoiceListModel {
         // ATTN: Last x months also shows all unverified invoices
         const amount = lastXMonths[1];
         const unit = lastXMonths[2];
-        invoices = invoices.filter(i => !i.verified || i.date.isSameOrAfter(moment().startOf('day').subtract(amount, unit)));
+        invoices = invoices.filter(i => !i.verified || i.date.isSameOrAfter(moment().startOf('day').subtract(amount, unit as any)));
         return;
       }
       invoices = invoices.filter(i => searchInvoiceFor(i, otherFilter));
@@ -98,7 +116,7 @@ export default class InvoiceListModel {
 }
 
 
-function searchInvoiceFor(invoice, text) {
+function searchInvoiceFor(invoice: EditInvoiceModel, text: string): boolean {
   text = text.toLowerCase();
 
   if (invoice.orderNr.toLowerCase().includes(text)) {
@@ -130,12 +148,12 @@ function searchInvoiceFor(invoice, text) {
 }
 
 
-export function getInvoiceYears(invoices) {
-  const dates = invoices.map(i => i.date.toDate());
+export function getInvoiceYears(invoices: EditInvoiceModel[]): number[] {
+  const dates = invoices.map(i => i.date.toDate().valueOf());
   const firstInvoiceYear = moment(Math.min.apply(null, dates)).year();
   const lastInvoiceYear = moment(Math.max.apply(null, dates)).year();
 
-  var years = [];
+  var years: number[] = [];
   for (let i = firstInvoiceYear; i <= lastInvoiceYear; i++) {
     years.push(i);
   }

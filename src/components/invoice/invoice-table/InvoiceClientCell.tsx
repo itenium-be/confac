@@ -1,23 +1,29 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import t from '../../../trans';
 import {ClientEditIcon} from '../../controls';
 import {ClientModal} from '../../client/controls/ClientModal';
 import {saveClient} from '../../../actions/index';
+import { ConfacState } from '../../../reducers/default-states';
+import { EditClientModel } from '../../client/ClientModels';
 
 
-export const InvoiceClientCell = connect(state => ({
+type InvoiceClientCellProps = {
+  clients: EditClientModel[],
+  client: EditClientModel,
+  saveClient: any,
+}
+
+type InvoiceClientCellState = {
+  hover: boolean,
+  modal: boolean,
+}
+
+export const InvoiceClientCell = connect((state: ConfacState) => ({
   clients: state.clients,
 }), {saveClient})(
-class extends Component {
-  static propTypes = {
-    clients: PropTypes.array.isRequired,
-    client: PropTypes.object.isRequired,
-    saveClient: PropTypes.func.isRequired,
-  };
-
+class extends Component<InvoiceClientCellProps, InvoiceClientCellState> {
   constructor(props) {
     super(props);
     this.state = {

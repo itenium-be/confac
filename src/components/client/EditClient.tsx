@@ -123,7 +123,7 @@ class EditClient extends Component<EditClientProps, EditClientModel> {
           <EditClientDefaultOther client={client} onChange={value => this.setState(value)} />
 
 
-          <AttachmentsForm client={client} />
+          <AttachmentsForm model={client} />
 
 
           <Row className="button-row">

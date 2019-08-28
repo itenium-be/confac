@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-// import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Container} from 'react-bootstrap';
 
@@ -7,6 +6,7 @@ import * as Control from '../controls';
 import {updateInvoiceFilters} from '../../actions/index';
 import {InvoiceList} from '../invoice/InvoiceList';
 import {t} from '../util';
+import { ConfacState } from '../../reducers/default-states';
 
 
 export default class QuotationList extends Component {
@@ -20,7 +20,7 @@ export default class QuotationList extends Component {
   }
 }
 
-const ConnectedQuotationList = connect(state => ({
+const ConnectedQuotationList = connect((state: ConfacState) => ({
   invoices: state.invoices.filter(x => x.isQuotation),
   clients: state.clients,
   filters: state.app.invoiceFilters,

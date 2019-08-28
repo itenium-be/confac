@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import {BusyVerifyIcon} from '../../controls';
 import t from '../../../trans';
 import {toggleInvoiceVerify} from '../../../actions/index';
+import EditInvoiceModel from '../EditInvoiceModel';
 
-class InvoiceVerifyIcon extends Component {
-  static propTypes = {
-    'data-tst': PropTypes.string.isRequired,
-    invoice: PropTypes.object.isRequired,
-    toggleInvoiceVerify: PropTypes.func.isRequired,
-  }
 
+type InvoiceVerifyIconProps = {
+  invoice: EditInvoiceModel,
+  toggleInvoiceVerify: Function,
+}
+
+class InvoiceVerifyIcon extends Component<InvoiceVerifyIconProps> {
   render() {
     const {invoice, toggleInvoiceVerify, ...props} = this.props; // eslint-disable-line
     if (invoice.isQuotation) {

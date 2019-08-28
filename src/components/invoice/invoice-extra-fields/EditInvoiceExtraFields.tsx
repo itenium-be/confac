@@ -1,19 +1,23 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {t} from '../../util';
 
 import * as Control from '../../controls';
 import {Row, Col} from 'react-bootstrap';
+import EditInvoiceModel from '../EditInvoiceModel';
 
 
-export class EditInvoiceExtraFields extends Component {
-  static propTypes = {
-    invoice: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
-    forceOpen: PropTypes.bool.isRequired,
-  }
+type EditInvoiceExtraFieldsProps = {
+  invoice: EditInvoiceModel,
+  onChange: any,
+  forceOpen: boolean,
+}
 
-  constructor(props) {
+type EditInvoiceExtraFieldsState = {
+  extraFieldFormOpen: boolean,
+}
+
+export class EditInvoiceExtraFields extends Component<EditInvoiceExtraFieldsProps, EditInvoiceExtraFieldsState> {
+  constructor(props: any) {
     super(props);
     this.state = {extraFieldFormOpen: props.forceOpen};
   }
@@ -44,7 +48,7 @@ export class EditInvoiceExtraFields extends Component {
             <Col sm={12} style={{minHeight: 75}}>
               <Control.PropertiesSelect
                 label={t('invoice.editExtraFields')}
-                values={invoice.extraFields}
+                values={invoice.extraFields as any}
                 onChange={onChange}
                 data-tst="invoice.editExtraFields"
               />

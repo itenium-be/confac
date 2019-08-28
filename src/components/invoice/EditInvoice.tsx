@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t, EditInvoiceViewModel} from '../util';
 import moment from 'moment';
@@ -11,40 +10,46 @@ import {EditInvoiceSaveButtons} from './controls/EditInvoiceSaveButtons';
 import {invoiceAction} from '../../actions/index';
 import {EditInvoiceClient} from './invoice-client/EditInvoiceClient';
 import {EditInvoiceExtraFields} from './invoice-extra-fields/EditInvoiceExtraFields';
+import EditInvoiceModel from './EditInvoiceModel';
+import { EditConfigModel } from '../config/EditConfigModel';
+import { EditClientModel } from '../client/ClientModels';
 
-export class EditInvoice extends Component {
-  static propTypes = {
-    invoices: PropTypes.array.isRequired,
-    config: PropTypes.shape({
-      defaultClient: PropTypes.string,
-      company: PropTypes.object,
-    }).isRequired,
-    app: PropTypes.shape({
-      isLoaded: PropTypes.bool,
-    }).isRequired,
-    clients: PropTypes.array.isRequired,
-    invoiceAction: PropTypes.func.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string
-      }),
-    }),
-    renavigationKey: PropTypes.string.isRequired,
-  };
 
-  get isQuotation() {
+type EditInvoiceProps = {
+  invoices: EditInvoiceModel[],
+  config: EditConfigModel,
+  app: {isLoaded: boolean},
+  clients: EditClientModel[],
+  invoiceAction: Function,
+  match: {
+    params: {
+      id: string
+    }
+  },
+  renavigationKey: string,
+}
+
+type EditInvoiceState = {
+  invoice: EditInvoiceModel,
+  showExtraFields: boolean,
+  renavigationKey: string,
+}
+
+export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
+  get isQuotation(): boolean {
     return window.location.pathname.startsWith('/quotation/');
   }
 
-  get type() {
+  get type(): 'quotation' | 'invoice' {
     return this.isQuotation ? 'quotation' : 'invoice';
   }
 
-  constructor(props) {
+  constructor(props: EditInvoiceProps) {
     super(props);
     this.state = {
       invoice: this.createModel(props),
       showExtraFields: false,
+      renavigationKey: '',
     };
   }
 
@@ -73,7 +78,7 @@ export class EditInvoice extends Component {
     window.scrollTo(0, 0);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: EditInvoiceProps) {
     if (nextProps.app.isLoaded !== this.props.app.isLoaded
       || (nextProps.match.params.id !== this.props.match.params.id)
       || nextProps.invoices !== this.props.invoices // Changing this? Check confac-back::invoices.js
@@ -163,7 +168,7 @@ export class EditInvoice extends Component {
             />
           </Row>
           <div style={{marginTop: -20}}>
-            <Control.AttachmentsForm invoice={invoice} />
+            <Control.AttachmentsForm model={invoice} />
           </div>
           <Row style={{marginBottom: 8, marginTop: 20}}>
             <Col>

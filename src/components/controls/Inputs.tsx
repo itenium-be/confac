@@ -1,22 +1,19 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {Col, FormControl} from 'react-bootstrap';
 import {t} from '../util';
 import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel';
 import {EnhanceInputWithAddons} from '../enhancers/EnhanceInputWithAddons';
 
+type BaseInputProps = {
+  type: string,
+  value?: any,
+  onChange: any,
+  onBlur?: Function,
+  style?: object,
+  placeholder?: string,
+}
 
-const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Component {
-  static propTypes = {
-    type: PropTypes.string.isRequired,
-    value: PropTypes.any,
-    onChange: PropTypes.func.isRequired,
-    onBlur: PropTypes.func,
-    placeholder: PropTypes.string,
-    style: PropTypes.object,
-    'data-tst': PropTypes.string,
-  }
-
+const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Component<BaseInputProps> {
   render() {
     const {type} = this.props;
     return (
@@ -36,12 +33,12 @@ const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Com
 }));
 
 
-function parseIntOrFloat(str, asFloat) {
+function parseIntOrFloat(str: string, asFloat: boolean): number {
   if (!str) {
     return 0;
   }
   if (asFloat) {
-    return parseFloat(str, 10);
+    return parseFloat(str);
   }
   return parseInt(str, 10);
 }
@@ -60,7 +57,7 @@ export const NumericInput = ({ value, onChange, float = false, ...props}) => {
 
 
 
-function mathCleanup(str, asFloat) {
+function mathCleanup(str: string | number, asFloat: boolean): number {
   if (typeof str === 'number') {
     return str;
   }
@@ -76,23 +73,24 @@ function mathCleanup(str, asFloat) {
   return parseIntOrFloat(str, asFloat);
 }
 
-function mathEval(str, asFloat, allowHours) {
+function mathEval(str: string, asFloat: boolean, allowHours?: boolean): number {
   // ATTN: This is pretty basic!!
   //       !!! 5+5*2 === 10*2 !!!
+  let result: number | string = str;
   if (str.includes('*')) {
     const parts = str.split('*');
-    str = parts.reduce((acc, cur) => acc * mathEval(cur, asFloat), 1);
+    result = parts.reduce((acc, cur) => acc * mathEval(cur, asFloat), 1);
 
   } else if (str.includes('/')) {
     const parts = str.split('/');
     if (parts.length !== 2) {
       throw Error('Multiple "/" Not implemented');
     }
-    str = mathEval(parts[0], asFloat) / mathEval(parts[1], asFloat);
+    result = mathEval(parts[0], asFloat) / mathEval(parts[1], asFloat);
 
   } else if (str.includes('+')) {
     const parts = str.split('+');
-    str = parts.reduce((acc, cur) => acc + mathEval(cur, asFloat), 0);
+    result = parts.reduce((acc, cur) => acc + mathEval(cur, asFloat), 0);
 
   } else if (str.includes('-')) {
     const parts = str.split('-');
@@ -100,22 +98,19 @@ function mathEval(str, asFloat, allowHours) {
       throw Error('Multiple "-" Not implemented');
     }
     if (parts.length === 2) {
-      str = mathEval(parts[0], asFloat) - mathEval(parts[1], asFloat);
+      result = mathEval(parts[0], asFloat) - mathEval(parts[1], asFloat);
     }
   } else if (allowHours && str.includes(':')) {
     const parts = str.split(':').map(s => parseInt(s, 10));
-    str = parts[0] + '.' + (parts[1] / 60 * 100);
+    result = parts[0] + '.' + (parts[1] / 60 * 100);
   }
-  return mathCleanup(str, asFloat);
+  return mathCleanup(result, asFloat);
 }
 
-export function basicMath(str, asFloat, allowHours) {
+export function basicMath(str: string, asFloat: boolean, allowHours: boolean): number {
   str = str.replace(/€/g, '');
   str = str.replace(/ /g, '');
-
-  str = mathEval(str, asFloat, allowHours);
-
-  return str;
+  return mathEval(str, asFloat, allowHours);
 }
 
 
@@ -192,7 +187,7 @@ export const InputArray = ({config, model, onChange, tPrefix}) => {
 
         const EditComponent = col.component || StringInput;
         return (
-          <Col sm={col.cols || 4} key={col.key || index} offset={col.offset}>
+          <Col sm={{span: col.cols || 4, offset: col.offset}} key={col.key || index}>
             <EditComponent
               label={t(tPrefix + col.key)}
               value={model[col.key]}
@@ -226,7 +221,7 @@ export const ExtraFieldsInput = ({properties, onChange, ...props}) => {
           <StringInput
             label={col.label}
             value={col.value}
-            onChange={updater.bind(this, col.label)}
+            onChange={updater.bind(null, col.label)}
             data-tst={props['data-tst'] + '_' + col.label}
           />
         </Col>

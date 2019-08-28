@@ -1,12 +1,20 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import Select from 'react-select';
 import Creatable from 'react-select/creatable';
 import {t} from '../util';
-
 import {EnhanceInputWithLabel} from '../enhancers/EnhanceInputWithLabel';
 
-const BaseSelect = EnhanceInputWithLabel(props => (
+
+type BaseSelect = {
+  value: SelectItem | SelectItem[],
+  onChange: any,
+  options: SelectItem[],
+  isClearable?: boolean,
+  isMulti?: boolean,
+  // className?: string,
+}
+
+const BaseSelect = EnhanceInputWithLabel((props: BaseSelect) => (
   <Select
     noOptionsMessage={() => t('controls.noResultsText')}
     placeholder={t('controls.selectPlaceholder')}
@@ -16,12 +24,18 @@ const BaseSelect = EnhanceInputWithLabel(props => (
 ));
 
 
+type YearsSelectProps = {
+  values: number[],
+  years: number[],
+  onChange: (newYears: number[]) => void,
+  label: string,
+}
 
-export const YearsSelect = ({values, years, onChange, ...props}) => {
+export const YearsSelect = ({values, years, onChange, ...props}: YearsSelectProps) => {
   return (
     <BaseSelect
       value={values.map(y => ({label: y, value: y}))}
-      onChange={newYears => onChange(newYears.map(itm => itm.value))}
+      onChange={(newYears: SelectItem[]) => onChange(newYears.map(itm => itm.value as number))}
       options={years.map(y => ({label: y, value: y}))}
       isClearable={true}
       isMulti={true}
@@ -32,21 +46,20 @@ export const YearsSelect = ({values, years, onChange, ...props}) => {
 
 
 
-export const SimpleSelect = EnhanceInputWithLabel(class extends Component {
-  static propTypes = {
-    'data-tst': PropTypes.string.isRequired,
-    value: PropTypes.any,
-    options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    onChange: PropTypes.func.isRequired,
-    transFn: PropTypes.func,
-    isClearable: PropTypes.bool.isRequired,
-  }
+type SimpleSelectProps = {
+  value: any,
+  options: string[],
+  onChange: Function,
+  transFn?: (key: string) => string,
+  isClearable: boolean
+}
 
+export const SimpleSelect = EnhanceInputWithLabel(class extends Component<SimpleSelectProps> {
   render() {
     const {transFn, options, value, onChange, isClearable, ...props} = this.props;
-    const trans = transKey => transFn ? transFn(transKey) : transKey;
+    const trans = (transKey: string): string => transFn ? transFn(transKey) : transKey;
 
-    const opts = options.map(itm => ({
+    const opts: SelectItem[] = options.map(itm => ({
       label: trans(itm),
       value: itm
     }));
@@ -55,10 +68,9 @@ export const SimpleSelect = EnhanceInputWithLabel(class extends Component {
       <BaseSelect
         value={{label: trans(value), value: value}}
         options={opts}
-        onChange={itm => onChange(itm.value)}
+        onChange={(itm: SelectItem) => onChange(itm.value)}
         isClearable={isClearable}
         isMulti={false}
-        className={'tst-' + this.props['data-tst']}
         {...props}
       />
     );
@@ -68,9 +80,16 @@ export const SimpleSelect = EnhanceInputWithLabel(class extends Component {
 // ------------- Creatable Selects:
 
 
+type SimpleCreatableSelectProps = {
+  options: string[],
+  value: string,
+  onChange: Function,
+  isClearable?: boolean,
+}
 
-export const SimpleCreatableSelect = ({options, value, onChange, isClearable = false, ...props}) => {
-  const opts = options.map(itm => ({
+
+export const SimpleCreatableSelect = ({options, value, onChange, isClearable = false, ...props}: SimpleCreatableSelectProps) => {
+  const opts: SelectItem[] = options.map((itm: string) => ({
     label: itm,
     value: itm
   }));
@@ -79,7 +98,7 @@ export const SimpleCreatableSelect = ({options, value, onChange, isClearable = f
     <Creatable
       value={{label: value, value: value}}
       options={opts}
-      onChange={itm => onChange(itm.value)}
+      onChange={itm => onChange(itm && (itm as SelectItem).value)}
       isClearable={isClearable}
       multi={false}
       noOptionsMessage={() => t('controls.noResultsText')}
@@ -91,18 +110,22 @@ export const SimpleCreatableSelect = ({options, value, onChange, isClearable = f
 };
 
 
-export const PropertiesSelect = EnhanceInputWithLabel(class extends Component {
-  static propTypes = {
-    'data-tst': PropTypes.string.isRequired,
-    label: PropTypes.string,
-    values: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    }).isRequired).isRequired,
-    onChange: PropTypes.func.isRequired,
-  }
+type SelectItem = {
+  label: string | number,
+  value: string | number,
+  className?: string,
+}
 
-  onChange(values) {
+type PropertiesSelectProps = {
+  label: string,
+  onChange: (props: SelectItem[]) => void,
+  values: SelectItem[],
+}
+
+
+
+export const PropertiesSelect = EnhanceInputWithLabel(class extends Component<PropertiesSelectProps> {
+  onChange(values: Array<SelectItem & {className: string}>) {
     const properties = values.map(value => {
       if (value.className) {
         delete value.className;
@@ -119,8 +142,8 @@ export const PropertiesSelect = EnhanceInputWithLabel(class extends Component {
     return (
       <Creatable
         label={label}
-        value={this.props.values}
-        onChange={this.onChange.bind(this)}
+        value={this.props.values as any}
+        onChange={this.onChange.bind(this) as any}
         isClearable={true}
         isMulti={true}
         noOptionsMessage={() => ''}
@@ -133,16 +156,13 @@ export const PropertiesSelect = EnhanceInputWithLabel(class extends Component {
 });
 
 
+type StringsSelectProps = {
+  values: string[],
+  onChange: Function,
+}
 
-
-export const StringsSelect = EnhanceInputWithLabel(class extends Component {
-  static propTypes = {
-    'data-tst': PropTypes.string.isRequired,
-    values: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    onChange: PropTypes.func.isRequired,
-  }
-
-  onChange(values) {
+export const StringsSelect = EnhanceInputWithLabel(class extends Component<StringsSelectProps> {
+  onChange(values: SelectItem[]): void {
     if (!values) {
       this.props.onChange([]);
       return;
@@ -155,7 +175,7 @@ export const StringsSelect = EnhanceInputWithLabel(class extends Component {
     return (
       <Creatable
         value={this.props.values.map(v => ({label: v, value: v}))}
-        onChange={this.onChange.bind(this)}
+        onChange={this.onChange.bind(this) as any}
         isClearable={false}
         isMulti={true}
         noOptionsMessage={() => t('controls.noOptionsMessage')}

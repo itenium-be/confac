@@ -2,21 +2,37 @@ import React from 'react';
 import {t} from '../../util';
 import {BusyButton} from '../../controls';
 import {withRouter} from 'react-router-dom';
+import EditInvoiceModel from '../EditInvoiceModel';
 
-export const EditInvoiceSaveButtons = withRouter(({ match, location, history, staticContext, ...props }) => (
+type RoutedProps = EditInvoiceSaveButtonsComponentProps & {
+  match: any,
+  location: any,
+  history: any,
+  staticContext: any,
+}
+
+export const EditInvoiceSaveButtons = withRouter(({ match, location, history, staticContext, ...props }: RoutedProps) => (
   <EditInvoiceSaveButtonsComponent history={history} {...props} />
 ));
 
 
-export const EditInvoiceSaveButtonsComponent = ({history, invoice, onClick}) => {
+
+
+type EditInvoiceSaveButtonsComponentProps = {
+  history: any,
+  invoice: EditInvoiceModel,
+  onClick: any,
+}
+
+export const EditInvoiceSaveButtonsComponent = ({history, invoice, onClick}: EditInvoiceSaveButtonsComponentProps) => {
   const isNewInvoice = invoice.isNew;
   const tp = transKey => t(invoice.getType() + transKey);
   return (
     <div className="button-row">
-      <BusyButton variant="default" onClick={onClick.bind(this, 'preview', history)} data-tst="preview" icon="fa fa-eye">
+      <BusyButton onClick={onClick.bind(null, 'preview', history)} data-tst="preview" icon="fa fa-eye">
         {t('invoice.preview')}
       </BusyButton>
-      <BusyButton onClick={onClick.bind(this, isNewInvoice ? 'create' : 'update', history)} data-tst="save" icon="fa fa-floppy-o">
+      <BusyButton onClick={onClick.bind(null, isNewInvoice ? 'create' : 'update', history)} data-tst="save" icon="fa fa-floppy-o">
         {isNewInvoice ? tp('.create') : t('save')}
       </BusyButton>
     </div>

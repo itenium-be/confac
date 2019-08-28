@@ -2,21 +2,22 @@ import { EditConfigModel, EditConfigCompanyModel } from './../config/EditConfigM
 import {getInvoiceDate} from './invoice-date-strategy';
 import { EditClientModel } from '../client/ClientModels';
 import moment from 'moment';
-import { Attachment, EditClientRateType } from '../../models';
+import { Attachment, EditClientRateType, IAttachment } from '../../models';
 
 
 //const getInvoiceString = invoice => `${invoice.number} - ${invoice.client.name} (${invoice.date.format('YYYY-MM')})`;
 
-type EditInvoiceLine = {
+export type EditInvoiceLine = {
   desc: string,
   amount: number,
   type: EditClientRateType,
   price: number,
   tax: number,
   sort: number,
+  notes?: string,
 }
 
-type InvoiceMoney = {
+export type InvoiceMoney = {
   totalWithoutTax: number,
   totalTax: number,
   discount?: number,
@@ -31,7 +32,7 @@ type InvoiceMoney = {
 /**
  * The only invoice model
  */
-export default class EditInvoiceModel {
+export default class EditInvoiceModel implements IAttachment {
   _id: string;
   number: number;
   client: EditClientModel;
@@ -49,7 +50,7 @@ export default class EditInvoiceModel {
   extraFields: string[];
   createdOn: string;
   lines: EditInvoiceLine[] = [];
-  money: InvoiceMoney | null = null;
+  money: InvoiceMoney;
 
   static createNew(config: EditConfigModel, client: EditClientModel): EditInvoiceModel {
     var model = new EditInvoiceModel(config, {
@@ -82,6 +83,8 @@ export default class EditInvoiceModel {
     this.attachments = obj.attachments || [{type: 'pdf'}];
     this.extraFields = obj.extraFields || [];
     this.isQuotation = obj.isQuotation || false;
+
+    this.money = this._calculateMoneys();
 
     this._lines = obj.lines || [];
     this.createdOn = obj.createdOn;
@@ -118,11 +121,11 @@ export default class EditInvoiceModel {
     }
     return this;
   }
-  addLine(line: EditInvoiceLine): EditInvoiceModel {
+  addLine(line?: EditInvoiceLine): EditInvoiceModel {
     this._lines = this._lines.concat([line || this.getLine(true)]);
     return this;
   }
-  updateLine(index: number, updateWith: EditInvoiceLine): EditInvoiceModel {
+  updateLine(index: number, updateWith: EditInvoiceLine | object): EditInvoiceModel {
     var newArr = this.lines.slice();
 
     this.daysVsHoursSwitchFix(newArr[index], updateWith);
@@ -157,7 +160,7 @@ export default class EditInvoiceModel {
     }
   }
 
-  daysVsHoursSwitchFix(oldLine: EditInvoiceLine, updateWith: EditInvoiceLine): void {
+  daysVsHoursSwitchFix(oldLine: EditInvoiceLine, updateWith: EditInvoiceLine | any): void {
     if (updateWith.type && updateWith.type !== oldLine.type && (oldLine.price || oldLine.amount)
       && this.client && this.client.rate && this.client.rate.hoursInDay) {
 
@@ -261,7 +264,7 @@ export type EditInvoiceModelProps = {
 /**
  * Days/hours worked
  */
-type DaysWorked = {
+export type DaysWorked = {
   daysWorked: number,
   hoursWorked: number,
 }

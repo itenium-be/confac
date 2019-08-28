@@ -147,7 +147,6 @@ const EditConfigInvoice = ({config, onChange}) => (
 
     <Col sm={4}>
       <Control.InvoiceDateStrategySelect
-        label={t('config.defaultInvoiceDateStrategy')}
         value={config.defaultInvoiceDateStrategy}
         data-tst="config.defaultInvoiceDateStrategy"
         onChange={value => onChange({defaultInvoiceDateStrategy: value})}

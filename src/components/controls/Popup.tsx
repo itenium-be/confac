@@ -3,17 +3,19 @@ import {Modal} from 'react-bootstrap';
 import {Button, BusyButton} from './Button';
 import { BootstrapVariant } from '../../models';
 
+export type PopupButton = {
+  text: string,
+  onClick: Function,
+  variant?: BootstrapVariant,
+  busy?: boolean,
+  disabled?: boolean,
+}
+
 type PopupProps = {
   title: string,
   children: any,
   onHide: () => void,
-  buttons: Array<{
-    text: string,
-    onClick: Function,
-    variant?: BootstrapVariant,
-    busy?: boolean,
-    disabled?: boolean,
-  }>
+  buttons: PopupButton[],
 }
 
 export class Popup extends Component<PopupProps> {

@@ -23,6 +23,16 @@ export type Attachment = {
   lastModifiedDate: string,
 }
 
+/**
+ * EditInvoiceModel | EditClientModel
+ * TODO: Add the modelType here
+ */
+export interface IAttachment {
+  _id: string,
+  attachments: Attachment[],
+  // getType: () => 'invoice' | 'quotation' | 'client',
+}
+
 export type AppState = {
   isLoaded: boolean,
   isBusy: boolean,
@@ -35,8 +45,14 @@ export type FormConfig = string | {
   component: React.ReactNode
 }
 
+export type InvoiceFiltersSearch = {
+  value: string | number,
+  label: string | number,
+  type: 'invoice-nr' | 'year' | 'client' | 'invoice_line' | 'manual_input',
+}
+
 export type InvoiceFilters = {
-  search: Array<{value: string, label: string, type: string}>,
+  search: InvoiceFiltersSearch[],
   unverifiedOnly: boolean,
   groupedByMonth: boolean,
   clientListYears: number[],

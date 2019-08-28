@@ -1,9 +1,10 @@
+import { EditClientModel } from './ClientModels';
 import { EditConfigModel } from "../config/EditConfigModel";
 
-export function getNewClient(config: EditConfigModel) {
+export function getNewClient(config: EditConfigModel): EditClientModel {
   return {
-    _id: null,
-    slug: null,
+    _id: '',
+    slug: '',
     active: true,
     name: '',
     address: '',

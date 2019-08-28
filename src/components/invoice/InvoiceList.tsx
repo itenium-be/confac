@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {updateInvoiceFilters} from '../../actions/index';
 import InvoiceListModel from './InvoiceListModel';
@@ -7,21 +6,22 @@ import {Container} from 'react-bootstrap';
 import {InvoiceSearch} from './controls/InvoiceSearch';
 import {GroupedInvoiceTable} from './invoice-table/GroupedInvoiceTable';
 import {NonGroupedInvoiceTable} from './invoice-table/NonGroupedInvoiceTable';
+import { ConfacState } from '../../reducers/default-states';
+import { EditConfigModel } from '../config/EditConfigModel';
+import EditInvoiceModel from './EditInvoiceModel';
+import { EditClientModel } from '../client/ClientModels';
+import { InvoiceFilters } from '../../models';
 
 
-export class InvoiceList extends Component {
-  static propTypes = {
-    config: PropTypes.object.isRequired,
-    invoices: PropTypes.array.isRequired,
-    clients: PropTypes.array.isRequired,
-    updateInvoiceFilters: PropTypes.func.isRequired,
-    filters: PropTypes.shape({
-      search: PropTypes.array.isRequired,
-      unverifiedOnly: PropTypes.bool.isRequired,
-      groupedByMonth: PropTypes.bool.isRequired,
-    }),
-  };
+type InvoiceListProps = {
+  config: EditConfigModel,
+  invoices: EditInvoiceModel[],
+  clients: EditClientModel[],
+  updateInvoiceFilters: any,
+  filters: InvoiceFilters,
+}
 
+export class InvoiceList extends Component<InvoiceListProps> {
   render() {
     if (!this.props.filters) {
       return null;
@@ -45,7 +45,7 @@ export class InvoiceList extends Component {
   }
 }
 
-export default connect(state => ({
+export default connect((state: ConfacState) => ({
   invoices: state.invoices.filter(x => !x.isQuotation),
   clients: state.clients,
   filters: state.app.invoiceFilters,

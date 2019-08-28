@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import {t, moneyFormat} from '../../util';
+import { InvoiceMoney } from '../EditInvoiceModel';
 
-const amountsStyle = {textAlign: 'right', float: 'right'};
+const amountsStyle: CSSProperties = {textAlign: 'right', float: 'right'};
 
-function discountFormat(value) {
+function discountFormat(value: string | number): string {
   if (!value) {
     return '';
   }
   if (value.toString().slice(-1) === '%') {
-    return value;
+    return value.toString();
   }
   return moneyFormat(value);
 }
@@ -45,8 +46,11 @@ export const InvoicesTotal = ({invoices, totalOnly = false, ...props}) => {
   );
 };
 
-const InvoiceTotal = ({totalWithoutTax, totalTax, total, discount, ...props}) => {
-  const tst = key => `${props['data-tst']}-${key}`;
+
+
+
+const InvoiceTotal = ({totalWithoutTax, totalTax, total, discount, ...props}: InvoiceMoney) => {
+  const tst = (key: string): string => `${props['data-tst']}-${key}`;
   return (
     <div>
       <div>

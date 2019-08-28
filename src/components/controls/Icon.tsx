@@ -8,23 +8,32 @@ import t from '../../trans';
 import { ConfacState } from '../../reducers/default-states';
 
 
-// Well... Let's do the whole Hooks thing instead?
-
-const EnhanceIconWithCenter = (Component) => ({center, ...props}: {center: boolean}) => {
+const EnhanceIconWithCenter = <P extends object>(Component: React.ComponentType<P>) => ({center, ...props}: {center?: boolean} & P) => {
   if (center) {
     return (
       <div style={{textAlign: 'center'}}>
-        <Component {...props} />
+        <Component {...props as P} />
       </div>
     );
   }
-  return <Component {...props} />;
+  return <Component {...props as P} />;
 };
 
-export const Icon = EnhanceIconWithCenter(withRouter(({ match, location, history, staticContext, ...props }) => <IconComponent history={history} {...props} />));
+
+// TODO: BUG! currently don't have withRouter history!!
+
+// export const Icon = withRouter(({ match, location, history, staticContext, ...props }) => <IconComponent history={history} {...props as IconProps} />);
+// export const Icon2: () => React.ReactElement = EnhanceIconWithCenter((props: IconProps) => <IconComponent {...props as IconProps} />);
+export const Icon = EnhanceIconWithCenter((props: IconProps) => <IconComponent {...props as IconProps} />);
+// export const Icon = EnhanceIconWithCenter(withRouter(({ match, location, history, staticContext, ...props }) => <IconComponent history={history} {...props as IconProps} />));
+
+
+// export const Icon =
+//   EnhanceIconWithCenter(
+//     withRouter(({ match, location, history, staticContext, ...props }) => <IconComponent history={history} {...props as IconProps} />)
+//   ) as unknown as Component<IconProps>;
 
 export type IconProps = {
-  'data-tst'?: string,
   fa?: string,
   color?: string,
   style?: object,
@@ -43,6 +52,7 @@ export type IconProps = {
   title?: string,
   size?: number,
   history?: any,
+  center?: boolean,
 }
 
 

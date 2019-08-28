@@ -1,4 +1,4 @@
-import { EditClientRateType, InvoiceDateStrategy } from "../../models";
+import { EditClientRateType, InvoiceDateStrategy, IAttachment, Attachment } from "../../models";
 
 export type EditClientRateModel = {
   type: EditClientRateType,
@@ -7,7 +7,7 @@ export type EditClientRateModel = {
   description: string,
 }
 
-export type EditClientModel = {
+export type EditClientModel = IAttachment & {
   _id: string,
   slug: string,
   active: boolean,
@@ -18,7 +18,7 @@ export type EditClientModel = {
   btw: string,
   invoiceFileName: string,
   rate: EditClientRateModel,
-  attachments: Array<any>,
+  attachments: Array<Attachment>,
   extraFields: Array<string>,
   defaultExtraInvoiceFields: Array<string>,
   notes: string,

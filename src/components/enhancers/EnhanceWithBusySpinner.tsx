@@ -1,16 +1,20 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {SpinnerIcon} from '../controls/Icon';
 
-export const EnhanceWithBusySpinner = ComposedComponent => (class extends Component {
-  static propTypes = {
-    'data-tst': PropTypes.string.isRequired,
-    isBusy: PropTypes.bool.isRequired,
-    onClick: PropTypes.func.isRequired,
-    model: PropTypes.any.isRequired,
-  };
-  constructor() {
-    super();
+
+type EnhanceWithBusySpinnerProps = {
+  isBusy: boolean,
+  onClick: Function,
+  model: any,
+}
+
+type EnhanceWithBusySpinnerState = {
+  isBusy: boolean,
+}
+
+export const EnhanceWithBusySpinner = <P extends object>(ComposedComponent: React.ComponentType<P>) => (class extends Component<EnhanceWithBusySpinnerProps & P, EnhanceWithBusySpinnerState> {
+  constructor(props: EnhanceWithBusySpinnerProps & P) {
+    super(props);
     this.state = {isBusy: false};
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -19,7 +23,7 @@ export const EnhanceWithBusySpinner = ComposedComponent => (class extends Compon
     }
   }
   render() {
-    const {isBusy, onClick, dispatch, model, ...props} = this.props; // eslint-disable-line
+    const {isBusy, onClick, model, ...props} = this.props;
     if (isBusy && this.state.isBusy) {
       return <SpinnerIcon style={{marginLeft: 0}} data-tst={this.props['data-tst']} />;
     }
@@ -28,6 +32,6 @@ export const EnhanceWithBusySpinner = ComposedComponent => (class extends Compon
       this.setState({isBusy: true});
       onClick();
     };
-    return <ComposedComponent {...props} onClick={realOnclick} />;
+    return <ComposedComponent {...props as P} onClick={realOnclick} />;
   }
 });

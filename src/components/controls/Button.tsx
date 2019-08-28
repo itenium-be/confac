@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 import {Button as ReactButton} from 'react-bootstrap';
 import {Icon} from './Icon';
 import { ConfacState } from '../../reducers/default-states';
@@ -9,12 +9,14 @@ type ButtonProps = {
   onClick: any,
   icon?: string,
   variant?: BootstrapVariant,
-  size?: 'lg',
+  size?: 'lg' | 'sm',
   children?: any,
+  style?: object,
 }
 
 export class Button extends Component<ButtonProps> {
-  static defaultProps = {
+  static defaultProps: ButtonProps = {
+    onClick: null,
     variant: 'primary',
     size: 'lg',
   }
@@ -29,18 +31,32 @@ export class Button extends Component<ButtonProps> {
   }
 }
 
-type ButtonWithClickOnceProps = ButtonProps & {
+type ButtonWithClickOnceProps = {
   isBusy: boolean,
-  disabled: boolean,
+  disabled?: boolean,
 }
 
-const EnhanceButtonWithClickOnce = ComposedComponent => class extends Component<ButtonWithClickOnceProps> {
-  render() {
-    const {isBusy, disabled, ...props} = this.props;
+// TODO: still need this?
+// const EnhanceButtonWithClickOnce = <P extends object>(ComposedComponent: React.ComponentType<P>) =>
+// class extends Component<ButtonWithClickOnceProps & P> {
+//   render() {
+//     const {isBusy, disabled, ...props} = this.props;
 
-    return <ComposedComponent {...props} disabled={isBusy || disabled} />;
+//     return <ComposedComponent {...props as P} disabled={isBusy || disabled} />;
+//   }
+// };
+
+
+// const EnhanceButtonWithClickOnce = <P extends object>(ComposedComponent: React.ComponentType<P>) =>
+//   ({isBusy, disabled, ...props}: ButtonWithClickOnceProps & P) => {
+//     return <ComposedComponent {...props as P} disabled={isBusy || disabled} />;
+//   };
+
+const EnhanceButtonWithClickOnce = <P extends object>(Component: React.ComponentType<P>): React.FC<P & ButtonWithClickOnceProps> =>
+  ({ isBusy, disabled, ...props }: ButtonWithClickOnceProps) => {
+    // const isBusy = useSelector((state: ConfacState) => state.app.isBusy);
+    return <Component {...props as P} disabled={isBusy || disabled} />;
   }
-};
 
 
 export const BusyButton = connect((state: ConfacState) => ({isBusy: state.app.isBusy}), {})(EnhanceButtonWithClickOnce(Button));

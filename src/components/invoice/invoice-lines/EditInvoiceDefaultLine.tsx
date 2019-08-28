@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {EditInvoiceViewModel} from '../../util';
 import * as Control from '../../controls';
+import EditInvoiceModel, { EditInvoiceLine } from '../EditInvoiceModel';
 
-export class EditInvoiceDefaultLine extends Component {
-  static propTypes = {
-    index: PropTypes.number.isRequired,
-    onChange: PropTypes.func.isRequired,
-    invoice: PropTypes.instanceOf(EditInvoiceViewModel).isRequired,
-    line: PropTypes.object.isRequired,
-  }
+type EditInvoiceDefaultLineProps = {
+  index: number,
+  onChange: any,
+  invoice: EditInvoiceModel,
+  line: EditInvoiceLine
+}
 
+export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProps> {
   render() {
     const {index, onChange, invoice, line} = this.props;
     return [
@@ -24,6 +23,7 @@ export class EditInvoiceDefaultLine extends Component {
       ,
       <td key="1">
         <Control.InvoiceLineTypeSelect
+          label=""
           type={line.type}
           onChange={value => onChange(invoice.updateLine(index, {type: value}))}
           data-tst={`line-${index}-type`}

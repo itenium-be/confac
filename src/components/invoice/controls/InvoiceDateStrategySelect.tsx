@@ -18,7 +18,7 @@ export class InvoiceDateStrategySelect extends Component<InvoiceDateStrategySele
     return (
       <SimpleSelect
         label={t('config.defaultInvoiceDateStrategy')}
-        transFn={key => t('invoice.dateStrategies.' + key)}
+        transFn={(key: string) => t('invoice.dateStrategies.' + key)}
         value={value}
         options={invoiceDateStrategies}
         isClearable={false}

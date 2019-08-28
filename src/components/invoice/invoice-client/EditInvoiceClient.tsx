@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {t} from '../../util';
 
 import * as Control from '../../controls';
@@ -7,16 +6,20 @@ import {Row, Col} from 'react-bootstrap';
 import ClientDetails from '../../client/controls/ClientDetails';
 import InvoiceTotal from '../controls/InvoiceTotal';
 import {ClientModal} from '../../client/controls/ClientModal';
+import EditInvoiceModel from '../EditInvoiceModel';
 
+type EditInvoiceClientProps = {
+  invoice: EditInvoiceModel,
+  onChange: any,
+}
 
-export class EditInvoiceClient extends Component {
-  static propTypes = {
-    invoice: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
-  }
+type EditInvoiceClientState = {
+  modalClientId?: string | null,
+}
 
-  constructor() {
-    super();
+export class EditInvoiceClient extends Component<EditInvoiceClientProps, EditInvoiceClientState> {
+  constructor(props) {
+    super(props);
     this.state = {modalClientId: undefined};
   }
 
@@ -43,7 +46,6 @@ export class EditInvoiceClient extends Component {
             <Control.Button
               onClick={() => this.setState({modalClientId: 'new'})}
               size="sm"
-              variant="default"
               style={{position: 'absolute', bottom: 18, left: 5}}
               data-tst="new-client"
             >

@@ -4,26 +4,23 @@ import Dropzone from 'react-dropzone';
 import {t} from '../util';
 
 import {Row, Col, FormLabel, FormGroup, Alert} from 'react-bootstrap';
-import {AttachmentDownloadIcon, AddIcon, Popup, SimpleCreatableSelect, ConfirmedDeleteIcon, HeaderWithEditIcon} from '../controls';
+import {AttachmentDownloadIcon, AddIcon, Popup, SimpleCreatableSelect, ConfirmedDeleteIcon, HeaderWithEditIcon, PopupButton} from '../controls';
 import {updateAttachment, deleteAttachment} from '../../actions/index';
-import EditInvoiceModel from '../invoice/EditInvoiceModel';
-import { EditClientModel } from '../client/ClientModels';
-import { Attachment } from '../../models';
+import { Attachment, IAttachment } from '../../models';
 import { ConfacState } from '../../reducers/default-states';
 
 
 type AttachmentsFormProps = {
   deleteAttachment: Function,
   updateAttachment: Function,
-  invoice?: EditInvoiceModel,
-  client: EditClientModel,
+  model: IAttachment,
 }
+
 
 class AttachmentsFormComponent extends Component<AttachmentsFormProps> {
   render() {
-    const {invoice, client} = this.props;
-    const model = invoice || client;
-    const modelType = model === client ? 'client' : model['getType']();
+    const model = this.props.model;
+    const modelType = model['getType'] ? model['getType']() : 'client';
 
     if (!model._id) {
       return <div />;
@@ -48,7 +45,7 @@ type AbstractAttachmentsFormProps = {
   attachments: Attachment[],
   onDelete: Function,
   onAdd: Function,
-  model: EditClientModel | EditInvoiceModel,
+  model: IAttachment,
   modelType: 'invoice' | 'client' | 'quotation',
 }
 
@@ -166,7 +163,7 @@ class AddAttachmentPopupComponent extends Component<AddAttachmentPopupProps, Add
     const currentType = this.state.type;
     const canAdd = currentType && !attachments.map(a => a.type.toUpperCase()).includes(currentType.toUpperCase());
 
-    const buttons = [{
+    const buttons: PopupButton[] = [{
       text: t('cancel'),
       onClick: () => onClose(),
     }, {
@@ -183,7 +180,6 @@ class AddAttachmentPopupComponent extends Component<AddAttachmentPopupProps, Add
             value={currentType}
             options={this.props.attachmentTypes}
             onChange={(text: string) => this.setState({type: text})}
-            formatCreateLabel={(text: string) => t('controls.addLabelText', {text})}
             data-tst="add-att-type"
           />
         </FormGroup>

@@ -4,14 +4,14 @@ import { getInvoiceDownloadUrl, getClientDownloadUrl} from '../../../actions/ind
 import t from '../../../trans';
 import EditInvoiceModel, { EditInvoiceModelProps } from '../EditInvoiceModel';
 import { EditClientModel } from '../../client/ClientModels';
-import { Attachment } from '../../../models';
+import { Attachment, IAttachment } from '../../../models';
 import { getAwesomeFileType } from '../models/getAwesomeFileType';
 
 
 export const InvoiceDownloadIcon = ({invoice, ...props}: EditInvoiceModelProps) => (
   <AttachmentDownloadIcon
     model={invoice}
-    attachment={invoice.attachments.find(a => a.type === 'pdf')}
+    attachment={invoice.attachments.find(a => a.type === 'pdf') as Attachment}
     modelType={invoice.isQuotation ? 'quotation' : 'invoice'}
     {...props}
   />
@@ -27,20 +27,19 @@ export const InvoicePreviewIcon = ({invoice, ...props}: EditInvoiceModelProps) =
 
 
 type AttachmentDownloadIconProps = {
-  'data-tst': string,
-  model: EditInvoiceModel | EditClientModel,
+  model: IAttachment,
   attachment: Attachment,
   modelType: 'invoice' | 'client' | 'quotation',
-  label: string,
+  label?: string, // TODO: Does this even do anything?
 }
 
 
 export const AttachmentDownloadIcon = ({model, attachment, modelType, ...props}: AttachmentDownloadIconProps) => {
   let href;
   if (modelType === 'client') {
-    href = getClientDownloadUrl(model, attachment);
+    href = getClientDownloadUrl(model as EditClientModel, attachment);
   } else {
-    href = getInvoiceDownloadUrl(model, attachment.type, 'download');
+    href = getInvoiceDownloadUrl(model as EditInvoiceModel, attachment.type, 'download');
   }
 
   return (

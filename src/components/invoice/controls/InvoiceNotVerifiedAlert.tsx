@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {t} from '../../util';
 import moment from 'moment';
@@ -7,14 +6,21 @@ import moment from 'moment';
 import {BusyButton} from '../../controls';
 import {Alert} from 'react-bootstrap';
 import {toggleInvoiceVerify} from '../../../actions/index';
+import EditInvoiceModel from '../EditInvoiceModel';
 
-class InvoiceNotVerifiedAlert extends Component {
-  static propTypes = {
-    invoice: PropTypes.object.isRequired,
-    toggleInvoiceVerify: PropTypes.func.isRequired,
-  }
-  constructor() {
-    super();
+
+type InvoiceNotVerifiedAlertProps = {
+  invoice: EditInvoiceModel,
+  toggleInvoiceVerify: Function,
+}
+
+type InvoiceNotVerifiedAlertState = {
+  dismissed: boolean
+}
+
+class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, InvoiceNotVerifiedAlertState> {
+  constructor(props: InvoiceNotVerifiedAlertProps) {
+    super(props);
     this.state = {dismissed: false};
   }
   render() {
@@ -26,7 +32,7 @@ class InvoiceNotVerifiedAlert extends Component {
     const daysOpen = moment().diff(invoice.date, 'days');
     return (
       <div>
-        <Alert style={{height: 52}} size="sm" variant="info" onClose={() => this.setState({dismissed: true})} dismissible  data-tst="invoice-verify-alert">
+        <Alert style={{height: 52}} variant="info" onClose={() => this.setState({dismissed: true})} dismissible data-tst="invoice-verify-alert">
           <BusyButton
             variant="info"
             onClick={() => toggleInvoiceVerify(invoice)}

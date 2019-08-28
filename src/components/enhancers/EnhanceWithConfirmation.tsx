@@ -1,22 +1,28 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {Popup} from '../controls/Popup';
+import {Popup, PopupButton} from '../controls/Popup';
 import {t} from '../util';
 
-export const EnhanceWithConfirmation = ComposedComponent => class extends Component {
-  static propTypes = {
-    'data-tst': PropTypes.string.isRequired,
-    onClick: PropTypes.func,
-    title: PropTypes.string,
-    children: PropTypes.node,
-  };
-  constructor() {
-    super();
+
+type EnhanceWithConfirmationProps = {
+  onClick: Function,
+  title: string,
+  children?: any,
+}
+
+type EnhanceWithConfirmationState = {
+  popupActive: boolean,
+}
+
+
+export const EnhanceWithConfirmation = <P extends object>(ComposedComponent: React.ComponentType<P>) =>
+class extends Component<EnhanceWithConfirmationProps & P, EnhanceWithConfirmationState> {
+  constructor(props: EnhanceWithConfirmationProps & P) {
+    super(props);
     this.state = {popupActive: false};
   }
   render() {
     const {onClick, title, children,...props} = this.props;
-    const buttons = [{
+    const buttons: PopupButton[] = [{
       text: t('no'),
       onClick: () => this.setState({popupActive: false}),
       busy: true,
@@ -36,10 +42,10 @@ export const EnhanceWithConfirmation = ComposedComponent => class extends Compon
             <Popup title={title} buttons={buttons} onHide={() => this.setState({popupActive: false})} data-tst={props['data-tst'] + '-popup'}>
               {children}
             </Popup>
-            <ComposedComponent {...props} onClick={() => this.setState({popupActive: false})} />
+            <ComposedComponent {...props as P} onClick={() => this.setState({popupActive: false})} />
           </div>
         ) : (
-          <ComposedComponent {...props} onClick={() => this.setState({popupActive: true})} />
+          <ComposedComponent {...props as P} onClick={() => this.setState({popupActive: true})} />
         )}
       </div>
     );

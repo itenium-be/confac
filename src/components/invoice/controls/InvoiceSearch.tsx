@@ -1,32 +1,21 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {t} from '../../util';
 import Creatable from 'react-select/creatable';
 import {Row, Col} from 'react-bootstrap';
 import {Switch} from '../../controls';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
-
-// The object returned by InvoiceListModel::getFilterOptions
-const filterOptionsPropType = PropTypes.arrayOf(PropTypes.shape({
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  value: PropTypes.any.isRequired,
-  type: PropTypes.oneOf(['client', 'invoice_line', 'year', 'invoice-nr', 'manual_input']).isRequired,
-})).isRequired;
+import { InvoiceFiltersSearch, InvoiceFilters } from '../../../models';
 
 
+type InvoiceSearchProps = {
+  filterOptions: InvoiceFiltersSearch[],
+  onChange: Function,
+  isQuotation: boolean,
+  filters: InvoiceFilters,
+}
 
-export class InvoiceSearch extends Component {
-  static propTypes = {
-    filterOptions: filterOptionsPropType,
-    filters: PropTypes.shape({
-      search: PropTypes.array.isRequired,
-      unverifiedOnly: PropTypes.bool.isRequired,
-      groupedByMonth: PropTypes.bool.isRequired,
-    }).isRequired,
-    onChange: PropTypes.func.isRequired,
-    isQuotation: PropTypes.bool.isRequired,
-  }
 
+export class InvoiceSearch extends Component<InvoiceSearchProps> {
   onFilterChange(updateObj) {
     const newFilter = Object.assign({}, this.props.filters, updateObj);
     this.props.onChange(newFilter);
@@ -74,14 +63,14 @@ export class InvoiceSearch extends Component {
 
 
 
-const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component {
-  static propTypes = {
-    'data-tst': PropTypes.string.isRequired,
-    options: filterOptionsPropType,
-    value: PropTypes.any,
-    onChange: PropTypes.func.isRequired,
-  }
+type InvoiceSearchSelectProps = {
+  options: InvoiceFiltersSearch[],
+  value: any,
+  onChange: Function,
+}
 
+
+const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component<InvoiceSearchSelectProps> {
   onChange(value) {
     if (value === null) {
       this.props.onChange([]);

@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {EditInvoiceViewModel} from '../../util';
 import * as Control from '../../controls';
+import EditInvoiceModel, { EditInvoiceLine } from '../EditInvoiceModel';
 
-export class EditInvoiceLineIcons extends Component {
-  static propTypes = {
-    index: PropTypes.number.isRequired,
-    onChange: PropTypes.func.isRequired,
-    invoice: PropTypes.instanceOf(EditInvoiceViewModel).isRequired,
-    line: PropTypes.object.isRequired,
-  }
 
+type EditInvoiceLineIconsProps = {
+  index: number,
+  onChange: any,
+  invoice: EditInvoiceModel,
+  line: EditInvoiceLine,
+}
+
+export class EditInvoiceLineIcons extends Component<EditInvoiceLineIconsProps> {
   render() {
     return (
       <td>
@@ -21,14 +21,7 @@ export class EditInvoiceLineIcons extends Component {
 }
 
 
-class EditInvoiceDeleteLineIcon extends Component {
-  static propTypes = {
-    index: PropTypes.number.isRequired,
-    onChange: PropTypes.func.isRequired,
-    invoice: PropTypes.instanceOf(EditInvoiceViewModel).isRequired,
-    line: PropTypes.object.isRequired,
-  }
-
+class EditInvoiceDeleteLineIcon extends Component<EditInvoiceLineIconsProps> {
   render() {
     const {index, onChange, invoice} = this.props;
     if (!index) {

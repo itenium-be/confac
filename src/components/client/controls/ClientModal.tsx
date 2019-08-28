@@ -13,10 +13,10 @@ import { ConfacState } from '../../../reducers/default-states';
 type ClientModalProps = {
   config: EditConfigModel,
   saveClient: Function,
-  client: EditClientModel,
+  client: EditClientModel | null,
   show: boolean,
   onClose: any,
-  onConfirm: Function,
+  onConfirm?: Function,
 }
 
 
@@ -41,7 +41,7 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalProps>
 
   onSave() {
     const updatedClient = this.state;
-    const onSuccess = this.props.onConfirm ? (clientWithServerValues: EditClientModel) => this.props.onConfirm(clientWithServerValues) : null;
+    const onSuccess = this.props.onConfirm ? (clientWithServerValues: EditClientModel) => (this.props.onConfirm && this.props.onConfirm(clientWithServerValues)) : null;
     this.props.saveClient(updatedClient, true, onSuccess);
   }
 
