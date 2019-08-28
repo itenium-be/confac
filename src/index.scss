@@ -79,6 +79,10 @@ div.split > div:nth-child(2) {
 	display: table-cell;
 }
 
+button[disabled] {
+  cursor: not-allowed;
+}
+
 
 
 small.created-on {
