@@ -71,7 +71,7 @@ class ClientList extends Component<ClientListProps, ClientListState> {
               label={t('client.yearsFilter')}
               values={filters.clientListYears}
               years={getInvoiceYears(invoices)}
-              onChange={(values: number[]) => this.props.updateInvoiceFilters({...filters, clientListYears: values})}
+              onChange={(values: number[]) => this.props.updateInvoiceFilters({...filters, clientListYears: values || []})}
               data-tst="filter-years"
             />
           </Col>

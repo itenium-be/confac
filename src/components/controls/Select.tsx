@@ -35,7 +35,7 @@ export const YearsSelect = ({values, years, onChange, ...props}: YearsSelectProp
   return (
     <BaseSelect
       value={values.map(y => ({label: y, value: y}))}
-      onChange={(newYears: SelectItem[]) => onChange(newYears.map(itm => itm.value as number))}
+      onChange={(newYears: SelectItem[]) => onChange((newYears || []).map(itm => itm.value as number))}
       options={years.map(y => ({label: y, value: y}))}
       isClearable={true}
       isMulti={true}
