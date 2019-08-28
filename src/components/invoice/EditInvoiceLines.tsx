@@ -47,13 +47,13 @@ export default class EditInvoiceLines extends Component<EditInvoiceLinesProps, E
       <Table size="sm">
         <thead>
           <tr>
-            <th style={{width: '1'}}>&nbsp;</th>
-            <th style={{width: '30'}}>{t('client.projectDesc')}</th>
-            <th style={{width: '10'}}>{t('rates.type')}</th>
-            <th style={{width: '10'}}>{t('rates.value')}</th>
-            <th style={{width: '10'}}>{t('rates.rate')}</th>
-            <th style={{width: '10'}}>{t('config.company.btw')}</th>
-            <th style={{width: 'notesVisible' ? '30%' : '1%'}}>
+            <th style={{width: '1%'}}>&nbsp;</th>
+            <th style={{width: '30%'}}>{t('client.projectDesc')}</th>
+            <th style={{width: '10%'}}>{t('rates.type')}</th>
+            <th style={{width: '10%'}}>{t('rates.value')}</th>
+            <th style={{width: '10%'}}>{t('rates.rate')}</th>
+            <th style={{width: '10%'}}>{t('config.company.btw')}</th>
+            <th style={{width: notesVisible ? '30%' : '1%'}}>
               <div style={{whiteSpace: 'nowrap', display: 'inline'}}>
                 {t('notes')}
                 <Control.EditIcon
@@ -65,7 +65,7 @@ export default class EditInvoiceLines extends Component<EditInvoiceLinesProps, E
                 />
               </div>
             </th>
-            <th style={{width: '1'}}>&nbsp;</th>
+            <th style={{width: '1%'}}>&nbsp;</th>
           </tr>
         </thead>
         <DragDropContext onDragEnd={this.onDragEnd.bind(this)}>
