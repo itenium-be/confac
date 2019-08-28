@@ -9,15 +9,15 @@ import { InvoiceFiltersSearch, InvoiceFilters } from '../../../models';
 
 type InvoiceSearchProps = {
   filterOptions: InvoiceFiltersSearch[],
-  onChange: Function,
+  onChange: (newFilter: InvoiceFilters) => void,
   isQuotation: boolean,
   filters: InvoiceFilters,
 }
 
 
 export class InvoiceSearch extends Component<InvoiceSearchProps> {
-  onFilterChange(updateObj) {
-    const newFilter = Object.assign({}, this.props.filters, updateObj);
+  onFilterChange(updateObj: any) {
+    const newFilter: InvoiceFilters = Object.assign({}, this.props.filters, updateObj);
     this.props.onChange(newFilter);
   }
 
@@ -30,7 +30,7 @@ export class InvoiceSearch extends Component<InvoiceSearchProps> {
         <Col sm={6}>
           <InvoiceSearchSelect
             label={t('search')}
-            onChange={value => this.onFilterChange({search: value})}
+            onChange={(value: InvoiceFiltersSearch[]) => this.onFilterChange({search: value})}
             value={search}
             options={this.props.filterOptions}
             data-tst="filter-all"
@@ -40,7 +40,7 @@ export class InvoiceSearch extends Component<InvoiceSearchProps> {
           <Col sm={3}>
             <Switch
               checked={unverifiedOnly}
-              onChange={checked => this.onFilterChange({unverifiedOnly: checked})}
+              onChange={(checked: boolean) => this.onFilterChange({unverifiedOnly: checked})}
               label={t('invoice.notVerifiedOnly')}
               style={{marginTop: 28}}
               data-tst="filter-unverified"
@@ -50,7 +50,7 @@ export class InvoiceSearch extends Component<InvoiceSearchProps> {
         <Col sm={3}>
           <Switch
             checked={this.props.filters.groupedByMonth}
-            onChange={checked => this.onFilterChange({groupedByMonth: checked})}
+            onChange={(checked: boolean) => this.onFilterChange({groupedByMonth: checked})}
             label={t('invoice.groupByMonth')}
             style={{marginTop: 28}}
             data-tst="filter-groupedByMonth"
@@ -71,7 +71,7 @@ type InvoiceSearchSelectProps = {
 
 
 const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component<InvoiceSearchSelectProps> {
-  onChange(value) {
+  onChange(value: InvoiceFiltersSearch[] | null) {
     if (value === null) {
       this.props.onChange([]);
       return;
@@ -81,7 +81,7 @@ const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component<Invoic
     // to be search on invoice number
     value.filter(f => !f.type && +f.value).forEach(f => {
       f.type = 'invoice-nr';
-      f.value = parseInt(f.value, 10);
+      f.value = parseInt(f.value as string, 10);
     });
 
     // All remaining are pure text searches
@@ -97,7 +97,7 @@ const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component<Invoic
       <Creatable
         value={this.props.value}
         options={this.props.options}
-        onChange={this.onChange.bind(this)}
+        onChange={this.onChange.bind(this) as any}
         isClearable
         isMulti
         noOptionsMessage={() => t('controls.noResultsText')}

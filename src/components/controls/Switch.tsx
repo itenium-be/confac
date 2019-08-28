@@ -3,9 +3,9 @@ import ReactSwitch from 'react-ios-switch';
 
 type SwitchProps = {
   checked: boolean,
-  onChange: Function,
+  onChange: (checked: boolean) => void,
   label: string,
-  style?: object,
+  style?: React.CSSProperties,
   onColor?: string,
 }
 
@@ -17,6 +17,6 @@ export const Switch = ({checked, onChange, label, style, ...props}: SwitchProps)
       className={props['data-tst']}
       {...props}
     />
-    <span style={{position: 'absolute', left: 60, bottom: 10}}>{label}</span>
+    <span style={{position: 'absolute', left: 60, bottom: 10, whiteSpace: 'nowrap'}}>{label}</span>
   </div>
 );

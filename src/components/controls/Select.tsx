@@ -28,7 +28,7 @@ type YearsSelectProps = {
   values: number[],
   years: number[],
   onChange: (newYears: number[]) => void,
-  label: string,
+  label?: string,
 }
 
 export const YearsSelect = ({values, years, onChange, ...props}: YearsSelectProps) => {

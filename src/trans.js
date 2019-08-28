@@ -169,7 +169,7 @@ const trans = {
     projectDesc: 'Omschrijving',
     deactivateTitle: 'Klant deactiveren',
     activateTitle: 'Klant activeren',
-    showInactive: 'Inactieve klanten tonen',
+    showInactive: 'Toon inactieve',
     timeTitle: 'Geïnvesteerd',
     daysWorked: '{days} dagen',
     rate: {
@@ -180,7 +180,6 @@ const trans = {
     },
     extraInvoiceFields: 'Extra factuur velden',
     extraFields: 'Extra klant velden',
-    yearsFilter: 'Filter op jaar',
     viewDetails: 'Ga naar detail scherm',
   },
   controls: {

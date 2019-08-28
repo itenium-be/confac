@@ -11,7 +11,7 @@ type ButtonProps = {
   variant?: BootstrapVariant,
   size?: 'lg' | 'sm',
   children?: any,
-  style?: object,
+  style?: React.CSSProperties,
 }
 
 export class Button extends Component<ButtonProps> {

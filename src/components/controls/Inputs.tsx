@@ -7,9 +7,9 @@ import {EnhanceInputWithAddons} from '../enhancers/EnhanceInputWithAddons';
 type BaseInputProps = {
   type: string,
   value?: any,
-  onChange: any,
-  onBlur?: Function,
-  style?: object,
+  onChange: (e: any) => void,
+  onBlur?: (e: any) => void,
+  style?: React.CSSProperties,
   placeholder?: string,
 }
 

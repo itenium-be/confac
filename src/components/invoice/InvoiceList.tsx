@@ -33,13 +33,13 @@ export class InvoiceList extends Component<InvoiceListProps> {
     const TableComponent = this.props.filters.groupedByMonth ? GroupedInvoiceTable : NonGroupedInvoiceTable;
     return (
       <Container>
-        <TableComponent vm={vm} config={this.props.config} />
         <InvoiceSearch
-          onChange={newFilter => this.props.updateInvoiceFilters(newFilter)}
+          onChange={(newFilter: InvoiceFilters) => this.props.updateInvoiceFilters(newFilter)}
           filterOptions={vm.getFilterOptions()}
           filters={this.props.filters}
           isQuotation={vm.isQuotation}
         />
+        <TableComponent vm={vm} config={this.props.config} />
       </Container>
     );
   }

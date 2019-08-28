@@ -28,7 +28,7 @@ const Header = () => (
         </Nav.Link>
       </Nav>
       <Link to="/invoice/create">
-        <Button variant="success" style={{top: 8, position: 'absolute', right: 35}}>
+        <Button variant="success" style={{top: 8, position: 'absolute', right: 80}}>
           <AddIcon size={1} style={{marginRight: 15}} data-tst="invoice-create" />
           {t('invoice.createNew')}
         </Button>

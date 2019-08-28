@@ -45,16 +45,28 @@ class ClientList extends Component<ClientListProps, ClientListState> {
 
     return (
       <Container className="client-list">
-        <Control.AddIcon onClick="/client/create" label={t('client.createNew')} data-tst="new-client" />
+        <Row>
+          <Col sm={3} xs={6}>
+            <Control.AddIcon onClick="/client/create" label={t('client.createNew')} data-tst="new-client" />
+          </Col>
+          <Col sm={6} xs={6}>
+            <Control.YearsSelect
+              values={filters.clientListYears}
+              years={getInvoiceYears(invoices)}
+              onChange={(values: number[]) => this.props.updateInvoiceFilters({...filters, clientListYears: values || []})}
+              data-tst="filter-years"
+            />
+          </Col>
+          <Col sm={3} xs={12}>
+            <Control.Switch
+              checked={this.state.showDeleted}
+              onChange={(checked: boolean) => this.setState({showDeleted: checked})}
+              label={t('client.showInactive')}
+              onColor="#F2DEDE"
+            />
+          </Col>
+        </Row>
 
-        <div className="pull-right" style={{width: 250}}>
-          <Control.Switch
-            checked={this.state.showDeleted}
-            onChange={checked => this.setState({showDeleted: checked})}
-            label={t('client.showInactive')}
-            onColor="#F2DEDE"
-          />
-        </div>
 
         <Table size="sm" style={{marginTop: 10}}>
           <ClientListHeader />
@@ -64,18 +76,6 @@ class ClientList extends Component<ClientListProps, ClientListState> {
             ))}
           </tbody>
         </Table>
-
-        <Row>
-          <Col sm={6}>
-            <Control.YearsSelect
-              label={t('client.yearsFilter')}
-              values={filters.clientListYears}
-              years={getInvoiceYears(invoices)}
-              onChange={(values: number[]) => this.props.updateInvoiceFilters({...filters, clientListYears: values || []})}
-              data-tst="filter-years"
-            />
-          </Col>
-        </Row>
       </Container>
     );
   }

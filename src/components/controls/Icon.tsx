@@ -36,7 +36,7 @@ export const Icon = EnhanceIconWithCenter(
 export type IconProps = {
   fa?: string,
   color?: string,
-  style?: object,
+  style?: React.CSSProperties,
   /**
    * string: A react-router link
    * or a function
@@ -48,7 +48,7 @@ export type IconProps = {
   href?: string,
   className?: string,
   label?: string,
-  labelStyle?: object,
+  labelStyle?: React.CSSProperties,
   title?: string,
   size?: number,
   history?: any,

@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import t from '../trans';
 import { EditConfigModel } from '../components/config/EditConfigModel';
 import { EditClientModel } from '../components/client/ClientModels';
+import { InvoiceFilters } from '../models';
 
 type ToastType = 'error' | 'success';
 
@@ -83,7 +84,7 @@ export function updateConfig(newConfig: EditConfigModel) {
   };
 }
 
-export function updateInvoiceFilters(filters) {
+export function updateInvoiceFilters(filters: InvoiceFilters) {
   return {
     type: ACTION_TYPES.APP_INVOICE_FILTERSUPDATED,
     filters
