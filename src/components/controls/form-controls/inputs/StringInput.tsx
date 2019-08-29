@@ -1,7 +1,12 @@
 import React from "react";
-import { BaseInput } from "./BaseInput";
+import { BaseInput, BaseInputProps } from "./BaseInput";
 
-export const StringInput = ({value, onChange, ...props}) => {
+type StringInputProps = BaseInputProps & {
+  value: string,
+  onChange: (str: string) => void,
+}
+
+export const StringInput = ({value, onChange, ...props}: StringInputProps) => {
   return (
     <BaseInput
       type="text"

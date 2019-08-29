@@ -1,17 +1,24 @@
 import moment from 'moment';
-import {getNumeric} from '../../util';
 import EditInvoiceModel from './EditInvoiceModel';
 import { EditClientModel } from '../../client/ClientModels';
 import { InvoiceFilters, InvoiceFiltersSearch } from '../../../models';
+import { getMoney } from '../../controls';
+import { searchClientFor } from '../../client/EditClientModel';
 
-function transformFilters(search: InvoiceFiltersSearch[]): TransformedInvoiceFilters {
+function transformFilters(search: InvoiceFiltersSearch[], freeText: string): TransformedInvoiceFilters {
   const transformFn = (type: string) => search.filter(f => f.type === type).map(f => f.value);
+
+  let other = transformFn('manual_input') as string[];
+  if (freeText) {
+    other = other.concat([freeText]);
+  }
+
   return {
     directInvoiceNrs: transformFn('invoice-nr') as number[],
     years: transformFn('year') as number[],
     clients: transformFn('client') as string[],
     invoiceLineDescs: transformFn('invoice_line') as string[],
-    other: transformFn('manual_input') as string[],
+    other: other,
   };
 }
 
@@ -37,7 +44,7 @@ export default class InvoiceListModel {
     this.invoices = invoices;
     this.clients = clients;
     this.hasFilters = !!filters.search.length;
-    this.fs = transformFilters(filters.search);
+    this.fs = transformFilters(filters.search, filters.freeInvoice);
     this.unverifiedOnly = filters.unverifiedOnly;
     this.isQuotation = isQuotation || false;
   }
@@ -116,15 +123,29 @@ export default class InvoiceListModel {
 }
 
 
+
+
+
 function searchInvoiceFor(invoice: EditInvoiceModel, text: string): boolean {
-  text = text.toLowerCase();
+  text = text.toLowerCase().trim();
+
+  if (invoice._id.toLowerCase() === text) {
+    return true;
+  }
+
+  if (invoice.number.toString().includes(text)) {
+    return true;
+  }
 
   if (invoice.orderNr.toLowerCase().includes(text)) {
     return true;
   }
 
-  const client = invoice.client;
-  if (client.city.toLowerCase().includes(text) || client.address.toLowerCase().includes(text)) {
+  if (invoice.date.format('DD/MM/YYYY').startsWith(text)) {
+    return true;
+  }
+
+  if (searchClientFor(invoice.client, text)) {
     return true;
   }
 
@@ -135,13 +156,11 @@ function searchInvoiceFor(invoice: EditInvoiceModel, text: string): boolean {
     }
   }
 
-  const numericText = getNumeric(text);
-  if (numericText) {
-    const numericBtw = getNumeric(client.btw);
-    const numericTelephone = getNumeric(client.telephone);
-    if (numericText === numericBtw || numericText === numericTelephone) {
-      return true;
-    }
+  const money = invoice.money;
+  const amounts = [money.discount, money.total, money.totalTax, money.totalWithoutTax];
+  const amountUser = getMoney(text);
+  if (amountUser && amounts.includes(amountUser)) {
+    return true;
   }
 
   return false;

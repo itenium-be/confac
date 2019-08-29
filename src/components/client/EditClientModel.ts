@@ -1,5 +1,6 @@
 import { EditClientModel } from './ClientModels';
 import { EditConfigModel } from "../config/EditConfigModel";
+import { getNumeric } from '../util';
 
 export function getNewClient(config: EditConfigModel): EditClientModel {
   return {
@@ -25,6 +26,26 @@ export function getNewClient(config: EditConfigModel): EditClientModel {
     defaultInvoiceDateStrategy: config.defaultInvoiceDateStrategy,
   };
 }
+
+
+export function searchClientFor(client: EditClientModel, input: string): boolean {
+  const text = input.toLowerCase().trim();
+  if ((`${client.name} ${client.address} ${client.city}`).toLowerCase().includes(text)) {
+    return true;
+  }
+
+  const numericText = getNumeric(text);
+  if (numericText) {
+    const numericBtw = getNumeric(client.btw);
+    const numericTelephone = getNumeric(client.telephone);
+    if (numericText === numericBtw || numericText === numericTelephone) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 
 // Used by the ClientModal
 export const requiredClientProperties = [

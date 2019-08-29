@@ -4,6 +4,7 @@ import {Row, Col} from 'react-bootstrap';
 import {Switch} from '../../controls';
 import { InvoiceFiltersSearch, InvoiceFilters } from '../../../models';
 import { InvoiceSearchSelect } from './InvoiceSearchSelect';
+import { SearchStringInput } from '../../controls/form-controls/inputs/SearchStringInput';
 
 
 type InvoiceSearchProps = {
@@ -21,14 +22,17 @@ export class InvoiceSearch extends Component<InvoiceSearchProps> {
   }
 
   render() {
-    // WTF: pass any propname with a func to InvoiceSearchSelect and the grid icon column
-    // breaks when this component is placed before the invoice list table
-    const {search, unverifiedOnly} = this.props.filters;
+    const {search, unverifiedOnly, freeInvoice} = this.props.filters;
     return (
       <Row>
-        <Col sm={6}>
+        <Col xl={3} md={4}>
+          <SearchStringInput
+            value={freeInvoice}
+            onChange={str => this.onFilterChange({freeInvoice: str})}
+          />
+        </Col>
+        <Col xl={3} md={4}>
           <InvoiceSearchSelect
-            label={t('search')}
             onChange={(value: InvoiceFiltersSearch[]) => this.onFilterChange({search: value})}
             value={search}
             options={this.props.filterOptions}
@@ -36,22 +40,20 @@ export class InvoiceSearch extends Component<InvoiceSearchProps> {
           />
         </Col>
         {!this.props.isQuotation ? (
-          <Col sm={3}>
+          <Col xl={3} md={4}>
             <Switch
               checked={unverifiedOnly}
               onChange={(checked: boolean) => this.onFilterChange({unverifiedOnly: checked})}
               label={t('invoice.notVerifiedOnly')}
-              style={{marginTop: 28}}
               data-tst="filter-unverified"
             />
           </Col>
         ) : null}
-        <Col sm={3}>
+        <Col xl={{span: 3, offset: 0}} md={{span: 3, offset: 8}}>
           <Switch
             checked={this.props.filters.groupedByMonth}
             onChange={(checked: boolean) => this.onFilterChange({groupedByMonth: checked})}
             label={t('invoice.groupByMonth')}
-            style={{marginTop: 28}}
             data-tst="filter-groupedByMonth"
           />
         </Col>

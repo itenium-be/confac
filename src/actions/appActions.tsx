@@ -48,14 +48,14 @@ export function success(msg = '', title = '', timeout = 2000): void {
 }
 
 
-export function failure(msg = '', title = '', timeout = 4000): void {
+export function failure(msg = '', title = '', timeout = 4000, position?: Position): void {
   toast.error(
     <ToastMessage
       msg={msg || t('toastrFailure')}
       title={title || t('toastrFailureTitle')}
       type="error"
     />,
-    { autoClose: timeout, position: toast.POSITION.TOP_CENTER }
+    { autoClose: timeout, position: (position || toast.POSITION.TOP_CENTER as any) }
   );
 }
 

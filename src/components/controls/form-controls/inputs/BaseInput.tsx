@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {FormControl} from 'react-bootstrap';
 import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
-import {EnhanceInputWithAddons} from '../../../enhancers/EnhanceInputWithAddons';
+import {EnhanceInputWithAddons, EnhanceInputWithAddonsProps} from '../../../enhancers/EnhanceInputWithAddons';
 
-type BaseInputProps = {
-  type: string,
+export type BaseInputProps = EnhanceInputWithAddonsProps & {
+  label?: string,
+  type?: string,
   value?: any,
   onChange: (e: any) => void,
   onBlur?: (e: any) => void,

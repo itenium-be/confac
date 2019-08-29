@@ -23,6 +23,8 @@ export const defaultAppState: AppState = {
     unverifiedOnly: false,
     groupedByMonth: false,
     clientListYears: [moment().year()],
+    freeInvoice: '',
+    freeClient: '',
   },
 };
 

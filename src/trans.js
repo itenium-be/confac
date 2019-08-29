@@ -58,6 +58,7 @@ const trans = {
       other: 'Ander',
       template: 'Html template (facturen)',
       templateQuotation: 'Html template (offertes)',
+      templateLoadError: "Html factuur templates konden niet geladen worden",
       website: 'Website',
       slug: 'Bedrijfsnaam in de url',
       contact: 'Contact persoon',

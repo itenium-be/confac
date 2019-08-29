@@ -1,9 +1,14 @@
 import React from "react";
-import { BaseInput } from "./BaseInput";
+import { BaseInput, BaseInputProps } from "./BaseInput";
 import { parseIntOrFloat } from "./input-util";
 
+type NumericInputProps = BaseInputProps & {
+  value: number,
+  onChange: (str: number) => void,
+  float?: boolean,
+}
 
-export const NumericInput = ({ value, onChange, float = false, ...props}) => {
+export const NumericInput = ({ value, onChange, float = false, ...props}: NumericInputProps) => {
   return (
     <BaseInput
       type="number"

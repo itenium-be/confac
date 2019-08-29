@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {t} from '../util';
-
 import * as Control from '../controls';
 import {Container, Table, Row, Col} from 'react-bootstrap';
 import ClientListRow, {ClientListHeader} from './ClientListRow';
@@ -10,14 +9,15 @@ import {getInvoiceYears} from '../invoice/models/InvoiceListModel';
 import { EditClientModel } from './ClientModels';
 import EditInvoiceModel from '../invoice/models/EditInvoiceModel';
 import { ConfacState } from '../../reducers/default-states';
+import { SearchStringInput } from '../controls/form-controls/inputs/SearchStringInput';
+import { InvoiceFilters } from '../../models';
+import { searchClientFor } from './EditClientModel';
 
 type ClientListProps = {
   invoices: EditInvoiceModel[],
   clients: EditClientModel[],
   updateInvoiceFilters: Function,
-  filters: {
-    clientListYears: number[]
-  }
+  filters: InvoiceFilters,
 }
 
 type ClientListState = {
@@ -31,25 +31,35 @@ class ClientList extends Component<ClientListProps, ClientListState> {
   }
 
   render() {
+    const {invoices, filters} = this.props;
+
     var clients = this.props.clients;
     if (!this.state.showDeleted) {
       clients = clients.filter(c => c.active);
     }
-
-    const {invoices, filters} = this.props;
+    if (filters.freeClient) {
+      const freeTextFilter = filters.freeClient.toLowerCase();
+      clients = clients.filter(c => searchClientFor(c, freeTextFilter));
+    }
 
     var filteredInvoices = invoices;
     if (filters.clientListYears.length !== 0) {
-      filteredInvoices = invoices.filter(i => filters.clientListYears.includes(i.date.year()));
+      filteredInvoices = filteredInvoices.filter(i => filters.clientListYears.includes(i.date.year()));
     }
 
     return (
       <Container className="client-list">
         <Row>
-          <Col sm={3} xs={6}>
+          <Col lg={3} md={12}>
             <Control.AddIcon onClick="/client/create" label={t('client.createNew')} data-tst="new-client" />
           </Col>
-          <Col sm={3} xs={6}>
+          <Col lg={3} md={6}>
+            <SearchStringInput
+              value={filters.freeClient}
+              onChange={str => this.props.updateInvoiceFilters({...filters, freeClient: str})}
+            />
+          </Col>
+          <Col lg={3} md={6}>
             <Control.YearsSelect
               values={filters.clientListYears}
               years={getInvoiceYears(invoices)}
@@ -57,7 +67,7 @@ class ClientList extends Component<ClientListProps, ClientListState> {
               data-tst="filter-years"
             />
           </Col>
-          <Col sm={3} xs={12}>
+          <Col lg={3} md={12}>
             <Control.Switch
               checked={this.state.showDeleted}
               onChange={(checked: boolean) => this.setState({showDeleted: checked})}

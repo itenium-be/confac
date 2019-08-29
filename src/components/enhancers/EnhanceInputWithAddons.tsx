@@ -1,9 +1,9 @@
 import React from 'react';
 import {InputGroup} from 'react-bootstrap';
 
-type EnhanceInputWithAddonsProps = {
-  prefix?: string,
-  suffix?: string,
+export type EnhanceInputWithAddonsProps = {
+  prefix?: string | React.ReactNode,
+  suffix?: string | React.ReactNode,
   addOnMinWidth?: number,
 }
 

@@ -66,7 +66,7 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
         <Control.TextareaInput
           style={{height: 35}}
           value={line.notes}
-          onChange={value => onChange(invoice.updateLine(index, {notes: value}))}
+          onChange={(value: string) => onChange(invoice.updateLine(index, {notes: value}))}
           data-tst={`line-${index}-notes`}
         />
       </td>

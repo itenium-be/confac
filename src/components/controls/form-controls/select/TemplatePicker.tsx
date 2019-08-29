@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {SimpleSelect} from './SimpleSelect';
-import {httpGet} from '../../../../actions/fetch';
+import {buildUrl} from '../../../../actions/fetch';
+import { failure } from '../../../../actions';
+import { t } from '../../../util';
+import { toast } from 'react-toastify';
 
 
 type TemplatePickerProps = {
@@ -13,6 +16,8 @@ type TemplatePickerState = {
   templates: any[],
 }
 
+const httpGet = (url: string) => fetch(buildUrl(url));
+
 class TemplatePickerComponent extends Component<TemplatePickerProps, TemplatePickerState> {
   constructor(props: any) {
     super(props);
@@ -20,8 +25,17 @@ class TemplatePickerComponent extends Component<TemplatePickerProps, TemplatePic
   }
 
   componentDidMount() {
-    httpGet('/config/templates').then(templates => {
-      this.setState({templates});
+    httpGet('/config/templates')
+    .then(res => res.json())
+    .then(templates => {
+      if (!templates.message) {
+        this.setState({templates});
+      } else {
+        console.log('/config/templates', templates);
+        failure(t('config.company.templateLoadError'), undefined, undefined, toast.POSITION.BOTTOM_RIGHT as any);
+        return Promise.reject(templates);
+      }
+      return Promise.resolve(templates);
     });
   }
 

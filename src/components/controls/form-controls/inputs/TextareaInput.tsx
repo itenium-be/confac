@@ -1,7 +1,12 @@
 import React from "react";
-import { BaseInput } from "./BaseInput";
+import { BaseInput, BaseInputProps } from "./BaseInput";
 
-export const TextareaInput = ({value, onChange, ...props}) => {
+type TextareaInputProps = BaseInputProps & {
+  value: string | undefined,
+  onChange: (str: string) => void,
+}
+
+export const TextareaInput = ({value, onChange, ...props}: TextareaInputProps) => {
   return (
     <BaseInput
       type="textarea"

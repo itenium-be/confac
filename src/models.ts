@@ -60,6 +60,8 @@ export type InvoiceFilters = {
   unverifiedOnly: boolean,
   groupedByMonth: boolean,
   clientListYears: number[],
+  freeClient: string,
+  freeInvoice: string,
 }
 
 /**

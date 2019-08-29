@@ -12,7 +12,7 @@ import { ConfacState } from '../../../reducers/default-states';
 export default class QuotationList extends Component {
   render() {
     return (
-      <Container>
+      <Container className="quotation-list">
         <Control.AddIcon onClick="/quotation/create" label={t('quotation.createNew')} data-tst="new-quotation" />
         <ConnectedQuotationList />
       </Container>

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {updateInvoiceFilters} from '../../../actions/index';
 import InvoiceListModel from '../models/InvoiceListModel';
-import {Container} from 'react-bootstrap';
+import {Container, Row, Col} from 'react-bootstrap';
 import {InvoiceSearch} from '../controls/InvoiceSearch';
 import {GroupedInvoiceTable} from '../invoice-table/GroupedInvoiceTable';
 import {NonGroupedInvoiceTable} from '../invoice-table/NonGroupedInvoiceTable';
@@ -11,6 +11,7 @@ import { EditConfigModel } from '../../config/EditConfigModel';
 import EditInvoiceModel from '../models/EditInvoiceModel';
 import { EditClientModel } from '../../client/ClientModels';
 import { InvoiceFilters } from '../../../models';
+import { t } from '../../util';
 
 
 type InvoiceListProps = {
@@ -32,7 +33,14 @@ export class InvoiceList extends Component<InvoiceListProps> {
 
     const TableComponent = this.props.filters.groupedByMonth ? GroupedInvoiceTable : NonGroupedInvoiceTable;
     return (
-      <Container>
+      <Container className="invoice-list">
+        {!isQuotation && (
+          <Row>
+            <Col xs={12}>
+              <h1>{t('title')}</h1>
+            </Col>
+          </Row>
+        )}
         <InvoiceSearch
           onChange={(newFilter: InvoiceFilters) => this.props.updateInvoiceFilters(newFilter)}
           filterOptions={vm.getFilterOptions()}

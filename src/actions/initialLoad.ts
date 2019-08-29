@@ -1,5 +1,30 @@
 import {ACTION_TYPES} from './ActionTypes';
-import {httpGet} from './fetch';
+import { buildUrl } from './fetch';
+import { failure } from './appActions';
+import { toast } from 'react-toastify';
+
+let counter: number;
+
+const httpGet = (url: string) => fetch(buildUrl(url))
+  .then(res => res.json(), err => {
+    console.log('Initial Load Failure', err);
+    if (counter === 0) {
+      failure(err.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
+    }
+    counter++;
+    return Promise.reject(err);
+  })
+  .then(data => {
+    if (data.message && data.stack) {
+      console.log('Initial Load Failure', data);
+      if (counter === 0) {
+        failure(data.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
+      }
+      counter++;
+      return Promise.reject(data);
+    }
+    return data;
+  });
 
 function fetchClients() {
   return dispatch => {
@@ -38,6 +63,7 @@ function fetchInvoices() {
 }
 
 export function initialLoad(): any {
+  counter = 0;
   return dispatch => Promise.all([
     dispatch(fetchClients()),
     dispatch(fetchConfig()),

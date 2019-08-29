@@ -25,6 +25,9 @@ export function moneyFormat(input) {
   return '€ ' + numeral(input).format('0,0.00');
 }
 
+/**
+ * Discards all non-numeric characters
+ */
 export const getNumeric = text => text.replace(/[^0-9]+/g, '');
 
 export {default as t} from '../trans';
