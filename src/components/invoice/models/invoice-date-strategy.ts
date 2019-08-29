@@ -1,6 +1,6 @@
 import moment from 'moment';
-import { EditClientModel } from '../../client/models/ClientModels';
-import { EditConfigModel } from '../../config/EditConfigModel';
+import { ClientModel } from '../../client/models/ClientModels';
+import { EditConfigModel } from '../../config/models/ConfigModel';
 
 export const invoiceDateStrategies = ['prev-month-last-day', 'today'];
 
@@ -16,7 +16,7 @@ const endOfMonth = (): moment.Moment => {
 
 
 
-export const getInvoiceDate = (client: EditClientModel, config?: EditConfigModel): moment.Moment => {
+export const getInvoiceDate = (client: ClientModel, config?: EditConfigModel): moment.Moment => {
   switch ((client || {}).defaultInvoiceDateStrategy || (config && config.defaultInvoiceDateStrategy)) {
   case 'prev-month-last-day':
     return endOfMonth();

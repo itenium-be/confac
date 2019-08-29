@@ -9,6 +9,9 @@ export function getAwesomeFileType(att: {type: string, fileType: string, fileNam
   // extension = att.fileName.substring(att.fileName.lastIndexOf('.') + 1)
   // console.log(att.type, ':', att.fileType);
 
+  // file-contract, file-csv, file-invoice, file-invoice-dollar, file-powerpoint
+  // file-signature, file-word
+
 
   const type = att.fileType;
   if (type.startsWith('image/')) {

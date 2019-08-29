@@ -5,7 +5,7 @@ import {t} from '../util';
 import {ClientEditIcon, InvoiceWorkedDays, InvoicesSummary, DeleteIcon} from '../controls';
 import {saveClient} from '../../actions/index';
 import EditInvoiceModel from '../invoice/models/EditInvoiceModel';
-import { EditClientModel } from './models/ClientModels';
+import { ClientModel } from './models/ClientModels';
 
 
 export const ClientListHeader = () => (
@@ -24,7 +24,7 @@ export const ClientListHeader = () => (
 type ClientListRowProps = {
   invoices: EditInvoiceModel[],
   saveClient: Function,
-  client: EditClientModel,
+  client: ClientModel,
 }
 
 class ClientListRow extends Component<ClientListRowProps> {

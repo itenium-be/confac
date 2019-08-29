@@ -4,16 +4,17 @@ import {t} from '../../util';
 import * as Control from '../../controls';
 import {Container, Row, Form, Col} from 'react-bootstrap';
 import {saveClient} from '../../../actions/appActions';
-import {getNewClient, requiredClientProperties} from '../models/EditClientModel';
-import { EditClientModel } from '../models/ClientModels';
-import { EditConfigModel } from '../../config/EditConfigModel';
+import {requiredClientProperties} from '../models/ClientConfig';
+import { getNewClient } from "../models/getNewClient";
+import { ClientModel } from '../models/ClientModels';
+import { EditConfigModel } from '../../config/models/ConfigModel';
 import { ConfacState } from '../../../reducers/default-states';
 
 
 type ClientModalProps = {
   config: EditConfigModel,
   saveClient: Function,
-  client: EditClientModel | null,
+  client: ClientModel | null,
   show: boolean,
   onClose: any,
   onConfirm?: Function,
@@ -41,7 +42,7 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalProps>
 
   onSave() {
     const updatedClient = this.state;
-    const onSuccess = this.props.onConfirm ? (clientWithServerValues: EditClientModel) => (this.props.onConfirm && this.props.onConfirm(clientWithServerValues)) : null;
+    const onSuccess = this.props.onConfirm ? (clientWithServerValues: ClientModel) => (this.props.onConfirm && this.props.onConfirm(clientWithServerValues)) : null;
     this.props.saveClient(updatedClient, true, onSuccess);
   }
 

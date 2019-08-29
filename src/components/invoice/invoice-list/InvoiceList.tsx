@@ -7,9 +7,9 @@ import {InvoiceSearch} from '../controls/InvoiceSearch';
 import {GroupedInvoiceTable} from '../invoice-table/GroupedInvoiceTable';
 import {NonGroupedInvoiceTable} from '../invoice-table/NonGroupedInvoiceTable';
 import { ConfacState } from '../../../reducers/default-states';
-import { EditConfigModel } from '../../config/EditConfigModel';
+import { EditConfigModel } from '../../config/models/ConfigModel';
 import EditInvoiceModel from '../models/EditInvoiceModel';
-import { EditClientModel } from '../../client/models/ClientModels';
+import { ClientModel } from '../../client/models/ClientModels';
 import { InvoiceFilters } from '../../../models';
 import { t } from '../../util';
 
@@ -17,7 +17,7 @@ import { t } from '../../util';
 type InvoiceListProps = {
   config: EditConfigModel,
   invoices: EditInvoiceModel[],
-  clients: EditClientModel[],
+  clients: ClientModel[],
   updateInvoiceFilters: any,
   filters: InvoiceFilters,
 }

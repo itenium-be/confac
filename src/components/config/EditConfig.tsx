@@ -5,7 +5,7 @@ import {Container, Row, Col, Form} from 'react-bootstrap';
 import {EditCompany} from './EditCompany';
 import * as Control from '../controls';
 import {updateConfig} from '../../actions/index';
-import { EditConfigModel, EditConfigCompanyModel } from './EditConfigModel';
+import { EditConfigModel, EditConfigCompanyModel } from './models/ConfigModel';
 import { ConfacState } from '../../reducers/default-states';
 import { EditConfigInvoice } from './EditConfigInvoice';
 import { EditConfigUserSettings } from './EditConfigUserSettings';
@@ -64,15 +64,14 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
             config={this.state}
             onChange={this.setState.bind(this)}
           />
-
-
-
-          <Row className="button-row">
-            <Col>
-              <Control.BusyButton onClick={this._save.bind(this)} data-tst="save">{t('save')}</Control.BusyButton>
-            </Col>
-          </Row>
         </Form>
+
+
+        <Row className="button-row">
+          <Col>
+            <Control.BusyButton onClick={this._save.bind(this)} data-tst="save">{t('save')}</Control.BusyButton>
+          </Col>
+        </Row>
       </Container>
     );
   }

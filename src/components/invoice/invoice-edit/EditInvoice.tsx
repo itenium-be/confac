@@ -11,8 +11,8 @@ import {invoiceAction} from '../../../actions/index';
 import {EditInvoiceClient} from './EditInvoiceClient';
 import {EditInvoiceExtraFields} from './EditInvoiceExtraFields';
 import EditInvoiceModel from '../models/EditInvoiceModel';
-import { EditConfigModel } from '../../config/EditConfigModel';
-import { EditClientModel } from '../../client/models/ClientModels';
+import { EditConfigModel } from '../../config/models/ConfigModel';
+import { ClientModel } from '../../client/models/ClientModels';
 import { ConfacState } from '../../../reducers/default-states';
 import { EditInvoiceDetails } from './EditInvoiceDetails';
 
@@ -21,7 +21,7 @@ type EditInvoiceProps = {
   invoices: EditInvoiceModel[],
   config: EditConfigModel,
   app: {isLoaded: boolean},
-  clients: EditClientModel[],
+  clients: ClientModel[],
   invoiceAction: Function,
   match: {
     params: {

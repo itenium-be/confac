@@ -1,7 +1,7 @@
-import { EditClientModel } from '../components/client/models/ClientModels';
+import { ClientModel } from '../components/client/models/ClientModels';
 import { ACTION_TYPES } from "../actions";
 
-export const clients = (state: EditClientModel[] = [], action): EditClientModel[] => {
+export const clients = (state: ClientModel[] = [], action): ClientModel[] => {
   switch (action.type) {
   case ACTION_TYPES.CLIENTS_FETCHED:
     // console.log('CLIENTS_FETCHED', action.clients); // eslint-disable-line

@@ -1,4 +1,4 @@
-import { EditConfigModel } from '../components/config/EditConfigModel';
+import { EditConfigModel } from '../components/config/models/ConfigModel';
 import { ACTION_TYPES } from '../actions';
 import { defaultConfig } from './default-states';
 

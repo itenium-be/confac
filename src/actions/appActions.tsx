@@ -5,8 +5,8 @@ import {ACTION_TYPES} from './ActionTypes';
 import {buildUrl, catchHandler} from './fetch';
 import { toast } from 'react-toastify';
 import t from '../trans';
-import { EditConfigModel } from '../components/config/EditConfigModel';
-import { EditClientModel } from '../components/client/models/ClientModels';
+import { EditConfigModel } from '../components/config/models/ConfigModel';
+import { ClientModel } from '../components/client/models/ClientModels';
 import { InvoiceFilters } from '../models';
 
 type ToastType = 'error' | 'success';
@@ -91,7 +91,7 @@ export function updateInvoiceFilters(filters: InvoiceFilters) {
   };
 }
 
-export function saveClient(client: EditClientModel, stayOnPage = false, callback?: Function) {
+export function saveClient(client: ClientModel, stayOnPage = false, callback?: Function) {
   return dispatch => {
     dispatch(busyToggle());
     return request.post(buildUrl('/clients'))

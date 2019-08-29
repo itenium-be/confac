@@ -3,7 +3,7 @@ import {Icon} from '../Icon';
 import { getInvoiceDownloadUrl, getClientDownloadUrl} from '../../../actions/index';
 import t from '../../../trans';
 import EditInvoiceModel, { EditInvoiceModelProps } from '../../invoice/models/EditInvoiceModel';
-import { EditClientModel } from '../../client/models/ClientModels';
+import { ClientModel } from '../../client/models/ClientModels';
 import { Attachment, IAttachment } from '../../../models';
 import { getAwesomeFileType } from '../../invoice/models/getAwesomeFileType';
 
@@ -37,7 +37,7 @@ type AttachmentDownloadIconProps = {
 export const AttachmentDownloadIcon = ({model, attachment, modelType, ...props}: AttachmentDownloadIconProps) => {
   let href;
   if (modelType === 'client') {
-    href = getClientDownloadUrl(model as EditClientModel, attachment);
+    href = getClientDownloadUrl(model as ClientModel, attachment);
   } else {
     href = getInvoiceDownloadUrl(model as EditInvoiceModel, attachment.type, 'download');
   }

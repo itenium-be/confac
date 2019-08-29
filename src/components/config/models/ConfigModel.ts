@@ -1,4 +1,4 @@
-import { EditClientRateType, InvoiceDateStrategy } from "../../models";
+import { EditClientRateType, InvoiceDateStrategy } from "../../../models";
 
 export type EditConfigModel = {
   company: EditConfigCompanyModel,

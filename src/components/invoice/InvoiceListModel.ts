@@ -1,7 +1,7 @@
 import moment from 'moment';
 import {getNumeric} from '../util';
 import EditInvoiceModel from './models/EditInvoiceModel';
-import { EditClientModel } from '../client/models/ClientModels';
+import { ClientModel } from '../client/models/ClientModels';
 import { InvoiceFilters, InvoiceFiltersSearch } from '../../models';
 
 function transformFilters(search: InvoiceFiltersSearch[]): TransformedInvoiceFilters {
@@ -27,13 +27,13 @@ type TransformedInvoiceFilters = {
 
 export default class InvoiceListModel {
   invoices: EditInvoiceModel[];
-  clients: EditClientModel[];
+  clients: ClientModel[];
   hasFilters: boolean;
   fs: TransformedInvoiceFilters;
   unverifiedOnly: boolean;
   isQuotation: boolean;
 
-  constructor(invoices: EditInvoiceModel[], clients: EditClientModel[], filters: InvoiceFilters, isQuotation: boolean) {
+  constructor(invoices: EditInvoiceModel[], clients: ClientModel[], filters: InvoiceFilters, isQuotation: boolean) {
     this.invoices = invoices;
     this.clients = clients;
     this.hasFilters = !!filters.search.length;

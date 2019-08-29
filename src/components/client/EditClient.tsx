@@ -5,16 +5,17 @@ import moment from 'moment';
 import {BusyButton, ArrayInput, AttachmentsForm, PropertiesSelect} from '../controls';
 import {Container, Row, Col, Form} from 'react-bootstrap';
 import {saveClient} from '../../actions/index';
-import {getNewClient, defaultClientProperties, editClientRateConfig} from './models/EditClientModel';
-import { EditClientModel } from './models/ClientModels';
+import {defaultClientProperties, editClientRateConfig} from './models/ClientConfig';
+import { getNewClient } from "./models/getNewClient";
+import { ClientModel } from './models/ClientModels';
 import { ConfacState } from '../../reducers/default-states';
-import { EditConfigModel } from '../config/EditConfigModel';
+import { EditConfigModel } from '../config/models/ConfigModel';
 import { EditClientDefaultOther } from './EditClientDefaultOther';
 
 
 type EditClientProps = {
   config: EditConfigModel,
-  clients: EditClientModel[],
+  clients: ClientModel[],
   isLoaded: boolean,
   saveClient: Function,
   match: {
@@ -22,7 +23,7 @@ type EditClientProps = {
   }
 }
 
-class EditClient extends Component<EditClientProps, EditClientModel> {
+class EditClient extends Component<EditClientProps, ClientModel> {
   constructor(props: any) {
     super(props);
     this.state = this.copyClient(props);
@@ -123,7 +124,7 @@ class EditClient extends Component<EditClientProps, EditClientModel> {
     );
   }
 
-  isClientDisabled(client: EditClientModel) {
+  isClientDisabled(client: ClientModel) {
     if (client.name.length === 0) {
       return true;
     }

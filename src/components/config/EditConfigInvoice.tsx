@@ -3,6 +3,9 @@ import React from "react";
 import { t } from "../util";
 import * as Control from "../controls";
 
+// export const
+
+
 export const EditConfigInvoice = ({config, onChange}) => (
   <Row>
     <h1>{t('config.invoiceTitle')}</h1>

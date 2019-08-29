@@ -6,12 +6,12 @@ import {ClientEditIcon} from '../../controls';
 import {ClientModal} from '../../client/controls/ClientModal';
 import {saveClient} from '../../../actions/index';
 import { ConfacState } from '../../../reducers/default-states';
-import { EditClientModel } from '../../client/models/ClientModels';
+import { ClientModel } from '../../client/models/ClientModels';
 
 
 type InvoiceClientCellProps = {
-  clients: EditClientModel[],
-  client: EditClientModel,
+  clients: ClientModel[],
+  client: ClientModel,
   saveClient: any,
 }
 
@@ -54,7 +54,7 @@ class extends Component<InvoiceClientCellProps, InvoiceClientCellState> {
           client={client}
           onClick={() => this.setState({modal: true})}
           data-tst="edit"
-          fa="fa fa-external-link"
+          fa="fa fa-external-link-alt"
         />
 
         {this.state.modal && <ClientModal

@@ -4,21 +4,21 @@ import {t} from '../../util';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import Select from 'react-select';
 import { ConfacState } from '../../../reducers/default-states';
-import { EditClientModel } from '../models/ClientModels';
+import { ClientModel } from '../models/ClientModels';
 
 
 type ClientSelectProps = {
-  clients: EditClientModel[],
+  clients: ClientModel[],
   /**
    * The client or the _id
    */
-  value: EditClientModel | string,
+  value: ClientModel | string,
   onChange: Function,
 }
 
 class ClientSelectComponent extends Component<ClientSelectProps> {
-  getClient(clientId: string): EditClientModel {
-    return this.props.clients.find(c => c._id === clientId) as EditClientModel;
+  getClient(clientId: string): ClientModel {
+    return this.props.clients.find(c => c._id === clientId) as ClientModel;
   }
 
   render() {

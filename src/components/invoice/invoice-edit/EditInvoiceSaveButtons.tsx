@@ -32,7 +32,7 @@ export const EditInvoiceSaveButtonsComponent = ({history, invoice, onClick}: Edi
       <BusyButton variant="light" onClick={onClick.bind(null, 'preview', history)} data-tst="preview" icon="far fa-eye">
         {t('invoice.preview')}
       </BusyButton>
-      <BusyButton onClick={onClick.bind(null, isNewInvoice ? 'create' : 'update', history)} data-tst="save" icon="fa fa-floppy-o">
+      <BusyButton onClick={onClick.bind(null, isNewInvoice ? 'create' : 'update', history)} data-tst="save" icon="far fa-save">
         {isNewInvoice ? tp('.create') : t('save')}
       </BusyButton>
     </div>

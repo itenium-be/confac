@@ -1,15 +1,15 @@
 import { AppState } from "../models";
 import moment from 'moment';
-import { EditConfigModel } from "../components/config/EditConfigModel";
+import { EditConfigModel } from "../components/config/models/ConfigModel";
 import EditInvoiceModel from "../components/invoice/models/EditInvoiceModel";
-import { EditClientModel } from "../components/client/models/ClientModels";
+import { ClientModel } from "../components/client/models/ClientModels";
 
 
 export type ConfacState = {
   app: AppState,
   config: EditConfigModel,
   invoices: EditInvoiceModel[],
-  clients: EditClientModel[],
+  clients: ClientModel[],
 }
 
 

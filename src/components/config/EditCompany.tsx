@@ -3,7 +3,7 @@ import {t} from '../util';
 import {ArrayInput} from '../controls';
 import {TemplatePicker} from '../controls/form-controls/select/TemplatePicker';
 import {Row} from 'react-bootstrap';
-import { EditConfigCompanyModel } from './EditConfigModel';
+import { EditConfigCompanyModel } from './models/ConfigModel';
 import { FullFormConfig } from '../../models';
 import { normalizeFormConfig } from '../controls/form-controls/lib/form-controls-util';
 

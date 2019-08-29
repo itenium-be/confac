@@ -1,6 +1,6 @@
-import { EditConfigModel, EditConfigCompanyModel } from '../../config/EditConfigModel';
+import { EditConfigModel, EditConfigCompanyModel } from '../../config/models/ConfigModel';
 import {getInvoiceDate} from './invoice-date-strategy';
-import { EditClientModel } from '../../client/models/ClientModels';
+import { ClientModel } from '../../client/models/ClientModels';
 import moment from 'moment';
 import { Attachment, EditClientRateType, IAttachment } from '../../../models';
 
@@ -35,7 +35,7 @@ export type InvoiceMoney = {
 export default class EditInvoiceModel implements IAttachment {
   _id: string;
   number: number;
-  client: EditClientModel;
+  client: ClientModel;
   your: EditConfigCompanyModel;
   date: moment.Moment;
   orderNr: string;
@@ -52,7 +52,7 @@ export default class EditInvoiceModel implements IAttachment {
   lines: EditInvoiceLine[] = [];
   money: InvoiceMoney;
 
-  static createNew(config: EditConfigModel, client: EditClientModel): EditInvoiceModel {
+  static createNew(config: EditConfigModel, client: ClientModel): EditInvoiceModel {
     var model = new EditInvoiceModel(config, {
       client,
       number: 1,
@@ -106,7 +106,7 @@ export default class EditInvoiceModel implements IAttachment {
     return this;
   }
 
-  setClient(client: EditClientModel): EditInvoiceModel {
+  setClient(client: ClientModel): EditInvoiceModel {
     this.client = client;
     if (!this.lines || this.lines.length <= 1) {
       this._lines = [this.getLine()];

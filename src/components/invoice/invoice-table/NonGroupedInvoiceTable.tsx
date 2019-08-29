@@ -2,7 +2,7 @@ import React from 'react';
 import {Table} from 'react-bootstrap';
 import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from '../invoice-list/InvoiceListRow';
 import {getColumns} from './invoice-list-column-factory';
-import { EditConfigModel } from '../../config/EditConfigModel';
+import { EditConfigModel } from '../../config/models/ConfigModel';
 
 export const NonGroupedInvoiceTable = ({vm, config}: {vm: any, config: EditConfigModel}) => {
   const invoices = vm.getFilteredInvoices();

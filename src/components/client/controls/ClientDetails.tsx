@@ -13,7 +13,7 @@ const ClientDetails = ({client, onOpenDetails, onOpenDetailsTitle}) => (
         size={1}
         style={{marginLeft: 8, marginRight: 8}}
         data-tst="client-header-edit"
-        fa="fa fa-external-link"
+        fa="fa fa-external-link-alt"
       />
       <Link to={'/client/' + client.slug} className="icon-link">
         <EditIcon
