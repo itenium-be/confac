@@ -1,3 +1,5 @@
+import { InputIcons } from "./components/controls/form-controls/lib/IconFactory";
+
 export type InvoiceDateStrategy = 'prev-month-last-day' | 'today';
 
 /**
@@ -40,9 +42,31 @@ export type AppState = {
   invoiceFilters: InvoiceFilters,
 }
 
-export type FormConfig = string | {
-  key: string,
-  component: React.ReactNode
+export type NewRowFormConfig = {forceRow: boolean}
+
+export type AnyFormConfig = string | NewRowFormConfig | FormConfig;
+
+export type FormConfig = {
+  /**
+   * The property name of the model
+   */
+  key?: string,
+  component?: React.ReactNode,
+  /**
+   * True: Do not show when creating the record
+   * (ex: "slug" which is calculated when saving)
+   */
+  updateOnly?: boolean,
+  /**
+   * Set specific Grid col amount
+   */
+  cols?: number,
+  /**
+   * Col offset
+   */
+  offset?: number,
+  prefix?: InputIcons | React.ReactNode,
+  suffix?: InputIcons | React.ReactNode,
 }
 
 export type InvoiceFiltersSearch = {

@@ -130,11 +130,11 @@ export const DragAndDropIcon = ({...props}: IconProps) => {
 };
 
 export const ViewIcon = ({...props}: IconProps) => {
-  return <Icon fa="fa fa-eye" title={t('view')} {...props} />;
+  return <Icon fa="far fa-eye" title={t('view')} {...props} />;
 };
 
 export const EditIcon = ({...props}: IconProps) => {
-  return <Icon fa="fa fa-pencil-square-o" title={t('edit')} {...props} />;
+  return <Icon fa="far fa-edit" title={t('edit')} {...props} />;
 };
 
 export const ClientEditIcon = ({client, ...props}) => {

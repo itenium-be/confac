@@ -1,15 +1,15 @@
 import React from 'react';
 import {t} from '../util';
-
 import {ArrayInput} from '../controls';
 import {TemplatePicker} from '../controls/form-controls/select/TemplatePicker';
 import {Row} from 'react-bootstrap';
 import { EditConfigCompanyModel } from './EditConfigModel';
-import { FormConfig } from '../../models';
+import { AnyFormConfig } from '../../models';
+import { normalizeFormConfig } from '../controls/form-controls/lib/form-controls-util';
 
 type EditCompanyProps = {
   company: EditConfigCompanyModel,
-  onChange: Function,
+  onChange: (value: any) => void,
 }
 
 export const EditCompany = ({company, onChange}: EditCompanyProps) => {
@@ -25,9 +25,23 @@ export const EditCompany = ({company, onChange}: EditCompanyProps) => {
     key: 'templateQuotation',
     component: TemplatePicker,
   };
-  var config: FormConfig[] = ['name', 'address', 'city', 'telephone', 'email', 'website', 'btw', 'iban', 'bic', templatePicker, templateQuotationsPicker];
-  const configKeys: string[] = config.map(x => typeof x === 'string' ? x : x.key);
-  config = config.concat(Object.keys(company).filter(k => !configKeys.includes(k)));
+
+  const configDefinition: AnyFormConfig[] = [
+    'name',
+    'address',
+    'city',
+    {key: 'telephone', suffix: 'phone'},
+    {key: 'email', suffix: 'email'},
+    {key: 'website', suffix: 'website'},
+    'btw',
+    {forceRow: true},
+    {key: 'bank', prefix: 'building'},
+    {key: 'iban', suffix: 'bank'},
+    'bic',
+    templatePicker,
+    templateQuotationsPicker
+  ];
+  const config = normalizeFormConfig(configDefinition, company);
 
   return (
     <Row>

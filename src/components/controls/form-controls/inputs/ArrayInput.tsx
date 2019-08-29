@@ -2,34 +2,44 @@ import React from "react";
 import { StringInput } from "./StringInput";
 import { Col } from "react-bootstrap";
 import { t } from "../../../util";
+import { FormConfig, AnyFormConfig } from "../../../../models";
+import { normalizeFormConfig } from "../lib/form-controls-util";
+import { getIcon, InputIcons } from "../lib/IconFactory";
 
-export const ArrayInput = ({config, model, onChange, tPrefix}) => {
-  config = config.map(x => {
-    if (typeof x === 'string') {
-      return {key: x};
-    }
-    return x;
-  });
+type ArrayInputProps = {
+  config: AnyFormConfig[],
+  model: {_id?: string, [key: string]: any},
+  onChange: (value: any) => void,
+  tPrefix: string,
+}
 
-  if (!model._id) {
-    config = config.filter(c => !c.updateOnly);
-  }
+
+export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) => {
+  const result = normalizeFormConfig(config, model);
 
   return (
     <>
-      {config.map((col, index) => {
-        if (col.forceRow) {
-          return <div key={index} style={{clear: 'both'}} />;
+      {result.map((col: FormConfig, index: number) => {
+        const {key, cols, offset, component, suffix, prefix, ...props} = col;
+        if (!key) {
+          return <Col key={index} xs={cols} />;
         }
 
-        const EditComponent = col.component || StringInput;
+        const EditComponent: any = component || StringInput;
         return (
-          <Col sm={{span: col.cols || 4, offset: col.offset}} key={col.key || index}>
+          <Col
+            md={{span: cols || 4, offset: offset}}
+            sm={{span: cols || 6, offset: offset}}
+            key={key || index}
+          >
             <EditComponent
-              label={t(tPrefix + col.key)}
-              value={model[col.key]}
-              onChange={value => onChange({...model, [col.key]: value})}
-              data-tst={tPrefix + col.key}
+              label={t(tPrefix + key)}
+              value={model[key]}
+              onChange={(value: any) => onChange({...model, [key as string]: value})}
+              data-tst={tPrefix + key}
+              prefix={prefix ? (typeof prefix === 'string' ? getIcon(prefix as InputIcons) : prefix) : undefined}
+              suffix={suffix ? (typeof suffix === 'string' ? getIcon(suffix as InputIcons) : suffix) : undefined}
+              {...props}
             />
           </Col>
         );

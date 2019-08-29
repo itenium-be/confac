@@ -20,7 +20,7 @@ export const InvoiceDownloadIcon = ({invoice, ...props}: EditInvoiceModelProps) 
 
 export const InvoicePreviewIcon = ({invoice, ...props}: EditInvoiceModelProps) => {
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
-  return <Icon title={t(fileType + '.viewPdf')} href={getInvoiceDownloadUrl(invoice, 'pdf')} fa="fa fa-eye" {...props} />;
+  return <Icon title={t(fileType + '.viewPdf')} href={getInvoiceDownloadUrl(invoice, 'pdf')} fa="far fa-eye" {...props} />;
 };
 
 
@@ -44,7 +44,7 @@ export const AttachmentDownloadIcon = ({model, attachment, modelType, ...props}:
 
   return (
     <Icon
-      fa={`fa ${getAwesomeFileType(attachment)} fa-2x`}
+      fa={`far ${getAwesomeFileType(attachment)} fa-2x`}
       title={t('invoice.downloadAttachment', {type: attachment.fileName || attachment.type})}
       {...props}
       href={href}
