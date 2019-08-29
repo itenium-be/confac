@@ -9,7 +9,7 @@ import {NonGroupedInvoiceTable} from '../invoice-table/NonGroupedInvoiceTable';
 import { ConfacState } from '../../../reducers/default-states';
 import { EditConfigModel } from '../../config/EditConfigModel';
 import EditInvoiceModel from '../models/EditInvoiceModel';
-import { EditClientModel } from '../../client/ClientModels';
+import { EditClientModel } from '../../client/models/ClientModels';
 import { InvoiceFilters } from '../../../models';
 import { t } from '../../util';
 

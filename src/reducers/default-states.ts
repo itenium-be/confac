@@ -2,7 +2,7 @@ import { AppState } from "../models";
 import moment from 'moment';
 import { EditConfigModel } from "../components/config/EditConfigModel";
 import EditInvoiceModel from "../components/invoice/models/EditInvoiceModel";
-import { EditClientModel } from "../components/client/ClientModels";
+import { EditClientModel } from "../components/client/models/ClientModels";
 
 
 export type ConfacState = {

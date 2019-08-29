@@ -1,21 +1,36 @@
 import { Icon } from "../../../controls";
 import React from "react";
 
-export type InputIcons = 'phone' | 'email' | 'website' | 'bank' | 'building';
+export type InputIcons = 'phone' | 'email' | 'website' | 'bank' | 'building'
+  | 'user' | 'wrench';
 
-export function getIcon(str: InputIcons): any {
-  switch (str) {
-  case 'phone':
-    return <Icon fa="fa fa-phone" size={1} />;
-  case 'email':
-    return <Icon fa="fa fa-envelope" size={1} />;
-  case 'website':
-    return <Icon fa="fa fa-globe" size={1} />;
-  case 'bank':
-    return <Icon fa="fa fa-piggy-bank" size={1} />;
-  case 'building':
-    return <Icon fa="fa fa-building" size={1} />;
-  default:
-    return null;
+
+const iconMap = {
+  phone: 'fa fa-phone',
+  email: 'fa fa-envelope',
+  website: 'fa fa-globe',
+  bank: 'fa fa-piggy-bank',
+  building: 'fa fa-building',
+  user: 'fa fa-user',
+  wrench: 'fa fa-wrench',
+  hours: 'fa fa-hourglass-half'
+};
+
+
+export function getIconOrText(str: InputIcons | string): string | React.ReactNode {
+  const iconClass = getIconClass(str);
+  if (iconClass) {
+    return <Icon fa={iconClass} size={1} />;
   }
+  if (str.startsWith('fa')) {
+    return <Icon fa={str} size={1} />;
+  }
+  return str;
+}
+
+function getIconClass(str: InputIcons | string): any {
+  if (iconMap[str]) {
+    return iconMap[str];
+  }
+  return null;
 }

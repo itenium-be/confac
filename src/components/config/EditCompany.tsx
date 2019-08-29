@@ -4,7 +4,7 @@ import {ArrayInput} from '../controls';
 import {TemplatePicker} from '../controls/form-controls/select/TemplatePicker';
 import {Row} from 'react-bootstrap';
 import { EditConfigCompanyModel } from './EditConfigModel';
-import { AnyFormConfig } from '../../models';
+import { FullFormConfig } from '../../models';
 import { normalizeFormConfig } from '../controls/form-controls/lib/form-controls-util';
 
 type EditCompanyProps = {
@@ -26,7 +26,7 @@ export const EditCompany = ({company, onChange}: EditCompanyProps) => {
     component: TemplatePicker,
   };
 
-  const configDefinition: AnyFormConfig[] = [
+  const configDefinition: FullFormConfig = [
     'name',
     'address',
     'city',
@@ -41,6 +41,7 @@ export const EditCompany = ({company, onChange}: EditCompanyProps) => {
     templatePicker,
     templateQuotationsPicker
   ];
+  configDefinition.addMissingProps = true;
   const config = normalizeFormConfig(configDefinition, company);
 
   return (

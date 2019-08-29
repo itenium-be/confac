@@ -1,0 +1,40 @@
+button[disabled] {
+  cursor: not-allowed;
+}
+
+
+
+$border-color: #ced4da; // or: hsl(0, 0%, 70%);?
+$addon-icon-color: #9eaab5;
+$placeholder-color: #c4ccd3;
+
+.form-group {
+  // .form-label {
+  // }
+
+  ::placeholder {
+    color: $placeholder-color !important;
+  }
+
+  .form-control:focus {
+    box-shadow: unset !important;
+  }
+
+  .input-group-text {
+    background-color: unset;
+
+    i.fa {
+      color: $addon-icon-color;
+    }
+  }
+}
+
+
+
+.react-datepicker-wrapper {
+  width: 100%;
+
+  .react-datepicker__input-container {
+    width: 100%;
+  }
+}

@@ -1,4 +1,4 @@
-import { EditClientModel } from './../components/client/ClientModels';
+import { EditClientModel } from '../components/client/models/ClientModels';
 import request from 'superagent-bluebird-promise';
 import {ACTION_TYPES} from './ActionTypes';
 import {success, busyToggle} from './appActions';

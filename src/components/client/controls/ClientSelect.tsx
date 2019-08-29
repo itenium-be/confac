@@ -4,7 +4,7 @@ import {t} from '../../util';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import Select from 'react-select';
 import { ConfacState } from '../../../reducers/default-states';
-import { EditClientModel } from '../ClientModels';
+import { EditClientModel } from '../models/ClientModels';
 
 
 type ClientSelectProps = {

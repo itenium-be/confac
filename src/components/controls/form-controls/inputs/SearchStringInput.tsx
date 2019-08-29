@@ -3,10 +3,7 @@ import { Icon } from "../../Icon";
 import { StringInput } from "./StringInput";
 import { BaseInputProps } from "./BaseInput";
 
-type SearchStringInputProps = BaseInputProps & {
-  value: string,
-  onChange: (str: string) => void,
-}
+type SearchStringInputProps = BaseInputProps<string>;
 
 export const SearchStringInput = ({value, onChange, ...props}: SearchStringInputProps) => {
   return (

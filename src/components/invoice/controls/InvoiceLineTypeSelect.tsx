@@ -9,7 +9,7 @@ export const invoiceLineTypes = ['hourly', 'daily', 'km', 'items', 'section', 'o
 type InvoiceLineTypeSelectProps = {
   label: string,
   type: EditClientRateType,
-  onChange: Function,
+  onChange: (value: EditClientRateType) => void,
 }
 
 export class InvoiceLineTypeSelect extends Component<InvoiceLineTypeSelectProps> {

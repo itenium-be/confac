@@ -1,15 +1,18 @@
+import { FullFormConfig } from './../../../../models';
 import { AnyFormConfig, FormConfig } from "../../../../models";
 
-export function normalizeFormConfig(config: AnyFormConfig[], model: any): FormConfig[] {
+export function normalizeFormConfig(config: FullFormConfig, model: any): FormConfig[] {
   // Add all missing model properties to config
   const configKeys: string[] = config.map(x => typeof x === 'string' ? x : x['key']);
-  const missingProps = Object.keys(model).filter(k => !configKeys.includes(k));
   let fullConfig: AnyFormConfig[] = config;
-  if (missingProps.length) {
-    console.error(`Missing prop(s) "${missingProps.join(', ')}" for`, model);
-    fullConfig = config.concat(missingProps);
-  }
 
+  if (config.addMissingProps) {
+    const missingProps = Object.keys(model).filter(k => !configKeys.includes(k));
+    if (missingProps.length) {
+      console.error(`Missing prop(s) "${missingProps.join(', ')}" for`, model);
+      fullConfig = config.concat(missingProps);
+    }
+  }
 
   const result: FormConfig[] = fullConfig.map(x => {
     if (typeof x === 'string') {

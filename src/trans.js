@@ -63,6 +63,7 @@ const trans = {
       slug: 'Bedrijfsnaam in de url',
       contact: 'Contact persoon',
       contactEmail: 'Email contact persoon',
+      notes: 'Notitie',
     },
     extraFields: {
       title: 'Eigen velden',
@@ -175,11 +176,12 @@ const trans = {
     daysWorked: '{days} dagen',
     rate: {
       title: 'Standaard factuurwaarden',
-      desc: 'Standaard omschrijving',
+      description: 'Standaard omschrijving',
       hoursInDay: 'Uren per dag',
-      defaultPrice: 'Standaard prijs',
+      value: 'Standaard prijs',
+      type: 'Standaard factuurlijn eenheid',
     },
-    extraInvoiceFields: 'Extra factuur velden',
+    defaultExtraInvoiceFields: 'Extra factuur velden',
     extraFields: 'Extra klant velden',
     viewDetails: 'Ga naar detail scherm',
   },

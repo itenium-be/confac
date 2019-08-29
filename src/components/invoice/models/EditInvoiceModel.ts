@@ -1,6 +1,6 @@
 import { EditConfigModel, EditConfigCompanyModel } from '../../config/EditConfigModel';
 import {getInvoiceDate} from './invoice-date-strategy';
-import { EditClientModel } from '../../client/ClientModels';
+import { EditClientModel } from '../../client/models/ClientModels';
 import moment from 'moment';
 import { Attachment, EditClientRateType, IAttachment } from '../../../models';
 

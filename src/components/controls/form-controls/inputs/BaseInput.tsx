@@ -3,17 +3,17 @@ import {FormControl} from 'react-bootstrap';
 import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
 import {EnhanceInputWithAddons, EnhanceInputWithAddonsProps} from '../../../enhancers/EnhanceInputWithAddons';
 
-export type BaseInputProps = EnhanceInputWithAddonsProps & {
+export type BaseInputProps<T> = EnhanceInputWithAddonsProps & {
   label?: string,
-  type?: string,
-  value?: any,
-  onChange: (e: any) => void,
+  type?: 'textarea' | 'text' | 'number',
+  value?: T,
+  onChange: (e: T) => void,
   onBlur?: (e: any) => void,
   style?: React.CSSProperties,
   placeholder?: string,
 }
 
-export const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Component<BaseInputProps> {
+export const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Component<BaseInputProps<any>> {
   render() {
     const {type} = this.props;
     return (

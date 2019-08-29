@@ -6,7 +6,7 @@ import {ClientEditIcon} from '../../controls';
 import {ClientModal} from '../../client/controls/ClientModal';
 import {saveClient} from '../../../actions/index';
 import { ConfacState } from '../../../reducers/default-states';
-import { EditClientModel } from '../../client/ClientModels';
+import { EditClientModel } from '../../client/models/ClientModels';
 
 
 type InvoiceClientCellProps = {

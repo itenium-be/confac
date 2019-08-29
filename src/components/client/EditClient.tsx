@@ -2,13 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {t} from '../util';
 import moment from 'moment';
-import {BusyButton, ArrayInput, AttachmentsForm, TextareaInput, PropertiesSelect} from '../controls';
+import {BusyButton, ArrayInput, AttachmentsForm, PropertiesSelect} from '../controls';
 import {Container, Row, Col, Form} from 'react-bootstrap';
 import {saveClient} from '../../actions/index';
-import {EditClientRate} from './EditClientRate';
-import {getNewClient, defaultClientProperties} from './EditClientModel';
-import * as Control from '../controls';
-import { EditClientModel } from './ClientModels';
+import {getNewClient, defaultClientProperties, editClientRateConfig} from './models/EditClientModel';
+import { EditClientModel } from './models/ClientModels';
 import { ConfacState } from '../../reducers/default-states';
 import { EditConfigModel } from '../config/EditConfigModel';
 import { EditClientDefaultOther } from './EditClientDefaultOther';
@@ -85,37 +83,19 @@ class EditClient extends Component<EditClientProps, EditClientModel> {
 
 
           <Row>
-            <Col sm={12}>
-              <TextareaInput
-                label={t('notes')}
-                placeholder={t('notes')}
-                value={client.notes}
-                onChange={value => this.setState({...client, notes: value})}
-                data-tst="client.notes"
-                style={{height: 140}}
-              />
-            </Col>
-          </Row>
-
-
-          <Row>
             <h1>{t('client.rate.title')}</h1>
-            <EditClientRate rate={client.rate} onChange={value => this.setState({...client, rate: value})} />
-
-            <Col sm={4}>
-              <Control.InvoiceDateStrategySelect
-                value={client.defaultInvoiceDateStrategy}
-                data-tst="defaultInvoiceDateStrategy"
-                onChange={value => this.setState({...client, defaultInvoiceDateStrategy: value})}
-              />
-            </Col>
-
+            <ArrayInput
+              config={editClientRateConfig}
+              model={client.rate}
+              onChange={value => this.setState({...client, rate: {...value}})}
+              tPrefix="client.rate."
+            />
             <Col sm={4}>
               <PropertiesSelect
-                label={t('client.extraInvoiceFields')}
+                label={t('client.defaultExtraInvoiceFields')}
                 values={client.defaultExtraInvoiceFields || []}
                 onChange={value => this.setState({...client, defaultExtraInvoiceFields: value})}
-                data-tst="client.extraInvoiceFields"
+                data-tst="client.defaultExtraInvoiceFields"
               />
             </Col>
           </Row>

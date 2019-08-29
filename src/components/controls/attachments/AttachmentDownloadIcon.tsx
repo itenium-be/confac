@@ -3,7 +3,7 @@ import {Icon} from '../Icon';
 import { getInvoiceDownloadUrl, getClientDownloadUrl} from '../../../actions/index';
 import t from '../../../trans';
 import EditInvoiceModel, { EditInvoiceModelProps } from '../../invoice/models/EditInvoiceModel';
-import { EditClientModel } from '../../client/ClientModels';
+import { EditClientModel } from '../../client/models/ClientModels';
 import { Attachment, IAttachment } from '../../../models';
 import { getAwesomeFileType } from '../../invoice/models/getAwesomeFileType';
 

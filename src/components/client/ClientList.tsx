@@ -6,12 +6,12 @@ import {Container, Table, Row, Col} from 'react-bootstrap';
 import ClientListRow, {ClientListHeader} from './ClientListRow';
 import {updateInvoiceFilters} from '../../actions/index';
 import {getInvoiceYears} from '../invoice/models/InvoiceListModel';
-import { EditClientModel } from './ClientModels';
+import { EditClientModel } from './models/ClientModels';
 import EditInvoiceModel from '../invoice/models/EditInvoiceModel';
 import { ConfacState } from '../../reducers/default-states';
 import { SearchStringInput } from '../controls/form-controls/inputs/SearchStringInput';
 import { InvoiceFilters } from '../../models';
-import { searchClientFor } from './EditClientModel';
+import { searchClientFor } from './models/EditClientModel';
 
 type ClientListProps = {
   invoices: EditInvoiceModel[],

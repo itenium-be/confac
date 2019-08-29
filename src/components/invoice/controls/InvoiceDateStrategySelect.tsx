@@ -17,13 +17,13 @@ export class InvoiceDateStrategySelect extends Component<InvoiceDateStrategySele
     const {value, ...props} = this.props;
     return (
       <SimpleSelect
-        label={t('config.defaultInvoiceDateStrategy')}
-        transFn={(key: string) => t('invoice.dateStrategies.' + key)}
-        value={value}
-        options={invoiceDateStrategies}
-        isClearable={false}
-        placeholder=""
-        {...props}
+      transFn={(key: string) => t('invoice.dateStrategies.' + key)}
+      value={value}
+      options={invoiceDateStrategies}
+      isClearable={false}
+      placeholder=""
+      {...props}
+      label={t('config.defaultInvoiceDateStrategy')}
       />
     );
   }

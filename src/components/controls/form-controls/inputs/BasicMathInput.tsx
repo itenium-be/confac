@@ -3,9 +3,7 @@ import React from "react";
 import { parseIntOrFloat } from "./input-util";
 
 
-type BasicMathInputProps = BaseInputProps & {
-  value: number,
-  onChange: (nr: number) => void,
+type BasicMathInputProps = BaseInputProps<number> & {
   /**
    * True: allow decimals
    */

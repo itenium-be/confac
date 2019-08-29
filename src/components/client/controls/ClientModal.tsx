@@ -4,8 +4,8 @@ import {t} from '../../util';
 import * as Control from '../../controls';
 import {Container, Row, Form, Col} from 'react-bootstrap';
 import {saveClient} from '../../../actions/appActions';
-import {getNewClient, requiredClientProperties} from '../EditClientModel';
-import { EditClientModel } from '../ClientModels';
+import {getNewClient, requiredClientProperties} from '../models/EditClientModel';
+import { EditClientModel } from '../models/ClientModels';
 import { EditConfigModel } from '../../config/EditConfigModel';
 import { ConfacState } from '../../../reducers/default-states';
 

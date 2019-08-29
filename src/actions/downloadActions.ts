@@ -2,7 +2,7 @@ import request from 'superagent-bluebird-promise';
 import {buildUrl, catchHandler} from './fetch';
 import EditInvoiceModel from '../components/invoice/models/EditInvoiceModel';
 import { Attachment } from '../models';
-import { EditClientModel } from '../components/client/ClientModels';
+import { EditClientModel } from '../components/client/models/ClientModels';
 
 
 export function getInvoiceDownloadUrl(invoice: EditInvoiceModel, attachmentType = 'pdf', downloadType?: 'preview' | 'download'): string {

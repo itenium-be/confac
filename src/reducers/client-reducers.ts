@@ -1,4 +1,4 @@
-import { EditClientModel } from '../components/client/ClientModels';
+import { EditClientModel } from '../components/client/models/ClientModels';
 import { ACTION_TYPES } from "../actions";
 
 export const clients = (state: EditClientModel[] = [], action): EditClientModel[] => {

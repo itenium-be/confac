@@ -12,7 +12,7 @@ import {EditInvoiceClient} from './EditInvoiceClient';
 import {EditInvoiceExtraFields} from './EditInvoiceExtraFields';
 import EditInvoiceModel from '../models/EditInvoiceModel';
 import { EditConfigModel } from '../../config/EditConfigModel';
-import { EditClientModel } from '../../client/ClientModels';
+import { EditClientModel } from '../../client/models/ClientModels';
 import { ConfacState } from '../../../reducers/default-states';
 import { EditInvoiceDetails } from './EditInvoiceDetails';
 

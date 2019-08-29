@@ -1,4 +1,4 @@
-import { EditClientRateType, InvoiceDateStrategy, IAttachment, Attachment } from "../../models";
+import { EditClientRateType, InvoiceDateStrategy, IAttachment, Attachment } from "../../../models";
 
 export type EditClientRateModel = {
   type: EditClientRateType,

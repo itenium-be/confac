@@ -19,7 +19,7 @@ body {
 
 @import 'styles/rc-tooltip';
 @import 'styles/toastr';
-
+@import 'styles/forms';
 
 
 
@@ -79,9 +79,7 @@ div.split > div:nth-child(2) {
 	display: table-cell;
 }
 
-button[disabled] {
-  cursor: not-allowed;
-}
+
 
 
 
@@ -124,16 +122,4 @@ small.created-on {
 	.edit-container h1 {
 		margin-left: 10px;
 	}
-}
-
-.form-control:focus {
-  box-shadow: unset !important;
-}
-
-.react-datepicker-wrapper {
-  width: 100%;
-
-  .react-datepicker__input-container {
-    width: 100%;
-  }
 }

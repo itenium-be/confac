@@ -1,10 +1,10 @@
 import React from "react";
-import { StringInput } from "./StringInput";
 import { Col } from "react-bootstrap";
 import { t } from "../../../util";
 import { FormConfig, AnyFormConfig } from "../../../../models";
 import { normalizeFormConfig } from "../lib/form-controls-util";
-import { getIcon, InputIcons } from "../lib/IconFactory";
+import { getIconOrText, InputIcons } from "../lib/IconFactory";
+import { getComponent } from "../lib/EditComponentFactory";
 
 type ArrayInputProps = {
   config: AnyFormConfig[],
@@ -25,7 +25,7 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
           return <Col key={index} xs={cols} />;
         }
 
-        const EditComponent: any = component || StringInput;
+        const EditComponent: any = getComponent(col);
         return (
           <Col
             md={{span: cols || 4, offset: offset}}
@@ -37,8 +37,8 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
               value={model[key]}
               onChange={(value: any) => onChange({...model, [key as string]: value})}
               data-tst={tPrefix + key}
-              prefix={prefix ? (typeof prefix === 'string' ? getIcon(prefix as InputIcons) : prefix) : undefined}
-              suffix={suffix ? (typeof suffix === 'string' ? getIcon(suffix as InputIcons) : suffix) : undefined}
+              prefix={prefix ? (typeof prefix === 'string' ? getIconOrText(prefix as InputIcons) : prefix) : undefined}
+              suffix={suffix ? (typeof suffix === 'string' ? getIconOrText(suffix as InputIcons) : suffix) : undefined}
               {...props}
             />
           </Col>

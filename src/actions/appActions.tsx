@@ -6,7 +6,7 @@ import {buildUrl, catchHandler} from './fetch';
 import { toast } from 'react-toastify';
 import t from '../trans';
 import { EditConfigModel } from '../components/config/EditConfigModel';
-import { EditClientModel } from '../components/client/ClientModels';
+import { EditClientModel } from '../components/client/models/ClientModels';
 import { InvoiceFilters } from '../models';
 
 type ToastType = 'error' | 'success';

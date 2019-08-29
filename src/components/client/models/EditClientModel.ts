@@ -1,6 +1,7 @@
+import { FullFormConfig } from '../../../models';
 import { EditClientModel } from './ClientModels';
-import { EditConfigModel } from "../config/EditConfigModel";
-import { getNumeric } from '../util';
+import { EditConfigModel } from "../../config/EditConfigModel";
+import { getNumeric } from '../../util';
 
 export function getNewClient(config: EditConfigModel): EditClientModel {
   return {
@@ -47,8 +48,10 @@ export function searchClientFor(client: EditClientModel, input: string): boolean
 }
 
 
-// Used by the ClientModal
-export const requiredClientProperties = [
+/**
+ * Config used by the ClientModal
+ */
+export const requiredClientProperties: FullFormConfig = [
   {key: 'name', cols: 8},
   {key: 'btw'},
   {key: 'address'},
@@ -59,21 +62,39 @@ export const requiredClientProperties = [
   {key: 'contactEmail', cols: 6},
 ];
 
-export const defaultClientProperties = [{
+export const defaultClientProperties: FullFormConfig = [{
   key: 'name',
+}, {
+  key: 'btw',
+  suffix: 'building',
 }, {
   key: 'slug',
   updateOnly: true,
-}, {
-  key: 'btw',
 }, {
   key: 'address',
 }, {
   key: 'city',
 }, {
   key: 'telephone',
+  suffix: 'phone',
 }, {
   key: 'contact',
+  suffix: 'user',
 }, {
   key: 'contactEmail',
-},];
+  suffix: 'email',
+}, {
+  key: 'notes',
+  cols: 12,
+  style: {height: 140},
+}];
+
+
+export const editClientRateConfig: FullFormConfig = [
+  {key: 'value', prefix: '€', component: 'money'},
+  {key: 'hoursInDay', component: 'number', suffix: 'fa fa-hourglass-half'},
+  {key: 'type', component: 'InvoiceLineTypeSelect'},
+  {key: 'description'},
+  {key: 'defaultInvoiceDateStrategy', component: 'InvoiceDateStrategySelect'},
+  // {key: 'defaultExtraInvoiceFields', component: 'PropertiesSelect'}
+];

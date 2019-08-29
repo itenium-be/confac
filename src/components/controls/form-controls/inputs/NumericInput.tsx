@@ -2,9 +2,10 @@ import React from "react";
 import { BaseInput, BaseInputProps } from "./BaseInput";
 import { parseIntOrFloat } from "./input-util";
 
-type NumericInputProps = BaseInputProps & {
-  value: number,
-  onChange: (str: number) => void,
+type NumericInputProps = BaseInputProps<number> & {
+  /**
+   * Allow decimals
+   */
   float?: boolean,
 }
 

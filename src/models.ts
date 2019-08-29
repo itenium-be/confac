@@ -1,4 +1,6 @@
+import { CSSProperties } from 'react';
 import { InputIcons } from "./components/controls/form-controls/lib/IconFactory";
+import { StandardComponents } from "./components/controls/form-controls/lib/EditComponentFactory";
 
 export type InvoiceDateStrategy = 'prev-month-last-day' | 'today';
 
@@ -51,7 +53,12 @@ export type FormConfig = {
    * The property name of the model
    */
   key?: string,
-  component?: React.ReactNode,
+  /**
+   * The React Component to use
+   * Defaults to StringInput
+   * TODO: Need an interface for this component...
+   */
+  component?: React.ReactNode | StandardComponents,
   /**
    * True: Do not show when creating the record
    * (ex: "slug" which is calculated when saving)
@@ -65,9 +72,16 @@ export type FormConfig = {
    * Col offset
    */
   offset?: number,
-  prefix?: InputIcons | React.ReactNode,
-  suffix?: InputIcons | React.ReactNode,
+  prefix?: InputIcons | React.ReactNode | string,
+  suffix?: InputIcons | React.ReactNode | string,
+  style?: CSSProperties,
+
 }
+
+export type FullFormConfig = AnyFormConfig[] & {
+  addMissingProps?: boolean,
+}
+
 
 export type InvoiceFiltersSearch = {
   value: string | number,

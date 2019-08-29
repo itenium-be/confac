@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { EditClientModel } from '../../client/ClientModels';
+import { EditClientModel } from '../../client/models/ClientModels';
 import { EditConfigModel } from '../../config/EditConfigModel';
 
 export const invoiceDateStrategies = ['prev-month-last-day', 'today'];
