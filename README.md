@@ -15,6 +15,18 @@ Projects:
 front/back: `npm install` followed by `npm start`  
 [vagrant][vagrant]: `vagrant up`
 
+### Junction error
+
+`npm start` fails with weird error when run from a junction.
+
+```text
+Parsing error: Unexpected token:
+
+React.FC<P & ButtonWithClickOnceProps>
+           ^
+```
+
+
 react-create-app
 ----------------
 
