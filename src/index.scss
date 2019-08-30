@@ -95,10 +95,27 @@ small.created-on {
   display: block;
 }
 
-.edit-container h1 {
-  width: 100%;
-  margin-top: 15px;
+.edit-container {
+  padding-bottom: 120px;
+
+  h1 {
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .edit-footer {
+    background-color: #F8F9FA;
+    background-repeat: repeat-x;
+    box-shadow: 0px -8px 13px rgba(100, 100, 100, 0.55);
+    // box-shadow: 0px -8px 8px -10px rgba(0,0,0,.4);
+
+    .navbar-center {
+      text-align: center;
+      width: 100%;
+    }
+  }
 }
+
 
 .client-list, .invoice-list, .quotation-list {
   margin-top: 15px;

@@ -15,6 +15,7 @@ import { EditConfigModel } from '../../config/models/ConfigModel';
 import { ClientModel } from '../../client/models/ClientModels';
 import { ConfacState } from '../../../reducers/default-states';
 import { EditInvoiceDetails } from './EditInvoiceDetails';
+import { StickyFooter } from '../../controls/skeleton/StickyFooter';
 
 
 type EditInvoiceProps = {
@@ -172,11 +173,9 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
           <div style={{marginTop: -20}}>
             <Control.AttachmentsForm model={invoice} />
           </div>
-          <Row style={{marginBottom: 8, marginTop: 20}}>
-            <Col>
-              <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, invoice)} invoice={invoice} />
-            </Col>
-          </Row>
+          <StickyFooter>
+            <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, invoice)} invoice={invoice} />
+          </StickyFooter>
         </Form>
       </Container>
     );

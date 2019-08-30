@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {t} from '../util';
 import moment from 'moment';
 import {BusyButton, ArrayInput, AttachmentsForm, PropertiesSelect} from '../controls';
-import {Container, Row, Col, Form} from 'react-bootstrap';
+import {Container, Row, Col, Form, Navbar, Nav} from 'react-bootstrap';
 import {saveClient} from '../../actions/index';
 import {defaultClientProperties, editClientRateConfig} from './models/ClientConfig';
 import { getNewClient } from "./models/getNewClient";
@@ -11,6 +11,7 @@ import { ClientModel } from './models/ClientModels';
 import { ConfacState } from '../../reducers/default-states';
 import { EditConfigModel } from '../config/models/ConfigModel';
 import { EditClientDefaultOther } from './EditClientDefaultOther';
+import { StickyFooter } from '../controls/skeleton/StickyFooter';
 
 
 type EditClientProps = {
@@ -108,18 +109,16 @@ class EditClient extends Component<EditClientProps, ClientModel> {
           <AttachmentsForm model={client} />
 
 
-          <Row className="button-row">
-            <Col>
-              <BusyButton
-                onClick={this._onSave.bind(this)}
-                disabled={this.isClientDisabled(client)}
-                data-tst="save"
-              >
-                {t('save')}
-              </BusyButton>
-            </Col>
-          </Row>
         </Form>
+        <StickyFooter>
+          <BusyButton
+            onClick={this._onSave.bind(this)}
+            disabled={this.isClientDisabled(client)}
+            data-tst="save"
+          >
+            {t('save')}
+          </BusyButton>
+        </StickyFooter>
       </Container>
     );
   }

@@ -9,6 +9,7 @@ import { EditConfigModel, EditConfigCompanyModel } from './models/ConfigModel';
 import { ConfacState } from '../../reducers/default-states';
 import { EditConfigExtraFields } from './EditConfigExtraFields';
 import { ArrayInput } from '../controls';
+import { StickyFooter } from '../controls/skeleton/StickyFooter';
 
 
 type EditConfigProps = {
@@ -80,11 +81,9 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
         </Form>
 
 
-        <Row className="button-row">
-          <Col>
+        <StickyFooter>
             <Control.BusyButton onClick={this._save.bind(this)} data-tst="save">{t('save')}</Control.BusyButton>
-          </Col>
-        </Row>
+        </StickyFooter>
       </Container>
     );
   }
