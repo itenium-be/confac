@@ -43,7 +43,7 @@ class extends Component<InvoiceClientCellProps, InvoiceClientCellState> {
         onMouseEnter={() => this.setState({hover: true})}
         onMouseLeave={() => this.setState({hover: false})}
       >
-        <Link to={'/client/' + client.slug} className="invoice-list-client">
+        <Link to={'/clients/' + client.slug} className="invoice-list-client">
           {client.name}
         </Link>
 

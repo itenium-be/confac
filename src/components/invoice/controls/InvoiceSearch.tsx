@@ -42,7 +42,7 @@ export class InvoiceSearch extends Component<InvoiceSearchProps> {
         {!this.props.isQuotation ? (
           <Col xl={3} md={4}>
             <Switch
-              checked={unverifiedOnly}
+              value={unverifiedOnly}
               onChange={(checked: boolean) => this.onFilterChange({unverifiedOnly: checked})}
               label={t('invoice.notVerifiedOnly')}
               data-tst="filter-unverified"
@@ -51,7 +51,7 @@ export class InvoiceSearch extends Component<InvoiceSearchProps> {
         ) : null}
         <Col xl={{span: 3, offset: 0}} md={{span: 3, offset: 8}}>
           <Switch
-            checked={this.props.filters.groupedByMonth}
+            value={this.props.filters.groupedByMonth}
             onChange={(checked: boolean) => this.onFilterChange({groupedByMonth: checked})}
             label={t('invoice.groupByMonth')}
             data-tst="filter-groupedByMonth"

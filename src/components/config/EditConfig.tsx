@@ -2,14 +2,13 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {t} from '../util';
 import {Container, Row, Col, Form} from 'react-bootstrap';
-import {EditCompany} from './EditCompany';
+import {configDefinition, configSettingsDefinition, configInvoiceDefinition} from './models/ConfigConfig';
 import * as Control from '../controls';
 import {updateConfig} from '../../actions/index';
 import { EditConfigModel, EditConfigCompanyModel } from './models/ConfigModel';
 import { ConfacState } from '../../reducers/default-states';
-import { EditConfigInvoice } from './EditConfigInvoice';
-import { EditConfigUserSettings } from './EditConfigUserSettings';
 import { EditConfigExtraFields } from './EditConfigExtraFields';
+import { ArrayInput } from '../controls';
 
 
 type EditConfigProps = {
@@ -42,22 +41,36 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
     return (
       <Container className="edit-container">
         <Form>
-          <EditCompany
-            company={this.state.company}
-            onChange={(company: EditConfigCompanyModel) => this.setState({company})}
-          />
+          <Row>
+            <h1>{t('config.company.title')}</h1>
+            <ArrayInput
+              config={configDefinition}
+              model={this.state.company}
+              onChange={(company: EditConfigCompanyModel) => this.setState({company})}
+              tPrefix="config.company."
+            />
+          </Row>
+
+          <Row>
+            <h1>{t('config.invoiceTitle')}</h1>
+            <ArrayInput
+              config={configInvoiceDefinition}
+              model={this.state}
+              onChange={(state: EditConfigModel) => this.setState({...state})}
+              tPrefix="config."
+            />
+          </Row>
 
 
-          <EditConfigInvoice
-            config={this.state}
-            onChange={this.setState.bind(this)}
-          />
-
-
-          <EditConfigUserSettings
-            config={this.state}
-            onChange={this.setState.bind(this)}
-          />
+          <Row>
+            <h1>{t('config.settingsTitle')}</h1>
+            <ArrayInput
+              config={configSettingsDefinition}
+              model={this.state}
+              onChange={(state: EditConfigModel) => this.setState({...state})}
+              tPrefix="config."
+            />
+          </Row>
 
 
           <EditConfigExtraFields

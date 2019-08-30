@@ -7,6 +7,10 @@ import { InvoiceLineTypeSelect } from "../../../invoice/controls/InvoiceLineType
 import { InvoiceDateStrategySelect } from "../../../invoice/controls/InvoiceDateStrategySelect";
 // import { PropertiesSelect } from "../select/PropertiesSelect";
 import { MoneyInput } from "../inputs/MoneyInput";
+import { Switch } from "../Switch";
+import { ClientSelect } from "../../../client/controls/ClientSelect";
+import { FloatInput } from "../inputs/FloatInput";
+import { StringsSelect } from "../select/StringsSelect";
 
 export type CustomComponents = 'InvoiceLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect';
 
@@ -19,11 +23,15 @@ const componentMap = {
   text: StringInput,
   textarea: TextareaInput,
   'basic-math': BasicMathInput,
+  switch: Switch,
+  float: FloatInput,
 
   // Custom
   InvoiceLineTypeSelect: InvoiceLineTypeSelect,
   InvoiceDateStrategySelect: InvoiceDateStrategySelect,
   // PropertiesSelect: PropertiesSelect,
+  ClientSelect: ClientSelect,
+  StringsSelect: StringsSelect,
 };
 
 export function getComponent(col: FormConfig) {

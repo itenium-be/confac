@@ -5,6 +5,7 @@ import { parseIntOrFloat } from "./input-util";
 type NumericInputProps = BaseInputProps<number> & {
   /**
    * Allow decimals
+   * TODO: Remove this for FloatInput
    */
   float?: boolean,
 }

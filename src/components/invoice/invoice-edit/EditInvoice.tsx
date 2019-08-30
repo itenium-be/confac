@@ -39,7 +39,7 @@ type EditInvoiceState = {
 
 export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
   get isQuotation(): boolean {
-    return window.location.pathname.startsWith('/quotation/');
+    return window.location.pathname.startsWith('/quotations/');
   }
 
   get type(): 'quotation' | 'invoice' {

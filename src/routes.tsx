@@ -12,15 +12,16 @@ import EditConfig from './components/config/EditConfig';
 const Routes = () => (
   <BrowserRouter>
     <Switch>
-      <Route path="/invoice/create" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
-      <Route path="/invoice/:id" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
+      <Route path="/invoices/create" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
+      <Route path="/invoices/:id" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
+      <Route path="/invoices" render={props => <AppWithLayout Component={InvoiceList} {...props} />} />
 
-      <Route path="/quotation/create" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
-      <Route path="/quotation/:id" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
+      <Route path="/quotations/create" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
+      <Route path="/quotations/:id" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
       <Route path="/quotations" render={props => <AppWithLayout Component={QuotationList} {...props} />} />
 
-      <Route path="/client/create" render={props => <AppWithLayout Component={EditClient} {...props} />} />
-      <Route path="/client/:id" render={props => <AppWithLayout Component={EditClient} {...props} />} />
+      <Route path="/clients/create" render={props => <AppWithLayout Component={EditClient} {...props} />} />
+      <Route path="/clients/:id" render={props => <AppWithLayout Component={EditClient} {...props} />} />
       <Route path="/clients" render={props => <AppWithLayout Component={ClientList} {...props} />} />
 
       <Route path="/config" render={props => <AppWithLayout Component={EditConfig} {...props} />} />

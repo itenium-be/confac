@@ -51,7 +51,7 @@ class ClientList extends Component<ClientListProps, ClientListState> {
       <Container className="client-list">
         <Row>
           <Col lg={3} md={12}>
-            <Control.AddIcon onClick="/client/create" label={t('client.createNew')} data-tst="new-client" />
+            <Control.AddIcon onClick="/clients/create" label={t('client.createNew')} data-tst="new-client" />
           </Col>
           <Col lg={3} md={6}>
             <SearchStringInput
@@ -69,7 +69,7 @@ class ClientList extends Component<ClientListProps, ClientListState> {
           </Col>
           <Col lg={3} md={12}>
             <Control.Switch
-              checked={this.state.showDeleted}
+              value={this.state.showDeleted}
               onChange={(checked: boolean) => this.setState({showDeleted: checked})}
               label={t('client.showInactive')}
               onColor="#F2DEDE"

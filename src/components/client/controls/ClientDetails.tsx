@@ -15,7 +15,7 @@ const ClientDetails = ({client, onOpenDetails, onOpenDetailsTitle}) => (
         data-tst="client-header-edit"
         fa="fa fa-external-link-alt"
       />
-      <Link to={'/client/' + client.slug} className="icon-link">
+      <Link to={'/clients/' + client.slug} className="icon-link">
         <EditIcon
           size={1}
           style={{marginLeft: 6}}

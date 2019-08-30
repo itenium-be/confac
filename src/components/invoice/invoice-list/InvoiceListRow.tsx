@@ -76,7 +76,7 @@ export const InvoiceListRow = connect(null, {deleteInvoice})(class extends Compo
           {moneyFormat(invoice.money.total)}
         </td>
         <td className="icons-cell" style={{width: 240}}>
-          <EditIcon onClick={`/${invoiceType}/${invoice.number}`} data-tst={tst('edit')} style={{marginRight: invoice.isQuotation ? undefined : -15}} />
+          <EditIcon onClick={`/${invoiceType}s/${invoice.number}`} data-tst={tst('edit')} style={{marginRight: invoice.isQuotation ? undefined : -15}} />
           <InvoiceVerifyIconToggle invoice={invoice} data-tst={tst('verify')} />
           <InvoiceDownloadIcon invoice={invoice} data-tst={tst('download')} />
           <InvoicePreviewIcon invoice={invoice} data-tst={tst('preview')} />

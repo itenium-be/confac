@@ -1,18 +1,15 @@
 import React from 'react';
 import ReactSwitch from 'react-ios-switch';
+import { BaseInputProps } from './inputs/BaseInput';
 
-type SwitchProps = {
-  checked: boolean,
-  onChange: (checked: boolean) => void,
-  label: string,
-  style?: React.CSSProperties,
+type SwitchProps = BaseInputProps<boolean> & {
   onColor?: string,
 }
 
-export const Switch = ({checked, onChange, label, style, ...props}: SwitchProps) => (
+export const Switch = ({value, onChange, label, style, ...props}: SwitchProps) => (
   <div style={{...style, position: 'relative'}}>
     <ReactSwitch
-      checked={checked}
+      checked={value || false}
       onChange={onChange}
       className={props['data-tst']}
       {...props}

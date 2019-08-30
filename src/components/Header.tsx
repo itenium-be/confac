@@ -1,11 +1,20 @@
 import React from 'react';
 import {Button, Nav, Navbar} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import {Link, Route} from 'react-router-dom';
 import {t} from './util';
 import {AddIcon} from './controls';
 
+const OldSchoolMenuLink = ({ label, to, activeOnlyWhenExact = false }) => (
+  <Route path={to} exact={activeOnlyWhenExact} children={({ match }) => (
+    <Link data-tst={'link-' + to.slice(1)} className={'nav-link header-link' + (match ? ' active' : '')} to={to}>
+      {label}
+    </Link>
+  )}/>
+)
+
+
 const Header = () => (
-  <Navbar bg="light" expand="lg">
+  <Navbar bg="light" expand="lg" className="top-header">
     <Navbar.Brand>
       <a href="https://itenium.be" target="_blank" style={{ marginTop: -4 }} rel="noopener noreferrer">
         <img src="/img/itenium.png" role="presentation" alt="itenium logo" />
@@ -14,20 +23,12 @@ const Header = () => (
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="mr-auto">
-        <Nav.Link href="/quotations" data-tst="link-quotations">
-          {t('nav.quotations')}
-        </Nav.Link>
-        <Nav.Link href="/" data-tst="link-invoices">
-          {t('title')}
-        </Nav.Link>
-        <Nav.Link href="/clients" data-tst="link-clients">
-          {t('nav.clients')}
-        </Nav.Link>
-        <Nav.Link href="/config" data-tst="link-config">
-          {t('nav.config')}
-        </Nav.Link>
+        <OldSchoolMenuLink to="/quotations" label={t('nav.quotations')} />
+        <OldSchoolMenuLink to="/invoices" label={t('title')} />
+        <OldSchoolMenuLink to="/clients" label={t('nav.clients')} />
+        <OldSchoolMenuLink to="/config" label={t('nav.config')} />
       </Nav>
-      <Link to="/invoice/create">
+      <Link to="/invoices/create">
         <Button variant="success" style={{top: 8, position: 'absolute', right: 80}}>
           <AddIcon size={1} style={{marginRight: 15}} data-tst="invoice-create" />
           {t('invoice.createNew')}

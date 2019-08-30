@@ -13,7 +13,7 @@ export default class QuotationList extends Component {
   render() {
     return (
       <Container className="quotation-list">
-        <Control.AddIcon onClick="/quotation/create" label={t('quotation.createNew')} data-tst="new-quotation" />
+        <Control.AddIcon onClick="/quotations/create" label={t('quotation.createNew')} data-tst="new-quotation" />
         <ConnectedQuotationList />
       </Container>
     );
