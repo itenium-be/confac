@@ -145,6 +145,7 @@ const trans = {
     attachments: 'Bijlagen',
     attachmentsAdd: 'Bijlage toevoegen',
     attachmentsDropzone: 'Drop hier een bestand of klik hier om een factuur bijlage op te laden',
+    attachmentsProposed: '{type} opladen',
     pdfTemplateNotFoundTitle: 'Pdf template niet gevonden!',
     pdfTemplateNotFound: 'De pdf template was niet gevonden (check Config)',
     search: {

@@ -1,34 +1,40 @@
 import { Attachment } from './../../../models';
 
 export function getAwesomeFileType(att: {type: string, fileType: string, fileName: string} | Attachment): string {
-  if (att.type === 'pdf' || att.fileType === 'application/pdf') {
-    return 'fa-file-pdf';
+  if (att.type === 'pdf') {
+    return 'far fa-file-pdf';
+    // invoice(-dollar) doesn't have a "far"
+    // --> Looks too busy in the InvoiceList
+    //return 'fa fa-file-invoice-dollar';
+  }
+  if (att.fileType === 'application/pdf') {
+    return 'far fa-file-pdf';
   }
 
   // file-code, file-audio
   // extension = att.fileName.substring(att.fileName.lastIndexOf('.') + 1)
   // console.log(att.type, ':', att.fileType);
 
-  // file-contract, file-csv, file-invoice, file-invoice-dollar, file-powerpoint
+  // file-contract, file-csv, , file-invoice-dollar, file-powerpoint
   // file-signature, file-word
 
 
   const type = att.fileType;
   if (type.startsWith('image/')) {
-    return 'fa-file-image';
+    return 'far fa-file-image';
   }
 
   if (type === 'text/plain') {
-    return 'fa-file-text';
+    return 'far fa-file';
   }
 
   switch (type) {
   case 'application/vnd.oasis.opendocument.spreadsheet':
-    return 'fa-file-excel';
+    return 'far fa-file-excel';
   case 'application/vnd.oasis.opendocument.text':
-    return 'fa-file-word';
+    return 'far fa-file-word';
   case 'application/vnd.oasis.opendocument.presentation':
-    return 'fa-file-powerpoint';
+    return 'far fa-file-powerpoint';
 
 
   case 'application/x-rar-compressed':
@@ -38,7 +44,7 @@ export function getAwesomeFileType(att: {type: string, fileType: string, fileNam
   case 'application/x-gtar':
   case 'application/zip':
   case 'application/x-zip-compressed':
-    return 'fa-file-archive';
+    return 'far fa-file-archive';
 
   default:
   }
@@ -49,12 +55,12 @@ export function getAwesomeFileType(att: {type: string, fileType: string, fileNam
     case 'xls':
     case 'xlsx':
     case 'ods':
-      return 'fa-file-excel';
+      return 'far fa-file-excel';
 
     case 'doc':
     case 'docx':
     case 'odt':
-      return 'fa-file-word';
+      return 'far fa-file-word';
 
     case 'zip':
     case '7z':
@@ -62,17 +68,17 @@ export function getAwesomeFileType(att: {type: string, fileType: string, fileNam
     case 'bz2':
     case 'gz':
     case 'rar':
-      return 'fa fa-file-archive';
+      return 'far fa-file-archive';
 
     case 'ppt':
     case 'pptx':
     case 'odp':
-      return 'fa-file-powerpoint';
+      return 'far fa-file-powerpoint';
 
     default:
-      return 'fa-file';
+      return 'far fa-file';
     }
   }
 
-  return 'fa-file';
+  return 'far fa-file';
 }

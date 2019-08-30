@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {t} from '../util';
 import moment from 'moment';
 import {BusyButton, ArrayInput, AttachmentsForm, PropertiesSelect} from '../controls';
-import {Container, Row, Col, Form, Navbar, Nav} from 'react-bootstrap';
+import {Container, Row, Col, Form} from 'react-bootstrap';
 import {saveClient} from '../../actions/index';
 import {defaultClientProperties, editClientRateConfig} from './models/ClientConfig';
 import { getNewClient } from "./models/getNewClient";

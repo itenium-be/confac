@@ -21,7 +21,10 @@ export type ClientRate = {
 
 
 export type Attachment = {
-  type: string,
+  /**
+   * 'pdf' is the invoice pdf (for invoice/quotation)
+   */
+  type: 'pdf' | string,
   fileName: string,
   fileType: string,
   lastModifiedDate: string,

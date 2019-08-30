@@ -44,7 +44,7 @@ export const AttachmentDownloadIcon = ({model, attachment, modelType, ...props}:
 
   return (
     <Icon
-      fa={`far ${getAwesomeFileType(attachment)} fa-2x`}
+      fa={`${getAwesomeFileType(attachment)} fa-2x`}
       title={t('invoice.downloadAttachment', {type: attachment.fileName || attachment.type})}
       {...props}
       href={href}

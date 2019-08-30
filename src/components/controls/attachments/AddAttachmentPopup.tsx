@@ -11,14 +11,14 @@ import { AttachmentDropzone } from './AttachmentDropzone';
 type AddAttachmentPopupProps = {
   attachments: Attachment[],
   onClose: (...args: any[]) => any,
-  onAdd: Function,
+  onAdd: ({file: File, type: string}) => void,
   attachmentTypes: string[],
   isOpen: boolean,
 }
 
 type AddAttachmentPopupState = {
   type: string,
-  file: any,
+  file: File | null,
 }
 
 class AddAttachmentPopupComponent extends Component<AddAttachmentPopupProps, AddAttachmentPopupState> {
@@ -70,7 +70,7 @@ class AddAttachmentPopupComponent extends Component<AddAttachmentPopupProps, Add
           <Alert variant="danger" data-tst="add-att-type-warning">{t('attachment.typeExists')}</Alert>
         ) : null}
 
-        <AttachmentDropzone onAdd={file => this.setState({file})} />
+        <AttachmentDropzone onAdd={(file: File) => this.setState({file})} />
       </Popup>
     );
   }

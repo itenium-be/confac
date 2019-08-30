@@ -1,18 +1,17 @@
-import { ClientModel } from '../components/client/models/ClientModels';
 import request from 'superagent-bluebird-promise';
 import {ACTION_TYPES} from './ActionTypes';
 import {success, busyToggle} from './appActions';
 import {buildUrl, catchHandler} from './fetch';
-import EditInvoiceModel from '../components/invoice/models/EditInvoiceModel';
+import { IAttachment } from '../models';
 
 
-function buildAttachmentUrl(invoiceOrClient: EditInvoiceModel | ClientModel, type: 'pdf' | string) {
+function buildAttachmentUrl(invoiceOrClient: IAttachment, type: 'pdf' | string) {
   const model = invoiceOrClient['money'] ? 'invoice' : 'client'; // HACK: dangerous stuff...
   return buildUrl(`/attachments/${model}/${invoiceOrClient._id}/${type}`);
 }
 
 
-export function updateAttachment(model: EditInvoiceModel | ClientModel, modelType: 'client' | 'invoice', {type, file}: {type: string, file: any}) {
+export function updateAttachment(model: IAttachment, modelType: 'client' | 'invoice' | 'quotation', {type, file}: {type: string, file: any}) {
   return dispatch => {
     dispatch(busyToggle());
     var req = request.put(buildAttachmentUrl(model, type));
@@ -27,7 +26,7 @@ export function updateAttachment(model: EditInvoiceModel | ClientModel, modelTyp
     req.then(function(res) {
       dispatch({
         type: modelType === 'client' ? ACTION_TYPES.CLIENT_UPDATE : ACTION_TYPES.INVOICE_UPDATED,
-        [modelType === 'client' ? 'client' : 'invoice']: res.body
+        [modelType === 'client' ? 'client' : 'invoice']: res.body // ATTN: quotation is saved like an invoice
       });
 
       success();
@@ -40,7 +39,7 @@ export function updateAttachment(model: EditInvoiceModel | ClientModel, modelTyp
 
 
 
-export function deleteAttachment(model: EditInvoiceModel | ClientModel, modelType: 'client' | 'invoice', {type}: {type: string}) {
+export function deleteAttachment(model: IAttachment, modelType: 'client' | 'invoice' | 'quotation', {type}: {type: string}) {
   return dispatch => {
     dispatch(busyToggle());
     request.delete(buildAttachmentUrl(model, type))

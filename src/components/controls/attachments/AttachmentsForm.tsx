@@ -8,10 +8,11 @@ import { AddIcon, ConfirmedDeleteIcon } from '../Icon';
 import { AddAttachmentPopup } from './AddAttachmentPopup';
 import { AttachmentDownloadIcon } from '../../controls';
 import {updateAttachment, deleteAttachment} from '../../../actions/index';
+import { ProposedAttachmentsDropzones } from './ProposedAttachmentsDropzones';
 
 export type AttachmentsFormProps = {
   deleteAttachment: Function,
-  updateAttachment: Function,
+  updateAttachment: (model: IAttachment, modelType: 'invoice' | 'client', {file: File, type: string}) => void,
   model: IAttachment,
 }
 
@@ -19,24 +20,34 @@ export type AttachmentsFormProps = {
 export class AttachmentsFormComponent extends Component<AttachmentsFormProps> {
   render() {
     const model = this.props.model;
-    const modelType = model['getType'] ? model['getType']() : 'client';
     if (!model._id) {
       return null;
     }
-    return (<AbstractAttachmentsForm attachments={model.attachments} onDelete={(att: Attachment) => this.props.deleteAttachment(model, modelType, att)} onAdd={(att: Attachment) => this.props.updateAttachment(model, modelType, att)} model={model} modelType={modelType} />);
-  }
+
+
+    const modelType = model['getType'] ? model['getType']() : 'client';
+    return (
+      <AbstractAttachmentsForm
+        attachments={model.attachments}
+        onDelete={(att: Attachment) => this.props.deleteAttachment(model, modelType, att)}
+        onAdd={att => this.props.updateAttachment(model, modelType, att)}
+        model={model}
+        modelType={modelType}
+      />
+    );
+    }
 }
 
-export const AttachmentsForm = connect(() => ({}), {updateAttachment, deleteAttachment})(AttachmentsFormComponent);
+export const AttachmentsForm = connect(null, {updateAttachment, deleteAttachment})(AttachmentsFormComponent);
 
 
 
 type AbstractAttachmentsFormProps = {
   attachments: Attachment[],
   onDelete: Function,
-  onAdd: Function,
+  onAdd: ({file: File, type: string}) => void,
   model: IAttachment,
-  modelType: 'invoice' | 'client' | 'quotation',
+  modelType: 'invoice' | 'client',
 }
 
 type AbstractAttachmentsFormState = {
@@ -58,6 +69,7 @@ export class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormPr
   render() {
     const canDeleteAttachments = this.props.attachments.length > (this.props.modelType === 'client' ? 0 : 1);
     const transPrefix = this.props.modelType;
+
     return (
       <Row className="tst-attachments">
         <Col sm={12}>
@@ -79,7 +91,7 @@ export class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormPr
             isOpen={this.state.isOpen}
             attachments={this.props.attachments}
             onClose={() => this.setState({isOpen: false})}
-            onAdd={(att: Attachment) => this.props.onAdd(att)}
+            onAdd={(att: {file: File, type: string}) => this.props.onAdd(att)}
           />
         </Col>
 
@@ -111,6 +123,8 @@ export class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormPr
             </div>
           </Col>
         ))}
+
+        <ProposedAttachmentsDropzones model={this.props.model} modelType={this.props.modelType} />
       </Row>
     );
   }

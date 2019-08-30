@@ -4,12 +4,12 @@ import { t } from '../../util';
 
 
 export type AttachmentDropzoneProps = {
-  onAdd: Function,
+  onAdd: (file: File) => void,
 }
 
 
 export class AttachmentDropzone extends Component<AttachmentDropzoneProps> {
-  onDrop(acceptedFiles, rejectedFiles) {
+  onDrop(acceptedFiles: File[], rejectedFiles: File[]) {
     this.props.onAdd(acceptedFiles[0]);
     // console.log('Accepted files: ', acceptedFiles);
     // console.log('Rejected files: ', rejectedFiles);
@@ -24,6 +24,7 @@ export class AttachmentDropzone extends Component<AttachmentDropzoneProps> {
       borderRadius: 5,
       padding: 5,
       marginTop: 7,
+      cursor: 'pointer',
     };
     return (<div>
       <Dropzone onDrop={this.onDrop.bind(this)} multiple={false} style={style} className="tst-dropzone">
