@@ -7,16 +7,16 @@ import {InvoiceSearch} from '../controls/InvoiceSearch';
 import {GroupedInvoiceTable} from '../invoice-table/GroupedInvoiceTable';
 import {NonGroupedInvoiceTable} from '../invoice-table/NonGroupedInvoiceTable';
 import { ConfacState } from '../../../reducers/default-states';
-import { EditConfigModel } from '../../config/models/ConfigModel';
-import EditInvoiceModel from '../models/EditInvoiceModel';
+import { ConfigModel } from '../../config/models/ConfigModel';
+import InvoiceModel from '../models/InvoiceModel';
 import { ClientModel } from '../../client/models/ClientModels';
 import { InvoiceFilters } from '../../../models';
 import { t } from '../../util';
 
 
 type InvoiceListProps = {
-  config: EditConfigModel,
-  invoices: EditInvoiceModel[],
+  config: ConfigModel,
+  invoices: InvoiceModel[],
   clients: ClientModel[],
   updateInvoiceFilters: any,
   filters: InvoiceFilters,

@@ -6,11 +6,11 @@ import {Table} from 'react-bootstrap';
 import {DragDropContext, Droppable, Draggable, DropResult} from 'react-beautiful-dnd';
 import {createEditInvoiceLine} from './EditInvoiceLineFactory';
 import {EditInvoiceLineIcons, EditInvoiceDragHandle} from './EditInvoiceLineIcons';
-import EditInvoiceModel from '../../models/EditInvoiceModel';
+import InvoiceModel from '../../models/InvoiceModel';
 
 
 type EditInvoiceLinesProps = {
-  invoice: EditInvoiceModel,
+  invoice: InvoiceModel,
   onChange: any,
 }
 

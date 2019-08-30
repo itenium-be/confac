@@ -1,7 +1,7 @@
 import { EditClientRateType, InvoiceDateStrategy } from "../../../models";
 
-export type EditConfigModel = {
-  company: EditConfigCompanyModel,
+export type ConfigModel = {
+  company: ConfigCompanyModel,
   defaultClient: string | null,
   defaultTax: number,
   attachmentTypes: string[],
@@ -16,7 +16,7 @@ export type EditConfigModel = {
   groupInvoiceListByMonth: boolean,
 }
 
-export type EditConfigCompanyModel = {
+export type ConfigCompanyModel = {
   template: string,
   name: string,
   address: string,

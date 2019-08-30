@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import * as Control from '../../../controls';
-import EditInvoiceModel, { EditInvoiceLine } from '../../models/EditInvoiceModel';
+import InvoiceModel, { InvoiceLine } from '../../models/InvoiceModel';
 
 type EditInvoiceDefaultLineProps = {
   index: number,
   onChange: any,
-  invoice: EditInvoiceModel,
-  line: EditInvoiceLine
+  invoice: InvoiceModel,
+  line: InvoiceLine
 }
 
 export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProps> {

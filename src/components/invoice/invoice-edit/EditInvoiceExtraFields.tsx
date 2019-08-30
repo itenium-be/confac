@@ -3,11 +3,11 @@ import {t} from '../../util';
 
 import * as Control from '../../controls';
 import {Row, Col} from 'react-bootstrap';
-import EditInvoiceModel from '../models/EditInvoiceModel';
+import InvoiceModel from '../models/InvoiceModel';
 
 
 type EditInvoiceExtraFieldsProps = {
-  invoice: EditInvoiceModel,
+  invoice: InvoiceModel,
   onChange: any,
   forceOpen: boolean,
 }

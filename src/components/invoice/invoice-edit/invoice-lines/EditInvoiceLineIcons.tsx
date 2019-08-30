@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import * as Control from '../../../controls';
-import EditInvoiceModel, { EditInvoiceLine } from '../../models/EditInvoiceModel';
+import InvoiceModel, { InvoiceLine } from '../../models/InvoiceModel';
 
 
 type EditInvoiceLineIconsProps = {
   index: number,
   onChange: any,
-  invoice: EditInvoiceModel,
-  line: EditInvoiceLine,
+  invoice: InvoiceModel,
+  line: InvoiceLine,
 }
 
 export class EditInvoiceLineIcons extends Component<EditInvoiceLineIconsProps> {

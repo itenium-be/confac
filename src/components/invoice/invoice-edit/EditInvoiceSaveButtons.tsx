@@ -2,7 +2,7 @@ import React from 'react';
 import {t} from '../../util';
 import {BusyButton} from '../../controls';
 import {withRouter} from 'react-router-dom';
-import EditInvoiceModel from '../models/EditInvoiceModel';
+import InvoiceModel from '../models/InvoiceModel';
 
 type RoutedProps = EditInvoiceSaveButtonsComponentProps & {
   match: any,
@@ -20,7 +20,7 @@ export const EditInvoiceSaveButtons = withRouter(({ match, location, history, st
 
 type EditInvoiceSaveButtonsComponentProps = {
   history: any,
-  invoice: EditInvoiceModel,
+  invoice: InvoiceModel,
   onClick: any,
 }
 

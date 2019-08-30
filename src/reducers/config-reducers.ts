@@ -1,10 +1,10 @@
-import { EditConfigModel } from '../components/config/models/ConfigModel';
+import { ConfigModel } from '../components/config/models/ConfigModel';
 import { ACTION_TYPES } from '../actions';
 import { defaultConfig } from './default-states';
 
 // Config is stored on the backend
 
-export const config = (state: EditConfigModel = defaultConfig, action): EditConfigModel => {
+export const config = (state: ConfigModel = defaultConfig, action): ConfigModel => {
   switch (action.type) {
   case ACTION_TYPES.CONFIG_FETCHED:
     console.log('CONFIG_FETCHED', action.config); // eslint-disable-line

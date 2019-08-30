@@ -5,7 +5,7 @@ import {Container, Row, Form} from 'react-bootstrap';
 import {configDefinition, configSettingsDefinition, configInvoiceDefinition} from './models/ConfigConfig';
 import * as Control from '../controls';
 import {updateConfig} from '../../actions/index';
-import { EditConfigModel, EditConfigCompanyModel } from './models/ConfigModel';
+import { ConfigModel, ConfigCompanyModel } from './models/ConfigModel';
 import { ConfacState } from '../../reducers/default-states';
 import { EditConfigExtraFields } from './EditConfigExtraFields';
 import { ArrayInput } from '../controls';
@@ -13,11 +13,11 @@ import { StickyFooter } from '../controls/skeleton/StickyFooter';
 
 
 type EditConfigProps = {
-  config: EditConfigModel,
+  config: ConfigModel,
   updateConfig: Function,
 }
 
-type EditConfigState = EditConfigModel;
+type EditConfigState = ConfigModel;
 
 class EditConfig extends Component<EditConfigProps, EditConfigState> {
   constructor(props: EditConfigProps) {
@@ -47,7 +47,7 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
             <ArrayInput
               config={configDefinition}
               model={this.state.company}
-              onChange={(company: EditConfigCompanyModel) => this.setState({company})}
+              onChange={(company: ConfigCompanyModel) => this.setState({company})}
               tPrefix="config.company."
             />
           </Row>
@@ -57,7 +57,7 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
             <ArrayInput
               config={configInvoiceDefinition}
               model={this.state}
-              onChange={(state: EditConfigModel) => this.setState({...state})}
+              onChange={(state: ConfigModel) => this.setState({...state})}
               tPrefix="config."
             />
           </Row>
@@ -68,7 +68,7 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
             <ArrayInput
               config={configSettingsDefinition}
               model={this.state}
-              onChange={(state: EditConfigModel) => this.setState({...state})}
+              onChange={(state: ConfigModel) => this.setState({...state})}
               tPrefix="config."
             />
           </Row>

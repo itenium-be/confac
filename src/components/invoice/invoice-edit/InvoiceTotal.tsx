@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 import {t, moneyFormat} from '../../util';
-import { InvoiceMoney } from '../models/EditInvoiceModel';
+import { InvoiceMoney } from '../models/InvoiceModel';
 
 const amountsStyle: CSSProperties = {textAlign: 'right', float: 'right'};
 

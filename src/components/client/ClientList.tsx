@@ -7,14 +7,14 @@ import ClientListRow, {ClientListHeader} from './ClientListRow';
 import {updateInvoiceFilters} from '../../actions/index';
 import {getInvoiceYears} from '../invoice/models/InvoiceListModel';
 import { ClientModel } from './models/ClientModels';
-import EditInvoiceModel from '../invoice/models/EditInvoiceModel';
+import InvoiceModel from '../invoice/models/InvoiceModel';
 import { ConfacState } from '../../reducers/default-states';
 import { SearchStringInput } from '../controls/form-controls/inputs/SearchStringInput';
 import { InvoiceFilters } from '../../models';
 import { searchClientFor } from "./models/searchClientFor";
 
 type ClientListProps = {
-  invoices: EditInvoiceModel[],
+  invoices: InvoiceModel[],
   clients: ClientModel[],
   updateInvoiceFilters: Function,
   filters: InvoiceFilters,

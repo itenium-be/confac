@@ -2,13 +2,13 @@ import React from 'react';
 import {Icon} from '../Icon';
 import { getInvoiceDownloadUrl, getClientDownloadUrl} from '../../../actions/index';
 import t from '../../../trans';
-import EditInvoiceModel, { EditInvoiceModelProps } from '../../invoice/models/EditInvoiceModel';
+import InvoiceModel, { InvoiceModelProps } from '../../invoice/models/InvoiceModel';
 import { ClientModel } from '../../client/models/ClientModels';
 import { Attachment, IAttachment } from '../../../models';
 import { getAwesomeFileType } from '../../invoice/models/getAwesomeFileType';
 
 
-export const InvoiceDownloadIcon = ({invoice, ...props}: EditInvoiceModelProps) => (
+export const InvoiceDownloadIcon = ({invoice, ...props}: InvoiceModelProps) => (
   <AttachmentDownloadIcon
     model={invoice}
     attachment={invoice.attachments.find(a => a.type === 'pdf') as Attachment}
@@ -18,7 +18,7 @@ export const InvoiceDownloadIcon = ({invoice, ...props}: EditInvoiceModelProps) 
 );
 
 
-export const InvoicePreviewIcon = ({invoice, ...props}: EditInvoiceModelProps) => {
+export const InvoicePreviewIcon = ({invoice, ...props}: InvoiceModelProps) => {
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
   return <Icon title={t(fileType + '.viewPdf')} href={getInvoiceDownloadUrl(invoice, 'pdf')} fa="far fa-eye" {...props} />;
 };
@@ -39,7 +39,7 @@ export const AttachmentDownloadIcon = ({model, attachment, modelType, ...props}:
   if (modelType === 'client') {
     href = getClientDownloadUrl(model as ClientModel, attachment);
   } else {
-    href = getInvoiceDownloadUrl(model as EditInvoiceModel, attachment.type, 'download');
+    href = getInvoiceDownloadUrl(model as InvoiceModel, attachment.type, 'download');
   }
 
   return (

@@ -1,13 +1,13 @@
-import EditInvoiceModel from '../components/invoice/models/EditInvoiceModel';
+import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import { ACTION_TYPES } from '../actions';
 import moment from 'moment';
 
-function mapInvoice(invoice: EditInvoiceModel) {
+function mapInvoice(invoice: InvoiceModel) {
   invoice.date = moment(invoice.date);
   return invoice;
 }
 
-export const invoices = (state: EditInvoiceModel[] = [], action): EditInvoiceModel[] => {
+export const invoices = (state: InvoiceModel[] = [], action): InvoiceModel[] => {
   switch (action.type) {
   case ACTION_TYPES.INVOICES_FETCHED:
     // console.log('INVOICES_FETCHED', action.invoices); // eslint-disable-line

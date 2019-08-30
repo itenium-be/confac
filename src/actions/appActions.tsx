@@ -5,7 +5,7 @@ import {ACTION_TYPES} from './ActionTypes';
 import {buildUrl, catchHandler} from './fetch';
 import { toast } from 'react-toastify';
 import t from '../trans';
-import { EditConfigModel } from '../components/config/models/ConfigModel';
+import { ConfigModel } from '../components/config/models/ConfigModel';
 import { ClientModel } from '../components/client/models/ClientModels';
 import { InvoiceFilters } from '../models';
 
@@ -69,7 +69,7 @@ busyToggle.off = function() {
 };
 
 
-export function updateConfig(newConfig: EditConfigModel) {
+export function updateConfig(newConfig: ConfigModel) {
   return dispatch => {
     dispatch(busyToggle());
     return request.post(buildUrl('/config'))

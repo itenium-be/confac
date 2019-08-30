@@ -6,10 +6,10 @@ import {Row, Col} from 'react-bootstrap';
 import ClientDetails from '../../client/controls/ClientDetails';
 import InvoiceTotal from './InvoiceTotal';
 import {ClientModal} from '../../client/controls/ClientModal';
-import EditInvoiceModel from '../models/EditInvoiceModel';
+import InvoiceModel from '../models/InvoiceModel';
 
 type EditInvoiceClientProps = {
-  invoice: EditInvoiceModel,
+  invoice: InvoiceModel,
   onChange: any,
 }
 

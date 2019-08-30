@@ -1,11 +1,11 @@
 import request from 'superagent-bluebird-promise';
 import {buildUrl, catchHandler} from './fetch';
-import EditInvoiceModel from '../components/invoice/models/EditInvoiceModel';
+import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import { Attachment } from '../models';
 import { ClientModel } from '../components/client/models/ClientModels';
 
 
-export function getInvoiceDownloadUrl(invoice: EditInvoiceModel, attachmentType = 'pdf', downloadType?: 'preview' | 'download'): string {
+export function getInvoiceDownloadUrl(invoice: InvoiceModel, attachmentType = 'pdf', downloadType?: 'preview' | 'download'): string {
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
   const query = downloadType === 'download' ? '?download=1' : '';
   const fileName = attachmentType === 'pdf' ? getInvoiceFileName(invoice) : '';
@@ -19,7 +19,7 @@ export function getClientDownloadUrl(client: ClientModel, attachment: Attachment
 
 
 
-function getInvoiceFileName(data: EditInvoiceModel): string {
+function getInvoiceFileName(data: InvoiceModel): string {
   var fileName = data.fileName;
 
   const nrRegex = /\{nr:(\d+)\}/;
@@ -51,7 +51,7 @@ function getInvoiceFileName(data: EditInvoiceModel): string {
 }
 
 
-export function previewInvoice(data: EditInvoiceModel) {
+export function previewInvoice(data: InvoiceModel) {
   return dispatch => {
     request.post(buildUrl('/invoices/preview'))
       .responseType('blob')

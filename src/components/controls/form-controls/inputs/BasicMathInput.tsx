@@ -99,7 +99,7 @@ function mathEval(str: string, asFloat: boolean, allowHours?: boolean): number {
 /**
  * Turn a string into number and evaluate simple math
  */
-export function basicMath(str: string, asFloat: boolean, allowHours: boolean): number {
+export function basicMath(str: string, asFloat: boolean = false, allowHours: boolean = false): number {
   str = sanitize(str);
   return mathEval(str, asFloat, allowHours);
 }

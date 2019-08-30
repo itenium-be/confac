@@ -4,11 +4,11 @@ import moment from 'moment';
 import {BusyVerifyIcon} from '../../controls';
 import t from '../../../trans';
 import {toggleInvoiceVerify} from '../../../actions/index';
-import EditInvoiceModel from '../models/EditInvoiceModel';
+import InvoiceModel from '../models/InvoiceModel';
 
 
 type InvoiceVerifyIconProps = {
-  invoice: EditInvoiceModel,
+  invoice: InvoiceModel,
   toggleInvoiceVerify: Function,
 }
 

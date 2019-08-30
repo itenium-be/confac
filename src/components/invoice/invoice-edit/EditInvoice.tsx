@@ -10,8 +10,8 @@ import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
 import {invoiceAction} from '../../../actions/index';
 import {EditInvoiceClient} from './EditInvoiceClient';
 import {EditInvoiceExtraFields} from './EditInvoiceExtraFields';
-import EditInvoiceModel from '../models/EditInvoiceModel';
-import { EditConfigModel } from '../../config/models/ConfigModel';
+import InvoiceModel from '../models/InvoiceModel';
+import { ConfigModel } from '../../config/models/ConfigModel';
 import { ClientModel } from '../../client/models/ClientModels';
 import { ConfacState } from '../../../reducers/default-states';
 import { EditInvoiceDetails } from './EditInvoiceDetails';
@@ -19,8 +19,8 @@ import { StickyFooter } from '../../controls/skeleton/StickyFooter';
 
 
 type EditInvoiceProps = {
-  invoices: EditInvoiceModel[],
-  config: EditConfigModel,
+  invoices: InvoiceModel[],
+  config: ConfigModel,
   app: {isLoaded: boolean},
   clients: ClientModel[],
   invoiceAction: Function,
@@ -33,7 +33,7 @@ type EditInvoiceProps = {
 }
 
 type EditInvoiceState = {
-  invoice: EditInvoiceModel,
+  invoice: InvoiceModel,
   showExtraFields: boolean,
   renavigationKey: string,
 }

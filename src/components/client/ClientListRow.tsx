@@ -4,7 +4,7 @@ import {t} from '../util';
 
 import {ClientEditIcon, InvoiceWorkedDays, InvoicesSummary, DeleteIcon} from '../controls';
 import {saveClient} from '../../actions/index';
-import EditInvoiceModel from '../invoice/models/EditInvoiceModel';
+import InvoiceModel from '../invoice/models/InvoiceModel';
 import { ClientModel } from './models/ClientModels';
 
 
@@ -22,7 +22,7 @@ export const ClientListHeader = () => (
 
 
 type ClientListRowProps = {
-  invoices: EditInvoiceModel[],
+  invoices: InvoiceModel[],
   saveClient: Function,
   client: ClientModel,
 }

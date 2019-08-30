@@ -1,5 +1,5 @@
 import moment from 'moment';
-import EditInvoiceModel from './EditInvoiceModel';
+import InvoiceModel from './InvoiceModel';
 import { ClientModel } from '../../client/models/ClientModels';
 import { InvoiceFilters, InvoiceFiltersSearch } from '../../../models';
 import { getMoney } from '../../controls';
@@ -33,14 +33,14 @@ type TransformedInvoiceFilters = {
 
 
 export default class InvoiceListModel {
-  invoices: EditInvoiceModel[];
+  invoices: InvoiceModel[];
   clients: ClientModel[];
   hasFilters: boolean;
   fs: TransformedInvoiceFilters;
   unverifiedOnly: boolean;
   isQuotation: boolean;
 
-  constructor(invoices: EditInvoiceModel[], clients: ClientModel[], filters: InvoiceFilters, isQuotation: boolean) {
+  constructor(invoices: InvoiceModel[], clients: ClientModel[], filters: InvoiceFilters, isQuotation: boolean) {
     this.invoices = invoices;
     this.clients = clients;
     this.hasFilters = !!filters.search.length;
@@ -74,7 +74,7 @@ export default class InvoiceListModel {
     return options;
   }
 
-  getFilteredInvoices(): EditInvoiceModel[] {
+  getFilteredInvoices(): InvoiceModel[] {
     const fs = this.fs;
     if (fs.directInvoiceNrs.length) {
       return this.invoices.filter(i => fs.directInvoiceNrs.includes(i.number));
@@ -100,7 +100,7 @@ export default class InvoiceListModel {
     return invoices;
   }
 
-  filterByDescription(invoices: EditInvoiceModel[]): EditInvoiceModel[] {
+  filterByDescription(invoices: InvoiceModel[]): InvoiceModel[] {
     // TODO: more invoiceLineDescs... Kill this?
     if (this.fs.invoiceLineDescs.length) {
       invoices = invoices.filter(i => this.fs.invoiceLineDescs.some(descFilter => i.lines.map(l => l.desc).includes(descFilter)));
@@ -126,7 +126,7 @@ export default class InvoiceListModel {
 
 
 
-function searchInvoiceFor(invoice: EditInvoiceModel, text: string): boolean {
+function searchInvoiceFor(invoice: InvoiceModel, text: string): boolean {
   text = text.toLowerCase().trim();
 
   if (invoice._id.toLowerCase() === text) {
@@ -167,7 +167,7 @@ function searchInvoiceFor(invoice: EditInvoiceModel, text: string): boolean {
 }
 
 
-export function getInvoiceYears(invoices: EditInvoiceModel[]): number[] {
+export function getInvoiceYears(invoices: InvoiceModel[]): number[] {
   const dates = invoices.map(i => i.date.toDate().valueOf());
   const firstInvoiceYear = moment(Math.min.apply(null, dates)).year();
   const lastInvoiceYear = moment(Math.max.apply(null, dates)).year();

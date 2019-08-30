@@ -1,22 +1,24 @@
 import InvoiceListModel from '../models/InvoiceListModel';
 import moment from 'moment';
+import InvoiceModel from '../models/InvoiceModel';
+import { InvoiceFilters } from '../../../models';
 
 
 describe('InvoiceListModel', () => {
   it('filters with last x days', () => {
-    const filters = {
+    const filters: InvoiceFilters = <InvoiceFilters>{
       search: [{ value: 'last 1 days', label: 'last 1 days', type: 'manual_input' }],
       unverifiedOnly: false,
       groupedByMonth: false,
     };
     const today = () => moment().startOf('day');
     const invoices = [
-      {date: today(), verified: true},
-      {date: today().subtract(1, 'days'), verified: true},
-      {date: today().subtract(2, 'days'), verified: true},
-      {date: today().subtract(3, 'days'), verified: true},
+      <InvoiceModel>{date: today(), verified: true},
+      <InvoiceModel>{date: today().subtract(1, 'days'), verified: true},
+      <InvoiceModel>{date: today().subtract(2, 'days'), verified: true},
+      <InvoiceModel>{date: today().subtract(3, 'days'), verified: true},
     ];
-    const vm = new InvoiceListModel(invoices, [], filters);
+    const vm = new InvoiceListModel(invoices, [], filters, false);
 
     const result = vm.getFilteredInvoices();
 
@@ -25,15 +27,15 @@ describe('InvoiceListModel', () => {
 
 
   it('filters with last x days also show all unverified', () => {
-    const filters = {
+    const filters: InvoiceFilters = <InvoiceFilters>{
       search: [{ value: 'last 1 days', label: 'last 1 days', type: 'manual_input' }],
       unverifiedOnly: false,
       groupedByMonth: false,
     };
     const invoices = [
-      {date: moment().subtract(3, 'days'), verified: false},
+      <InvoiceModel>{date: moment().subtract(3, 'days'), verified: false},
     ];
-    const vm = new InvoiceListModel(invoices, [], filters);
+    const vm = new InvoiceListModel(invoices, [], filters, true);
 
     const result = vm.getFilteredInvoices();
 
@@ -42,7 +44,7 @@ describe('InvoiceListModel', () => {
 
 
   it('filters with free text in invoice lines', () => {
-    const filters = {
+    const filters: InvoiceFilters = <InvoiceFilters>{
       search: [{ value: 'koen', label: 'koen', type: 'manual_input' }],
       unverifiedOnly: false,
       groupedByMonth: false,
@@ -54,10 +56,10 @@ describe('InvoiceListModel', () => {
     };
 
     const invoices = [
-      {lines: [{desc: 'Prestaties Koen'}], client: emptyClient, orderNr: ''},
-      {lines: [{ desc: 'Prestaties Ilse' }], client: emptyClient, orderNr: ''},
+      <InvoiceModel>{_id: '', lines: [{desc: 'Prestaties Koen'}], client: emptyClient, orderNr: '', number: 5, date: moment(), money: {}},
+      <InvoiceModel>{_id: '', lines: [{ desc: 'Prestaties Ilse' }], client: emptyClient, orderNr: '', number: 6, date: moment(), money: {}},
     ];
-    const vm = new InvoiceListModel(invoices, [], filters);
+    const vm = new InvoiceListModel(invoices, [], filters, true);
 
     const result = vm.getFilteredInvoices();
 

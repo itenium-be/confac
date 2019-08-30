@@ -7,7 +7,7 @@ import {deleteInvoice} from '../../../actions/index';
 import {InvoiceWorkedDays} from './InvoiceWorkedDays';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
-import EditInvoiceModel from '../models/EditInvoiceModel';
+import InvoiceModel from '../models/InvoiceModel';
 
 
 
@@ -45,7 +45,7 @@ type InvoiceListRowProps = {
     value: Function,
     groupedBy?: boolean,
   }>,
-  invoice: EditInvoiceModel,
+  invoice: InvoiceModel,
   isFirstRow?: boolean
   onlyRowForMonth?: boolean,
 }

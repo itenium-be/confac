@@ -1,4 +1,4 @@
-import { EditConfigModel, EditConfigCompanyModel } from '../../config/models/ConfigModel';
+import { ConfigModel, ConfigCompanyModel } from '../../config/models/ConfigModel';
 import {getInvoiceDate} from './invoice-date-strategy';
 import { ClientModel } from '../../client/models/ClientModels';
 import moment from 'moment';
@@ -7,7 +7,7 @@ import { Attachment, EditClientRateType, IAttachment } from '../../../models';
 
 //const getInvoiceString = invoice => `${invoice.number} - ${invoice.client.name} (${invoice.date.format('YYYY-MM')})`;
 
-export type EditInvoiceLine = {
+export type InvoiceLine = {
   desc: string,
   amount: number,
   type: EditClientRateType,
@@ -20,7 +20,7 @@ export type EditInvoiceLine = {
 export type InvoiceMoney = {
   totalWithoutTax: number,
   totalTax: number,
-  discount?: number,
+  discount?: number | string,
   total: number,
   totals: {
     // [x in EditClientRateType]: number // When create-react-app supports it
@@ -32,11 +32,11 @@ export type InvoiceMoney = {
 /**
  * The only invoice model
  */
-export default class EditInvoiceModel implements IAttachment {
+export default class InvoiceModel implements IAttachment {
   _id: string;
   number: number;
   client: ClientModel;
-  your: EditConfigCompanyModel;
+  your: ConfigCompanyModel;
   date: moment.Moment;
   orderNr: string;
   verified: boolean;
@@ -49,11 +49,11 @@ export default class EditInvoiceModel implements IAttachment {
   _defaultType: EditClientRateType;
   extraFields: string[];
   createdOn: string;
-  lines: EditInvoiceLine[] = [];
+  lines: InvoiceLine[] = [];
   money: InvoiceMoney;
 
-  static createNew(config: EditConfigModel, client: ClientModel): EditInvoiceModel {
-    var model = new EditInvoiceModel(config, {
+  static createNew(config: ConfigModel, client: ClientModel): InvoiceModel {
+    var model = new InvoiceModel(config, {
       client,
       number: 1,
       fileName: client ? client.invoiceFileName : '',
@@ -67,7 +67,7 @@ export default class EditInvoiceModel implements IAttachment {
     return this._id === undefined;
   }
 
-  constructor(config: EditConfigModel, obj: any = {}) {
+  constructor(config: ConfigModel, obj: any = {}) {
     this._defaultTax = config.defaultTax;
     this._defaultType = config.defaultInvoiceLineType;
 
@@ -94,19 +94,19 @@ export default class EditInvoiceModel implements IAttachment {
     return this.isQuotation ? 'quotation' : 'invoice';
   }
 
-  get _lines(): EditInvoiceLine[] {
+  get _lines(): InvoiceLine[] {
     return this.lines;
   }
-  set _lines(value: EditInvoiceLine[]) {
+  set _lines(value: InvoiceLine[]) {
     this.lines = value;
     this.money = this._calculateMoneys();
   }
-  setLines(lines: EditInvoiceLine[]): EditInvoiceModel {
+  setLines(lines: InvoiceLine[]): InvoiceModel {
     this._lines = lines;
     return this;
   }
 
-  setClient(client: ClientModel): EditInvoiceModel {
+  setClient(client: ClientModel): InvoiceModel {
     this.client = client;
     if (!this.lines || this.lines.length <= 1) {
       this._lines = [this.getLine()];
@@ -121,11 +121,11 @@ export default class EditInvoiceModel implements IAttachment {
     }
     return this;
   }
-  addLine(line?: EditInvoiceLine): EditInvoiceModel {
+  addLine(line?: InvoiceLine): InvoiceModel {
     this._lines = this._lines.concat([line || this.getLine(true)]);
     return this;
   }
-  updateLine(index: number, updateWith: EditInvoiceLine | object): EditInvoiceModel {
+  updateLine(index: number, updateWith: InvoiceLine | object): InvoiceModel {
     var newArr = this.lines.slice();
 
     this.daysVsHoursSwitchFix(newArr[index], updateWith);
@@ -134,7 +134,7 @@ export default class EditInvoiceModel implements IAttachment {
     this._lines = newArr;
     return this;
   }
-  removeLine(index: number): EditInvoiceModel {
+  removeLine(index: number): InvoiceModel {
     var newArr = this.lines.slice();
     newArr.splice(index, 1);
     this._lines = newArr;
@@ -143,7 +143,7 @@ export default class EditInvoiceModel implements IAttachment {
   /**
    * Switch location of two InvoiceLines
    */
-  reorderLines(startIndex: number, endIndex: number): EditInvoiceModel {
+  reorderLines(startIndex: number, endIndex: number): InvoiceModel {
     var newArr = this.lines.slice();
     const [removed] = newArr.splice(startIndex, 1);
     newArr.splice(endIndex, 0, removed);
@@ -160,7 +160,7 @@ export default class EditInvoiceModel implements IAttachment {
     }
   }
 
-  daysVsHoursSwitchFix(oldLine: EditInvoiceLine, updateWith: EditInvoiceLine | any): void {
+  daysVsHoursSwitchFix(oldLine: InvoiceLine, updateWith: InvoiceLine | any): void {
     if (updateWith.type && updateWith.type !== oldLine.type && (oldLine.price || oldLine.amount)
       && this.client && this.client.rate && this.client.rate.hoursInDay) {
 
@@ -186,8 +186,8 @@ export default class EditInvoiceModel implements IAttachment {
     }
   }
 
-  getLine(getEmpty = false): EditInvoiceLine {
-    const defaultLine: EditInvoiceLine = {
+  getLine(getEmpty = false): InvoiceLine {
+    const defaultLine: InvoiceLine = {
       desc: '',
       price: 0,
       amount: 0,
@@ -220,7 +220,7 @@ export default class EditInvoiceModel implements IAttachment {
 
   _calculateMoneys(): InvoiceMoney {
     if (!this.client) {
-      return EditInvoiceModel.emptyMoney();
+      return InvoiceModel.emptyMoney();
     }
 
     const relevantLines = this._lines.filter(line => line.type !== 'section');
@@ -235,13 +235,15 @@ export default class EditInvoiceModel implements IAttachment {
       return acc;
     }, {});
 
-    const discount = (this.discount || 0).toString();
+    const discount = (this.discount || 0).toString().trim();
+    let calcDiscount: number | string = discount;
     if (discount) {
       if (discount.slice(-1) === '%') {
         const discountPercentage = parseInt(discount.slice(0, -1), 10);
         total *= 1 - discountPercentage / 100;
       } else {
         const discountValue = parseInt(discount, 10);
+        calcDiscount = discountValue;
         total -= discountValue;
       }
     }
@@ -249,15 +251,15 @@ export default class EditInvoiceModel implements IAttachment {
     return {
       totalWithoutTax,
       totalTax,
-      discount: parseInt(discount, 10),
+      discount: calcDiscount,
       total,
       totals: totalsPerLineType,
     };
   }
 }
 
-export type EditInvoiceModelProps = {
-  invoice: EditInvoiceModel
+export type InvoiceModelProps = {
+  invoice: InvoiceModel
 }
 
 
@@ -273,7 +275,7 @@ export type DaysWorked = {
 /**
  * Calculate days/hours worked in invoice
  */
-function daysCalc(invoice: EditInvoiceModel): DaysWorked {
+function daysCalc(invoice: InvoiceModel): DaysWorked {
   const daysWorked = invoice.lines.reduce((prev, cur) => {
     if (cur.type === 'daily') {
       return prev + cur.amount;
@@ -302,15 +304,15 @@ function daysCalc(invoice: EditInvoiceModel): DaysWorked {
 
 
 type GroupedInvoicesPerMonth = {
-  invoiceList: EditInvoiceModel[],
+  invoiceList: InvoiceModel[],
   /**
    * Month in format: YYYYMM
    */
   key: string,
 }
 
-export function groupInvoicesPerMonth(invoices: EditInvoiceModel[]): GroupedInvoicesPerMonth[] {
-  return invoices.reduce((list: GroupedInvoicesPerMonth[], invoice: EditInvoiceModel) => {
+export function groupInvoicesPerMonth(invoices: InvoiceModel[]): GroupedInvoicesPerMonth[] {
+  return invoices.reduce((list: GroupedInvoicesPerMonth[], invoice: InvoiceModel) => {
     const month = invoice.date.format('YYYYMM');
     const invoicesForMonth = list.find(i => i.key === month);
     if (invoicesForMonth) {
@@ -338,7 +340,7 @@ function getWorkDaysInMonth(momentInst: moment.Moment): Date[] {
   return result;
 }
 
-function getWorkDaysInMonths(invoices: EditInvoiceModel[]): number {
+function getWorkDaysInMonths(invoices: InvoiceModel[]): number {
   const invoicesPerMonth = groupInvoicesPerMonth(invoices);
   const result = invoicesPerMonth.map(({invoiceList}) => getWorkDaysInMonth(invoiceList[0].date).length);
   return result.reduce((prev, cur) => prev + cur, 0);
@@ -346,7 +348,7 @@ function getWorkDaysInMonths(invoices: EditInvoiceModel[]): number {
 
 
 
-export function calculateDaysWorked(invoices: EditInvoiceModel[]): DaysWorked & {workDaysInMonth: number} {
+export function calculateDaysWorked(invoices: InvoiceModel[]): DaysWorked & {workDaysInMonth: number} {
   const invoiceDays = invoices.map(daysCalc);
   const invoiceDayTotals = invoiceDays.reduce((a, b) => ({
     daysWorked: a.daysWorked + b.daysWorked,

@@ -31,7 +31,7 @@ export type Attachment = {
 }
 
 /**
- * EditInvoiceModel | EditClientModel
+ * InvoiceModel | ClientModel
  * TODO: Add the modelType here
  */
 export interface IAttachment {

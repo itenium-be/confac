@@ -1,6 +1,6 @@
-import {basicMath} from '../form-controls/inputs/BaseInput';
+import { basicMath } from "../form-controls/inputs/BasicMathInput";
 
-fdescribe('BasicMathInput', () => {
+describe('BasicMathInput', () => {
   it('Replaces comma to dot', () => {
     const result = basicMath('100,50', true);
     expect(result).toBe(100.50);

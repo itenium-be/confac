@@ -1,6 +1,6 @@
 import { ClientModel } from './ClientModels';
-import { EditConfigModel } from "../../config/models/ConfigModel";
-export function getNewClient(config: EditConfigModel): ClientModel {
+import { ConfigModel } from "../../config/models/ConfigModel";
+export function getNewClient(config: ConfigModel): ClientModel {
   return {
     _id: '',
     slug: '',

@@ -9,13 +9,13 @@ import {defaultClientProperties, editClientRateConfig} from './models/ClientConf
 import { getNewClient } from "./models/getNewClient";
 import { ClientModel } from './models/ClientModels';
 import { ConfacState } from '../../reducers/default-states';
-import { EditConfigModel } from '../config/models/ConfigModel';
+import { ConfigModel } from '../config/models/ConfigModel';
 import { EditClientDefaultOther } from './EditClientDefaultOther';
 import { StickyFooter } from '../controls/skeleton/StickyFooter';
 
 
 type EditClientProps = {
-  config: EditConfigModel,
+  config: ConfigModel,
   clients: ClientModel[],
   isLoaded: boolean,
   saveClient: Function,

@@ -6,11 +6,11 @@ import moment from 'moment';
 import {BusyButton} from '../../controls';
 import {Alert} from 'react-bootstrap';
 import {toggleInvoiceVerify} from '../../../actions/index';
-import EditInvoiceModel from '../models/EditInvoiceModel';
+import InvoiceModel from '../models/InvoiceModel';
 
 
 type InvoiceNotVerifiedAlertProps = {
-  invoice: EditInvoiceModel,
+  invoice: InvoiceModel,
   toggleInvoiceVerify: Function,
 }
 

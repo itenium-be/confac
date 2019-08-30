@@ -3,11 +3,11 @@ import {ACTION_TYPES} from './ActionTypes';
 import {success, failure, busyToggle} from './appActions';
 import {buildUrl, catchHandler} from './fetch';
 import t from '../trans';
-import EditInvoiceModel from '../components/invoice/models/EditInvoiceModel';
+import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import { previewInvoice } from './downloadActions';
 
 
-function cleanViewModel(data: EditInvoiceModel): EditInvoiceModel {
+function cleanViewModel(data: InvoiceModel): InvoiceModel {
   var invoice = Object.assign({}, data);
   Object.keys(invoice).filter(k => k[0] === '_' && k !== '_id').forEach(k => {
     delete invoice[k];
@@ -16,7 +16,7 @@ function cleanViewModel(data: EditInvoiceModel): EditInvoiceModel {
 }
 
 
-export function createInvoice(data: EditInvoiceModel, history: any) {
+export function createInvoice(data: InvoiceModel, history: any) {
   return dispatch => {
     dispatch(busyToggle());
     request.post(buildUrl('/invoices'))
@@ -45,7 +45,7 @@ export function createInvoice(data: EditInvoiceModel, history: any) {
   };
 }
 
-function updateInvoiceRequest(data: EditInvoiceModel, successMsg: string | undefined, andGoHome: boolean, history?: any) {
+function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined, andGoHome: boolean, history?: any) {
   return dispatch => {
     dispatch(busyToggle());
     request.put(buildUrl('/invoices'))
@@ -71,7 +71,7 @@ function updateInvoiceRequest(data: EditInvoiceModel, successMsg: string | undef
 
 
 
-export function invoiceAction(invoice: EditInvoiceModel, type: 'create' | 'update' | 'preview', history: any) {
+export function invoiceAction(invoice: InvoiceModel, type: 'create' | 'update' | 'preview', history: any) {
   if (type === 'create') {
     return createInvoice(invoice, history);
   } else if (type === 'preview') {
@@ -83,14 +83,14 @@ export function invoiceAction(invoice: EditInvoiceModel, type: 'create' | 'updat
 }
 
 
-export function toggleInvoiceVerify(data: EditInvoiceModel) {
+export function toggleInvoiceVerify(data: InvoiceModel) {
   const successMsg = data.verified ? t('invoice.isNotVerifiedConfirm') : t('invoice.isVerifiedConfirm');
-  const newData: EditInvoiceModel | any = {...data, verified: !data.verified};
+  const newData: InvoiceModel | any = {...data, verified: !data.verified};
   return updateInvoiceRequest(newData, successMsg, false); // change andGoHome? also need 'history' from router
 }
 
 
-export function deleteInvoice(invoice: EditInvoiceModel) {
+export function deleteInvoice(invoice: InvoiceModel) {
   return dispatch => {
     dispatch(busyToggle());
     request.delete(buildUrl('/invoices'))

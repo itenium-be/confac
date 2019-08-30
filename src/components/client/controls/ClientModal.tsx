@@ -7,12 +7,12 @@ import {saveClient} from '../../../actions/appActions';
 import {requiredClientProperties} from '../models/ClientConfig';
 import { getNewClient } from "../models/getNewClient";
 import { ClientModel } from '../models/ClientModels';
-import { EditConfigModel } from '../../config/models/ConfigModel';
+import { ConfigModel } from '../../config/models/ConfigModel';
 import { ConfacState } from '../../../reducers/default-states';
 
 
 type ClientModalProps = {
-  config: EditConfigModel,
+  config: ConfigModel,
   saveClient: Function,
   client: ClientModel | null,
   show: boolean,

@@ -1,4 +1,4 @@
-console.log('ENV', process.env);
+// console.log('ENV', process.env);
 
 if (process.env.NODE_ENV === 'production') {
   const backend = window.location.origin + '/api';

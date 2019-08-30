@@ -2,9 +2,9 @@ import React from 'react';
 import {Table} from 'react-bootstrap';
 import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from '../invoice-list/InvoiceListRow';
 import {getColumns} from './invoice-list-column-factory';
-import { EditConfigModel } from '../../config/models/ConfigModel';
+import { ConfigModel } from '../../config/models/ConfigModel';
 
-export const NonGroupedInvoiceTable = ({vm, config}: {vm: any, config: EditConfigModel}) => {
+export const NonGroupedInvoiceTable = ({vm, config}: {vm: any, config: ConfigModel}) => {
   const invoices = vm.getFilteredInvoices();
   const columns = getColumns(['number', 'client', 'date-full'], config.showOrderNr, vm.isQuotation);
   return (

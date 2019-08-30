@@ -1,14 +1,14 @@
 import { AppState } from "../models";
 import moment from 'moment';
-import { EditConfigModel } from "../components/config/models/ConfigModel";
-import EditInvoiceModel from "../components/invoice/models/EditInvoiceModel";
+import { ConfigModel } from "../components/config/models/ConfigModel";
+import InvoiceModel from "../components/invoice/models/InvoiceModel";
 import { ClientModel } from "../components/client/models/ClientModels";
 
 
 export type ConfacState = {
   app: AppState,
-  config: EditConfigModel,
-  invoices: EditInvoiceModel[],
+  config: ConfigModel,
+  invoices: InvoiceModel[],
   clients: ClientModel[],
 }
 
@@ -29,7 +29,7 @@ export const defaultAppState: AppState = {
 };
 
 
-export const defaultConfig: EditConfigModel = {
+export const defaultConfig: ConfigModel = {
   company: {
     template: 'example-1.pug',
     name: 'Jouw bedrijfsnaam',

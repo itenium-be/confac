@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {t} from '../../util';
-import EditInvoiceModel, {calculateDaysWorked, DaysWorked} from '../models/EditInvoiceModel';
+import InvoiceModel, {calculateDaysWorked, DaysWorked} from '../models/InvoiceModel';
 
 type InvoiceWorkedDaysProps = {
-  invoices: EditInvoiceModel[],
+  invoices: InvoiceModel[],
   display: 'month' | 'client' | 'invoice',
 }
 
