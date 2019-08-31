@@ -68,16 +68,6 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalProps>
                 onChange={value => this.setState({...client, ...value})}
                 tPrefix="config.company."
               />
-
-              <Col sm={12}>
-                <Control.TextareaInput
-                  label={t('notes')}
-                  placeholder={t('notes')}
-                  value={client.notes}
-                  onChange={value => this.setState({...client, notes: value})}
-                  style={{height: 120}}
-                />
-              </Col>
             </Row>
           </Container>
         </Form>

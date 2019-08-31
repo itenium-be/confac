@@ -10,7 +10,7 @@ export const defaultClientProperties: FullFormConfig = [
   { key: 'telephone', suffix: 'phone' },
   { key: 'contact', suffix: 'user' },
   { key: 'contactEmail', suffix: 'email' },
-  { key: 'notes', cols: 12, style: {height: 140}},
+  { key: 'notes', component: 'textarea', cols: 12, style: {height: 140}},
 ];
 
 
@@ -36,4 +36,5 @@ export const requiredClientProperties: FullFormConfig = [
   {forceRow: true},
   {key: 'contact', cols: 6},
   {key: 'contactEmail', cols: 6, suffix: 'email'},
+  {key: 'notes', component: 'textarea', cols: 12, style: {height: 120}},
 ];
