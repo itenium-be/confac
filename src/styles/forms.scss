@@ -8,16 +8,24 @@ $border-color: #ced4da; // or: hsl(0, 0%, 70%);?
 $addon-icon-color: #9eaab5;
 $placeholder-color: #c4ccd3;
 
-.input-group {
+::placeholder {
+  color: $placeholder-color !important;
+}
+
+.input-group, .form-group {
   // .form-label {
   // }
 
-  ::placeholder {
-    color: $placeholder-color !important;
-  }
 
-  .form-control:focus {
-    box-shadow: unset !important;
+  .form-control {
+    &:hover {
+      border-color: hsl(0, 0%, 70%);
+    }
+
+    &:focus {
+      border-color: #2684FF;
+      box-shadow: unset !important;
+    }
   }
 
   .input-group-text {
