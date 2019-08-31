@@ -44,6 +44,7 @@ const trans = {
     defaultTax: 'Standaard btw',
     defaultInvoiceLineType: 'Standaard factuurlijn eenheid',
     defaultInvoiceDateStrategy: 'Standaard factuurdatum',
+    attachmentTypes: 'Standaard factuurbijlage',
     company: {
       title: 'Jouw bedrijfsgegevens',
       name: 'Bedrijfsnaam',
