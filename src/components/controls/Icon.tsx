@@ -144,8 +144,8 @@ export const ClientEditIcon = ({client, ...props}) => {
   return <EditIcon onClick={'/clients/' + client.slug} {...props} />;
 };
 
-export const DownArrowIcon = ({...props}: IconProps) => {
-  return <Icon fa="fa fa-chevron-circle-down" {...props} />;
+export const ExpandIcon = ({...props}: IconProps) => {
+  return <Icon fa="fa fa-expand-arrows-alt" {...props} />;
 };
 
 export const ConfirmedDeleteIcon = EnhanceWithConfirmation(DeleteIcon);

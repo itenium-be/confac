@@ -67,7 +67,7 @@ const trans = {
     },
     extraFields: {
       title: 'Eigen velden',
-      open: 'Extra velden toevoegen',
+      open: 'Extra velden tonen',
       config: 'Extra config velden',
       client: 'Extra klant velden',
       clientInvoice: 'Extra factuur velden',

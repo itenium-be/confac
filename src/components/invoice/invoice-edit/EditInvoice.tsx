@@ -133,7 +133,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
 
                 {extraFieldsVisible ? (
                   <Col sm={12}>
-                    <Control.DownArrowIcon
+                    <Control.ExpandIcon
                       center
                       color="#D3D3D3"
                       title={t('config.extraFields.open')}
