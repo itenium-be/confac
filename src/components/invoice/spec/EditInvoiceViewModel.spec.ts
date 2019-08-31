@@ -2,13 +2,11 @@ import moment from 'moment';
 import { getNewClient } from "../../client/models/getNewClient";
 import InvoiceModel, {calculateDaysWorked} from '../models/InvoiceModel';
 import { defaultConfig } from '../../../reducers/default-states';
-import { ConfigModel } from '../../config/models/ConfigModel';
 
 //const defaultHoursInDay = 8;
 
 
-function createViewModel(/*config?: ConfigModel*/) {
-  // config = config || defaultConfig;
+function createViewModel() {
   const client = getNewClient(defaultConfig);
   var vm = InvoiceModel.createNew(defaultConfig, client);
   vm.date = moment('2017-02-01'); // has 20 working days
