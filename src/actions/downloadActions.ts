@@ -72,8 +72,15 @@ function previewPdf(fileName: string, content: Blob): void {
     const blobUrl = URL.createObjectURL(content);
     const previewWindow = window.open(blobUrl);
     if (previewWindow) {
-      previewWindow.document.title = fileName;
-      previewWindow.document.write('<title>My PDF File Title</title>');
+      // These didn't work for setting the document.title
+      // setTimeout(() => previewWindow.document.title = fileName, 3000);
+      // previewWindow.document.write('<title>My PDF File Title</title>');
+
+      // This would work for setting a document title but need to do some additional styling
+      // previewWindow.document.write(`
+      //   <html><head><title>Your Report Title</title></head><body height="100%" width="100%">
+      //     <iframe src="' + blobUrl + '" height="100%" width="100%"></iframe>
+      //   </body></html>`);
     }
   } catch (err) {
     console.error('previewPdf', err);
