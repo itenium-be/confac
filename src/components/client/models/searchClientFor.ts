@@ -1,8 +1,11 @@
 import { ClientModel } from './ClientModels';
 import { getNumeric } from '../../util';
+import { searchinize } from '../../invoice/models/InvoiceListModel';
+
+
 export function searchClientFor(client: ClientModel, input: string): boolean {
-  const text = input.toLowerCase().trim();
-  if ((`${client.name} ${client.address} ${client.city}`).toLowerCase().includes(text)) {
+  const text = searchinize(input);
+  if (searchinize(`${client.name} ${client.address} ${client.city}`).includes(text)) {
     return true;
   }
   const numericText = getNumeric(text);

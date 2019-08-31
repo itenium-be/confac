@@ -1,9 +1,11 @@
 import moment from 'moment';
-import InvoiceModel from './InvoiceModel';
+import InvoiceModel from '../models/InvoiceModel';
 import { ClientModel } from '../../client/models/ClientModels';
 import { InvoiceFilters, InvoiceFiltersSearch } from '../../../models';
+import latinize from 'latinize';
+import { searchClientFor } from '../../client/models/searchClientFor';
 import { getMoney } from '../../controls';
-import { searchClientFor } from "../../client/models/searchClientFor";
+
 
 function transformFilters(search: InvoiceFiltersSearch[], freeText: string): TransformedInvoiceFilters {
   const transformFn = (type: string) => search.filter(f => f.type === type).map(f => f.value);
@@ -17,7 +19,6 @@ function transformFilters(search: InvoiceFiltersSearch[], freeText: string): Tra
     directInvoiceNrs: transformFn('invoice-nr') as number[],
     years: transformFn('year') as number[],
     clients: transformFn('client') as string[],
-    invoiceLineDescs: transformFn('invoice_line') as string[],
     other: other,
   };
 }
@@ -27,7 +28,6 @@ type TransformedInvoiceFilters = {
   directInvoiceNrs: number[],
   years: number[],
   clients: string[],
-  invoiceLineDescs: string[],
   other: string[],
 }
 
@@ -62,15 +62,6 @@ export default class InvoiceListModel {
     const invoiceYears = getInvoiceYears(manualFilteredInvoices);
     options = options.concat(invoiceYears.map(year => ({value: year, label: year, type: 'year'})));
 
-    // Add options: unique invoice-line descriptions
-    // ATTN: In comment, not particularly useful?
-    //       (on delete: also delete other 'invoice_line' filtering)
-    // const fullyFilteredInvoices = this.getFilteredInvoices();
-    // const lines = fullyFilteredInvoices.map(i => i.lines);
-    // const lineDescs = [].concat.apply([], lines).map(l => l.desc);
-    // const uniqueLines = lineDescs.filter((desc, index, arr) => arr.indexOf(desc) === index);
-    // options = options.concat(uniqueLines.map(lineDesc => ({value: lineDesc, label: lineDesc, type: 'invoice_line'})));
-
     return options;
   }
 
@@ -101,11 +92,6 @@ export default class InvoiceListModel {
   }
 
   filterByDescription(invoices: InvoiceModel[]): InvoiceModel[] {
-    // TODO: more invoiceLineDescs... Kill this?
-    if (this.fs.invoiceLineDescs.length) {
-      invoices = invoices.filter(i => this.fs.invoiceLineDescs.some(descFilter => i.lines.map(l => l.desc).includes(descFilter)));
-    }
-
     this.fs.other.forEach(otherFilter => {
       const lastXMonths = otherFilter.match(/last (\d+) (.*)/);
       if (lastXMonths) {
@@ -123,13 +109,22 @@ export default class InvoiceListModel {
 }
 
 
+/**
+ * Make a string ready for search
+ */
+export function searchinize(str: string): string {
+  if (!str) {
+    return '';
+  }
 
+  return latinize(str).trim().toLowerCase();
+}
 
 
 function searchInvoiceFor(invoice: InvoiceModel, text: string): boolean {
-  text = text.toLowerCase().trim();
+  text = searchinize(text);
 
-  if (invoice._id.toLowerCase() === text) {
+  if (searchinize(invoice._id) === text) {
     return true;
   }
 
@@ -137,7 +132,7 @@ function searchInvoiceFor(invoice: InvoiceModel, text: string): boolean {
     return true;
   }
 
-  if (invoice.orderNr.toLowerCase().includes(text)) {
+  if (searchinize(invoice.orderNr).includes(text)) {
     return true;
   }
 
@@ -151,7 +146,7 @@ function searchInvoiceFor(invoice: InvoiceModel, text: string): boolean {
 
   for (let i = 0; i < invoice.lines.length; i++) {
     const line = invoice.lines[i];
-    if (line.desc.toLowerCase().includes(text)) {
+    if (searchinize(line.desc).includes(text)) {
       return true;
     }
   }
