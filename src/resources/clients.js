@@ -1,5 +1,6 @@
 import Router from 'koa-router';
 import slugify from 'slugify';
+import fetch from 'node-fetch';
 
 export default function register(app) {
   const router = new Router({
@@ -8,6 +9,12 @@ export default function register(app) {
 
   router.get('/', function *(next) {
     this.body = yield this.mongo.collection('clients').find().toArray();
+  });
+
+  router.get('/btw/:btw', function *(next) {
+    const result = yield fetch(`https://controleerbtwnummer.eu/api/validate/${this.params.btw}.json`, {mode: 'no-cors'})
+      .then(res => res.json());
+    this.body = result;
   });
 
   router.post('/', function *() {

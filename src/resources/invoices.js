@@ -159,22 +159,22 @@ export function htmlToBuffer(html) {
 }
 
 
-function createBase64Pdf(html) {
-  return new Promise((resolve, reject) => {
-    pdf.create(html).toStream((err, stream) => {
-      if (err) {
-        reject();
-      }
+// function createBase64Pdf(html) {
+//   return new Promise((resolve, reject) => {
+//     pdf.create(html).toStream((err, stream) => {
+//       if (err) {
+//         reject();
+//       }
 
-      const Readable = require('stream').Readable;
-      var base64Stream = this.body = new Readable();
-      stream.on('readable', function() {
-        const d = stream.read();
-        base64Stream.push(d ? d.toString('base64') : null);
-      });
-      stream.on('end', function() {
-        resolve();
-      });
-    });
-  });
-}
+//       const Readable = require('stream').Readable;
+//       var base64Stream = this.body = new Readable();
+//       stream.on('readable', function() {
+//         const d = stream.read();
+//         base64Stream.push(d ? d.toString('base64') : null);
+//       });
+//       stream.on('end', function() {
+//         resolve();
+//       });
+//     });
+//   });
+// }
