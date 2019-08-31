@@ -74,6 +74,7 @@ const trans = {
     },
   },
   quotation: {
+    title: 'Offertes',
     pdfName: 'Offerte',
     createNew: 'Nieuwe offerte',
     date: 'Offertedatum',

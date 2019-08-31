@@ -12,6 +12,8 @@ import InvoiceModel from '../models/InvoiceModel';
 import { ClientModel } from '../../client/models/ClientModels';
 import { InvoiceFilters } from '../../../models';
 import { t } from '../../util';
+import { Link } from 'react-router-dom';
+import { Icon } from '../../controls';
 
 
 type InvoiceListProps = {
@@ -36,8 +38,14 @@ export class InvoiceList extends Component<InvoiceListProps> {
       <Container className="invoice-list">
         {!isQuotation && (
           <Row>
-            <Col xs={12}>
+            <Col xs={8}>
               <h1>{t('title')}</h1>
+            </Col>
+            <Col xs={4} style={{textAlign: 'right'}}>
+              <Link to="/quotations" className="btn btn-light">
+                {t('quotation.title')}
+                <Icon fa="fa fa-arrow-right" size={1} style={{marginLeft: 8}} />
+              </Link>
             </Col>
           </Row>
         )}
