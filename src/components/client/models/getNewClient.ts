@@ -1,5 +1,6 @@
 import { ClientModel } from './ClientModels';
 import { ConfigModel } from "../../config/models/ConfigModel";
+
 export function getNewClient(config: ConfigModel): ClientModel {
   return {
     _id: '',

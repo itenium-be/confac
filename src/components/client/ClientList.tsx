@@ -49,6 +49,7 @@ class ClientList extends Component<ClientListProps, ClientListState> {
 
     return (
       <Container className="client-list">
+        <h1>{t('nav.clients')}</h1>
         <Row>
           <Col lg={3} md={12}>
             <Control.AddIcon onClick="/clients/create" label={t('client.createNew')} data-tst="new-client" />

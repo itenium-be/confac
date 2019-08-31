@@ -21,7 +21,13 @@ body {
 @import 'styles/toastr';
 @import 'styles/forms';
 
+.success {
+  color: #28a745 !important;
+}
 
+.danger {
+  color: #dc3545 !important;
+}
 
 
 .clickable {

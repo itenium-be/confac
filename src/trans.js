@@ -169,6 +169,8 @@ const trans = {
   },
   client: {
     createNew: 'Nieuwe klant',
+    createNewBtwPlaceholder: 'BTW nummer nieuwe klant',
+    createNewButton: 'Klant aanmaken',
     name: 'Klant',
     contact: 'Contact gegevens',
     projectDesc: 'Omschrijving',

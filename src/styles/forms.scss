@@ -12,21 +12,23 @@ $placeholder-color: #c4ccd3;
   color: $placeholder-color !important;
 }
 
+.form-control {
+  &:hover {
+    border-color: hsl(0, 0%, 70%);
+  }
+
+  &:focus {
+    border-color: #2684FF;
+    box-shadow: unset !important;
+  }
+}
+
 .input-group, .form-group {
   // .form-label {
   // }
 
 
-  .form-control {
-    &:hover {
-      border-color: hsl(0, 0%, 70%);
-    }
 
-    &:focus {
-      border-color: #2684FF;
-      box-shadow: unset !important;
-    }
-  }
 
   .input-group-text {
     background-color: unset;

@@ -74,6 +74,7 @@ export class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormPr
       <Row className="tst-attachments">
         <Col sm={12}>
           <HeaderWithEditIcon
+            size={2}
             label={t('invoice.attachments')}
             editIconVisible={canDeleteAttachments}
             onEditClick={() => this.setState({isFormOpen: !this.state.isFormOpen})}

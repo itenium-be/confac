@@ -1,4 +1,4 @@
-import { EditClientRateType, InvoiceDateStrategy } from "../../../models";
+import { EditClientRateType, InvoiceDateStrategy, SelectItem } from "../../../models";
 
 export type ConfigModel = {
   company: ConfigCompanyModel,
@@ -10,7 +10,7 @@ export type ConfigModel = {
   defaultInvoiceDateStrategy: InvoiceDateStrategy,
   defaultExtraClientFields: string[],
   defaultExtraInvoiceFields: string[],
-  defaultExtraClientInvoiceFields: string[],
+  defaultExtraClientInvoiceFields: SelectItem[],
 
   showOrderNr: boolean,
   groupInvoiceListByMonth: boolean,

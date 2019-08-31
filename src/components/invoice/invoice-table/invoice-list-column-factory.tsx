@@ -1,26 +1,28 @@
 import React from 'react';
 import t from '../../../trans';
 import {InvoiceClientCell} from './InvoiceClientCell';
+import { InvoiceNumberCell } from './InvoiceNumberCell';
+import InvoiceModel from '../models/InvoiceModel';
 
 export function getColumns(fields: string[], showOrderNr: boolean, isQuotation: boolean) {
   const transPrefix = isQuotation ? 'quotation' : 'invoice';
   var columns = [{
     key: 'date-month',
     header: t(transPrefix + '.date'),
-    value: i => i.date.format('MMM YYYY'),
+    value: (i: InvoiceModel) => i.date.format('MMM YYYY'),
     groupedBy: true,
   }, {
     key: 'number',
     header: t('invoice.numberShort'),
-    value: i => i.number,
+    value: (i: InvoiceModel) => <InvoiceNumberCell invoice={i} />,
   }, {
     key: 'client',
     header: t('invoice.client'),
-    value: i => <InvoiceClientCell client={i.client} />,
+    value: (i: InvoiceModel) => <InvoiceClientCell client={i.client} />,
   }, {
     key: 'date-full',
     header: t(transPrefix + '.date'),
-    value: i => i.date.format('DD/MM/YYYY'),
+    value: (i: InvoiceModel) => i.date.format('DD/MM/YYYY'),
   }];
 
   if (showOrderNr) {
@@ -28,7 +30,7 @@ export function getColumns(fields: string[], showOrderNr: boolean, isQuotation: 
     columns.push({
       key: 'orderNr',
       header: t(transPrefix + '.orderNrShort'),
-      value: i => i.orderNr,
+      value: (i: InvoiceModel) => i.orderNr,
     });
   }
 

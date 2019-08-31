@@ -12,6 +12,7 @@ import { ConfacState } from '../../reducers/default-states';
 import { ConfigModel } from '../config/models/ConfigModel';
 import { EditClientDefaultOther } from './EditClientDefaultOther';
 import { StickyFooter } from '../controls/skeleton/StickyFooter';
+import { NewClient } from './NewClient';
 
 
 type EditClientProps = {
@@ -61,9 +62,18 @@ class EditClient extends Component<EditClientProps, ClientModel> {
   }
 
   render() {
-    const client: any = this.state;
+    const client: ClientModel = this.state;
     if (!client) {
       return null;
+    }
+
+    if (!client._id && !client.btw) {
+      return (
+        <NewClient
+          client={client}
+          onChange={(value: ClientModel) => {console.log('wiuuh', value); this.setState({...client, ...value})}}
+        />
+      );
     }
 
     return (
