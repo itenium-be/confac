@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Nav, Navbar} from 'react-bootstrap';
+import {Nav, Navbar, Dropdown, ButtonGroup} from 'react-bootstrap';
 import {Link, Route} from 'react-router-dom';
 import {t} from './util';
 import {AddIcon} from './controls';
@@ -23,17 +23,27 @@ const Header = () => (
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="mr-auto">
-        <OldSchoolMenuLink to="/quotations" label={t('nav.quotations')} />
         <OldSchoolMenuLink to="/invoices" label={t('title')} />
         <OldSchoolMenuLink to="/clients" label={t('nav.clients')} />
         <OldSchoolMenuLink to="/config" label={t('nav.config')} />
       </Nav>
-      <Link to="/invoices/create">
-        <Button variant="success" style={{top: 8, position: 'absolute', right: 80}}>
+
+      <Dropdown as={ButtonGroup} style={{top: 8, position: 'absolute', right: 80}}>
+        <Link to="/invoices/create" className="btn btn-success">
           <AddIcon size={1} style={{marginRight: 15}} data-tst="invoice-create" />
           {t('invoice.createNew')}
-        </Button>
-      </Link>
+        </Link>
+
+        <Dropdown.Toggle split variant="success" id="header-create-split" />
+        <Dropdown.Menu>
+          <Link to="/clients/create" className="dropdown-item">
+            {t('client.createNew')}
+          </Link>
+          <Link to="/quotations/create" className="dropdown-item">
+            {t('quotation.createNew')}
+          </Link>
+        </Dropdown.Menu>
+      </Dropdown>
     </Navbar.Collapse>
   </Navbar>
 );
