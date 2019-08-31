@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {t} from '../../util';
 import * as Control from '../../controls';
-import {Container, Row, Form, Col} from 'react-bootstrap';
+import {Container, Row, Form} from 'react-bootstrap';
 import {saveClient} from '../../../actions/appActions';
 import {requiredClientProperties} from '../models/ClientConfig';
 import { getNewClient } from "../models/getNewClient";
