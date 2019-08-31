@@ -40,6 +40,7 @@ export const ProposedAttachmentsDropzones = ({model, modelType}: ProposedAttachm
     padding: 5,
     cursor: 'pointer',
     opacity: 0.5,
+    marginBottom: 25,
   };
 
   const onDrop = (uploaded: File, attachmentType: string): void => {
