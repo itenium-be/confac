@@ -71,11 +71,13 @@ class EditClient extends Component<EditClientProps, ClientModel> {
         <Form>
           <Row>
             <h1>
-              {t('client.contact')}
+              {client.name || (client._id ? '' : t('client.createNew'))}
               {client.createdOn && <small className="created-on">{t('createdOn')} {moment(client.createdOn).format('DD/MM/YYYY')}</small>}
             </h1>
-
+          </Row>
+          <Row>
             <ArrayInput
+              title={t('client.contact')}
               config={defaultClientProperties}
               model={client}
               onChange={value => this.setState({...client, ...value})}
@@ -85,8 +87,8 @@ class EditClient extends Component<EditClientProps, ClientModel> {
 
 
           <Row>
-            <h1>{t('client.rate.title')}</h1>
             <ArrayInput
+              title={t('client.rate.title')}
               config={editClientRateConfig}
               model={client.rate}
               onChange={value => this.setState({...client, rate: {...value}})}

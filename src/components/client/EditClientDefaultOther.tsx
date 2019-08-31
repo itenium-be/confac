@@ -6,7 +6,7 @@ import { StringInput, PropertiesSelect, ExtraFieldsInput } from "../controls";
 export const EditClientDefaultOther = ({client, onChange}) => (
   <>
     <Row>
-      <h1>{t('config.company.other')}</h1>
+      <Col sm={12}><h2>{t('config.company.other')}</h2></Col>
       <Col sm={4}>
         <StringInput
           label={t('invoice.fileName')}

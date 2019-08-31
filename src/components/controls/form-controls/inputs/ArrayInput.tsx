@@ -11,14 +11,17 @@ type ArrayInputProps = {
   model: {_id?: string, [key: string]: any},
   onChange: (value: any) => void,
   tPrefix: string,
+  title?: string,
 }
 
 
-export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) => {
+export const ArrayInput = ({config, model, onChange, tPrefix, title}: ArrayInputProps) => {
   const result = normalizeFormConfig(config, model);
 
   return (
     <>
+      {title && <Col xs={12}><h2>{title}</h2></Col>}
+
       {result.map((col: FormConfig, index: number) => {
         const {key, cols, offset, component, suffix, prefix, ...props} = col;
         if (!key) {
