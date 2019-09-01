@@ -14,10 +14,7 @@ export function getAwesomeFileType(att: {type: string, fileType: string, fileNam
   // file-code, file-audio
   // extension = att.fileName.substring(att.fileName.lastIndexOf('.') + 1)
   // console.log(att.type, ':', att.fileType);
-
-  // file-contract, file-csv, , file-invoice-dollar, file-powerpoint
-  // file-signature, file-word
-
+  // file-contract, file-invoice-dollar, file-signature
 
   const type = att.fileType;
   if (type.startsWith('image/')) {
@@ -49,36 +46,36 @@ export function getAwesomeFileType(att: {type: string, fileType: string, fileNam
   default:
   }
 
-  if (type === 'application/octet-stream') {
-    const ext = att.fileName.substring(att.fileName.lastIndexOf('.') + 1);
-    switch (ext) {
-    case 'xls':
-    case 'xlsx':
-    case 'ods':
-      return 'far fa-file-excel';
+  // if (type === 'application/octet-stream') {
+  const ext = att.fileName.substring(att.fileName.lastIndexOf('.') + 1);
+  switch (ext) {
+  case 'xls':
+  case 'xlsx':
+  case 'ods':
+    return 'far fa-file-excel';
 
-    case 'doc':
-    case 'docx':
-    case 'odt':
-      return 'far fa-file-word';
+  case 'doc':
+  case 'docx':
+  case 'odt':
+    return 'far fa-file-word';
 
-    case 'zip':
-    case '7z':
-    case 'tar':
-    case 'bz2':
-    case 'gz':
-    case 'rar':
-      return 'far fa-file-archive';
+  case 'zip':
+  case '7z':
+  case 'tar':
+  case 'bz2':
+  case 'gz':
+  case 'rar':
+    return 'far fa-file-archive';
 
-    case 'ppt':
-    case 'pptx':
-    case 'odp':
-      return 'far fa-file-powerpoint';
+  case 'ppt':
+  case 'pptx':
+  case 'odp':
+    return 'far fa-file-powerpoint';
 
-    default:
-      return 'far fa-file';
-    }
+  case 'csv':
+    return 'fa fa-file-csv';
+
+  default:
+    return 'far fa-file';
   }
-
-  return 'far fa-file';
 }

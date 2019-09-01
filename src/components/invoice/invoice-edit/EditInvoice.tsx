@@ -16,6 +16,7 @@ import { ClientModel } from '../../client/models/ClientModels';
 import { ConfacState } from '../../../reducers/default-states';
 import { EditInvoiceDetails } from './EditInvoiceDetails';
 import { StickyFooter } from '../../controls/skeleton/StickyFooter';
+import { DownloadOrPreviewInvoiceButtons } from './DownloadOrPreviewInvoiceButtons';
 
 
 type EditInvoiceProps = {
@@ -106,10 +107,15 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
       <Container className="edit-container">
         <Form>
           <Row>
-            <h1>
-              {invoice._id ? t(this.type + '.editTitle') : t(this.type + '.createTitle')}
-              {invoice.createdOn && <small className="created-on">{t('createdOn')} {moment(invoice.createdOn).format('DD/MM/YYYY')}</small>}
-            </h1>
+            <Col sm={12}>
+              <h1>
+                {invoice._id && (<div style={{float: 'right'}}>
+                  <DownloadOrPreviewInvoiceButtons invoice={invoice} />
+                </div>)}
+                {invoice._id ? t(this.type + '.editTitle') : t(this.type + '.createTitle')}
+                {invoice.createdOn && <small className="created-on">{t('createdOn')} {moment(invoice.createdOn).format('DD/MM/YYYY')}</small>}
+              </h1>
+            </Col>
 
             <Col sm={12}>
               <InvoiceNotVerifiedAlert invoice={invoice} />
@@ -170,9 +176,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
               onChange={m => this.setState({invoice: m})}
             />
           </Row>
-          <div style={{marginTop: -20}}>
-            <Control.AttachmentsForm model={invoice} />
-          </div>
+          <Control.AttachmentsForm model={invoice} />
           <StickyFooter>
             <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, invoice)} invoice={invoice} />
           </StickyFooter>

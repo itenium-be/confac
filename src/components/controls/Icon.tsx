@@ -47,7 +47,7 @@ export type IconProps = {
    */
   href?: string,
   className?: string,
-  label?: string,
+  label?: string | React.ReactNode,
   labelStyle?: React.CSSProperties,
   title?: string,
   size?: number,

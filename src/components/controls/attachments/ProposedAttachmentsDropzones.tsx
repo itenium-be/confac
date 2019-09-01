@@ -33,14 +33,8 @@ export const ProposedAttachmentsDropzones = ({model, modelType}: ProposedAttachm
   }
 
   const style = {
-    borderWidth: 2,
-    borderColor: '#666',
-    borderStyle: 'dashed',
-    borderRadius: 5,
-    padding: 5,
     cursor: 'pointer',
     opacity: 0.5,
-    marginBottom: 25,
   };
 
   const onDrop = (uploaded: File, attachmentType: string): void => {
@@ -52,8 +46,8 @@ export const ProposedAttachmentsDropzones = ({model, modelType}: ProposedAttachm
     <>
       {extraAttachments.map((a: string) => {
         return (
-          <Col key={a} sm={4}>
-            <div style={style}>
+          <Col key={a} lg={4} md={6} className="">
+            <div style={style} className="attachment">
               <Dropzone
                 onDrop={(accepted: File[], rejected: File[]) => onDrop(accepted[0], a)}
                 multiple={false}

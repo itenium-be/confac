@@ -143,6 +143,7 @@ const trans = {
     isVerifiedConfirm: 'Factuur nu geverifieerd',
     isNotVerifiedConfirm: 'Factuur niet meer geverifieerd',
     downloadAttachment: '{type} downloaden',
+    downloadInvoice: 'Factuur downloaden',
     addLine: 'Factuurlijn toevoegen',
     attachments: 'Bijlagen',
     attachmentsAdd: 'Bijlage toevoegen',

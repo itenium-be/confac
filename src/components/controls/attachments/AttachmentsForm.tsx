@@ -6,9 +6,13 @@ import { HeaderWithEditIcon } from '../Headers';
 import { t } from '../../util';
 import { AddIcon, ConfirmedDeleteIcon } from '../Icon';
 import { AddAttachmentPopup } from './AddAttachmentPopup';
-import { AttachmentDownloadIcon } from '../../controls';
 import {updateAttachment, deleteAttachment} from '../../../actions/index';
 import { ProposedAttachmentsDropzones } from './ProposedAttachmentsDropzones';
+import { AttachmentForm } from './AttachmentForm';
+
+
+import './attachments.scss';
+
 
 export type AttachmentsFormProps = {
   deleteAttachment: Function,
@@ -67,11 +71,11 @@ export class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormPr
   }
 
   render() {
-    const canDeleteAttachments = this.props.attachments.length > (this.props.modelType === 'client' ? 0 : 1);
-    const transPrefix = this.props.modelType;
+    const attachments = this.props.attachments.filter(att => att.type !== 'pdf');
+    const canDeleteAttachments = attachments.length > 0;
 
     return (
-      <Row className="tst-attachments">
+      <Row className="tst-attachments attachments-form">
         <Col sm={12}>
           <HeaderWithEditIcon
             size={2}
@@ -81,7 +85,7 @@ export class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormPr
           />
 
           <AddIcon
-            style={{marginTop: 0, marginLeft: 16}}
+            style={{marginTop: 0, marginLeft: 16, marginBottom: 26}}
             onClick={() => this.setState({isOpen: true})}
             label={t('invoice.attachmentsAdd')}
             size={1}
@@ -96,22 +100,15 @@ export class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormPr
           />
         </Col>
 
-        {this.props.attachments.map(att => (
-          <Col sm={3} key={att.type} style={{height: 45}}>
-            <div
-              style={{padding: 5, marginTop: 10, border: this.state.isFormOpen && att.type === this.state.hoverId ? '1px gray dotted' : ''}}
-              onMouseOver={() => this.setState({hoverId: att.type !== 'pdf' ? att.type : null})}
-              onMouseOut={() => this.setState({hoverId: null})}
+        {attachments.map(att => (
+          <Col lg={4} md={6} key={att.type}>
+            <AttachmentForm
+              model={this.props.model}
+              modelType={this.props.modelType}
+              attachment={att}
             >
-              <AttachmentDownloadIcon
-                model={this.props.model}
-                attachment={att}
-                modelType={this.props.modelType}
-                data-tst={`att-download-${att.type}`}
-                label={att.type !== 'pdf' ? att.type : t(transPrefix + '.pdfName')}
-              />
-              {this.state.isFormOpen && att.type !== 'pdf' ? (
-                <div style={{display: 'inline', position: 'absolute', right: 20}}>
+              {this.state.isFormOpen ? (
+                <div className="delete">
                   <ConfirmedDeleteIcon
                     title={t('attachment.deleteTitle')}
                     onClick={this.props.onDelete.bind(this, att)}
@@ -121,7 +118,7 @@ export class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormPr
                   </ConfirmedDeleteIcon>
                 </div>
               ) : null}
-            </div>
+            </AttachmentForm>
           </Col>
         ))}
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon} from '../Icon';
+import {Icon, IconProps} from '../Icon';
 import { getInvoiceDownloadUrl, getClientDownloadUrl} from '../../../actions/index';
 import t from '../../../trans';
 import InvoiceModel, { InvoiceModelProps } from '../../invoice/models/InvoiceModel';
@@ -26,21 +26,23 @@ export const InvoicePreviewIcon = ({invoice, ...props}: InvoiceModelProps) => {
 
 
 
-type AttachmentDownloadIconProps = {
+type AttachmentDownloadIconProps = IconProps & {
   model: IAttachment,
   attachment: Attachment,
   modelType: 'invoice' | 'client' | 'quotation',
-  label?: string, // TODO: Does this even do anything?
 }
 
 
-export const AttachmentDownloadIcon = ({model, attachment, modelType, ...props}: AttachmentDownloadIconProps) => {
-  let href;
+export const getAttachmentDownloadUrl = (model: IAttachment, attachment: Attachment, modelType: 'client' | 'invoice' | 'quotation'): string => {
   if (modelType === 'client') {
-    href = getClientDownloadUrl(model as ClientModel, attachment);
+    return getClientDownloadUrl(model as ClientModel, attachment);
   } else {
-    href = getInvoiceDownloadUrl(model as InvoiceModel, attachment.type, 'download');
+    return getInvoiceDownloadUrl(model as InvoiceModel, attachment, 'download');
   }
+}
+
+export const AttachmentDownloadIcon = ({model, attachment, modelType, ...props}: AttachmentDownloadIconProps) => {
+  const href = getAttachmentDownloadUrl(model, attachment, modelType);
 
   return (
     <Icon

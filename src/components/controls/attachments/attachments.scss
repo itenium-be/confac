@@ -1,0 +1,31 @@
+.attachment {
+  padding: 5px;
+  display: flex;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  border: 1px dotted #666;
+
+  .icon {
+    width: 20px;
+    margin-right: 12px;
+  }
+
+  .info {
+    flex: 1;
+    margin-top: -4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    .fileName {
+      display: block;
+      font-size: 70%;
+      margin-top: -2px;
+    }
+  }
+
+  .delete {
+    width: 25px;
+    margin-right: 12px;
+  }
+}

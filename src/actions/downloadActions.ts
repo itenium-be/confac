@@ -5,10 +5,11 @@ import { Attachment } from '../models';
 import { ClientModel } from '../components/client/models/ClientModels';
 
 
-export function getInvoiceDownloadUrl(invoice: InvoiceModel, attachmentType = 'pdf', downloadType?: 'preview' | 'download'): string {
+export function getInvoiceDownloadUrl(invoice: InvoiceModel, attachment: 'pdf' | Attachment = 'pdf', downloadType?: 'preview' | 'download'): string {
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
   const query = downloadType === 'download' ? '?download=1' : '';
-  const fileName = attachmentType === 'pdf' ? getInvoiceFileName(invoice) : '';
+  const fileName = attachment === 'pdf' ? getInvoiceFileName(invoice) : attachment.fileName;
+  const attachmentType = attachment === 'pdf' ? 'pdf' : attachment.type;
   return buildUrl(`/attachments/${fileType}/${invoice._id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
 }
 
