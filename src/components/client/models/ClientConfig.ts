@@ -3,13 +3,13 @@ import { FullFormConfig } from '../../../models';
 
 export const defaultClientProperties: FullFormConfig = [
   { key: 'name', },
-  { key: 'btw', suffix: 'building' },
+  { key: 'btw', component: 'btw' },
   { key: 'slug', updateOnly: true },
   { key: 'address' },
   { key: 'city' },
-  { key: 'telephone', suffix: 'phone' },
+  { key: 'telephone', component: 'phone' },
   { key: 'contact', suffix: 'user' },
-  { key: 'contactEmail', suffix: 'email' },
+  { key: 'contactEmail', component: 'email' },
   { key: 'notes', component: 'textarea', cols: 12, style: {height: 140}},
 ];
 

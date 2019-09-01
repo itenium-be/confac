@@ -16,7 +16,7 @@ const DefaultBtwCountry = 'BE';
 const SmallestPossibleBtwLength = 8;
 
 type BtwInputProps = BaseInputProps<string> & {
-  onBtwChange: (val: BtwResponse) => void;
+  onBtwChange?: (val: BtwResponse) => void;
   onFinalize?: (btw: string) => void;
 }
 
@@ -25,19 +25,25 @@ const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}:
   const [inputValue, setInputValue] = useState(value || '');
   const [loading, setLoading] = useState(false);
   const [valid, setValid] = useState(false);
+  const [initialCheckDone, setInitialCheckDone] = useState(false);
 
   const [debouncedCallback] = useDebouncedCallback(async val => {
     const cleanBtw = parseBtw(val);
     if (cleanBtw.length > SmallestPossibleBtwLength) {
+      setLoading(true);
       const btwInfo = await fetchBtwInfo(cleanBtw);
       setValid(btwInfo.valid);
-      if (btwInfo.valid) {
+      if (onBtwChange && btwInfo.valid) {
         onBtwChange(btwInfo);
       }
     }
     setLoading(false);
   }, 500);
 
+  if (value && !initialCheckDone) {
+    setInitialCheckDone(true);
+    debouncedCallback(value);
+  }
 
   const onInputChange = async (val: string) => {
     setInputValue(val);
@@ -60,7 +66,7 @@ const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}:
       prefix={<Icon fa={cn('fa', (loading ? 'fa-spinner fa-spin' : 'fa-building'), (valid ? 'success' : 'danger'))} size={1} />}
       suffix={onFinalize && <Button variant="success" onClick={() => onFinalize(formattedBtw)}>{t('client.createNewButton')}</Button>}
       suffixOptions={{type: 'button'}}
-      onBlur={() => setInputValue(formattedBtw)}
+      onBlur={() => onInputChange(formattedBtw)}
       {...props}
       placeholder={t('client.createNewBtwPlaceholder')}
     />
@@ -123,6 +129,10 @@ export function parseBtw(str: string): string {
   return btw;
 }
 
+/**
+ * Formats to "BE 0123.456.789"
+ * Expects input to be in "BE0123456789"
+ */
 export const formatBtw = (str: string): string => {
   return str.replace(/(\w{2})(\d{4})(\d{3})(\d{3})/, '$1 $2.$3.$4');
 }

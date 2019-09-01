@@ -28,9 +28,11 @@
     "typescript": "3.5.3"
   },
   "dependencies": {
+    "@types/iban": "0.0.30",
     "bluebird": "^3.4.7",
     "classnames": "^2.2.6",
     "create-react-class": "^15.6.3",
+    "iban": "0.0.12",
     "keymirror": "^0.1.1",
     "latinize": "^0.4.0",
     "moment": "^2.15.2",

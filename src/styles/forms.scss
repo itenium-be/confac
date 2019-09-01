@@ -28,13 +28,19 @@ $placeholder-color: #c4ccd3;
   // }
 
 
-
-
   .input-group-text {
     background-color: unset;
 
     i.fa {
       color: $addon-icon-color;
+
+      &.success {
+        color: #28a745;
+      }
+
+      &.danger {
+        color: #dc3545;
+      }
     }
   }
 }

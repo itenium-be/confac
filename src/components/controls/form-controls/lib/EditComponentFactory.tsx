@@ -11,6 +11,11 @@ import { Switch } from "../Switch";
 import { ClientSelect } from "../../../client/controls/ClientSelect";
 import { FloatInput } from "../inputs/FloatInput";
 import { StringsSelect } from "../select/StringsSelect";
+import { BtwInput } from "../inputs/BtwInput";
+import { EmailInput } from "../inputs/EmailInput";
+import { PhoneInput } from "../inputs/PhoneInput";
+import { WebsiteInput } from "../inputs/WebsiteInput";
+import { IbanInput } from "../inputs/IbanInput";
 
 export type CustomComponents = 'InvoiceLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect';
 
@@ -22,9 +27,16 @@ const componentMap = {
   money: MoneyInput,
   text: StringInput,
   textarea: TextareaInput,
-  'basic-math': BasicMathInput,
   switch: Switch,
   float: FloatInput,
+
+  // Specialized
+  'basic-math': BasicMathInput,
+  email: EmailInput,
+  phone: PhoneInput,
+  website: WebsiteInput,
+  btw: BtwInput,
+  iban: IbanInput,
 
   // Custom
   InvoiceLineTypeSelect: InvoiceLineTypeSelect,
@@ -39,6 +51,8 @@ export function getComponent(col: FormConfig) {
     if (componentMap[col.component]) {
       return componentMap[col.component];
     }
+    console.error(`EditComponentFactory: Tried to render component ${col.component} but it's not configured`, col);
+    console.log('componentMap', componentMap);
 
   } else if (col.component) {
     return col.component
