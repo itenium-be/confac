@@ -7,11 +7,14 @@ import {BusyButton} from '../../controls';
 import {Alert} from 'react-bootstrap';
 import {toggleInvoiceVerify} from '../../../actions/index';
 import InvoiceModel from '../models/InvoiceModel';
+import { getInvoiceDueDateVariant } from '../invoice-list/InvoiceListRow';
+import { ConfacState } from '../../../reducers/default-states';
 
 
 type InvoiceNotVerifiedAlertProps = {
   invoice: InvoiceModel,
   toggleInvoiceVerify: Function,
+  invoicePayDays: number,
 }
 
 type InvoiceNotVerifiedAlertState = {
@@ -29,12 +32,14 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
       return null;
     }
 
+
+    const variant = getInvoiceDueDateVariant(invoice, this.props.invoicePayDays) as any;
     const daysOpen = moment().diff(invoice.date, 'days');
     return (
       <div>
-        <Alert style={{height: 52}} variant="info" onClose={() => this.setState({dismissed: true})} dismissible data-tst="invoice-verify-alert">
+        <Alert style={{height: 52}} variant={variant} onClose={() => this.setState({dismissed: true})} dismissible data-tst="invoice-verify-alert">
           <BusyButton
-            variant="info"
+            variant={variant}
             onClick={() => toggleInvoiceVerify(invoice)}
             size="sm"
             style={{marginTop: -5, marginRight: 10, textTransform: 'uppercase'}}
@@ -49,4 +54,4 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
   }
 }
 
-export default connect(() => ({}), {toggleInvoiceVerify})(InvoiceNotVerifiedAlert);
+export default connect((state: ConfacState) => ({invoicePayDays: state.config.invoicePayDays}), {toggleInvoiceVerify})(InvoiceNotVerifiedAlert);

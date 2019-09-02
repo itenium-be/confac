@@ -39,4 +39,5 @@ export const configInvoiceDefinition: FullFormConfig = [
   {key: 'attachmentTypes', component: 'StringsSelect'},
   {key: 'defaultInvoiceLineType', component: 'InvoiceLineTypeSelect'},
   {key: 'defaultInvoiceDateStrategy', component: 'InvoiceDateStrategySelect'},
+  {key: 'invoicePayDays', component: 'number'},
 ];

@@ -11,6 +11,7 @@ export type ConfigModel = {
   defaultExtraClientFields: string[],
   defaultExtraInvoiceFields: string[],
   defaultExtraClientInvoiceFields: SelectItem[],
+  invoicePayDays: number,
 
   showOrderNr: boolean,
   groupInvoiceListByMonth: boolean,

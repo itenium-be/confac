@@ -54,4 +54,5 @@ export const defaultConfig: ConfigModel = {
   groupInvoiceListByMonth: false,
   defaultInvoiceLineType: 'daily',
   defaultInvoiceDateStrategy: 'prev-month-last-day',
+  invoicePayDays: 30,
 };

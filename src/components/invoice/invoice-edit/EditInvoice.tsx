@@ -16,7 +16,7 @@ import { ClientModel } from '../../client/models/ClientModels';
 import { ConfacState } from '../../../reducers/default-states';
 import { EditInvoiceDetails } from './EditInvoiceDetails';
 import { StickyFooter } from '../../controls/skeleton/StickyFooter';
-import { DownloadOrPreviewInvoiceButtons } from './DownloadOrPreviewInvoiceButtons';
+import { DownloadInvoiceButton } from './DownloadInvoiceButton';
 
 
 type EditInvoiceProps = {
@@ -110,7 +110,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
             <Col sm={12}>
               <h1>
                 {invoice._id && (<div style={{float: 'right'}}>
-                  <DownloadOrPreviewInvoiceButtons invoice={invoice} />
+                  <DownloadInvoiceButton invoice={invoice} />
                 </div>)}
                 {invoice._id ? t(this.type + '.editTitle') : t(this.type + '.createTitle')}
                 {invoice.createdOn && <small className="created-on">{t('createdOn')} {moment(invoice.createdOn).format('DD/MM/YYYY')}</small>}

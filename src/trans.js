@@ -45,6 +45,7 @@ const trans = {
     defaultInvoiceLineType: 'Standaard factuurlijn eenheid',
     defaultInvoiceDateStrategy: 'Standaard factuurdatum',
     attachmentTypes: 'Standaard factuurbijlage',
+    invoicePayDays: 'Betalingstermijn (kalenderdagen)',
     company: {
       title: 'Jouw bedrijfsgegevens',
       name: 'Bedrijfsnaam',
