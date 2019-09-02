@@ -20,6 +20,9 @@ export default function register(app) {
       this.type = 'application/pdf';
     } else {
       // Download the file
+      if (!fileName) {
+        console.log('Downloading a file without knowing the filename', this.params)
+      }
       this.set('Content-disposition', 'attachment; filename=' + fileName);
     }
   });
