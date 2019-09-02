@@ -32,7 +32,7 @@ function getInvoiceFileName(data: InvoiceModel): string {
 
   const dateRegex = /\{date:([^}]+)\}/;
   const dateMatch = fileName.match(dateRegex);
-  if (dateMatch) {
+  if (dateMatch && data.date) {
     const dateFormat = dateMatch[1];
     fileName = fileName.replace(dateRegex, data.date.format(dateFormat));
   }
