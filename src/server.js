@@ -4,6 +4,8 @@ var createApp = require('./server-init.js').createApp;
 
 // console.log('process.env', JSON.stringify(process.env));
 
+const KoaServerPort = 9000;
+
 var json = require('./config.json');
 if (process.env) {
   json = {
@@ -23,6 +25,6 @@ if (process.env) {
 var config = Object.assign({env: process.env.NODE_ENV || 'dev'}, json);
 
 var app = createApp(config);
-console.log('Starting at ' + config.server.port + ' on ' + new Date().toString());
+console.log('Starting at ' + KoaServerPort + ' on ' + new Date().toString());
 console.log('Config', JSON.stringify(config));
-app.listen(config.server.port, () => console.log('Started!'));
+app.listen(KoaServerPort, () => console.log('Started!'));
