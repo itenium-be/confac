@@ -23,6 +23,7 @@ export type ConfigCompanyModel = {
   address: string,
   city: string,
   btw: string,
+  rpr: string,
   bank: string,
   iban: string,
   bic: string,

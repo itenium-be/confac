@@ -18,6 +18,7 @@ export const configDefinition: FullFormConfig = [
   {key: 'email', component: 'email'},
   {key: 'website', component: 'website'},
   {key: 'btw', component: 'btw'},
+  'rpr',
   {forceRow: true},
   {key: 'bank'},
   {key: 'iban', component: 'iban'},

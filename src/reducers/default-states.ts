@@ -36,6 +36,7 @@ export const defaultConfig: ConfigModel = {
     address: 'Streetname 15',
     city: '9000 Brussel',
     btw: '0000.000.000',
+    rpr: 'Brussel',
     bank: 'Banknaam',
     iban: 'BE00 0000 0000 0000',
     bic: 'GKCCBEAD',

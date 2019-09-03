@@ -57,6 +57,7 @@ const trans = {
       bank: 'Naam bank',
       bic: 'BIC',
       btw: 'BTW',
+      rpr: 'Rechtspersonenregister',
       other: 'Ander',
       template: 'Html template (facturen)',
       templateQuotation: 'Html template (offertes)',
