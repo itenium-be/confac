@@ -23,7 +23,7 @@ type EditInvoiceClientState = {
  * + InvoiceTotal
  */
 export class EditInvoiceClient extends Component<EditInvoiceClientProps, EditInvoiceClientState> {
-  constructor(props) {
+  constructor(props: EditInvoiceClientProps) {
     super(props);
     this.state = {modalClientId: undefined};
   }
@@ -43,8 +43,8 @@ export class EditInvoiceClient extends Component<EditInvoiceClientProps, EditInv
           <div>
             <Control.ClientSelect
               label={t('invoice.client')}
-              value={invoice.client}
-              onChange={c => onChange({invoice: invoice.setClient(c)})}
+              value={invoice.client && invoice.client._id}
+              onChange={(clientId, client) => onChange({invoice: invoice.setClient(client)})}
             />
           </div>
           <div style={{width: 120, position: 'relative'}}>

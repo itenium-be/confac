@@ -1,11 +1,16 @@
 import React from "react";
-import { Col } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { StringInput } from "./StringInput";
+import { BaseInputProps } from "./BaseInput";
+import { SelectItem } from "../../../../models";
 
 
-export const ExtraFieldsInput = ({properties, onChange, ...props}) => {
-  const updater = (updateLabel, newText) => {
-    onChange(properties.map(col => {
+type ExtraFieldsInputProps = BaseInputProps<SelectItem[]>;
+
+
+export const ExtraFieldsInput = ({value, onChange, ...props}: ExtraFieldsInputProps) => {
+  const updater = (updateLabel: string, newText: string): void => {
+    onChange((value || []).map(col => {
       if (col.label === updateLabel) {
         return {
           label: col.label,
@@ -17,17 +22,17 @@ export const ExtraFieldsInput = ({properties, onChange, ...props}) => {
   };
 
   return (
-    <>
-      {properties.map(col => (
+    <Row>
+      {(value || []).map(col => (
         <Col sm={4} key={col.label}>
           <StringInput
-            label={col.label}
-            value={col.value}
-            onChange={updater.bind(null, col.label)}
-            data-tst={props['data-tst'] + '_' + col.label}
+            label={col.label as string}
+            value={col.value as string}
+            onChange={updater.bind(null, col.label as string)}
+            data-tst={props['data-tst'] + '_' + col.label + '_value'}
           />
         </Col>
       ))}
-    </>
+    </Row>
   );
 };

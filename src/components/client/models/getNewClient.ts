@@ -11,7 +11,7 @@ export function getNewClient(config: ConfigModel): ClientModel {
     city: '',
     telephone: '',
     btw: '',
-    invoiceFileName: '{date:YYYY-MM} {nr:4} - {clientName}',
+    invoiceFileName: config.invoiceFileName || '{date:YYYY-MM} {nr:4} - {clientName}',  // ATTN: Duplicated in default-states
     rate: {
       type: config.defaultInvoiceLineType,
       hoursInDay: 8,

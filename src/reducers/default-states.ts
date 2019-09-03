@@ -31,7 +31,6 @@ export const defaultAppState: AppState = {
 
 export const defaultConfig: ConfigModel = {
   company: {
-    template: 'example-1.pug',
     name: 'Jouw bedrijfsnaam',
     address: 'Streetname 15',
     city: '9000 Brussel',
@@ -45,9 +44,11 @@ export const defaultConfig: ConfigModel = {
     website: 'www.clicky-me-IT.be'
   },
   defaultClient: null,
+  template: 'example-1.pug',
+  templateQuotation: 'example-1.pug',
+  invoiceFileName: '{date:YYYY-MM} {nr:4} - {clientName}', // ATTN: Duplicated in getNewClient
   defaultTax: 21,
   attachmentTypes: [],
-  extraConfigFields: [],
   defaultExtraClientFields: [],
   defaultExtraClientInvoiceFields: [],
   defaultExtraInvoiceFields: [],

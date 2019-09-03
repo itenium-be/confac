@@ -1,5 +1,5 @@
-import {ACTION_TYPES} from './ActionTypes';
-import { buildUrl } from './fetch';
+import {ACTION_TYPES} from './utils/ActionTypes';
+import { buildUrl } from './utils/fetch';
 import { failure } from './appActions';
 import { toast } from 'react-toastify';
 

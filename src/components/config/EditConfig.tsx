@@ -2,12 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {t} from '../util';
 import {Container, Row, Form} from 'react-bootstrap';
-import {configDefinition, configSettingsDefinition, configInvoiceDefinition} from './models/ConfigConfig';
+import {configDefinition} from './models/ConfigConfig';
 import * as Control from '../controls';
 import {updateConfig} from '../../actions/index';
-import { ConfigModel, ConfigCompanyModel } from './models/ConfigModel';
+import { ConfigModel } from './models/ConfigModel';
 import { ConfacState } from '../../reducers/default-states';
-import { EditConfigExtraFields } from './EditConfigExtraFields';
 import { ArrayInput } from '../controls';
 import { StickyFooter } from '../controls/skeleton/StickyFooter';
 
@@ -43,44 +42,14 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
       <Container className="edit-container">
         <Form>
           <Row>
-            <h1>{t('config.company.title')}</h1>
             <ArrayInput
               config={configDefinition}
-              model={this.state.company}
-              onChange={(company: ConfigCompanyModel) => this.setState({company})}
-              tPrefix="config.company."
-            />
-          </Row>
-
-          <Row>
-            <h1>{t('config.invoiceTitle')}</h1>
-            <ArrayInput
-              config={configInvoiceDefinition}
               model={this.state}
               onChange={(state: ConfigModel) => this.setState({...state})}
               tPrefix="config."
             />
           </Row>
-
-
-          <Row>
-            <h1>{t('config.settingsTitle')}</h1>
-            <ArrayInput
-              config={configSettingsDefinition}
-              model={this.state}
-              onChange={(state: ConfigModel) => this.setState({...state})}
-              tPrefix="config."
-            />
-          </Row>
-
-
-          <EditConfigExtraFields
-            config={this.state}
-            onChange={this.setState.bind(this)}
-          />
         </Form>
-
-
         <StickyFooter>
             <Control.BusyButton onClick={this._save.bind(this)} data-tst="save">{t('save')}</Control.BusyButton>
         </StickyFooter>

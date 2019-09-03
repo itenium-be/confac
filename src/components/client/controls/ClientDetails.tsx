@@ -3,6 +3,11 @@ import {Link} from 'react-router-dom';
 import {ClientEditIcon, HeaderWithEditIcon, EditIcon} from '../../controls';
 import {t} from '../../util';
 
+/**
+ * A small box with general client details
+ * Can open client edit in modal or fullscreen
+ * (used in EditInvoice)
+ */
 const ClientDetails = ({client, onOpenDetails, onOpenDetailsTitle}) => (
   <div>
     <HeaderWithEditIcon label={client.name} size={4} data-tst="client-header">

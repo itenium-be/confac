@@ -5,20 +5,24 @@ export type ConfigModel = {
   defaultClient: string | null,
   defaultTax: number,
   attachmentTypes: string[],
-  extraConfigFields: string[],
   defaultInvoiceLineType: EditClientRateType,
   defaultInvoiceDateStrategy: InvoiceDateStrategy,
-  defaultExtraClientFields: string[],
-  defaultExtraInvoiceFields: string[],
+  defaultExtraClientFields: SelectItem[],
+  defaultExtraInvoiceFields: SelectItem[],
   defaultExtraClientInvoiceFields: SelectItem[],
   invoicePayDays: number,
+  /**
+   * The default invoice file name when creating a new client
+   */
+  invoiceFileName: string,
+  template: string,
+  templateQuotation: string,
 
   showOrderNr: boolean,
   groupInvoiceListByMonth: boolean,
 }
 
 export type ConfigCompanyModel = {
-  template: string,
   name: string,
   address: string,
   city: string,

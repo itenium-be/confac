@@ -1,44 +1,39 @@
 import { FullFormConfig } from '../../../models';
 import { TemplatePicker } from '../../controls/form-controls/select/TemplatePicker';
 
-const templatePicker = {
-  key: 'template',
-  component: TemplatePicker,
-};
-const templateQuotationsPicker = {
-  key: 'templateQuotation',
-  component: TemplatePicker,
-};
+// configDefinition.addMissingProps = true;
 
 export const configDefinition: FullFormConfig = [
-  'name',
-  'address',
-  'city',
-  {key: 'telephone', component: 'phone'},
-  {key: 'email', component: 'email'},
-  {key: 'website', component: 'website'},
-  {key: 'btw', component: 'btw'},
-  'rpr',
+  {title: 'config.company.title'},
+  'company.name',
+  'company.address',
+  'company.city',
+  {key: 'company.telephone', component: 'phone'},
+  {key: 'company.email', component: 'email'},
+  {key: 'company.website', component: 'website'},
+  {key: 'company.btw', component: 'btw'},
+  'company.rpr',
   {forceRow: true},
-  {key: 'bank'},
-  {key: 'iban', component: 'iban'},
-  'bic',
-  templatePicker,
-  templateQuotationsPicker
-];
-configDefinition.addMissingProps = true;
+  {key: 'company.bank'},
+  {key: 'company.iban', component: 'iban'},
+  'company.bic',
 
-export const configSettingsDefinition: FullFormConfig = [
-  {key: 'showOrderNr', component: 'switch'},
-  {key: 'groupByMonth', component: 'switch'},
-];
-
-
-export const configInvoiceDefinition: FullFormConfig = [
+  {title: 'config.invoiceTitle'},
+  {key: 'template', component: TemplatePicker},
+  {key: 'templateQuotation', component: TemplatePicker},
+  {key: 'invoicePayDays', component: 'number'},
+  {key: 'attachmentTypes', component: 'StringsSelect', cols: 8},
   {key: 'defaultClient', component: 'ClientSelect'},
-  {key: 'defaultTax', component: 'float', suffix: '%'},
-  {key: 'attachmentTypes', component: 'StringsSelect'},
   {key: 'defaultInvoiceLineType', component: 'InvoiceLineTypeSelect'},
   {key: 'defaultInvoiceDateStrategy', component: 'InvoiceDateStrategySelect'},
-  {key: 'invoicePayDays', component: 'number'},
+  {key: 'invoiceFileName', suffix: 'invoice', cols: 10},
+  {key: 'defaultTax', component: 'float', suffix: '%', cols: 2},
+
+  {title: 'config.settingsTitle'},
+  {key: 'showOrderNr', component: 'switch'},
+  {key: 'groupByMonth', component: 'switch'},
+
+  {title: 'config.extraFields.title'},
+  {key: 'defaultExtraClientFields', component: 'PropertiesSelect', label: 'config.extraFields.client', cols: 6},
+  {key: 'defaultExtraClientInvoiceFields', component: 'PropertiesSelect', label: 'config.extraFields.clientInvoice', cols: 6},
 ];

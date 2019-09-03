@@ -1,12 +1,8 @@
 import React from 'react';
-import request from 'superagent-bluebird-promise';
 
-import {ACTION_TYPES} from './ActionTypes';
-import {buildUrl, catchHandler} from './fetch';
+import {ACTION_TYPES} from './utils/ActionTypes';
 import { toast } from 'react-toastify';
 import t from '../trans';
-import { ConfigModel } from '../components/config/models/ConfigModel';
-import { ClientModel } from '../components/client/models/ClientModels';
 import { InvoiceFilters } from '../models';
 
 type ToastType = 'error' | 'success';
@@ -69,49 +65,9 @@ busyToggle.off = function() {
 };
 
 
-export function updateConfig(newConfig: ConfigModel) {
-  return dispatch => {
-    dispatch(busyToggle());
-    return request.post(buildUrl('/config'))
-      .set('Content-Type', 'application/json')
-      .send(newConfig)
-      .then(res => {
-        dispatch({type: ACTION_TYPES.CONFIG_UPDATE, config: res.body});
-        success(t('config.popupMessage'));
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
-  };
-}
-
 export function updateInvoiceFilters(filters: InvoiceFilters) {
   return {
     type: ACTION_TYPES.APP_INVOICE_FILTERSUPDATED,
     filters
-  };
-}
-
-export function saveClient(client: ClientModel, stayOnPage = false, callback?: Function) {
-  return dispatch => {
-    dispatch(busyToggle());
-    return request.post(buildUrl('/clients'))
-      .set('Content-Type', 'application/json')
-      .send(client)
-      .then(res => {
-        dispatch({
-          type: ACTION_TYPES.CLIENT_UPDATE,
-          client: res.body,
-          isNewClient: !client._id
-        });
-        success(t('config.popupMessage'));
-        if (!stayOnPage) {
-          window.history.back();
-        }
-        if (callback) {
-          callback(res.body);
-        }
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
   };
 }

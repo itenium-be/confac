@@ -38,6 +38,7 @@ export class EditInvoiceExtraFields extends Component<EditInvoiceExtraFieldsProp
       <div>
         <Row>
           <Control.HeaderWithEditIcon
+            size={4}
             label={t('extraFields')}
             onEditClick={() => this.setState({extraFieldFormOpen: !this.state.extraFieldFormOpen})}
             data-tst="extra-fields-header-icon"
@@ -48,7 +49,7 @@ export class EditInvoiceExtraFields extends Component<EditInvoiceExtraFieldsProp
             <Col sm={12} style={{minHeight: 75}}>
               <Control.PropertiesSelect
                 label={t('invoice.editExtraFields')}
-                values={invoice.extraFields as any}
+                value={invoice.extraFields as any}
                 onChange={onChange}
                 data-tst="invoice.editExtraFields"
               />
@@ -58,13 +59,11 @@ export class EditInvoiceExtraFields extends Component<EditInvoiceExtraFieldsProp
 
 
         {invoice.extraFields.length ? (
-          <Row>
-            <Control.ExtraFieldsInput
-              properties={invoice.extraFields}
-              onChange={onChange}
-              data-tst="invoice.editExtraFields"
-            />
-          </Row>
+          <Control.ExtraFieldsInput
+            value={invoice.extraFields}
+            onChange={onChange}
+            data-tst="invoice.editExtraFields"
+          />
         ) : null}
       </div>
     );

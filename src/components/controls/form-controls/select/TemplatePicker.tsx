@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {SimpleSelect} from './SimpleSelect';
-import {buildUrl} from '../../../../actions/fetch';
+import {buildUrl} from '../../../../actions/utils/fetch';
 import { failure } from '../../../../actions';
 import { t } from '../../../util';
 import { toast } from 'react-toastify';

@@ -1,7 +1,7 @@
 import request from 'superagent-bluebird-promise';
-import {ACTION_TYPES} from './ActionTypes';
+import {ACTION_TYPES} from './utils/ActionTypes';
 import {success, busyToggle} from './appActions';
-import {buildUrl, catchHandler} from './fetch';
+import {buildUrl, catchHandler} from './utils/fetch';
 import { IAttachment } from '../models';
 
 

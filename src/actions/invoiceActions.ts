@@ -1,7 +1,7 @@
 import request from 'superagent-bluebird-promise';
-import {ACTION_TYPES} from './ActionTypes';
+import {ACTION_TYPES} from './utils/ActionTypes';
 import {success, failure, busyToggle} from './appActions';
-import {buildUrl, catchHandler} from './fetch';
+import {buildUrl, catchHandler} from './utils/fetch';
 import t from '../trans';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import { previewInvoice } from './downloadActions';
@@ -29,7 +29,7 @@ export function createInvoice(data: InvoiceModel, history: any) {
           invoice: res.body
         });
 
-        const invoiceType = data.isQuotation ? 'quotation': 'invoice';
+        const invoiceType = data.isQuotation ? 'quotations': 'invoices';
         success(t(invoiceType + '.createConfirm'));
         history.push(`/${invoiceType}/${res.body.number}`);
 

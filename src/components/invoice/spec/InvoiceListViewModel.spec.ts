@@ -26,7 +26,7 @@ describe('InvoiceListModel', () => {
   });
 
 
-  it('filters with last x days also show all unverified', () => {
+  it('filters with last x days no longer shows unverified too', () => {
     const filters: InvoiceFilters = {
       search: [{ value: 'last 1 days', label: 'last 1 days', type: 'manual_input' }],
       unverifiedOnly: false,
@@ -39,7 +39,7 @@ describe('InvoiceListModel', () => {
 
     const result = vm.getFilteredInvoices();
 
-    expect(result.length).toBe(1);
+    expect(result.length).toBe(0);
   });
 
 

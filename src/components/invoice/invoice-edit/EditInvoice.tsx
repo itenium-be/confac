@@ -57,7 +57,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
     };
   }
 
-  createModel(props) {
+  createModel(props: EditInvoiceProps): EditInvoiceViewModel {
     const invoicesOrQuotations = this.isQuotation ? props.invoices.filter(x => x.isQuotation) : props.invoices.filter(x => !x.isQuotation);
     if (props.match.params.id) {
       // Existing invoice / quotation
@@ -66,7 +66,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
 
     } else {
       // New invoice / quotation
-      var client;
+      var client: undefined | ClientModel;
       if (props.config.defaultClient) {
         client = props.clients.find(c => c._id === props.config.defaultClient);
       }
@@ -92,7 +92,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
     }
   }
 
-  updateInvoice(key, value, calcMoneys = false) {
+  updateInvoice(key: string, value: any, calcMoneys = false) {
     // Naughty naughty: We are manipulating state directly!
     // To fix this: state should be a regular object, and a
     // EditInvoiceViewModel should be created in the render
@@ -134,7 +134,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
               <Row>
                 <EditInvoiceDetails
                   invoice={invoice}
-                  onChange={(fieldName, value) => this.updateInvoice(fieldName, value)}
+                  onChange={(fieldName: string, value: any) => this.updateInvoice(fieldName, value)}
                 />
 
                 {extraFieldsVisible ? (

@@ -52,7 +52,8 @@ export default class InvoiceModel implements IAttachment {
   lines: InvoiceLine[] = [];
   money: InvoiceMoney;
 
-  static createNew(config: ConfigModel, client: ClientModel): InvoiceModel {
+  static createNew(config: ConfigModel, client: undefined | ClientModel): InvoiceModel {
+    // debugger;
     var model = new InvoiceModel(config, {
       client,
       number: 1,
@@ -78,7 +79,7 @@ export default class InvoiceModel implements IAttachment {
     this.date = obj.date || getInvoiceDate(this.client, config);
     this.orderNr = obj.orderNr || '';
     this.verified = obj.verified || false;
-    this.fileName = obj.fileName;
+    this.fileName = obj.fileName || config.invoiceFileName;
     this.discount = obj.discount;
     this.attachments = obj.attachments || [{type: 'pdf'}];
     this.extraFields = obj.extraFields || [];
@@ -106,12 +107,13 @@ export default class InvoiceModel implements IAttachment {
     return this;
   }
 
-  setClient(client: ClientModel): InvoiceModel {
-    this.client = client;
+  setClient(client: undefined | ClientModel): InvoiceModel {
+
+    this.client = client as ClientModel;
     if (!this.lines || this.lines.length <= 1) {
       this._lines = [this.getLine()];
     }
-    this.fileName = client ? client.invoiceFileName : '';
+    this.fileName = client ? client.invoiceFileName : this.fileName;
     if (!this.extraFields.length) {
       this.extraFields = client ? (client.defaultExtraInvoiceFields || []) : [];
     }

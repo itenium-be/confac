@@ -1,5 +1,6 @@
 const trans = {
   title: 'Facturen',
+  taxRequest: 'btw in aanvraag',
   nav: {
     config: 'Config',
     clients: 'Klanten',
@@ -44,8 +45,11 @@ const trans = {
     defaultTax: 'Standaard btw',
     defaultInvoiceLineType: 'Standaard factuurlijn eenheid',
     defaultInvoiceDateStrategy: 'Standaard factuurdatum',
-    attachmentTypes: 'Standaard factuurbijlage',
+    attachmentTypes: 'Standaard factuurbijlage(n)',
     invoicePayDays: 'Betalingstermijn (kalenderdagen)',
+    template: 'Html template (facturen)',
+    templateQuotation: 'Html template (offertes)',
+    invoiceFileName: 'Standaard factuur bestandsnaam',
     company: {
       title: 'Jouw bedrijfsgegevens',
       name: 'Bedrijfsnaam',
@@ -59,8 +63,6 @@ const trans = {
       btw: 'BTW',
       rpr: 'Rechtspersonenregister',
       other: 'Ander',
-      template: 'Html template (facturen)',
-      templateQuotation: 'Html template (offertes)',
       templateLoadError: "Html factuur templates konden niet geladen worden",
       website: 'Website',
       slug: 'Bedrijfsnaam in de url',
@@ -172,9 +174,17 @@ const trans = {
   },
   client: {
     createNew: 'Nieuwe klant',
+    btwPlaceholder: 'BTW nummer',
     createNewBtwPlaceholder: 'BTW nummer nieuwe klant',
     createNewButton: 'Klant aanmaken',
     name: 'Klant',
+    btw: 'BTW',
+    address: 'Straat',
+    city: 'Stad',
+    slug: 'Bedrijfsnaam in de url',
+    contactEmail: 'Email contact persoon',
+    notes: 'Notitie',
+    telephone: 'Telefoon nr',
     contact: 'Contact gegevens',
     projectDesc: 'Omschrijving',
     deactivateTitle: 'Klant deactiveren',
@@ -182,14 +192,16 @@ const trans = {
     showInactive: 'Toon inactieve',
     timeTitle: 'Geïnvesteerd',
     daysWorked: '{days} dagen',
+    title: 'Standaard factuurwaarden',
     rate: {
-      title: 'Standaard factuurwaarden',
       description: 'Standaard omschrijving',
       hoursInDay: 'Uren per dag',
       value: 'Standaard prijs',
       type: 'Standaard factuurlijn eenheid',
     },
     defaultExtraInvoiceFields: 'Extra factuur velden',
+    defaultInvoiceDateStrategy: 'Standaard factuurdatum',
+    invoiceFileName: 'Standaard factuur bestandsnaam',
     extraFields: 'Extra klant velden',
     viewDetails: 'Ga naar detail scherm',
   },
@@ -212,12 +224,18 @@ const trans = {
   }
 };
 
-export default function(key, params) {
-  var str;
+export default function(key: string, params?: object): string {
+  var str: any;
   if (key.indexOf('.') === -1) {
     str = trans[key];
   } else {
-    str = key.split('.').reduce((o, i) => o[i], trans);
+    str = key.split('.').reduce((o, i) => {
+      if (!o[i]) {
+        console.log(`trans.ts: Could not find '${key}' on`, o);
+        return key;
+      }
+      return o[i];
+    }, trans);
   }
 
   if (str === undefined) {

@@ -52,6 +52,12 @@ export type NewRowFormConfig = {forceRow: boolean}
 export type AnyFormConfig = string | NewRowFormConfig | FormConfig;
 
 export type FormConfig = {
+  reactKey?: string,
+  label?: string,
+  /**
+   * Full row title
+   */
+  title?: string,
   /**
    * The property name of the model
    */
@@ -70,16 +76,24 @@ export type FormConfig = {
   /**
    * Set specific Grid col amount
    */
-  cols?: number,
-  /**
-   * Col offset
-   */
-  offset?: number,
+  cols?: number | ColSize | ColSizes,
   prefix?: InputIcons | React.ReactNode | string,
   suffix?: InputIcons | React.ReactNode | string,
   style?: CSSProperties,
-
 }
+
+/** Grid Col size */
+export type ColSize = undefined | number | {span?: number, offset?: number};
+
+/** Grid Col sizes */
+export type ColSizes = {
+  xs?: ColSize,
+  sm?: ColSize,
+  md?: ColSize,
+  lg?: ColSize,
+  xl?: ColSize,
+}
+
 
 export type FullFormConfig = AnyFormConfig[] & {
   addMissingProps?: boolean,

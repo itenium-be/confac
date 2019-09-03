@@ -19,7 +19,7 @@ export type ClientModel = IAttachment & {
   invoiceFileName: string,
   rate: ClientRateModel,
   attachments: Array<Attachment>,
-  extraFields: Array<string>,
+  extraFields: Array<SelectItem>,
   defaultExtraInvoiceFields: Array<SelectItem>,
   notes: string,
   defaultInvoiceDateStrategy: InvoiceDateStrategy,

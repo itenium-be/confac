@@ -5,7 +5,7 @@ import { EnhanceInputWithLabel } from "../../../enhancers/EnhanceInputWithLabel"
 import { EnhanceInputWithAddons } from "../../../enhancers/EnhanceInputWithAddons";
 import { t } from "../../../util";
 import { Icon } from "../../Icon";
-import { buildUrl } from "../../../../actions/fetch";
+import { buildUrl } from "../../../../actions/utils/fetch";
 import { Button } from "react-bootstrap";
 import { useDebouncedCallback } from 'use-debounce';
 import cn from 'classnames';
@@ -16,23 +16,42 @@ const DefaultBtwCountry = 'BE';
 const SmallestPossibleBtwLength = 8;
 
 type BtwInputProps = BaseInputProps<string> & {
-  onBtwChange?: (val: BtwResponse) => void;
-  onFinalize?: (btw: string) => void;
+  /**
+   * Optional: Each keystroke
+   */
+  onChange?: (val: string) => void;
+  /**
+   * Emits all **valid** BtwResponses
+   */
+  onBtwChange?: (btw: BtwResponse) => void;
+  /**
+   * When set adds buttons 'btw in aanvraag' and create client
+   */
+  onFinalize?: (btw: string, btwInfo?: BtwResponse) => void;
 }
 
+const BtwInRequest = t('taxRequest');
 
 const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}: BtwInputProps) => {
   const [inputValue, setInputValue] = useState(value || '');
   const [loading, setLoading] = useState(false);
   const [valid, setValid] = useState(false);
   const [initialCheckDone, setInitialCheckDone] = useState(false);
+  const [btwRes, setBtwRes] = useState(undefined as BtwResponse | undefined);
 
   const [debouncedCallback] = useDebouncedCallback(async val => {
     const cleanBtw = parseBtw(val);
+    if (val === BtwInRequest) {
+      setValid(true);
+      setBtwRes(undefined);
+      return;
+    }
+
     if (cleanBtw.length > SmallestPossibleBtwLength) {
       setLoading(true);
       const btwInfo = await fetchBtwInfo(cleanBtw);
       setValid(btwInfo.valid);
+      setBtwRes(btwInfo);
       if (onBtwChange && btwInfo.valid) {
         onBtwChange(btwInfo);
       }
@@ -64,11 +83,16 @@ const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}:
       value={inputValue}
       onChange={onInputChange}
       prefix={<Icon fa={cn('fa', (loading ? 'fa-spinner fa-spin' : 'fa-building'), (valid ? 'success' : 'danger'))} size={1} />}
-      suffix={onFinalize && <Button variant="success" onClick={() => onFinalize(formattedBtw)}>{t('client.createNewButton')}</Button>}
+      suffix={onFinalize && (
+        <>
+          <Button variant="outline-secondary" onClick={() => onFinalize(BtwInRequest, btwRes)}>{BtwInRequest}</Button>
+          <Button variant="success" onClick={() => onFinalize(formattedBtw, btwRes)}>{t('client.createNewButton')}</Button>
+        </>
+      )}
       suffixOptions={{type: 'button'}}
       onBlur={() => onInputChange(formattedBtw)}
       {...props}
-      placeholder={t('client.createNewBtwPlaceholder')}
+      placeholder={onBtwChange ? t('client.createNewBtwPlaceholder') : t('client.btwPlaceholder')}
     />
   );
 }

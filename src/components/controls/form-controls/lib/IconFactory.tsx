@@ -13,7 +13,8 @@ const iconMap = {
   building: 'fa fa-building',
   user: 'fa fa-user',
   wrench: 'fa fa-wrench',
-  hours: 'fa fa-hourglass-half'
+  hours: 'fa fa-hourglass-half',
+  invoice: 'fa fa-file-invoice',
 };
 
 

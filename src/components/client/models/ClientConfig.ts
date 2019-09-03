@@ -2,6 +2,7 @@ import { FullFormConfig } from '../../../models';
 
 
 export const defaultClientProperties: FullFormConfig = [
+  { title: 'client.contact'},
   { key: 'name', },
   { key: 'btw', component: 'btw' },
   { key: 'slug', updateOnly: true },
@@ -11,17 +12,20 @@ export const defaultClientProperties: FullFormConfig = [
   { key: 'contact', suffix: 'user' },
   { key: 'contactEmail', component: 'email' },
   { key: 'notes', component: 'textarea', cols: 12, style: {height: 140}},
-];
 
-
-export const editClientRateConfig: FullFormConfig = [
-  {key: 'value', prefix: '€', component: 'money'},
-  {key: 'hoursInDay', component: 'number', suffix: 'fa fa-hourglass-half'},
-  {key: 'type', component: 'InvoiceLineTypeSelect'},
-  {key: 'description'},
+  {title: 'client.title'},
+  {key: 'rate.description'},
+  {key: 'rate.type', component: 'InvoiceLineTypeSelect'},
+  {key: 'rate.value', prefix: '€', component: 'money'},
+  {forceRow: true},
   {key: 'defaultInvoiceDateStrategy', component: 'InvoiceDateStrategySelect'},
-  // {key: 'defaultExtraInvoiceFields', component: 'PropertiesSelect'}
+  {key: 'invoiceFileName', suffix: 'invoice', cols: 8},
+  {key: 'rate.hoursInDay', component: 'number', suffix: 'fa fa-hourglass-half'},
+  {key: 'defaultExtraInvoiceFields', component: 'PropertiesSelect'},
+  {key: 'extraFields', component: 'PropertiesSelect', reactKey: 'extraFields'},
+  {key: 'extraFields', component: 'ExtraFields', cols: 12, reactKey: 'extraFieldsImpl'},
 ];
+
 
 
 /**

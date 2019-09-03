@@ -9,17 +9,21 @@ type NewClientProps = {
   onChange: (client: ClientModel) => void,
 }
 
+export function btwResponseToModel(btw: BtwResponse): ClientModel {
+  return {
+    name: btw.name,
+    btw: formatBtw(`${btw.countryCode}${btw.vatNumber}`),
+    address: `${btw.address.street} ${btw.address.number}`,
+    city: `${btw.address.zip_code} ${btw.address.city}`,
+  } as ClientModel;
+}
+
 
 export const NewClient = (props: NewClientProps) => {
   const [client, setClient] = useState<ClientModel | null>(null);
 
   const onBtwChange = (res: BtwResponse) => {
-    setClient({
-      name: res.name,
-      btw: formatBtw(`${res.countryCode}${res.vatNumber}`),
-      address: `${res.address.street} ${res.address.number}`,
-      city: `${res.address.zip_code} ${res.address.city}`,
-    } as ClientModel)
+    setClient(btwResponseToModel(res));
   };
 
   return (
@@ -29,12 +33,12 @@ export const NewClient = (props: NewClientProps) => {
           <h1>{t('client.createNew')}</h1>
         </Row>
         <Row>
-          <Col md={6} sm={12}>
+          <Col lg={8} md={10} sm={12}>
             <BtwInput
               value={props.client.btw}
               onChange={(val: string) => {}}
               onBtwChange={onBtwChange}
-              onFinalize={(btw: string) => client ? props.onChange(client) : props.onChange({btw} as ClientModel)}
+              onFinalize={(btw: string) => client ? props.onChange(client) : props.onChange({btw: btw || ' '} as ClientModel)}
             />
           </Col>
         </Row>

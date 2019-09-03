@@ -5,15 +5,16 @@ import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import Select from 'react-select';
 import { ConfacState } from '../../../reducers/default-states';
 import { ClientModel } from '../models/ClientModels';
+import { SelectItem } from '../../../models';
 
 
 type ClientSelectProps = {
   clients: ClientModel[],
   /**
-   * The client or the _id
+   * The client _id
    */
-  value: ClientModel | string,
-  onChange: Function,
+  value: string,
+  onChange: (clientId: string, client: ClientModel) => void,
 }
 
 class ClientSelectComponent extends Component<ClientSelectProps> {
@@ -23,7 +24,7 @@ class ClientSelectComponent extends Component<ClientSelectProps> {
 
   render() {
     const {value} = this.props;
-    const selectedClientId = value && typeof value === 'object' ? value._id : value;
+    const selectedClientId = value && typeof value === 'object' ? value['_id'] : value;
     const selectedClient = this.props.clients.find(c => c._id === selectedClientId);
 
     var clients = this.props.clients.filter(c => c.active);
@@ -31,14 +32,14 @@ class ClientSelectComponent extends Component<ClientSelectProps> {
       clients.push(selectedClient);
     }
 
-    const options = clients.sort((a, b) => a.name.localeCompare(b.name)).map(item => ({value: item._id, label: item.name}));
+    const options: SelectItem[] = clients.sort((a, b) => a.name.localeCompare(b.name)).map(item => ({value: item._id, label: item.name}));
     const selectedOption = options.find(o => o.value === selectedClientId);
 
     return (
       <Select
         value={selectedOption}
-        options={options}
-        onChange={item => this.props.onChange(item ? this.getClient(item.value) : null)}
+        options={options as any}
+        onChange={((item: SelectItem) => this.props.onChange(item && item.value as string, item && this.getClient(item.value as string))) as any}
         isClearable={true}
         placeholder={t('controls.selectPlaceholder')}
         className="tst-client-select"

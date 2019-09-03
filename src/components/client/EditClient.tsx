@@ -2,15 +2,14 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {t} from '../util';
 import moment from 'moment';
-import {BusyButton, ArrayInput, AttachmentsForm, PropertiesSelect} from '../controls';
-import {Container, Row, Col, Form} from 'react-bootstrap';
+import {BusyButton, ArrayInput, AttachmentsForm} from '../controls';
+import {Container, Row, Form} from 'react-bootstrap';
 import {saveClient} from '../../actions/index';
-import {defaultClientProperties, editClientRateConfig} from './models/ClientConfig';
+import {defaultClientProperties} from './models/ClientConfig';
 import { getNewClient } from "./models/getNewClient";
 import { ClientModel } from './models/ClientModels';
 import { ConfacState } from '../../reducers/default-states';
 import { ConfigModel } from '../config/models/ConfigModel';
-import { EditClientDefaultOther } from './EditClientDefaultOther';
 import { StickyFooter } from '../controls/skeleton/StickyFooter';
 import { NewClient } from './NewClient';
 
@@ -22,36 +21,46 @@ type EditClientProps = {
   saveClient: Function,
   match: {
     params: {id: string}
-  }
+  },
+  renavigationKey: string,
 }
 
-class EditClient extends Component<EditClientProps, ClientModel> {
+type EditClientState = {
+  client: ClientModel,
+  renavigationKey: string,
+}
+
+class EditClient extends Component<EditClientProps, EditClientState> {
   constructor(props: any) {
     super(props);
-    this.state = this.copyClient(props);
+    this.state = {
+      client: this.copyClient(props),
+      renavigationKey: '',
+    }
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: EditClientProps) {
     if (nextProps.isLoaded !== this.props.isLoaded
       || nextProps.match.params.id !== this.props.match.params.id
-      || nextProps.clients !== this.props.clients) {
+      || nextProps.clients !== this.props.clients // Changing this? Check confac-back::invoices.js
+      || nextProps.renavigationKey !== this.state.renavigationKey) {
 
-      this.setState({...this.copyClient(nextProps)});
+      this.setState({client: this.copyClient(nextProps)});
     }
   }
 
-  copyClient(props: EditClientProps) {
+  copyClient(props: EditClientProps): ClientModel {
     if (props.match.params.id) {
       // Existing client
       const client = props.clients.find(c => c.slug === props.match.params.id);
       if (client) {
         return JSON.parse(JSON.stringify(client));
       }
-      return null;
+      // return {};
     }
 
     return getNewClient(props.config);
@@ -62,7 +71,7 @@ class EditClient extends Component<EditClientProps, ClientModel> {
   }
 
   render() {
-    const client: ClientModel = this.state;
+    const client: ClientModel = this.state.client;
     if (!client) {
       return null;
     }
@@ -71,7 +80,7 @@ class EditClient extends Component<EditClientProps, ClientModel> {
       return (
         <NewClient
           client={client}
-          onChange={(value: ClientModel) => {console.log('wiuuh', value); this.setState({...client, ...value})}}
+          onChange={(value: ClientModel) => this.setState({client: {...client, ...value}})}
         />
       );
     }
@@ -87,39 +96,14 @@ class EditClient extends Component<EditClientProps, ClientModel> {
           </Row>
           <Row>
             <ArrayInput
-              title={t('client.contact')}
               config={defaultClientProperties}
               model={client}
-              onChange={value => this.setState({...client, ...value})}
-              tPrefix="config.company."
+              onChange={value => this.setState({client: {...client, ...value}})}
+              tPrefix="client."
             />
           </Row>
-
-
-          <Row>
-            <ArrayInput
-              title={t('client.rate.title')}
-              config={editClientRateConfig}
-              model={client.rate}
-              onChange={value => this.setState({...client, rate: {...value}})}
-              tPrefix="client.rate."
-            />
-            <Col sm={4}>
-              <PropertiesSelect
-                label={t('client.defaultExtraInvoiceFields')}
-                values={client.defaultExtraInvoiceFields || []}
-                onChange={value => this.setState({...client, defaultExtraInvoiceFields: value})}
-                data-tst="client.defaultExtraInvoiceFields"
-              />
-            </Col>
-          </Row>
-
-
-          <EditClientDefaultOther client={client} onChange={value => this.setState(value)} />
-
 
           <AttachmentsForm model={client} />
-
 
         </Form>
         <StickyFooter>
@@ -135,7 +119,7 @@ class EditClient extends Component<EditClientProps, ClientModel> {
     );
   }
 
-  isClientDisabled(client: ClientModel) {
+  isClientDisabled(client: ClientModel): boolean {
     if (client.name.length === 0) {
       return true;
     }

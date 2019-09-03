@@ -5,7 +5,7 @@ import { NumericInput } from "../inputs/NumericInput";
 import { StringInput } from "../inputs/StringInput";
 import { InvoiceLineTypeSelect } from "../../../invoice/controls/InvoiceLineTypeSelect";
 import { InvoiceDateStrategySelect } from "../../../invoice/controls/InvoiceDateStrategySelect";
-// import { PropertiesSelect } from "../select/PropertiesSelect";
+import { PropertiesSelect } from "../select/PropertiesSelect";
 import { MoneyInput } from "../inputs/MoneyInput";
 import { Switch } from "../Switch";
 import { ClientSelect } from "../../../client/controls/ClientSelect";
@@ -16,10 +16,13 @@ import { EmailInput } from "../inputs/EmailInput";
 import { PhoneInput } from "../inputs/PhoneInput";
 import { WebsiteInput } from "../inputs/WebsiteInput";
 import { IbanInput } from "../inputs/IbanInput";
+import { ExtraFieldsInput } from "../inputs/ExtraFieldsInput";
 
-export type CustomComponents = 'InvoiceLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect';
+export type CustomComponents = 'InvoiceLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect'
+  | 'ExtraFields' | 'StringsSelect' | 'ClientSelect';
 
-export type StandardComponents = 'number' | 'text' | 'textarea' | 'basic-math' | CustomComponents;
+export type StandardComponents = 'number' | 'text' | 'textarea' | 'basic-math' | 'switch'
+  | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban';
 
 const componentMap = {
   // Standard
@@ -41,7 +44,8 @@ const componentMap = {
   // Custom
   InvoiceLineTypeSelect: InvoiceLineTypeSelect,
   InvoiceDateStrategySelect: InvoiceDateStrategySelect,
-  // PropertiesSelect: PropertiesSelect,
+  PropertiesSelect: PropertiesSelect,
+  ExtraFields: ExtraFieldsInput,
   ClientSelect: ClientSelect,
   StringsSelect: StringsSelect,
 };

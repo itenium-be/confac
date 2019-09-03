@@ -1,10 +1,12 @@
-export * from './ActionTypes';
+export * from './utils/ActionTypes';
 
 export * from './appActions';
 export * from './initialLoad';
 export * from './invoiceActions';
 export * from './attachmentActions';
 export * from './downloadActions';
+export * from './clientActions';
+export * from './configActions';
 
 // TODO: superagent-bluebird-promise bug:
 // https://github.com/KyleAMathews/superagent-bluebird-promise/issues/68

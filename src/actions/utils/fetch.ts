@@ -1,9 +1,9 @@
-import {failure} from './appActions';
-import {store} from '../store';
-import {initialLoad} from './initialLoad';
-import t from '../trans';
+import {failure} from '../appActions';
+import {store} from '../../store';
+import {initialLoad} from '../initialLoad';
+import t from '../../trans';
 
-const urlPrefix = require('../config-front').backend;
+const urlPrefix = require('../../config-front').backend;
 
 export function buildUrl(url: string): string {
   return urlPrefix + url;

@@ -3,19 +3,19 @@ import Creatable from 'react-select/creatable';
 import { SelectItem } from '../../../../models';
 import { EnhanceInputWithLabel } from '../../../enhancers/EnhanceInputWithLabel';
 import { t } from '../../../util';
+import { BaseInputProps } from '../inputs/BaseInput';
 
-export type PropertiesSelectProps = {
-  label: string;
-  onChange: (props: SelectItem[]) => void;
-  values: SelectItem[];
-};
+export type PropertiesSelectProps = BaseInputProps<SelectItem[]>;
 
 export const PropertiesSelect = EnhanceInputWithLabel(class extends Component<PropertiesSelectProps> {
-  onChange(values: Array<SelectItem & {className: string}>) {
-    const properties = values.map(value => {
+  onChange(values: Array<SelectItem & {className: string, __isNew__?: boolean}>) {
+    const properties = (values || []).map(value => {
       if (value.className) {
         delete value.className;
         value.value = '';
+      }
+      if (value.__isNew__) {
+        delete value.__isNew__;
       }
       return value;
     });
@@ -28,7 +28,7 @@ export const PropertiesSelect = EnhanceInputWithLabel(class extends Component<Pr
     return (
       <Creatable
         label={label}
-        value={this.props.values as any}
+        value={this.props.value as any}
         onChange={this.onChange.bind(this) as any}
         isClearable={true}
         isMulti={true}
