@@ -4,7 +4,13 @@ import {InvoiceClientCell} from './InvoiceClientCell';
 import { InvoiceNumberCell } from './InvoiceNumberCell';
 import InvoiceModel from '../models/InvoiceModel';
 
-export function getColumns(fields: string[], showOrderNr: boolean, isQuotation: boolean) {
+type TableCell = {
+  key: string,
+  header: string,
+  value: (i: InvoiceModel) => string | React.ReactNode,
+}
+
+export function getColumns(fields: string[], showOrderNr: boolean, isQuotation: boolean): TableCell[] {
   const transPrefix = isQuotation ? 'quotation' : 'invoice';
   var columns = [{
     key: 'date-month',
