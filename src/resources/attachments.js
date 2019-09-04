@@ -1,5 +1,8 @@
 import Router from 'koa-router';
 import body from 'koa-better-body';
+import moment from 'moment';
+const ObjectId = require('mongodb').ObjectId;
+const JSZip = require('JSZip');
 
 function getCollectionName(model) {
   return model === 'client' ? 'clients' : 'invoices';
@@ -25,6 +28,31 @@ export default function register(app) {
       }
       this.set('Content-disposition', 'attachment; filename=' + fileName);
     }
+  });
+
+  router.post('/', function *() {
+    // console.log('body', this.request.body);
+    // console.log('att', attachments[0]);
+
+    const invoiceIds = this.request.body.map(i => new ObjectId(i));
+    const attachments = yield this.mongo.collection('attachments')
+      .find({_id: {$in: invoiceIds}}, {pdf: 1})
+      .toArray();
+
+    const invoiceDetails = yield this.mongo.collection('invoices')
+      .find({_id: {$in: invoiceIds}})
+      .toArray();
+
+    var zip = new JSZip();
+    // var img = zip.folder("images");
+    for (let attachment of attachments) {
+      const invoice = invoiceDetails.find(i => i._id.toString() === attachment._id.toString());
+      const fileName = invoice && `${moment(invoice.date).format('YYYY-MM-DD')} - ${invoice.number} - ${invoice.client.name}.pdf`;
+      zip.file(fileName || `${attachment._id}.pdf`, attachment.pdf.buffer);
+    }
+
+    this.body = yield zip.generateAsync({type: 'nodebuffer'});
+    // this.set('Content-disposition', 'attachment; filename=' + fileName);
   });
 
 
