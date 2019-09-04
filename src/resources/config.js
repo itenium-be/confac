@@ -28,7 +28,6 @@ export default function register(app) {
         defaultClient: null,
         defaultTax: 21,
         attachmentTypes: ['Getekende timesheet'],
-        extraConfigFields: [],
         defaultExtraClientFields: [],
         defaultExtraClientInvoiceFields: [],
         showOrderNr: false,
