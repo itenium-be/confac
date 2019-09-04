@@ -3,6 +3,7 @@ import {locals} from '../pug-helpers.js';
 import pug from 'pug';
 import pdf from 'html-pdf';
 import moment from 'moment';
+import {ObjectId} from 'mongodb';
 
 function * createPdf(params, config) {
   const html = createHtml(params, config);
@@ -99,6 +100,34 @@ export default function register(app, config) {
 
     // const html = createHtml(params, config);
     // yield createBase64Pdf.call(this, html);
+  });
+
+  router.post('/excel', function *() {
+    // console.log('heh', this.request.body);
+
+    const invoiceIds = this.request.body.map(i => new ObjectId(i));
+    const invoices = yield this.mongo.collection('invoices')
+      .find({_id: {$in: invoiceIds}})
+      .toArray();
+
+    const separator = ';';
+    const headers = ['Number', 'Date', 'Client name', 'Order nr', 'Without Tax', 'Tax', 'Total', 'Verified', 'Discount', 'First line desc', 'Id']
+
+    this.body = headers.join(separator) + '\r\n' + invoices.map(i => {
+      return [
+        i.number,
+        moment(i.date).format('YYYY-MM-DD'),
+        i.client.name,
+        i.orderNr,
+        i.money.totalWithoutTax.toString().replace('.', ','),
+        i.money.totalTax.toString().replace('.', ','),
+        i.money.total.toString().replace('.', ','),
+        i.verified,
+        i.money.discount.toString().replace('.', ','),
+        `"${i.lines[0].desc}"`,
+        i._id,
+      ].join(separator);
+    }).join('\r\n');
   });
 
   app.use(router.routes());

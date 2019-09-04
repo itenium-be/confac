@@ -1,8 +1,8 @@
 import Router from 'koa-router';
 import body from 'koa-better-body';
 import moment from 'moment';
-const ObjectId = require('mongodb').ObjectId;
-const JSZip = require('JSZip');
+import {ObjectId} from 'mongodb';
+import JSZip from 'JSZip';
 
 function getCollectionName(model) {
   return model === 'client' ? 'clients' : 'invoices';
@@ -13,6 +13,7 @@ export default function register(app) {
     prefix: '/api/attachments'
   });
 
+  // GET ONE ATTACHMENT
   router.get('/:model/:id/:type/:fileName*', function *() {
     const {id, model, type, fileName} = this.params;
     const coll = model === 'client' ? 'attachments_client' : 'attachments';
@@ -30,6 +31,7 @@ export default function register(app) {
     }
   });
 
+  // CREATE ZIP (with invoices)
   router.post('/', function *() {
     // console.log('body', this.request.body);
     // console.log('att', attachments[0]);
@@ -56,6 +58,7 @@ export default function register(app) {
   });
 
 
+  // ADD ATTACHMENT
   router.put('/:model/:id/:type', body(), function *() {
     const {id, model, type} = this.params;
 
@@ -86,6 +89,7 @@ export default function register(app) {
   });
 
 
+  // DELETE ATTACHMENT
   router.delete('/:model/:id/:type', body(), function *() {
     const {id, model, type} = this.params;
 
