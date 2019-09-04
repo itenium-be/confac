@@ -26,6 +26,7 @@ type BtwInputProps = BaseInputProps<string> & {
   onBtwChange?: (btw: BtwResponse) => void;
   /**
    * When set adds buttons 'btw in aanvraag' and create client
+   * BUG: When btw is empty a space is sent instead to stop the NewClient from showing
    */
   onFinalize?: (btw: string, btwInfo?: BtwResponse) => void;
 }
@@ -38,6 +39,11 @@ const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}:
   const [valid, setValid] = useState(false);
   const [initialCheckDone, setInitialCheckDone] = useState(false);
   const [btwRes, setBtwRes] = useState(undefined as BtwResponse | undefined);
+
+  if (value !== inputValue) {
+    // Overwrite the default value (ex: when starting the app on EditConfig.tsx)
+    setInputValue(value || '');
+  }
 
   const [debouncedCallback] = useDebouncedCallback(async val => {
     const cleanBtw = parseBtw(val);
