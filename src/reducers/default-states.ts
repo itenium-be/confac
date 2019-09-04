@@ -34,7 +34,7 @@ export const defaultConfig: ConfigModel = {
     name: 'Jouw bedrijfsnaam',
     address: 'Streetname 15',
     city: '9000 Brussel',
-    btw: '0000.000.000',
+    btw: '',
     rpr: 'Brussel',
     bank: 'Banknaam',
     iban: 'BE00 0000 0000 0000',

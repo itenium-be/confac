@@ -11,22 +11,20 @@ export type BaseInputProps<T> = EnhanceInputWithAddonsProps & {
   onBlur?: (e: any) => void,
   style?: React.CSSProperties,
   placeholder?: string,
+  autoFocus?: boolean,
+  /** ATTN: Technical debt: leakage of the FormConfig */
+  updateOnly?: boolean,
 }
 
 export const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Component<BaseInputProps<any>> {
   render() {
-    const {type} = this.props;
+    const {type, updateOnly, ...props} = this.props;
     return (
       <FormControl
         type={type === 'textarea' ? 'text' : type}
         as={type === 'textarea' ? 'textarea' : undefined}
         className={type === 'textarea' ? 'textarea' : undefined}
-        value={this.props.value}
-        placeholder={this.props.placeholder}
-        onChange={this.props.onChange}
-        onBlur={this.props.onBlur}
-        style={this.props.style}
-        data-tst={this.props['data-tst']}
+        {...props}
       />
     );
   }
