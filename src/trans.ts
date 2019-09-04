@@ -163,6 +163,9 @@ const trans = {
       nrExists: 'Nr {nr} kan niet gemaakt worden omdat nr {lastNr} reeds bestaat',
       dateAfterExists: 'Op {date} kan niet gemaakt worden om dat nr {lastNr} op {lastDate} gemaakt is',
     },
+    listAdvancedFilters: 'Meer filters',
+    listDownloadZip: 'Alle in de lijst zichtbare facturen downloaden (zip)',
+    listDownloadExcel: 'Alle in de lijst zichtbare Facturen exporteren als Excel rapport (csv)',
   },
   attachment: {
     types: 'Bijlage types',

@@ -3,6 +3,7 @@ import {buildUrl, catchHandler} from './utils/fetch';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import { Attachment } from '../models';
 import { ClientModel } from '../components/client/models/ClientModels';
+import moment from 'moment';
 
 
 export function getInvoiceDownloadUrl(invoice: InvoiceModel, attachment: 'pdf' | Attachment = 'pdf', downloadType?: 'preview' | 'download'): string {
@@ -89,15 +90,43 @@ function previewPdf(fileName: string, content: Blob): void {
 }
 
 
+export function downloadInvoicesExcel(ids: string[]) {
+  return dispatch => {
+    request.post(buildUrl('/invoices/excel'))
+      .responseType('blob')
+      .send(ids)
+      .then(res => {
+        console.log('downloaded', res);
+        const fileName = `invoices-${moment().format('YYYY-MM-DD')}.csv`;
+        downloadAttachment(fileName, res.body);
+      });
+  }
+}
 
-// ATTN: This works for downloading something
-// function downloadAttachment(fileName: string, content: Blob): void {
-//   var link = document.createElement('a');
-//   link.download = fileName;
-//   const blobUrl = URL.createObjectURL(content);
-//   link.href = blobUrl;
-//   link.click();
-// }
+
+export function downloadInvoicesZip(ids: string[]) {
+  return dispatch => {
+    request.post(buildUrl('/attachments'))
+      .responseType('blob')
+      .send(ids)
+      .then(res => {
+        // console.log('downloaded', res);
+        const fileName = `invoices-${moment().format('YYYY-MM-DD')}.zip`;
+        downloadAttachment(fileName, res.body);
+      });
+  }
+}
+
+
+
+
+function downloadAttachment(fileName: string, content: Blob): void {
+  var link = document.createElement('a');
+  link.download = fileName;
+  const blobUrl = URL.createObjectURL(content);
+  link.href = blobUrl;
+  link.click();
+}
 
 
 

@@ -112,7 +112,6 @@ export type InvoiceFiltersSearch = {
  */
 export type InvoiceFilters = {
   search: InvoiceFiltersSearch[],
-  unverifiedOnly: boolean,
   groupedByMonth: boolean,
   clientListYears: number[],
   freeClient: string,

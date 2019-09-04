@@ -20,7 +20,6 @@ export const defaultAppState: AppState = {
   invoiceFilters: {
     // search: [{value: moment().year(), label: moment().year(), type: 'year'}],
     search: [{value: 'last 3 months', label: 'last 3 months', type: 'manual_input'}], // See InvoiceListModel
-    unverifiedOnly: false,
     groupedByMonth: false,
     clientListYears: [moment().year()],
     freeInvoice: '',

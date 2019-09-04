@@ -8,7 +8,6 @@ describe('InvoiceListModel', () => {
   it('filters with last x days', () => {
     const filters: InvoiceFilters = {
       search: [{ value: 'last 1 days', label: 'last 1 days', type: 'manual_input' }],
-      unverifiedOnly: false,
       groupedByMonth: false,
     } as InvoiceFilters;
     const today = () => moment().startOf('day');
@@ -29,7 +28,6 @@ describe('InvoiceListModel', () => {
   it('filters with last x days no longer shows unverified too', () => {
     const filters: InvoiceFilters = {
       search: [{ value: 'last 1 days', label: 'last 1 days', type: 'manual_input' }],
-      unverifiedOnly: false,
       groupedByMonth: false,
     } as InvoiceFilters;
     const invoices = [
@@ -46,7 +44,6 @@ describe('InvoiceListModel', () => {
   it('filters with free text in invoice lines', () => {
     const filters: InvoiceFilters = {
       search: [{ value: 'koen', label: 'koen', type: 'manual_input' }],
-      unverifiedOnly: false,
       groupedByMonth: false,
     } as InvoiceFilters;
 

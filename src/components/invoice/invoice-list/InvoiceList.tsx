@@ -54,6 +54,7 @@ export class InvoiceList extends Component<InvoiceListProps> {
           filterOptions={vm.getFilterOptions()}
           filters={this.props.filters}
           isQuotation={vm.isQuotation}
+          vm={vm}
         />
         <TableComponent vm={vm} config={this.props.config} />
       </Container>

@@ -5,6 +5,7 @@ import { InvoiceFilters, InvoiceFiltersSearch } from '../../../models';
 import latinize from 'latinize';
 import { searchClientFor } from '../../client/models/searchClientFor';
 import { getMoney } from '../../controls';
+import { t } from '../../util';
 
 
 function transformFilters(search: InvoiceFiltersSearch[], freeText: string): TransformedInvoiceFilters {
@@ -37,7 +38,6 @@ export default class InvoiceListModel {
   clients: ClientModel[];
   hasFilters: boolean;
   fs: TransformedInvoiceFilters;
-  unverifiedOnly: boolean;
   isQuotation: boolean;
 
   constructor(invoices: InvoiceModel[], clients: ClientModel[], filters: InvoiceFilters, isQuotation: boolean) {
@@ -45,22 +45,27 @@ export default class InvoiceListModel {
     this.clients = clients;
     this.hasFilters = !!filters.search.length;
     this.fs = transformFilters(filters.search, filters.freeInvoice);
-    this.unverifiedOnly = filters.unverifiedOnly;
     this.isQuotation = isQuotation || false;
   }
 
-  getFilterOptions() {
-    var options: InvoiceFiltersSearch[] = [];
+  getFilterOptions(): InvoiceFiltersSearch[] {
+    const unverifiedOnly = {
+      value: 'unverifiedOnly',
+      label: t('invoice.notVerifiedOnly'),
+    } as InvoiceFiltersSearch;
+
+    var options: InvoiceFiltersSearch[] = [unverifiedOnly];
+
+    const manualFilteredInvoices = this.filterByDescription(this.invoices);
+
+    // Add options: years
+    const invoiceYears = getInvoiceYears(manualFilteredInvoices).sort((a, b) => b - a);
+    options = options.concat(invoiceYears.map(year => ({value: year, label: year, type: 'year'})));
 
     // Add options: clients
-    const manualFilteredInvoices = this.filterByDescription(this.invoices);
     const clientIds = manualFilteredInvoices.map(i => i.client._id);
     const relevantClients = this.clients.filter(c => clientIds.includes(c._id));
     options = options.concat(relevantClients.map(client => ({value: client._id, label: client.name, type: 'client'})));
-
-    // Add options: years
-    const invoiceYears = getInvoiceYears(manualFilteredInvoices);
-    options = options.concat(invoiceYears.map(year => ({value: year, label: year, type: 'year'})));
 
     return options;
   }
@@ -72,10 +77,6 @@ export default class InvoiceListModel {
     }
 
     var invoices = this.invoices;
-    if (this.unverifiedOnly) {
-      invoices = invoices.filter(i => !i.verified);
-    }
-
     if (this.hasFilters) {
       if (fs.years.length) {
         invoices = invoices.filter(i => fs.years.includes(i.date.year()));
@@ -100,6 +101,11 @@ export default class InvoiceListModel {
         invoices = invoices.filter(i => i.date.isSameOrAfter(moment().startOf('day').subtract(amount, unit as any)));
         return;
       }
+      if (otherFilter === 'unverifiedOnly') {
+        invoices = invoices.filter(i => !i.verified);
+        return;
+      }
+
       invoices = invoices.filter(i => searchInvoiceFor(i, otherFilter));
     });
 
