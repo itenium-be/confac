@@ -17,12 +17,14 @@ import { PhoneInput } from "../inputs/PhoneInput";
 import { WebsiteInput } from "../inputs/WebsiteInput";
 import { IbanInput } from "../inputs/IbanInput";
 import { ExtraFieldsInput } from "../inputs/ExtraFieldsInput";
+import { TextEditor } from "../inputs/TextEditor";
 
 export type CustomComponents = 'InvoiceLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect'
   | 'ExtraFields' | 'StringsSelect' | 'ClientSelect';
 
 export type StandardComponents = 'number' | 'text' | 'textarea' | 'basic-math' | 'switch'
-  | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban';
+  | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban'
+  | 'textEditor';
 
 const componentMap = {
   // Standard
@@ -40,6 +42,7 @@ const componentMap = {
   website: WebsiteInput,
   btw: BtwInput,
   iban: IbanInput,
+  TextEditor: TextEditor,
 
   // Custom
   InvoiceLineTypeSelect: InvoiceLineTypeSelect,

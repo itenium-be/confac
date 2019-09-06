@@ -11,15 +11,14 @@ import { ConfigModel } from '../../config/models/ConfigModel';
 import { ConfacState } from '../../../reducers/default-states';
 import { btwResponseToModel } from '../NewClient';
 import { BtwInput, BtwResponse } from '../../controls/form-controls/inputs/BtwInput';
+import { BaseModalProps } from '../../controls';
 
 
-type ClientModalProps = {
+type ClientModalProps = BaseModalProps & {
   config: ConfigModel,
   saveClient: Function,
+  onConfirm?: (client: ClientModel) => void,
   client: ClientModel | null,
-  show: boolean,
-  onClose: any,
-  onConfirm?: Function,
 }
 
 type ClientModalState = {

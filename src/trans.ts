@@ -77,6 +77,12 @@ const trans = {
       client: 'Extra klant velden',
       clientInvoice: 'Extra factuur velden',
     },
+    email: {
+      title: 'Factuur emails',
+      subject: 'Standaard onderwerp',
+      body: 'Standaard email',
+      bcc: 'Standaard BCC',
+    },
   },
   quotation: {
     title: 'Offertes',
@@ -207,6 +213,13 @@ const trans = {
     invoiceFileName: 'Standaard factuur bestandsnaam',
     extraFields: 'Extra klant velden',
     viewDetails: 'Ga naar detail scherm',
+    email: {
+      to: 'Naar',
+      toPlaceholder: 'Email adressen met ; scheiden',
+      cc: 'CC',
+      bcc: 'BCC',
+      subject: 'Onderwerp',
+    },
   },
   controls: {
     // browser
@@ -224,7 +237,18 @@ const trans = {
     selectPlaceholder: 'Maak een keuze',
 
     propertiesPlaceholder: 'Geef extra veldnamen in',
-  }
+  },
+  email: {
+    title: 'Factuur emailen',
+    prepareEmail: 'Email voorbereiden',
+    to: 'Naar',
+    toPlaceholder: 'Email adressen met ; scheiden',
+    cc: 'CC',
+    bcc: 'BCC',
+    subject: 'Onderwerp',
+    send: 'Versturen',
+    // cancel: 'Annuleren',
+  },
 };
 
 export default function(key: string, params?: object): string {

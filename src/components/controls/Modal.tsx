@@ -1,18 +1,34 @@
 import React, {Component} from 'react';
 import {t} from '../util';
 import {Button, Modal as ReactModal} from 'react-bootstrap';
+import { BootstrapVariant } from '../../models';
 
-type ModalProps = {
+export type BaseModalProps = {
   show: boolean,
   onClose: () => void,
-  onConfirm: Function,
+}
+
+
+type ModalProps = BaseModalProps & {
+  /**
+   * Optional confirm button
+   */
+  onConfirm?: () => void,
+  /**
+   * Confirm button text
+   * Defaults to "Save"
+   */
+  confirmText?: string,
+  confirmVariant?: BootstrapVariant,
   title: string,
   children: any,
 }
 
 export class Modal extends Component<ModalProps> {
   onConfirm() {
-    this.props.onConfirm();
+    if (this.props.onConfirm) {
+      this.props.onConfirm();
+    }
     this.props.onClose();
   }
 
@@ -28,7 +44,7 @@ export class Modal extends Component<ModalProps> {
         <ReactModal.Footer>
           <Button onClick={this.props.onClose} variant="light">{t('close')}</Button>
           {this.props.onConfirm ? (
-            <Button onClick={this.onConfirm.bind(this)} variant="success">{t('save')}</Button>
+            <Button onClick={this.onConfirm.bind(this)} variant={this.props.confirmVariant || 'success'}>{this.props.confirmText || t('save')}</Button>
           ) : null}
         </ReactModal.Footer>
       </ReactModal>

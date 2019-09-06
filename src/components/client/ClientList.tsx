@@ -16,7 +16,7 @@ import { searchClientFor } from "./models/searchClientFor";
 type ClientListProps = {
   invoices: InvoiceModel[],
   clients: ClientModel[],
-  updateInvoiceFilters: Function,
+  updateInvoiceFilters: (filters: InvoiceFilters) => void,
   filters: InvoiceFilters,
 }
 

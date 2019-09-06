@@ -33,6 +33,11 @@ export const configDefinition: FullFormConfig = [
   {key: 'showOrderNr', component: 'switch'},
   {key: 'groupByMonth', component: 'switch'},
 
+  {title: 'config.email.title'},
+  {key: 'email.bcc', cols: 6},
+  {key: 'email.subject', cols: 6},
+  {key: 'email.body', component: 'TextEditor', cols: 12},
+
   {title: 'config.extraFields.title'},
   {key: 'defaultExtraClientFields', component: 'PropertiesSelect', label: 'config.extraFields.client', cols: 6},
   {key: 'defaultExtraClientInvoiceFields', component: 'PropertiesSelect', label: 'config.extraFields.clientInvoice', cols: 6},

@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {FormControl} from 'react-bootstrap';
-import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
+import {EnhanceInputWithLabel, EnhanceInputWithLabelProps} from '../../../enhancers/EnhanceInputWithLabel';
 import {EnhanceInputWithAddons, EnhanceInputWithAddonsProps} from '../../../enhancers/EnhanceInputWithAddons';
 
-export type BaseInputProps<T> = EnhanceInputWithAddonsProps & {
-  label?: string,
+export type BaseInputProps<T> = EnhanceInputWithAddonsProps & EnhanceInputWithLabelProps & {
   type?: 'textarea' | 'text' | 'number',
   value?: T,
   onChange: (e: T) => void,

@@ -85,7 +85,7 @@ const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}:
   const formattedBtw = formatBtw(parseBtw(inputValue));
   return (
     <StringInput
-      label=""
+      label={null}
       value={inputValue}
       onChange={onInputChange}
       prefix={<Icon fa={cn('fa', (loading ? 'fa-spinner fa-spin' : 'fa-building'), (valid ? 'success' : 'danger'))} size={1} />}

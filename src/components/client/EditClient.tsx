@@ -18,7 +18,7 @@ type EditClientProps = {
   config: ConfigModel,
   clients: ClientModel[],
   isLoaded: boolean,
-  saveClient: Function,
+  saveClient: (client: ClientModel) => void,
   match: {
     params: {id: string}
   },
@@ -67,7 +67,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
   }
 
   _onSave() {
-    this.props.saveClient(this.state);
+    this.props.saveClient(this.state.client);
   }
 
   render() {

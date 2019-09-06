@@ -56,7 +56,7 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
         return (
           <Col {...colSizes} key={reactKey || key || index}>
             <EditComponent
-              label={(label && t(label)) || t(tPrefix + key)}
+              label={label === '' ? null : (label && t(label)) || t(tPrefix + key)}
               value={value}
               onChange={(value: any) => realOnChange(value)}
               data-tst={tPrefix + key}

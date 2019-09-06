@@ -11,7 +11,7 @@ export const defaultClientProperties: FullFormConfig = [
   { key: 'telephone', component: 'phone' },
   { key: 'contact', suffix: 'user' },
   { key: 'contactEmail', component: 'email' },
-  { key: 'notes', component: 'textarea', cols: 12, style: {height: 140}},
+  { key: 'notes', component: 'TextEditor', cols: 12, style: {height: 140}},
 
   {title: 'client.title'},
   {key: 'rate.description'},
@@ -24,6 +24,13 @@ export const defaultClientProperties: FullFormConfig = [
   {key: 'defaultExtraInvoiceFields', component: 'PropertiesSelect'},
   {key: 'extraFields', component: 'PropertiesSelect', reactKey: 'extraFields'},
   {key: 'extraFields', component: 'ExtraFields', cols: 12, reactKey: 'extraFieldsImpl'},
+
+  {title: 'config.email.title'},
+  {key: 'email.to', cols: 6},
+  {key: 'email.cc', cols: 6},
+  {key: 'email.bcc', cols: 6},
+  {key: 'email.subject', cols: 6},
+  {key: 'email.body', component: 'TextEditor', cols: 12, label: ''},
 ];
 
 
@@ -40,5 +47,5 @@ export const requiredClientProperties: FullFormConfig = [
   {forceRow: true},
   {key: 'contact', cols: 6},
   {key: 'contactEmail', cols: 6, suffix: 'email'},
-  {key: 'notes', component: 'textarea', cols: 12, style: {height: 120}},
+  {key: 'notes', component: 'TextEditor', cols: 12, style: {height: 120}},
 ];

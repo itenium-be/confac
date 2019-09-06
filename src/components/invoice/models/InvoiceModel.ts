@@ -31,6 +31,7 @@ export type InvoiceMoney = {
 
 /**
  * The only invoice model
+ * (InvoiceListModel is actually for filtering etc)
  */
 export default class InvoiceModel implements IAttachment {
   _id: string;

@@ -1,7 +1,9 @@
 import { ClientModel } from './ClientModels';
 import { ConfigModel } from "../../config/models/ConfigModel";
+import { getNewEmail, defaultConfig } from '../../../reducers/default-states';
 
-export function getNewClient(config: ConfigModel): ClientModel {
+export function getNewClient(config?: ConfigModel): ClientModel {
+  config = config || defaultConfig;
   return {
     _id: '',
     slug: '',
@@ -23,5 +25,6 @@ export function getNewClient(config: ConfigModel): ClientModel {
     defaultExtraInvoiceFields: config.defaultExtraClientInvoiceFields.slice(),
     notes: '',
     defaultInvoiceDateStrategy: config.defaultInvoiceDateStrategy,
+    email: getNewEmail(config.email),
   };
 }

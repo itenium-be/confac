@@ -1,4 +1,5 @@
 import { EditClientRateType, InvoiceDateStrategy, SelectItem } from "../../../models";
+import { EmailModel } from "../../controls/email/EmailModels";
 
 export type ConfigModel = {
   company: ConfigCompanyModel,
@@ -20,6 +21,12 @@ export type ConfigModel = {
 
   showOrderNr: boolean,
   groupInvoiceListByMonth: boolean,
+
+  /**
+   * Default values for email sending
+   * (not all are configurable)
+   */
+  email: EmailModel,
 }
 
 export type ConfigCompanyModel = {

@@ -2,25 +2,22 @@ import React, {Component} from 'react';
 import {t} from '../../util';
 import {SimpleSelect} from '../../controls/form-controls/select/SimpleSelect';
 import { EditClientRateType } from '../../../models';
+import { BaseInputProps } from '../../controls/form-controls/inputs/BaseInput';
 
 
 export const invoiceLineTypes = ['hourly', 'daily', 'km', 'items', 'section', 'other'];
 
-type InvoiceLineTypeSelectProps = {
-  label: string,
-  type: EditClientRateType,
-  onChange: (value: EditClientRateType) => void,
-}
+type InvoiceLineTypeSelectProps = BaseInputProps<EditClientRateType>;
 
 export class InvoiceLineTypeSelect extends Component<InvoiceLineTypeSelectProps> {
   static defaultProps = {type: 'hourly'}
 
   render() {
-    const {type, label, ...props} = this.props;
+    const {value, label, ...props} = this.props;
     return (
       <SimpleSelect
         transFn={(key: string) => t('rates.types.' + key)}
-        value={type}
+        value={value}
         options={invoiceLineTypes}
         isClearable={false}
         label={label}

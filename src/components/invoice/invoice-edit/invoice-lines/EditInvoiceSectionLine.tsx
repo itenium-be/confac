@@ -23,8 +23,8 @@ export class EditInvoiceSectionLine extends Component<EditInvoiceSectionLineProp
       ,
       <td key="1">
         <Control.InvoiceLineTypeSelect
-          label=""
-          type={line.type}
+          label={null}
+          value={line.type}
           onChange={value => onChange(invoice.updateLine(index, {type: value}))}
           data-tst={`line-${index}-type`}
         />

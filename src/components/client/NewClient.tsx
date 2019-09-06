@@ -21,6 +21,7 @@ export function btwResponseToModel(btw: BtwResponse): ClientModel {
 
 export const NewClient = (props: NewClientProps) => {
   const [client, setClient] = useState<ClientModel | null>(null);
+  const [btw, setBtw] = useState(props.client.btw);
 
   const onBtwChange = (res: BtwResponse) => {
     setClient(btwResponseToModel(res));
@@ -35,8 +36,8 @@ export const NewClient = (props: NewClientProps) => {
         <Row>
           <Col lg={8} md={10} sm={12}>
             <BtwInput
-              value={props.client.btw}
-              onChange={(val: string) => {}}
+              value={btw}
+              onChange={(val: string) => setBtw(val)}
               onBtwChange={onBtwChange}
               onFinalize={(btw: string) => client ? props.onChange(client) : props.onChange({btw: btw || ' '} as ClientModel)}
             />

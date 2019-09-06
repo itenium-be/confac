@@ -3,6 +3,7 @@ import moment from 'moment';
 import { ConfigModel } from "../components/config/models/ConfigModel";
 import InvoiceModel from "../components/invoice/models/InvoiceModel";
 import { ClientModel } from "../components/client/models/ClientModels";
+import { EmailModel } from "../components/controls/email/EmailModels";
 
 
 export type ConfacState = {
@@ -26,6 +27,16 @@ export const defaultAppState: AppState = {
     freeClient: '',
   },
 };
+
+export function getNewEmail(defaultValues?: EmailModel): EmailModel {
+  return Object.assign({
+    to: '',
+    cc: '',
+    bcc: '',
+    subject: '',
+    body: '',
+  }, defaultValues);
+}
 
 
 export const defaultConfig: ConfigModel = {
@@ -56,4 +67,5 @@ export const defaultConfig: ConfigModel = {
   defaultInvoiceLineType: 'daily',
   defaultInvoiceDateStrategy: 'prev-month-last-day',
   invoicePayDays: 30,
+  email: getNewEmail(),
 };

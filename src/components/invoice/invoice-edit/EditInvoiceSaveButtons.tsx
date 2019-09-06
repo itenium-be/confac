@@ -28,13 +28,13 @@ export const EditInvoiceSaveButtonsComponent = ({history, invoice, onClick}: Edi
   const isNewInvoice = invoice.isNew;
   const tp = (transKey: string): string => t(invoice.getType() + transKey);
   return (
-    <div className="button-row">
+    <>
       <BusyButton variant="light" onClick={onClick.bind(null, 'preview', history)} data-tst="preview" icon="far fa-eye">
         {t('invoice.preview')}
       </BusyButton>
       <BusyButton onClick={onClick.bind(null, isNewInvoice ? 'create' : 'update', history)} data-tst="save">
         {isNewInvoice ? tp('.create') : t('save')}
       </BusyButton>
-    </div>
+    </>
   );
 };

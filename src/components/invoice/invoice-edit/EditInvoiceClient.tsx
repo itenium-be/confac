@@ -7,6 +7,7 @@ import ClientDetails from '../../client/controls/ClientDetails';
 import InvoiceTotal from './InvoiceTotal';
 import {ClientModal} from '../../client/controls/ClientModal';
 import InvoiceModel from '../models/InvoiceModel';
+import { ClientModel } from '../../client/models/ClientModels';
 
 type EditInvoiceClientProps = {
   invoice: InvoiceModel,
@@ -37,7 +38,7 @@ export class EditInvoiceClient extends Component<EditInvoiceClientProps, EditInv
           client={this.state.modalClientId !== 'new' ? invoice.client : null}
           show={!!this.state.modalClientId}
           onClose={() => this.setState({modalClientId: null})}
-          onConfirm={updatedClient => onChange({invoice: invoice.setClient(updatedClient)})}
+          onConfirm={(updatedClient: ClientModel) => onChange({invoice: invoice.setClient(updatedClient)})}
         />}
         <div className="unset-split">
           <div>

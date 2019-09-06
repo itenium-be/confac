@@ -17,6 +17,9 @@ import { ConfacState } from '../../../reducers/default-states';
 import { EditInvoiceDetails } from './EditInvoiceDetails';
 import { StickyFooter } from '../../controls/skeleton/StickyFooter';
 import { DownloadInvoiceButton } from './DownloadInvoiceButton';
+import { Button } from '../../controls';
+import { EmailModal } from '../../controls/email/EmailModal';
+import { EmailModel } from '../../controls/email/EmailModels';
 
 
 type EditInvoiceProps = {
@@ -37,6 +40,7 @@ type EditInvoiceState = {
   invoice: InvoiceModel,
   showExtraFields: boolean,
   renavigationKey: string,
+  showEmailModal: boolean,
 }
 
 export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
@@ -54,6 +58,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
       invoice: this.createModel(props),
       showExtraFields: false,
       renavigationKey: '',
+      showEmailModal: false,
     };
   }
 
@@ -162,7 +167,13 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
             </Col>
           </Row>
 
-
+          <EmailModal
+            show={this.state.showEmailModal}
+            defaultValue={Object.assign({}, (invoice.client && invoice.client.email), this.props.config.email)}
+            title={t('email.title')}
+            onClose={() => this.setState({showEmailModal: false})}
+            onConfirm={(email: EmailModel) => {}}
+          />
 
           <EditInvoiceExtraFields
             forceOpen={this.state.showExtraFields}
@@ -178,6 +189,9 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
           </Row>
           <Control.AttachmentsForm model={invoice} />
           <StickyFooter>
+            <Button variant="light" icon="far fa-envelope" onClick={() => this.setState({showEmailModal: true})}>
+              {t('email.prepareEmail')}
+            </Button>
             <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, invoice)} invoice={invoice} />
           </StickyFooter>
         </Form>
