@@ -27,9 +27,10 @@ export const defaultClientProperties: FullFormConfig = [
 
   {title: 'config.email.title'},
   {key: 'email.to', cols: 6},
+  {key: 'email.attachments', component: 'AttachmentsTypeSelect', cols: 6},
   {key: 'email.cc', cols: 6},
   {key: 'email.bcc', cols: 6},
-  {key: 'email.subject', cols: 6},
+  {key: 'email.subject', cols: 12},
   {key: 'email.body', component: 'TextEditor', cols: 12, label: ''},
 ];
 

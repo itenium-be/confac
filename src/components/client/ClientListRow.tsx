@@ -23,7 +23,7 @@ export const ClientListHeader = () => (
 
 type ClientListRowProps = {
   invoices: InvoiceModel[],
-  saveClient: Function,
+  saveClient: (client: ClientModel, stayOnPage?: boolean, callback?: (client: ClientModel) => void) => void,
   client: ClientModel,
 }
 
@@ -31,7 +31,7 @@ class ClientListRow extends Component<ClientListRowProps> {
   render() {
     const {client} = this.props;
     const invoices = this.props.invoices.filter(i => i.client._id === client._id);
-    const tst = key => `client-${client.name}-${key}`;
+    const tst = (key: string): string => `client-${client.name}-${key}`;
     return (
       <tr className={client.active ? undefined : 'table-danger'} data-tst={tst('row')}>
         <td>

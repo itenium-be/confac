@@ -45,6 +45,7 @@ export default class InvoiceModel implements IAttachment {
   discount: string;
   attachments: Attachment[];
   isQuotation: boolean;
+  lastEmail: string;
 
   _defaultTax: number;
   _defaultType: EditClientRateType;
@@ -85,6 +86,7 @@ export default class InvoiceModel implements IAttachment {
     this.attachments = obj.attachments || [{type: 'pdf'}];
     this.extraFields = obj.extraFields || [];
     this.isQuotation = obj.isQuotation || false;
+    this.lastEmail = obj.lastEmail;
 
     this.money = this._calculateMoneys();
 

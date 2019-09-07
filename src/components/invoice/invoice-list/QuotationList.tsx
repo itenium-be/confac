@@ -5,7 +5,7 @@ import InvoiceListModel from '../models/InvoiceListModel';
 import {Container, Row, Col} from 'react-bootstrap';
 import {GroupedInvoiceTable} from '../invoice-table/GroupedInvoiceTable';
 import {NonGroupedInvoiceTable} from '../invoice-table/NonGroupedInvoiceTable';
-import { ConfacState } from '../../../reducers/default-states';
+import { ConfacState } from '../../../reducers/app-state';
 import { ConfigModel } from '../../config/models/ConfigModel';
 import InvoiceModel from '../models/InvoiceModel';
 import { ClientModel } from '../../client/models/ClientModels';

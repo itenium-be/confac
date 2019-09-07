@@ -4,7 +4,7 @@ import {t} from '../../util';
 import {FormLabel, FormGroup, Alert} from 'react-bootstrap';
 import {Popup, SimpleCreatableSelect, PopupButton} from '../../controls';
 import { Attachment } from '../../../models';
-import { ConfacState } from '../../../reducers/default-states';
+import { ConfacState } from '../../../reducers/app-state';
 import { AttachmentDropzone } from './AttachmentDropzone';
 
 

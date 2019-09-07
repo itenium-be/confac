@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { ConfacState } from "../../../reducers/default-states";
+import { ConfacState } from "../../../reducers/app-state";
 import { Button } from "./Button";
 
 type ButtonWithClickOnceProps = {

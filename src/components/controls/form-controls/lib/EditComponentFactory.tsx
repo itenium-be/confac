@@ -18,6 +18,7 @@ import { WebsiteInput } from "../inputs/WebsiteInput";
 import { IbanInput } from "../inputs/IbanInput";
 import { ExtraFieldsInput } from "../inputs/ExtraFieldsInput";
 import { TextEditor } from "../inputs/TextEditor";
+import { AttachmentsTypeSelect } from "../../attachments/AttachmentsTypeSelect";
 
 export type CustomComponents = 'InvoiceLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect'
   | 'ExtraFields' | 'StringsSelect' | 'ClientSelect';
@@ -51,6 +52,7 @@ const componentMap = {
   ExtraFields: ExtraFieldsInput,
   ClientSelect: ClientSelect,
   StringsSelect: StringsSelect,
+  AttachmentsTypeSelect: AttachmentsTypeSelect,
 };
 
 export function getComponent(col: FormConfig) {

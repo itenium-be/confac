@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import Header from './Header';
 
 import {ToastContainer} from 'react-toastify';
-import { ConfacState } from '../reducers/default-states';
+import { ConfacState } from '../reducers/app-state';
 // import { success, failure } from '../actions/appActions';
 // <button onClick={() => success("greato success")}>Success</button>
 // <button onClick={() => failure("oh noes")}>Error</button>

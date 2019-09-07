@@ -81,7 +81,9 @@ const trans = {
       title: 'Factuur emails',
       subject: 'Standaard onderwerp',
       body: 'Standaard email',
+      from: 'Emails versturen vanuit',
       bcc: 'Standaard BCC',
+      attachments: 'Standaard extra email bijlagen',
     },
   },
   quotation: {
@@ -219,6 +221,7 @@ const trans = {
       cc: 'CC',
       bcc: 'BCC',
       subject: 'Onderwerp',
+      attachments: 'Vereiste email bijlage(n)',
     },
   },
   controls: {
@@ -247,7 +250,9 @@ const trans = {
     bcc: 'BCC',
     subject: 'Onderwerp',
     send: 'Versturen',
-    // cancel: 'Annuleren',
+    attachments: 'Bijlagen',
+    sent: 'Email verstuurd',
+    lastEmail: 'Laatst verstuurd op {at}',
   },
 };
 

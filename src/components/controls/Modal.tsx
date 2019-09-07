@@ -20,7 +20,7 @@ type ModalProps = BaseModalProps & {
    */
   confirmText?: string,
   confirmVariant?: BootstrapVariant,
-  title: string,
+  title: string | React.ReactNode,
   children: any,
 }
 

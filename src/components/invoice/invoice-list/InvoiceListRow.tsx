@@ -7,7 +7,7 @@ import {InvoiceWorkedDays} from './InvoiceWorkedDays';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import InvoiceModel from '../models/InvoiceModel';
-import { ConfacState } from '../../../reducers/default-states';
+import { ConfacState } from '../../../reducers/app-state';
 import moment from 'moment';
 
 

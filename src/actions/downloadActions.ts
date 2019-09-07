@@ -19,37 +19,44 @@ export function getClientDownloadUrl(client: ClientModel, attachment: Attachment
   return buildUrl(`/attachments/client/${client._id}/${attachment.type}/${encodeURIComponent(attachment.fileName)}?download=1`);
 }
 
-
-
-function getInvoiceFileName(data: InvoiceModel): string {
-  var fileName = data.fileName;
+export function invoiceReplacements(input: string, invoice: InvoiceModel): string {
+  let str = input;
 
   const nrRegex = /\{nr:(\d+)\}/;
-  const nrMatch = fileName.match(nrRegex);
+  const nrMatch = str.match(nrRegex);
   if (nrMatch) {
-    const nrSize = parseInt(nrMatch[1], 10);
-    fileName = fileName.replace(nrRegex, ('000000' + data.number).slice(-nrSize));
+    const nrSize = Math.max(parseInt(nrMatch[1], 10), invoice.number.toString().length);
+    str = str.replace(nrRegex, ('000000' + invoice.number).slice(-nrSize));
   }
+
+  str = str.replace(/\{nr\}/g, invoice.number.toString());
 
   const dateRegex = /\{date:([^}]+)\}/;
-  const dateMatch = fileName.match(dateRegex);
-  if (dateMatch && data.date) {
+  const dateMatch = str.match(dateRegex);
+  if (dateMatch && invoice.date) {
     const dateFormat = dateMatch[1];
-    fileName = fileName.replace(dateRegex, data.date.format(dateFormat));
+    str = str.replace(dateRegex, invoice.date.format(dateFormat));
   }
 
-  if (fileName.indexOf('{orderNr}') !== -1) {
-    fileName = fileName.replace('{orderNr}', data.orderNr);
+  if (str.indexOf('{orderNr}') !== -1) {
+    str = str.replace('{orderNr}', invoice.orderNr);
   }
-  if (fileName.indexOf('{clientName}') !== -1) {
-    fileName = fileName.replace('{clientName}', data.client.name);
+
+  if (str.indexOf('{clientName}') !== -1) {
+    str = str.replace('{clientName}', invoice.client.name);
   }
 
   // Object.keys(data).forEach(invoiceProp => {
-  //   fileName = fileName.replace('{' + invoiceProp + '}', data[invoiceProp]);
+  //   str = str.replace('{' + invoiceProp + '}', data[invoiceProp]);
   // });
 
-  return fileName + '.pdf';
+  return str;
+}
+
+
+function getInvoiceFileName(invoice: InvoiceModel): string {
+  var fileName = invoice.fileName;
+  return invoiceReplacements(fileName, invoice) + '.pdf';
 }
 
 

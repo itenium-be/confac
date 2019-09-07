@@ -1,6 +1,6 @@
 import { ACTION_TYPES } from '../actions';
 import { AppState } from '../models';
-import { defaultAppState } from './default-states';
+import { defaultAppState } from './app-state';
 
 // App is also config but only relevant for the session
 

@@ -34,8 +34,10 @@ export const configDefinition: FullFormConfig = [
   {key: 'groupByMonth', component: 'switch'},
 
   {title: 'config.email.title'},
+  {key: 'email.from', cols: 6},
   {key: 'email.bcc', cols: 6},
   {key: 'email.subject', cols: 6},
+  {key: 'email.attachments', component: 'AttachmentsTypeSelect', cols: 6},
   {key: 'email.body', component: 'TextEditor', cols: 12},
 
   {title: 'config.extraFields.title'},

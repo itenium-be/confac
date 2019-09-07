@@ -1,7 +1,7 @@
 import React from "react";
 import { IAttachment } from "../../../models";
 import { useSelector, useDispatch } from "react-redux";
-import { ConfacState } from "../../../reducers/default-states";
+import { ConfacState } from "../../../reducers/app-state";
 import Dropzone from 'react-dropzone';
 import { Col } from "react-bootstrap";
 import { t } from "../../util";

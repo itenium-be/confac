@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {t} from '../../util';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import Select from 'react-select';
-import { ConfacState } from '../../../reducers/default-states';
+import { ConfacState } from '../../../reducers/app-state';
 import { ClientModel } from '../models/ClientModels';
 import { SelectItem } from '../../../models';
 

@@ -6,14 +6,14 @@ import {configDefinition} from './models/ConfigConfig';
 import * as Control from '../controls';
 import {updateConfig} from '../../actions/index';
 import { ConfigModel } from './models/ConfigModel';
-import { ConfacState } from '../../reducers/default-states';
+import { ConfacState } from '../../reducers/app-state';
 import { ArrayInput } from '../controls';
 import { StickyFooter } from '../controls/skeleton/StickyFooter';
 
 
 type EditConfigProps = {
   config: ConfigModel,
-  updateConfig: Function,
+  updateConfig: (config: ConfigModel) => void,
 }
 
 type EditConfigState = ConfigModel;

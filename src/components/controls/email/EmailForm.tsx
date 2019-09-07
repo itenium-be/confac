@@ -1,19 +1,27 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Row } from "react-bootstrap";
 import { Icon } from "../../controls";
 import { StringInput } from "../form-controls/inputs/StringInput";
 import { t } from "../../util";
 import { TextEditor } from "../form-controls/inputs/TextEditor";
-import { EmailModel, createEmptyModel } from "./EmailModels";
+import { EmailModel } from "./EmailModels";
 import { BaseInputProps } from "../form-controls/inputs/BaseInput";
+import { getNewEmail } from "./getNewEmail";
+
+import './EmailForm.scss';
 
 
-type EmailFormProps = BaseInputProps<EmailModel>;
+type EmailFormProps = BaseInputProps<EmailModel> & {
+  /**
+   * Attachments that are available for emailing
+   */
+  attachmentsAvailable: string[],
+};
 
-export const EmailForm = ({value, onChange, ...props}: EmailFormProps) => {
+export const EmailForm = ({value, onChange, attachmentsAvailable, ...props}: EmailFormProps) => {
   const [showAllTos, setShowAllTos] = useState(false);
 
-  value = value || createEmptyModel();
+  value = value || getNewEmail();
 
   return (
     <Form>
@@ -43,7 +51,32 @@ export const EmailForm = ({value, onChange, ...props}: EmailFormProps) => {
 
       <TextEditor value={value.body} onChange={body => onChange({...value, body} as EmailModel)} />
 
-      <b>Bijlagen</b>
+      <h4 style={{marginTop: 20}}>{t('email.attachments')}</h4>
+      <EmailFormAttachments expectedAttachments={value.attachments} attachmentsAvailable={attachmentsAvailable} />
+
     </Form>
+  )
+}
+
+type EmailFormAttachments = {
+  expectedAttachments: string[],
+  attachmentsAvailable: string[],
+}
+
+
+
+const EmailFormAttachments = ({expectedAttachments, attachmentsAvailable}: EmailFormAttachments) => {
+  return (
+    <Row className="email-attachments">
+      {expectedAttachments.map(attachment => {
+        const isAvailable = attachmentsAvailable.some(a => a === attachment);
+        return (
+          <div key={attachment} className={isAvailable ? 'success' : 'danger'}>
+            <i className={isAvailable ? 'fa fa-check-circle' : 'fa fa-exclamation-circle'} />
+            <span>{attachment}</span>
+          </div>
+        );
+      })}
+    </Row>
   )
 }

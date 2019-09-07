@@ -7,19 +7,20 @@ import {Container, Row, Col, Form} from 'react-bootstrap';
 import EditInvoiceLines from './invoice-lines/EditInvoiceLines';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
-import {invoiceAction} from '../../../actions/index';
+import {invoiceAction, invoiceReplacements} from '../../../actions/index';
 import {EditInvoiceClient} from './EditInvoiceClient';
 import {EditInvoiceExtraFields} from './EditInvoiceExtraFields';
 import InvoiceModel from '../models/InvoiceModel';
 import { ConfigModel } from '../../config/models/ConfigModel';
 import { ClientModel } from '../../client/models/ClientModels';
-import { ConfacState } from '../../../reducers/default-states';
+import { ConfacState } from '../../../reducers/app-state';
 import { EditInvoiceDetails } from './EditInvoiceDetails';
 import { StickyFooter } from '../../controls/skeleton/StickyFooter';
 import { DownloadInvoiceButton } from './DownloadInvoiceButton';
 import { Button } from '../../controls';
-import { EmailModal } from '../../controls/email/EmailModal';
+import { EmailModal, EmailModalTitle } from '../../controls/email/EmailModal';
 import { EmailModel } from '../../controls/email/EmailModels';
+import { sendEmail } from '../../../actions/emailActions';
 
 
 type EditInvoiceProps = {
@@ -34,6 +35,7 @@ type EditInvoiceProps = {
     }
   },
   renavigationKey: string,
+  sendEmail: (invoice: InvoiceModel, email: EmailModel) => void,
 }
 
 type EditInvoiceState = {
@@ -108,6 +110,27 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
   render() {
     const {invoice} = this.state;
     const extraFieldsVisible = invoice.extraFields.length === 0 && !this.state.showExtraFields;
+
+    const getDefaultEmailValue = (invoice: InvoiceModel, defaultEmail: EmailModel): EmailModel => {
+      if (!invoice.client || !invoice.client.email) {
+        return defaultEmail;
+      }
+
+      const emailValues = Object.keys(invoice.client.email).reduce((acc: EmailModel, cur: string) => {
+        if (invoice.client.email[cur]) {
+          acc[cur] = invoice.client.email[cur];
+          return acc;
+        }
+        return acc;
+      }, {} as EmailModel);
+
+      const finalValues = Object.assign({}, defaultEmail, emailValues);
+      finalValues.subject = invoiceReplacements(finalValues.subject, invoice);
+      finalValues.body = invoiceReplacements(finalValues.body, invoice);
+
+      return finalValues;
+    }
+
     return (
       <Container className="edit-container">
         <Form>
@@ -167,13 +190,16 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
             </Col>
           </Row>
 
-          <EmailModal
-            show={this.state.showEmailModal}
-            defaultValue={Object.assign({}, (invoice.client && invoice.client.email), this.props.config.email)}
-            title={t('email.title')}
-            onClose={() => this.setState({showEmailModal: false})}
-            onConfirm={(email: EmailModel) => {}}
-          />
+          {!invoice.isNew && invoice.client && this.state.showEmailModal && (
+            <EmailModal
+              show={this.state.showEmailModal}
+              defaultValue={getDefaultEmailValue(invoice, this.props.config.email)}
+              attachmentsAvailable={invoice.attachments.map(a => a.type)}
+              title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} />}
+              onClose={() => this.setState({showEmailModal: false})}
+              onConfirm={(email: EmailModel) => this.props.sendEmail(invoice, email)}
+            />
+          )}
 
           <EditInvoiceExtraFields
             forceOpen={this.state.showExtraFields}
@@ -189,9 +215,11 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
           </Row>
           <Control.AttachmentsForm model={invoice} />
           <StickyFooter>
-            <Button variant="light" icon="far fa-envelope" onClick={() => this.setState({showEmailModal: true})}>
-              {t('email.prepareEmail')}
-            </Button>
+            {!invoice.isNew && (
+              <Button variant="light" icon="far fa-envelope" onClick={() => this.setState({showEmailModal: true})}>
+                {t('email.prepareEmail')}
+              </Button>
+            )}
             <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, invoice)} invoice={invoice} />
           </StickyFooter>
         </Form>
@@ -200,7 +228,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
   }
 }
 
-function mapStateToProps(state: ConfacState, props) {
+function mapStateToProps(state: ConfacState, props: any) {
   return {
     config: state.config,
     app: state.app,
@@ -210,4 +238,4 @@ function mapStateToProps(state: ConfacState, props) {
   };
 }
 
-export default connect(mapStateToProps, {invoiceAction})(EditInvoice);
+export default connect(mapStateToProps, {invoiceAction, sendEmail})(EditInvoice);

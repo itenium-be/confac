@@ -8,7 +8,7 @@ import {Alert} from 'react-bootstrap';
 import {toggleInvoiceVerify} from '../../../actions/index';
 import InvoiceModel from '../models/InvoiceModel';
 import { getInvoiceDueDateVariant } from '../invoice-list/InvoiceListRow';
-import { ConfacState } from '../../../reducers/default-states';
+import { ConfacState } from '../../../reducers/app-state';
 
 
 type InvoiceNotVerifiedAlertProps = {
@@ -37,7 +37,7 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
     const daysOpen = moment().diff(invoice.date, 'days');
     return (
       <div>
-        <Alert style={{height: 52}} variant={variant} onClose={() => this.setState({dismissed: true})} dismissible data-tst="invoice-verify-alert">
+        <Alert variant={variant} onClose={() => this.setState({dismissed: true})} dismissible data-tst="invoice-verify-alert">
           <BusyButton
             variant={variant}
             onClick={() => toggleInvoiceVerify(invoice)}

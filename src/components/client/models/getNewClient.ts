@@ -1,6 +1,7 @@
 import { ClientModel } from './ClientModels';
 import { ConfigModel } from "../../config/models/ConfigModel";
-import { getNewEmail, defaultConfig } from '../../../reducers/default-states';
+import { getNewEmail } from "../../controls/email/getNewEmail";
+import { defaultConfig } from '../../config/models/getNewConfig';
 
 export function getNewClient(config?: ConfigModel): ClientModel {
   config = config || defaultConfig;

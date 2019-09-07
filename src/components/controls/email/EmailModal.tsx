@@ -2,16 +2,19 @@ import React, { useState } from 'react';
 import { Modal, BaseModalProps } from '../Modal';
 import { t } from '../../util';
 import { EmailForm } from './EmailForm';
-import { createEmptyModel, EmailModel } from './EmailModels';
+import { EmailModel } from './EmailModels';
+import { getNewEmail } from './getNewEmail';
+import moment from 'moment';
 
 type EmailModalProps = BaseModalProps & {
-  title: string,
+  title: string | React.ReactNode,
   onConfirm: (email: EmailModel) => void,
   defaultValue: EmailModel,
+  attachmentsAvailable: string[],
 }
 
-export const EmailModal = ({defaultValue, show, onClose, onConfirm, ...props}: EmailModalProps) => {
-  const [value, setValue] = useState(createEmptyModel(defaultValue));
+export const EmailModal = ({defaultValue, show, onClose, onConfirm, attachmentsAvailable, ...props}: EmailModalProps) => {
+  const [value, setValue] = useState(getNewEmail(defaultValue));
 
   return (
     <Modal
@@ -22,7 +25,25 @@ export const EmailModal = ({defaultValue, show, onClose, onConfirm, ...props}: E
       confirmVariant="danger"
       {...props}
     >
-      <EmailForm value={value} onChange={setValue} />
+      <EmailForm value={value} onChange={setValue} attachmentsAvailable={attachmentsAvailable} />
     </Modal>
   );
+}
+
+type EmailModalTitleProps = {
+  title: string,
+  lastEmail: string,
+}
+
+export const EmailModalTitle = ({title, lastEmail}: EmailModalTitleProps) => {
+  if (!lastEmail) {
+    return <span>{title}</span>;
+  }
+
+  return (
+    <span>
+      {title}
+      <small className="modal-subtitle">{t('email.lastEmail', {at: moment(lastEmail).format('D/M/YYYY')})}</small>
+    </span>
+  )
 }

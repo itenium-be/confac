@@ -26,6 +26,17 @@ export const invoices = (state: InvoiceModel[] = [], action): InvoiceModel[] => 
     return newState;
   }
 
+  case ACTION_TYPES.INVOICE_EMAILED:
+    return state.map(invoice => {
+      if (invoice._id === action.payload._id) {
+        return {
+          ...invoice,
+          lastEmail: action.payload.lastEmail
+        } as InvoiceModel;
+      }
+      return invoice;
+    });
+
   default:
     return state;
   }

@@ -5,7 +5,7 @@ import {Tooltip} from './Tooltip';
 import cn from 'classnames';
 import {EnhanceWithConfirmation, EnhanceWithBusySpinner} from '../enhancers/index';
 import t from '../../trans';
-import { ConfacState } from '../../reducers/default-states';
+import { ConfacState } from '../../reducers/app-state';
 
 
 const EnhanceIconWithCenter = <P extends object>(Component: React.ComponentType<P>) => ({center, ...props}: {center?: boolean} & P) => {

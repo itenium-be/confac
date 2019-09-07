@@ -15,4 +15,5 @@ export const ACTION_TYPES = keyMirror({
   INVOICE_DELETED: '',
   INVOICE_ADDED: '',
   INVOICE_UPDATED: '',
+  INVOICE_EMAILED: '',
 });

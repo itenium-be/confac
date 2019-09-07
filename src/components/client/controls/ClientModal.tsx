@@ -8,7 +8,7 @@ import {requiredClientProperties} from '../models/ClientConfig';
 import { getNewClient } from "../models/getNewClient";
 import { ClientModel } from '../models/ClientModels';
 import { ConfigModel } from '../../config/models/ConfigModel';
-import { ConfacState } from '../../../reducers/default-states';
+import { ConfacState } from '../../../reducers/app-state';
 import { btwResponseToModel } from '../NewClient';
 import { BtwInput, BtwResponse } from '../../controls/form-controls/inputs/BtwInput';
 import { BaseModalProps } from '../../controls';

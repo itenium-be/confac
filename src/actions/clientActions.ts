@@ -6,7 +6,7 @@ import { ClientModel } from '../components/client/models/ClientModels';
 import { busyToggle, success } from './appActions';
 
 
-export function saveClient(client: ClientModel, stayOnPage = false, callback?: Function) {
+export function saveClient(client: ClientModel, stayOnPage = false, callback?: (client: ClientModel) => void) {
   return dispatch => {
     dispatch(busyToggle());
     return request.post(buildUrl('/clients'))

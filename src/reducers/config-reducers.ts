@@ -1,6 +1,6 @@
 import { ConfigModel } from '../components/config/models/ConfigModel';
 import { ACTION_TYPES } from '../actions';
-import { defaultConfig } from './default-states';
+import { defaultConfig } from '../components/config/models/getNewConfig';
 
 // Config is stored on the backend
 

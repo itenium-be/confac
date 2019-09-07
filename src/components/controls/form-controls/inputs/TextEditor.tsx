@@ -39,7 +39,7 @@ class TextEditorComponent extends Component<TextEditorProps, TextEditorState> {
     return null;
   }
 
-  onEditorStateChange: Function = (editorState: EditorState) => {
+  onEditorStateChange = (editorState: EditorState): void => {
     const html = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     this.setState({ editorState, defaultValue: html });
     this.props.onChange(html);
@@ -50,6 +50,15 @@ class TextEditorComponent extends Component<TextEditorProps, TextEditorState> {
     return (
       <div style={{height: 300, overflowY: 'auto'}} className="form-control">
         <Editor
+          toolbarOnFocus={false}
+          toolbarHidden={false}
+          toolbar={{
+            inline: {
+              options: ['bold', 'italic', 'underline', 'strikethrough', 'monospace'],
+            },
+            list: { inDropdown: true },
+            textAlign: { inDropdown: true },
+          }}
           editorState={editorState}
           wrapperClassName="demo-wrapper"
           editorClassName="demo-editor"

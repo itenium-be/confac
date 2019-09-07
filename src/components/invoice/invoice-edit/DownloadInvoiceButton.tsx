@@ -7,7 +7,7 @@ export const DownloadInvoiceButton = ({invoice}) => {
   const donwloadUrl = getInvoiceDownloadUrl(invoice, 'pdf', 'download');
   return (
     <div className="attachment">
-      <div className="icon">
+      <div className="icon" style={{marginLeft: 3}}>
         <Icon
           fa="fa fa-file-invoice"
           style={{color: '#0062cc'}}

@@ -8,7 +8,7 @@ import {saveClient} from '../../actions/index';
 import {defaultClientProperties} from './models/ClientConfig';
 import { getNewClient } from "./models/getNewClient";
 import { ClientModel } from './models/ClientModels';
-import { ConfacState } from '../../reducers/default-states';
+import { ConfacState } from '../../reducers/app-state';
 import { ConfigModel } from '../config/models/ConfigModel';
 import { StickyFooter } from '../controls/skeleton/StickyFooter';
 import { NewClient } from './NewClient';

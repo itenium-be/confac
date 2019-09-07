@@ -1,0 +1,39 @@
+.email-attachments {
+  padding-left: 25px;
+  padding-right: 25px;
+
+  > div {
+    border: 2px dashed;
+    border-radius: 6px;
+    margin-right: 45px;
+    padding: 6px 15px 3px 8px;
+
+    &.success {
+      color: #28A745;
+    }
+
+    &.danger {
+      color: #DC3545;
+    }
+
+
+    .fa {
+      display: inline-block;
+      margin-right: 16px;
+      font-size: 26px;
+    }
+
+    span {
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
+}
+
+.modal-subtitle {
+  display: block;
+  font-size: 14px;
+  margin-top: -8px;
+  color: gray;
+  opacity: 0.7;
+}
