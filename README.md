@@ -1,12 +1,13 @@
 confac-back
 ===========
+
 Starting DEV
 ------------
 
 Expects running mongo with `src/config.json` settings.  
 A vagrant box with this configuration can be found in [confac-vagrant][confac-vagrant].
 
-```
+```bash
 # Start dev server
 npm start
 
@@ -19,11 +20,19 @@ npm run start:deploy
 npm run prod
 ```
 
+Emailing
+--------
+
+Development: Set `SENDGRID_API_KEY` in `config.json`  
+Production: Set `process.env.SENDGRID_API_KEY`  
+
+
 Template testing
 ----------------
+
 Location: `./templates/*.pug`
 
-```
+```bash
 # Compile html
 gulp build
 gulp watch

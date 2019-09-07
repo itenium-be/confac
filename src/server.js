@@ -1,5 +1,7 @@
 require('babel-polyfill');
 
+import sgMail from '@sendgrid/mail';
+
 var createApp = require('./server-init.js').createApp;
 
 // console.log('process.env', JSON.stringify(process.env));
@@ -18,11 +20,14 @@ if (process.env) {
       host: process.env.SERVER_HOST || json.server.host,
       port: process.env.SERVER_PORT || json.server.port,
       basePath: process.env.SERVER_BASEPATH || json.server.basePath,
-    }
+    },
+    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY || json.SENDGRID_API_KEY,
   };
 }
 
 var config = Object.assign({env: process.env.NODE_ENV || 'dev'}, json);
+
+sgMail.setApiKey(config.SENDGRID_API_KEY);
 
 var app = createApp(config);
 console.log('Starting at ' + KoaServerPort + ' on ' + new Date().toString());

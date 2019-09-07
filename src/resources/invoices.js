@@ -4,6 +4,8 @@ import pug from 'pug';
 import pdf from 'html-pdf';
 import moment from 'moment';
 import {ObjectId} from 'mongodb';
+import sgMail from '@sendgrid/mail';
+
 
 function * createPdf(params, config) {
   const html = createHtml(params, config);
@@ -100,6 +102,67 @@ export default function register(app, config) {
 
     // const html = createHtml(params, config);
     // yield createBase64Pdf.call(this, html);
+  });
+
+  router.post('/email/:id', function *() {
+    console.log('emailing', this.request.body);
+
+    const invoiceId = this.params.id;
+
+    const attachments = this.request.body.attachments
+      .map(a => a.type)
+      .reduce((acc, cur) => {
+        acc[cur] = 1;
+        return acc;
+      }, {});
+
+    const attachmentBuffers = yield this.mongo.collection('attachments')
+      .findOne(invoiceId.toObjectId(), attachments);
+
+    const emailAttachments = this.request.body.attachments.map(a => {
+      return {
+        content: attachmentBuffers[a.type].buffer.toString('base64'),
+        fileName: a.fileName,
+        type: a.fileType,
+        disposition: 'attachment',
+      }
+    });
+
+    const email = this.request.body;
+    const msg = {
+      to: email.to.split(';'),
+      cc: email.cc.split(';'),
+      bcc: email.bcc.split(';'),
+      from: email.from,
+      subject: email.subject,
+      // text: '', // TODO: Send body stripped from html?
+      html: email.body,
+      attachments: emailAttachments,
+    };
+    yield sgMail.send(msg)
+      .then(() => {
+        console.log('Mail sent successfully');
+      })
+      .catch(error => {
+        console.error(error);
+        if (error.code === 401) {
+          this.status = 400;
+          this.body = [{message: 'Has the SendGrid API Key been set?'}];
+        } else {
+          this.status = 400;
+          this.body = error.response.body.errors;
+        }
+      });
+
+    if (this.status !== 400) {
+      const lastEmailSent = new Date();
+      yield this.mongo.collection('invoices').update(
+        invoiceId.toObjectId(),
+        {$set: {lastEmail: lastEmailSent}}
+      );
+      this.status = 200;
+      this.body = lastEmailSent;
+    }
   });
 
   router.post('/excel', function *() {

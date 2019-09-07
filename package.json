@@ -13,6 +13,7 @@
   "author": "Wouter Van Schandevijl <woutervs@hotmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
     "babel-polyfill": "^6.20.0",
     "html-pdf": "^2.1.0",
     "jszip": "^3.2.2",

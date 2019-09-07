@@ -9,5 +9,6 @@
       "host": "localhost",
       "port": 9000,
       "basePath": ""
-   }
+   },
+   "SENDGRID_API_KEY": ""
 }
