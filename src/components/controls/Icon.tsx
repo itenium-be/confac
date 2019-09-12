@@ -129,10 +129,6 @@ export const DragAndDropIcon = ({...props}: IconProps) => {
   return <Icon fa="fa fa-arrows" color="#EEE9E9" data-tst="dnd" {...props} />;
 };
 
-export const ViewIcon = ({...props}: IconProps) => {
-  return <Icon fa="far fa-eye" title={t('view')} {...props} />;
-};
-
 export const EditIcon = ({...props}: IconProps) => {
   return <Icon fa="far fa-edit" title={t('edit')} {...props} />;
 };

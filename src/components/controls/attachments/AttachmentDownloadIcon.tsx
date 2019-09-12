@@ -18,7 +18,7 @@ export const InvoiceDownloadIcon = ({invoice, ...props}: InvoiceModelProps) => (
 );
 
 
-export const InvoicePreviewIcon = ({invoice, ...props}: InvoiceModelProps) => {
+export const InvoicePreviewIcon = ({invoice, ...props}: InvoiceModelProps & IconProps) => {
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
   return <Icon title={t(fileType + '.viewPdf')} href={getInvoiceDownloadUrl(invoice, 'pdf')} fa="far fa-eye" {...props} />;
 };

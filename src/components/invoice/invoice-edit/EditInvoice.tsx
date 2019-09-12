@@ -137,9 +137,11 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
           <Row>
             <Col sm={12}>
               <h1>
-                {invoice._id && (<div style={{float: 'right'}}>
-                  <DownloadInvoiceButton invoice={invoice} />
-                </div>)}
+                {invoice._id && (
+                  <div style={{float: 'right'}}>
+                    <DownloadInvoiceButton invoice={invoice} />
+                  </div>)
+                }
                 {invoice._id ? t(this.type + '.editTitle') : t(this.type + '.createTitle')}
                 {invoice.createdOn && <small className="created-on">{t('createdOn')} {moment(invoice.createdOn).format('DD/MM/YYYY')}</small>}
               </h1>
