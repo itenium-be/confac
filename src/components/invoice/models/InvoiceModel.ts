@@ -111,11 +111,7 @@ export default class InvoiceModel implements IAttachment {
   }
 
   setClient(client: undefined | ClientModel): InvoiceModel {
-
     this.client = client as ClientModel;
-    if (!this.lines || this.lines.length <= 1) {
-      this._lines = [this.getLine()];
-    }
     this.fileName = client ? client.invoiceFileName : this.fileName;
     if (!this.extraFields.length) {
       this.extraFields = client ? (client.defaultExtraInvoiceFields || []) : [];
@@ -123,6 +119,9 @@ export default class InvoiceModel implements IAttachment {
     this._defaultType = client && client.rate ? client.rate.type : this._defaultType;
     if (client && client.defaultInvoiceDateStrategy) {
       this.date = getInvoiceDate(client);
+    }
+    if (!this.lines || this.lines.length <= 1) {
+      this._lines = [this.getLine()];
     }
     return this;
   }
