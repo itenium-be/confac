@@ -253,6 +253,7 @@ const trans = {
     attachments: 'Bijlagen',
     sent: 'Email verstuurd',
     lastEmail: 'Laatst verstuurd op {at}',
+    notMailed: 'Mail nog niet verstuurd',
   },
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {moneyFormat, t} from '../../util';
-import {ConfirmedDeleteIcon, EditIcon, InvoiceDownloadIcon, InvoicePreviewIcon, InvoiceVerifyIconToggle} from '../../controls';
+import {ConfirmedDeleteIcon, EditIcon, InvoiceDownloadIcon, InvoicePreviewIcon, InvoiceVerifyIconToggle, NotEmailedIcon} from '../../controls';
 import {deleteInvoice} from '../../../actions/index';
 import {InvoiceWorkedDays} from './InvoiceWorkedDays';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
@@ -111,6 +111,7 @@ export const InvoiceListRow = ({invoice, isFirstRow, onlyRowForMonth, columns}: 
         <InvoiceWorkedDays invoices={[invoice]} display={onlyRowForMonth ? undefined : 'invoice'} data-tst={tst('days')} />
       </td>
       <td style={{textAlign: 'right', whiteSpace: 'nowrap'}} data-tst={tst('money-total')}>
+        {!invoice.verified && !invoice.lastEmail && <NotEmailedIcon style={{marginRight: 6, fontSize: 12}} />}
         {moneyFormat(invoice.money.total)}
       </td>
       <td className="icons-cell" style={{width: 240}}>
