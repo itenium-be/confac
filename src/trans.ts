@@ -151,7 +151,7 @@ const trans = {
     groupByMonth: 'Groepeer per maand',
     isVerified: 'Deze factuur is geverifieerd!',
     isNotVerified: 'Deze factuur is nog niet geverifieerd!',
-    notVerifiedFor: '{days} dagen openstaand',
+    notVerifiedFor: '{days} dagen openstaand.',
     isVerifiedConfirm: 'Factuur nu geverifieerd',
     isNotVerifiedConfirm: 'Factuur niet meer geverifieerd',
     downloadAttachment: '{type} downloaden',
@@ -253,6 +253,7 @@ const trans = {
     attachments: 'Bijlagen',
     sent: 'Email verstuurd',
     lastEmail: 'Laatst verstuurd op {at}',
+    lastEmailDaysAgo: 'Laatste email {daysAgo}.',
     notMailed: 'Mail nog niet verstuurd',
   },
 };

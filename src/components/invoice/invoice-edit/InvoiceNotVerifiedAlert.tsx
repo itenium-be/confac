@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {t} from '../../util';
 import moment from 'moment';
 
-import {BusyButton} from '../../controls';
+import {BusyButton, NotEmailedIcon} from '../../controls';
 import {Alert} from 'react-bootstrap';
 import {toggleInvoiceVerify} from '../../../actions/index';
 import InvoiceModel from '../models/InvoiceModel';
@@ -38,6 +38,9 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
     return (
       <div>
         <Alert variant={variant} onClose={() => this.setState({dismissed: true})} dismissible data-tst="invoice-verify-alert">
+
+          {!invoice.lastEmail && <NotEmailedIcon style={{marginRight: 10, fontSize: 13, marginTop: -6}} />}
+
           <BusyButton
             variant={variant}
             onClick={() => toggleInvoiceVerify(invoice)}
@@ -47,7 +50,14 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
           >
             {t('invoice.verifyAction')}
           </BusyButton>
-          {t('invoice.isNotVerified')} <small>{t('invoice.notVerifiedFor', { days: daysOpen })}</small>
+
+          {t('invoice.isNotVerified')}
+
+          <small style={{marginLeft: 6}}>
+            {t('invoice.notVerifiedFor', { days: daysOpen })}
+            {invoice.lastEmail && <> {t('email.lastEmailDaysAgo', {daysAgo: moment(invoice.lastEmail).fromNow()})}</>}
+          </small>
+
         </Alert>
       </div>
     );
