@@ -14,7 +14,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 
 import moment from 'moment';
-moment.locale('nl');
+import 'moment/locale/nl-be';
+moment.locale('nl-be');
 
 
 import {registerLocale, setDefaultLocale} from  "react-datepicker";
