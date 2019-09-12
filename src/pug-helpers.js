@@ -9,7 +9,8 @@ numeral.language('nl', {
 });
 numeral.language('nl');
 
-moment.locale('nl');
+require('moment/locale/nl-be')
+moment.locale('nl-be');
 
 module.exports = {
   locals: {
