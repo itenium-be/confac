@@ -40,7 +40,10 @@ class TextEditorComponent extends Component<TextEditorProps, TextEditorState> {
   }
 
   onEditorStateChange = (editorState: EditorState): void => {
-    const html = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    let html = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    if (html.trim() === '<p></p>') {
+      html = '';
+    }
     this.setState({ editorState, defaultValue: html });
     this.props.onChange(html);
   };
