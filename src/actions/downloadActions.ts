@@ -9,7 +9,8 @@ import moment from 'moment';
 export function getInvoiceDownloadUrl(invoice: InvoiceModel, attachment: 'pdf' | Attachment = 'pdf', downloadType?: 'preview' | 'download'): string {
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
   const query = downloadType === 'download' ? '?download=1' : '';
-  const fileName = attachment === 'pdf' ? getInvoiceFileName(invoice) : attachment.fileName;
+  const isInvoiceAttachment = attachment === 'pdf' || attachment.type === 'pdf';
+  const fileName = isInvoiceAttachment ? getInvoiceFileName(invoice) : attachment['fileName'];
   const attachmentType = attachment === 'pdf' ? 'pdf' : attachment.type;
   return buildUrl(`/attachments/${fileType}/${invoice._id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
 }
