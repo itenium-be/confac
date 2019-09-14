@@ -24,6 +24,20 @@ export const InvoicePreviewIcon = ({invoice, ...props}: InvoiceModelProps & Icon
 };
 
 
+type AttachmentPreviewIconProps = {
+  model: IAttachment,
+  attachment: Attachment,
+  modelType: 'invoice' | 'client' | 'quotation',
+}
+
+export const AttachmentPreviewIcon = ({model, modelType, attachment, ...props}: AttachmentPreviewIconProps) => {
+  const url = getAttachmentDownloadUrl(model, attachment, modelType, 'preview');
+  return (
+    <Icon title={t('invoice.viewPdf')} href={url} fa="far fa-eye" {...props} />
+  );
+}
+
+
 
 
 type AttachmentDownloadIconProps = IconProps & {
@@ -33,11 +47,11 @@ type AttachmentDownloadIconProps = IconProps & {
 }
 
 
-export const getAttachmentDownloadUrl = (model: IAttachment, attachment: Attachment, modelType: 'client' | 'invoice' | 'quotation'): string => {
+export const getAttachmentDownloadUrl = (model: IAttachment, attachment: Attachment, modelType: 'client' | 'invoice' | 'quotation', downloadType: 'preview' | 'download' = 'download'): string => {
   if (modelType === 'client') {
-    return getClientDownloadUrl(model as ClientModel, attachment);
+    return getClientDownloadUrl(model as ClientModel, attachment, downloadType);
   } else {
-    return getInvoiceDownloadUrl(model as InvoiceModel, attachment, 'download');
+    return getInvoiceDownloadUrl(model as InvoiceModel, attachment, downloadType);
   }
 }
 

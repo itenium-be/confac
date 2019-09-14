@@ -12,6 +12,7 @@ import { AttachmentForm } from './AttachmentForm';
 
 
 import './attachments.scss';
+import { AttachmentPreviewIcon } from '../../controls';
 
 
 export type AttachmentsFormProps = {
@@ -55,8 +56,11 @@ type AbstractAttachmentsFormProps = {
 }
 
 type AbstractAttachmentsFormState = {
+  /** Show the attachment upload popup */
   isOpen: boolean,
+  /** Show delete icons on the attachments */
   isFormOpen: boolean,
+  /** The attachment.type to show the preview icon */
   hoverId: string | null,
 }
 
@@ -101,13 +105,13 @@ export class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormPr
         </Col>
 
         {attachments.map(att => (
-          <Col lg={4} md={6} key={att.type}>
+          <Col lg={4} md={6} key={att.type} onMouseEnter={() => this.setState({hoverId: att.type})} onMouseLeave={() => this.setState({hoverId: null})}>
             <AttachmentForm
               model={this.props.model}
               modelType={this.props.modelType}
               attachment={att}
             >
-              {this.state.isFormOpen ? (
+              {this.state.isFormOpen && (
                 <div className="delete">
                   <ConfirmedDeleteIcon
                     title={t('attachment.deleteTitle')}
@@ -117,7 +121,12 @@ export class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormPr
                     {t('attachment.deletePopup')}
                   </ConfirmedDeleteIcon>
                 </div>
-              ) : null}
+              )}
+              {!this.state.isFormOpen && this.state.hoverId === att.type && (
+                <div className="delete">
+                  <AttachmentPreviewIcon model={this.props.model} modelType={this.props.modelType} attachment={att} />
+                </div>
+              )}
             </AttachmentForm>
           </Col>
         ))}

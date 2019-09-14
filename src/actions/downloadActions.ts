@@ -8,17 +8,31 @@ import moment from 'moment';
 
 export function getInvoiceDownloadUrl(invoice: InvoiceModel, attachment: 'pdf' | Attachment = 'pdf', downloadType?: 'preview' | 'download'): string {
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
-  const query = downloadType === 'download' ? '?download=1' : '';
   const isInvoiceAttachment = attachment === 'pdf' || attachment.type === 'pdf';
   const fileName = isInvoiceAttachment ? getInvoiceFileName(invoice) : attachment['fileName'];
   const attachmentType = attachment === 'pdf' ? 'pdf' : attachment.type;
-  return buildUrl(`/attachments/${fileType}/${invoice._id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
+  // return buildUrl(`/attachments/${fileType}/${invoice._id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
+
+  return getDownloadUrl(fileType, invoice._id, attachmentType, fileName, downloadType);
 }
 
 
-export function getClientDownloadUrl(client: ClientModel, attachment: Attachment): string {
-  return buildUrl(`/attachments/client/${client._id}/${attachment.type}/${encodeURIComponent(attachment.fileName)}?download=1`);
+export function getClientDownloadUrl(client: ClientModel, attachment: Attachment, downloadType: 'preview' | 'download' = 'download'): string {
+  return getDownloadUrl('client', client._id, attachment.type, attachment.fileName, downloadType);
 }
+
+
+/** An interface you say? */
+function getDownloadUrl(
+  fileType: 'quotation' | 'invoice' | 'client',
+  _id: string,
+  attachmentType: string,
+  fileName: string, downloadType?: 'preview' | 'download'): string {
+
+  const query = downloadType === 'download' ? '?download=1' : '';
+  return buildUrl(`/attachments/${fileType}/${_id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
+}
+
 
 export function invoiceReplacements(input: string, invoice: InvoiceModel): string {
   let str = input;
