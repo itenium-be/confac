@@ -43,7 +43,7 @@ export default class InvoiceListModel {
   constructor(invoices: InvoiceModel[], clients: ClientModel[], filters: InvoiceFilters, isQuotation: boolean) {
     this.invoices = invoices;
     this.clients = clients;
-    this.hasFilters = !!filters.search.length;
+    this.hasFilters = !!filters.search.length || !!filters.freeInvoice;
     this.fs = transformFilters(filters.search, filters.freeInvoice);
     this.isQuotation = isQuotation || false;
   }
