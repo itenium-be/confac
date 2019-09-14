@@ -26,7 +26,7 @@ export default function register(app) {
       if (type === 'pdf' || ext === 'pdf') {
         this.type = 'application/pdf';
         return;
-      } else if (['png', 'bmp', 'png', 'gif'].includes(ext)) {
+      } else if (['png', 'bmp', 'jpg', 'gif'].includes(ext)) {
         this.type = 'image/' + ext;
         return;
       } else if (['html', 'htm'].includes(ext)) {
