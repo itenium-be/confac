@@ -2,7 +2,7 @@ import Router from 'koa-router';
 import body from 'koa-better-body';
 import moment from 'moment';
 import {ObjectId} from 'mongodb';
-import JSZip from 'JSZip';
+import JSZip from 'jszip';
 
 function getCollectionName(model) {
   return model === 'client' ? 'clients' : 'invoices';
