@@ -19,16 +19,60 @@ export default function register(app) {
     const coll = model === 'client' ? 'attachments_client' : 'attachments';
     const attachment = yield this.mongo.collection(coll).findOne(id.toObjectId(), {[type]: 1});
     this.body = attachment[type].buffer;
-    if (type === 'pdf' && !this.query.download) {
+    if (!this.query.download) {
       // Open download in-browser in preview mode
-      this.type = 'application/pdf';
-    } else {
-      // Download the file
-      if (!fileName) {
-        console.log('Downloading a file without knowing the filename', this.params)
+      console.log('infoz', this.params);
+      const ext = fileName.substr(fileName.lastIndexOf('.') + 1);
+      if (type === 'pdf' || ext === 'pdf') {
+        this.type = 'application/pdf';
+        return;
+      } else if (['png', 'bmp', 'png', 'gif'].includes(ext)) {
+        this.type = 'image/' + ext;
+        return;
+      } else if (['html', 'htm'].includes(ext)) {
+        this.type = 'text/html';
+        return;
+      } else if (['ppt'].includes(ext)) {
+        this.type = 'application/vnd.ms-powerpoint';
+        return;
+      } else if (['pptx'].includes(ext)) {
+        this.type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+        return;
+      } else if (['txt'].includes(ext)) {
+        this.type = 'text/plain';
+        return;
+      } else if (['xls'].includes(ext)) {
+        this.type = 'application/vnd.ms-excel';
+        return;
+      } else if (['xlsx', 'xlsm'].includes(ext)) {
+        this.type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        return;
+      } else if (['csv'].includes(ext)) {
+        this.type = 'text/csv';
+        return;
+      } else if (['doc'].includes(ext)) {
+        this.type = 'application/msword';
+        return;
+      } else if (['docx'].includes(ext)) {
+        this.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        return;
+      } else if (['odp'].includes(ext)) {
+        this.type = 'application/vnd.oasis.opendocument.presentation';
+        return;
+      } else if (['ods'].includes(ext)) {
+        this.type = 'application/vnd.oasis.opendocument.spreadsheet';
+        return;
+      } else if (['odt'].includes(ext)) {
+        this.type = 'application/vnd.oasis.opendocument.text';
+        return;
       }
-      this.set('Content-disposition', 'attachment; filename=' + fileName);
     }
+
+    // Download the file
+    if (!fileName) {
+      console.log('Downloading a file without knowing the filename', this.params)
+    }
+    this.set('Content-disposition', 'attachment; filename=' + fileName);
   });
 
   // CREATE ZIP (with invoices)
