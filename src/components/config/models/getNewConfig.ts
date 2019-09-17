@@ -30,4 +30,5 @@ export const defaultConfig: ConfigModel = {
   defaultInvoiceDateStrategy: 'prev-month-last-day',
   invoicePayDays: 30,
   email: getNewEmail(),
+  emailSignature: '',
 };

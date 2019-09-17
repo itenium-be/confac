@@ -111,7 +111,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
     const {invoice} = this.state;
     const extraFieldsVisible = invoice.extraFields.length === 0 && !this.state.showExtraFields;
 
-    const getDefaultEmailValue = (invoice: InvoiceModel, defaultEmail: EmailModel): EmailModel => {
+    const getDefaultEmailValue = (invoice: InvoiceModel, defaultEmail: EmailModel, signature: string): EmailModel => {
       if (!invoice.client || !invoice.client.email) {
         return defaultEmail;
       }
@@ -127,6 +127,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
       const finalValues = Object.assign({}, defaultEmail, emailValues);
       finalValues.subject = invoiceReplacements(finalValues.subject, invoice);
       finalValues.body = invoiceReplacements(finalValues.body, invoice);
+      finalValues.body += signature;
 
       return finalValues;
     }
@@ -195,7 +196,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
           {!invoice.isNew && invoice.client && this.state.showEmailModal && (
             <EmailModal
               show={this.state.showEmailModal}
-              defaultValue={getDefaultEmailValue(invoice, this.props.config.email)}
+              defaultValue={getDefaultEmailValue(invoice, this.props.config.email, this.props.config.emailSignature)}
               attachmentsAvailable={invoice.attachments.map(a => a.type)}
               title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} />}
               onClose={() => this.setState({showEmailModal: false})}

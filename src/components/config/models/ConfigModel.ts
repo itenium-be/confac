@@ -27,6 +27,8 @@ export type ConfigModel = {
    * (not all are configurable)
    */
   email: EmailModel,
+  /** The signature for all emails */
+  emailSignature: string,
 }
 
 export type ConfigCompanyModel = {

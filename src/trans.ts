@@ -85,6 +85,7 @@ const trans = {
       bcc: 'Standaard BCC',
       attachments: 'Standaard extra email bijlagen',
     },
+    emailSignature: 'Standaard email signature',
   },
   quotation: {
     title: 'Offertes',

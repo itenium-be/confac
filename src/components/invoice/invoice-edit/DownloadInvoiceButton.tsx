@@ -4,7 +4,7 @@ import { t } from "../../util";
 import { Icon } from "../../controls/Icon";
 import { InvoicePreviewIcon } from "../../controls/attachments/AttachmentDownloadIcon";
 
-
+/** Invoice Download and Preview icons */
 export const DownloadInvoiceButton = ({invoice}) => {
   const downloadUrl = getInvoiceDownloadUrl(invoice, 'pdf', 'download');
   return (
