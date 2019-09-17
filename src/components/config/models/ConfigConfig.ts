@@ -40,6 +40,7 @@ export const configDefinition: FullFormConfig = [
   {key: 'email.attachments', component: 'AttachmentsTypeSelect', cols: 6},
   {key: 'email.body', component: 'TextEditor', cols: 12},
   {key: 'emailSignature', component: 'TextEditor', cols: 12},
+  {key: 'emailReminder', component: 'TextEditor', cols: 12},
 
   {title: 'config.extraFields.title'},
   {key: 'defaultExtraClientFields', component: 'PropertiesSelect', label: 'config.extraFields.client', cols: 6},

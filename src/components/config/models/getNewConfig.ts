@@ -31,4 +31,5 @@ export const defaultConfig: ConfigModel = {
   invoicePayDays: 30,
   email: getNewEmail(),
   emailSignature: '',
+  emailReminder: '',
 };

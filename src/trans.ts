@@ -86,6 +86,7 @@ const trans = {
       attachments: 'Standaard extra email bijlagen',
     },
     emailSignature: 'Standaard email signature',
+    emailReminder: 'Email factuur herinnering',
   },
   quotation: {
     title: 'Offertes',
