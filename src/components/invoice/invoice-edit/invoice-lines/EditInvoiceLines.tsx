@@ -73,7 +73,7 @@ export default class EditInvoiceLines extends Component<EditInvoiceLinesProps, E
             {(provided, snapshot) => (
               <tbody ref={provided.innerRef}>
                 {lines.map((item, index) => (
-                  <Draggable key={item.sort} draggableId={item.sort.toString()} index={index}>
+                  <Draggable key={item.sort} draggableId={(item.sort || item.desc).toString()} index={index}>
                     {(provided, snapshot) => {
                       const EditInvoiceLine = createEditInvoiceLine(item);
                       const props = {index, line: item, ...this.props};
