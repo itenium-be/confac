@@ -34,7 +34,16 @@ export default function register(app) {
         groupInvoiceListByMonth: false,
         defaultInvoiceLineType: 'daily',
         defaultInvoiceDateStrategy: 'prev-month-last-day',
-        email: {},
+        email: {
+          to: '',
+          cc: '',
+          bcc: '',
+          subject: '',
+          body: '',
+          attachments: []
+        },
+        emailSignature: '',
+        emailReminder: ''
       };
     } else {
       this.body = conf;
