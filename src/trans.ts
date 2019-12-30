@@ -224,6 +224,7 @@ const trans = {
       bcc: 'BCC',
       subject: 'Onderwerp',
       attachments: 'Vereiste email bijlage(n)',
+      combineAttachments: 'Stuur alle bijlagen als 1 pdf',
     },
   },
   controls: {
