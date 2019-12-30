@@ -10,7 +10,7 @@
     "start:deploy": "node ./deploy/server.js",
     "prod": "forever start ./deploy/server.js"
   },
-  "author": "Wouter Van Schandevijl <woutervs@hotmail.com>",
+  "author": "Wouter Van Schandevijl <wouter@pongit.be>",
   "license": "MIT",
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
