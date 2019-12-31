@@ -1,4 +1,4 @@
-import {ACTION_TYPES} from './utils/ActionTypes';
+import { ACTION_TYPES } from './utils/ActionTypes';
 import { buildUrl } from './utils/fetch';
 import { failure } from './appActions';
 import { toast } from 'react-toastify';
@@ -38,6 +38,18 @@ function fetchClients() {
   };
 }
 
+function fetchConsultants() {
+  return dispatch => {
+    return httpGet('/consultants')
+      .then(data => {
+        dispatch({
+          type: ACTION_TYPES.CONSULTANTS_FETCHED,
+          consultants: data
+        })
+      })
+  }
+}
+
 function fetchConfig() {
   return dispatch => {
     return httpGet('/config')
@@ -68,7 +80,8 @@ export function initialLoad(): any {
     dispatch(fetchClients()),
     dispatch(fetchConfig()),
     dispatch(fetchInvoices()),
+    dispatch(fetchConsultants())
   ]).then(() => {
-    dispatch({type: ACTION_TYPES.INITIAL_LOAD});
+    dispatch({ type: ACTION_TYPES.INITIAL_LOAD });
   });
 }
