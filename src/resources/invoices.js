@@ -119,14 +119,20 @@ export default function register(app, config) {
     const attachmentBuffers = yield this.mongo.collection('attachments')
       .findOne(invoiceId.toObjectId(), attachments);
 
-    const emailAttachments = this.request.body.attachments.map(a => {
-      return {
-        content: attachmentBuffers[a.type].buffer.toString('base64'),
-        fileName: a.fileName,
-        type: a.fileType,
-        disposition: 'attachment',
-      }
-    });
+    let emailAttachments;
+    if (false && this.request.body.combineAttachments) {
+      // TODO: oh my - in what format is the timesheet?
+      // This might not be a PDF so we can't do a simple PDF merge...
+    } else {
+      emailAttachments = this.request.body.attachments.map(a => {
+        return {
+          content: attachmentBuffers[a.type].buffer.toString('base64'),
+          fileName: a.fileName,
+          type: a.fileType,
+          disposition: 'attachment',
+        }
+      });
+    }
 
     const email = this.request.body;
     const msg = {
