@@ -228,7 +228,6 @@ const trans = {
   },
   consultant: {
     createNew: 'Nieuwe consultant',
-    contact: 'Contact gegevens',
     name: 'Naam',
     firstName: 'Voornaam',
     type: 'Type',
@@ -240,6 +239,16 @@ const trans = {
       freelancer: 'Freelancer',
       externalConsultant: 'Externe consultant',
     }
+  },
+  project: {
+    createNew: 'Nieuw project',
+    newConsultant: 'Nieuwe consultant',
+    startDate: 'Start datum',
+    endDate: 'Eind datum',
+    partner: 'Partner',
+    partnerTariff: 'Partner tarief',
+    client: 'Klant',
+    clientTariff: 'Klant tarief'
   },
   controls: {
     // browser
