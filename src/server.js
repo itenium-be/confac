@@ -25,7 +25,7 @@ if (process.env) {
   };
 }
 
-var config = Object.assign({env: process.env.NODE_ENV || 'dev'}, json);
+var config = Object.assign({ env: process.env.NODE_ENV || 'dev' }, json);
 
 sgMail.setApiKey(config.SENDGRID_API_KEY);
 
