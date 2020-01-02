@@ -20,13 +20,14 @@ import { IbanInput } from "../inputs/IbanInput";
 import { ExtraFieldsInput } from "../inputs/ExtraFieldsInput";
 import { TextEditor } from "../inputs/TextEditor";
 import { AttachmentsTypeSelect } from "../../attachments/AttachmentsTypeSelect";
+import { DatePicker } from "../DatePicker";
 
 export type CustomComponents = 'InvoiceLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect'
   | 'ExtraFields' | 'StringsSelect' | 'ClientSelect' | 'ConsultantTypeSelect';
 
 export type StandardComponents = 'number' | 'text' | 'textarea' | 'basic-math' | 'switch'
   | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban'
-  | 'textEditor';
+  | 'textEditor' | 'date';
 
 const componentMap = {
   // Standard
@@ -36,6 +37,7 @@ const componentMap = {
   textarea: TextareaInput,
   switch: Switch,
   float: FloatInput,
+  date: DatePicker,
 
   // Specialized
   'basic-math': BasicMathInput,
