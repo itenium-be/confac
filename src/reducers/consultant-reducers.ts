@@ -5,6 +5,9 @@ export const consultants = (state: ConsultantModel[] = [], action): ConsultantMo
   switch (action.type) {
     case ACTION_TYPES.CONSULTANTS_FETCHED:
       return action.consultants
+    case ACTION_TYPES.CONSULTANT_UPDATE:
+      let newState: ConsultantModel[] = [...state, action.consultant]
+      return newState;
     default:
       return state
   }
