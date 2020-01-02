@@ -10,20 +10,20 @@ const ObjectId = require('mongodb').ObjectId;
 /**
  * Returns {_id: ObjectId(str)}
  */
-String.prototype.toObjectId = function(key = '_id') {
-  return {[key]: new ObjectId(this)};
+String.prototype.toObjectId = function (key = '_id') {
+  return { [key]: new ObjectId(this) };
 };
 
 export const createApp = config => {
   const app = koa();
 
-  app.use(function *(next) {
+  app.use(function* (next) {
     try {
       yield next;
     } catch (err) {
       this.status = err.statusCode || err.status || 500;
       console.error(err); // eslint-disable-line
-      this.body = {message: err.message, stack: err.stack};
+      this.body = { message: err.message, stack: err.stack };
     }
   });
 
@@ -53,8 +53,9 @@ export const createApp = config => {
   require('./resources/clients.js').default(app);
   require('./resources/invoices.js').default(app, config);
   require('./resources/attachments.js').default(app);
+  require('./resources/consultants.js').default(app);
 
-  app.use(function *pageNotFound(next) {
+  app.use(function* pageNotFound(next) {
     yield next;
 
     if (this.status !== 404) {
@@ -65,7 +66,7 @@ export const createApp = config => {
     console.log('404', this.req.url); // eslint-disable-line
 
     if (this.req.url.startsWith('/api')) {
-      this.body = {message: 'Page Not Found: ' + this.req.url};
+      this.body = { message: 'Page Not Found: ' + this.req.url };
       return;
     }
 
