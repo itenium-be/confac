@@ -8,6 +8,7 @@ export * from './downloadActions';
 export * from './clientActions';
 export * from './configActions';
 export * from './consultantActions'
+export * from './projectActions'
 
 // TODO: superagent-bluebird-promise bug:
 // https://github.com/KyleAMathews/superagent-bluebird-promise/issues/68
