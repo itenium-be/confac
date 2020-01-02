@@ -45,9 +45,10 @@ export type AppState = {
   isBusy: boolean,
   busyCount: number,
   invoiceFilters: InvoiceFilters,
+  lastAddedConsultantId: string,
 }
 
-export type NewRowFormConfig = {forceRow: boolean}
+export type NewRowFormConfig = { forceRow: boolean }
 
 export type AnyFormConfig = string | NewRowFormConfig | FormConfig;
 
@@ -83,7 +84,7 @@ export type FormConfig = {
 }
 
 /** Grid Col size */
-export type ColSize = undefined | number | {span?: number, offset?: number};
+export type ColSize = undefined | number | { span?: number, offset?: number };
 
 /** Grid Col sizes */
 export type ColSizes = {
