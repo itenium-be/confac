@@ -11,6 +11,7 @@ import { ConsultantModal } from '../consultant/controls/ConsultantModal';
 import { ConsultantSearchSelect } from "./controls";
 import { saveProject } from "../../actions";
 import { StickyFooter } from "../controls/skeleton/StickyFooter";
+import { ConsultantModel } from "../consultant/models";
 
 interface EditProjectProps {
   saveProject: (project: ProjectModel) => void;
@@ -20,7 +21,7 @@ interface EditProjectProps {
 const EditProject = (props: EditProjectProps) => {
   const [modalClientId, setModalClientId] = useState<string | undefined>(undefined)
   const [project, setProjectProperties] = useState<ProjectModel>({
-    consultantId: props.lastAddedConsultantId,
+    consultantId: "",
     startDate: "",
     endDate: "",
     partner: "",
@@ -33,10 +34,6 @@ const EditProject = (props: EditProjectProps) => {
     setProjectProperties({ ...project, consultantId: props.lastAddedConsultantId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.lastAddedConsultantId])
-
-  const onSaveProject = (): void => {
-    props.saveProject(project);
-  };
 
   const isButtonDisabled = (): boolean => {
     const { consultantId } = project;
@@ -82,7 +79,7 @@ const EditProject = (props: EditProjectProps) => {
       </Form>
       <StickyFooter>
         <BusyButton
-          onClick={() => onSaveProject()}
+          onClick={() => props.saveProject(project)}
           disabled={isButtonDisabled()}
           data-tst="save"
         >
@@ -93,6 +90,28 @@ const EditProject = (props: EditProjectProps) => {
   );
 };
 
-const mapStateToProps = (state: ConfacState) => ({ lastAddedConsultantId: state.app.lastAddedConsultantId });
+const mapStateToProps = (state: ConfacState) => {
+  const sortConsultantsByCreatedOn = (consultants: ConsultantModel[]): ConsultantModel[] => {
+    if (consultants && consultants.length) {
+      return consultants.sort((a: ConsultantModel, b: ConsultantModel) => {
+        return +new Date(a.createdOn as string) - +new Date(b.createdOn as string)
+      })
+    }
+    return []
+  }
+
+  const getLastAddedConsultantById = (consultants: ConsultantModel[]): string => {
+    const sortedConsultants = sortConsultantsByCreatedOn(consultants)
+
+    if (sortedConsultants && sortedConsultants.length) {
+      return sortedConsultants[sortedConsultants.length - 1]._id as string
+    }
+    return ''
+  }
+
+  return {
+    lastAddedConsultantId: getLastAddedConsultantById(state.consultants)
+  }
+};
 
 export default connect(mapStateToProps, { saveProject })(EditProject);

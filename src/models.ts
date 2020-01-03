@@ -45,7 +45,6 @@ export type AppState = {
   isBusy: boolean,
   busyCount: number,
   invoiceFilters: InvoiceFilters,
-  lastAddedConsultantId: string,
 }
 
 export type NewRowFormConfig = { forceRow: boolean }

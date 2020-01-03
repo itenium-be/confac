@@ -17,10 +17,6 @@ export function saveConsultant(consultant: ConsultantModel, stayOnPage = false, 
           type: ACTION_TYPES.CONSULTANT_UPDATE,
           consultant: response.body
         })
-        dispatch({
-          type: ACTION_TYPES.SET_CONSULTANT_ID,
-          id: response.body._id
-        })
         success(t('config.popupMessage'))
       })
       .catch(catchHandler)

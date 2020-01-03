@@ -9,4 +9,5 @@ export interface ConsultantModel {
   type: string,
   email: string,
   telephone: string,
+  createdOn?: string,
 }

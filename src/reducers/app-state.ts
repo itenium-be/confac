@@ -29,5 +29,4 @@ export const defaultAppState: AppState = {
     freeInvoice: '',
     freeClient: '',
   },
-  lastAddedConsultantId: '',
 };
