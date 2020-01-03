@@ -4,20 +4,6 @@ confac-front
 Some issues at:  
 https://github.com/be-pongit/confac-front/issues
 
-- Policies voor het automatisch email van de facturen? (body template, to/cc email addresses, mergen van pdfs)
-
-- [ ] Clients: bootstrap tabs toevoegen
-- [ ] Per client instellen (nieuwe tab: Invoice Details): invoice email, invoice contact, email title, body, cc, bcc
-- [ ] email attachments: invoice, timesheet: custom name for attachment filenames (file replacements)
-- [ ] Config: Html email footer field
-- [ ] Backend email sending (SendGrid?) with config in (existing) parameter file
-
-
-invoice list: hide switches behind a "more options" button
---> Add DownloadExcel / DownloadZip (visible invoices)
-
-
-
 [Try it out live][demo] (without backend:)
 
 Running the dev environment
