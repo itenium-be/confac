@@ -5,6 +5,9 @@ import pdf from 'html-pdf';
 import moment from 'moment';
 import {ObjectId} from 'mongodb';
 import sgMail from '@sendgrid/mail';
+import PDFMerge from 'pdf-merge';
+import fs from 'fs';
+import tmp from 'tmp';
 
 
 function * createPdf(params, config) {
@@ -105,7 +108,7 @@ export default function register(app, config) {
   });
 
   router.post('/email/:id', function *() {
-    console.log('emailing', this.request.body);
+    // console.log('emailing', this.request.body);
 
     const invoiceId = this.params.id;
 
@@ -120,9 +123,36 @@ export default function register(app, config) {
       .findOne(invoiceId.toObjectId(), attachments);
 
     let emailAttachments;
-    if (false && this.request.body.combineAttachments) {
-      // TODO: oh my - in what format is the timesheet?
-      // This might not be a PDF so we can't do a simple PDF merge...
+    if (this.body.request.combineAttachments) {
+      // Merge all attachments into one pdf
+      const canMerge = this.request.body.attachments.every(a => a.fileType === 'application/pdf');
+      if (!canMerge) {
+        this.throw(400, 'Emailing with combineAttachments=true: Can only merge pdfs');
+      }
+
+      // Make sure the invoice is the first document in the merged pdf
+      this.request.body.attachments.sort((a, b) => a.type === 'pdf' ? -1 : b.type === 'pdf' ? 1 : 0);
+
+      const files = [];
+      this.request.body.attachments.forEach(a => {
+        const tmpFile = tmp.fileSync();
+        fs.writeSync(tmpFile.fd, attachmentBuffers[a.type].buffer);
+        files.push(tmpFile);
+      });
+
+      console.log('Merging pdfs', files.map(f => f.name));
+      const buffer = yield PDFMerge(files.map(f => f.name));
+
+      const invoiceAttachment = this.request.body.attachments.find(a => a.type === 'pdf');
+      emailAttachments = [{
+        content: buffer.toString('base64'),
+        fileName: invoiceAttachment.fileName,
+        type: invoiceAttachment.fileType,
+        disposition: 'attachment',
+      }];
+
+      files.forEach(f => f.removeCallback());
+
     } else {
       emailAttachments = this.request.body.attachments.map(a => {
         return {
@@ -130,7 +160,7 @@ export default function register(app, config) {
           fileName: a.fileName,
           type: a.fileType,
           disposition: 'attachment',
-        }
+        };
       });
     }
 

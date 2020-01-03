@@ -28,6 +28,7 @@
     "moment": "^2.15.2",
     "node-fetch": "^2.6.0",
     "numeral": "^1.5.3",
+    "pdf-merge": "^1.2.0",
     "pug": "^2.0.0-beta6",
     "slugify": "^1.1.0"
   },
