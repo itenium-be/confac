@@ -28,9 +28,7 @@ const _ConsultantSearchSelect = (props: ConsultantSelectProps) => {
 
   const options: SelectItem[] = consultants
     .sort((a, b) => a.name.localeCompare(b.name))
-    .map(item => {
-      return { value: item._id, label: item.name } as SelectItem
-    });
+    .map(item => ({ value: item._id, label: item.name } as SelectItem));
 
   const selectedOption = options.find(o => o.value === selectedConsultantId);
 
