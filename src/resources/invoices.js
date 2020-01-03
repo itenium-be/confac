@@ -123,7 +123,7 @@ export default function register(app, config) {
       .findOne(invoiceId.toObjectId(), attachments);
 
     let emailAttachments;
-    if (this.body.request.combineAttachments) {
+    if (this.request.body.combineAttachments) {
       // Merge all attachments into one pdf
       const canMerge = this.request.body.attachments.every(a => a.fileType === 'application/pdf');
       if (!canMerge) {
