@@ -16,6 +16,7 @@ import { BtwInput } from "../inputs/BtwInput";
 import { EmailInput } from "../inputs/EmailInput";
 import { PhoneInput } from "../inputs/PhoneInput";
 import { WebsiteInput } from "../inputs/WebsiteInput";
+import { CheckboxInput } from "../inputs/CheckboxInput";
 import { IbanInput } from "../inputs/IbanInput";
 import { ExtraFieldsInput } from "../inputs/ExtraFieldsInput";
 import { TextEditor } from "../inputs/TextEditor";
@@ -26,8 +27,7 @@ export type CustomComponents = 'InvoiceLineTypeSelect' | 'InvoiceDateStrategySel
   | 'ExtraFields' | 'StringsSelect' | 'ClientSelect' | 'ConsultantTypeSelect';
 
 export type StandardComponents = 'number' | 'text' | 'textarea' | 'basic-math' | 'switch'
-  | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban'
-  | 'textEditor' | 'date';
+  | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban' | 'textEditor' | 'bool' | 'date';
 
 const componentMap = {
   // Standard
@@ -37,6 +37,7 @@ const componentMap = {
   textarea: TextareaInput,
   switch: Switch,
   float: FloatInput,
+  bool: CheckboxInput,
   date: DatePicker,
 
   // Specialized
