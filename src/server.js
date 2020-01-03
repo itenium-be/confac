@@ -11,6 +11,7 @@ const KoaServerPort = 9000;
 var json = require('./config.json');
 if (process.env) {
   json = {
+    ...json,
     db: {
       host: process.env.MONGO_HOST || json.db.host,
       db: process.env.MONGO_DB || json.db.db,
