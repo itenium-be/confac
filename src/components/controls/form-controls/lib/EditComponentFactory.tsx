@@ -4,6 +4,7 @@ import { BasicMathInput } from "../inputs/BasicMathInput";
 import { NumericInput } from "../inputs/NumericInput";
 import { StringInput } from "../inputs/StringInput";
 import { InvoiceLineTypeSelect } from "../../../invoice/controls/InvoiceLineTypeSelect";
+import { ConsultantTypeSelect } from "../../../consultant/controls/ConsultantTypeSelect";
 import { InvoiceDateStrategySelect } from "../../../invoice/controls/InvoiceDateStrategySelect";
 import { PropertiesSelect } from "../select/PropertiesSelect";
 import { MoneyInput } from "../inputs/MoneyInput";
@@ -22,7 +23,7 @@ import { TextEditor } from "../inputs/TextEditor";
 import { AttachmentsTypeSelect } from "../../attachments/AttachmentsTypeSelect";
 
 export type CustomComponents = 'InvoiceLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect'
-  | 'ExtraFields' | 'StringsSelect' | 'ClientSelect';
+  | 'ExtraFields' | 'StringsSelect' | 'ClientSelect' | 'ConsultantTypeSelect';
 
 export type StandardComponents = 'number' | 'text' | 'textarea' | 'basic-math' | 'switch'
   | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban'
@@ -55,6 +56,7 @@ const componentMap = {
   ClientSelect: ClientSelect,
   StringsSelect: StringsSelect,
   AttachmentsTypeSelect: AttachmentsTypeSelect,
+  ConsultantTypeSelect: ConsultantTypeSelect
 };
 
 export function getComponent(col: FormConfig) {

@@ -227,6 +227,21 @@ const trans = {
       combineAttachments: 'Stuur alle bijlagen als 1 pdf',
     },
   },
+  consultant: {
+    createNew: 'Nieuwe consultant',
+    contact: 'Contact gegevens',
+    name: 'Naam',
+    firstName: 'Voornaam',
+    type: 'Type',
+    email: 'E-mail',
+    telephone: 'Telefoon nr',
+    types: {
+      manager: 'Manager',
+      consultant: 'Consultant',
+      freelancer: 'Freelancer',
+      externalConsultant: 'Externe consultant',
+    }
+  },
   controls: {
     // browser
     popupBlockerTitle: 'Mislukt!? Popup blocker misschien?',
@@ -261,7 +276,7 @@ const trans = {
   },
 };
 
-export default function(key: string, params?: object): string {
+export default function (key: string, params?: object): string {
   var str: any;
   if (key.indexOf('.') === -1) {
     str = trans[key];
@@ -283,7 +298,7 @@ export default function(key: string, params?: object): string {
     return str.replace('{}', params);
 
   } else if (typeof params === 'object') {
-    Object.keys(params).forEach(function(paramKey) {
+    Object.keys(params).forEach(function (paramKey) {
       str = str.replace('{' + paramKey + '}', params[paramKey]);
     });
   }
