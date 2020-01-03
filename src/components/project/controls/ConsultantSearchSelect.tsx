@@ -14,7 +14,7 @@ type ConsultantSelectProps = {
    * The consultant _id
    */
   value: string,
-  onChange: (clientId: string, consultant: ConsultantModel) => void,
+  onChange: (consultantId: string, consultant: ConsultantModel) => void,
 }
 
 const _ConsultantSearchSelect = (props: ConsultantSelectProps) => {
