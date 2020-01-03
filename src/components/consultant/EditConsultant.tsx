@@ -9,19 +9,14 @@ import { defaultConsultantProperties, ConsultantModel } from "./models";
 import { BusyButton } from "../controls";
 import { saveConsultant } from "../../actions";
 import { StickyFooter } from "../controls/skeleton/StickyFooter";
+import { initNewConsultant } from "./utils/initNewConsultant";
 
 interface EditConsultantProps {
   saveConsultant: (consultant: ConsultantModel) => void;
 }
 
 const EditConsultant = (props: EditConsultantProps) => {
-  const [consultant, setConsultant] = useState<ConsultantModel>({
-    name: "",
-    firstName: "",
-    type: "consultant",
-    email: "",
-    telephone: ""
-  });
+  const [consultant, setConsultant] = useState<ConsultantModel>(initNewConsultant());
 
   const onSaveConsultant = (): void => {
     props.saveConsultant(consultant);
@@ -39,7 +34,7 @@ const EditConsultant = (props: EditConsultantProps) => {
   return (
     <Container className="edit-container">
       <Form>
-        <Row>
+        <Row className="page-title-container">
           <h1>{t("consultant.createNew")}</h1>
         </Row>
         <Row>

@@ -8,6 +8,7 @@ import { ConfacState } from '../../../reducers/app-state';
 import { defaultConsultantProperties } from "../models";
 import { BaseModalProps } from '../../controls';
 import { ConsultantModel } from '../models';
+import { initNewConsultant } from '../utils/initNewConsultant';
 
 
 type ConsultantModalProps = BaseModalProps & {
@@ -16,13 +17,7 @@ type ConsultantModalProps = BaseModalProps & {
 
 
 const _ConsultantModal = (props: ConsultantModalProps) => {
-  const [consultant, setConsultantProperties] = useState<ConsultantModel>({
-    name: "",
-    firstName: "",
-    type: "consultant",
-    email: "",
-    telephone: ""
-  })
+  const [consultant, setConsultantProperties] = useState<ConsultantModel>(initNewConsultant())
 
   return (
     <Modal
