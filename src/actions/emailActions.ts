@@ -3,7 +3,6 @@ import InvoiceModel from "../components/invoice/models/InvoiceModel";
 import { EmailModel } from "../components/controls/email/EmailModels";
 import { buildUrl } from './utils/fetch';
 import { success, failure } from './appActions';
-import { Attachment } from '../models';
 import { t } from '../components/util';
 import { invoiceReplacements } from './downloadActions';
 import { ACTION_TYPES } from './utils/ActionTypes';
@@ -22,7 +21,7 @@ export function sendEmail(invoice: InvoiceModel, email: EmailModel) {
       const details = invoice.attachments.find(a => a.type === attachmentType);
       if (!details) {
         // Attachment is not uploaded but user could decide to send the email anyway
-        return;
+        return null;
       }
 
       return {
