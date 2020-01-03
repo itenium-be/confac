@@ -50,6 +50,18 @@ function fetchConsultants() {
   }
 }
 
+function fetchProjects() {
+  return dispatch => {
+    return httpGet('/projects')
+      .then(data => {
+        dispatch({
+          type: ACTION_TYPES.PROJECTS_FETCHED,
+          projects: data
+        })
+      })
+  }
+}
+
 function fetchConfig() {
   return dispatch => {
     return httpGet('/config')
@@ -80,7 +92,8 @@ export function initialLoad(): any {
     dispatch(fetchClients()),
     dispatch(fetchConfig()),
     dispatch(fetchInvoices()),
-    dispatch(fetchConsultants())
+    dispatch(fetchConsultants()),
+    dispatch(fetchProjects())
   ]).then(() => {
     dispatch({ type: ACTION_TYPES.INITIAL_LOAD });
   });
