@@ -24,16 +24,12 @@ const _ConsultantModal = (props: ConsultantModalProps) => {
     telephone: ""
   })
 
-  const onSaveConsultant = (): void => {
-    props.saveConsultant(consultant)
-  };
-
   return (
     <Modal
       show={props.show}
       onClose={props.onClose}
       title={t('consultant.createNew')}
-      onConfirm={() => onSaveConsultant()}
+      onConfirm={() => props.saveConsultant(consultant)}
     >
       {
         <Form>
