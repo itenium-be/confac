@@ -11,7 +11,7 @@ import { SelectItem } from '../../../models';
 type ConsultantSelectProps = {
   consultants: ConsultantModel[],
   /**
-   * The client _id
+   * The consultant _id
    */
   value: string,
   onChange: (clientId: string, consultant: ConsultantModel) => void,
