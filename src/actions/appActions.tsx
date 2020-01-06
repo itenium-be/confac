@@ -1,19 +1,19 @@
 import React from 'react';
 
-import {ACTION_TYPES} from './utils/ActionTypes';
+import { ACTION_TYPES } from './utils/ActionTypes';
 import { toast } from 'react-toastify';
 import t from '../trans';
-import { InvoiceFilters } from '../models';
+import { InvoiceFilters, ProjectFilters } from '../models';
 
 type ToastType = 'error' | 'success';
 
 function getIcon(type: ToastType): string {
   switch (type) {
-  case 'error':
-    return 'fa fa-times-circle';
-  case 'success':
-  default:
-    return 'fa fa-check-circle';
+    case 'error':
+      return 'fa fa-times-circle';
+    case 'success':
+    default:
+      return 'fa fa-check-circle';
   }
 }
 
@@ -58,16 +58,23 @@ export function failure(msg = '', title = '', timeout = 4000, position?: Positio
 
 
 export function busyToggle() {
-  return {type: ACTION_TYPES.APP_BUSYTOGGLE, why: 'moreBusy'};
+  return { type: ACTION_TYPES.APP_BUSYTOGGLE, why: 'moreBusy' };
 }
-busyToggle.off = function() {
-  return {type: ACTION_TYPES.APP_BUSYTOGGLE, why: 'lessBusy'};
+busyToggle.off = function () {
+  return { type: ACTION_TYPES.APP_BUSYTOGGLE, why: 'lessBusy' };
 };
 
 
 export function updateInvoiceFilters(filters: InvoiceFilters) {
   return {
     type: ACTION_TYPES.APP_INVOICE_FILTERSUPDATED,
+    filters
+  };
+}
+
+export function updateProjectFilters(filters: ProjectFilters) {
+  return {
+    type: ACTION_TYPES.APP_PROJECT_FILTERUPDATED,
     filters
   };
 }
