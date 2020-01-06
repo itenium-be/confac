@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
-import {t} from '../../util';
-import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
-import {default as ReactDatePicker} from 'react-datepicker';
+import { t } from '../../utils';
+import { EnhanceInputWithLabel } from '../../enhancers/EnhanceInputWithLabel';
+import { default as ReactDatePicker } from 'react-datepicker';
 import { BaseInputProps } from './inputs/BaseInput';
 
 type DatePickerProps = BaseInputProps<moment.Moment | null>;

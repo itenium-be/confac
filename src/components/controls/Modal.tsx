@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {t} from '../util';
-import {Button, Modal as ReactModal} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { t } from '../utils';
+import { Button, Modal as ReactModal } from 'react-bootstrap';
 import { BootstrapVariant } from '../../models';
 
 export type BaseModalProps = {

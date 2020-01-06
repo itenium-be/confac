@@ -1,6 +1,6 @@
 import React from "react";
 import { Col } from "react-bootstrap";
-import { t } from "../../../util";
+import { t } from "../../../utils";
 import { FormConfig, AnyFormConfig, ColSizes, ColSize } from "../../../../models";
 import { normalizeFormConfig } from "../lib/form-controls-util";
 import { getIconOrText, InputIcons } from "../lib/IconFactory";
@@ -9,25 +9,25 @@ import { failure } from "../../../../actions";
 
 type ArrayInputProps = {
   config: AnyFormConfig[],
-  model: {_id?: string, [key: string]: any},
+  model: { _id?: string, [key: string]: any },
   onChange: (value: any) => void,
   tPrefix: string,
 }
 
 
-export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) => {
+export const ArrayInput = ({ config, model, onChange, tPrefix }: ArrayInputProps) => {
   const result = normalizeFormConfig(config, model);
 
   return (
     <>
       {result.map((col: FormConfig, index: number) => {
-        const {key, reactKey, label, cols, component, suffix, prefix, title, ...props} = col;
+        const { key, reactKey, label, cols, component, suffix, prefix, title, ...props } = col;
         const colSizes = getColSizes(cols);
 
         if (!key) {
           if (title) {
             // TODO: Technical debt: padding-top
-            return <Col key={index} xs={12} style={{paddingTop: 25}}><h2>{t(title)}</h2></Col>;
+            return <Col key={index} xs={12} style={{ paddingTop: 25 }}><h2>{t(title)}</h2></Col>;
           }
           return <Col key={index} {...colSizes} />;
         }
@@ -45,10 +45,10 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
               return;
             }
             const [key1, key2] = key.split('.');
-            onChange({...model, [key1]: {...model[key1], [key2]: value} });
+            onChange({ ...model, [key1]: { ...model[key1], [key2]: value } });
 
           } else {
-            onChange({...model, [key]: value});
+            onChange({ ...model, [key]: value });
           }
         };
 
@@ -77,8 +77,8 @@ const getColSizes = (cols?: number | ColSize | ColSizes): ColSizes => {
   const defaultLg = 4;
   const defaultSm = 6;
   const defaultConfig = {
-    lg: {span: defaultLg},
-    sm: {span: defaultSm},
+    lg: { span: defaultLg },
+    sm: { span: defaultSm },
   };
 
   if (!cols) {
@@ -87,20 +87,20 @@ const getColSizes = (cols?: number | ColSize | ColSizes): ColSizes => {
 
   if (typeof cols === 'number') {
     if (cols === 12) {
-      return {xs: 12};
+      return { xs: 12 };
     }
 
     return {
-      lg: {span: cols || defaultLg},
-      sm: {span: defaultSm},
+      lg: { span: cols || defaultLg },
+      sm: { span: defaultSm },
       // sm: {span: Math.max(defaultSm, cols)},
     }
   }
 
   if (cols['span'] || cols['offset']) {
     return {
-      lg: {span: cols['span'] || defaultLg, offset: cols['offset']},
-      sm: {span: defaultSm, offset: cols['offset']},
+      lg: { span: cols['span'] || defaultLg, offset: cols['offset'] },
+      sm: { span: defaultSm, offset: cols['offset'] },
     }
   }
 

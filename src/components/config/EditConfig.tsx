@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {t} from '../util';
-import {Container, Row, Form} from 'react-bootstrap';
-import {configDefinition} from './models/ConfigConfig';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { t } from '../utils';
+import { Container, Row, Form } from 'react-bootstrap';
+import { configDefinition } from './models/ConfigConfig';
 import * as Control from '../controls';
-import {updateConfig} from '../../actions/index';
+import { updateConfig } from '../../actions/index';
 import { ConfigModel } from './models/ConfigModel';
 import { ConfacState } from '../../reducers/app-state';
 import { ArrayInput } from '../controls';
@@ -45,17 +45,17 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
             <ArrayInput
               config={configDefinition}
               model={this.state}
-              onChange={(state: ConfigModel) => this.setState({...state})}
+              onChange={(state: ConfigModel) => this.setState({ ...state })}
               tPrefix="config."
             />
           </Row>
         </Form>
         <StickyFooter>
-            <Control.BusyButton onClick={this._save.bind(this)} data-tst="save">{t('save')}</Control.BusyButton>
+          <Control.BusyButton onClick={this._save.bind(this)} data-tst="save">{t('save')}</Control.BusyButton>
         </StickyFooter>
       </Container>
     );
   }
 }
 
-export default connect((state: ConfacState) => ({config: state.config}), {updateConfig})(EditConfig);
+export default connect((state: ConfacState) => ({ config: state.config }), { updateConfig })(EditConfig);

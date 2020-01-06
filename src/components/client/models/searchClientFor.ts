@@ -1,7 +1,5 @@
 import { ClientModel } from './ClientModels';
-import { getNumeric } from '../../util';
-import { searchinize } from '../../invoice/models/InvoiceListModel';
-
+import { getNumeric, searchinize } from '../../utils';
 
 export function searchClientFor(client: ClientModel, input: string): boolean {
   const text = searchinize(input);

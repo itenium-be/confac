@@ -1,8 +1,8 @@
 import React, { CSSProperties } from 'react';
-import {t, moneyFormat} from '../../util';
+import { t, moneyFormat } from '../../utils';
 import InvoiceModel, { InvoiceMoney } from '../models/InvoiceModel';
 
-const amountsStyle: CSSProperties = {textAlign: 'right', float: 'right'};
+const amountsStyle: CSSProperties = { textAlign: 'right', float: 'right' };
 
 function discountFormat(value: string | number): string {
   if (!value) {
@@ -18,13 +18,13 @@ function discountFormat(value: string | number): string {
  * Shows money totals of x invoices
  * Show: total OR totalWithoutTax + totalTax + total
  */
-export const InvoicesTotal = ({invoices, totalOnly = false, ...props}: {invoices: InvoiceModel[], totalOnly?: boolean}) => {
+export const InvoicesTotal = ({ invoices, totalOnly = false, ...props }: { invoices: InvoiceModel[], totalOnly?: boolean }) => {
   const moneys = invoices.map(i => i.money);
   const money = moneys.reduce((a, b) => ({
     totalWithoutTax: a.totalWithoutTax + b.totalWithoutTax,
     totalTax: a.totalTax + b.totalTax,
     total: a.total + b.total,
-  }), {totalWithoutTax: 0, totalTax: 0, total: 0});
+  }), { totalWithoutTax: 0, totalTax: 0, total: 0 });
 
   const tst = (key: string): string => `${props['data-tst']}-${key}`;
 
@@ -55,7 +55,7 @@ export const InvoicesTotal = ({invoices, totalOnly = false, ...props}: {invoices
 /**
  * Show moneys of one InvoiceModel: Subtotal, taxtotal, (optional) discount, total
  */
-const InvoiceTotal = ({totalWithoutTax, totalTax, total, discount, ...props}: InvoiceMoney) => {
+const InvoiceTotal = ({ totalWithoutTax, totalTax, total, discount, ...props }: InvoiceMoney) => {
   const tst = (key: string): string => `${props['data-tst']}-${key}`;
   return (
     <div>

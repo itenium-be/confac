@@ -3,7 +3,7 @@ import { BaseInputProps } from "./BaseInput";
 import { StringInput } from "./StringInput";
 import { EnhanceInputWithLabel } from "../../../enhancers/EnhanceInputWithLabel";
 import { EnhanceInputWithAddons } from "../../../enhancers/EnhanceInputWithAddons";
-import { t } from "../../../util";
+import { t } from "../../../utils";
 import { Icon } from "../../Icon";
 import { buildUrl } from "../../../../actions/utils/fetch";
 import { Button } from "react-bootstrap";
@@ -33,7 +33,7 @@ type BtwInputProps = BaseInputProps<string> & {
 
 const BtwInRequest = t('taxRequest');
 
-const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}: BtwInputProps) => {
+const BtwInputComponent = ({ value, onChange, onBtwChange, onFinalize, ...props }: BtwInputProps) => {
   const [inputValue, setInputValue] = useState(value || '');
   const [loading, setLoading] = useState(false);
   const [valid, setValid] = useState(false);
@@ -95,7 +95,7 @@ const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}:
           <Button variant="success" onClick={() => onFinalize(formattedBtw, btwRes)}>{t('client.createNewButton')}</Button>
         </>
       )}
-      suffixOptions={{type: 'button'}}
+      suffixOptions={{ type: 'button' }}
       onBlur={() => onInputChange(formattedBtw)}
       {...props}
       placeholder={onBtwChange ? t('client.createNewBtwPlaceholder') : t('client.btwPlaceholder')}

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { ConfacState } from "../../../reducers/app-state";
 import Dropzone from 'react-dropzone';
 import { Col } from "react-bootstrap";
-import { t } from "../../util";
+import { t } from "../../utils";
 import { Icon } from "../Icon";
 import { updateAttachment } from "../../../actions/attachmentActions";
 
@@ -17,7 +17,7 @@ type ProposedAttachmentsProps = {
  * Display easier upload capability for config.attachmentTypes
  * if these attachment types have not yet been uploaded
  */
-export const ProposedAttachmentsDropzones = ({model, modelType}: ProposedAttachmentsProps) => {
+export const ProposedAttachmentsDropzones = ({ model, modelType }: ProposedAttachmentsProps) => {
   const proposedAttachmentTypes = useSelector((state: ConfacState) => state.config.attachmentTypes);
   const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ export const ProposedAttachmentsDropzones = ({model, modelType}: ProposedAttachm
 
   const onDrop = (uploaded: File, attachmentType: string): void => {
     // console.log('uploaded', attachmentType, uploaded);
-    dispatch(updateAttachment(model, modelType, {file: uploaded, type: attachmentType}));
+    dispatch(updateAttachment(model, modelType, { file: uploaded, type: attachmentType }));
   }
 
   return (
@@ -52,10 +52,10 @@ export const ProposedAttachmentsDropzones = ({model, modelType}: ProposedAttachm
                 onDrop={(accepted: File[], rejected: File[]) => onDrop(accepted[0], a)}
                 multiple={false}
                 className={'tst-' + a}
-                style={{textAlign: 'left'}}
+                style={{ textAlign: 'left' }}
               >
-                <Icon fa="fa fa-file-upload" style={{marginRight: 8}} />
-                <span style={{paddingBottom: 5}}>{t('invoice.attachmentsProposed', {type: a})}</span>
+                <Icon fa="fa fa-file-upload" style={{ marginRight: 8 }} />
+                <span style={{ paddingBottom: 5 }}>{t('invoice.attachmentsProposed', { type: a })}</span>
               </Dropzone>
             </div>
           </Col>

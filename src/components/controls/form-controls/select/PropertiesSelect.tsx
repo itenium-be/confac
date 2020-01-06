@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import Creatable from 'react-select/creatable';
 import { SelectItem } from '../../../../models';
 import { EnhanceInputWithLabel } from '../../../enhancers/EnhanceInputWithLabel';
-import { t } from '../../../util';
+import { t } from '../../../utils';
 import { BaseInputProps } from '../inputs/BaseInput';
 
 export type PropertiesSelectProps = BaseInputProps<SelectItem[]>;
 
 export const PropertiesSelect = EnhanceInputWithLabel(class extends Component<PropertiesSelectProps> {
-  onChange(values: Array<SelectItem & {className: string, __isNew__?: boolean}>) {
+  onChange(values: Array<SelectItem & { className: string, __isNew__?: boolean }>) {
     const properties = (values || []).map(value => {
       if (value.className) {
         delete value.className;
@@ -24,7 +24,7 @@ export const PropertiesSelect = EnhanceInputWithLabel(class extends Component<Pr
   }
 
   render() {
-    const {label} = this.props;
+    const { label } = this.props;
     return (
       <Creatable
         label={label}
@@ -33,7 +33,7 @@ export const PropertiesSelect = EnhanceInputWithLabel(class extends Component<Pr
         isClearable={true}
         isMulti={true}
         noOptionsMessage={() => ''}
-        formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
+        formatCreateLabel={itm => t('controls.addLabelText', { value: itm })}
         placeholder={t('controls.propertiesPlaceholder')}
         className={'tst-' + this.props['data-tst']}
       />
