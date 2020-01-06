@@ -14,11 +14,11 @@ type ConsultantSelectProps = {
    * The consultant _id
    */
   value: string,
-  onChange: (clientId: string, consultant: ConsultantModel) => void,
+  onChange: (consultantId: string, consultant: ConsultantModel) => void,
 }
 
 const _ConsultantSearchSelect = (props: ConsultantSelectProps) => {
-  const { value, consultants, ...rest } = props;
+  const { value, consultants } = props;
 
   const getConsultant = (consultantId: string): ConsultantModel => {
     return props.consultants.find(c => c._id === consultantId) as ConsultantModel;
