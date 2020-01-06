@@ -23,6 +23,9 @@ export const app = (state: AppState = defaultAppState, action) => {
     case ACTION_TYPES.APP_INVOICE_FILTERSUPDATED:
       return { ...state, invoiceFilters: action.filters };
 
+    case ACTION_TYPES.APP_PROJECT_FILTERUPDATED:
+      return { ...state, projectFilters: action.filters }
+
     default:
       return state;
   }
