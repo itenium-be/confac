@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Container, Row, Form, Col } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 import { ConfacState } from "../../reducers/app-state";
-import { t } from "../util";
+import { t } from "../utils";
 import { ArrayInput } from "../controls/form-controls/inputs/ArrayInput";
 import { ProjectModel, projectFormConfig } from "./models";
 import { BusyButton, Button } from "../controls";
@@ -14,11 +15,12 @@ import { StickyFooter } from "../controls/skeleton/StickyFooter";
 import { ConsultantModel } from "../consultant/models";
 
 interface EditProjectProps {
-  saveProject: (project: ProjectModel) => void;
+  saveProject: (project: ProjectModel, history: any) => void;
   lastAddedConsultantId: string
 }
 
 const EditProject = (props: EditProjectProps) => {
+  const history = useHistory()
   const [modalClientId, setModalClientId] = useState<string | undefined>(undefined)
   const [project, setProjectProperties] = useState<ProjectModel>({
     consultantId: "",
@@ -79,7 +81,7 @@ const EditProject = (props: EditProjectProps) => {
       </Form>
       <StickyFooter>
         <BusyButton
-          onClick={() => props.saveProject(project)}
+          onClick={() => props.saveProject(project, history)}
           disabled={isButtonDisabled()}
           data-tst="save"
         >
