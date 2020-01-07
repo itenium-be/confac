@@ -11,7 +11,6 @@ import { ACTION_TYPES } from './utils/ActionTypes';
 export function sendEmail(invoice: InvoiceModel, email: EmailModel) {
   return dispatch => {
     email.attachments = email.attachments.map(attachmentType => {
-      const details = invoice.attachments.find(a => a.type === attachmentType) as Attachment;
       if (attachmentType === 'pdf') {
         return {
           type: 'pdf',
@@ -19,12 +18,20 @@ export function sendEmail(invoice: InvoiceModel, email: EmailModel) {
           fileType: 'application/pdf',
         };
       }
+
+      const details = invoice.attachments.find(a => a.type === attachmentType);
+      if (!details) {
+        // Attachment is not uploaded but user could decide to send the email anyway
+        return null;
+      }
+
       return {
         type: attachmentType,
         fileName: details.fileName,
         fileType: details.fileType,
       } as any;
-    });
+    })
+    .filter(att => att);
 
     request.post(buildUrl(`/invoices/email/${invoice._id}`))
       .send(email)
