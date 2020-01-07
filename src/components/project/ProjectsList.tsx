@@ -28,14 +28,19 @@ const ProjectsList = (props: ProjectsListProps) => {
 
   const { searchFilterText, isShowingInActiveProjects } = props.filters
 
-  const filteredProjects = searchFilterText ? props.projects.filter(project => {
+  // ? Search filter
+  let filteredProjects = searchFilterText ? props.projects.filter(project => {
     const { consultant, partner, client, details } = project
     const startDate = formatDate(details.startDate)
     const endDate = formatDate(details.endDate)
 
     return searchinize(`${consultant.name} ${consultant.type} ${startDate} ${endDate} ${partner && partner.name} ${client.name}`)
       .includes(searchFilterText.toLowerCase())
-  }) : props.projects
+  })
+    : props.projects
+
+  // ? Filter projects by active status
+  filteredProjects = isShowingInActiveProjects ? filteredProjects.filter(project => !project.details.isActive) : filteredProjects.filter(project => project.details.isActive)
 
   return (
     <Container className="client-list">
@@ -72,12 +77,9 @@ const ProjectsList = (props: ProjectsListProps) => {
       <Table size="sm" style={{ marginTop: 10 }}>
         <ProjectsListHeader />
         <tbody>
-          {filteredProjects.length > 0 && filteredProjects.map(project => {
-            if (project.details.isActive === !isShowingInActiveProjects) return (
-              <ProjectsListRow project={project} key={project.details._id} />
-            )
-            return false
-          })}
+          {filteredProjects.length > 0 && filteredProjects.map(project => (
+            <ProjectsListRow project={project} key={project.details._id} />
+          ))}
         </tbody>
       </Table>
     </Container >
