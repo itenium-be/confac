@@ -77,7 +77,7 @@ const ProjectsList = (props: ProjectsListProps) => {
       <Table size="sm" style={{ marginTop: 10 }}>
         <ProjectsListHeader />
         <tbody>
-          {filteredProjects.length > 0 && filteredProjects.map(project => (
+          {filteredProjects.map(project => (
             <ProjectsListRow project={project} key={project.details._id} />
           ))}
         </tbody>
