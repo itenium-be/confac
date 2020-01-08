@@ -1,0 +1,5 @@
+/node_modules/
+/public/
+package.json
+.gitignore
+tsconfig.json
