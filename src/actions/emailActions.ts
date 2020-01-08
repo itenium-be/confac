@@ -3,7 +3,8 @@ import InvoiceModel from "../components/invoice/models/InvoiceModel";
 import { EmailModel } from "../components/controls/email/EmailModels";
 import { buildUrl } from './utils/fetch';
 import { success, failure } from './appActions';
-import { t } from '../components/util';
+import { Attachment } from '../models';
+import { t } from '../components/utils';
 import { invoiceReplacements } from './downloadActions';
 import { ACTION_TYPES } from './utils/ActionTypes';
 

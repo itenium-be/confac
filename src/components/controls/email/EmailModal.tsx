@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, BaseModalProps } from '../Modal';
-import { t } from '../../util';
+import { t } from '../../utils';
 import { EmailForm } from './EmailForm';
 import { EmailModel } from './EmailModels';
 import { getNewEmail } from './getNewEmail';
@@ -13,7 +13,7 @@ type EmailModalProps = BaseModalProps & {
   attachmentsAvailable: string[],
 }
 
-export const EmailModal = ({defaultValue, show, onClose, onConfirm, attachmentsAvailable, ...props}: EmailModalProps) => {
+export const EmailModal = ({ defaultValue, show, onClose, onConfirm, attachmentsAvailable, ...props }: EmailModalProps) => {
   const [value, setValue] = useState(getNewEmail(defaultValue));
 
   return (
@@ -35,7 +35,7 @@ type EmailModalTitleProps = {
   lastEmail: string,
 }
 
-export const EmailModalTitle = ({title, lastEmail}: EmailModalTitleProps) => {
+export const EmailModalTitle = ({ title, lastEmail }: EmailModalTitleProps) => {
   if (!lastEmail) {
     return <span>{title}</span>;
   }
@@ -43,7 +43,7 @@ export const EmailModalTitle = ({title, lastEmail}: EmailModalTitleProps) => {
   return (
     <span>
       {title}
-      <small className="modal-subtitle">{t('email.lastEmail', {at: moment(lastEmail).format('D/M/YYYY')})}</small>
+      <small className="modal-subtitle">{t('email.lastEmail', { at: moment(lastEmail).format('D/M/YYYY') })}</small>
     </span>
   )
 }

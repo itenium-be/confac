@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {t} from '../../util';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { t } from '../../utils';
 import moment from 'moment';
 
-import {BusyButton, NotEmailedIcon} from '../../controls';
-import {Alert} from 'react-bootstrap';
-import {toggleInvoiceVerify} from '../../../actions/index';
+import { BusyButton, NotEmailedIcon } from '../../controls';
+import { Alert } from 'react-bootstrap';
+import { toggleInvoiceVerify } from '../../../actions/index';
 import InvoiceModel from '../models/InvoiceModel';
 import { getInvoiceDueDateVariant } from '../invoice-list/InvoiceListRow';
 import { ConfacState } from '../../../reducers/app-state';
@@ -24,10 +24,10 @@ type InvoiceNotVerifiedAlertState = {
 class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, InvoiceNotVerifiedAlertState> {
   constructor(props: InvoiceNotVerifiedAlertProps) {
     super(props);
-    this.state = {dismissed: false};
+    this.state = { dismissed: false };
   }
   render() {
-    const {invoice, toggleInvoiceVerify} = this.props; // eslint-disable-line
+    const { invoice, toggleInvoiceVerify } = this.props; // eslint-disable-line
     if (this.state.dismissed || invoice.isNew || invoice.verified || invoice.isQuotation) {
       return null;
     }
@@ -37,15 +37,15 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
     const daysOpen = moment().diff(invoice.date, 'days');
     return (
       <div>
-        <Alert variant={variant} onClose={() => this.setState({dismissed: true})} dismissible data-tst="invoice-verify-alert">
+        <Alert variant={variant} onClose={() => this.setState({ dismissed: true })} dismissible data-tst="invoice-verify-alert">
 
-          {!invoice.lastEmail && <NotEmailedIcon style={{marginRight: 10, fontSize: 13, marginTop: -6}} />}
+          {!invoice.lastEmail && <NotEmailedIcon style={{ marginRight: 10, fontSize: 13, marginTop: -6 }} />}
 
           <BusyButton
             variant={variant}
             onClick={() => toggleInvoiceVerify(invoice)}
             size="sm"
-            style={{marginTop: -5, marginRight: 10, textTransform: 'uppercase'}}
+            style={{ marginTop: -5, marginRight: 10, textTransform: 'uppercase' }}
             data-tst="invoice-verify"
           >
             {t('invoice.verifyAction')}
@@ -53,9 +53,9 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
 
           {t('invoice.isNotVerified')}
 
-          <small style={{marginLeft: 6}}>
+          <small style={{ marginLeft: 6 }}>
             {t('invoice.notVerifiedFor', { days: daysOpen })}
-            {invoice.lastEmail && <> {t('email.lastEmailDaysAgo', {daysAgo: moment(invoice.lastEmail).fromNow()})}</>}
+            {invoice.lastEmail && <> {t('email.lastEmailDaysAgo', { daysAgo: moment(invoice.lastEmail).fromNow() })}</>}
           </small>
 
         </Alert>
@@ -64,4 +64,4 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
   }
 }
 
-export default connect((state: ConfacState) => ({invoicePayDays: state.config.invoicePayDays}), {toggleInvoiceVerify})(InvoiceNotVerifiedAlert);
+export default connect((state: ConfacState) => ({ invoicePayDays: state.config.invoicePayDays }), { toggleInvoiceVerify })(InvoiceNotVerifiedAlert);

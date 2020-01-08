@@ -45,6 +45,7 @@ export type AppState = {
   isBusy: boolean,
   busyCount: number,
   invoiceFilters: InvoiceFilters,
+  projectFilters: ProjectFilters
 }
 
 export type NewRowFormConfig = { forceRow: boolean }
@@ -116,6 +117,14 @@ export type InvoiceFilters = {
   clientListYears: number[],
   freeClient: string,
   freeInvoice: string,
+}
+
+/**
+ * Filters used on ProjectsList
+ */
+export type ProjectFilters = {
+  searchFilterText: string,
+  isShowingInActiveProjects: boolean
 }
 
 /**

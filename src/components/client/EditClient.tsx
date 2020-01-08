@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {t} from '../util';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { t } from '../utils';
 import moment from 'moment';
-import {BusyButton, ArrayInput, AttachmentsForm} from '../controls';
-import {Container, Row, Form} from 'react-bootstrap';
-import {saveClient} from '../../actions/index';
-import {defaultClientProperties} from './models/ClientConfig';
+import { BusyButton, ArrayInput, AttachmentsForm } from '../controls';
+import { Container, Row, Form } from 'react-bootstrap';
+import { saveClient } from '../../actions/index';
+import { defaultClientProperties } from './models/ClientConfig';
 import { getNewClient } from "./models/getNewClient";
 import { ClientModel } from './models/ClientModels';
 import { ConfacState } from '../../reducers/app-state';
@@ -20,7 +20,7 @@ type EditClientProps = {
   isLoaded: boolean,
   saveClient: (client: ClientModel) => void,
   match: {
-    params: {id: string}
+    params: { id: string }
   },
   renavigationKey: string,
 }
@@ -49,7 +49,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
       || nextProps.clients !== this.props.clients // Changing this? Check confac-back::invoices.js
       || nextProps.renavigationKey !== this.state.renavigationKey) {
 
-      this.setState({client: this.copyClient(nextProps)});
+      this.setState({ client: this.copyClient(nextProps) });
     }
   }
 
@@ -80,7 +80,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
       return (
         <NewClient
           client={client}
-          onChange={(value: ClientModel) => this.setState({client: {...client, ...value}})}
+          onChange={(value: ClientModel) => this.setState({ client: { ...client, ...value } })}
         />
       );
     }
@@ -98,7 +98,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
             <ArrayInput
               config={defaultClientProperties}
               model={client}
-              onChange={value => this.setState({client: {...client, ...value}})}
+              onChange={value => this.setState({ client: { ...client, ...value } })}
               tPrefix="client."
             />
           </Row>
@@ -136,4 +136,4 @@ export default connect((state: ConfacState) => ({
   clients: state.clients,
   isLoaded: state.app.isLoaded,
   config: state.config,
-}), {saveClient})(EditClient);
+}), { saveClient })(EditClient);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { t } from '../../util';
+import { t } from '../../utils';
 import { EnhanceInputWithLabel } from '../../enhancers/EnhanceInputWithLabel';
 import Select from 'react-select';
 import { ConfacState } from '../../../reducers/app-state';

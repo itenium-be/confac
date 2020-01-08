@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { t } from '../../util';
+import { t } from '../../utils';
 import { Modal, ArrayInput } from '../../controls';
 import { Container, Row, Form } from 'react-bootstrap';
 import { saveConsultant } from "../../../actions";

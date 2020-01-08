@@ -10,6 +10,7 @@ import EditClient from './components/client/EditClient';
 import EditConfig from './components/config/EditConfig';
 import EditConsultant from './components/consultant/EditConsultant'
 import EditProject from './components/project/EditProject'
+import ProjectsList from './components/project/ProjectsList'
 
 const Routes = () => (
   <BrowserRouter>
@@ -29,6 +30,7 @@ const Routes = () => (
       <Route path="/consultants/create" render={props => <AppWithLayout Component={EditConsultant} {...props} />} />
 
       <Route path="/projects/create" render={props => <AppWithLayout Component={EditProject} {...props} />} />
+      <Route path="/projects" render={props => <AppWithLayout Component={ProjectsList} {...props} />} />
 
       <Route path="/config" render={props => <AppWithLayout Component={EditConfig} {...props} />} />
 

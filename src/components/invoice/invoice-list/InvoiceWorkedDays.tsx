@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {t} from '../../util';
-import InvoiceModel, {calculateDaysWorked, DaysWorked} from '../models/InvoiceModel';
+import React, { Component } from 'react';
+import { t } from '../../utils';
+import InvoiceModel, { calculateDaysWorked, DaysWorked } from '../models/InvoiceModel';
 
 type InvoiceWorkedDaysProps = {
   invoices: InvoiceModel[],
@@ -14,7 +14,7 @@ export class InvoiceWorkedDays extends Component<InvoiceWorkedDaysProps> {
   }
 
   render() {
-    const {invoices, display} = this.props;
+    const { invoices, display } = this.props;
     const days = calculateDaysWorked(invoices);
     const tst = (key: string) => `${this.props['data-tst']}-${key}`;
 
@@ -38,7 +38,7 @@ export class InvoiceWorkedDays extends Component<InvoiceWorkedDaysProps> {
     }
 
     if (display === 'client') {
-      return <span data-tst={tst('daysWorked')}>{t('client.daysWorked', {days: days.daysWorked.toFixed(1).replace('.', ',')})}</span>;
+      return <span data-tst={tst('daysWorked')}>{t('client.daysWorked', { days: days.daysWorked.toFixed(1).replace('.', ',') })}</span>;
     }
 
     return null;
@@ -49,6 +49,6 @@ export class InvoiceWorkedDays extends Component<InvoiceWorkedDaysProps> {
 /**
  * Print % days worked in month
  */
-function calcPer(days: DaysWorked & {workDaysInMonth: number}): string {
+function calcPer(days: DaysWorked & { workDaysInMonth: number }): string {
   return Math.round(days.daysWorked / days.workDaysInMonth * 100) + '%';
 }

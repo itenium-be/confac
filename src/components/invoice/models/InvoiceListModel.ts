@@ -2,10 +2,9 @@ import moment from 'moment';
 import InvoiceModel from '../models/InvoiceModel';
 import { ClientModel } from '../../client/models/ClientModels';
 import { InvoiceFilters, InvoiceFiltersSearch } from '../../../models';
-import latinize from 'latinize';
 import { searchClientFor } from '../../client/models/searchClientFor';
 import { getMoney } from '../../controls';
-import { t } from '../../util';
+import { t, searchinize } from '../../utils';
 
 
 function transformFilters(search: InvoiceFiltersSearch[], freeText: string): TransformedInvoiceFilters {
@@ -51,22 +50,22 @@ export default class InvoiceListModel {
   /** Get all Select.Creatable option suggestions */
   getFilterOptions(): InvoiceFiltersSearch[] {
     var options: InvoiceFiltersSearch[] = [
-      {value: 'unverifiedOnly', label: t('invoice.notVerifiedOnly'), type: 'manual_input'},
-      {value: 'from d/m/yyyy', label: 'from d/m/yyyy', type: 'manual_input'},
-      {value: 'between d/m/yyyy and d/m/yyyy', label: 'between d/m/yyyy and d/m/yyyy', type: 'manual_input'},
-      {value: 'last x days|months|years', label: 'last x days|months|years', type: 'manual_input'},
+      { value: 'unverifiedOnly', label: t('invoice.notVerifiedOnly'), type: 'manual_input' },
+      { value: 'from d/m/yyyy', label: 'from d/m/yyyy', type: 'manual_input' },
+      { value: 'between d/m/yyyy and d/m/yyyy', label: 'between d/m/yyyy and d/m/yyyy', type: 'manual_input' },
+      { value: 'last x days|months|years', label: 'last x days|months|years', type: 'manual_input' },
     ];
 
     const manualFilteredInvoices = this.filterByDescription(this.invoices);
 
     // Add options: years
     const invoiceYears = getInvoiceYears(manualFilteredInvoices).sort((a, b) => b - a);
-    options = options.concat(invoiceYears.map(year => ({value: year, label: year, type: 'year'})));
+    options = options.concat(invoiceYears.map(year => ({ value: year, label: year, type: 'year' })));
 
     // Add options: clients
     const clientIds = this.invoices.map(i => i.client._id);
     const relevantClients = this.clients.filter(c => clientIds.includes(c._id));
-    options = options.concat(relevantClients.map(client => ({value: client._id, label: client.name, type: 'client'})));
+    options = options.concat(relevantClients.map(client => ({ value: client._id, label: client.name, type: 'client' })));
 
     return options;
   }
@@ -137,19 +136,6 @@ export default class InvoiceListModel {
     return invoices;
   }
 }
-
-
-/**
- * Make a string ready for search
- */
-export function searchinize(str: string): string {
-  if (!str) {
-    return '';
-  }
-
-  return latinize(str).trim().toLowerCase();
-}
-
 
 /** Search the invoice id, orderNr, date, client, amounts and lineDescs for text */
 function searchInvoiceFor(invoice: InvoiceModel, text: string): boolean {

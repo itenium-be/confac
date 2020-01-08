@@ -29,4 +29,8 @@ export const defaultAppState: AppState = {
     freeInvoice: '',
     freeClient: '',
   },
+  projectFilters: {
+    searchFilterText: '',
+    isShowingInActiveProjects: false,
+  }
 };
