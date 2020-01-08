@@ -28,19 +28,19 @@ const ProjectsList = (props: ProjectsListProps) => {
 
   const { searchFilterText, isShowingInActiveProjects } = props.filters
 
-  // ? Search filter
-  let filteredProjects = searchFilterText ? props.projects.filter(project => {
+  const filteredProjects = props.projects.filter(project => {
     const { consultant, partner, client, details } = project
+
+    if(!isShowingInActiveProjects && !details.isActive) return false
+
+    if(!searchFilterText) return true
+
     const startDate = formatDate(details.startDate)
     const endDate = formatDate(details.endDate)
 
     return searchinize(`${consultant.name} ${consultant.type} ${startDate} ${endDate} ${partner && partner.name} ${client.name}`)
-      .includes(searchFilterText.toLowerCase())
+    .includes(searchFilterText.toLowerCase())
   })
-    : props.projects
-
-  // ? Filter projects by active status
-  filteredProjects = isShowingInActiveProjects ? filteredProjects.filter(project => !project.details.isActive) : filteredProjects.filter(project => project.details.isActive)
 
   return (
     <Container className="client-list">
