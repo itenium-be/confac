@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
-import { t } from '../../util';
+import { t } from '../../utils';
 
 
 export type AttachmentDropzoneProps = {

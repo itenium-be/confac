@@ -1,4 +1,6 @@
 import numeral from 'numeral';
+import moment from 'moment';
+import latinize from 'latinize';
 
 numeral.register('locale', 'nl', {
   delimiters: {
@@ -30,6 +32,19 @@ export function moneyFormat(input) {
  */
 export const getNumeric = text => text.replace(/[^0-9]+/g, '');
 
-export {default as t} from '../trans';
+export const formatDate = (date, format = "DD-MM-YYYY") => moment(date).format(format)
 
-export {default as EditInvoiceViewModel} from './invoice/models/InvoiceModel';
+/**
+ * Make a string ready for search
+ */
+export const searchinize = (str: string): string => {
+  if (!str) {
+    return '';
+  }
+
+  return latinize(str).trim().toLowerCase();
+}
+
+export { default as t } from '../trans';
+
+export { default as EditInvoiceViewModel } from './invoice/models/InvoiceModel';

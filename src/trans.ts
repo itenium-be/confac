@@ -5,6 +5,7 @@ const trans = {
     config: 'Config',
     clients: 'Klanten',
     quotations: 'Offertes',
+    projects: 'Projecten',
   },
   search: 'Zoeken',
   edit: 'Aanpassen',
@@ -244,6 +245,10 @@ const trans = {
   project: {
     createNew: 'Nieuw project',
     newConsultant: 'Nieuwe consultant',
+    newMonth: 'Maand toevoegen',
+    showInactiveProjects: 'Toon inactieve projecten',
+    consultant: 'Consultant',
+    consultantType: 'Type',
     startDate: 'Start datum',
     endDate: 'Eind datum',
     partner: 'Partner',

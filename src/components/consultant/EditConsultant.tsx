@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Container, Row, Form } from "react-bootstrap";
 
 import { ConfacState } from "../../reducers/app-state";
-import { t } from "../util";
+import { t } from "../utils";
 import { ArrayInput } from "../controls/form-controls/inputs/ArrayInput";
 import { defaultConsultantProperties, ConsultantModel } from "./models";
 import { BusyButton } from "../controls";

@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
-import {t} from '../../../util';
-import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
+import { t } from '../../../utils';
+import { EnhanceInputWithLabel } from '../../../enhancers/EnhanceInputWithLabel';
 import { SelectItem } from '../../../../models';
 
 

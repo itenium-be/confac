@@ -2,11 +2,11 @@ import React from "react";
 import { Icon } from "../../Icon";
 import { StringInput } from "./StringInput";
 import { BaseInputProps } from "./BaseInput";
-import { t } from "../../../util";
+import { t } from "../../../utils";
 
 type SearchStringInputProps = BaseInputProps<string>;
 
-export const SearchStringInput = ({value, onChange, ...props}: SearchStringInputProps) => {
+export const SearchStringInput = ({ value, onChange, ...props }: SearchStringInputProps) => {
   return (
     <StringInput
       value={value}

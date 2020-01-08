@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {updateInvoiceFilters} from '../../../actions/index';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateInvoiceFilters } from '../../../actions/index';
 import InvoiceListModel from '../models/InvoiceListModel';
-import {Container, Row, Col} from 'react-bootstrap';
-import {InvoiceSearch} from '../controls/InvoiceSearch';
-import {GroupedInvoiceTable} from '../invoice-table/GroupedInvoiceTable';
-import {NonGroupedInvoiceTable} from '../invoice-table/NonGroupedInvoiceTable';
+import { Container, Row, Col } from 'react-bootstrap';
+import { InvoiceSearch } from '../controls/InvoiceSearch';
+import { GroupedInvoiceTable } from '../invoice-table/GroupedInvoiceTable';
+import { NonGroupedInvoiceTable } from '../invoice-table/NonGroupedInvoiceTable';
 import { ConfacState } from '../../../reducers/app-state';
 import { ConfigModel } from '../../config/models/ConfigModel';
 import InvoiceModel from '../models/InvoiceModel';
 import { ClientModel } from '../../client/models/ClientModels';
 import { InvoiceFilters } from '../../../models';
-import { t } from '../../util';
+import { t } from '../../utils';
 import { Link } from 'react-router-dom';
 import { Icon } from '../../controls';
 
@@ -41,10 +41,10 @@ export class InvoiceList extends Component<InvoiceListProps> {
             <Col xs={8}>
               <h1>{t('title')}</h1>
             </Col>
-            <Col xs={4} style={{textAlign: 'right'}}>
+            <Col xs={4} style={{ textAlign: 'right' }}>
               <Link to="/quotations" className="btn btn-light">
                 {t('quotation.title')}
-                <Icon fa="fa fa-arrow-right" size={1} style={{marginLeft: 8}} />
+                <Icon fa="fa fa-arrow-right" size={1} style={{ marginLeft: 8 }} />
               </Link>
             </Col>
           </Row>
@@ -67,4 +67,4 @@ export default connect((state: ConfacState) => ({
   clients: state.clients,
   filters: state.app.invoiceFilters,
   config: state.config,
-}), {updateInvoiceFilters})(InvoiceList);
+}), { updateInvoiceFilters })(InvoiceList);

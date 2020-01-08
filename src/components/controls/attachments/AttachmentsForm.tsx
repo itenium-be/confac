@@ -3,10 +3,10 @@ import { Attachment, IAttachment } from '../../../models';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 import { HeaderWithEditIcon } from '../Headers';
-import { t } from '../../util';
+import { t } from '../../utils';
 import { AddIcon, ConfirmedDeleteIcon } from '../Icon';
 import { AddAttachmentPopup } from './AddAttachmentPopup';
-import {updateAttachment, deleteAttachment} from '../../../actions/index';
+import { updateAttachment, deleteAttachment } from '../../../actions/index';
 import { ProposedAttachmentsDropzones } from './ProposedAttachmentsDropzones';
 import { AttachmentForm } from './AttachmentForm';
 
@@ -17,7 +17,7 @@ import { AttachmentPreviewIcon } from '../../controls';
 
 export type AttachmentsFormProps = {
   deleteAttachment: Function,
-  updateAttachment: (model: IAttachment, modelType: 'invoice' | 'client', {file: File, type: string}) => void,
+  updateAttachment: (model: IAttachment, modelType: 'invoice' | 'client', { file: File, type: string }) => void,
   model: IAttachment,
 }
 
@@ -40,17 +40,17 @@ export class AttachmentsFormComponent extends Component<AttachmentsFormProps> {
         modelType={modelType}
       />
     );
-    }
+  }
 }
 
-export const AttachmentsForm = connect(null, {updateAttachment, deleteAttachment})(AttachmentsFormComponent);
+export const AttachmentsForm = connect(null, { updateAttachment, deleteAttachment })(AttachmentsFormComponent);
 
 
 
 type AbstractAttachmentsFormProps = {
   attachments: Attachment[],
   onDelete: Function,
-  onAdd: ({file: File, type: string}) => void,
+  onAdd: ({ file: File, type: string }) => void,
   model: IAttachment,
   modelType: 'invoice' | 'client',
 }
@@ -85,12 +85,12 @@ export class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormPr
             size={2}
             label={t('invoice.attachments')}
             editIconVisible={canDeleteAttachments}
-            onEditClick={() => this.setState({isFormOpen: !this.state.isFormOpen})}
+            onEditClick={() => this.setState({ isFormOpen: !this.state.isFormOpen })}
           />
 
           <AddIcon
-            style={{marginTop: 0, marginLeft: 16, marginBottom: 26}}
-            onClick={() => this.setState({isOpen: true})}
+            style={{ marginTop: 0, marginLeft: 16, marginBottom: 26 }}
+            onClick={() => this.setState({ isOpen: true })}
             label={t('invoice.attachmentsAdd')}
             size={1}
             data-tst="add-attachment"
@@ -99,13 +99,13 @@ export class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormPr
           <AddAttachmentPopup
             isOpen={this.state.isOpen}
             attachments={this.props.attachments}
-            onClose={() => this.setState({isOpen: false})}
-            onAdd={(att: {file: File, type: string}) => this.props.onAdd(att)}
+            onClose={() => this.setState({ isOpen: false })}
+            onAdd={(att: { file: File, type: string }) => this.props.onAdd(att)}
           />
         </Col>
 
         {attachments.map(att => (
-          <Col lg={4} md={6} key={att.type} onMouseEnter={() => this.setState({hoverId: att.type})} onMouseLeave={() => this.setState({hoverId: null})}>
+          <Col lg={4} md={6} key={att.type} onMouseEnter={() => this.setState({ hoverId: att.type })} onMouseLeave={() => this.setState({ hoverId: null })}>
             <AttachmentForm
               model={this.props.model}
               modelType={this.props.modelType}

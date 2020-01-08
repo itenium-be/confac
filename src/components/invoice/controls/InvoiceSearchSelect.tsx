@@ -2,7 +2,7 @@ import { InvoiceFiltersSearch } from "../../../models";
 import { EnhanceInputWithLabel } from "../../enhancers/EnhanceInputWithLabel";
 import React, { Component } from "react";
 import Creatable from "react-select/creatable";
-import { t } from "../../util";
+import { t } from "../../utils";
 
 
 type InvoiceSearchSelectProps = {
@@ -43,7 +43,7 @@ export const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component
         isClearable
         isMulti
         noOptionsMessage={() => t('controls.noResultsText')}
-        formatCreateLabel={value => t('controls.addFilterText', {value})}
+        formatCreateLabel={value => t('controls.addFilterText', { value })}
         placeholder={t('invoice.search.placeholder')}
         className={'tst-' + this.props['data-tst']}
       />

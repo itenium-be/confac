@@ -1,15 +1,15 @@
-import { t } from "../../util";
+import { t } from "../../utils";
 import React from "react";
 import { Col } from "react-bootstrap";
 import * as Control from "../../controls";
 
-export const EditInvoiceDetails = ({invoice, onChange}) => {
+export const EditInvoiceDetails = ({ invoice, onChange }) => {
   const tp = (transKey: string): string => t(invoice.getType() + transKey);
   return (
     <>
       <Col sm={6}>
         <Control.NumericInput
-          prefix={invoice.verified ? <Control.VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} data-tst="invoice-is-verified" /> : undefined}
+          prefix={invoice.verified ? <Control.VerifyIcon style={{ fontSize: 16 }} title={t('invoice.isVerified')} data-tst="invoice-is-verified" /> : undefined}
           label={tp('.number')}
           value={invoice.number}
           onChange={value => onChange('number', value)}

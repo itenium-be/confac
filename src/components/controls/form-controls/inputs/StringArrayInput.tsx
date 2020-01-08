@@ -1,9 +1,9 @@
 import React from "react";
 import { Col } from "react-bootstrap";
 import { StringInput } from "./StringInput";
-import { t } from "../../../util";
+import { t } from "../../../utils";
 
-export const StringArrayInput = ({keys, model, onChange, tPrefix}) => {
+export const StringArrayInput = ({ keys, model, onChange, tPrefix }) => {
   return (
     <>
       {keys.map(key => (
@@ -11,7 +11,7 @@ export const StringArrayInput = ({keys, model, onChange, tPrefix}) => {
           <StringInput
             label={t(tPrefix + key)}
             value={model[key]}
-            onChange={(value: string) => onChange({...model, [key]: value})}
+            onChange={(value: string) => onChange({ ...model, [key]: value })}
             data-tst={tPrefix + key}
           />
         </Col>
