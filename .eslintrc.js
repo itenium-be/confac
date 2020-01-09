@@ -16,12 +16,15 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint'],
+  plugins: ['react', 'react-hooks', '@typescript-eslint'],
   rules: {
     'no-unused-vars': [1],
     'react/jsx-filename-extension': [1, {extensions: ['.tsx']}],
     'no-underscore-dangle': [0],
     'object-curly-spacing': [2, 'never'],
     'import/extensions': [0],
+    'react/destructuring-assignment': [1],
+    'import/prefer-default-export': [0],
+    'no-shadow': [1],
   },
 };
