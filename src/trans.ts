@@ -33,7 +33,7 @@ const trans = {
       km: 'Km',
       items: 'Producten',
       other: 'Ander',
-      section: 'Sectie'
+      section: 'Sectie',
     },
   },
   config: {
@@ -64,7 +64,7 @@ const trans = {
       btw: 'BTW',
       rpr: 'Rechtspersonenregister',
       other: 'Ander',
-      templateLoadError: "Html factuur templates konden niet geladen worden",
+      templateLoadError: 'Html factuur templates konden niet geladen worden',
       website: 'Website',
       slug: 'Bedrijfsnaam in de url',
       contact: 'Contact persoon',
@@ -240,12 +240,13 @@ const trans = {
       consultant: 'Consultant',
       freelancer: 'Freelancer',
       externalConsultant: 'Externe consultant',
-    }
+    },
   },
   project: {
     createNew: 'Nieuw project',
-    newConsultant: 'Nieuwe consultant',
     newMonth: 'Maand toevoegen',
+    month: 'Maand',
+    newConsultant: 'Nieuwe consultant',
     showInactiveProjects: 'Toon inactieve projecten',
     consultant: 'Consultant',
     consultantType: 'Type',
@@ -254,7 +255,7 @@ const trans = {
     partner: 'Partner',
     partnerTariff: 'Partner tarief',
     client: 'Klant',
-    clientTariff: 'Klant tarief'
+    clientTariff: 'Klant tarief',
   },
   controls: {
     // browser
@@ -290,8 +291,8 @@ const trans = {
   },
 };
 
-export default function (key: string, params?: object): string {
-  var str: any;
+export default function(key: string, params?: object): string {
+  let str: any;
   if (key.indexOf('.') === -1) {
     str = trans[key];
   } else {
@@ -310,10 +311,10 @@ export default function (key: string, params?: object): string {
 
   if (str.indexOf('{}') !== -1) {
     return str.replace('{}', params);
-
-  } else if (typeof params === 'object') {
-    Object.keys(params).forEach(function (paramKey) {
-      str = str.replace('{' + paramKey + '}', params[paramKey]);
+  }
+  if (typeof params === 'object') {
+    Object.keys(params).forEach(function(paramKey) {
+      str = str.replace(`{${paramKey}}`, params[paramKey]);
     });
   }
 
