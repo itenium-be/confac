@@ -24,11 +24,13 @@ const _ConsultantSearchSelect = (props: ConsultantSelectProps) => {
     return props.consultants.find(c => c._id === consultantId) as ConsultantModel;
   }
 
+  const getConsultantName = (c: ConsultantModel) => `${c.firstName} ${c.name} (${t('consultant.types.' + c.type)})`;
+
   const selectedConsultantId = value && typeof value === 'object' ? value['_id'] : value;
 
   const options: SelectItem[] = consultants
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map(item => ({ value: item._id, label: item.name } as SelectItem));
+    .sort((a, b) => getConsultantName(a).localeCompare(getConsultantName(b)))
+    .map(item => ({ value: item._id, label: getConsultantName(item) } as SelectItem));
 
   const selectedOption = options.find(o => o.value === selectedConsultantId);
 
