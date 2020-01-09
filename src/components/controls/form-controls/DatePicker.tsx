@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { t } from '../../utils';
+import { t, datePickerDateFormat, defaultLocale } from '../../utils';
 import { EnhanceInputWithLabel } from '../../enhancers/EnhanceInputWithLabel';
 import { default as ReactDatePicker } from 'react-datepicker';
 import { BaseInputProps } from './inputs/BaseInput';
@@ -14,8 +14,8 @@ export const DatePicker = EnhanceInputWithLabel(class extends Component<DatePick
         className="form-control"
         selected={this.props.value ? this.props.value.toDate() : undefined}
         onChange={dateString => this.props.onChange(dateString ? moment(dateString) : null)}
-        locale="nl"
-        dateFormat="dd/MM/yyyy"
+        locale={defaultLocale}
+        dateFormat={datePickerDateFormat}
         peekNextMonth={false}
         todayButton={t('controls.today')}
       />

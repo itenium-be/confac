@@ -4,7 +4,7 @@ import { ClientModel } from '../../client/models/ClientModels';
 import { InvoiceFilters, InvoiceFiltersSearch } from '../../../models';
 import { searchClientFor } from '../../client/models/searchClientFor';
 import { getMoney } from '../../controls';
-import { t, searchinize } from '../../utils';
+import { t, searchinize, formatDate } from '../../utils';
 
 
 function transformFilters(search: InvoiceFiltersSearch[], freeText: string): TransformedInvoiceFilters {
@@ -153,7 +153,7 @@ function searchInvoiceFor(invoice: InvoiceModel, text: string): boolean {
     return true;
   }
 
-  if (invoice.date.format('DD/MM/YYYY').startsWith(text)) {
+  if (formatDate(invoice.date).startsWith(text)) {
     return true;
   }
 

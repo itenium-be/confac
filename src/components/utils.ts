@@ -2,7 +2,9 @@ import numeral from 'numeral';
 import moment from 'moment';
 import latinize from 'latinize';
 
-numeral.register('locale', 'nl', {
+export const defaultLocale = 'nl';
+
+numeral.register('locale', defaultLocale, {
   delimiters: {
     thousands: '.',
     decimal: ','
@@ -21,9 +23,9 @@ numeral.register('locale', 'nl', {
   }
 });
 
-numeral.locale('nl');
+numeral.locale(defaultLocale);
 
-export function moneyFormat(input) {
+export function moneyFormat(input): string {
   return '€ ' + numeral(input).format('0,0.00');
 }
 
@@ -32,7 +34,9 @@ export function moneyFormat(input) {
  */
 export const getNumeric = text => text.replace(/[^0-9]+/g, '');
 
-export const formatDate = (date, format = "DD-MM-YYYY") => moment(date).format(format)
+export const datePickerDateFormat = "dd/MM/yyyy"
+
+export const formatDate = (date: string | Date | moment.Moment, format = "DD/MM/YYYY"): string => moment(date).format(format)
 
 /**
  * Make a string ready for search
