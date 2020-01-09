@@ -53,10 +53,10 @@ const ProjectsListRow = (props: ProjectsListRowProps) => {
         <span data-tst={tst('startDate')}>{formatDate(details.startDate)}</span>
       </td>
       <td>
-        <span data-tst={tst('endDate')}>{details.endDate ? formatDate(details.endDate) : '/'}</span>
+        <span data-tst={tst('endDate')}>{details.endDate && formatDate(details.endDate)}</span>
       </td>
       <td>
-        <span data-tst={tst('partner')}>{partner ? partner.name : '/'}</span>
+        <span data-tst={tst('partner')}>{partner && partner.name}</span>
       </td>
       <td style={{ textAlign: 'right' }}>
         <span data-tst={tst('partnerTariff')}>{moneyFormat(details.partnerTariff)}</span>
