@@ -3,6 +3,7 @@ import t from '../../../trans';
 import {InvoiceClientCell} from './InvoiceClientCell';
 import { InvoiceNumberCell } from './InvoiceNumberCell';
 import InvoiceModel from '../models/InvoiceModel';
+import { formatDate } from '../../utils';
 
 type TableCell = {
   key: string,
@@ -28,7 +29,7 @@ export function getColumns(fields: string[], showOrderNr: boolean, isQuotation: 
   }, {
     key: 'date-full',
     header: t(transPrefix + '.date'),
-    value: (i: InvoiceModel) => i.date.format('DD/MM/YYYY'),
+    value: (i: InvoiceModel) => formatDate(i.date),
   }];
 
   if (showOrderNr) {
