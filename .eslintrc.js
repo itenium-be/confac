@@ -1,30 +1,44 @@
 module.exports = {
   env: {
     browser: true,
-    es6: true,
+    es6: true
   },
-  extends: ['plugin:react/recommended', 'airbnb', 'plugin:prettier/recommended'],
+  extends: ["plugin:react/recommended", "airbnb"],
   globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
+    Atomics: "readonly",
+    SharedArrayBuffer: "readonly"
   },
-  parser: '@typescript-eslint/parser',
+
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
     ecmaVersion: 2018,
-    sourceType: 'module',
+    sourceType: "module"
   },
-  plugins: ['react', 'react-hooks', '@typescript-eslint'],
+  ignorePatterns: ["node_modules", "public", ".vscode"],
+  plugins: ["react", "react-hooks", "@typescript-eslint"],
   rules: {
-    'no-unused-vars': [1],
-    'react/jsx-filename-extension': [1, {extensions: ['.tsx']}],
-    'no-underscore-dangle': [0],
-    'object-curly-spacing': [2, 'never'],
-    'import/extensions': [0],
-    'react/destructuring-assignment': [1],
-    'import/prefer-default-export': [0],
-    'no-shadow': [1],
+    "implicit-arrow-linebreak": ["error", "below"],
+    "no-unused-vars": [1],
+    "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
+    "no-underscore-dangle": [0],
+    "object-curly-spacing": [2, "never"],
+    "import/extensions": [0],
+    "react/destructuring-assignment": [1],
+    "import/prefer-default-export": [0],
+    "no-shadow": [1],
+    "no-multiple-empty-lines": ["error", { max: 3 }],
+    "linebreak-style": [0],
+    "max-len": [1],
+    "dot-notation": [1]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts", ".tsx"]
+      }
+    }
   },
 };
