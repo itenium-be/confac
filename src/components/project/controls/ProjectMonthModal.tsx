@@ -13,7 +13,6 @@ type ProjectMonthModalProps = BaseModalProps & {
 
 const _ProjectMonthModal = (props: ProjectMonthModalProps) => {
   const [projectMonth, setProjectMonth] = useState<ProjectMonthModel>({
-    // ? We use the UTC method to prevent moment subtracting 1 hour, this can cause some annoying problems
     month: moment.utc().startOf('month'),
   });
 
