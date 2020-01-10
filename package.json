@@ -8,13 +8,15 @@
     "serve": "http-server ./dist -o",
     "deploy": "babel src -d deploy",
     "start:deploy": "node ./deploy/server.js",
-    "prod": "forever start ./deploy/server.js"
+    "prod": "forever start ./deploy/server.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "author": "Wouter Van Schandevijl <wouter@pongit.be>",
   "license": "MIT",
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
-    "babel-polyfill": "^6.20.0",
+    "core-js": "^3.6.2",
     "html-pdf": "^2.1.0",
     "jszip": "^3.2.2",
     "kcors": "^1.3.1",
@@ -30,19 +32,25 @@
     "numeral": "^1.5.3",
     "pdf-merge": "^1.2.0",
     "pug": "^2.0.0-beta6",
+    "regenerator-runtime": "^0.13.3",
     "slugify": "^1.1.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-core": "^6.18.0",
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/plugin-proposal-object-rest-spread": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
     "babel-eslint": "^10.0.3",
-    "babel-plugin-transform-object-rest-spread": "^6.20.2",
-    "babel-preset-es2015": "^6.18.0",
     "forever": "^0.15.3",
     "gulp": "^3.9.1",
     "gulp-plumber": "^1.1.0",
     "gulp-pug": "^3.2.0",
     "http-server": "^0.9.0",
+    "jest": "^24.9.0",
     "nodemon": "^1.11.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
