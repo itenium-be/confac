@@ -1,4 +1,5 @@
-require('babel-polyfill');
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 
 import sgMail from '@sendgrid/mail';
 
