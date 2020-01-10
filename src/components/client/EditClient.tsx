@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { t } from '../utils';
+import { t, formatDate } from '../utils';
 import moment from 'moment';
 import { BusyButton, ArrayInput, AttachmentsForm } from '../controls';
 import { Container, Row, Form } from 'react-bootstrap';
@@ -91,7 +91,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
           <Row>
             <h1>
               {client.name || (client._id ? '' : t('client.createNew'))}
-              {client.createdOn && <small className="created-on">{t('createdOn')} {moment(client.createdOn).format('DD/MM/YYYY')}</small>}
+              {client.createdOn && <small className="created-on">{t('createdOn')} {formatDate(client.createdOn)}</small>}
             </h1>
           </Row>
           <Row>
