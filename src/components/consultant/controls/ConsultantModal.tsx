@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
-import {Modal, ArrayInput, BaseModalProps} from '../../controls';
 import {saveConsultant} from '../../../actions';
 import {ConfacState} from '../../../reducers/app-state';
-import {defaultConsultantProperties, ConsultantModel} from '../models';
-
-
 import {initNewConsultant} from '../utils/initNewConsultant';
+import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
+import {BaseModalProps, Modal} from '../../controls/Modal';
+import {ConsultantModel} from '../models/ConsultantModel';
+import {defaultConsultantProperties} from '../models/ConsultantConfig';
 
 
 type ConsultantModalProps = BaseModalProps & {

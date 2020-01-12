@@ -3,11 +3,12 @@ import {connect} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../utils';
 import {configDefinition} from './models/ConfigConfig';
-import * as Control from '../controls';
 import {updateConfig} from '../../actions/index';
 import {ConfigModel} from './models/ConfigModel';
 import {ConfacState} from '../../reducers/app-state';
 import {StickyFooter} from '../controls/skeleton/StickyFooter';
+import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
+import {BusyButton} from '../controls/form-controls/BusyButton';
 
 
 type EditConfigProps = {
@@ -42,7 +43,7 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
       <Container className="edit-container">
         <Form>
           <Row>
-            <Control.ArrayInput
+            <ArrayInput
               config={configDefinition}
               model={this.state}
               onChange={(state: ConfigModel) => this.setState({...state})}
@@ -51,7 +52,7 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
           </Row>
         </Form>
         <StickyFooter>
-          <Control.BusyButton onClick={() => this._save()} data-tst="save">{t('save')}</Control.BusyButton>
+          <BusyButton onClick={() => this._save()} data-tst="save">{t('save')}</BusyButton>
         </StickyFooter>
       </Container>
     );

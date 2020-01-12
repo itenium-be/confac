@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
-
 import {ConfacState} from '../../reducers/app-state';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
-import {defaultConsultantProperties, ConsultantModel} from './models';
-import {BusyButton} from '../controls';
 import {saveConsultant} from '../../actions';
 import {StickyFooter} from '../controls/skeleton/StickyFooter';
 import {initNewConsultant} from './utils/initNewConsultant';
+import {ConsultantModel} from './models/ConsultantModel';
+import {BusyButton} from '../controls/form-controls/BusyButton';
+import {defaultConsultantProperties} from './models/ConsultantConfig';
 
 interface EditConsultantProps {
   saveConsultant: (consultant: ConsultantModel) => void;

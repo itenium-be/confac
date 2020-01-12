@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import * as Control from '../../../controls';
 import InvoiceModel, {InvoiceLine} from '../../models/InvoiceModel';
+import {StringInput} from '../../../controls/form-controls/inputs/StringInput';
+import {InvoiceLineTypeSelect} from '../../controls/InvoiceLineTypeSelect';
 
 type EditInvoiceSectionLineProps = {
   index: number,
@@ -14,14 +15,14 @@ export class EditInvoiceSectionLine extends Component<EditInvoiceSectionLineProp
     const {index, onChange, invoice, line} = this.props;
     return [
       <td key="0">
-        <Control.StringInput
+        <StringInput
           value={line.desc}
           onChange={value => onChange(invoice.updateLine(index, {desc: value}))}
           data-tst={`line-${index}-desc`}
         />
       </td>,
       <td key="1">
-        <Control.InvoiceLineTypeSelect
+        <InvoiceLineTypeSelect
           label={null}
           value={line.type}
           onChange={value => onChange(invoice.updateLine(index, {type: value}))}

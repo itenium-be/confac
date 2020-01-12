@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon} from '../../../controls';
+import {Icon} from '../../Icon';
 
 export type InputIcons = 'phone' | 'email' | 'website' | 'bank' | 'building'
   | 'user' | 'wrench';

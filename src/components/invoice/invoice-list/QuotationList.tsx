@@ -13,7 +13,7 @@ import {ClientModel} from '../../client/models/ClientModels';
 import {InvoiceFilters} from '../../../models';
 import {t} from '../../utils';
 import {QuotationSearch} from './QuotationSearch';
-import {Icon} from '../../controls';
+import {Icon} from '../../controls/Icon';
 
 
 type QuotationListProps = {

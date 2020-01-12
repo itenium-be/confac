@@ -1,8 +1,11 @@
 import React from 'react';
 import {Col} from 'react-bootstrap';
 import {t} from '../../utils';
-import * as Control from '../../controls';
 import InvoiceModel from '../models/InvoiceModel';
+import {NumericInput} from '../../controls/form-controls/inputs/NumericInput';
+import {VerifyIcon} from '../../controls/Icon';
+import {StringInput} from '../../controls/form-controls/inputs/StringInput';
+import {DatePicker} from '../../controls/form-controls/DatePicker';
 
 type EditInvoiceDetailsProps = {
   invoice: InvoiceModel;
@@ -14,8 +17,8 @@ export const EditInvoiceDetails = ({invoice, onChange}: EditInvoiceDetailsProps)
   return (
     <>
       <Col sm={6}>
-        <Control.NumericInput
-          prefix={invoice.verified && <Control.VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} data-tst="is-verified" />}
+        <NumericInput
+          prefix={invoice.verified && <VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} data-tst="is-verified" />}
           label={tp('.number')}
           value={invoice.number}
           onChange={value => onChange('number', value)}
@@ -23,7 +26,7 @@ export const EditInvoiceDetails = ({invoice, onChange}: EditInvoiceDetailsProps)
         />
       </Col>
       <Col sm={6}>
-        <Control.DatePicker
+        <DatePicker
           label={tp('.date')}
           value={invoice.date}
           onChange={value => onChange('date', value)}
@@ -32,7 +35,7 @@ export const EditInvoiceDetails = ({invoice, onChange}: EditInvoiceDetailsProps)
       </Col>
 
       <Col sm={6}>
-        <Control.StringInput
+        <StringInput
           label={t('invoice.orderNr')}
           value={invoice.orderNr}
           onChange={value => onChange('orderNr', value)}
@@ -40,7 +43,7 @@ export const EditInvoiceDetails = ({invoice, onChange}: EditInvoiceDetailsProps)
         />
       </Col>
       <Col sm={6}>
-        <Control.StringInput
+        <StringInput
           label={tp('.fileName')}
           value={invoice.fileName}
           onChange={value => onChange('fileName', value)}

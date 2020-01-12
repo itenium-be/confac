@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {t} from '../../utils';
-
-import * as Control from '../../controls';
 import ClientDetails from '../../client/controls/ClientDetails';
 import InvoiceTotal from './InvoiceTotal';
 import {ClientModal} from '../../client/controls/ClientModal';
 import InvoiceModel from '../models/InvoiceModel';
 import {ClientModel} from '../../client/models/ClientModels';
+import {ClientSelect} from '../../client/controls/ClientSelect';
+import {Button} from '../../controls/form-controls/Button';
 
 type EditInvoiceClientProps = {
   invoice: InvoiceModel,
@@ -44,14 +44,14 @@ export class EditInvoiceClient extends Component<EditInvoiceClientProps, EditInv
         )}
         <div className="unset-split">
           <div>
-            <Control.ClientSelect
+            <ClientSelect
               label={t('invoice.client')}
               value={invoice.client && invoice.client._id}
               onChange={(clientId, client) => onChange({invoice: invoice.setClient(client)})}
             />
           </div>
           <div style={{width: 120, position: 'relative'}}>
-            <Control.Button
+            <Button
               onClick={() => this.setState({modalClientId: 'new'})}
               variant="light"
               size="sm"
@@ -59,7 +59,7 @@ export class EditInvoiceClient extends Component<EditInvoiceClientProps, EditInv
               data-tst="new-client"
             >
               {t('invoice.clientNew')}
-            </Control.Button>
+            </Button>
           </div>
         </div>
 

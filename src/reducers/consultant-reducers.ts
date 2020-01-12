@@ -1,4 +1,4 @@
-import {ConsultantModel} from '../components/consultant/models';
+import {ConsultantModel} from '../components/consultant/models/ConsultantModel';
 import {ACTION_TYPES} from '../actions';
 
 export const consultants = (state: ConsultantModel[] = [], action): ConsultantModel[] => {

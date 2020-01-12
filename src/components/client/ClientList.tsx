@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Table, Row, Col} from 'react-bootstrap';
 import {t} from '../utils';
-import * as Control from '../controls';
 import ClientListRow, {ClientListHeader} from './ClientListRow';
 import {updateInvoiceFilters} from '../../actions/index';
 import {getInvoiceYears} from '../invoice/models/InvoiceListModel';
@@ -12,6 +11,9 @@ import {ConfacState} from '../../reducers/app-state';
 import {SearchStringInput} from '../controls/form-controls/inputs/SearchStringInput';
 import {InvoiceFilters} from '../../models';
 import {searchClientFor} from './models/searchClientFor';
+import {Switch} from '../controls/form-controls/Switch';
+import {YearsSelect} from '../controls/form-controls/select/YearsSelect';
+import {AddIcon} from '../controls/Icon';
 
 type ClientListProps = {
   invoices: InvoiceModel[],
@@ -52,7 +54,7 @@ class ClientList extends Component<ClientListProps, ClientListState> {
         <h1>{t('nav.clients')}</h1>
         <Row>
           <Col lg={3} md={12}>
-            <Control.AddIcon onClick="/clients/create" label={t('client.createNew')} data-tst="new-client" />
+            <AddIcon onClick="/clients/create" label={t('client.createNew')} data-tst="new-client" />
           </Col>
           <Col lg={3} md={6}>
             <SearchStringInput
@@ -61,7 +63,7 @@ class ClientList extends Component<ClientListProps, ClientListState> {
             />
           </Col>
           <Col lg={3} md={6}>
-            <Control.YearsSelect
+            <YearsSelect
               values={filters.clientListYears}
               years={getInvoiceYears(invoices)}
               onChange={(values: number[]) => this.props.updateInvoiceFilters({...filters, clientListYears: values || []})}
@@ -69,7 +71,7 @@ class ClientList extends Component<ClientListProps, ClientListState> {
             />
           </Col>
           <Col lg={3} md={12}>
-            <Control.Switch
+            <Switch
               value={this.state.showDeleted}
               onChange={(checked: boolean) => this.setState({showDeleted: checked})}
               label={t('client.showInactive')}

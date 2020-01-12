@@ -1,6 +1,6 @@
 import moment from 'moment';
-import {ProjectModel, FullProjectModel} from '../models';
-import {ConsultantModel} from '../../consultant/models';
+import {ProjectModel, FullProjectModel} from '../models/types';
+import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
 
 export class ProjectReferenceResolver {

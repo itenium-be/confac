@@ -1,8 +1,7 @@
 import React, {CSSProperties} from 'react';
 import moment from 'moment';
-
 import {t, moneyFormat, formatDate} from '../utils';
-import {FullProjectModel, ProjectDetailsModel} from './models';
+import {FullProjectModel, ProjectDetailsModel} from './models/types';
 
 
 export const ProjectsListHeader = () => (

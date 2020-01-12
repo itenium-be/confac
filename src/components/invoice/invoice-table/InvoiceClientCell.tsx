@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import t from '../../../trans';
-import {ClientEditIcon} from '../../controls';
 import {ClientModal} from '../../client/controls/ClientModal';
 import {saveClient} from '../../../actions/index';
 import {ConfacState} from '../../../reducers/app-state';
 import {ClientModel} from '../../client/models/ClientModels';
+import {ClientEditIcon} from '../../controls/Icon';
 
 
 type InvoiceClientCellProps = {

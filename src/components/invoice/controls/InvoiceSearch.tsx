@@ -2,12 +2,13 @@ import React, {Component, useState} from 'react';
 import {Row, Col, ButtonGroup, Button} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
 import {t} from '../../utils';
-import {Switch, Icon} from '../../controls';
 import {InvoiceFiltersSearch, InvoiceFilters} from '../../../models';
 import {InvoiceSearchSelect} from './InvoiceSearchSelect';
 import {SearchStringInput} from '../../controls/form-controls/inputs/SearchStringInput';
 import {downloadInvoicesZip, downloadInvoicesExcel} from '../../../actions';
 import InvoiceListModel from '../models/InvoiceListModel';
+import {Icon} from '../../controls/Icon';
+import {Switch} from '../../controls/form-controls/Switch';
 
 
 type InvoiceSearchProps = {

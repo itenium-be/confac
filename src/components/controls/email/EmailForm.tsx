@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {Form, Button, Row} from 'react-bootstrap';
-import {Icon} from '../../controls';
 import {StringInput} from '../form-controls/inputs/StringInput';
 import {t} from '../../utils';
 import {TextEditor} from '../form-controls/inputs/TextEditor';
 import {EmailModel} from './EmailModels';
 import {BaseInputProps} from '../form-controls/inputs/BaseInput';
 import {getNewEmail} from './getNewEmail';
+import {Icon} from '../Icon';
 
 import './EmailForm.scss';
 

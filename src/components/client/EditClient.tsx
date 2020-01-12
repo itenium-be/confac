@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t, formatDate} from '../utils';
-import {BusyButton, ArrayInput} from '../controls';
 import {AttachmentsForm} from '../controls/attachments/AttachmentsForm';
 import {saveClient} from '../../actions/index';
 import {defaultClientProperties} from './models/ClientConfig';
@@ -12,6 +11,8 @@ import {ConfacState} from '../../reducers/app-state';
 import {ConfigModel} from '../config/models/ConfigModel';
 import {StickyFooter} from '../controls/skeleton/StickyFooter';
 import {NewClient} from './NewClient';
+import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
+import {BusyButton} from '../controls/form-controls/BusyButton';
 
 
 type EditClientProps = {

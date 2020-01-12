@@ -6,8 +6,8 @@ import {AddIcon, ConfirmedDeleteIcon} from '../Icon';
 import {AddAttachmentPopup} from './AddAttachmentPopup';
 import {ProposedAttachmentsDropzones} from './ProposedAttachmentsDropzones';
 import {AttachmentForm} from './AttachmentForm';
-import {AttachmentPreviewIcon} from '../../controls';
 import {AbstractAttachmentsFormProps, AbstractAttachmentsFormState} from './AttachmentsForm';
+import {AttachmentPreviewIcon} from './AttachmentDownloadIcon';
 
 
 export class AbstractAttachmentsForm extends Component<AbstractAttachmentsFormProps, AbstractAttachmentsFormState> {

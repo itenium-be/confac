@@ -1,6 +1,6 @@
 import React from 'react';
 import {IAttachment, Attachment} from '../../../models';
-import {AttachmentDownloadIcon, getAttachmentDownloadUrl} from '../../controls';
+import {AttachmentDownloadIcon, getAttachmentDownloadUrl} from './AttachmentDownloadIcon';
 
 type AttachmentFormProps = {
   attachment: Attachment,

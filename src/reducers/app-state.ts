@@ -3,8 +3,8 @@ import {AppState} from '../models';
 import {ConfigModel} from '../components/config/models/ConfigModel';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {ClientModel} from '../components/client/models/ClientModels';
-import {ConsultantModel} from '../components/consultant/models';
-import {ProjectModel, ProjectMonthModel} from '../components/project/models';
+import {ConsultantModel} from '../components/consultant/models/ConsultantModel';
+import {ProjectModel, ProjectMonthModel} from '../components/project/models/types';
 
 export type ConfacState = {
   app: AppState;

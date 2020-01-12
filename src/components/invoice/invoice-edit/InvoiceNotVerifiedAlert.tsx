@@ -3,12 +3,12 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import {Alert} from 'react-bootstrap';
 import {t} from '../../utils';
-
-import {BusyButton, NotEmailedIcon} from '../../controls';
 import {toggleInvoiceVerify} from '../../../actions/index';
 import InvoiceModel from '../models/InvoiceModel';
 import {getInvoiceDueDateVariant} from '../invoice-list/InvoiceListRow';
 import {ConfacState} from '../../../reducers/app-state';
+import {NotEmailedIcon} from '../../controls/Icon';
+import {BusyButton} from '../../controls/form-controls/BusyButton';
 
 
 type InvoiceNotVerifiedAlertProps = {

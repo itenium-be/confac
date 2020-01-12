@@ -1,1 +1,0 @@
-export {ConsultantSearchSelect} from './ConsultantSearchSelect';

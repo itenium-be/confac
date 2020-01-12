@@ -2,7 +2,7 @@ import React from 'react';
 import {Nav, Navbar, Dropdown, ButtonGroup} from 'react-bootstrap';
 import {Link, Route} from 'react-router-dom';
 import {t} from './utils';
-import {AddIcon} from './controls';
+import {AddIcon} from './controls/Icon';
 
 type OldSchoolMenuLinkProps = {
   label: string;

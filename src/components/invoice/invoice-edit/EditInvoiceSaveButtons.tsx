@@ -1,8 +1,8 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import {t} from '../../utils';
-import {BusyButton} from '../../controls';
 import InvoiceModel from '../models/InvoiceModel';
+import {BusyButton} from '../../controls/form-controls/BusyButton';
 
 type RoutedProps = EditInvoiceSaveButtonsComponentProps & {
   match: any,

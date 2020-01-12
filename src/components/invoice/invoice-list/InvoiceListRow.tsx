@@ -2,14 +2,15 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import {moneyFormat, t} from '../../utils';
-// eslint-disable-next-line max-len
-import {ConfirmedDeleteIcon, EditIcon, InvoiceDownloadIcon, InvoicePreviewIcon, InvoiceVerifyIconToggle, NotEmailedIcon} from '../../controls';
 import {deleteInvoice} from '../../../actions/index';
 import {InvoiceWorkedDays} from './InvoiceWorkedDays';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import InvoiceModel from '../models/InvoiceModel';
 import {ConfacState} from '../../../reducers/app-state';
+import {NotEmailedIcon, EditIcon, ConfirmedDeleteIcon} from '../../controls/Icon';
+import {InvoiceVerifyIconToggle} from './InvoiceVerifyIcon';
+import {InvoiceDownloadIcon, InvoicePreviewIcon} from '../../controls/attachments/AttachmentDownloadIcon';
 
 
 type InvoiceListHeaderProps = {

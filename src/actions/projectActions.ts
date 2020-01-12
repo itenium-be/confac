@@ -4,7 +4,7 @@ import {buildUrl, catchHandler} from './utils/fetch';
 import t from '../trans';
 import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
-import {ProjectModel, ProjectMonthModel} from '../components/project/models';
+import {ProjectModel, ProjectMonthModel} from '../components/project/models/types';
 
 export function saveProject(project: ProjectModel, history: any) {
   return (dispatch: Dispatch) => {

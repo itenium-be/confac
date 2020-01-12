@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Col, Form} from 'react-bootstrap';
 import {t, EditInvoiceViewModel, formatDate} from '../../utils';
-import * as Control from '../../controls';
 import EditInvoiceLines from './invoice-lines/EditInvoiceLines';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
@@ -20,6 +19,10 @@ import {EmailModal, EmailModalTitle} from '../../controls/email/EmailModal';
 import {EmailModel} from '../../controls/email/EmailModels';
 import {sendEmail} from '../../../actions/emailActions';
 import {invoiceReplacements} from '../../../actions/utils/download-helpers';
+import {ExpandIcon} from '../../controls/Icon';
+import {StringInput} from '../../controls/form-controls/inputs/StringInput';
+import {Button} from '../../controls/form-controls/Button';
+import {AttachmentsForm} from '../../controls/attachments/AttachmentsForm';
 
 
 type EditInvoiceProps = {
@@ -179,7 +182,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
 
                 {extraFieldsVisible ? (
                   <Col sm={12}>
-                    <Control.ExpandIcon
+                    <ExpandIcon
                       center
                       color="#D3D3D3"
                       title={t('config.extraFields.open')}
@@ -189,7 +192,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                   </Col>
                 ) : (
                   <Col sm={12}>
-                    <Control.StringInput
+                    <StringInput
                       label={t('invoice.discount')}
                       placeholder={t('invoice.discountPlaceholder')}
                       value={invoice.discount}
@@ -226,12 +229,12 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
               onChange={m => this.setState({invoice: m})}
             />
           </Row>
-          <Control.AttachmentsForm model={invoice} />
+          <AttachmentsForm model={invoice} />
           <StickyFooter>
             {!invoice.isNew && (
-              <Control.Button variant="light" icon="far fa-envelope" onClick={() => this.setState({showEmailModal: true})}>
+              <Button variant="light" icon="far fa-envelope" onClick={() => this.setState({showEmailModal: true})}>
                 {t('email.prepareEmail')}
-              </Control.Button>
+              </Button>
             )}
             <EditInvoiceSaveButtons onClick={() => this.props.invoiceAction(invoice)} invoice={invoice} />
           </StickyFooter>

@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {t} from '../utils';
-
-import {ClientEditIcon, InvoiceWorkedDays, InvoicesSummary, DeleteIcon} from '../controls';
 import {saveClient} from '../../actions/index';
 import InvoiceModel from '../invoice/models/InvoiceModel';
 import {ClientModel} from './models/ClientModels';
+import {InvoiceWorkedDays} from '../invoice/invoice-list/InvoiceWorkedDays';
+import {InvoicesSummary} from '../invoice/controls/InvoicesSummary';
+import {DeleteIcon, ClientEditIcon} from '../controls/Icon';
 
 
 export const ClientListHeader = () => (

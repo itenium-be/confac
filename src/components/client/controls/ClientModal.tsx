@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
-import * as Control from '../../controls';
 import {saveClient} from '../../../actions/clientActions';
 import {requiredClientProperties} from '../models/ClientConfig';
 import {getNewClient} from '../models/getNewClient';
@@ -11,9 +10,11 @@ import {ConfigModel} from '../../config/models/ConfigModel';
 import {ConfacState} from '../../../reducers/app-state';
 import {btwResponseToModel} from '../NewClient';
 import {BtwInput, BtwResponse} from '../../controls/form-controls/inputs/BtwInput';
+import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
+import {BaseModalProps, Modal} from '../../controls/Modal';
 
 
-type ClientModalProps = Control.BaseModalProps & {
+type ClientModalProps = BaseModalProps & {
   config: ConfigModel,
   saveClient: Function,
   onConfirm?: (client: ClientModel) => void,
@@ -31,6 +32,7 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
     this.state = this.copyClient(props);
   }
 
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps: ClientModalProps) {
     if (nextProps.client !== this.props.client) {
       this.setState({...this.copyClient(nextProps)});
@@ -72,7 +74,7 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
     );
 
     return (
-      <Control.Modal
+      <Modal
         show={this.props.show}
         onClose={this.props.onClose}
         title={client._id ? client.name : t('client.createNew')}
@@ -82,7 +84,7 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
           <Form>
             <Container>
               <Row>
-                <Control.ArrayInput
+                <ArrayInput
                   config={requiredClientProperties}
                   model={client}
                   onChange={value => this.setState({...client, ...value})}
@@ -92,7 +94,7 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
             </Container>
           </Form>
         )}
-      </Control.Modal>
+      </Modal>
     );
   }
 }

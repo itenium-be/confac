@@ -2,11 +2,10 @@ import React, {Component} from 'react';
 import {Table} from 'react-bootstrap';
 import {DragDropContext, Droppable, Draggable, DropResult} from 'react-beautiful-dnd';
 import {t} from '../../../utils';
-
-import * as Control from '../../../controls';
 import {createEditInvoiceLine} from './EditInvoiceLineFactory';
 import {EditInvoiceLineIcons, EditInvoiceDragHandle} from './EditInvoiceLineIcons';
 import InvoiceModel from '../../models/InvoiceModel';
+import {AddIcon, EditIcon} from '../../../controls/Icon';
 
 
 type EditInvoiceLinesProps = {
@@ -56,7 +55,7 @@ export default class EditInvoiceLines extends Component<EditInvoiceLinesProps, E
             <th style={{width: notesVisible ? '30%' : '1%'}}>
               <div style={{whiteSpace: 'nowrap', display: 'inline'}}>
                 {t('notes')}
-                <Control.EditIcon
+                <EditIcon
                   style={{marginLeft: 6}}
                   title=""
                   size={1}
@@ -95,7 +94,7 @@ export default class EditInvoiceLines extends Component<EditInvoiceLinesProps, E
         <tbody>
           <tr>
             <td colSpan={nrOfColumns}>
-              <Control.AddIcon onClick={() => onChange(invoice.addLine())} label={tp('.addLine')} size={1} data-tst="line-add" />
+              <AddIcon onClick={() => onChange(invoice.addLine())} label={tp('.addLine')} size={1} data-tst="line-add" />
             </td>
           </tr>
         </tbody>

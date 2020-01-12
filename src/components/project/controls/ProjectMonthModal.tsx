@@ -3,9 +3,10 @@ import {connect} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import moment from 'moment';
 import {t} from '../../utils';
-import {Modal, BaseModalProps, DatePicker} from '../../controls';
-import {ProjectMonthModel} from '../models';
 import {saveProjectMonth} from '../../../actions';
+import {BaseModalProps, Modal} from '../../controls/Modal';
+import {ProjectMonthModel} from '../models/types';
+import {DatePicker} from '../../controls/form-controls/DatePicker';
 
 type ProjectMonthModalProps = BaseModalProps & {
   saveProjectMonth: (projectMonth: ProjectMonthModel) => void;

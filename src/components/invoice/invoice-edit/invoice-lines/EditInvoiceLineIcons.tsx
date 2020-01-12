@@ -1,6 +1,6 @@
 import React from 'react';
-import * as Control from '../../../controls';
 import InvoiceModel, {InvoiceLine} from '../../models/InvoiceModel';
+import {DeleteIcon, DragAndDropIcon} from '../../../controls/Icon';
 
 
 type EditInvoiceLineIconsProps = {
@@ -23,8 +23,8 @@ const EditInvoiceDeleteLineIcon = (props: EditInvoiceLineIconsProps) => {
     return null;
   }
 
-  return <Control.DeleteIcon onClick={() => onChange(invoice.removeLine(index))} data-tst={`line-${index}-delete`} />;
+  return <DeleteIcon onClick={() => onChange(invoice.removeLine(index))} data-tst={`line-${index}-delete`} />;
 };
 
 
-export const EditInvoiceDragHandle = () => <td><Control.DragAndDropIcon /></td>;
+export const EditInvoiceDragHandle = () => <td><DragAndDropIcon /></td>;
