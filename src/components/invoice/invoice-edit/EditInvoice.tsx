@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { t, EditInvoiceViewModel } from '../../utils';
+import { t, EditInvoiceViewModel, formatDate } from '../../utils';
 import moment from 'moment';
 import * as Control from '../../controls';
 import { Container, Row, Col, Form } from 'react-bootstrap';
@@ -148,7 +148,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                   </div>)
                 }
                 {invoice._id ? t(this.type + '.editTitle') : t(this.type + '.createTitle')}
-                {invoice.createdOn && <small className="created-on">{t('createdOn')} {moment(invoice.createdOn).format('DD/MM/YYYY')}</small>}
+                {invoice.createdOn && <small className="created-on">{t('createdOn')} {formatDate(invoice.createdOn)}</small>}
               </h1>
             </Col>
 

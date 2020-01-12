@@ -42,7 +42,7 @@ const ProjectsListRow = (props: ProjectsListRowProps) => {
   }
 
   return (
-    <tr data-tst={tst('row')} style={setRowBackgroundColor(details)} >
+    <tr data-tst={tst('row')} style={setRowBackgroundColor(details)}>
       <td>
         <span data-tst={tst('consultant')}>{consultant.name}</span>
       </td>
@@ -53,21 +53,21 @@ const ProjectsListRow = (props: ProjectsListRowProps) => {
         <span data-tst={tst('startDate')}>{formatDate(details.startDate)}</span>
       </td>
       <td>
-        <span data-tst={tst('endDate')}>{details.endDate ? formatDate(details.endDate) : '/'}</span>
+        <span data-tst={tst('endDate')}>{details.endDate && formatDate(details.endDate)}</span>
       </td>
       <td>
-        <span data-tst={tst('partner')}>{partner ? partner.name : '/'}</span>
+        <span data-tst={tst('partner')}>{partner && partner.name}</span>
       </td>
-      <td style={{ textAlign: 'right' }}>
+      <td>
         <span data-tst={tst('partnerTariff')}>{moneyFormat(details.partnerTariff)}</span>
       </td>
       <td>
         <span data-tst={tst('client')}>{client.name}</span>
       </td>
-      <td style={{ textAlign: 'right' }}>
+      <td>
         <span data-tst={tst('clientTariff')}>{moneyFormat(details.clientTariff)}</span>
       </td>
-    </tr >
+    </tr>
   );
 }
 
