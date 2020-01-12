@@ -9,7 +9,7 @@
     "deploy": "babel src -d deploy",
     "start:deploy": "node ./deploy/server.js",
     "prod": "forever start ./deploy/server.js",
-    "test": "jest",
+    "test": "node_modules/.bin/jest",
     "test:watch": "jest --watch"
   },
   "author": "Wouter Van Schandevijl <wouter@pongit.be>",
