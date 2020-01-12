@@ -48,7 +48,7 @@ export type AppState = {
   projectFilters: ProjectFilters
 }
 
-export type NewRowFormConfig = {  forceRow: boolean }
+export type NewRowFormConfig = {  forceRow: boolean  }
 
 export type AnyFormConfig = string | NewRowFormConfig | FormConfig;
 

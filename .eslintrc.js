@@ -23,7 +23,7 @@ module.exports = {
   rules: {
     "implicit-arrow-linebreak": ["error", "beside"],
     "no-unused-vars": [0, { args: 'none' }], // https://github.com/typescript-eslint/typescript-eslint/issues/46
-    "no-use-before-define": [0],
+    // "no-use-before-define": [0],
     "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
     "no-underscore-dangle": [0],
     "object-curly-spacing": [2, "never"],

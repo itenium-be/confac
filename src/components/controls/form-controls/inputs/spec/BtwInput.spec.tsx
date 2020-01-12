@@ -32,6 +32,6 @@ describe('BtWInput', () => {
 
   it('should not add zeroes for non belgian', () => {
     const result = parseBtw('NL23456789');
-    expect(result).toBe('NL23456789-');
+    expect(result).toBe('NL23456789-2');
   });
 });
