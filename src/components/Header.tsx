@@ -4,7 +4,13 @@ import {Link, Route} from 'react-router-dom';
 import {t} from './utils';
 import {AddIcon} from './controls';
 
-const OldSchoolMenuLink = ({label, to, activeOnlyWhenExact = false}) => (
+type OldSchoolMenuLinkProps = {
+  label: string;
+  to: string;
+  activeOnlyWhenExact?: boolean;
+}
+
+const OldSchoolMenuLink = ({label, to, activeOnlyWhenExact = false}: OldSchoolMenuLinkProps) => (
   <Route
     path={to}
     exact={activeOnlyWhenExact}

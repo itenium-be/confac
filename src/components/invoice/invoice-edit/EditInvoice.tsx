@@ -7,7 +7,7 @@ import * as Control from '../../controls';
 import EditInvoiceLines from './invoice-lines/EditInvoiceLines';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
-import {invoiceAction, invoiceReplacements} from '../../../actions/index';
+import {invoiceAction} from '../../../actions/index';
 import {EditInvoiceClient} from './EditInvoiceClient';
 import {EditInvoiceExtraFields} from './EditInvoiceExtraFields';
 import InvoiceModel from '../models/InvoiceModel';
@@ -20,6 +20,7 @@ import {DownloadInvoiceButton} from './DownloadInvoiceButton';
 import {EmailModal, EmailModalTitle} from '../../controls/email/EmailModal';
 import {EmailModel} from '../../controls/email/EmailModels';
 import {sendEmail} from '../../../actions/emailActions';
+import {invoiceReplacements} from '../../../actions/utils/download-helpers';
 
 
 type EditInvoiceProps = {

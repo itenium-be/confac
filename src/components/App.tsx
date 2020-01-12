@@ -37,7 +37,8 @@ const ConfiguredToastContainer = () => (
 // }
 
 
-class App extends Component {
+// eslint-disable-next-line react/prefer-stateless-function
+class App extends Component<{children: any}> {
   render() {
     return (
       <div className="App">
