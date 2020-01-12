@@ -1,12 +1,12 @@
-import React from "react";
-import { IAttachment } from "../../../models";
-import { useSelector, useDispatch } from "react-redux";
-import { ConfacState } from "../../../reducers/app-state";
+import React from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import Dropzone from 'react-dropzone';
-import { Col } from "react-bootstrap";
-import { t } from "../../utils";
-import { Icon } from "../Icon";
-import { updateAttachment } from "../../../actions/attachmentActions";
+import {Col} from 'react-bootstrap';
+import {ConfacState} from '../../../reducers/app-state';
+import {IAttachment} from '../../../models';
+import {t} from '../../utils';
+import {Icon} from '../Icon';
+import {updateAttachment} from '../../../actions/attachmentActions';
 
 type ProposedAttachmentsProps = {
   model: IAttachment,
@@ -17,7 +17,7 @@ type ProposedAttachmentsProps = {
  * Display easier upload capability for config.attachmentTypes
  * if these attachment types have not yet been uploaded
  */
-export const ProposedAttachmentsDropzones = ({ model, modelType }: ProposedAttachmentsProps) => {
+export const ProposedAttachmentsDropzones = ({model, modelType}: ProposedAttachmentsProps) => {
   const proposedAttachmentTypes = useSelector((state: ConfacState) => state.config.attachmentTypes);
   const dispatch = useDispatch();
 
@@ -39,28 +39,26 @@ export const ProposedAttachmentsDropzones = ({ model, modelType }: ProposedAttac
 
   const onDrop = (uploaded: File, attachmentType: string): void => {
     // console.log('uploaded', attachmentType, uploaded);
-    dispatch(updateAttachment(model, modelType, { file: uploaded, type: attachmentType }));
-  }
+    dispatch(updateAttachment(model, modelType, {file: uploaded, type: attachmentType}));
+  };
 
   return (
     <>
-      {extraAttachments.map((a: string) => {
-        return (
-          <Col key={a} lg={4} md={6} className="">
-            <div style={style} className="attachment">
-              <Dropzone
-                onDrop={(accepted: File[], rejected: File[]) => onDrop(accepted[0], a)}
-                multiple={false}
-                className={'tst-' + a}
-                style={{ textAlign: 'left' }}
-              >
-                <Icon fa="fa fa-file-upload" style={{ marginRight: 8 }} />
-                <span style={{ paddingBottom: 5 }}>{t('invoice.attachmentsProposed', { type: a })}</span>
-              </Dropzone>
-            </div>
-          </Col>
-        );
-      })}
+      {extraAttachments.map((a: string) => (
+        <Col key={a} lg={4} md={6} className="">
+          <div style={style} className="attachment">
+            <Dropzone
+              onDrop={(accepted: File[], rejected: File[]) => onDrop(accepted[0], a)}
+              multiple={false}
+              className={`tst-${a}`}
+              style={{textAlign: 'left'}}
+            >
+              <Icon fa="fa fa-file-upload" style={{marginRight: 8}} />
+              <span style={{paddingBottom: 5}}>{t('invoice.attachmentsProposed', {type: a})}</span>
+            </Dropzone>
+          </div>
+        </Col>
+      ))}
     </>
   );
-}
+};

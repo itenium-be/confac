@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
-import * as Control from '../../../controls';
-import InvoiceModel, { InvoiceLine } from '../../models/InvoiceModel';
+import InvoiceModel, {InvoiceLine} from '../../models/InvoiceModel';
+import {TextareaInput} from '../../../controls/form-controls/inputs/TextareaInput';
+import {NumericInput} from '../../../controls/form-controls/inputs/NumericInput';
+import {BasicMathInput} from '../../../controls/form-controls/inputs/BasicMathInput';
+import {InvoiceLineTypeSelect} from '../../controls/InvoiceLineTypeSelect';
+import {StringInput} from '../../../controls/form-controls/inputs/StringInput';
 
 type EditInvoiceDefaultLineProps = {
   index: number,
@@ -14,34 +18,31 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
     const {index, onChange, invoice, line} = this.props;
     return [
       <td key="0">
-        <Control.StringInput
+        <StringInput
           value={line.desc}
           onChange={value => onChange(invoice.updateLine(index, {desc: value}))}
           data-tst={`line-${index}-desc`}
         />
-      </td>
-      ,
+      </td>,
       <td key="1">
-        <Control.InvoiceLineTypeSelect
+        <InvoiceLineTypeSelect
           label={null}
           value={line.type}
           onChange={value => onChange(invoice.updateLine(index, {type: value}))}
           data-tst={`line-${index}-type`}
         />
-      </td>
-      ,
+      </td>,
       <td key="2">
-        <Control.BasicMathInput
+        <BasicMathInput
           float
           allowHours={line.type === 'hourly'}
           value={line.amount}
           onChange={value => onChange(invoice.updateLine(index, {amount: value}))}
           data-tst={`line-${index}-amount`}
         />
-      </td>
-      ,
+      </td>,
       <td key="3">
-        <Control.BasicMathInput
+        <BasicMathInput
           prefix="€"
           addOnMinWidth={925}
           float
@@ -49,10 +50,9 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
           onChange={value => onChange(invoice.updateLine(index, {price: value}))}
           data-tst={`line-${index}-price`}
         />
-      </td>
-      ,
+      </td>,
       <td key="4">
-        <Control.NumericInput
+        <NumericInput
           suffix="%"
           addOnMinWidth={925}
           float
@@ -60,16 +60,15 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
           onChange={value => onChange(invoice.updateLine(index, {tax: value}))}
           data-tst={`line-${index}-tax`}
         />
-      </td>
-      ,
+      </td>,
       <td key="5">
-        <Control.TextareaInput
+        <TextareaInput
           style={{height: 35}}
           value={line.notes}
           onChange={(value: string) => onChange(invoice.updateLine(index, {notes: value}))}
           data-tst={`line-${index}-notes`}
         />
-      </td>
+      </td>,
     ];
   }
 }

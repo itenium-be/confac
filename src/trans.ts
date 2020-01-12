@@ -291,14 +291,14 @@ const trans = {
   },
 };
 
-export default function(key: string, params?: object): string {
+export default function (key: string, params?: object): string {
   let str: any;
   if (key.indexOf('.') === -1) {
     str = trans[key];
   } else {
     str = key.split('.').reduce((o, i) => {
       if (!o[i]) {
-        console.log(`trans.ts: Could not find '${key}' on`, o);
+        console.log(`trans.ts: Could not find '${key}' on`, o); // eslint-disable-line
         return key;
       }
       return o[i];
@@ -313,7 +313,7 @@ export default function(key: string, params?: object): string {
     return str.replace('{}', params);
   }
   if (typeof params === 'object') {
-    Object.keys(params).forEach(function(paramKey) {
+    Object.keys(params).forEach(paramKey => {
       str = str.replace(`{${paramKey}}`, params[paramKey]);
     });
   }

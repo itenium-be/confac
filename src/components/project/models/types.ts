@@ -1,5 +1,5 @@
 import {Moment} from 'moment';
-import {ConsultantModel} from '../../consultant/models';
+import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
 
 export interface ProjectModel {

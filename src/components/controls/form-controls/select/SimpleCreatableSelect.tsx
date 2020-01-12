@@ -1,7 +1,7 @@
-import { SelectItem } from "../../../../models";
-import Creatable from "react-select/creatable";
-import React from "react";
-import { t } from "../../../utils";
+import Creatable from 'react-select/creatable';
+import React from 'react';
+import {SelectItem} from '../../../../models';
+import {t} from '../../../utils';
 
 
 export type SimpleCreatableSelectProps = {
@@ -12,23 +12,23 @@ export type SimpleCreatableSelectProps = {
 };
 
 
-export const SimpleCreatableSelect = ({ options, value, onChange, isClearable = false, ...props }: SimpleCreatableSelectProps) => {
+export const SimpleCreatableSelect = ({options, value, onChange, isClearable = false, ...props}: SimpleCreatableSelectProps) => {
   const opts: SelectItem[] = options.map((itm: string) => ({
     label: itm,
-    value: itm
+    value: itm,
   }));
 
   return (
     <Creatable
-      value={{ label: value, value: value }}
+      value={{label: value, value}}
       options={opts}
       onChange={itm => onChange(itm && (itm as SelectItem).value)}
       isClearable={isClearable}
       multi={false}
       noOptionsMessage={() => t('controls.noResultsText')}
-      formatCreateLabel={itm => t('controls.addLabelText', { value: itm })}
+      formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
       placeholder={t('controls.selectPlaceholder')}
-      className={'tst-' + props['data-tst']}
+      className={`tst-${props['data-tst']}`}
     />
   );
 };

@@ -1,5 +1,5 @@
-import { ConfigModel } from "./ConfigModel";
-import { getNewEmail } from "../../controls/email/getNewEmail";
+import {ConfigModel} from './ConfigModel';
+import {getNewEmail} from '../../controls/email/getNewEmail';
 
 export const defaultConfig: ConfigModel = {
   company: {
@@ -13,7 +13,7 @@ export const defaultConfig: ConfigModel = {
     bic: '',
     telephone: '',
     email: '',
-    website: ''
+    website: '',
   },
   defaultClient: null,
   template: 'example-1.pug',

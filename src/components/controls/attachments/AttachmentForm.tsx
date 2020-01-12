@@ -1,6 +1,6 @@
-import React from "react";
-import { IAttachment, Attachment } from "../../../models";
-import { AttachmentDownloadIcon, getAttachmentDownloadUrl } from "../../controls";
+import React from 'react';
+import {IAttachment, Attachment} from '../../../models';
+import {AttachmentDownloadIcon, getAttachmentDownloadUrl} from './AttachmentDownloadIcon';
 
 type AttachmentFormProps = {
   attachment: Attachment,
@@ -9,24 +9,22 @@ type AttachmentFormProps = {
   children?: any
 }
 
-export const AttachmentForm = ({model, modelType, attachment, children}: AttachmentFormProps) => {
-  return (
-    <div className="attachment">
-      <div className="icon">
-        <AttachmentDownloadIcon
-          model={model}
-          attachment={attachment}
-          modelType={modelType}
-          data-tst={`att-download-${attachment.type}`}
-        />
-      </div>
-      <div className="info">
-        {attachment.type}
-        <a href={getAttachmentDownloadUrl(model, attachment, modelType)} className="fileName">
-          {attachment.fileName}
-        </a>
-      </div>
-      {children}
+export const AttachmentForm = ({model, modelType, attachment, children}: AttachmentFormProps) => (
+  <div className="attachment">
+    <div className="icon">
+      <AttachmentDownloadIcon
+        model={model}
+        attachment={attachment}
+        modelType={modelType}
+        data-tst={`att-download-${attachment.type}`}
+      />
     </div>
-  )
-}
+    <div className="info">
+      {attachment.type}
+      <a href={getAttachmentDownloadUrl(model, attachment, modelType)} className="fileName">
+        {attachment.fileName}
+      </a>
+    </div>
+    {children}
+  </div>
+);

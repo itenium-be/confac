@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { t } from '../../utils';
-import { SimpleSelect } from '../../controls/form-controls/select/SimpleSelect';
-import { invoiceDateStrategies } from '../models/invoice-date-strategy';
-import { InvoiceDateStrategy } from '../../../models';
+import React from 'react';
+import {t} from '../../utils';
+import {SimpleSelect} from '../../controls/form-controls/select/SimpleSelect';
+import {invoiceDateStrategies} from '../models/invoice-date-strategy';
+import {InvoiceDateStrategy} from '../../../models';
 
 
 type InvoiceDateStrategySelectProps = {
@@ -10,21 +10,14 @@ type InvoiceDateStrategySelectProps = {
   onChange: Function,
 }
 
-export class InvoiceDateStrategySelect extends Component<InvoiceDateStrategySelectProps> {
-  static defaultProps = { value: 'prev-month-last-day' }
-
-  render() {
-    const { value, ...props } = this.props;
-    return (
-      <SimpleSelect
-        transFn={(key: string) => t('invoice.dateStrategies.' + key)}
-        value={value}
-        options={invoiceDateStrategies}
-        isClearable={false}
-        placeholder=""
-        {...props}
-        label={t('config.defaultInvoiceDateStrategy')}
-      />
-    );
-  }
-}
+export const InvoiceDateStrategySelect = ({value = 'prev-month-last-day', ...props}: InvoiceDateStrategySelectProps) => (
+  <SimpleSelect
+    transFn={(key: string) => t(`invoice.dateStrategies.${key}`)}
+    value={value}
+    options={invoiceDateStrategies}
+    isClearable={false}
+    placeholder=""
+    {...props}
+    label={t('config.defaultInvoiceDateStrategy')}
+  />
+);

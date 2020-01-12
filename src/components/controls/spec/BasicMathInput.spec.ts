@@ -1,4 +1,4 @@
-import { basicMath } from "../form-controls/inputs/BasicMathInput";
+import {basicMath} from '../form-controls/inputs/BasicMathInput';
 
 describe('BasicMathInput', () => {
   it('Replaces comma to dot', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactSwitch from 'react-ios-switch';
-import { BaseInputProps } from './inputs/BaseInput';
+import {BaseInputProps} from './inputs/BaseInput';
 
 type SwitchProps = BaseInputProps<boolean> & {
   onColor?: string,

@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { t } from '../../utils';
-import { FormLabel, FormGroup, Alert } from 'react-bootstrap';
-import { Popup, SimpleCreatableSelect, PopupButton } from '../../controls';
-import { Attachment } from '../../../models';
-import { ConfacState } from '../../../reducers/app-state';
-import { AttachmentDropzone } from './AttachmentDropzone';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {FormLabel, FormGroup, Alert} from 'react-bootstrap';
+import {t} from '../../utils';
+import {Attachment} from '../../../models';
+import {ConfacState} from '../../../reducers/app-state';
+import {AttachmentDropzone} from './AttachmentDropzone';
+import {PopupButton, Popup} from '../Popup';
+import {SimpleCreatableSelect} from '../form-controls/select/SimpleCreatableSelect';
 
 
 type AddAttachmentPopupProps = {
   attachments: Attachment[],
   onClose: (...args: any[]) => any,
-  onAdd: ({ file: File, type: string }) => void,
+  onAdd: ({file: File, type: string}) => void,
   attachmentTypes: string[],
   isOpen: boolean,
 }
@@ -40,7 +41,7 @@ class AddAttachmentPopupComponent extends Component<AddAttachmentPopupProps, Add
       return null;
     }
 
-    const { attachments, onClose } = this.props;
+    const {attachments, onClose} = this.props;
     const currentType = this.state.type;
     const canAdd = currentType && !attachments.map(a => a.type.toUpperCase()).includes(currentType.toUpperCase());
 
@@ -61,7 +62,7 @@ class AddAttachmentPopupComponent extends Component<AddAttachmentPopupProps, Add
           <SimpleCreatableSelect
             value={currentType}
             options={this.props.attachmentTypes}
-            onChange={(text: string) => this.setState({ type: text })}
+            onChange={(text: string) => this.setState({type: text})}
             data-tst="add-att-type"
           />
         </FormGroup>
@@ -70,7 +71,7 @@ class AddAttachmentPopupComponent extends Component<AddAttachmentPopupProps, Add
           <Alert variant="danger" data-tst="add-att-type-warning">{t('attachment.typeExists')}</Alert>
         ) : null}
 
-        <AttachmentDropzone onAdd={(file: File) => this.setState({ file })} />
+        <AttachmentDropzone onAdd={(file: File) => this.setState({file})} />
       </Popup>
     );
   }

@@ -1,8 +1,8 @@
-import React from "react";
-import { StringsSelect } from "../form-controls/select/StringsSelect";
-import { BaseInputProps } from "../form-controls/inputs/BaseInput";
-import { useSelector } from "react-redux";
-import { ConfacState } from "../../../reducers/app-state";
+import React from 'react';
+import {useSelector} from 'react-redux';
+import {StringsSelect} from '../form-controls/select/StringsSelect';
+import {BaseInputProps} from '../form-controls/inputs/BaseInput';
+import {ConfacState} from '../../../reducers/app-state';
 
 export type AttachmentsTypeSelectProps = BaseInputProps<string[]>
 

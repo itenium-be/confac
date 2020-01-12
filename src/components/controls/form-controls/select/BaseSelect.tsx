@@ -1,8 +1,8 @@
 import React from 'react';
 import Select from 'react-select';
-import { t } from '../../../utils';
-import { EnhanceInputWithLabel } from '../../../enhancers/EnhanceInputWithLabel';
-import { SelectItem } from '../../../../models';
+import {t} from '../../../utils';
+import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
+import {SelectItem} from '../../../../models';
 
 
 type BaseSelect = {
@@ -18,7 +18,7 @@ export const BaseSelect = EnhanceInputWithLabel((props: BaseSelect) => (
   <Select
     noOptionsMessage={() => t('controls.noResultsText')}
     placeholder={t('controls.selectPlaceholder')}
-    className={'tst-' + props['data-tst']}
+    className={`tst-${props['data-tst']}`}
     {...props}
   />
 ));

@@ -1,13 +1,13 @@
-import InvoiceListModel from '../models/InvoiceListModel';
 import moment from 'moment';
+import InvoiceListModel from '../models/InvoiceListModel';
 import InvoiceModel from '../models/InvoiceModel';
-import { InvoiceFilters } from '../../../models';
+import {InvoiceFilters} from '../../../models';
 
 
 describe('InvoiceListModel', () => {
   it('filters with last x days', () => {
     const filters: InvoiceFilters = {
-      search: [{ value: 'last 1 days', label: 'last 1 days', type: 'manual_input' }],
+      search: [{value: 'last 1 days', label: 'last 1 days', type: 'manual_input'}],
       groupedByMonth: false,
     } as InvoiceFilters;
     const today = () => moment().startOf('day');
@@ -27,7 +27,7 @@ describe('InvoiceListModel', () => {
 
   it('filters with last x days no longer shows unverified too', () => {
     const filters: InvoiceFilters = {
-      search: [{ value: 'last 1 days', label: 'last 1 days', type: 'manual_input' }],
+      search: [{value: 'last 1 days', label: 'last 1 days', type: 'manual_input'}],
       groupedByMonth: false,
     } as InvoiceFilters;
     const invoices = [
@@ -43,7 +43,7 @@ describe('InvoiceListModel', () => {
 
   it('filters with free text in invoice lines', () => {
     const filters: InvoiceFilters = {
-      search: [{ value: 'koen', label: 'koen', type: 'manual_input' }],
+      search: [{value: 'koen', label: 'koen', type: 'manual_input'}],
       groupedByMonth: false,
     } as InvoiceFilters;
 
@@ -54,7 +54,7 @@ describe('InvoiceListModel', () => {
 
     const invoices = [
       {_id: '', lines: [{desc: 'Prestaties Koen'}], client: emptyClient, orderNr: '', number: 5, date: moment(), money: {}} as InvoiceModel,
-      {_id: '', lines: [{ desc: 'Prestaties Ilse' }], client: emptyClient, orderNr: '', number: 6, date: moment(), money: {}} as InvoiceModel,
+      {_id: '', lines: [{desc: 'Prestaties Ilse'}], client: emptyClient, orderNr: '', number: 6, date: moment(), money: {}} as InvoiceModel,
     ];
     const vm = new InvoiceListModel(invoices, [], filters, true);
 

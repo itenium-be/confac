@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { ACTION_TYPES } from './utils/ActionTypes';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
+import {ACTION_TYPES} from './utils/ActionTypes';
 import t from '../trans';
-import { InvoiceFilters, ProjectFilters } from '../models';
+import {InvoiceFilters, ProjectFilters} from '../models';
 
 type ToastType = 'error' | 'success';
 
@@ -23,8 +23,8 @@ type ToastMessageProps = {
   type: ToastType,
 }
 
-const ToastMessage = ({ msg, title, type }: ToastMessageProps) => (
-  <div className={'reapop ' + type}>
+const ToastMessage = ({msg, title, type}: ToastMessageProps) => (
+  <div className={`reapop ${type}`}>
     <div className="icon">
       <i className={getIcon(type)} />
     </div>
@@ -39,7 +39,7 @@ const ToastMessage = ({ msg, title, type }: ToastMessageProps) => (
 export function success(msg = '', title = '', timeout = 2000): void {
   toast(
     <ToastMessage msg={msg} title={title || t('toastrSuccessTitle')} type="success" />,
-    { autoClose: timeout, position: toast.POSITION.BOTTOM_RIGHT }
+    {autoClose: timeout, position: toast.POSITION.BOTTOM_RIGHT},
   );
 }
 
@@ -51,30 +51,28 @@ export function failure(msg = '', title = '', timeout = 4000, position?: Positio
       title={title || t('toastrFailureTitle')}
       type="error"
     />,
-    { autoClose: timeout, position: (position || toast.POSITION.TOP_CENTER as any) }
+    {autoClose: timeout, position: (position || toast.POSITION.TOP_CENTER as any)},
   );
 }
 
 
 
 export function busyToggle() {
-  return { type: ACTION_TYPES.APP_BUSYTOGGLE, why: 'moreBusy' };
+  return {type: ACTION_TYPES.APP_BUSYTOGGLE, why: 'moreBusy'};
 }
-busyToggle.off = function () {
-  return { type: ACTION_TYPES.APP_BUSYTOGGLE, why: 'lessBusy' };
-};
+busyToggle.off = () => ({type: ACTION_TYPES.APP_BUSYTOGGLE, why: 'lessBusy'});
 
 
 export function updateInvoiceFilters(filters: InvoiceFilters) {
   return {
     type: ACTION_TYPES.APP_INVOICE_FILTERSUPDATED,
-    filters
+    filters,
   };
 }
 
 export function updateProjectFilters(filters: ProjectFilters) {
   return {
     type: ACTION_TYPES.APP_PROJECT_FILTERUPDATED,
-    filters
+    filters,
   };
 }

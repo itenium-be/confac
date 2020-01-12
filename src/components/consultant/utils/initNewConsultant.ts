@@ -1,9 +1,9 @@
-import { ConsultantModel } from "../models";
+import {ConsultantModel} from '../models/ConsultantModel';
 
 export const initNewConsultant = (): ConsultantModel => ({
-  name: "",
-  firstName: "",
-  type: "consultant",
-  email: "",
-  telephone: ""
-})
+  name: '',
+  firstName: '',
+  type: 'consultant',
+  email: '',
+  telephone: '',
+});

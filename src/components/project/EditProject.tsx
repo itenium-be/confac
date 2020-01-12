@@ -2,17 +2,18 @@ import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Form, Col} from 'react-bootstrap';
 import {useHistory} from 'react-router-dom';
-
 import {ConfacState} from '../../reducers/app-state';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
-import {ProjectModel, projectFormConfig} from './models';
-import {BusyButton, Button} from '../controls';
 import {ConsultantModal} from '../consultant/controls/ConsultantModal';
-import {ConsultantSearchSelect} from './controls';
 import {saveProject} from '../../actions';
 import {StickyFooter} from '../controls/skeleton/StickyFooter';
-import {ConsultantModel} from '../consultant/models';
+import {ConsultantModel} from '../consultant/models/ConsultantModel';
+import {ConsultantSearchSelect} from './controls/ConsultantSearchSelect';
+import {Button} from '../controls/form-controls/Button';
+import {BusyButton} from '../controls/form-controls/BusyButton';
+import {ProjectModel} from './models/types';
+import {projectFormConfig} from './models/ProjectFormConfig';
 
 interface EditProjectProps {
   saveProject: (project: ProjectModel, history: any) => void;
@@ -85,9 +86,9 @@ const EditProject = (props: EditProjectProps) => {
 const mapStateToProps = (state: ConfacState) => {
   const sortConsultantsByCreatedOn = (consultants: ConsultantModel[]): ConsultantModel[] => {
     if (consultants && consultants.length) {
-      return consultants.sort((a: ConsultantModel, b: ConsultantModel) => {
-        return +new Date(a.createdOn as string) - +new Date(b.createdOn as string);
-      });
+      return consultants.sort(
+        (a: ConsultantModel, b: ConsultantModel) => +new Date(a.createdOn as string) - +new Date(b.createdOn as string),
+      );
     }
     return [];
   };

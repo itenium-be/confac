@@ -1,5 +1,5 @@
-import { EditClientRateType, InvoiceDateStrategy, IAttachment, Attachment, SelectItem } from "../../../models";
-import { EmailModel } from "../../controls/email/EmailModels";
+import {EditClientRateType, InvoiceDateStrategy, IAttachment, Attachment, SelectItem} from '../../../models';
+import {EmailModel} from '../../controls/email/EmailModels';
 
 export type ClientRateModel = {
   type: EditClientRateType,

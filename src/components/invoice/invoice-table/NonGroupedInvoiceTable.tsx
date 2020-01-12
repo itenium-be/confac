@@ -2,7 +2,7 @@ import React from 'react';
 import {Table} from 'react-bootstrap';
 import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from '../invoice-list/InvoiceListRow';
 import {getColumns} from './invoice-list-column-factory';
-import { ConfigModel } from '../../config/models/ConfigModel';
+import {ConfigModel} from '../../config/models/ConfigModel';
 import InvoiceListModel from '../models/InvoiceListModel';
 
 export const NonGroupedInvoiceTable = ({vm, config}: {vm: InvoiceListModel, config: ConfigModel}) => {

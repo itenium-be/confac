@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Row, Col} from 'react-bootstrap';
-import { InvoiceFiltersSearch, InvoiceFilters } from '../../../models';
-import { SearchStringInput } from '../../controls/form-controls/inputs/SearchStringInput';
-import { InvoiceSearchSelect } from '../controls/InvoiceSearchSelect';
+import {InvoiceFiltersSearch, InvoiceFilters} from '../../../models';
+import {SearchStringInput} from '../../controls/form-controls/inputs/SearchStringInput';
+import {InvoiceSearchSelect} from '../controls/InvoiceSearchSelect';
 
 
 type QuotationSearchProps = {
@@ -14,7 +14,7 @@ type QuotationSearchProps = {
 
 export class QuotationSearch extends Component<QuotationSearchProps> {
   onFilterChange(updateObj: any) {
-    const newFilter: InvoiceFilters = Object.assign({}, this.props.filters, updateObj);
+    const newFilter: InvoiceFilters = {...this.props.filters, ...updateObj};
     this.props.onChange(newFilter);
   }
 

@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { t } from '../utils';
-import * as Control from '../controls';
-import { Container, Table, Row, Col } from 'react-bootstrap';
-import ClientListRow, { ClientListHeader } from './ClientListRow';
-import { updateInvoiceFilters } from '../../actions/index';
-import { getInvoiceYears } from '../invoice/models/InvoiceListModel';
-import { ClientModel } from './models/ClientModels';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Container, Table, Row, Col} from 'react-bootstrap';
+import {t} from '../utils';
+import ClientListRow, {ClientListHeader} from './ClientListRow';
+import {updateInvoiceFilters} from '../../actions/index';
+import {getInvoiceYears} from '../invoice/models/InvoiceListModel';
+import {ClientModel} from './models/ClientModels';
 import InvoiceModel from '../invoice/models/InvoiceModel';
-import { ConfacState } from '../../reducers/app-state';
-import { SearchStringInput } from '../controls/form-controls/inputs/SearchStringInput';
-import { InvoiceFilters } from '../../models';
-import { searchClientFor } from "./models/searchClientFor";
+import {ConfacState} from '../../reducers/app-state';
+import {SearchStringInput} from '../controls/form-controls/inputs/SearchStringInput';
+import {InvoiceFilters} from '../../models';
+import {searchClientFor} from './models/searchClientFor';
+import {Switch} from '../controls/form-controls/Switch';
+import {YearsSelect} from '../controls/form-controls/select/YearsSelect';
+import {AddIcon} from '../controls/Icon';
 
 type ClientListProps = {
   invoices: InvoiceModel[],
@@ -27,13 +29,13 @@ type ClientListState = {
 class ClientList extends Component<ClientListProps, ClientListState> {
   constructor(props: any) {
     super(props);
-    this.state = { showDeleted: false };
+    this.state = {showDeleted: false};
   }
 
   render() {
-    const { invoices, filters } = this.props;
+    const {invoices, filters} = this.props;
 
-    var clients = this.props.clients;
+    let {clients} = this.props;
     if (!this.state.showDeleted) {
       clients = clients.filter(c => c.active);
     }
@@ -42,7 +44,7 @@ class ClientList extends Component<ClientListProps, ClientListState> {
       clients = clients.filter(c => searchClientFor(c, freeTextFilter));
     }
 
-    var filteredInvoices = invoices;
+    let filteredInvoices = invoices;
     if (filters.clientListYears.length !== 0) {
       filteredInvoices = filteredInvoices.filter(i => filters.clientListYears.includes(i.date.year()));
     }
@@ -52,26 +54,26 @@ class ClientList extends Component<ClientListProps, ClientListState> {
         <h1>{t('nav.clients')}</h1>
         <Row>
           <Col lg={3} md={12}>
-            <Control.AddIcon onClick="/clients/create" label={t('client.createNew')} data-tst="new-client" />
+            <AddIcon onClick="/clients/create" label={t('client.createNew')} data-tst="new-client" />
           </Col>
           <Col lg={3} md={6}>
             <SearchStringInput
               value={filters.freeClient}
-              onChange={str => this.props.updateInvoiceFilters({ ...filters, freeClient: str })}
+              onChange={str => this.props.updateInvoiceFilters({...filters, freeClient: str})}
             />
           </Col>
           <Col lg={3} md={6}>
-            <Control.YearsSelect
+            <YearsSelect
               values={filters.clientListYears}
               years={getInvoiceYears(invoices)}
-              onChange={(values: number[]) => this.props.updateInvoiceFilters({ ...filters, clientListYears: values || [] })}
+              onChange={(values: number[]) => this.props.updateInvoiceFilters({...filters, clientListYears: values || []})}
               data-tst="filter-years"
             />
           </Col>
           <Col lg={3} md={12}>
-            <Control.Switch
+            <Switch
               value={this.state.showDeleted}
-              onChange={(checked: boolean) => this.setState({ showDeleted: checked })}
+              onChange={(checked: boolean) => this.setState({showDeleted: checked})}
               label={t('client.showInactive')}
               onColor="#F2DEDE"
             />
@@ -79,7 +81,7 @@ class ClientList extends Component<ClientListProps, ClientListState> {
         </Row>
 
 
-        <Table size="sm" style={{ marginTop: 10 }}>
+        <Table size="sm" style={{marginTop: 10}}>
           <ClientListHeader />
           <tbody>
             {clients.sort((a, b) => a.name.localeCompare(b.name)).map(client => (
@@ -96,4 +98,4 @@ export default connect((state: ConfacState) => ({
   clients: state.clients,
   invoices: state.invoices,
   filters: state.app.invoiceFilters,
-}), { updateInvoiceFilters })(ClientList);
+}), {updateInvoiceFilters})(ClientList);

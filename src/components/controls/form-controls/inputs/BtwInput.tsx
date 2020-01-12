@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { BaseInputProps } from "./BaseInput";
-import { StringInput } from "./StringInput";
-import { EnhanceInputWithLabel } from "../../../enhancers/EnhanceInputWithLabel";
-import { EnhanceInputWithAddons } from "../../../enhancers/EnhanceInputWithAddons";
-import { t } from "../../../utils";
-import { Icon } from "../../Icon";
-import { buildUrl } from "../../../../actions/utils/fetch";
-import { Button } from "react-bootstrap";
-import { useDebouncedCallback } from 'use-debounce';
+import React, {useState} from 'react';
+import {Button} from 'react-bootstrap';
+import {useDebouncedCallback} from 'use-debounce';
 import cn from 'classnames';
+import {BaseInputProps} from './BaseInput';
+import {StringInput} from './StringInput';
+import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
+import {EnhanceInputWithAddons} from '../../../enhancers/EnhanceInputWithAddons';
+import {t} from '../../../utils';
+import {Icon} from '../../Icon';
+import {buildUrl} from '../../../../actions/utils/fetch';
 
 /** Default to this country code if none provided */
 const DefaultBtwCountry = 'BE';
@@ -33,7 +33,7 @@ type BtwInputProps = BaseInputProps<string> & {
 
 const BtwInRequest = t('taxRequest');
 
-const BtwInputComponent = ({ value, onChange, onBtwChange, onFinalize, ...props }: BtwInputProps) => {
+const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}: BtwInputProps) => {
   const [inputValue, setInputValue] = useState(value || '');
   const [loading, setLoading] = useState(false);
   const [valid, setValid] = useState(false);
@@ -95,13 +95,13 @@ const BtwInputComponent = ({ value, onChange, onBtwChange, onFinalize, ...props 
           <Button variant="success" onClick={() => onFinalize(formattedBtw, btwRes)}>{t('client.createNewButton')}</Button>
         </>
       )}
-      suffixOptions={{ type: 'button' }}
+      suffixOptions={{type: 'button'}}
       onBlur={() => onInputChange(formattedBtw)}
       {...props}
       placeholder={onBtwChange ? t('client.createNewBtwPlaceholder') : t('client.btwPlaceholder')}
     />
   );
-}
+};
 
 export const BtwInput = EnhanceInputWithLabel(EnhanceInputWithAddons(BtwInputComponent));
 
@@ -120,6 +120,7 @@ export type BtwResponse = {
   address: {
     street: string,
     number: string,
+    // eslint-disable-next-line camelcase
     zip_code: string,
     city: string,
     country: string,
@@ -149,7 +150,7 @@ export function parseBtw(str: string): string {
     btw = DefaultBtwCountry + btw;
   }
   if (!/^[A-Z]{2}[A-Z0-9]{8,12}$/.test(btw)) {
-    return str;
+    return btw;
   }
 
   if (btw.startsWith('BE') && btw.length < 12) {
@@ -163,6 +164,4 @@ export function parseBtw(str: string): string {
  * Formats to "BE 0123.456.789"
  * Expects input to be in "BE0123456789"
  */
-export const formatBtw = (str: string): string => {
-  return str.replace(/(\w{2})(\d{4})(\d{3})(\d{3})/, '$1 $2.$3.$4');
-}
+export const formatBtw = (str: string): string => str.replace(/(\w{2})(\d{4})(\d{3})(\d{3})/, '$1 $2.$3.$4');

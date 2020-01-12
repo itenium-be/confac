@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { ClientModel } from "./models/ClientModels";
-import { Container, Row, Form, Col } from "react-bootstrap";
-import { t } from "../utils";
-import { BtwInput, BtwResponse, formatBtw } from "../controls/form-controls/inputs/BtwInput";
+import React, {useState} from 'react';
+import {Container, Row, Form, Col} from 'react-bootstrap';
+import {ClientModel} from './models/ClientModels';
+import {t} from '../utils';
+import {BtwInput, BtwResponse, formatBtw} from '../controls/form-controls/inputs/BtwInput';
 
 type NewClientProps = {
   client: ClientModel,
@@ -39,18 +39,20 @@ export const NewClient = (props: NewClientProps) => {
               value={btw}
               onChange={(val: string) => setBtw(val)}
               onBtwChange={onBtwChange}
-              onFinalize={(btw: string) => client ? props.onChange(client) : props.onChange({ btw: btw || ' ' } as ClientModel)}
+              onFinalize={(val: string) => (client ? props.onChange(client) : props.onChange({btw: val || ' '} as ClientModel))}
             />
           </Col>
         </Row>
-        {client && <Row style={{ marginTop: 25 }}>
+        {client && (
+        <Row style={{marginTop: 25}}>
           <Col md={6} sm={12}>
             <h3>{client.name}</h3>
             <div>{client.address}</div>
             <div>{client.city}</div>
           </Col>
-        </Row>}
+        </Row>
+        )}
       </Form>
     </Container>
   );
-}
+};

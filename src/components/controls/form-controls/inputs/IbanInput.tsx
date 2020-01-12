@@ -1,7 +1,7 @@
-import React from "react";
-import { BaseInput, BaseInputProps } from "./BaseInput";
-import { Icon } from "../../Icon";
+import React from 'react';
 import Iban from 'iban';
+import {BaseInput, BaseInputProps} from './BaseInput';
+import {Icon} from '../../Icon';
 
 type IbanInputProps = BaseInputProps<string>;
 

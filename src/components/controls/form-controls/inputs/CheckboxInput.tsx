@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {/*EnhanceInputWithLabel, */EnhanceInputWithLabelProps} from '../../../enhancers/EnhanceInputWithLabel';
+import {/* EnhanceInputWithLabel, */EnhanceInputWithLabelProps} from '../../../enhancers/EnhanceInputWithLabel';
 
 export type BaseInputProps<TReturn> = EnhanceInputWithLabelProps & {
   value?: boolean,
@@ -7,7 +7,8 @@ export type BaseInputProps<TReturn> = EnhanceInputWithLabelProps & {
   style?: React.CSSProperties,
 }
 
-export const CheckboxInput = /*EnhanceInputWithLabel(*/class extends Component<BaseInputProps<any>> {
+// eslint-disable-next-line react/prefer-stateless-function
+export const CheckboxInput = /* EnhanceInputWithLabel( */class extends Component<BaseInputProps<any>> {
   render() {
     const {value, label, onChange, ...props} = this.props;
     return (
@@ -22,4 +23,4 @@ export const CheckboxInput = /*EnhanceInputWithLabel(*/class extends Component<B
       </div>
     );
   }
-}/*)*/;
+}/* ) */;

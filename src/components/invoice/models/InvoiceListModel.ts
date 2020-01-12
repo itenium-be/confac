@@ -1,10 +1,10 @@
 import moment from 'moment';
-import InvoiceModel from '../models/InvoiceModel';
-import { ClientModel } from '../../client/models/ClientModels';
-import { InvoiceFilters, InvoiceFiltersSearch } from '../../../models';
-import { searchClientFor } from '../../client/models/searchClientFor';
-import { getMoney } from '../../controls';
-import { t, searchinize, formatDate } from '../../utils';
+import InvoiceModel from './InvoiceModel';
+import {ClientModel} from '../../client/models/ClientModels';
+import {InvoiceFilters, InvoiceFiltersSearch} from '../../../models';
+import {searchClientFor} from '../../client/models/searchClientFor';
+import {t, searchinize, formatDate} from '../../utils';
+import {getMoney} from '../../controls/form-controls/inputs/BasicMathInput';
 
 
 function transformFilters(search: InvoiceFiltersSearch[], freeText: string): TransformedInvoiceFilters {
@@ -19,7 +19,7 @@ function transformFilters(search: InvoiceFiltersSearch[], freeText: string): Tra
     directInvoiceNrs: transformFn('invoice-nr') as number[],
     years: transformFn('year') as number[],
     clients: transformFn('client') as string[],
-    other: other,
+    other,
   };
 }
 
@@ -34,9 +34,13 @@ type TransformedInvoiceFilters = {
 /** Model used for filtering the InvoiceList */
 export default class InvoiceListModel {
   invoices: InvoiceModel[];
+
   clients: ClientModel[];
+
   hasFilters: boolean;
+
   fs: TransformedInvoiceFilters;
+
   isQuotation: boolean;
 
   constructor(invoices: InvoiceModel[], clients: ClientModel[], filters: InvoiceFilters, isQuotation: boolean) {
@@ -49,35 +53,35 @@ export default class InvoiceListModel {
 
   /** Get all Select.Creatable option suggestions */
   getFilterOptions(): InvoiceFiltersSearch[] {
-    var options: InvoiceFiltersSearch[] = [
-      { value: 'unverifiedOnly', label: t('invoice.notVerifiedOnly'), type: 'manual_input' },
-      { value: 'from d/m/yyyy', label: 'from d/m/yyyy', type: 'manual_input' },
-      { value: 'between d/m/yyyy and d/m/yyyy', label: 'between d/m/yyyy and d/m/yyyy', type: 'manual_input' },
-      { value: 'last x days|months|years', label: 'last x days|months|years', type: 'manual_input' },
+    let options: InvoiceFiltersSearch[] = [
+      {value: 'unverifiedOnly', label: t('invoice.notVerifiedOnly'), type: 'manual_input'},
+      {value: 'from d/m/yyyy', label: 'from d/m/yyyy', type: 'manual_input'},
+      {value: 'between d/m/yyyy and d/m/yyyy', label: 'between d/m/yyyy and d/m/yyyy', type: 'manual_input'},
+      {value: 'last x days|months|years', label: 'last x days|months|years', type: 'manual_input'},
     ];
 
     const manualFilteredInvoices = this.filterByDescription(this.invoices);
 
     // Add options: years
     const invoiceYears = getInvoiceYears(manualFilteredInvoices).sort((a, b) => b - a);
-    options = options.concat(invoiceYears.map(year => ({ value: year, label: year, type: 'year' })));
+    options = options.concat(invoiceYears.map(year => ({value: year, label: year, type: 'year'})));
 
     // Add options: clients
     const clientIds = this.invoices.map(i => i.client._id);
     const relevantClients = this.clients.filter(c => clientIds.includes(c._id));
-    options = options.concat(relevantClients.map(client => ({ value: client._id, label: client.name, type: 'client' })));
+    options = options.concat(relevantClients.map(client => ({value: client._id, label: client.name, type: 'client'})));
 
     return options;
   }
 
   /** Filter the invoices with the TransformedInvoiceFilters (what a bad idea that turned out to be) */
   getFilteredInvoices(): InvoiceModel[] {
-    const fs = this.fs;
+    const {fs} = this;
     if (fs.directInvoiceNrs.length) {
       return this.invoices.filter(i => fs.directInvoiceNrs.includes(i.number));
     }
 
-    var invoices = this.invoices;
+    let {invoices} = this;
     if (this.hasFilters) {
       if (fs.years.length) {
         invoices = invoices.filter(i => fs.years.includes(i.date.year()));
@@ -97,7 +101,8 @@ export default class InvoiceListModel {
    * Searches all common invoice fields
    * Plus some special searches: 'last x days', 'from 14/8/2019', 'unverifiedOnly', ...
    */
-  private filterByDescription(invoices: InvoiceModel[]): InvoiceModel[] {
+  private filterByDescription(input: InvoiceModel[]): InvoiceModel[] {
+    let invoices = input;
     this.fs.other.forEach(otherFilter => {
       const lastXMonths = otherFilter.match(/last (\d+) (.*)/);
       if (lastXMonths) {
@@ -138,8 +143,8 @@ export default class InvoiceListModel {
 }
 
 /** Search the invoice id, orderNr, date, client, amounts and lineDescs for text */
-function searchInvoiceFor(invoice: InvoiceModel, text: string): boolean {
-  text = searchinize(text);
+function searchInvoiceFor(invoice: InvoiceModel, input: string): boolean {
+  const text = searchinize(input);
 
   if (searchinize(invoice._id) === text) {
     return true;
@@ -168,7 +173,7 @@ function searchInvoiceFor(invoice: InvoiceModel, text: string): boolean {
     }
   }
 
-  const money = invoice.money;
+  const {money} = invoice;
   const amounts = [money.discount, money.total, money.totalTax, money.totalWithoutTax];
   const amountUser = getMoney(text);
   if (amountUser && amounts.includes(amountUser)) {
@@ -185,7 +190,7 @@ export function getInvoiceYears(invoices: InvoiceModel[]): number[] {
   const firstInvoiceYear = moment(Math.min.apply(null, dates)).year();
   const lastInvoiceYear = moment(Math.max.apply(null, dates)).year();
 
-  var years: number[] = [];
+  const years: number[] = [];
   for (let i = firstInvoiceYear; i <= lastInvoiceYear; i++) {
     years.push(i);
   }

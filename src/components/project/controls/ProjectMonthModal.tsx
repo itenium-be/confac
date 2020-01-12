@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
-import moment, {Moment} from 'moment';
+import moment from 'moment';
 import {t} from '../../utils';
-import {Modal, BaseModalProps, DatePicker} from '../../controls';
-import {ProjectMonthModel} from '../models';
 import {saveProjectMonth} from '../../../actions';
+import {BaseModalProps, Modal} from '../../controls/Modal';
+import {ProjectMonthModel} from '../models/types';
+import {DatePicker} from '../../controls/form-controls/DatePicker';
 
 type ProjectMonthModalProps = BaseModalProps & {
   saveProjectMonth: (projectMonth: ProjectMonthModel) => void;
@@ -16,10 +17,10 @@ const _ProjectMonthModal = (props: ProjectMonthModalProps) => {
     month: moment.utc().startOf('month'),
   });
 
-  const {show, onClose, saveProjectMonth} = props;
+  const {show, onClose} = props;
 
   return (
-    <Modal show={show} onClose={onClose} title={t('project.newMonth')} onConfirm={() => saveProjectMonth(projectMonth)}>
+    <Modal show={show} onClose={onClose} title={t('project.newMonth')} onConfirm={() => props.saveProjectMonth(projectMonth)}>
       <Form>
         <Container>
           <Row>

@@ -1,15 +1,22 @@
 import React from 'react';
+import {Table} from 'react-bootstrap';
 import {groupInvoicesPerMonth} from '../models/InvoiceModel';
 
-import {Table} from 'react-bootstrap';
 import {InvoiceListHeader, InvoiceListFooter, InvoiceListRow} from '../invoice-list/InvoiceListRow';
 import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import {getColumns} from './invoice-list-column-factory';
+import {ConfigModel} from '../../config/models/ConfigModel';
+import InvoiceListModel from '../models/InvoiceListModel';
 
 
-export const GroupedInvoiceTable = ({vm, config}) => {
+type GroupedInvoiceTableProps = {
+  vm: InvoiceListModel;
+  config: ConfigModel;
+}
+
+export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
   const invoices = vm.getFilteredInvoices();
   const columns = getColumns(['date-month', 'number', 'client'], config.showOrderNr, vm.isQuotation);
   const invoicesPerMonth = groupInvoicesPerMonth(invoices).sort((a, b) => b.key.localeCompare(a.key));
@@ -34,17 +41,19 @@ export const GroupedInvoiceTable = ({vm, config}) => {
           ))}
         </tbody>,
 
-        (!vm.isQuotation && invoiceList.length > 1) ? <tbody key={key + '-group-row'} style={hideBorderStyle}>
-          <tr style={{...hideBorderStyle, height: 60}}>
-            <td style={hideBorderStyle}>&nbsp;</td>
-            <td colSpan={columns.length - 1}>
-              <strong><InvoiceAmountLabel invoices={invoiceList} data-tst={tst(key, 'invoices')} isQuotation={vm.isQuotation} /></strong>
-            </td>
-            <td><strong><InvoiceWorkedDays invoices={invoiceList} data-tst={tst(key, 'days')} /></strong></td>
-            <td><InvoicesTotal invoices={invoiceList} totalOnly data-tst={tst(key, 'money')} /></td>
-            <td>&nbsp;</td>
-          </tr>
-        </tbody> : null
+        (!vm.isQuotation && invoiceList.length > 1) ? (
+          <tbody key={`${key}-group-row`} style={hideBorderStyle}>
+            <tr style={{...hideBorderStyle, height: 60}}>
+              <td style={hideBorderStyle}>&nbsp;</td>
+              <td colSpan={columns.length - 1}>
+                <strong><InvoiceAmountLabel invoices={invoiceList} data-tst={tst(key, 'invoices')} isQuotation={vm.isQuotation} /></strong>
+              </td>
+              <td><strong><InvoiceWorkedDays invoices={invoiceList} data-tst={tst(key, 'days')} /></strong></td>
+              <td><InvoicesTotal invoices={invoiceList} totalOnly data-tst={tst(key, 'money')} /></td>
+              <td>&nbsp;</td>
+            </tr>
+          </tbody>
+        ) : null,
       ])}
 
       <InvoiceListFooter columns={columns} invoices={invoices} isQuotation={vm.isQuotation} />

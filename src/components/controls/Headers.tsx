@@ -10,16 +10,16 @@ const Header4 = ({children, ...props}: ChildrenProps) => (<h4 {...props}>{childr
 
 function getHeader(size: number): any {
   switch (size) {
-  case 1:
-    return Header1;
-  case 2:
-    return Header2;
-  case 3:
-    return Header3;
-  case 4:
-    return Header4;
-  default:
-    return Header1;
+    case 1:
+      return Header1;
+    case 2:
+      return Header2;
+    case 3:
+      return Header3;
+    case 4:
+      return Header4;
+    default:
+      return Header1;
   }
 }
 
@@ -38,9 +38,7 @@ export const HeaderWithEditIcon = ({label, onEditClick, children, editIconVisibl
       {label}
       {editIconVisible ? (
         <small>
-          {children ? (
-            children
-          ) : (
+          {children || (
             <EditIcon
               onClick={onEditClick}
               title=""

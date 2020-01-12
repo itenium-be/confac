@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { Editor } from 'react-draft-wysiwyg';
+import React, {Component} from 'react';
+import {Editor} from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState, ContentState, convertToRaw } from 'draft-js';
-import { BaseInputProps } from './BaseInput';
+import {EditorState, ContentState, convertToRaw} from 'draft-js';
 import htmlToDraft from 'html-to-draftjs';
 import draftToHtml from 'draftjs-to-html';
-import { EnhanceInputWithLabel } from '../../../enhancers/EnhanceInputWithLabel';
+import {BaseInputProps} from './BaseInput';
+import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
 
 type TextEditorProps = BaseInputProps<string>;
 type TextEditorState = {
@@ -44,12 +44,12 @@ class TextEditorComponent extends Component<TextEditorProps, TextEditorState> {
     if (html.trim() === '<p></p>') {
       html = '';
     }
-    this.setState({ editorState, defaultValue: html });
+    this.setState({editorState, defaultValue: html});
     this.props.onChange(html);
   };
 
   render() {
-    const { editorState } = this.state;
+    const {editorState} = this.state;
     return (
       <div style={{height: 300, overflowY: 'auto'}} className="form-control">
         <Editor
@@ -59,8 +59,8 @@ class TextEditorComponent extends Component<TextEditorProps, TextEditorState> {
             inline: {
               options: ['bold', 'italic', 'underline', 'strikethrough', 'monospace'],
             },
-            list: { inDropdown: true },
-            textAlign: { inDropdown: true },
+            list: {inDropdown: true},
+            textAlign: {inDropdown: true},
           }}
           editorState={editorState}
           wrapperClassName="demo-wrapper"

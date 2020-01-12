@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { SimpleSelect } from './SimpleSelect';
-import { buildUrl } from '../../../../actions/utils/fetch';
-import { failure } from '../../../../actions';
-import { t } from '../../../utils';
-import { toast } from 'react-toastify';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {toast} from 'react-toastify';
+import {SimpleSelect} from './SimpleSelect';
+import {buildUrl} from '../../../../actions/utils/fetch';
+import {failure} from '../../../../actions';
+import {t} from '../../../utils';
 
 
 type TemplatePickerProps = {
@@ -21,7 +21,7 @@ const httpGet = (url: string) => fetch(buildUrl(url));
 class TemplatePickerComponent extends Component<TemplatePickerProps, TemplatePickerState> {
   constructor(props: any) {
     super(props);
-    this.state = { templates: [] };
+    this.state = {templates: []};
   }
 
   componentDidMount() {
@@ -29,9 +29,9 @@ class TemplatePickerComponent extends Component<TemplatePickerProps, TemplatePic
       .then(res => res.json())
       .then(templates => {
         if (!templates.message) {
-          this.setState({ templates });
+          this.setState({templates});
         } else {
-          console.log('/config/templates', templates);
+          console.log('/config/templates', templates); // eslint-disable-line
           failure(t('config.company.templateLoadError'), undefined, undefined, toast.POSITION.BOTTOM_RIGHT as any);
           return Promise.reject(templates);
         }
@@ -40,7 +40,7 @@ class TemplatePickerComponent extends Component<TemplatePickerProps, TemplatePic
   }
 
   render() {
-    const { value, ...props } = this.props;
+    const {value, ...props} = this.props;
 
     let options = this.state.templates;
     if (value && options.every(x => x !== value)) {

@@ -3,17 +3,18 @@ import {connect} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {Container, Table, Row, Col} from 'react-bootstrap';
 import {t, searchinize, formatDate} from '../utils';
-import {Button, Switch} from '../controls';
 import {ConfacState} from '../../reducers/app-state';
-import {FullProjectModel} from './models';
 import ProjectsListRow, {ProjectsListHeader} from './ProjectsListRow';
-import {ConsultantModel} from '../consultant/models';
 import {ClientModel} from '../client/models/ClientModels';
 import {SearchStringInput} from '../controls/form-controls/inputs/SearchStringInput';
 import {ProjectFilters} from '../../models';
 import {updateProjectFilters} from '../../actions';
 import {ProjectReferenceResolver} from './utils/ProjectReferenceResolver';
 import {ProjectMonthModal} from './controls/ProjectMonthModal';
+import {ConsultantModel} from '../consultant/models/ConsultantModel';
+import {Switch} from '../controls/form-controls/Switch';
+import {Button} from '../controls/form-controls/Button';
+import {FullProjectModel} from './models/types';
 
 type ProjectsListProps = {
   projects: FullProjectModel[];
@@ -53,7 +54,7 @@ const ProjectsList = (props: ProjectsListProps) => {
         <Col lg={3} md={12}>
           <SearchStringInput
             value={searchFilterText}
-            onChange={searchFilterText => props.updateProjectFilters({...props.filters, searchFilterText})}
+            onChange={value => props.updateProjectFilters({...props.filters, searchFilterText: value})}
           />
         </Col>
         <Col lg={3} md={6}>

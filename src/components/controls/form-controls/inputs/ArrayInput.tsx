@@ -1,11 +1,11 @@
-import React from "react";
-import { Col } from "react-bootstrap";
-import { t } from "../../../utils";
-import { FormConfig, AnyFormConfig, ColSizes, ColSize } from "../../../../models";
-import { normalizeFormConfig } from "../lib/form-controls-util";
-import { getIconOrText, InputIcons } from "../lib/IconFactory";
-import { getComponent } from "../lib/EditComponentFactory";
-import { failure } from "../../../../actions";
+import React from 'react';
+import {Col} from 'react-bootstrap';
+import {t} from '../../../utils';
+import {FormConfig, AnyFormConfig, ColSizes, ColSize} from '../../../../models';
+import {normalizeFormConfig} from '../lib/form-controls-util';
+import {getIconOrText, InputIcons} from '../lib/IconFactory';
+import {getComponent} from '../lib/EditComponentFactory';
+import {failure} from '../../../../actions';
 
 type ArrayInputProps = {
   config: AnyFormConfig[],
@@ -15,20 +15,22 @@ type ArrayInputProps = {
 }
 
 
-export const ArrayInput = ({ config, model, onChange, tPrefix }: ArrayInputProps) => {
+export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) => {
   const result = normalizeFormConfig(config, model);
 
   return (
     <>
       {result.map((col: FormConfig, index: number) => {
-        const { key, reactKey, label, cols, component, suffix, prefix, title, ...props } = col;
+        const {key, reactKey, label, cols, component, suffix, prefix, title, ...props} = col;
         const colSizes = getColSizes(cols);
 
         if (!key) {
           if (title) {
             // TODO: Technical debt: padding-top
-            return <Col key={index} xs={12} style={{ paddingTop: 25 }}><h2>{t(title)}</h2></Col>;
+            // eslint-disable-next-line react/no-array-index-key
+            return <Col key={index} xs={12} style={{paddingTop: 25}}><h2>{t(title)}</h2></Col>;
           }
+          // eslint-disable-next-line react/no-array-index-key
           return <Col key={index} {...colSizes} />;
         }
 
@@ -37,19 +39,30 @@ export const ArrayInput = ({ config, model, onChange, tPrefix }: ArrayInputProps
           value = key.split('.').reduce((o, i) => o[i], model);
         }
 
-        const realOnChange = (value: any): void => {
+        const realOnChange = (val: any): void => {
           if (key.includes('.')) {
             if (key.indexOf('.') !== key.lastIndexOf('.')) {
-              console.error('Would need a deepMerge function for this to work!!');
-              failure('Configuration? ' + key);
+              console.error('Would need a deepMerge function for this to work!!'); // eslint-disable-line
+              failure(`Configuration? ${key}`);
               return;
             }
             const [key1, key2] = key.split('.');
-            onChange({ ...model, [key1]: { ...model[key1], [key2]: value } });
+            onChange({...model, [key1]: {...model[key1], [key2]: val}});
 
           } else {
-            onChange({ ...model, [key]: value });
+            onChange({...model, [key]: val});
           }
+        };
+
+        const getAddix = (addix: string | React.ReactNode) => {
+          if (!addix) {
+            return undefined;
+          }
+
+          if (typeof addix === 'string') {
+            return getIconOrText(addix as InputIcons);
+          }
+          return addix;
         };
 
         const EditComponent: any = getComponent(col);
@@ -58,10 +71,10 @@ export const ArrayInput = ({ config, model, onChange, tPrefix }: ArrayInputProps
             <EditComponent
               label={label === '' ? null : (label && t(label)) || t(tPrefix + key)}
               value={value}
-              onChange={(value: any) => realOnChange(value)}
+              onChange={(val: any) => realOnChange(val)}
               data-tst={tPrefix + key}
-              prefix={prefix ? (typeof prefix === 'string' ? getIconOrText(prefix as InputIcons) : prefix) : undefined}
-              suffix={suffix ? (typeof suffix === 'string' ? getIconOrText(suffix as InputIcons) : suffix) : undefined}
+              prefix={getAddix(prefix)}
+              suffix={getAddix(suffix)}
               {...props}
             />
           </Col>
@@ -77,8 +90,8 @@ const getColSizes = (cols?: number | ColSize | ColSizes): ColSizes => {
   const defaultLg = 4;
   const defaultSm = 6;
   const defaultConfig = {
-    lg: { span: defaultLg },
-    sm: { span: defaultSm },
+    lg: {span: defaultLg},
+    sm: {span: defaultSm},
   };
 
   if (!cols) {
@@ -87,24 +100,25 @@ const getColSizes = (cols?: number | ColSize | ColSizes): ColSizes => {
 
   if (typeof cols === 'number') {
     if (cols === 12) {
-      return { xs: 12 };
+      return {xs: 12};
     }
 
     return {
-      lg: { span: cols || defaultLg },
-      sm: { span: defaultSm },
+      lg: {span: cols || defaultLg},
+      sm: {span: defaultSm},
       // sm: {span: Math.max(defaultSm, cols)},
-    }
+    };
   }
 
-  if (cols['span'] || cols['offset']) {
+  const colSize = cols as { span?: number, offset?: number };
+  if (colSize && (colSize.span || colSize.offset)) {
     return {
-      lg: { span: cols['span'] || defaultLg, offset: cols['offset'] },
-      sm: { span: defaultSm, offset: cols['offset'] },
-    }
+      lg: {span: colSize.span || defaultLg, offset: colSize.offset},
+      sm: {span: defaultSm, offset: colSize.offset},
+    };
   }
 
   const sizes = cols as ColSizes;
   // return {...defaultConfig, ...sizes};
   return sizes;
-}
+};

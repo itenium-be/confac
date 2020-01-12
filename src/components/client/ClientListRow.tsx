@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { t } from '../utils';
-
-import { ClientEditIcon, InvoiceWorkedDays, InvoicesSummary, DeleteIcon } from '../controls';
-import { saveClient } from '../../actions/index';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {t} from '../utils';
+import {saveClient} from '../../actions/index';
 import InvoiceModel from '../invoice/models/InvoiceModel';
-import { ClientModel } from './models/ClientModels';
+import {ClientModel} from './models/ClientModels';
+import {InvoiceWorkedDays} from '../invoice/invoice-list/InvoiceWorkedDays';
+import {InvoicesSummary} from '../invoice/controls/InvoicesSummary';
+import {DeleteIcon, ClientEditIcon} from '../controls/Icon';
 
 
 export const ClientListHeader = () => (
@@ -27,9 +28,10 @@ type ClientListRowProps = {
   client: ClientModel,
 }
 
+// eslint-disable-next-line react/prefer-stateless-function
 class ClientListRow extends Component<ClientListRowProps> {
   render() {
-    const { client } = this.props;
+    const {client} = this.props;
     const invoices = this.props.invoices.filter(i => i.client._id === client._id);
     const tst = (key: string): string => `client-${client.name}-${key}`;
     return (
@@ -47,11 +49,11 @@ class ClientListRow extends Component<ClientListRowProps> {
           <span data-tst={tst('telephone')}>{client.telephone}</span>
         </td>
         <td><InvoiceWorkedDays invoices={invoices} display="client" data-tst={tst('days')} /></td>
-        <td style={{ whiteSpace: 'nowrap' }}><InvoicesSummary invoices={invoices} data-tst={tst('summary')} /></td>
+        <td style={{whiteSpace: 'nowrap'}}><InvoicesSummary invoices={invoices} data-tst={tst('summary')} /></td>
         <td className="icons-cell">
           <ClientEditIcon client={client} data-tst={tst('edit')} />
           <DeleteIcon
-            onClick={() => this.props.saveClient({ ...client, active: !client.active }, true)}
+            onClick={() => this.props.saveClient({...client, active: !client.active}, true)}
             title={client.active ? t('client.deactivateTitle') : t('client.activateTitle')}
             data-tst={tst('delete')}
           />
@@ -61,4 +63,4 @@ class ClientListRow extends Component<ClientListRowProps> {
   }
 }
 
-export default connect(null, { saveClient })(ClientListRow);
+export default connect(null, {saveClient})(ClientListRow);
