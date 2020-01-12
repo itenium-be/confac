@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Button as ReactButton} from 'react-bootstrap';
 import {Icon} from '../Icon';
 import {BootstrapVariant} from '../../../models';

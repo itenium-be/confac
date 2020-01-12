@@ -110,10 +110,11 @@ const getColSizes = (cols?: number | ColSize | ColSizes): ColSizes => {
     };
   }
 
-  if (cols.span || cols.offset) {
+  const colSize = cols as { span?: number, offset?: number };
+  if (colSize && (colSize.span || colSize.offset)) {
     return {
-      lg: {span: cols.span || defaultLg, offset: cols.offset},
-      sm: {span: defaultSm, offset: cols.offset},
+      lg: {span: colSize.span || defaultLg, offset: colSize.offset},
+      sm: {span: defaultSm, offset: colSize.offset},
     };
   }
 

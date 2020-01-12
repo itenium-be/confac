@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import moment from 'moment';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t, formatDate} from '../utils';
 import {BusyButton, ArrayInput, AttachmentsForm} from '../controls';

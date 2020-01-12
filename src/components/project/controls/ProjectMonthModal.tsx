@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
-import moment, {Moment} from 'moment';
+import moment from 'moment';
 import {t} from '../../utils';
 import {Modal, BaseModalProps, DatePicker} from '../../controls';
 import {ProjectMonthModel} from '../models';

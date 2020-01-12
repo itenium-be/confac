@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import moment from 'moment';
 import {Container, Row, Col, Form} from 'react-bootstrap';
 import {t, EditInvoiceViewModel, formatDate} from '../../utils';
 import * as Control from '../../controls';

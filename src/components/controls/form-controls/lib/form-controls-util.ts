@@ -1,9 +1,10 @@
-import {FullFormConfig, AnyFormConfig, FormConfig} from '../../../../models';
+import {FullFormConfig, AnyFormConfig, FormConfig, NewRowFormConfig} from '../../../../models';
 
 
 export function normalizeFormConfig(config: FullFormConfig, model: any): FormConfig[] {
   // Add all missing model properties to config
-  const configKeys: string[] = config.map(x => (typeof x === 'string' ? x : x.key));
+  // eslint-disable-next-line dot-notation
+  const configKeys: string[] = config.map(x => (typeof x === 'string' ? x : x['key']));
   let fullConfig: AnyFormConfig[] = config;
 
   if (config.addMissingProps) {
@@ -18,7 +19,9 @@ export function normalizeFormConfig(config: FullFormConfig, model: any): FormCon
     if (typeof x === 'string') {
       return {key: x};
     }
-    if (x.forceRow) {
+
+    const newRow = x as NewRowFormConfig;
+    if (newRow.forceRow) {
       return {cols: 12};
     }
     return x as FormConfig;
@@ -30,5 +33,5 @@ export function normalizeFormConfig(config: FullFormConfig, model: any): FormCon
     return true;
   });
 
-  return result;
+  return result as FormConfig[];
 }
