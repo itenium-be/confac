@@ -27,8 +27,10 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
         if (!key) {
           if (title) {
             // TODO: Technical debt: padding-top
+            // eslint-disable-next-line react/no-array-index-key
             return <Col key={index} xs={12} style={{paddingTop: 25}}><h2>{t(title)}</h2></Col>;
           }
+          // eslint-disable-next-line react/no-array-index-key
           return <Col key={index} {...colSizes} />;
         }
 
@@ -37,19 +39,30 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
           value = key.split('.').reduce((o, i) => o[i], model);
         }
 
-        const realOnChange = (value: any): void => {
+        const realOnChange = (val: any): void => {
           if (key.includes('.')) {
             if (key.indexOf('.') !== key.lastIndexOf('.')) {
-              console.error('Would need a deepMerge function for this to work!!');
+              console.error('Would need a deepMerge function for this to work!!'); // eslint-disable-line
               failure(`Configuration? ${key}`);
               return;
             }
             const [key1, key2] = key.split('.');
-            onChange({...model, [key1]: {...model[key1], [key2]: value}});
+            onChange({...model, [key1]: {...model[key1], [key2]: val}});
 
           } else {
-            onChange({...model, [key]: value});
+            onChange({...model, [key]: val});
           }
+        };
+
+        const getAddix = (addix: string | React.ReactNode) => {
+          if (!addix) {
+            return undefined;
+          }
+
+          if (typeof addix === 'string') {
+            return getIconOrText(addix as InputIcons);
+          }
+          return addix;
         };
 
         const EditComponent: any = getComponent(col);
@@ -58,10 +71,10 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
             <EditComponent
               label={label === '' ? null : (label && t(label)) || t(tPrefix + key)}
               value={value}
-              onChange={(value: any) => realOnChange(value)}
+              onChange={(val: any) => realOnChange(val)}
               data-tst={tPrefix + key}
-              prefix={prefix ? (typeof prefix === 'string' ? getIconOrText(prefix as InputIcons) : prefix) : undefined}
-              suffix={suffix ? (typeof suffix === 'string' ? getIconOrText(suffix as InputIcons) : suffix) : undefined}
+              prefix={getAddix(prefix)}
+              suffix={getAddix(suffix)}
               {...props}
             />
           </Col>

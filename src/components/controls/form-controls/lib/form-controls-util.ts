@@ -9,12 +9,12 @@ export function normalizeFormConfig(config: FullFormConfig, model: any): FormCon
   if (config.addMissingProps) {
     const missingProps = Object.keys(model).filter(k => !configKeys.includes(k));
     if (missingProps.length) {
-      console.error(`Missing prop(s) "${missingProps.join(', ')}" for`, model);
+      console.error(`Missing prop(s) "${missingProps.join(', ')}" for`, model); // eslint-disable-line
       fullConfig = config.concat(missingProps);
     }
   }
 
-  const result: FormConfig[] = fullConfig.map(x => {
+  const result: FullFormConfig = fullConfig.map(x => {
     if (typeof x === 'string') {
       return {key: x};
     }

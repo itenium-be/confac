@@ -41,7 +41,7 @@ export class EditInvoiceExtraFields extends Component<EditInvoiceExtraFieldsProp
           <Control.HeaderWithEditIcon
             size={4}
             label={t('extraFields')}
-            onEditClick={() => this.setState({extraFieldFormOpen: !this.state.extraFieldFormOpen})}
+            onEditClick={() => this.setState(prevState => ({extraFieldFormOpen: !prevState.extraFieldFormOpen}))}
             data-tst="extra-fields-header-icon"
           />
 

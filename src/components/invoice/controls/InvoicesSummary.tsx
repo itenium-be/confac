@@ -1,8 +1,14 @@
 import React from 'react';
 import {Tooltip} from '../../controls/Tooltip';
 import {t, moneyFormat} from '../../utils';
+import InvoiceModel from '../models/InvoiceModel';
 
-export const InvoiceAmountLabel = ({invoices, isQuotation, ...props}) => {
+type InvoiceAmountLabelProps = {
+  invoices: InvoiceModel[];
+  isQuotation: boolean;
+}
+
+export const InvoiceAmountLabel = ({invoices, isQuotation, ...props}: InvoiceAmountLabelProps) => {
   const type = isQuotation ? 'quotation' : 'invoice';
   if (invoices.length === 1) {
     return <span data-tst={props['data-tst']}>{t(type + '.amountOne')}</span>; //eslint-disable-line
@@ -11,7 +17,12 @@ export const InvoiceAmountLabel = ({invoices, isQuotation, ...props}) => {
 };
 
 
-export const InvoicesSummary = ({invoices, ...props}) => {
+type InvoicesSummaryProps = {
+  invoices: InvoiceModel[];
+}
+
+
+export const InvoicesSummary = ({invoices, ...props}: InvoicesSummaryProps) => {
   const moneys = invoices.map(i => i.money);
   const money = moneys.reduce((a, b) => ({
     totalWithoutTax: a.totalWithoutTax + b.totalWithoutTax,

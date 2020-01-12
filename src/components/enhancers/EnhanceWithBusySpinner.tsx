@@ -12,6 +12,7 @@ type EnhanceWithBusySpinnerState = {
   isBusy: boolean,
 }
 
+// eslint-disable-next-line max-len
 export const EnhanceWithBusySpinner = <P extends object>(ComposedComponent: React.ComponentType<P>) => (class extends Component<EnhanceWithBusySpinnerProps & P, EnhanceWithBusySpinnerState> {
   constructor(props: EnhanceWithBusySpinnerProps & P) {
     super(props);

@@ -13,6 +13,7 @@ export type SimpleSelectProps = {
 };
 
 
+// eslint-disable-next-line react/prefer-stateless-function
 export const SimpleSelect = EnhanceInputWithLabel(class extends Component<SimpleSelectProps> {
   render() {
     const {transFn, options, value, onChange, isClearable, ...props} = this.props;

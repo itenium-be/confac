@@ -23,20 +23,17 @@ const convertToStringArray = (values: OptionType[]): string[] => {
   return strings;
 };
 
-export const StringsSelect = EnhanceInputWithLabel(({value, onChange, options, ...props}: StringsSelectProps) => {
-  value = value || [];
-  return (
-    <Creatable
-      value={value.map(v => ({label: v, value: v}))}
-      onChange={val => onChange(convertToStringArray(val as OptionType[]))}
-      isClearable={false}
-      isMulti
-      noOptionsMessage={() => t('controls.noOptionsMessage')}
-      formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
-      placeholder={t('controls.selectPlaceholder')}
-      className={`tst-${props['data-tst']}`}
-      options={(options || []).map(o => ({label: o, value: o}))}
-      {...props}
-    />
-  );
-});
+export const StringsSelect = EnhanceInputWithLabel(({value = [], onChange, options, ...props}: StringsSelectProps) => (
+  <Creatable
+    value={value.map(v => ({label: v, value: v}))}
+    onChange={val => onChange(convertToStringArray(val as OptionType[]))}
+    isClearable={false}
+    isMulti
+    noOptionsMessage={() => t('controls.noOptionsMessage')}
+    formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
+    placeholder={t('controls.selectPlaceholder')}
+    className={`tst-${props['data-tst']}`}
+    options={(options || []).map(o => ({label: o, value: o}))}
+    {...props}
+  />
+));

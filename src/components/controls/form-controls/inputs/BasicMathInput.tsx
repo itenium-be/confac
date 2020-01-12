@@ -39,11 +39,12 @@ export function getMoney(str: string): number | null {
 /**
  * Convert a string to a number
  */
-function convertToNumber(str: string | number, asFloat: boolean): number {
-  if (typeof str === 'number') {
-    return str;
+function convertToNumber(input: string | number, asFloat: boolean): number {
+  if (typeof input === 'number') {
+    return input;
   }
 
+  let str = input;
   if (str.includes(',') && str.includes('.')) {
     if (str.lastIndexOf(',') > str.lastIndexOf('.')) {
       str = str.replace(/\./g, '');
@@ -88,7 +89,7 @@ function mathEval(str: string, asFloat: boolean, allowHours?: boolean): number {
     }
   } else if (allowHours && str.includes(':')) {
     const parts = str.split(':').map(s => parseInt(s, 10));
-    result = `${parts[0]}.${parts[1] / 60 * 100}`;
+    result = `${parts[0]}.${(parts[1] / 60) * 100}`;
   }
   return convertToNumber(result, asFloat);
 }
@@ -97,16 +98,16 @@ function mathEval(str: string, asFloat: boolean, allowHours?: boolean): number {
 /**
  * Turn a string into number and evaluate simple math
  */
-export function basicMath(str: string, asFloat: boolean = false, allowHours: boolean = false): number {
-  str = sanitize(str);
+export function basicMath(input: string, asFloat: boolean = false, allowHours: boolean = false): number {
+  const str = sanitize(input);
   return mathEval(str, asFloat, allowHours);
 }
 
 /**
  * Remove € and spaces
  */
-function sanitize(str: string): string {
-  str = str.replace(/€/g, '');
+function sanitize(input: string): string {
+  let str = input.replace(/€/g, '');
   str = str.replace(/ /g, '');
   return str;
 }

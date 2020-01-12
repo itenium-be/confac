@@ -9,6 +9,7 @@ export const invoiceLineTypes = ['hourly', 'daily', 'km', 'items', 'section', 'o
 
 type InvoiceLineTypeSelectProps = BaseInputProps<EditClientRateType>;
 
+// eslint-disable-next-line react/prefer-stateless-function
 export class InvoiceLineTypeSelect extends Component<InvoiceLineTypeSelectProps> {
   static defaultProps = {type: 'hourly'}
 

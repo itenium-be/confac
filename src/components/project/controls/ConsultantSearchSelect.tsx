@@ -24,7 +24,8 @@ const _ConsultantSearchSelect = (props: ConsultantSelectProps) => {
 
   const getConsultantName = (c: ConsultantModel) => `${c.firstName} ${c.name} (${t(`consultant.types.${c.type}`)})`;
 
-  const selectedConsultantId = value && typeof value === 'object' ? value._id : value;
+  // eslint-disable-next-line dot-notation
+  const selectedConsultantId = value && typeof value === 'object' ? value['_id'] : value;
 
   const options: SelectItem[] = consultants
     .sort((a, b) => getConsultantName(a).localeCompare(getConsultantName(b)))
@@ -44,4 +45,6 @@ const _ConsultantSearchSelect = (props: ConsultantSelectProps) => {
   );
 };
 
-export const ConsultantSearchSelect = EnhanceInputWithLabel(connect((state: ConfacState) => ({consultants: state.consultants}))(_ConsultantSearchSelect));
+export const ConsultantSearchSelect = EnhanceInputWithLabel(connect(
+  (state: ConfacState) => ({consultants: state.consultants}),
+)(_ConsultantSearchSelect));

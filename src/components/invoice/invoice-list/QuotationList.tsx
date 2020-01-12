@@ -24,6 +24,7 @@ type QuotationListProps = {
   filters: InvoiceFilters,
 }
 
+// eslint-disable-next-line react/prefer-stateless-function
 export class QuotationList extends Component<QuotationListProps> {
   render() {
     if (!this.props.filters) {

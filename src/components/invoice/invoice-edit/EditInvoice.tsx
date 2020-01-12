@@ -17,7 +17,6 @@ import {ConfacState} from '../../../reducers/app-state';
 import {EditInvoiceDetails} from './EditInvoiceDetails';
 import {StickyFooter} from '../../controls/skeleton/StickyFooter';
 import {DownloadInvoiceButton} from './DownloadInvoiceButton';
-import {Button} from '../../controls';
 import {EmailModal, EmailModalTitle} from '../../controls/email/EmailModal';
 import {EmailModel} from '../../controls/email/EmailModels';
 import {sendEmail} from '../../../actions/emailActions';
@@ -184,7 +183,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                       center
                       color="#D3D3D3"
                       title={t('config.extraFields.open')}
-                      onClick={() => this.setState({showExtraFields: !this.state.showExtraFields})}
+                      onClick={() => this.setState(prevState => ({showExtraFields: !prevState.showExtraFields}))}
                       data-tst="extra-fields-open"
                     />
                   </Col>
@@ -217,6 +216,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
           <EditInvoiceExtraFields
             forceOpen={this.state.showExtraFields}
             invoice={invoice}
+            // eslint-disable-next-line react/jsx-no-bind
             onChange={this.updateInvoice.bind(this, 'extraFields')}
           />
 
@@ -229,11 +229,11 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
           <Control.AttachmentsForm model={invoice} />
           <StickyFooter>
             {!invoice.isNew && (
-              <Button variant="light" icon="far fa-envelope" onClick={() => this.setState({showEmailModal: true})}>
+              <Control.Button variant="light" icon="far fa-envelope" onClick={() => this.setState({showEmailModal: true})}>
                 {t('email.prepareEmail')}
-              </Button>
+              </Control.Button>
             )}
-            <EditInvoiceSaveButtons onClick={this.props.invoiceAction.bind(this, invoice)} invoice={invoice} />
+            <EditInvoiceSaveButtons onClick={() => this.props.invoiceAction(invoice)} invoice={invoice} />
           </StickyFooter>
         </Form>
       </Container>

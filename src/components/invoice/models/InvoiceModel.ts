@@ -186,7 +186,9 @@ export default class InvoiceModel implements IAttachment {
     }
   }
 
-  daysVsHoursSwitchFix(oldLine: InvoiceLine, updateWith: InvoiceLine | any): void {
+  daysVsHoursSwitchFix(input: InvoiceLine, updateWith: InvoiceLine | any): void {
+    const oldLine = input;
+
     if (updateWith.type && updateWith.type !== oldLine.type && (oldLine.price || oldLine.amount)
       && this.client && this.client.rate && this.client.rate.hoursInDay) {
 
@@ -251,7 +253,7 @@ export default class InvoiceModel implements IAttachment {
 
     const relevantLines = this._lines.filter(line => line.type !== 'section');
     const totalWithoutTax = relevantLines.reduce((prev, cur) => prev + cur.amount * cur.price, 0);
-    const totalTax = relevantLines.reduce((prev, cur) => prev + cur.amount * cur.price * cur.tax / 100, 0);
+    const totalTax = relevantLines.reduce((prev, cur) => prev + (cur.amount * cur.price * cur.tax) / 100, 0);
     let total = totalWithoutTax + totalTax;
     const totalsPerLineType = relevantLines.reduce((acc, cur) => {
       if (!acc[cur.type]) {

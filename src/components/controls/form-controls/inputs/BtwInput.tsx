@@ -120,6 +120,7 @@ export type BtwResponse = {
   address: {
     street: string,
     number: string,
+    // eslint-disable-next-line camelcase
     zip_code: string,
     city: string,
     country: string,
@@ -149,7 +150,7 @@ export function parseBtw(str: string): string {
     btw = DefaultBtwCountry + btw;
   }
   if (!/^[A-Z]{2}[A-Z0-9]{8,12}$/.test(btw)) {
-    return str;
+    return btw;
   }
 
   if (btw.startsWith('BE') && btw.length < 12) {

@@ -9,6 +9,7 @@ export type EnhanceInputWithAddonsProps = {
   addOnMinWidth?: number,
 }
 
+// eslint-disable-next-line max-len
 export const EnhanceInputWithAddons = <P extends object>(ComposedComponent: React.ComponentType<P>) => ({prefix, prefixOptions, suffix, suffixOptions, addOnMinWidth, ...props}: EnhanceInputWithAddonsProps & P) => {
   // ATTN: window.outerWidth is not part of the state, so a
   // rerender does not happen when the user resizes the window

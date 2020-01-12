@@ -28,7 +28,7 @@ export const ExtraFieldsInput = ({value, onChange, ...props}: ExtraFieldsInputPr
           <StringInput
             label={col.label as string}
             value={col.value as string}
-            onChange={updater.bind(null, col.label as string)}
+            onChange={(newText: string) => updater(col.label as string, newText)}
             data-tst={`${props['data-tst']}_${col.label}_value`}
           />
         </Col>

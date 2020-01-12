@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
-import {BusyVerifyIcon} from '../../controls';
 import t from '../../../trans';
 import {toggleInvoiceVerify} from '../../../actions/index';
 import InvoiceModel from '../models/InvoiceModel';
+import {BusyVerifyIcon} from '../../controls/Icon';
 
 
 type InvoiceVerifyIconProps = {
@@ -12,6 +12,7 @@ type InvoiceVerifyIconProps = {
   toggleInvoiceVerify: Function,
 }
 
+// eslint-disable-next-line react/prefer-stateless-function
 class InvoiceVerifyIcon extends Component<InvoiceVerifyIconProps> {
   render() {
     const {invoice, toggleInvoiceVerify, ...props} = this.props; // eslint-disable-line

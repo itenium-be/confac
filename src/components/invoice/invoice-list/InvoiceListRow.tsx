@@ -2,6 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import {moneyFormat, t} from '../../utils';
+// eslint-disable-next-line max-len
 import {ConfirmedDeleteIcon, EditIcon, InvoiceDownloadIcon, InvoicePreviewIcon, InvoiceVerifyIconToggle, NotEmailedIcon} from '../../controls';
 import {deleteInvoice} from '../../../actions/index';
 import {InvoiceWorkedDays} from './InvoiceWorkedDays';
@@ -11,7 +12,11 @@ import InvoiceModel from '../models/InvoiceModel';
 import {ConfacState} from '../../../reducers/app-state';
 
 
-export const InvoiceListHeader = ({columns}) => (
+type InvoiceListHeaderProps = {
+  columns: any[];
+}
+
+export const InvoiceListHeader = ({columns}: InvoiceListHeaderProps) => (
   <thead>
     <tr>
       {columns.map((col, i) => <th key={i}>{col.header}</th>)}
@@ -23,7 +28,13 @@ export const InvoiceListHeader = ({columns}) => (
 );
 
 
-export const InvoiceListFooter = ({columns, invoices, isQuotation}) => {
+type InvoiceListFooterProps = {
+  columns: any[];
+  invoices: InvoiceModel[];
+  isQuotation: boolean;
+}
+
+export const InvoiceListFooter = ({columns, invoices, isQuotation}: InvoiceListFooterProps) => {
   if (invoices.length === 0) {
     return null;
   }
@@ -31,7 +42,9 @@ export const InvoiceListFooter = ({columns, invoices, isQuotation}) => {
   return (
     <tfoot>
       <tr>
-        <td colSpan={columns.length}><InvoiceAmountLabel invoices={invoices} isQuotation={isQuotation} data-tst="list-total-invoices" /></td>
+        <td colSpan={columns.length}>
+          <InvoiceAmountLabel invoices={invoices} isQuotation={isQuotation} data-tst="list-total-invoices" />
+        </td>
         <td><InvoiceWorkedDays invoices={invoices} data-tst="list-total-days" /></td>
         <td colSpan={2}><InvoicesTotal invoices={invoices} data-tst="list-total-money" /></td>
       </tr>
@@ -54,7 +67,11 @@ type InvoiceListRowProps = {
 /**
  * Gets the Bootstrap variant based on the Invoice due date
  */
-export function getInvoiceDueDateVariant(invoice: InvoiceModel, invoicePayDays: number = 30): '' | 'danger' | 'warning' | 'primary' | 'info' {
+export function getInvoiceDueDateVariant(
+  invoice: InvoiceModel,
+  invoicePayDays: number = 30,
+): '' | 'danger' | 'warning' | 'primary' | 'info' {
+
   /** Danger: This many days overdue and not yet paid */
   const DangerDays = 10;
   /** Primary: Expiration date due in this many days. */
@@ -115,11 +132,19 @@ export const InvoiceListRow = ({invoice, isFirstRow, onlyRowForMonth, columns}: 
         {moneyFormat(invoice.money.total)}
       </td>
       <td className="icons-cell" style={{width: 240}}>
-        <EditIcon onClick={`/${invoiceType}s/${invoice.number}`} data-tst={tst('edit')} style={{marginRight: invoice.isQuotation ? undefined : -15}} />
+        <EditIcon
+          onClick={`/${invoiceType}s/${invoice.number}`}
+          data-tst={tst('edit')}
+          style={{marginRight: invoice.isQuotation ? undefined : -15}}
+        />
         <InvoiceVerifyIconToggle invoice={invoice} data-tst={tst('verify')} />
         <InvoiceDownloadIcon invoice={invoice} data-tst={tst('download')} />
         <InvoicePreviewIcon invoice={invoice} data-tst={tst('preview')} />
-        <ConfirmedDeleteIcon title={t(`${invoiceType}.deleteTitle`)} onClick={() => dispatch(deleteInvoice(invoice))} data-tst={tst('delete')}>
+        <ConfirmedDeleteIcon
+          title={t(`${invoiceType}.deleteTitle`)}
+          onClick={() => dispatch(deleteInvoice(invoice))}
+          data-tst={tst('delete')}
+        >
           {t(`${invoiceType}.deletePopup`, {number: invoice.number, client: invoice.client.name})}
         </ConfirmedDeleteIcon>
       </td>

@@ -7,6 +7,7 @@ type InvoiceWorkedDaysProps = {
   display: 'month' | 'client' | 'invoice',
 }
 
+// eslint-disable-next-line react/prefer-stateless-function
 export class InvoiceWorkedDays extends Component<InvoiceWorkedDaysProps> {
   static defaultProps: InvoiceWorkedDaysProps = {
     invoices: [],
@@ -34,7 +35,7 @@ export class InvoiceWorkedDays extends Component<InvoiceWorkedDaysProps> {
           <span data-tst={tst('in-month')}>{days.workDaysInMonth}</span>
           &nbsp;(
           <span data-tst={tst('calc')}>{calcPer(days)}</span>
-)
+          )
         </span>
       );
     }
@@ -52,5 +53,5 @@ export class InvoiceWorkedDays extends Component<InvoiceWorkedDaysProps> {
  * Print % days worked in month
  */
 function calcPer(days: DaysWorked & { workDaysInMonth: number }): string {
-  return `${Math.round(days.daysWorked / days.workDaysInMonth * 100)}%`;
+  return `${Math.round((days.daysWorked / days.workDaysInMonth) * 100)}%`;
 }

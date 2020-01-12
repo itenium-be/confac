@@ -3,7 +3,14 @@ import {Col} from 'react-bootstrap';
 import {StringInput} from './StringInput';
 import {t} from '../../../utils';
 
-export const StringArrayInput = ({keys, model, onChange, tPrefix}) => (
+type StringArrayInputProps = {
+  keys: string[];
+  model: any;
+  onChange: Function;
+  tPrefix: string;
+}
+
+export const StringArrayInput = ({keys, model, onChange, tPrefix}: StringArrayInputProps) => (
   <>
     {keys.map(key => (
       <Col sm={4} key={key}>

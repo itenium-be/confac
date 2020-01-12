@@ -3,9 +3,14 @@ import {getInvoiceDownloadUrl} from '../../../actions';
 import {t} from '../../utils';
 import {Icon} from '../../controls/Icon';
 import {InvoicePreviewIcon} from '../../controls/attachments/AttachmentDownloadIcon';
+import InvoiceModel from '../models/InvoiceModel';
+
+type DownloadInvoiceButtonProps = {
+  invoice: InvoiceModel;
+}
 
 /** Invoice Download and Preview icons */
-export const DownloadInvoiceButton = ({invoice}) => {
+export const DownloadInvoiceButton = ({invoice}: DownloadInvoiceButtonProps) => {
   const downloadUrl = getInvoiceDownloadUrl(invoice, 'pdf', 'download');
   return (
     <div className="attachment">

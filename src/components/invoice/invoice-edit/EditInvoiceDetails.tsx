@@ -2,14 +2,20 @@ import React from 'react';
 import {Col} from 'react-bootstrap';
 import {t} from '../../utils';
 import * as Control from '../../controls';
+import InvoiceModel from '../models/InvoiceModel';
 
-export const EditInvoiceDetails = ({invoice, onChange}) => {
+type EditInvoiceDetailsProps = {
+  invoice: InvoiceModel;
+  onChange: Function;
+}
+
+export const EditInvoiceDetails = ({invoice, onChange}: EditInvoiceDetailsProps) => {
   const tp = (transKey: string): string => t(invoice.getType() + transKey);
   return (
     <>
       <Col sm={6}>
         <Control.NumericInput
-          prefix={invoice.verified ? <Control.VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} data-tst="invoice-is-verified" /> : undefined}
+          prefix={invoice.verified && <Control.VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} data-tst="is-verified" />}
           label={tp('.number')}
           value={invoice.number}
           onChange={value => onChange('number', value)}

@@ -1,7 +1,8 @@
 module.exports = {
   env: {
     browser: true,
-    es6: true
+    es6: true,
+    jasmine: true,
   },
   extends: ["plugin:react/recommended", "airbnb"],
   globals: {
@@ -18,11 +19,11 @@ module.exports = {
     sourceType: "module"
   },
   ignorePatterns: ["node_modules", "public", ".vscode"],
-  plugins: ["react", "react-hooks", "@typescript-eslint"/*, "typescript"*/],
+  plugins: ["react", "react-hooks", "@typescript-eslint", "jasmine"],
   rules: {
     "implicit-arrow-linebreak": ["error", "beside"],
     "no-unused-vars": [0, { args: 'none' }], // https://github.com/typescript-eslint/typescript-eslint/issues/46
-    // "no-use-before-define": "warn",
+    "no-use-before-define": [0],
     "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
     "no-underscore-dangle": [0],
     "object-curly-spacing": [2, "never"],
@@ -41,6 +42,7 @@ module.exports = {
     "class-methods-use-this": [0],
     "react/jsx-props-no-spreading": [0],
     "arrow-parens": ["error", "as-needed"],
+    "react/no-array-index-key": [0],
   },
   "settings": {
     "import/resolver": {

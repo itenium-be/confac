@@ -21,6 +21,7 @@ type EmailFormProps = BaseInputProps<EmailModel> & {
 export const EmailForm = ({value, onChange, attachmentsAvailable, ...props}: EmailFormProps) => {
   const [showAllTos, setShowAllTos] = useState(false);
 
+  // eslint-disable-next-line no-param-reassign
   value = value || getNewEmail();
 
   return (
@@ -46,7 +47,12 @@ export const EmailForm = ({value, onChange, attachmentsAvailable, ...props}: Ema
           <StringInput inline value={value.bcc} onChange={bcc => onChange({...value, bcc} as EmailModel)} label={t('email.bcc')} />
         </>
       )}
-      <StringInput inline value={value.subject} onChange={subject => onChange({...value, subject} as EmailModel)} label={t('email.subject')} />
+      <StringInput
+        inline
+        value={value.subject}
+        onChange={subject => onChange({...value, subject} as EmailModel)}
+        label={t('email.subject')}
+      />
 
 
       <TextEditor value={value.body} onChange={body => onChange({...value, body} as EmailModel)} />

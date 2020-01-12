@@ -1,5 +1,5 @@
 import React from 'react';
-import {default as RcTooltip} from 'rc-tooltip';
+import RcTooltip from 'rc-tooltip';
 
 type TooltipProps = {
   title: string,

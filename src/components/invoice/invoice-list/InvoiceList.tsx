@@ -13,7 +13,7 @@ import InvoiceModel from '../models/InvoiceModel';
 import {ClientModel} from '../../client/models/ClientModels';
 import {InvoiceFilters} from '../../../models';
 import {t} from '../../utils';
-import {Icon} from '../../controls';
+import {Icon} from '../../controls/Icon';
 
 
 type InvoiceListProps = {
@@ -24,6 +24,7 @@ type InvoiceListProps = {
   filters: InvoiceFilters,
 }
 
+// eslint-disable-next-line react/prefer-stateless-function
 export class InvoiceList extends Component<InvoiceListProps> {
   render() {
     if (!this.props.filters) {

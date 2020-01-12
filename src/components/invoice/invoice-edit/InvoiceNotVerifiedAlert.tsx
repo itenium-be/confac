@@ -70,4 +70,6 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
   }
 }
 
-export default connect((state: ConfacState) => ({invoicePayDays: state.config.invoicePayDays}), {toggleInvoiceVerify})(InvoiceNotVerifiedAlert);
+export default connect(
+  (state: ConfacState) => ({invoicePayDays: state.config.invoicePayDays}), {toggleInvoiceVerify},
+)(InvoiceNotVerifiedAlert);

@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import {Button} from './form-controls/Button';
 import {BootstrapVariant} from '../../models';
-import {BusyButton} from '../controls';
+import {BusyButton} from './form-controls/BusyButton';
+
 
 export type PopupButton = {
   text: string,
@@ -19,6 +20,7 @@ type PopupProps = {
   buttons: PopupButton[],
 }
 
+// eslint-disable-next-line react/prefer-stateless-function
 export class Popup extends Component<PopupProps> {
   render() {
     return (

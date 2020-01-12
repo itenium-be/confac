@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import {default as ReactDatePicker} from 'react-datepicker';
+import ReactDatePicker from 'react-datepicker';
 import {t, datePickerDateFormat, defaultLocale} from '../../utils';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import {BaseInputProps} from './inputs/BaseInput';

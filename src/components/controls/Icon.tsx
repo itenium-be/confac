@@ -6,17 +6,20 @@ import {Tooltip} from './Tooltip';
 import {EnhanceWithConfirmation, EnhanceWithBusySpinner} from '../enhancers/index';
 import t from '../../trans';
 import {ConfacState} from '../../reducers/app-state';
+import {ClientModel} from '../client/models/ClientModels';
 
 
-const EnhanceIconWithCenter = <P extends object>(Component: React.ComponentType<P>) => ({center, ...props}: {center?: boolean} & P) => {
+const EnhanceIconWithCenter = <P extends object>(EnhancedComponent: React.ComponentType<P>) => (
+  {center, ...props}: {center?: boolean} & P,
+) => {
   if (center) {
     return (
       <div style={{textAlign: 'center'}}>
-        <Component {...props as P} />
+        <EnhancedComponent {...props as P} />
       </div>
     );
   }
-  return <Component {...props as P} />;
+  return <EnhancedComponent {...props as P} />;
 };
 
 
@@ -28,7 +31,9 @@ type RouterProps = {
 }
 
 export const Icon = EnhanceIconWithCenter(
-  withRouter(({match, location, history, staticContext, ...props}: IconProps & RouterProps) => <IconComponent history={history} {...props as IconProps} />),
+  withRouter(({match, location, history, staticContext, ...props}: IconProps & RouterProps) => (
+    <IconComponent history={history} {...props as IconProps} />
+  )),
 );
 
 export type IconProps = {
@@ -56,12 +61,12 @@ export type IconProps = {
 
 
 class IconComponent extends Component<IconProps> {
-  static defaultProps = {
-    size: 2,
-  }
+  // static defaultProps = {
+  //   size: 2,
+  // }
 
   render() {
-    const {fa, color, style, onClick, href, dispatch, className, label, labelStyle, title, size, history, ...props} = this.props;
+    const {fa, color, style, onClick, href, dispatch, className, label, labelStyle, title, size = 2, history, ...props} = this.props;
     let realClick: any = onClick;
     if (typeof onClick === 'string') {
       realClick = () => {
@@ -70,6 +75,7 @@ class IconComponent extends Component<IconProps> {
     }
 
     let FinalIcon = (
+      // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
       <i
         {...props}
         className={cn(fa, `fa-${size}x`, className, {clickable: !!onClick || !!href})}
@@ -125,7 +131,11 @@ export const DragAndDropIcon = ({...props}: IconProps) => <Icon fa="fa fa-arrows
 
 export const EditIcon = ({...props}: IconProps) => <Icon fa="far fa-edit" title={t('edit')} {...props} />;
 
-export const ClientEditIcon = ({client, ...props}) => {
+type ClientEditIconProps = IconProps & {
+  client: ClientModel;
+}
+
+export const ClientEditIcon = ({client, ...props}: ClientEditIconProps) => {
   if (props.onClick) {
     return <EditIcon {...props} />;
   }

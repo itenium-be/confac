@@ -22,12 +22,15 @@ export const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component
     // Consider pure int manual input
     // to be search on invoice number
     value.filter(f => !f.type && +f.value).forEach(f => {
+      // eslint-disable-next-line no-param-reassign
       f.type = 'invoice-nr';
+      // eslint-disable-next-line no-param-reassign
       f.value = parseInt(f.value as string, 10);
     });
 
     // All remaining are pure text searches
     value.filter(f => !f.type).forEach(f => {
+      // eslint-disable-next-line no-param-reassign
       f.type = 'manual_input';
     });
 

@@ -7,9 +7,16 @@ import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import {getColumns} from './invoice-list-column-factory';
+import {ConfigModel} from '../../config/models/ConfigModel';
+import InvoiceListModel from '../models/InvoiceListModel';
 
 
-export const GroupedInvoiceTable = ({vm, config}) => {
+type GroupedInvoiceTableProps = {
+  vm: InvoiceListModel;
+  config: ConfigModel;
+}
+
+export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
   const invoices = vm.getFilteredInvoices();
   const columns = getColumns(['date-month', 'number', 'client'], config.showOrderNr, vm.isQuotation);
   const invoicesPerMonth = groupInvoicesPerMonth(invoices).sort((a, b) => b.key.localeCompare(a.key));

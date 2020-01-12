@@ -7,6 +7,7 @@ export type BaseInputProps<TReturn> = EnhanceInputWithLabelProps & {
   style?: React.CSSProperties,
 }
 
+// eslint-disable-next-line react/prefer-stateless-function
 export const CheckboxInput = /* EnhanceInputWithLabel( */class extends Component<BaseInputProps<any>> {
   render() {
     const {value, label, onChange, ...props} = this.props;

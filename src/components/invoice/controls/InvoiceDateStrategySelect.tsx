@@ -10,6 +10,7 @@ type InvoiceDateStrategySelectProps = {
   onChange: Function,
 }
 
+// eslint-disable-next-line react/prefer-stateless-function
 export class InvoiceDateStrategySelect extends Component<InvoiceDateStrategySelectProps> {
   static defaultProps = {value: 'prev-month-last-day'}
 

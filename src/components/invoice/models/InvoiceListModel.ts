@@ -3,8 +3,8 @@ import InvoiceModel from './InvoiceModel';
 import {ClientModel} from '../../client/models/ClientModels';
 import {InvoiceFilters, InvoiceFiltersSearch} from '../../../models';
 import {searchClientFor} from '../../client/models/searchClientFor';
-import {getMoney} from '../../controls';
 import {t, searchinize, formatDate} from '../../utils';
+import {getMoney} from '../../controls/form-controls/inputs/BasicMathInput';
 
 
 function transformFilters(search: InvoiceFiltersSearch[], freeText: string): TransformedInvoiceFilters {
@@ -101,7 +101,8 @@ export default class InvoiceListModel {
    * Searches all common invoice fields
    * Plus some special searches: 'last x days', 'from 14/8/2019', 'unverifiedOnly', ...
    */
-  private filterByDescription(invoices: InvoiceModel[]): InvoiceModel[] {
+  private filterByDescription(input: InvoiceModel[]): InvoiceModel[] {
+    let invoices = input;
     this.fs.other.forEach(otherFilter => {
       const lastXMonths = otherFilter.match(/last (\d+) (.*)/);
       if (lastXMonths) {
@@ -142,8 +143,8 @@ export default class InvoiceListModel {
 }
 
 /** Search the invoice id, orderNr, date, client, amounts and lineDescs for text */
-function searchInvoiceFor(invoice: InvoiceModel, text: string): boolean {
-  text = searchinize(text);
+function searchInvoiceFor(invoice: InvoiceModel, input: string): boolean {
+  const text = searchinize(input);
 
   if (searchinize(invoice._id) === text) {
     return true;

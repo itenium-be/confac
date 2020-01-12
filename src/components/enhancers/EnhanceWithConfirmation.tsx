@@ -13,7 +13,7 @@ type EnhanceWithConfirmationState = {
   popupActive: boolean,
 }
 
-
+// eslint-disable-next-line max-len
 export const EnhanceWithConfirmation = <P extends object>(ComposedComponent: React.ComponentType<P>) => class extends Component<EnhanceWithConfirmationProps & P, EnhanceWithConfirmationState> {
   constructor(props: EnhanceWithConfirmationProps & P) {
     super(props);

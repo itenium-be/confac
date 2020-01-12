@@ -15,6 +15,7 @@ export type BaseInputProps<T, TReturn = T> = EnhanceInputWithAddonsProps & Enhan
   updateOnly?: boolean,
 }
 
+// eslint-disable-next-line react/prefer-stateless-function
 export const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Component<BaseInputProps<any>> {
   render() {
     const {type, updateOnly, ...props} = this.props;

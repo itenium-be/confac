@@ -80,9 +80,15 @@ const InvoiceSearchAdvanced = (props: InvoiceSearchAdvancedProps) => {
     <>
       <Col xl={2} md={2}>
         <ButtonGroup style={{float: 'right'}}>
-          <Button variant="outline-secondary" onClick={downloadZip}><Icon fa="fa fa-download" size={1} title={t('invoice.listDownloadZip')} /></Button>
-          <Button variant="outline-secondary" onClick={downloadExcel}><Icon fa="fa fa-file-excel" size={1} title={t('invoice.listDownloadExcel')} /></Button>
-          <Button variant="outline-secondary" onClick={() => setOpen(!open)}><Icon fa="fa fa-ellipsis-v" size={1} title={t('invoice.listAdvancedFilters')} /></Button>
+          <Button variant="outline-secondary" onClick={downloadZip}>
+            <Icon fa="fa fa-download" size={1} title={t('invoice.listDownloadZip')} />
+          </Button>
+          <Button variant="outline-secondary" onClick={downloadExcel}>
+            <Icon fa="fa fa-file-excel" size={1} title={t('invoice.listDownloadExcel')} />
+          </Button>
+          <Button variant="outline-secondary" onClick={() => setOpen(!open)}>
+            <Icon fa="fa fa-ellipsis-v" size={1} title={t('invoice.listAdvancedFilters')} />
+          </Button>
         </ButtonGroup>
       </Col>
       {open && (
