@@ -236,7 +236,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                 {t('email.prepareEmail')}
               </Button>
             )}
-            <EditInvoiceSaveButtons onClick={() => this.props.invoiceAction(invoice)} invoice={invoice} />
+            <EditInvoiceSaveButtons onClick={(type, history) => this.props.invoiceAction(invoice, type, history)} invoice={invoice} />
           </StickyFooter>
         </Form>
       </Container>
