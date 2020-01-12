@@ -14,7 +14,7 @@ export const NumericInput = ({value, onChange, float = false, ...props}: Numeric
   <BaseInput
     type="number"
     value={value || ''}
-    onChange={(e) => onChange(parseIntOrFloat(e.target.value, float))}
+    onChange={e => onChange(parseIntOrFloat(e.target.value, float))}
     {...props}
   />
 );

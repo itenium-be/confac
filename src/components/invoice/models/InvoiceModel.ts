@@ -249,7 +249,7 @@ export default class InvoiceModel implements IAttachment {
       return InvoiceModel.emptyMoney();
     }
 
-    const relevantLines = this._lines.filter((line) => line.type !== 'section');
+    const relevantLines = this._lines.filter(line => line.type !== 'section');
     const totalWithoutTax = relevantLines.reduce((prev, cur) => prev + cur.amount * cur.price, 0);
     const totalTax = relevantLines.reduce((prev, cur) => prev + cur.amount * cur.price * cur.tax / 100, 0);
     let total = totalWithoutTax + totalTax;
@@ -340,7 +340,7 @@ type GroupedInvoicesPerMonth = {
 export function groupInvoicesPerMonth(invoices: InvoiceModel[]): GroupedInvoicesPerMonth[] {
   return invoices.reduce((list: GroupedInvoicesPerMonth[], invoice: InvoiceModel) => {
     const month = invoice.date.format('YYYYMM');
-    const invoicesForMonth = list.find((i) => i.key === month);
+    const invoicesForMonth = list.find(i => i.key === month);
     if (invoicesForMonth) {
       invoicesForMonth.invoiceList.push(invoice);
     } else {

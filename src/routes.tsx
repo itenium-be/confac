@@ -15,26 +15,26 @@ import ProjectsList from './components/project/ProjectsList';
 const Routes = () => (
   <BrowserRouter>
     <Switch>
-      <Route path="/invoices/create" render={(props) => <AppWithLayout Component={EditInvoice} {...props} />} />
-      <Route path="/invoices/:id" render={(props) => <AppWithLayout Component={EditInvoice} {...props} />} />
-      <Route path="/invoices" render={(props) => <AppWithLayout Component={InvoiceList} {...props} />} />
+      <Route path="/invoices/create" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
+      <Route path="/invoices/:id" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
+      <Route path="/invoices" render={props => <AppWithLayout Component={InvoiceList} {...props} />} />
 
-      <Route path="/quotations/create" render={(props) => <AppWithLayout Component={EditInvoice} {...props} />} />
-      <Route path="/quotations/:id" render={(props) => <AppWithLayout Component={EditInvoice} {...props} />} />
-      <Route path="/quotations" render={(props) => <AppWithLayout Component={QuotationList} {...props} />} />
+      <Route path="/quotations/create" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
+      <Route path="/quotations/:id" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
+      <Route path="/quotations" render={props => <AppWithLayout Component={QuotationList} {...props} />} />
 
-      <Route path="/clients/create" render={(props) => <AppWithLayout Component={EditClient} {...props} />} />
-      <Route path="/clients/:id" render={(props) => <AppWithLayout Component={EditClient} {...props} />} />
-      <Route path="/clients" render={(props) => <AppWithLayout Component={ClientList} {...props} />} />
+      <Route path="/clients/create" render={props => <AppWithLayout Component={EditClient} {...props} />} />
+      <Route path="/clients/:id" render={props => <AppWithLayout Component={EditClient} {...props} />} />
+      <Route path="/clients" render={props => <AppWithLayout Component={ClientList} {...props} />} />
 
-      <Route path="/consultants/create" render={(props) => <AppWithLayout Component={EditConsultant} {...props} />} />
+      <Route path="/consultants/create" render={props => <AppWithLayout Component={EditConsultant} {...props} />} />
 
-      <Route path="/projects/create" render={(props) => <AppWithLayout Component={EditProject} {...props} />} />
-      <Route path="/projects" render={(props) => <AppWithLayout Component={ProjectsList} {...props} />} />
+      <Route path="/projects/create" render={props => <AppWithLayout Component={EditProject} {...props} />} />
+      <Route path="/projects" render={props => <AppWithLayout Component={ProjectsList} {...props} />} />
 
-      <Route path="/config" render={(props) => <AppWithLayout Component={EditConfig} {...props} />} />
+      <Route path="/config" render={props => <AppWithLayout Component={EditConfig} {...props} />} />
 
-      <Route path="/" render={(props) => <AppWithLayout Component={InvoiceList} {...props} />} />
+      <Route path="/" render={props => <AppWithLayout Component={InvoiceList} {...props} />} />
     </Switch>
   </BrowserRouter>
 );

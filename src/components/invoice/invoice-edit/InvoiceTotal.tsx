@@ -19,7 +19,7 @@ function discountFormat(value: string | number): string {
  * Show: total OR totalWithoutTax + totalTax + total
  */
 export const InvoicesTotal = ({invoices, totalOnly = false, ...props}: { invoices: InvoiceModel[], totalOnly?: boolean }) => {
-  const moneys = invoices.map((i) => i.money);
+  const moneys = invoices.map(i => i.money);
   const money = moneys.reduce((a, b) => ({
     totalWithoutTax: a.totalWithoutTax + b.totalWithoutTax,
     totalTax: a.totalTax + b.totalTax,

@@ -34,7 +34,7 @@ export const InvoiceClientCell = connect((state: ConfacState) => ({
 
     render() {
       const invoiceClient = this.props.client;
-      const client = this.props.clients.find((c) => c._id === invoiceClient._id);
+      const client = this.props.clients.find(c => c._id === invoiceClient._id);
       if (!client) {
         return <span>{invoiceClient.name}</span>;
       }

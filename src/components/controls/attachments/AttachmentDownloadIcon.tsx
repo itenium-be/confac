@@ -11,7 +11,7 @@ import {getAwesomeFileType} from '../../invoice/models/getAwesomeFileType';
 export const InvoiceDownloadIcon = ({invoice, ...props}: InvoiceModelProps) => (
   <AttachmentDownloadIcon
     model={invoice}
-    attachment={invoice.attachments.find((a) => a.type === 'pdf') as Attachment}
+    attachment={invoice.attachments.find(a => a.type === 'pdf') as Attachment}
     modelType={invoice.isQuotation ? 'quotation' : 'invoice'}
     {...props}
   />

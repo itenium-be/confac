@@ -20,7 +20,7 @@ type ConsultantSelectProps = {
 const _ConsultantSearchSelect = (props: ConsultantSelectProps) => {
   const {value, consultants} = props;
 
-  const getConsultant = (consultantId: string): ConsultantModel => props.consultants.find((c) => c._id === consultantId) as ConsultantModel;
+  const getConsultant = (consultantId: string): ConsultantModel => props.consultants.find(c => c._id === consultantId) as ConsultantModel;
 
   const getConsultantName = (c: ConsultantModel) => `${c.firstName} ${c.name} (${t(`consultant.types.${c.type}`)})`;
 
@@ -28,9 +28,9 @@ const _ConsultantSearchSelect = (props: ConsultantSelectProps) => {
 
   const options: SelectItem[] = consultants
     .sort((a, b) => getConsultantName(a).localeCompare(getConsultantName(b)))
-    .map((item) => ({value: item._id, label: getConsultantName(item)} as SelectItem));
+    .map(item => ({value: item._id, label: getConsultantName(item)} as SelectItem));
 
-  const selectedOption = options.find((o) => o.value === selectedConsultantId);
+  const selectedOption = options.find(o => o.value === selectedConsultantId);
 
   return (
     <Select

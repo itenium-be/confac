@@ -12,7 +12,7 @@ export const NonGroupedInvoiceTable = ({vm, config}: {vm: InvoiceListModel, conf
     <Table size="sm" style={{marginTop: 10}}>
       <InvoiceListHeader columns={columns} />
       <tbody>
-        {invoices.sort((a, b) => b.number - a.number).map((invoice) => (
+        {invoices.sort((a, b) => b.number - a.number).map(invoice => (
           <InvoiceListRow columns={columns} invoice={invoice} key={invoice._id} />
         ))}
       </tbody>

@@ -313,7 +313,7 @@ export default function (key: string, params?: object): string {
     return str.replace('{}', params);
   }
   if (typeof params === 'object') {
-    Object.keys(params).forEach((paramKey) => {
+    Object.keys(params).forEach(paramKey => {
       str = str.replace(`{${paramKey}}`, params[paramKey]);
     });
   }

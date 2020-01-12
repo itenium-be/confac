@@ -6,12 +6,12 @@ import {ConfigModel} from '../components/config/models/ConfigModel';
 import {busyToggle, success} from './appActions';
 
 export function updateConfig(newConfig: ConfigModel) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(busyToggle());
     return request.post(buildUrl('/config'))
       .set('Content-Type', 'application/json')
       .send(newConfig)
-      .then((res) => {
+      .then(res => {
         dispatch({type: ACTION_TYPES.CONFIG_UPDATE, config: res.body});
         success(t('config.popupMessage'));
       })

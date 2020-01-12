@@ -9,7 +9,7 @@ export type PropertiesSelectProps = BaseInputProps<SelectItem[]>;
 
 export const PropertiesSelect = EnhanceInputWithLabel(class extends Component<PropertiesSelectProps> {
   onChange(values: Array<SelectItem & { className: string, __isNew__?: boolean }>) {
-    const properties = (values || []).map((value) => {
+    const properties = (values || []).map(value => {
       if (value.className) {
         delete value.className;
         value.value = '';
@@ -33,7 +33,7 @@ export const PropertiesSelect = EnhanceInputWithLabel(class extends Component<Pr
         isClearable
         isMulti
         noOptionsMessage={() => ''}
-        formatCreateLabel={(itm) => t('controls.addLabelText', {value: itm})}
+        formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
         placeholder={t('controls.propertiesPlaceholder')}
         className={`tst-${this.props['data-tst']}`}
       />

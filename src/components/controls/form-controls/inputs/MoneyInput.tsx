@@ -9,7 +9,7 @@ export const MoneyInput = ({value, onChange, ...props}: MoneyInputProps) => (
   <BaseInput
     type="number"
     value={value || ''}
-    onChange={(e) => onChange(parseIntOrFloat(e.target.value, true))}
+    onChange={e => onChange(parseIntOrFloat(e.target.value, true))}
     suffix="€"
     {...props}
   />

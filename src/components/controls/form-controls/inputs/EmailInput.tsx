@@ -8,7 +8,7 @@ export const EmailInput = ({value, onChange, ...props}: EmailInputProps) => (
   <BaseInput
     type="text"
     value={value || ''}
-    onChange={(e) => onChange(e.target.value as string)}
+    onChange={e => onChange(e.target.value as string)}
     {...props}
     suffix={(
       <a href={`mailto:${value}`} className="btn input-group-text">

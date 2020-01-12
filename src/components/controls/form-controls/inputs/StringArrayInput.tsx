@@ -5,7 +5,7 @@ import {t} from '../../../utils';
 
 export const StringArrayInput = ({keys, model, onChange, tPrefix}) => (
   <>
-    {keys.map((key) => (
+    {keys.map(key => (
       <Col sm={4} key={key}>
         <StringInput
           label={t(tPrefix + key)}

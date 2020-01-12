@@ -65,21 +65,21 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
   }
 
   createModel(props: EditInvoiceProps): EditInvoiceViewModel {
-    const invoicesOrQuotations = this.isQuotation ? props.invoices.filter((x) => x.isQuotation) : props.invoices.filter((x) => !x.isQuotation);
+    const invoicesOrQuotations = this.isQuotation ? props.invoices.filter(x => x.isQuotation) : props.invoices.filter(x => !x.isQuotation);
     if (props.match.params.id) {
       // Existing invoice / quotation
-      const invoice = invoicesOrQuotations.find((i) => i.number === parseInt(props.match.params.id, 10));
+      const invoice = invoicesOrQuotations.find(i => i.number === parseInt(props.match.params.id, 10));
       return new EditInvoiceViewModel(props.config, invoice);
 
     }
     // New invoice / quotation
     let client: undefined | ClientModel;
     if (props.config.defaultClient) {
-      client = props.clients.find((c) => c._id === props.config.defaultClient);
+      client = props.clients.find(c => c._id === props.config.defaultClient);
     }
     const model = EditInvoiceViewModel.createNew(props.config, client);
 
-    model.number = invoicesOrQuotations.map((i) => i.number).reduce((a, b) => Math.max(a, b), 0) + 1;
+    model.number = invoicesOrQuotations.map(i => i.number).reduce((a, b) => Math.max(a, b), 0) + 1;
     model.isQuotation = this.isQuotation;
     return model;
 
@@ -167,7 +167,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
             <Col sm={6}>
               <EditInvoiceClient
                 invoice={invoice}
-                onChange={(val) => this.setState(val)}
+                onChange={val => this.setState(val)}
               />
             </Col>
 
@@ -194,7 +194,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                       label={t('invoice.discount')}
                       placeholder={t('invoice.discountPlaceholder')}
                       value={invoice.discount}
-                      onChange={(value) => this.updateInvoice('discount', value, true)}
+                      onChange={value => this.updateInvoice('discount', value, true)}
                       data-tst="invoice.discount"
                     />
                   </Col>
@@ -207,7 +207,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
             <EmailModal
               show={this.state.showEmailModal}
               defaultValue={getDefaultEmailValue(invoice, this.props.config)}
-              attachmentsAvailable={invoice.attachments.map((a) => a.type)}
+              attachmentsAvailable={invoice.attachments.map(a => a.type)}
               title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} />}
               onClose={() => this.setState({showEmailModal: false})}
               onConfirm={(email: EmailModel) => this.props.sendEmail(invoice, email)}
@@ -223,7 +223,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
           <Row style={{marginTop: 8}}>
             <EditInvoiceLines
               invoice={invoice}
-              onChange={(m) => this.setState({invoice: m})}
+              onChange={m => this.setState({invoice: m})}
             />
           </Row>
           <Control.AttachmentsForm model={invoice} />

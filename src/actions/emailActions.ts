@@ -8,9 +8,9 @@ import {ACTION_TYPES} from './utils/ActionTypes';
 import {invoiceReplacements} from './utils/download-helpers';
 
 export function sendEmail(invoice: InvoiceModel, email: EmailModel) {
-  return (dispatch) => {
+  return dispatch => {
     // eslint-disable-next-line no-param-reassign
-    email.attachments = email.attachments.map((attachmentType) => {
+    email.attachments = email.attachments.map(attachmentType => {
       if (attachmentType === 'pdf') {
         return {
           type: 'pdf',
@@ -19,7 +19,7 @@ export function sendEmail(invoice: InvoiceModel, email: EmailModel) {
         };
       }
 
-      const details = invoice.attachments.find((a) => a.type === attachmentType);
+      const details = invoice.attachments.find(a => a.type === attachmentType);
       if (!details) {
         // Attachment is not uploaded but user could decide to send the email anyway
         return null;
@@ -31,11 +31,11 @@ export function sendEmail(invoice: InvoiceModel, email: EmailModel) {
         fileType: details.fileType,
       } as any;
     })
-      .filter((att) => att);
+      .filter(att => att);
 
     request.post(buildUrl(`/invoices/email/${invoice._id}`))
       .send(email)
-      .then((res) => {
+      .then(res => {
         console.log('res', res); // eslint-disable-line
         success(t('email.sent'));
         dispatch({
@@ -46,7 +46,7 @@ export function sendEmail(invoice: InvoiceModel, email: EmailModel) {
           },
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.error('res ERROR', err); // eslint-disable-line
         failure(err.body[0].message, 'Email failure', 8000);
       });

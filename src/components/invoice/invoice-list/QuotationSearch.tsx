@@ -25,7 +25,7 @@ export class QuotationSearch extends Component<QuotationSearchProps> {
         <Col sm={6}>
           <SearchStringInput
             value={freeInvoice}
-            onChange={(str) => this.onFilterChange({freeInvoice: str})}
+            onChange={str => this.onFilterChange({freeInvoice: str})}
           />
         </Col>
         <Col sm={6}>

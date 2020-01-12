@@ -32,7 +32,7 @@ export function moneyFormat(input): string {
 /**
  * Discards all non-numeric characters
  */
-export const getNumeric = (text) => text.replace(/[^0-9]+/g, '');
+export const getNumeric = text => text.replace(/[^0-9]+/g, '');
 
 export const datePickerDateFormat = 'dd/MM/yyyy';
 

@@ -13,7 +13,7 @@ export function saveProject(project: ProjectModel, history: any) {
       .post(buildUrl('/projects'))
       .set('Content-Type', 'application/json')
       .send(project)
-      .then((response) => {
+      .then(response => {
         dispatch({
           type: ACTION_TYPES.PROJECT_UPDATE,
           project: response.body,
@@ -33,7 +33,7 @@ export function saveProjectMonth(projectMonth: ProjectMonthModel) {
       .post(buildUrl('/projects/month'))
       .set('Content-Type', 'application/json')
       .send(projectMonth)
-      .then((response) => {
+      .then(response => {
         success(t('config.popupMessage'));
       })
       .catch(catchHandler);

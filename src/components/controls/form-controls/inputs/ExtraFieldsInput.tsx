@@ -10,7 +10,7 @@ type ExtraFieldsInputProps = BaseInputProps<SelectItem[]>;
 
 export const ExtraFieldsInput = ({value, onChange, ...props}: ExtraFieldsInputProps) => {
   const updater = (updateLabel: string, newText: string): void => {
-    onChange((value || []).map((col) => {
+    onChange((value || []).map(col => {
       if (col.label === updateLabel) {
         return {
           label: col.label,
@@ -23,7 +23,7 @@ export const ExtraFieldsInput = ({value, onChange, ...props}: ExtraFieldsInputPr
 
   return (
     <Row>
-      {(value || []).map((col) => (
+      {(value || []).map(col => (
         <Col sm={4} key={col.label}>
           <StringInput
             label={col.label as string}

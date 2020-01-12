@@ -32,7 +32,7 @@ const _ConsultantModal = (props: ConsultantModalProps) => {
             <ArrayInput
               config={defaultConsultantProperties}
               model={consultant}
-              onChange={(value) => setConsultantProperties({...consultant, ...value})}
+              onChange={value => setConsultantProperties({...consultant, ...value})}
               tPrefix="consultant."
             />
           </Row>

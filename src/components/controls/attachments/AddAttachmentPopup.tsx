@@ -42,7 +42,7 @@ class AddAttachmentPopupComponent extends Component<AddAttachmentPopupProps, Add
 
     const {attachments, onClose} = this.props;
     const currentType = this.state.type;
-    const canAdd = currentType && !attachments.map((a) => a.type.toUpperCase()).includes(currentType.toUpperCase());
+    const canAdd = currentType && !attachments.map(a => a.type.toUpperCase()).includes(currentType.toUpperCase());
 
     const buttons: PopupButton[] = [{
       text: t('cancel'),

@@ -85,7 +85,7 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
                 <Control.ArrayInput
                   config={requiredClientProperties}
                   model={client}
-                  onChange={(value) => this.setState({...client, ...value})}
+                  onChange={value => this.setState({...client, ...value})}
                   tPrefix="config.company."
                 />
               </Row>

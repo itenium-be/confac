@@ -25,7 +25,7 @@ export const ProposedAttachmentsDropzones = ({model, modelType}: ProposedAttachm
     return null;
   }
 
-  const attachmentKeys = model.attachments.map((a) => a.type);
+  const attachmentKeys = model.attachments.map(a => a.type);
   const extraAttachments: string[] = proposedAttachmentTypes.filter((type: string) => !attachmentKeys.includes(type));
 
   if (extraAttachments.length === 0) {

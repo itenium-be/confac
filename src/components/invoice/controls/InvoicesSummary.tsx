@@ -12,7 +12,7 @@ export const InvoiceAmountLabel = ({invoices, isQuotation, ...props}) => {
 
 
 export const InvoicesSummary = ({invoices, ...props}) => {
-  const moneys = invoices.map((i) => i.money);
+  const moneys = invoices.map(i => i.money);
   const money = moneys.reduce((a, b) => ({
     totalWithoutTax: a.totalWithoutTax + b.totalWithoutTax,
     totalTax: a.totalTax + b.totalTax,

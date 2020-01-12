@@ -28,7 +28,7 @@ export const EmailForm = ({value, onChange, attachmentsAvailable, ...props}: Ema
       <StringInput
         inline
         value={value.to}
-        onChange={(to) => onChange({...value, to} as EmailModel)}
+        onChange={to => onChange({...value, to} as EmailModel)}
         label={t('email.to')}
         placeholder={t('email.toPlaceholder')}
         suffix={(
@@ -42,14 +42,14 @@ export const EmailForm = ({value, onChange, attachmentsAvailable, ...props}: Ema
 
       {showAllTos && (
         <>
-          <StringInput inline value={value.cc} onChange={(cc) => onChange({...value, cc} as EmailModel)} label={t('email.cc')} />
-          <StringInput inline value={value.bcc} onChange={(bcc) => onChange({...value, bcc} as EmailModel)} label={t('email.bcc')} />
+          <StringInput inline value={value.cc} onChange={cc => onChange({...value, cc} as EmailModel)} label={t('email.cc')} />
+          <StringInput inline value={value.bcc} onChange={bcc => onChange({...value, bcc} as EmailModel)} label={t('email.bcc')} />
         </>
       )}
-      <StringInput inline value={value.subject} onChange={(subject) => onChange({...value, subject} as EmailModel)} label={t('email.subject')} />
+      <StringInput inline value={value.subject} onChange={subject => onChange({...value, subject} as EmailModel)} label={t('email.subject')} />
 
 
-      <TextEditor value={value.body} onChange={(body) => onChange({...value, body} as EmailModel)} />
+      <TextEditor value={value.body} onChange={body => onChange({...value, body} as EmailModel)} />
 
       <h4 style={{marginTop: 20}}>{t('email.attachments')}</h4>
       <EmailFormAttachments expectedAttachments={value.attachments} attachmentsAvailable={attachmentsAvailable} />
@@ -67,8 +67,8 @@ type EmailFormAttachments = {
 
 const EmailFormAttachments = ({expectedAttachments, attachmentsAvailable}: EmailFormAttachments) => (
   <Row className="email-attachments">
-    {expectedAttachments.map((attachment) => {
-      const isAvailable = attachmentsAvailable.some((a) => a === attachment);
+    {expectedAttachments.map(attachment => {
+      const isAvailable = attachmentsAvailable.some(a => a === attachment);
       return (
         <div key={attachment} className={isAvailable ? 'success' : 'danger'}>
           <i className={isAvailable ? 'fa fa-check-circle' : 'fa fa-exclamation-circle'} />

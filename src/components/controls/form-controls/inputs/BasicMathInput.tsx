@@ -22,8 +22,8 @@ export const BasicMathInput = ({value, onChange, float = false, allowHours = fal
   <BaseInput
     type="text"
     value={value || ''}
-    onChange={(e) => onChange(e.target.value)}
-    onBlur={(e) => onChange(basicMath(e.target.value, float, allowHours))}
+    onChange={e => onChange(e.target.value)}
+    onBlur={e => onChange(basicMath(e.target.value, float, allowHours))}
     {...props}
   />
 );
@@ -87,7 +87,7 @@ function mathEval(str: string, asFloat: boolean, allowHours?: boolean): number {
       result = mathEval(parts[0], asFloat) - mathEval(parts[1], asFloat);
     }
   } else if (allowHours && str.includes(':')) {
-    const parts = str.split(':').map((s) => parseInt(s, 10));
+    const parts = str.split(':').map(s => parseInt(s, 10));
     result = `${parts[0]}.${parts[1] / 60 * 100}`;
   }
   return convertToNumber(result, asFloat);

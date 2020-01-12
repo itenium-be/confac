@@ -22,11 +22,11 @@ export const SimpleCreatableSelect = ({options, value, onChange, isClearable = f
     <Creatable
       value={{label: value, value}}
       options={opts}
-      onChange={(itm) => onChange(itm && (itm as SelectItem).value)}
+      onChange={itm => onChange(itm && (itm as SelectItem).value)}
       isClearable={isClearable}
       multi={false}
       noOptionsMessage={() => t('controls.noResultsText')}
-      formatCreateLabel={(itm) => t('controls.addLabelText', {value: itm})}
+      formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
       placeholder={t('controls.selectPlaceholder')}
       className={`tst-${props['data-tst']}`}
     />

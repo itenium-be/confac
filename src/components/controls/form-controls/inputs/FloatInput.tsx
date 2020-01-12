@@ -8,7 +8,7 @@ export const FloatInput = ({value, onChange, ...props}: FloatInputProps) => (
   <BaseInput
     type="number"
     value={value || ''}
-    onChange={(e) => onChange(parseIntOrFloat(e.target.value, true))}
+    onChange={e => onChange(parseIntOrFloat(e.target.value, true))}
     {...props}
   />
 );

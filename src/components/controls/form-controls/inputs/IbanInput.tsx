@@ -12,7 +12,7 @@ export const IbanInput = ({value, onChange, ...props}: IbanInputProps) => {
     <BaseInput
       type="text"
       value={value || ''}
-      onChange={(e) => onChange(e.target.value as string)}
+      onChange={e => onChange(e.target.value as string)}
       onBlur={() => onChange(Iban.printFormat(value || '', ' '))}
       {...props}
       suffix={(

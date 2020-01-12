@@ -90,7 +90,7 @@ export const InvoiceListRow = ({invoice, isFirstRow, onlyRowForMonth, columns}: 
   const dispatch = useDispatch();
   const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
 
-  const borderStyle = columns.some((col) => col.groupedBy) ? {borderBottom: 0, borderTop: 0} : undefined;
+  const borderStyle = columns.some(col => col.groupedBy) ? {borderBottom: 0, borderTop: 0} : undefined;
   const tst = (key: string): string => `list-${invoice._id}-${key}`;
 
   const invoiceType = invoice.isQuotation ? 'quotation' : 'invoice';

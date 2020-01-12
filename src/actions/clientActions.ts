@@ -7,12 +7,12 @@ import {busyToggle, success} from './appActions';
 
 
 export function saveClient(client: ClientModel, stayOnPage = false, callback?: (client: ClientModel) => void) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(busyToggle());
     return request.post(buildUrl('/clients'))
       .set('Content-Type', 'application/json')
       .send(client)
-      .then((res) => {
+      .then(res => {
         dispatch({
           type: ACTION_TYPES.CLIENT_UPDATE,
           client: res.body,

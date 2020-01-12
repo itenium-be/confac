@@ -17,11 +17,11 @@ export class ProjectReferenceResolver {
   }
 
   getConsultant(consultantId: string): ConsultantModel {
-    return this.consultants.find((consultant) => consultant._id === consultantId) as ConsultantModel;
+    return this.consultants.find(consultant => consultant._id === consultantId) as ConsultantModel;
   }
 
   getClient(clientId: string): ClientModel {
-    return this.clients.find((client) => client._id === clientId) as ClientModel;
+    return this.clients.find(client => client._id === clientId) as ClientModel;
   }
 
   getIsProjectActive(startDate: string, endDate: string): boolean {
@@ -34,7 +34,7 @@ export class ProjectReferenceResolver {
   }
 
   getProjects(): FullProjectModel[] {
-    return this.projects.map((project) => ({
+    return this.projects.map(project => ({
       details: {...project, isActive: this.getIsProjectActive(project.startDate, project.endDate)},
       consultant: this.getConsultant(project.consultantId),
       client: this.getClient(project.client),

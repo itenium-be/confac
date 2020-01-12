@@ -21,13 +21,13 @@ export const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component
 
     // Consider pure int manual input
     // to be search on invoice number
-    value.filter((f) => !f.type && +f.value).forEach((f) => {
+    value.filter(f => !f.type && +f.value).forEach(f => {
       f.type = 'invoice-nr';
       f.value = parseInt(f.value as string, 10);
     });
 
     // All remaining are pure text searches
-    value.filter((f) => !f.type).forEach((f) => {
+    value.filter(f => !f.type).forEach(f => {
       f.type = 'manual_input';
     });
 
@@ -43,7 +43,7 @@ export const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component
         isClearable
         isMulti
         noOptionsMessage={() => t('controls.noResultsText')}
-        formatCreateLabel={(value) => t('controls.addFilterText', {value})}
+        formatCreateLabel={value => t('controls.addFilterText', {value})}
         placeholder={t('invoice.search.placeholder')}
         className={`tst-${this.props['data-tst']}`}
       />

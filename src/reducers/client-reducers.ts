@@ -16,7 +16,7 @@ export const clients = (state: ClientModel[] = [], action): ClientModel[] => {
       if (action.isNewClient) {
         newState = state.concat([action.client]);
       } else {
-        newState = state.filter((client) => client._id !== action.client._id);
+        newState = state.filter(client => client._id !== action.client._id);
         newState.push(action.client);
       }
       return newState;

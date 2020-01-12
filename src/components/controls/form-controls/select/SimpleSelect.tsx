@@ -18,7 +18,7 @@ export const SimpleSelect = EnhanceInputWithLabel(class extends Component<Simple
     const {transFn, options, value, onChange, isClearable, ...props} = this.props;
     const trans = (transKey: string): string => (transFn ? transFn(transKey) : transKey);
 
-    const opts: SelectItem[] = options.map((itm) => ({
+    const opts: SelectItem[] = options.map(itm => ({
       label: trans(itm),
       value: itm,
     }));

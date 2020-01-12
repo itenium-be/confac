@@ -45,7 +45,7 @@ const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}:
     setInputValue(value || '');
   }
 
-  const [debouncedCallback] = useDebouncedCallback(async (val) => {
+  const [debouncedCallback] = useDebouncedCallback(async val => {
     const cleanBtw = parseBtw(val);
     if (val === BtwInRequest) {
       setValid(true);
@@ -129,7 +129,7 @@ export type BtwResponse = {
 }
 
 async function fetchBtwInfo(btw: string): Promise<BtwResponse> {
-  return (await fetch(buildUrl(`/clients/btw/${btw}`)).then((result) => result.json())) as BtwResponse;
+  return (await fetch(buildUrl(`/clients/btw/${btw}`)).then(result => result.json())) as BtwResponse;
 }
 
 

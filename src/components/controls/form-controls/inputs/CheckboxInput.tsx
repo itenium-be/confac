@@ -15,7 +15,7 @@ export const CheckboxInput = /* EnhanceInputWithLabel( */class extends Component
         <input
           type="checkbox"
           checked={value || false}
-          onChange={(evt) => onChange(evt.target.checked)}
+          onChange={evt => onChange(evt.target.checked)}
           {...props}
         />
         <span style={{paddingLeft: 10}}>{label}</span>

@@ -7,12 +7,12 @@ import {ACTION_TYPES} from './utils/ActionTypes';
 
 
 export function saveConsultant(consultant: ConsultantModel, stayOnPage = false, callback?: (consultant: ConsultantModel) => void) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(busyToggle());
     return request.post(buildUrl('/consultants'))
       .set('Content-Type', 'application/json')
       .send(consultant)
-      .then((response) => {
+      .then(response => {
         dispatch({
           type: ACTION_TYPES.CONSULTANT_UPDATE,
           consultant: response.body,

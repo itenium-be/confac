@@ -17,7 +17,7 @@ export function updateAttachment(
   modelType: 'client' | 'invoice' | 'quotation',
   {type, file}: {type: string, file: any},
 ) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(busyToggle());
     const req = request.put(buildAttachmentUrl(model, type));
     // .set('Content-Type', 'application/json');
@@ -28,7 +28,7 @@ export function updateAttachment(
     //   req.attach(f.name, f);
     // });
 
-    req.then((res) => {
+    req.then(res => {
       dispatch({
         type: modelType === 'client' ? ACTION_TYPES.CLIENT_UPDATE : ACTION_TYPES.INVOICE_UPDATED,
         [modelType === 'client' ? 'client' : 'invoice']: res.body, // ATTN: quotation is saved like an invoice
@@ -45,10 +45,10 @@ export function updateAttachment(
 
 
 export function deleteAttachment(model: IAttachment, modelType: 'client' | 'invoice' | 'quotation', {type}: {type: string}) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(busyToggle());
     request.delete(buildAttachmentUrl(model, type))
-      .then((res) => {
+      .then(res => {
         dispatch({
           type: modelType === 'client' ? ACTION_TYPES.CLIENT_UPDATE : ACTION_TYPES.INVOICE_UPDATED,
           [modelType === 'client' ? 'client' : 'invoice']: res.body,

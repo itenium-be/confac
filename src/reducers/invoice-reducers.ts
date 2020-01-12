@@ -15,20 +15,20 @@ export const invoices = (state: InvoiceModel[] = [], action): InvoiceModel[] => 
       return action.invoices.map(mapInvoice);
 
     case ACTION_TYPES.INVOICE_DELETED:
-      return state.filter((invoice) => invoice._id !== action.id);
+      return state.filter(invoice => invoice._id !== action.id);
 
     case ACTION_TYPES.INVOICE_ADDED:
       return state.concat([mapInvoice(action.invoice)]);
 
     case ACTION_TYPES.INVOICE_UPDATED: {
     // console.log('UPDATED', action);
-      const newState = state.filter((invoice) => invoice._id !== action.invoice._id);
+      const newState = state.filter(invoice => invoice._id !== action.invoice._id);
       newState.push(mapInvoice(action.invoice));
       return newState;
     }
 
     case ACTION_TYPES.INVOICE_EMAILED:
-      return state.map((invoice) => {
+      return state.map(invoice => {
         if (invoice._id === action.payload._id) {
           return {
             ...invoice,

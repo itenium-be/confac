@@ -35,16 +35,16 @@ class ClientList extends Component<ClientListProps, ClientListState> {
 
     let {clients} = this.props;
     if (!this.state.showDeleted) {
-      clients = clients.filter((c) => c.active);
+      clients = clients.filter(c => c.active);
     }
     if (filters.freeClient) {
       const freeTextFilter = filters.freeClient.toLowerCase();
-      clients = clients.filter((c) => searchClientFor(c, freeTextFilter));
+      clients = clients.filter(c => searchClientFor(c, freeTextFilter));
     }
 
     let filteredInvoices = invoices;
     if (filters.clientListYears.length !== 0) {
-      filteredInvoices = filteredInvoices.filter((i) => filters.clientListYears.includes(i.date.year()));
+      filteredInvoices = filteredInvoices.filter(i => filters.clientListYears.includes(i.date.year()));
     }
 
     return (
@@ -57,7 +57,7 @@ class ClientList extends Component<ClientListProps, ClientListState> {
           <Col lg={3} md={6}>
             <SearchStringInput
               value={filters.freeClient}
-              onChange={(str) => this.props.updateInvoiceFilters({...filters, freeClient: str})}
+              onChange={str => this.props.updateInvoiceFilters({...filters, freeClient: str})}
             />
           </Col>
           <Col lg={3} md={6}>
@@ -82,7 +82,7 @@ class ClientList extends Component<ClientListProps, ClientListState> {
         <Table size="sm" style={{marginTop: 10}}>
           <ClientListHeader />
           <tbody>
-            {clients.sort((a, b) => a.name.localeCompare(b.name)).map((client) => (
+            {clients.sort((a, b) => a.name.localeCompare(b.name)).map(client => (
               <ClientListRow client={client} key={client._id} invoices={filteredInvoices} />
             ))}
           </tbody>

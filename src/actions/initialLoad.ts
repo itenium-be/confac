@@ -7,8 +7,8 @@ let counter: number;
 
 const httpGet = (url: string) => fetch(buildUrl(url))
   .then(
-    (res) => res.json(),
-    (err) => {
+    res => res.json(),
+    err => {
       console.log('Initial Load Failure', err);// eslint-disable-line
       if (counter === 0) {
         failure(err.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
@@ -17,7 +17,7 @@ const httpGet = (url: string) => fetch(buildUrl(url))
       return Promise.reject(err);
     },
   )
-  .then((data) => {
+  .then(data => {
     if (data.message && data.stack) {
       console.log('Initial Load Failure', data); // eslint-disable-line
       if (counter === 0) {
@@ -30,7 +30,7 @@ const httpGet = (url: string) => fetch(buildUrl(url))
   });
 
 function fetchClients() {
-  return (dispatch) => httpGet('/clients').then((data) => {
+  return dispatch => httpGet('/clients').then(data => {
     dispatch({
       type: ACTION_TYPES.CLIENTS_FETCHED,
       clients: data,
@@ -39,7 +39,7 @@ function fetchClients() {
 }
 
 function fetchConsultants() {
-  return (dispatch) => httpGet('/consultants').then((data) => {
+  return dispatch => httpGet('/consultants').then(data => {
     dispatch({
       type: ACTION_TYPES.CONSULTANTS_FETCHED,
       consultants: data,
@@ -48,7 +48,7 @@ function fetchConsultants() {
 }
 
 function fetchProjects() {
-  return (dispatch) => httpGet('/projects').then((data) => {
+  return dispatch => httpGet('/projects').then(data => {
     dispatch({
       type: ACTION_TYPES.PROJECTS_FETCHED,
       projects: data,
@@ -57,7 +57,7 @@ function fetchProjects() {
 }
 
 function fetchConfig() {
-  return (dispatch) => httpGet('/config').then((data) => {
+  return dispatch => httpGet('/config').then(data => {
     dispatch({
       type: ACTION_TYPES.CONFIG_FETCHED,
       config: data,
@@ -66,7 +66,7 @@ function fetchConfig() {
 }
 
 function fetchInvoices() {
-  return (dispatch) => httpGet('/invoices').then((data) => {
+  return dispatch => httpGet('/invoices').then(data => {
     dispatch({
       type: ACTION_TYPES.INVOICES_FETCHED,
       invoices: data,
@@ -75,7 +75,7 @@ function fetchInvoices() {
 }
 
 function fetchProjectsMonth() {
-  return (dispatch) => httpGet('/projects/month').then((data) => {
+  return dispatch => httpGet('/projects/month').then(data => {
     dispatch({
       type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
       projectsMonth: data,
@@ -85,7 +85,7 @@ function fetchProjectsMonth() {
 
 export function initialLoad(): any {
   counter = 0;
-  return (dispatch) => Promise.all([
+  return dispatch => Promise.all([
     dispatch(fetchClients()),
     dispatch(fetchConfig()),
     dispatch(fetchInvoices()),

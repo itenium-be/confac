@@ -8,7 +8,7 @@ export const WebsiteInput = ({value, onChange, ...props}: WebsiteInputProps) => 
   <BaseInput
     type="text"
     value={value || ''}
-    onChange={(e) => onChange(e.target.value as string)}
+    onChange={e => onChange(e.target.value as string)}
     {...props}
     suffix={(
       <a href={value} className="btn input-group-text">

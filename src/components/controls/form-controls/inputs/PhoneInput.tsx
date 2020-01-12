@@ -8,7 +8,7 @@ export const PhoneInput = ({value, onChange, ...props}: PhoneInputProps) => (
   <BaseInput
     type="text"
     value={value || ''}
-    onChange={(e) => onChange(e.target.value as string)}
+    onChange={e => onChange(e.target.value as string)}
     {...props}
     suffix={(
       <a href={`tel:${(value || '').replace(/[^0-9]/g, '')}`} className="btn input-group-text">

@@ -31,7 +31,7 @@ type ClientListRowProps = {
 class ClientListRow extends Component<ClientListRowProps> {
   render() {
     const {client} = this.props;
-    const invoices = this.props.invoices.filter((i) => i.client._id === client._id);
+    const invoices = this.props.invoices.filter(i => i.client._id === client._id);
     const tst = (key: string): string => `client-${client.name}-${key}`;
     return (
       <tr className={client.active ? undefined : 'table-danger'} data-tst={tst('row')}>

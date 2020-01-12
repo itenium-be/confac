@@ -27,7 +27,7 @@ const _ProjectMonthModal = (props: ProjectMonthModalProps) => {
               label={t('project.month')}
               dateFormat="MMMM - yyyy"
               value={projectMonth.month}
-              onChange={(date) => setProjectMonth({month: date!.utc().startOf('month')})}
+              onChange={date => setProjectMonth({month: date!.utc().startOf('month')})}
               showMonthYearPicker
             />
           </Row>

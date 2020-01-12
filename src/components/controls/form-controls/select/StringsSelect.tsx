@@ -19,7 +19,7 @@ const convertToStringArray = (values: OptionType[]): string[] => {
   if (!values) {
     return [];
   }
-  const strings = values.map((itm) => itm.value);
+  const strings = values.map(itm => itm.value);
   return strings;
 };
 
@@ -27,15 +27,15 @@ export const StringsSelect = EnhanceInputWithLabel(({value, onChange, options, .
   value = value || [];
   return (
     <Creatable
-      value={value.map((v) => ({label: v, value: v}))}
-      onChange={(val) => onChange(convertToStringArray(val as OptionType[]))}
+      value={value.map(v => ({label: v, value: v}))}
+      onChange={val => onChange(convertToStringArray(val as OptionType[]))}
       isClearable={false}
       isMulti
       noOptionsMessage={() => t('controls.noOptionsMessage')}
-      formatCreateLabel={(itm) => t('controls.addLabelText', {value: itm})}
+      formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
       placeholder={t('controls.selectPlaceholder')}
       className={`tst-${props['data-tst']}`}
-      options={(options || []).map((o) => ({label: o, value: o}))}
+      options={(options || []).map(o => ({label: o, value: o}))}
       {...props}
     />
   );

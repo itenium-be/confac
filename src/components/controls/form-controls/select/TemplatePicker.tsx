@@ -26,8 +26,8 @@ class TemplatePickerComponent extends Component<TemplatePickerProps, TemplatePic
 
   componentDidMount() {
     httpGet('/config/templates')
-      .then((res) => res.json())
-      .then((templates) => {
+      .then(res => res.json())
+      .then(templates => {
         if (!templates.message) {
           this.setState({templates});
         } else {
@@ -43,7 +43,7 @@ class TemplatePickerComponent extends Component<TemplatePickerProps, TemplatePic
     const {value, ...props} = this.props;
 
     let options = this.state.templates;
-    if (value && options.every((x) => x !== value)) {
+    if (value && options.every(x => x !== value)) {
       options = options.concat([value]);
     }
 

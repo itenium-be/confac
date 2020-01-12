@@ -32,7 +32,7 @@ export class InvoiceSearch extends Component<InvoiceSearchProps> {
         <Col xl={4} md={4}>
           <SearchStringInput
             value={freeInvoice}
-            onChange={(str) => this.onFilterChange({freeInvoice: str})}
+            onChange={str => this.onFilterChange({freeInvoice: str})}
           />
         </Col>
         <Col xl={6} md={6}>
@@ -67,12 +67,12 @@ const InvoiceSearchAdvanced = (props: InvoiceSearchAdvancedProps) => {
 
   const downloadExcel = () => {
     const invoices = props.vm.getFilteredInvoices();
-    const invoiceIds = invoices.map((i) => i._id);
+    const invoiceIds = invoices.map(i => i._id);
     dispatch(downloadInvoicesExcel(invoiceIds));
   };
   const downloadZip = () => {
     const invoices = props.vm.getFilteredInvoices();
-    const invoiceIds = invoices.map((i) => i._id);
+    const invoiceIds = invoices.map(i => i._id);
     dispatch(downloadInvoicesZip(invoiceIds));
   };
 

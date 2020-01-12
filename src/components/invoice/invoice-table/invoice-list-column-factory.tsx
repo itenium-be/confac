@@ -41,5 +41,5 @@ export function getColumns(fields: string[], showOrderNr: boolean, isQuotation: 
     });
   }
 
-  return columns.filter((col) => fields.includes(col.key));
+  return columns.filter(col => fields.includes(col.key));
 }

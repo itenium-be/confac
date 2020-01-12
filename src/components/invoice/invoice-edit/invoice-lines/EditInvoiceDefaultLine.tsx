@@ -16,7 +16,7 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
       <td key="0">
         <Control.StringInput
           value={line.desc}
-          onChange={(value) => onChange(invoice.updateLine(index, {desc: value}))}
+          onChange={value => onChange(invoice.updateLine(index, {desc: value}))}
           data-tst={`line-${index}-desc`}
         />
       </td>,
@@ -24,7 +24,7 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
         <Control.InvoiceLineTypeSelect
           label={null}
           value={line.type}
-          onChange={(value) => onChange(invoice.updateLine(index, {type: value}))}
+          onChange={value => onChange(invoice.updateLine(index, {type: value}))}
           data-tst={`line-${index}-type`}
         />
       </td>,
@@ -33,7 +33,7 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
           float
           allowHours={line.type === 'hourly'}
           value={line.amount}
-          onChange={(value) => onChange(invoice.updateLine(index, {amount: value}))}
+          onChange={value => onChange(invoice.updateLine(index, {amount: value}))}
           data-tst={`line-${index}-amount`}
         />
       </td>,
@@ -43,7 +43,7 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
           addOnMinWidth={925}
           float
           value={line.price}
-          onChange={(value) => onChange(invoice.updateLine(index, {price: value}))}
+          onChange={value => onChange(invoice.updateLine(index, {price: value}))}
           data-tst={`line-${index}-price`}
         />
       </td>,
@@ -53,7 +53,7 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
           addOnMinWidth={925}
           float
           value={line.tax}
-          onChange={(value) => onChange(invoice.updateLine(index, {tax: value}))}
+          onChange={value => onChange(invoice.updateLine(index, {tax: value}))}
           data-tst={`line-${index}-tax`}
         />
       </td>,

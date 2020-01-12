@@ -7,7 +7,7 @@ export const TextareaInput = ({value, onChange, ...props}: TextareaInputProps) =
   <BaseInput
     type="textarea"
     value={value || ''}
-    onChange={(e) => onChange(e.target.value)}
+    onChange={e => onChange(e.target.value)}
     {...props}
   />
 );

@@ -63,7 +63,7 @@ export class InvoiceList extends Component<InvoiceListProps> {
 }
 
 export default connect((state: ConfacState) => ({
-  invoices: state.invoices.filter((x) => !x.isQuotation),
+  invoices: state.invoices.filter(x => !x.isQuotation),
   clients: state.clients,
   filters: state.app.invoiceFilters,
   config: state.config,

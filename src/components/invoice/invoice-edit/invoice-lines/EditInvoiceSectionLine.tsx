@@ -16,7 +16,7 @@ export class EditInvoiceSectionLine extends Component<EditInvoiceSectionLineProp
       <td key="0">
         <Control.StringInput
           value={line.desc}
-          onChange={(value) => onChange(invoice.updateLine(index, {desc: value}))}
+          onChange={value => onChange(invoice.updateLine(index, {desc: value}))}
           data-tst={`line-${index}-desc`}
         />
       </td>,
@@ -24,7 +24,7 @@ export class EditInvoiceSectionLine extends Component<EditInvoiceSectionLineProp
         <Control.InvoiceLineTypeSelect
           label={null}
           value={line.type}
-          onChange={(value) => onChange(invoice.updateLine(index, {type: value}))}
+          onChange={value => onChange(invoice.updateLine(index, {type: value}))}
           data-tst={`line-${index}-type`}
         />
       </td>,
