@@ -7,11 +7,11 @@ const emptyClient = getNewClient();
 export const clients = (state: ClientModel[] = [], action): ClientModel[] => {
   switch (action.type) {
     case ACTION_TYPES.CLIENTS_FETCHED:
-    // console.log('CLIENTS_FETCHED', action.clients); // eslint-disable-line
+      // console.log('CLIENTS_FETCHED', action.clients); // eslint-disable-line
       return action.clients.map((client: ClientModel) => ({...emptyClient, ...client}));
 
-    case ACTION_TYPES.CLIENT_UPDATE:
-    // console.log('CLIENT_UPDATE', action); // eslint-disable-line
+    case ACTION_TYPES.CLIENT_UPDATE: {
+      // console.log('CLIENT_UPDATE', action); // eslint-disable-line
       let newState: ClientModel[];
       if (action.isNewClient) {
         newState = state.concat([action.client]);
@@ -20,6 +20,7 @@ export const clients = (state: ClientModel[] = [], action): ClientModel[] => {
         newState.push(action.client);
       }
       return newState;
+    }
 
     default:
       return state;

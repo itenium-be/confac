@@ -6,12 +6,17 @@ import {IAttachment} from '../models';
 
 
 function buildAttachmentUrl(invoiceOrClient: IAttachment, type: 'pdf' | string) {
-  const model = invoiceOrClient.money ? 'invoice' : 'client'; // HACK: dangerous stuff...
+  // eslint-disable-next-line dot-notation
+  const model = invoiceOrClient['money'] ? 'invoice' : 'client'; // HACK: dangerous stuff...
   return buildUrl(`/attachments/${model}/${invoiceOrClient._id}/${type}`);
 }
 
 
-export function updateAttachment(model: IAttachment, modelType: 'client' | 'invoice' | 'quotation', {type, file}: {type: string, file: any}) {
+export function updateAttachment(
+  model: IAttachment,
+  modelType: 'client' | 'invoice' | 'quotation',
+  {type, file}: {type: string, file: any},
+) {
   return (dispatch) => {
     dispatch(busyToggle());
     const req = request.put(buildAttachmentUrl(model, type));

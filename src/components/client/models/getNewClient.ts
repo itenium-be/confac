@@ -4,6 +4,7 @@ import {getNewEmail} from '../../controls/email/getNewEmail';
 import {defaultConfig} from '../../config/models/getNewConfig';
 
 export function getNewClient(config?: ConfigModel): ClientModel {
+  // eslint-disable-next-line no-param-reassign
   config = config || defaultConfig;
   return {
     _id: '',

@@ -12,7 +12,7 @@ function cleanViewModel(data: InvoiceModel): InvoiceModel {
   Object.keys(invoice).filter((k) => k[0] === '_' && k !== '_id').forEach((k) => {
     delete invoice[k];
   });
-  return invoice;
+  return invoice as InvoiceModel;
 }
 
 
@@ -80,6 +80,7 @@ export function invoiceAction(invoice: InvoiceModel, type: 'create' | 'update' |
     return updateInvoiceRequest(invoice, undefined, false, history);
   }
   console.log('unknown invoiceAction', type, invoice); // eslint-disable-line
+  return null;
 }
 
 

@@ -11,10 +11,9 @@ import {ConfigModel} from '../../config/models/ConfigModel';
 import {ConfacState} from '../../../reducers/app-state';
 import {btwResponseToModel} from '../NewClient';
 import {BtwInput, BtwResponse} from '../../controls/form-controls/inputs/BtwInput';
-import {BaseModalProps} from '../../controls';
 
 
-type ClientModalProps = BaseModalProps & {
+type ClientModalProps = Control.BaseModalProps & {
   config: ConfigModel,
   saveClient: Function,
   onConfirm?: (client: ClientModel) => void,
@@ -38,17 +37,18 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
     }
   }
 
+  onSave(): void {
+    const updatedClient = this.state;
+    const {onConfirm} = this.props;
+    const onSuccess = onConfirm ? (clientWithServerValues: ClientModel) => (onConfirm && onConfirm(clientWithServerValues)) : null;
+    this.props.saveClient(updatedClient, true, onSuccess);
+  }
+
   copyClient(props: ClientModalProps): ClientModel {
     if (props.client) {
       return JSON.parse(JSON.stringify(props.client));
     }
     return getNewClient(props.config);
-  }
-
-  onSave(): void {
-    const updatedClient = this.state;
-    const onSuccess = this.props.onConfirm ? (clientWithServerValues: ClientModel) => (this.props.onConfirm && this.props.onConfirm(clientWithServerValues)) : null;
-    this.props.saveClient(updatedClient, true, onSuccess);
   }
 
   render() {
@@ -76,7 +76,7 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
         show={this.props.show}
         onClose={this.props.onClose}
         title={client._id ? client.name : t('client.createNew')}
-        onConfirm={this.onSave.bind(this)}
+        onConfirm={() => this.onSave()}
       >
         {NewClientForm || (
           <Form>

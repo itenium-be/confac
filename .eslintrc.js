@@ -39,6 +39,8 @@ module.exports = {
     "no-plusplus": [0],
     "react/no-children-prop": [0],
     "class-methods-use-this": [0],
+    "react/jsx-props-no-spreading": [0],
+    "arrow-parens": ["error", "as-needed"],
   },
   "settings": {
     "import/resolver": {

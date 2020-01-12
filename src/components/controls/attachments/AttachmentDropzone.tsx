@@ -29,7 +29,7 @@ export class AttachmentDropzone extends Component<AttachmentDropzoneProps> {
     };
     return (
       <div>
-        <Dropzone onDrop={this.onDrop.bind(this)} multiple={false} style={style} className="tst-dropzone">
+        <Dropzone onDrop={(acc, rej) => this.onDrop(acc, rej)} multiple={false} style={style} className="tst-dropzone">
           <div>{t('invoice.attachmentsDropzone')}</div>
         </Dropzone>
       </div>

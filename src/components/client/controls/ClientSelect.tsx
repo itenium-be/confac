@@ -13,7 +13,7 @@ type ClientSelectProps = {
   /**
    * The client _id
    */
-  value: string,
+  value: string | ClientModel,
   onChange: (clientId: string, client: ClientModel) => void,
 }
 
@@ -39,7 +39,7 @@ class ClientSelectComponent extends Component<ClientSelectProps> {
       <Select
         value={selectedOption}
         options={options as any}
-        onChange={((item: SelectItem) => this.props.onChange(item && item.value as string, item && this.getClient(item.value as string))) as any}
+        onChange={((itm: SelectItem) => this.props.onChange(itm && itm.value as string, itm && this.getClient(itm.value as string))) as any}
         isClearable
         placeholder={t('controls.selectPlaceholder')}
         className="tst-client-select"

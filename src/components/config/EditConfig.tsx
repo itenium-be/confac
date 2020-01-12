@@ -51,7 +51,7 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
           </Row>
         </Form>
         <StickyFooter>
-          <Control.BusyButton onClick={this._save.bind(this)} data-tst="save">{t('save')}</Control.BusyButton>
+          <Control.BusyButton onClick={() => this._save()} data-tst="save">{t('save')}</Control.BusyButton>
         </StickyFooter>
       </Container>
     );

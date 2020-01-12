@@ -30,6 +30,22 @@ type AttachmentPreviewIconProps = {
   modelType: 'invoice' | 'client' | 'quotation',
 }
 
+
+export const getAttachmentDownloadUrl = (
+  model: IAttachment,
+  attachment: Attachment,
+  modelType: 'client' | 'invoice' | 'quotation',
+  downloadType: 'preview' | 'download' = 'download',
+): string => {
+
+  if (modelType === 'client') {
+    return getClientDownloadUrl(model as ClientModel, attachment, downloadType);
+  }
+  return getInvoiceDownloadUrl(model as InvoiceModel, attachment, downloadType);
+
+};
+
+
 export const AttachmentPreviewIcon = ({model, modelType, attachment, ...props}: AttachmentPreviewIconProps) => {
   const url = getAttachmentDownloadUrl(model, attachment, modelType, 'preview');
   return (
@@ -38,22 +54,12 @@ export const AttachmentPreviewIcon = ({model, modelType, attachment, ...props}: 
 };
 
 
-
-
 type AttachmentDownloadIconProps = IconProps & {
   model: IAttachment,
   attachment: Attachment,
   modelType: 'invoice' | 'client' | 'quotation',
 }
 
-
-export const getAttachmentDownloadUrl = (model: IAttachment, attachment: Attachment, modelType: 'client' | 'invoice' | 'quotation', downloadType: 'preview' | 'download' = 'download'): string => {
-  if (modelType === 'client') {
-    return getClientDownloadUrl(model as ClientModel, attachment, downloadType);
-  }
-  return getInvoiceDownloadUrl(model as InvoiceModel, attachment, downloadType);
-
-};
 
 export const AttachmentDownloadIcon = ({model, attachment, modelType, ...props}: AttachmentDownloadIconProps) => {
   const href = getAttachmentDownloadUrl(model, attachment, modelType);

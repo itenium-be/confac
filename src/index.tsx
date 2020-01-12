@@ -34,6 +34,7 @@ import './index.scss';
 
 
 // Fetch data from the db
+import {Provider} from 'react-redux';
 import {store} from './store';
 import {initialLoad} from './actions/index';
 
@@ -43,7 +44,6 @@ store.dispatch(initialLoad());
 
 
 // Create the AppRoot
-import {Provider} from 'react-redux';
 import Routes from './routes';
 
 ReactDOM.render(

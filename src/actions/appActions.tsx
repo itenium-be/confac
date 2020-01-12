@@ -60,9 +60,7 @@ export function failure(msg = '', title = '', timeout = 4000, position?: Positio
 export function busyToggle() {
   return {type: ACTION_TYPES.APP_BUSYTOGGLE, why: 'moreBusy'};
 }
-busyToggle.off = function () {
-  return {type: ACTION_TYPES.APP_BUSYTOGGLE, why: 'lessBusy'};
-};
+busyToggle.off = () => ({type: ACTION_TYPES.APP_BUSYTOGGLE, why: 'lessBusy'});
 
 
 export function updateInvoiceFilters(filters: InvoiceFilters) {

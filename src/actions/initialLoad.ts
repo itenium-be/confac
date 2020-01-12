@@ -9,7 +9,7 @@ const httpGet = (url: string) => fetch(buildUrl(url))
   .then(
     (res) => res.json(),
     (err) => {
-      console.log('Initial Load Failure', err);
+      console.log('Initial Load Failure', err);// eslint-disable-line
       if (counter === 0) {
         failure(err.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
       }
@@ -19,7 +19,7 @@ const httpGet = (url: string) => fetch(buildUrl(url))
   )
   .then((data) => {
     if (data.message && data.stack) {
-      console.log('Initial Load Failure', data);
+      console.log('Initial Load Failure', data); // eslint-disable-line
       if (counter === 0) {
         failure(data.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
       }

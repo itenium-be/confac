@@ -39,7 +39,7 @@ export const NewClient = (props: NewClientProps) => {
               value={btw}
               onChange={(val: string) => setBtw(val)}
               onBtwChange={onBtwChange}
-              onFinalize={(btw: string) => (client ? props.onChange(client) : props.onChange({btw: btw || ' '} as ClientModel))}
+              onFinalize={(val: string) => (client ? props.onChange(client) : props.onChange({btw: val || ' '} as ClientModel))}
             />
           </Col>
         </Row>

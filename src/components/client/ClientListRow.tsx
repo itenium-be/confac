@@ -27,6 +27,7 @@ type ClientListRowProps = {
   client: ClientModel,
 }
 
+// eslint-disable-next-line react/prefer-stateless-function
 class ClientListRow extends Component<ClientListRowProps> {
   render() {
     const {client} = this.props;

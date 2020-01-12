@@ -4,11 +4,12 @@ import {EmailModel} from '../components/controls/email/EmailModels';
 import {buildUrl} from './utils/fetch';
 import {success, failure} from './appActions';
 import {t} from '../components/utils';
-import {invoiceReplacements} from './downloadActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
+import {invoiceReplacements} from './utils/download-helpers';
 
 export function sendEmail(invoice: InvoiceModel, email: EmailModel) {
   return (dispatch) => {
+    // eslint-disable-next-line no-param-reassign
     email.attachments = email.attachments.map((attachmentType) => {
       if (attachmentType === 'pdf') {
         return {
@@ -35,7 +36,7 @@ export function sendEmail(invoice: InvoiceModel, email: EmailModel) {
     request.post(buildUrl(`/invoices/email/${invoice._id}`))
       .send(email)
       .then((res) => {
-        console.log('res', res);
+        console.log('res', res); // eslint-disable-line
         success(t('email.sent'));
         dispatch({
           type: ACTION_TYPES.INVOICE_EMAILED,
@@ -46,7 +47,7 @@ export function sendEmail(invoice: InvoiceModel, email: EmailModel) {
         });
       })
       .catch((err) => {
-        console.error('res ERROR', err);
+        console.error('res ERROR', err); // eslint-disable-line
         failure(err.body[0].message, 'Email failure', 8000);
       });
   };

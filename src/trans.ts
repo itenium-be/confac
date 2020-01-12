@@ -298,7 +298,7 @@ export default function (key: string, params?: object): string {
   } else {
     str = key.split('.').reduce((o, i) => {
       if (!o[i]) {
-        console.log(`trans.ts: Could not find '${key}' on`, o);
+        console.log(`trans.ts: Could not find '${key}' on`, o); // eslint-disable-line
         return key;
       }
       return o[i];

@@ -70,6 +70,18 @@ class EditClient extends Component<EditClientProps, EditClientState> {
     this.props.saveClient(this.state.client);
   }
 
+  isClientDisabled(client: ClientModel): boolean {
+    if (client.name.length === 0) {
+      return true;
+    }
+    if (client.slug && client.slug.length === 0) {
+      // slug can only be filled in for an existing invoice
+      // (it's set on the backend create)
+      return true;
+    }
+    return false;
+  }
+
   render() {
     const {client} = this.state;
     if (!client) {
@@ -114,7 +126,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
         </Form>
         <StickyFooter>
           <BusyButton
-            onClick={this._onSave.bind(this)}
+            onClick={() => this._onSave()}
             disabled={this.isClientDisabled(client)}
             data-tst="save"
           >
@@ -123,18 +135,6 @@ class EditClient extends Component<EditClientProps, EditClientState> {
         </StickyFooter>
       </Container>
     );
-  }
-
-  isClientDisabled(client: ClientModel): boolean {
-    if (client.name.length === 0) {
-      return true;
-    }
-    if (client.slug && client.slug.length === 0) {
-      // slug can only be filled in for an existing invoice
-      // (it's set on the backend create)
-      return true;
-    }
-    return false;
   }
 }
 
