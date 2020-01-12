@@ -17,11 +17,13 @@ export const EnhanceWithBusySpinner = <P extends object>(ComposedComponent: Reac
     super(props);
     this.state = {isBusy: false};
   }
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.state.isBusy && this.props.model !== nextProps.model) {
       this.setState({isBusy: false});
     }
   }
+
   render() {
     const {isBusy, onClick, model, ...props} = this.props;
     if (isBusy && this.state.isBusy) {

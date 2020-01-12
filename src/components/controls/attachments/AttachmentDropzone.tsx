@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Dropzone from 'react-dropzone';
-import { t } from '../../utils';
+import {t} from '../../utils';
 
 
 export type AttachmentDropzoneProps = {
@@ -14,6 +14,7 @@ export class AttachmentDropzone extends Component<AttachmentDropzoneProps> {
     // console.log('Accepted files: ', acceptedFiles);
     // console.log('Rejected files: ', rejectedFiles);
   }
+
   render() {
     const style = {
       width: 250,
@@ -26,10 +27,12 @@ export class AttachmentDropzone extends Component<AttachmentDropzoneProps> {
       marginTop: 7,
       cursor: 'pointer',
     };
-    return (<div>
-      <Dropzone onDrop={this.onDrop.bind(this)} multiple={false} style={style} className="tst-dropzone">
-        <div>{t('invoice.attachmentsDropzone')}</div>
-      </Dropzone>
-    </div>);
+    return (
+      <div>
+        <Dropzone onDrop={this.onDrop.bind(this)} multiple={false} style={style} className="tst-dropzone">
+          <div>{t('invoice.attachmentsDropzone')}</div>
+        </Dropzone>
+      </div>
+    );
   }
 }

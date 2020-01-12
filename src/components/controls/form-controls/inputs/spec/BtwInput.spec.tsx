@@ -1,4 +1,4 @@
-import { parseBtw, formatBtw } from "../BtwInput";
+import {parseBtw, formatBtw} from '../BtwInput';
 
 // BE0123456789
 // NL0001234567

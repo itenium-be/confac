@@ -1,6 +1,6 @@
-import { CSSProperties } from 'react';
-import { InputIcons } from "./components/controls/form-controls/lib/IconFactory";
-import { StandardComponents } from "./components/controls/form-controls/lib/EditComponentFactory";
+import {CSSProperties} from 'react';
+import {InputIcons} from './components/controls/form-controls/lib/IconFactory';
+import {StandardComponents} from './components/controls/form-controls/lib/EditComponentFactory';
 
 export type InvoiceDateStrategy = 'prev-month-last-day' | 'today';
 

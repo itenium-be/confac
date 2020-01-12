@@ -29,7 +29,7 @@ const ProjectsList = (props: ProjectsListProps) => {
 
   const {searchFilterText, isShowingInActiveProjects} = props.filters;
 
-  const filteredProjects = props.projects.filter(project => {
+  const filteredProjects = props.projects.filter((project) => {
     const {consultant, partner, client, details} = project;
 
     if (!isShowingInActiveProjects && !details.isActive) return false;
@@ -53,13 +53,13 @@ const ProjectsList = (props: ProjectsListProps) => {
         <Col lg={3} md={12}>
           <SearchStringInput
             value={searchFilterText}
-            onChange={searchFilterText => props.updateProjectFilters({...props.filters, searchFilterText})}
+            onChange={(searchFilterText) => props.updateProjectFilters({...props.filters, searchFilterText})}
           />
         </Col>
         <Col lg={3} md={6}>
           <Switch
             value={isShowingInActiveProjects}
-            onChange={isChecked => props.updateProjectFilters({...props.filters, isShowingInActiveProjects: isChecked})}
+            onChange={(isChecked) => props.updateProjectFilters({...props.filters, isShowingInActiveProjects: isChecked})}
             label={t('project.showInactiveProjects')}
             onColor="#F2DEDE"
           />
@@ -93,7 +93,7 @@ const ProjectsList = (props: ProjectsListProps) => {
       <Table size="sm" style={{marginTop: 10}}>
         <ProjectsListHeader />
         <tbody>
-          {filteredProjects.map(project => (
+          {filteredProjects.map((project) => (
             <ProjectsListRow project={project} key={project.details._id} />
           ))}
         </tbody>

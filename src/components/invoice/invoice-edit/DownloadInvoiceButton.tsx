@@ -1,18 +1,18 @@
-import React from "react";
-import { getInvoiceDownloadUrl } from "../../../actions";
-import { t } from "../../utils";
-import { Icon } from "../../controls/Icon";
-import { InvoicePreviewIcon } from "../../controls/attachments/AttachmentDownloadIcon";
+import React from 'react';
+import {getInvoiceDownloadUrl} from '../../../actions';
+import {t} from '../../utils';
+import {Icon} from '../../controls/Icon';
+import {InvoicePreviewIcon} from '../../controls/attachments/AttachmentDownloadIcon';
 
 /** Invoice Download and Preview icons */
-export const DownloadInvoiceButton = ({ invoice }) => {
+export const DownloadInvoiceButton = ({invoice}) => {
   const downloadUrl = getInvoiceDownloadUrl(invoice, 'pdf', 'download');
   return (
     <div className="attachment">
-      <div style={{ marginLeft: 3 }}>
+      <div style={{marginLeft: 3}}>
         <Icon
           fa="fa fa-file-invoice"
-          style={{ color: '#0062cc', marginRight: 20 }}
+          style={{color: '#0062cc', marginRight: 20}}
           title={t('invoice.downloadInvoice')}
           href={downloadUrl}
           size={1}
@@ -21,4 +21,4 @@ export const DownloadInvoiceButton = ({ invoice }) => {
       </div>
     </div>
   );
-}
+};

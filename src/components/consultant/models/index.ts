@@ -1,2 +1,2 @@
-export * from './ConsultantConfig'
-export * from './ConsultantModel'
+export * from './ConsultantConfig';
+export * from './ConsultantModel';

@@ -1,6 +1,6 @@
-import { BaseInput, BaseInputProps } from "./BaseInput";
-import React from "react";
-import { parseIntOrFloat } from "./input-util";
+import React from 'react';
+import {BaseInput, BaseInputProps} from './BaseInput';
+import {parseIntOrFloat} from './input-util';
 
 
 type BasicMathInputProps = BaseInputProps<number> & {
@@ -18,23 +18,21 @@ type BasicMathInputProps = BaseInputProps<number> & {
 /**
  * Component that parses simple math onBlur
  */
-export const BasicMathInput = ({ value, onChange, float = false, allowHours = false, ...props }: BasicMathInputProps) => {
-  return (
-    <BaseInput
-      type="text"
-      value={value || ''}
-      onChange={e => onChange(e.target.value)}
-      onBlur={e => onChange(basicMath(e.target.value, float, allowHours))}
-      {...props}
-    />
-  );
-};
+export const BasicMathInput = ({value, onChange, float = false, allowHours = false, ...props}: BasicMathInputProps) => (
+  <BaseInput
+    type="text"
+    value={value || ''}
+    onChange={(e) => onChange(e.target.value)}
+    onBlur={(e) => onChange(basicMath(e.target.value, float, allowHours))}
+    {...props}
+  />
+);
 
 /**
  * Converts a currency string into a number
  */
 export function getMoney(str: string): number | null {
-  let result = sanitize(str);
+  const result = sanitize(str);
   return convertToNumber(result, true) || null;
 }
 
@@ -89,8 +87,8 @@ function mathEval(str: string, asFloat: boolean, allowHours?: boolean): number {
       result = mathEval(parts[0], asFloat) - mathEval(parts[1], asFloat);
     }
   } else if (allowHours && str.includes(':')) {
-    const parts = str.split(':').map(s => parseInt(s, 10));
-    result = parts[0] + '.' + (parts[1] / 60 * 100);
+    const parts = str.split(':').map((s) => parseInt(s, 10));
+    result = `${parts[0]}.${parts[1] / 60 * 100}`;
   }
   return convertToNumber(result, asFloat);
 }

@@ -2,10 +2,10 @@ import {EditInvoiceDefaultLine} from './EditInvoiceDefaultLine';
 import {EditInvoiceSectionLine} from './EditInvoiceSectionLine';
 
 const lineTypeComponentMapping = {
-  section: EditInvoiceSectionLine
+  section: EditInvoiceSectionLine,
 };
 
-export const createEditInvoiceLine = function(line) {
+export const createEditInvoiceLine = function (line) {
   const CustomLineComponent = lineTypeComponentMapping[line.type];
   if (CustomLineComponent) {
     return CustomLineComponent;

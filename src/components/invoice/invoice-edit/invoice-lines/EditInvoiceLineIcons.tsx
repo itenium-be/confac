@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import * as Control from '../../../controls';
-import InvoiceModel, { InvoiceLine } from '../../models/InvoiceModel';
+import InvoiceModel, {InvoiceLine} from '../../models/InvoiceModel';
 
 
 type EditInvoiceLineIconsProps = {

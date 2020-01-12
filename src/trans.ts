@@ -291,7 +291,7 @@ const trans = {
   },
 };
 
-export default function(key: string, params?: object): string {
+export default function (key: string, params?: object): string {
   let str: any;
   if (key.indexOf('.') === -1) {
     str = trans[key];
@@ -313,7 +313,7 @@ export default function(key: string, params?: object): string {
     return str.replace('{}', params);
   }
   if (typeof params === 'object') {
-    Object.keys(params).forEach(function(paramKey) {
+    Object.keys(params).forEach((paramKey) => {
       str = str.replace(`{${paramKey}}`, params[paramKey]);
     });
   }

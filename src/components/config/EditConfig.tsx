@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { t } from '../utils';
-import { Container, Row, Form } from 'react-bootstrap';
-import { configDefinition } from './models/ConfigConfig';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Container, Row, Form} from 'react-bootstrap';
+import {t} from '../utils';
+import {configDefinition} from './models/ConfigConfig';
 import * as Control from '../controls';
-import { updateConfig } from '../../actions/index';
-import { ConfigModel } from './models/ConfigModel';
-import { ConfacState } from '../../reducers/app-state';
-import { ArrayInput } from '../controls';
-import { StickyFooter } from '../controls/skeleton/StickyFooter';
+import {updateConfig} from '../../actions/index';
+import {ConfigModel} from './models/ConfigModel';
+import {ConfacState} from '../../reducers/app-state';
+import {ArrayInput} from '../controls';
+import {StickyFooter} from '../controls/skeleton/StickyFooter';
 
 
 type EditConfigProps = {
@@ -45,7 +45,7 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
             <ArrayInput
               config={configDefinition}
               model={this.state}
-              onChange={(state: ConfigModel) => this.setState({ ...state })}
+              onChange={(state: ConfigModel) => this.setState({...state})}
               tPrefix="config."
             />
           </Row>
@@ -58,4 +58,4 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
   }
 }
 
-export default connect((state: ConfacState) => ({ config: state.config }), { updateConfig })(EditConfig);
+export default connect((state: ConfacState) => ({config: state.config}), {updateConfig})(EditConfig);

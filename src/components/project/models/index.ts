@@ -1,2 +1,2 @@
-export * from './ProjectFormConfig'
-export * from './types'
+export * from './ProjectFormConfig';
+export * from './types';

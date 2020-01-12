@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { t, EditInvoiceViewModel, formatDate } from '../../utils';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import moment from 'moment';
+import {Container, Row, Col, Form} from 'react-bootstrap';
+import {t, EditInvoiceViewModel, formatDate} from '../../utils';
 import * as Control from '../../controls';
-import { Container, Row, Col, Form } from 'react-bootstrap';
 import EditInvoiceLines from './invoice-lines/EditInvoiceLines';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
-import { EditInvoiceSaveButtons } from './EditInvoiceSaveButtons';
-import { invoiceAction, invoiceReplacements } from '../../../actions/index';
-import { EditInvoiceClient } from './EditInvoiceClient';
-import { EditInvoiceExtraFields } from './EditInvoiceExtraFields';
+import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
+import {invoiceAction, invoiceReplacements} from '../../../actions/index';
+import {EditInvoiceClient} from './EditInvoiceClient';
+import {EditInvoiceExtraFields} from './EditInvoiceExtraFields';
 import InvoiceModel from '../models/InvoiceModel';
-import { ConfigModel } from '../../config/models/ConfigModel';
-import { ClientModel } from '../../client/models/ClientModels';
-import { ConfacState } from '../../../reducers/app-state';
-import { EditInvoiceDetails } from './EditInvoiceDetails';
-import { StickyFooter } from '../../controls/skeleton/StickyFooter';
-import { DownloadInvoiceButton } from './DownloadInvoiceButton';
-import { Button } from '../../controls';
-import { EmailModal, EmailModalTitle } from '../../controls/email/EmailModal';
-import { EmailModel } from '../../controls/email/EmailModels';
-import { sendEmail } from '../../../actions/emailActions';
+import {ConfigModel} from '../../config/models/ConfigModel';
+import {ClientModel} from '../../client/models/ClientModels';
+import {ConfacState} from '../../../reducers/app-state';
+import {EditInvoiceDetails} from './EditInvoiceDetails';
+import {StickyFooter} from '../../controls/skeleton/StickyFooter';
+import {DownloadInvoiceButton} from './DownloadInvoiceButton';
+import {Button} from '../../controls';
+import {EmailModal, EmailModalTitle} from '../../controls/email/EmailModal';
+import {EmailModel} from '../../controls/email/EmailModels';
+import {sendEmail} from '../../../actions/emailActions';
 
 
 type EditInvoiceProps = {
@@ -65,24 +65,24 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
   }
 
   createModel(props: EditInvoiceProps): EditInvoiceViewModel {
-    const invoicesOrQuotations = this.isQuotation ? props.invoices.filter(x => x.isQuotation) : props.invoices.filter(x => !x.isQuotation);
+    const invoicesOrQuotations = this.isQuotation ? props.invoices.filter((x) => x.isQuotation) : props.invoices.filter((x) => !x.isQuotation);
     if (props.match.params.id) {
       // Existing invoice / quotation
-      const invoice = invoicesOrQuotations.find(i => i.number === parseInt(props.match.params.id, 10));
+      const invoice = invoicesOrQuotations.find((i) => i.number === parseInt(props.match.params.id, 10));
       return new EditInvoiceViewModel(props.config, invoice);
 
-    } else {
-      // New invoice / quotation
-      var client: undefined | ClientModel;
-      if (props.config.defaultClient) {
-        client = props.clients.find(c => c._id === props.config.defaultClient);
-      }
-      var model = EditInvoiceViewModel.createNew(props.config, client);
-
-      model.number = invoicesOrQuotations.map(i => i.number).reduce((a, b) => Math.max(a, b), 0) + 1;
-      model.isQuotation = this.isQuotation;
-      return model;
     }
+    // New invoice / quotation
+    let client: undefined | ClientModel;
+    if (props.config.defaultClient) {
+      client = props.clients.find((c) => c._id === props.config.defaultClient);
+    }
+    const model = EditInvoiceViewModel.createNew(props.config, client);
+
+    model.number = invoicesOrQuotations.map((i) => i.number).reduce((a, b) => Math.max(a, b), 0) + 1;
+    model.isQuotation = this.isQuotation;
+    return model;
+
   }
 
   componentDidMount() {
@@ -95,7 +95,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
       || nextProps.invoices !== this.props.invoices // Changing this? Check confac-back::invoices.js
       || nextProps.renavigationKey !== this.state.renavigationKey) {
 
-      this.setState({ invoice: this.createModel(nextProps), renavigationKey: nextProps.renavigationKey });
+      this.setState({invoice: this.createModel(nextProps), renavigationKey: nextProps.renavigationKey});
     }
   }
 
@@ -108,7 +108,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
   }
 
   render() {
-    const { invoice } = this.state;
+    const {invoice} = this.state;
     const extraFieldsVisible = invoice.extraFields.length === 0 && !this.state.showExtraFields;
 
     const getDefaultEmailValue = (invoice: InvoiceModel, config: ConfigModel): EmailModel => {
@@ -125,7 +125,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
         return acc;
       }, {} as EmailModel);
 
-      const finalValues = Object.assign({}, defaultEmail, emailValues);
+      const finalValues = {...defaultEmail, ...emailValues};
       finalValues.subject = invoiceReplacements(finalValues.subject, invoice);
       if (invoice.lastEmail && config.emailReminder) {
         finalValues.body = config.emailReminder;
@@ -134,7 +134,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
       finalValues.body += config.emailSignature;
 
       return finalValues;
-    }
+    };
 
     return (
       <Container className="edit-container">
@@ -143,12 +143,18 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
             <Col sm={12}>
               <h1>
                 {invoice._id && (
-                  <div style={{ float: 'right' }}>
+                  <div style={{float: 'right'}}>
                     <DownloadInvoiceButton invoice={invoice} />
-                  </div>)
-                }
-                {invoice._id ? t(this.type + '.editTitle') : t(this.type + '.createTitle')}
-                {invoice.createdOn && <small className="created-on">{t('createdOn')} {formatDate(invoice.createdOn)}</small>}
+                  </div>
+                )}
+                {invoice._id ? t(`${this.type}.editTitle`) : t(`${this.type}.createTitle`)}
+                {invoice.createdOn && (
+                <small className="created-on">
+                  {t('createdOn')}
+                  {' '}
+                  {formatDate(invoice.createdOn)}
+                </small>
+                )}
               </h1>
             </Col>
 
@@ -161,7 +167,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
             <Col sm={6}>
               <EditInvoiceClient
                 invoice={invoice}
-                onChange={val => this.setState(val)}
+                onChange={(val) => this.setState(val)}
               />
             </Col>
 
@@ -178,21 +184,21 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                       center
                       color="#D3D3D3"
                       title={t('config.extraFields.open')}
-                      onClick={() => this.setState({ showExtraFields: !this.state.showExtraFields })}
+                      onClick={() => this.setState({showExtraFields: !this.state.showExtraFields})}
                       data-tst="extra-fields-open"
                     />
                   </Col>
                 ) : (
-                    <Col sm={12}>
-                      <Control.StringInput
-                        label={t('invoice.discount')}
-                        placeholder={t('invoice.discountPlaceholder')}
-                        value={invoice.discount}
-                        onChange={value => this.updateInvoice('discount', value, true)}
-                        data-tst="invoice.discount"
-                      />
-                    </Col>
-                  )}
+                  <Col sm={12}>
+                    <Control.StringInput
+                      label={t('invoice.discount')}
+                      placeholder={t('invoice.discountPlaceholder')}
+                      value={invoice.discount}
+                      onChange={(value) => this.updateInvoice('discount', value, true)}
+                      data-tst="invoice.discount"
+                    />
+                  </Col>
+                )}
               </Row>
             </Col>
           </Row>
@@ -201,9 +207,9 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
             <EmailModal
               show={this.state.showEmailModal}
               defaultValue={getDefaultEmailValue(invoice, this.props.config)}
-              attachmentsAvailable={invoice.attachments.map(a => a.type)}
+              attachmentsAvailable={invoice.attachments.map((a) => a.type)}
               title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} />}
-              onClose={() => this.setState({ showEmailModal: false })}
+              onClose={() => this.setState({showEmailModal: false})}
               onConfirm={(email: EmailModel) => this.props.sendEmail(invoice, email)}
             />
           )}
@@ -214,16 +220,16 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
             onChange={this.updateInvoice.bind(this, 'extraFields')}
           />
 
-          <Row style={{ marginTop: 8 }}>
+          <Row style={{marginTop: 8}}>
             <EditInvoiceLines
               invoice={invoice}
-              onChange={m => this.setState({ invoice: m })}
+              onChange={(m) => this.setState({invoice: m})}
             />
           </Row>
           <Control.AttachmentsForm model={invoice} />
           <StickyFooter>
             {!invoice.isNew && (
-              <Button variant="light" icon="far fa-envelope" onClick={() => this.setState({ showEmailModal: true })}>
+              <Button variant="light" icon="far fa-envelope" onClick={() => this.setState({showEmailModal: true})}>
                 {t('email.prepareEmail')}
               </Button>
             )}
@@ -245,4 +251,4 @@ function mapStateToProps(state: ConfacState, props: any) {
   };
 }
 
-export default connect(mapStateToProps, { invoiceAction, sendEmail })(EditInvoice);
+export default connect(mapStateToProps, {invoiceAction, sendEmail})(EditInvoice);

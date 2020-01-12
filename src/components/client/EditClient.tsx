@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { t, formatDate } from '../utils';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import moment from 'moment';
-import { BusyButton, ArrayInput, AttachmentsForm } from '../controls';
-import { Container, Row, Form } from 'react-bootstrap';
-import { saveClient } from '../../actions/index';
-import { defaultClientProperties } from './models/ClientConfig';
-import { getNewClient } from "./models/getNewClient";
-import { ClientModel } from './models/ClientModels';
-import { ConfacState } from '../../reducers/app-state';
-import { ConfigModel } from '../config/models/ConfigModel';
-import { StickyFooter } from '../controls/skeleton/StickyFooter';
-import { NewClient } from './NewClient';
+import {Container, Row, Form} from 'react-bootstrap';
+import {t, formatDate} from '../utils';
+import {BusyButton, ArrayInput, AttachmentsForm} from '../controls';
+import {saveClient} from '../../actions/index';
+import {defaultClientProperties} from './models/ClientConfig';
+import {getNewClient} from './models/getNewClient';
+import {ClientModel} from './models/ClientModels';
+import {ConfacState} from '../../reducers/app-state';
+import {ConfigModel} from '../config/models/ConfigModel';
+import {StickyFooter} from '../controls/skeleton/StickyFooter';
+import {NewClient} from './NewClient';
 
 
 type EditClientProps = {
@@ -36,7 +36,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
     this.state = {
       client: this.copyClient(props),
       renavigationKey: '',
-    }
+    };
   }
 
   componentDidMount() {
@@ -49,14 +49,14 @@ class EditClient extends Component<EditClientProps, EditClientState> {
       || nextProps.clients !== this.props.clients // Changing this? Check confac-back::invoices.js
       || nextProps.renavigationKey !== this.state.renavigationKey) {
 
-      this.setState({ client: this.copyClient(nextProps) });
+      this.setState({client: this.copyClient(nextProps)});
     }
   }
 
   copyClient(props: EditClientProps): ClientModel {
     if (props.match.params.id) {
       // Existing client
-      const client = props.clients.find(c => c.slug === props.match.params.id);
+      const client = props.clients.find((c) => c.slug === props.match.params.id);
       if (client) {
         return JSON.parse(JSON.stringify(client));
       }
@@ -71,7 +71,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
   }
 
   render() {
-    const client: ClientModel = this.state.client;
+    const {client} = this.state;
     if (!client) {
       return null;
     }
@@ -80,7 +80,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
       return (
         <NewClient
           client={client}
-          onChange={(value: ClientModel) => this.setState({ client: { ...client, ...value } })}
+          onChange={(value: ClientModel) => this.setState({client: {...client, ...value}})}
         />
       );
     }
@@ -91,14 +91,20 @@ class EditClient extends Component<EditClientProps, EditClientState> {
           <Row>
             <h1>
               {client.name || (client._id ? '' : t('client.createNew'))}
-              {client.createdOn && <small className="created-on">{t('createdOn')} {formatDate(client.createdOn)}</small>}
+              {client.createdOn && (
+              <small className="created-on">
+                {t('createdOn')}
+                {' '}
+                {formatDate(client.createdOn)}
+              </small>
+              )}
             </h1>
           </Row>
           <Row>
             <ArrayInput
               config={defaultClientProperties}
               model={client}
-              onChange={value => this.setState({ client: { ...client, ...value } })}
+              onChange={(value) => this.setState({client: {...client, ...value}})}
               tPrefix="client."
             />
           </Row>
@@ -136,4 +142,4 @@ export default connect((state: ConfacState) => ({
   clients: state.clients,
   isLoaded: state.app.isLoaded,
   config: state.config,
-}), { saveClient })(EditClient);
+}), {saveClient})(EditClient);

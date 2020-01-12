@@ -1,17 +1,17 @@
-import { FullFormConfig } from '../../../models';
+import {FullFormConfig} from '../../../models';
 
 
 export const defaultClientProperties: FullFormConfig = [
-  { title: 'client.contact'},
-  { key: 'name', },
-  { key: 'btw', component: 'btw' },
-  { key: 'slug', updateOnly: true },
-  { key: 'address' },
-  { key: 'city' },
-  { key: 'telephone', component: 'phone' },
-  { key: 'contact', suffix: 'user' },
-  { key: 'contactEmail', component: 'email' },
-  { key: 'notes', component: 'TextEditor', cols: 12, style: {height: 140}},
+  {title: 'client.contact'},
+  {key: 'name'},
+  {key: 'btw', component: 'btw'},
+  {key: 'slug', updateOnly: true},
+  {key: 'address'},
+  {key: 'city'},
+  {key: 'telephone', component: 'phone'},
+  {key: 'contact', suffix: 'user'},
+  {key: 'contactEmail', component: 'email'},
+  {key: 'notes', component: 'TextEditor', cols: 12, style: {height: 140}},
 
   {title: 'client.title'},
   {key: 'rate.description'},

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {ToastContainer} from 'react-toastify';
 import Header from './Header';
 
-import {ToastContainer} from 'react-toastify';
-import { ConfacState } from '../reducers/app-state';
+import {ConfacState} from '../reducers/app-state';
 // import { success, failure } from '../actions/appActions';
 // <button onClick={() => success("greato success")}>Success</button>
 // <button onClick={() => failure("oh noes")}>Error</button>
@@ -12,15 +12,15 @@ import { ConfacState } from '../reducers/app-state';
 // https://github.com/fkhadra/react-toastify#api
 const ConfiguredToastContainer = () => (
   <ToastContainer
-    hideProgressBar={true}
-    pauseOnHover={true}
+    hideProgressBar
+    pauseOnHover
     pauseOnFocusLoss={false}
     toastClassName="confac-toast"
   />
 );
 
 // Compilation Warnings from react-pdf:
-//https://github.com/wojtekmaj/react-pdf/issues/280
+// https://github.com/wojtekmaj/react-pdf/issues/280
 // import { Document, pdfjs, Page } from 'react-pdf';
 // import { useSelector } from 'react-redux';
 // pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;

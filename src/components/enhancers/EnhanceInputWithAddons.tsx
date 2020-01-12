@@ -9,21 +9,20 @@ export type EnhanceInputWithAddonsProps = {
   addOnMinWidth?: number,
 }
 
-export const EnhanceInputWithAddons = <P extends object>(ComposedComponent: React.ComponentType<P>) =>
-  ({prefix, prefixOptions, suffix, suffixOptions, addOnMinWidth, ...props}: EnhanceInputWithAddonsProps & P) => {
-    // ATTN: window.outerWidth is not part of the state, so a
-    // rerender does not happen when the user resizes the window
-    if ((!addOnMinWidth || addOnMinWidth < window.outerWidth) && (prefix || suffix)) {
-      return (
-        <InputGroup>
-          {prefix ? <InputGroup.Prepend><Addon add={prefix} options={prefixOptions} /></InputGroup.Prepend> : null}
-          <ComposedComponent {...props as P} />
-          {suffix ? <InputGroup.Append><Addon add={suffix} options={suffixOptions} /></InputGroup.Append> : null}
-        </InputGroup>
-      );
-    }
-    return <ComposedComponent {...props as P} />;
-  };
+export const EnhanceInputWithAddons = <P extends object>(ComposedComponent: React.ComponentType<P>) => ({prefix, prefixOptions, suffix, suffixOptions, addOnMinWidth, ...props}: EnhanceInputWithAddonsProps & P) => {
+  // ATTN: window.outerWidth is not part of the state, so a
+  // rerender does not happen when the user resizes the window
+  if ((!addOnMinWidth || addOnMinWidth < window.outerWidth) && (prefix || suffix)) {
+    return (
+      <InputGroup>
+        {prefix ? <InputGroup.Prepend><Addon add={prefix} options={prefixOptions} /></InputGroup.Prepend> : null}
+        <ComposedComponent {...props as P} />
+        {suffix ? <InputGroup.Append><Addon add={suffix} options={suffixOptions} /></InputGroup.Append> : null}
+      </InputGroup>
+    );
+  }
+  return <ComposedComponent {...props as P} />;
+};
 
 
 const Addon = ({add, options}) => {
@@ -31,4 +30,4 @@ const Addon = ({add, options}) => {
     return <InputGroup.Text>{add}</InputGroup.Text>;
   }
   return add;
-}
+};

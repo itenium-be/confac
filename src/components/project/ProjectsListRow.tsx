@@ -1,8 +1,8 @@
-import React, { CSSProperties } from 'react';
+import React, {CSSProperties} from 'react';
 import moment from 'moment';
 
-import { t, moneyFormat, formatDate } from '../utils';
-import { FullProjectModel, ProjectDetailsModel } from './models';
+import {t, moneyFormat, formatDate} from '../utils';
+import {FullProjectModel, ProjectDetailsModel} from './models';
 
 
 export const ProjectsListHeader = () => (
@@ -29,17 +29,17 @@ type ProjectsListRowProps = {
 const ProjectsListRow = (props: ProjectsListRowProps) => {
   const tst = (key: string): string => `project-${key}`;
 
-  const { details, partner, client, consultant } = props.project
+  const {details, partner, client, consultant} = props.project;
 
   const setRowBackgroundColor = (projectDetails: ProjectDetailsModel): CSSProperties => {
     if (projectDetails.endDate) {
-      const monthsLeft = moment(projectDetails.endDate).diff(moment(), 'months', true)
+      const monthsLeft = moment(projectDetails.endDate).diff(moment(), 'months', true);
 
-      if (monthsLeft < 1) return { backgroundColor: '#faad14' }
-      if (monthsLeft < 3) return { backgroundColor: '#f5222d' }
+      if (monthsLeft < 1) return {backgroundColor: '#faad14'};
+      if (monthsLeft < 3) return {backgroundColor: '#f5222d'};
     }
-    return {}
-  }
+    return {};
+  };
 
   return (
     <tr data-tst={tst('row')} style={setRowBackgroundColor(details)}>
@@ -69,6 +69,6 @@ const ProjectsListRow = (props: ProjectsListRowProps) => {
       </td>
     </tr>
   );
-}
+};
 
 export default ProjectsListRow;

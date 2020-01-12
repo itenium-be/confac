@@ -1,5 +1,5 @@
-import { ClientModel } from './ClientModels';
-import { getNumeric, searchinize } from '../../utils';
+import {ClientModel} from './ClientModels';
+import {getNumeric, searchinize} from '../../utils';
 
 export function searchClientFor(client: ClientModel, input: string): boolean {
   const text = searchinize(input);

@@ -7,36 +7,36 @@ export const defaultLocale = 'nl';
 numeral.register('locale', defaultLocale, {
   delimiters: {
     thousands: '.',
-    decimal: ','
+    decimal: ',',
   },
   abbreviations: {
     thousand: 'k',
     million: 'm',
     billion: 'b',
-    trillion: 't'
+    trillion: 't',
   },
-  ordinal: function (number) {
+  ordinal(number) {
     return number === 1 ? 'ste' : 'de';
   },
   currency: {
-    symbol: '€'
-  }
+    symbol: '€',
+  },
 });
 
 numeral.locale(defaultLocale);
 
 export function moneyFormat(input): string {
-  return '€ ' + numeral(input).format('0,0.00');
+  return `€ ${numeral(input).format('0,0.00')}`;
 }
 
 /**
  * Discards all non-numeric characters
  */
-export const getNumeric = text => text.replace(/[^0-9]+/g, '');
+export const getNumeric = (text) => text.replace(/[^0-9]+/g, '');
 
-export const datePickerDateFormat = "dd/MM/yyyy"
+export const datePickerDateFormat = 'dd/MM/yyyy';
 
-export const formatDate = (date: string | Date | moment.Moment, format = "DD/MM/YYYY"): string => moment(date).format(format)
+export const formatDate = (date: string | Date | moment.Moment, format = 'DD/MM/YYYY'): string => moment(date).format(format);
 
 /**
  * Make a string ready for search
@@ -47,8 +47,8 @@ export const searchinize = (str: string): string => {
   }
 
   return latinize(str).trim().toLowerCase();
-}
+};
 
-export { default as t } from '../trans';
+export {default as t} from '../trans';
 
-export { default as EditInvoiceViewModel } from './invoice/models/InvoiceModel';
+export {default as EditInvoiceViewModel} from './invoice/models/InvoiceModel';

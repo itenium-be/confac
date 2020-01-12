@@ -11,17 +11,15 @@ type DatePickerProps = BaseInputProps<moment.Moment | null> & {
   dateFormat?: string;
 };
 
-export const DatePicker = EnhanceInputWithLabel((props: DatePickerProps) => {
-  return (
-    <ReactDatePicker
-      className="form-control"
-      selected={props.value ? props.value.toDate() : undefined}
-      onChange={dateString => props.onChange(dateString ? moment(dateString) : null)}
-      locale={defaultLocale}
-      dateFormat={props.dateFormat || datePickerDateFormat}
-      peekNextMonth={false}
-      todayButton={t('controls.today')}
-      showMonthYearPicker={props.showMonthYearPicker}
-    />
-  );
-});
+export const DatePicker = EnhanceInputWithLabel((props: DatePickerProps) => (
+  <ReactDatePicker
+    className="form-control"
+    selected={props.value ? props.value.toDate() : undefined}
+    onChange={(dateString) => props.onChange(dateString ? moment(dateString) : null)}
+    locale={defaultLocale}
+    dateFormat={props.dateFormat || datePickerDateFormat}
+    peekNextMonth={false}
+    todayButton={t('controls.today')}
+    showMonthYearPicker={props.showMonthYearPicker}
+  />
+));

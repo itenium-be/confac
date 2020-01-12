@@ -1,5 +1,5 @@
-import { EditClientRateType, InvoiceDateStrategy, SelectItem } from "../../../models";
-import { EmailModel } from "../../controls/email/EmailModels";
+import {EditClientRateType, InvoiceDateStrategy, SelectItem} from '../../../models';
+import {EmailModel} from '../../controls/email/EmailModels';
 
 export type ConfigModel = {
   company: ConfigCompanyModel,

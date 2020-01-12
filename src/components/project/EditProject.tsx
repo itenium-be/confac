@@ -85,9 +85,7 @@ const EditProject = (props: EditProjectProps) => {
 const mapStateToProps = (state: ConfacState) => {
   const sortConsultantsByCreatedOn = (consultants: ConsultantModel[]): ConsultantModel[] => {
     if (consultants && consultants.length) {
-      return consultants.sort((a: ConsultantModel, b: ConsultantModel) => {
-        return +new Date(a.createdOn as string) - +new Date(b.createdOn as string);
-      });
+      return consultants.sort((a: ConsultantModel, b: ConsultantModel) => +new Date(a.createdOn as string) - +new Date(b.createdOn as string));
     }
     return [];
   };

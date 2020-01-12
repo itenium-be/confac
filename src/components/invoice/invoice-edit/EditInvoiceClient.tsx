@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { t } from '../../utils';
+import React, {Component} from 'react';
+import {Row, Col} from 'react-bootstrap';
+import {t} from '../../utils';
 
 import * as Control from '../../controls';
-import { Row, Col } from 'react-bootstrap';
 import ClientDetails from '../../client/controls/ClientDetails';
 import InvoiceTotal from './InvoiceTotal';
-import { ClientModal } from '../../client/controls/ClientModal';
+import {ClientModal} from '../../client/controls/ClientModal';
 import InvoiceModel from '../models/InvoiceModel';
-import { ClientModel } from '../../client/models/ClientModels';
+import {ClientModel} from '../../client/models/ClientModels';
 
 type EditInvoiceClientProps = {
   invoice: InvoiceModel,
@@ -26,34 +26,36 @@ type EditInvoiceClientState = {
 export class EditInvoiceClient extends Component<EditInvoiceClientProps, EditInvoiceClientState> {
   constructor(props: EditInvoiceClientProps) {
     super(props);
-    this.state = { modalClientId: undefined };
+    this.state = {modalClientId: undefined};
   }
 
   render() {
-    const { invoice, onChange } = this.props;
-    const dottedCellStyle = { border: '1px dotted black', padding: 10, height: '100%', width: '100%' };
+    const {invoice, onChange} = this.props;
+    const dottedCellStyle = {border: '1px dotted black', padding: 10, height: '100%', width: '100%'};
     return (
       <div>
-        {this.state.modalClientId && <ClientModal
+        {this.state.modalClientId && (
+        <ClientModal
           client={this.state.modalClientId !== 'new' ? invoice.client : null}
           show={!!this.state.modalClientId}
-          onClose={() => this.setState({ modalClientId: null })}
-          onConfirm={(updatedClient: ClientModel) => onChange({ invoice: invoice.setClient(updatedClient) })}
-        />}
+          onClose={() => this.setState({modalClientId: null})}
+          onConfirm={(updatedClient: ClientModel) => onChange({invoice: invoice.setClient(updatedClient)})}
+        />
+        )}
         <div className="unset-split">
           <div>
             <Control.ClientSelect
               label={t('invoice.client')}
               value={invoice.client && invoice.client._id}
-              onChange={(clientId, client) => onChange({ invoice: invoice.setClient(client) })}
+              onChange={(clientId, client) => onChange({invoice: invoice.setClient(client)})}
             />
           </div>
-          <div style={{ width: 120, position: 'relative' }}>
+          <div style={{width: 120, position: 'relative'}}>
             <Control.Button
-              onClick={() => this.setState({ modalClientId: 'new' })}
+              onClick={() => this.setState({modalClientId: 'new'})}
               variant="light"
               size="sm"
-              style={{ position: 'absolute', bottom: 18, left: 5 }}
+              style={{position: 'absolute', bottom: 18, left: 5}}
               data-tst="new-client"
             >
               {t('invoice.clientNew')}
@@ -67,7 +69,7 @@ export class EditInvoiceClient extends Component<EditInvoiceClientProps, EditInv
               <div style={dottedCellStyle}>
                 <ClientDetails
                   client={invoice.client}
-                  onOpenDetails={() => this.setState({ modalClientId: invoice.client._id })}
+                  onOpenDetails={() => this.setState({modalClientId: invoice.client._id})}
                   onOpenDetailsTitle="invoice.clientEditModal"
                 />
               </div>

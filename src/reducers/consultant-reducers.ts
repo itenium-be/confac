@@ -1,14 +1,14 @@
-import { ConsultantModel } from "../components/consultant/models";
-import { ACTION_TYPES } from "../actions";
+import {ConsultantModel} from '../components/consultant/models';
+import {ACTION_TYPES} from '../actions';
 
 export const consultants = (state: ConsultantModel[] = [], action): ConsultantModel[] => {
   switch (action.type) {
     case ACTION_TYPES.CONSULTANTS_FETCHED:
-      return action.consultants
+      return action.consultants;
     case ACTION_TYPES.CONSULTANT_UPDATE:
-      let newState: ConsultantModel[] = [...state, action.consultant]
+      const newState: ConsultantModel[] = [...state, action.consultant];
       return newState;
     default:
-      return state
+      return state;
   }
-}
+};

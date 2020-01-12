@@ -1,15 +1,15 @@
 import request from 'superagent-bluebird-promise';
+import moment from 'moment';
 import {buildUrl, catchHandler} from './utils/fetch';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
-import { Attachment } from '../models';
-import { ClientModel } from '../components/client/models/ClientModels';
-import moment from 'moment';
+import {Attachment} from '../models';
+import {ClientModel} from '../components/client/models/ClientModels';
 
 
 export function getInvoiceDownloadUrl(invoice: InvoiceModel, attachment: 'pdf' | Attachment = 'pdf', downloadType?: 'preview' | 'download'): string {
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
   const isInvoiceAttachment = attachment === 'pdf' || attachment.type === 'pdf';
-  const fileName = isInvoiceAttachment ? getInvoiceFileName(invoice) : attachment['fileName'];
+  const fileName = isInvoiceAttachment ? getInvoiceFileName(invoice) : attachment.fileName;
   const attachmentType = attachment === 'pdf' ? 'pdf' : attachment.type;
   // return buildUrl(`/attachments/${fileType}/${invoice._id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
 
@@ -27,7 +27,8 @@ function getDownloadUrl(
   fileType: 'quotation' | 'invoice' | 'client',
   _id: string,
   attachmentType: string,
-  fileName: string, downloadType?: 'preview' | 'download'): string {
+  fileName: string, downloadType?: 'preview' | 'download',
+): string {
 
   const query = downloadType === 'download' ? '?download=1' : '';
   return buildUrl(`/attachments/${fileType}/${_id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
@@ -41,7 +42,7 @@ export function invoiceReplacements(input: string, invoice: InvoiceModel): strin
   const nrMatch = str.match(nrRegex);
   if (nrMatch) {
     const nrSize = Math.max(parseInt(nrMatch[1], 10), invoice.number.toString().length);
-    str = str.replace(nrRegex, ('000000' + invoice.number).slice(-nrSize));
+    str = str.replace(nrRegex, (`000000${invoice.number}`).slice(-nrSize));
   }
 
   str = str.replace(/\{nr\}/g, invoice.number.toString());
@@ -70,17 +71,17 @@ export function invoiceReplacements(input: string, invoice: InvoiceModel): strin
 
 
 function getInvoiceFileName(invoice: InvoiceModel): string {
-  var fileName = invoice.fileName;
-  return invoiceReplacements(fileName, invoice) + '.pdf';
+  const {fileName} = invoice;
+  return `${invoiceReplacements(fileName, invoice)}.pdf`;
 }
 
 
 export function previewInvoice(data: InvoiceModel) {
-  return dispatch => {
+  return (dispatch) => {
     request.post(buildUrl('/invoices/preview'))
       .responseType('blob')
       .send(data)
-      .then(function(res) {
+      .then((res) => {
         // console.log('previewInvoice response', res.body);
         previewPdf(getInvoiceFileName(data), res.body);
         return res.text;
@@ -113,37 +114,37 @@ function previewPdf(fileName: string, content: Blob): void {
 
 
 export function downloadInvoicesExcel(ids: string[]) {
-  return dispatch => {
+  return (dispatch) => {
     request.post(buildUrl('/invoices/excel'))
       .responseType('blob')
       .send(ids)
-      .then(res => {
+      .then((res) => {
         console.log('downloaded', res);
         const fileName = `invoices-${moment().format('YYYY-MM-DD')}.csv`;
         downloadAttachment(fileName, res.body);
       });
-  }
+  };
 }
 
 
 export function downloadInvoicesZip(ids: string[]) {
-  return dispatch => {
+  return (dispatch) => {
     request.post(buildUrl('/attachments'))
       .responseType('blob')
       .send(ids)
-      .then(res => {
+      .then((res) => {
         // console.log('downloaded', res);
         const fileName = `invoices-${moment().format('YYYY-MM-DD')}.zip`;
         downloadAttachment(fileName, res.body);
       });
-  }
+  };
 }
 
 
 
 
 function downloadAttachment(fileName: string, content: Blob): void {
-  var link = document.createElement('a');
+  const link = document.createElement('a');
   link.download = fileName;
   const blobUrl = URL.createObjectURL(content);
   link.href = blobUrl;

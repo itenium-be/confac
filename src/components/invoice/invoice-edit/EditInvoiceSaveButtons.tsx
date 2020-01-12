@@ -1,7 +1,7 @@
 import React from 'react';
-import { t } from '../../utils';
-import { BusyButton } from '../../controls';
-import { withRouter } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
+import {t} from '../../utils';
+import {BusyButton} from '../../controls';
 import InvoiceModel from '../models/InvoiceModel';
 
 type RoutedProps = EditInvoiceSaveButtonsComponentProps & {
@@ -11,7 +11,7 @@ type RoutedProps = EditInvoiceSaveButtonsComponentProps & {
   staticContext: any,
 }
 
-export const EditInvoiceSaveButtons = withRouter(({ match, location, history, staticContext, ...props }: RoutedProps) => (
+export const EditInvoiceSaveButtons = withRouter(({match, location, history, staticContext, ...props}: RoutedProps) => (
   <EditInvoiceSaveButtonsComponent history={history} {...props} />
 ));
 
@@ -24,7 +24,7 @@ type EditInvoiceSaveButtonsComponentProps = {
   onClick: any,
 }
 
-export const EditInvoiceSaveButtonsComponent = ({ history, invoice, onClick }: EditInvoiceSaveButtonsComponentProps) => {
+export const EditInvoiceSaveButtonsComponent = ({history, invoice, onClick}: EditInvoiceSaveButtonsComponentProps) => {
   const isNewInvoice = invoice.isNew;
   const tp = (transKey: string): string => t(invoice.getType() + transKey);
   return (

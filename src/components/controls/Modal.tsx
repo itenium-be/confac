@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { t } from '../utils';
-import { Button, Modal as ReactModal } from 'react-bootstrap';
-import { BootstrapVariant } from '../../models';
+import React, {Component} from 'react';
+import {Button, Modal as ReactModal} from 'react-bootstrap';
+import {t} from '../utils';
+import {BootstrapVariant} from '../../models';
 
 export type BaseModalProps = {
   show: boolean,

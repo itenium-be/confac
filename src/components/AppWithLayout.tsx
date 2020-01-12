@@ -10,7 +10,7 @@ export class AppWithLayout extends React.Component<AppWithLayoutProps> {
     const {Component, ...props} = this.props;
     return (
       <App {...props}>
-        <Component {...props}/>
+        <Component {...props} />
       </App>
     );
   }

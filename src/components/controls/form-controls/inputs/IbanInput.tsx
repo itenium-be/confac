@@ -1,7 +1,7 @@
-import React from "react";
-import { BaseInput, BaseInputProps } from "./BaseInput";
-import { Icon } from "../../Icon";
+import React from 'react';
 import Iban from 'iban';
+import {BaseInput, BaseInputProps} from './BaseInput';
+import {Icon} from '../../Icon';
 
 type IbanInputProps = BaseInputProps<string>;
 
@@ -12,7 +12,7 @@ export const IbanInput = ({value, onChange, ...props}: IbanInputProps) => {
     <BaseInput
       type="text"
       value={value || ''}
-      onChange={e => onChange(e.target.value as string)}
+      onChange={(e) => onChange(e.target.value as string)}
       onBlur={() => onChange(Iban.printFormat(value || '', ' '))}
       {...props}
       suffix={(

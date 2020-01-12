@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {Tooltip} from './Tooltip';
 import cn from 'classnames';
+import {Tooltip} from './Tooltip';
 import {EnhanceWithConfirmation, EnhanceWithBusySpinner} from '../enhancers/index';
 import t from '../../trans';
-import { ConfacState } from '../../reducers/app-state';
+import {ConfacState} from '../../reducers/app-state';
 
 
 const EnhanceIconWithCenter = <P extends object>(Component: React.ComponentType<P>) => ({center, ...props}: {center?: boolean} & P) => {
@@ -28,9 +28,7 @@ type RouterProps = {
 }
 
 export const Icon = EnhanceIconWithCenter(
-  withRouter(({ match, location, history, staticContext, ...props }: IconProps & RouterProps) =>
-    <IconComponent history={history} {...props as IconProps} />
-  )
+  withRouter(({match, location, history, staticContext, ...props}: IconProps & RouterProps) => <IconComponent history={history} {...props as IconProps} />),
 );
 
 export type IconProps = {
@@ -59,12 +57,12 @@ export type IconProps = {
 
 class IconComponent extends Component<IconProps> {
   static defaultProps = {
-    size: 2
+    size: 2,
   }
 
   render() {
     const {fa, color, style, onClick, href, dispatch, className, label, labelStyle, title, size, history, ...props} = this.props;
-    var realClick: any = onClick;
+    let realClick: any = onClick;
     if (typeof onClick === 'string') {
       realClick = () => {
         history.push(onClick);
@@ -76,7 +74,7 @@ class IconComponent extends Component<IconProps> {
         {...props}
         className={cn(fa, `fa-${size}x`, className, {clickable: !!onClick || !!href})}
         onClick={realClick}
-        style={{color: color, ...style}}
+        style={{color, ...style}}
       >
         {label ? <span style={{marginLeft: 6, ...labelStyle}}>{label}</span> : null}
       </i>
@@ -121,36 +119,26 @@ export const DeleteIcon = ({...props}: IconProps) => (
   <Icon fa="fa fa-minus-circle" color="#CC1100" title={t('delete')} {...props} />
 );
 
-export const AddIcon = ({...props}: IconProps) => {
-  return <Icon fa="fa fa-plus" {...props} />;
-};
+export const AddIcon = ({...props}: IconProps) => <Icon fa="fa fa-plus" {...props} />;
 
-export const DragAndDropIcon = ({...props}: IconProps) => {
-  return <Icon fa="fa fa-arrows" color="#EEE9E9" data-tst="dnd" {...props} />;
-};
+export const DragAndDropIcon = ({...props}: IconProps) => <Icon fa="fa fa-arrows" color="#EEE9E9" data-tst="dnd" {...props} />;
 
-export const EditIcon = ({...props}: IconProps) => {
-  return <Icon fa="far fa-edit" title={t('edit')} {...props} />;
-};
+export const EditIcon = ({...props}: IconProps) => <Icon fa="far fa-edit" title={t('edit')} {...props} />;
 
 export const ClientEditIcon = ({client, ...props}) => {
   if (props.onClick) {
     return <EditIcon {...props} />;
   }
-  return <EditIcon onClick={'/clients/' + client.slug} {...props} />;
+  return <EditIcon onClick={`/clients/${client.slug}`} {...props} />;
 };
 
-export const ExpandIcon = ({...props}: IconProps) => {
-  return <Icon fa="fa fa-expand-arrows-alt" {...props} />;
-};
+export const ExpandIcon = ({...props}: IconProps) => <Icon fa="fa fa-expand-arrows-alt" {...props} />;
 
-export const NotEmailedIcon = ({...props}) => {
-  return (
-    <span className="fa-stack fa-2x" {...props}>
-      <i className="fas fa-envelope fa-stack-1x" />
-      <Icon fa="fas fa-ban fa-stack-2x" size={1} title={t('email.notMailed')} color="#CC1100" />
-    </span>
-  );
-}
+export const NotEmailedIcon = ({...props}) => (
+  <span className="fa-stack fa-2x" {...props}>
+    <i className="fas fa-envelope fa-stack-1x" />
+    <Icon fa="fas fa-ban fa-stack-2x" size={1} title={t('email.notMailed')} color="#CC1100" />
+  </span>
+);
 
 export const ConfirmedDeleteIcon = EnhanceWithConfirmation(DeleteIcon);

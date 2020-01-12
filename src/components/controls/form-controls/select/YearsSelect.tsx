@@ -1,6 +1,6 @@
-import React from "react";
-import { BaseSelect } from "./BaseSelect";
-import { SelectItem } from "../../../../models";
+import React from 'react';
+import {BaseSelect} from './BaseSelect';
+import {SelectItem} from '../../../../models';
 
 export type YearsSelectProps = {
   values: number[];
@@ -9,15 +9,13 @@ export type YearsSelectProps = {
   label?: string;
 };
 
-export const YearsSelect = ({values, years, onChange, ...props}: YearsSelectProps) => {
-  return (
-    <BaseSelect
-      value={values.map(y => ({label: y, value: y}))}
-      onChange={(newYears: SelectItem[]) => onChange((newYears || []).map(itm => itm.value as number))}
-      options={years.map(y => ({label: y, value: y}))}
-      isClearable={true}
-      isMulti={true}
-      {...props}
-    />
-  );
-};
+export const YearsSelect = ({values, years, onChange, ...props}: YearsSelectProps) => (
+  <BaseSelect
+    value={values.map((y) => ({label: y, value: y}))}
+    onChange={(newYears: SelectItem[]) => onChange((newYears || []).map((itm) => itm.value as number))}
+    options={years.map((y) => ({label: y, value: y}))}
+    isClearable
+    isMulti
+    {...props}
+  />
+);

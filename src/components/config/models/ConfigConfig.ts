@@ -1,5 +1,5 @@
-import { FullFormConfig } from '../../../models';
-import { TemplatePicker } from '../../controls/form-controls/select/TemplatePicker';
+import {FullFormConfig} from '../../../models';
+import {TemplatePicker} from '../../controls/form-controls/select/TemplatePicker';
 
 // configDefinition.addMissingProps = true;
 

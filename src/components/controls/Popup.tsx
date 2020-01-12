@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import {Button} from './form-controls/Button';
-import { BootstrapVariant } from '../../models';
-import { BusyButton } from '../controls';
+import {BootstrapVariant} from '../../models';
+import {BusyButton} from '../controls';
 
 export type PopupButton = {
   text: string,
@@ -22,7 +22,7 @@ type PopupProps = {
 export class Popup extends Component<PopupProps> {
   render() {
     return (
-      <Modal onHide={this.props.onHide} show={true}>
+      <Modal onHide={this.props.onHide} show>
         <Modal.Header closeButton>
           <Modal.Title>{this.props.title}</Modal.Title>
         </Modal.Header>
@@ -40,7 +40,7 @@ export class Popup extends Component<PopupProps> {
                 variant={button.variant}
                 onClick={button.onClick}
                 disabled={button.disabled || false}
-                data-tst={this.props['data-tst'] + '-btn-' + i}
+                data-tst={`${this.props['data-tst']}-btn-${i}`}
               >
                 {button.text}
               </UsedButton>

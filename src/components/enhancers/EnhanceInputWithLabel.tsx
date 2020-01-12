@@ -14,28 +14,27 @@ export type EnhanceInputWithLabelProps = {
   inline?: boolean,
 }
 
-export const EnhanceInputWithLabel = <P extends object>(ComposedComponent: React.ComponentType<P>) =>
-  ({label, placeholder, inline, ...props}: EnhanceInputWithLabelProps & P) => {
+export const EnhanceInputWithLabel = <P extends object>(ComposedComponent: React.ComponentType<P>) => ({label, placeholder, inline, ...props}: EnhanceInputWithLabelProps & P) => {
 
-    if (label !== undefined && label !== null) {
-      if (inline) {
-        return (
-          <FormGroup as={Row}>
-            <FormLabel column sm="2">{label}</FormLabel>
-            <Col sm="10">
-              <ComposedComponent {...props as P} placeholder={placeholder || label} />
-            </Col>
-          </FormGroup>
-        );
-      }
-
+  if (label !== undefined && label !== null) {
+    if (inline) {
       return (
-        <FormGroup>
-          <FormLabel>{label}</FormLabel>
-          <ComposedComponent {...props as P} placeholder={placeholder || label} />
+        <FormGroup as={Row}>
+          <FormLabel column sm="2">{label}</FormLabel>
+          <Col sm="10">
+            <ComposedComponent {...props as P} placeholder={placeholder || label} />
+          </Col>
         </FormGroup>
       );
     }
 
-    return <ComposedComponent {...props as P} placeholder={placeholder} />;
-  };
+    return (
+      <FormGroup>
+        <FormLabel>{label}</FormLabel>
+        <ComposedComponent {...props as P} placeholder={placeholder || label} />
+      </FormGroup>
+    );
+  }
+
+  return <ComposedComponent {...props as P} placeholder={placeholder} />;
+};
