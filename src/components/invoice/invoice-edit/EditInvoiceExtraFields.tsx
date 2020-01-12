@@ -22,6 +22,7 @@ export class EditInvoiceExtraFields extends Component<EditInvoiceExtraFieldsProp
     this.state = {extraFieldFormOpen: props.forceOpen};
   }
 
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.forceOpen !== nextProps.forceOpen) {
       this.setState({extraFieldFormOpen: nextProps.forceOpen});

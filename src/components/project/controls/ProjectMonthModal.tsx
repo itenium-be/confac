@@ -16,10 +16,10 @@ const _ProjectMonthModal = (props: ProjectMonthModalProps) => {
     month: moment.utc().startOf('month'),
   });
 
-  const {show, onClose, saveProjectMonth} = props;
+  const {show, onClose} = props;
 
   return (
-    <Modal show={show} onClose={onClose} title={t('project.newMonth')} onConfirm={() => saveProjectMonth(projectMonth)}>
+    <Modal show={show} onClose={onClose} title={t('project.newMonth')} onConfirm={() => props.saveProjectMonth(projectMonth)}>
       <Form>
         <Container>
           <Row>

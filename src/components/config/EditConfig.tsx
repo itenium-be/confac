@@ -7,7 +7,6 @@ import * as Control from '../controls';
 import {updateConfig} from '../../actions/index';
 import {ConfigModel} from './models/ConfigModel';
 import {ConfacState} from '../../reducers/app-state';
-import {ArrayInput} from '../controls';
 import {StickyFooter} from '../controls/skeleton/StickyFooter';
 
 
@@ -28,6 +27,7 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
     window.scrollTo(0, 0);
   }
 
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState(JSON.parse(JSON.stringify(nextProps.config)));
   }
@@ -42,7 +42,7 @@ class EditConfig extends Component<EditConfigProps, EditConfigState> {
       <Container className="edit-container">
         <Form>
           <Row>
-            <ArrayInput
+            <Control.ArrayInput
               config={configDefinition}
               model={this.state}
               onChange={(state: ConfigModel) => this.setState({...state})}

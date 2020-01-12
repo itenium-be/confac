@@ -45,14 +45,6 @@ type EditInvoiceState = {
 }
 
 export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
-  get isQuotation(): boolean {
-    return window.location.pathname.startsWith('/quotations/');
-  }
-
-  get type(): 'quotation' | 'invoice' {
-    return this.isQuotation ? 'quotation' : 'invoice';
-  }
-
   constructor(props: EditInvoiceProps) {
     super(props);
     this.state = {
@@ -61,6 +53,29 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
       renavigationKey: '',
       showEmailModal: false,
     };
+  }
+
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps: EditInvoiceProps) {
+    if (nextProps.app.isLoaded !== this.props.app.isLoaded
+      || (nextProps.match.params.id !== this.props.match.params.id)
+      || nextProps.invoices !== this.props.invoices // Changing this? Check confac-back::invoices.js
+      || nextProps.renavigationKey !== this.state.renavigationKey) {
+
+      this.setState({invoice: this.createModel(nextProps), renavigationKey: nextProps.renavigationKey});
+    }
+  }
+
+  get isQuotation(): boolean {
+    return window.location.pathname.startsWith('/quotations/');
+  }
+
+  get type(): 'quotation' | 'invoice' {
+    return this.isQuotation ? 'quotation' : 'invoice';
   }
 
   createModel(props: EditInvoiceProps): EditInvoiceViewModel {
@@ -81,21 +96,6 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
     model.number = invoicesOrQuotations.map(i => i.number).reduce((a, b) => Math.max(a, b), 0) + 1;
     model.isQuotation = this.isQuotation;
     return model;
-
-  }
-
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps: EditInvoiceProps) {
-    if (nextProps.app.isLoaded !== this.props.app.isLoaded
-      || (nextProps.match.params.id !== this.props.match.params.id)
-      || nextProps.invoices !== this.props.invoices // Changing this? Check confac-back::invoices.js
-      || nextProps.renavigationKey !== this.state.renavigationKey) {
-
-      this.setState({invoice: this.createModel(nextProps), renavigationKey: nextProps.renavigationKey});
-    }
   }
 
   updateInvoice(key: string, value: any, calcMoneys = false) {
@@ -110,26 +110,26 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
     const {invoice} = this.state;
     const extraFieldsVisible = invoice.extraFields.length === 0 && !this.state.showExtraFields;
 
-    const getDefaultEmailValue = (invoice: InvoiceModel, config: ConfigModel): EmailModel => {
+    const getDefaultEmailValue = (i: InvoiceModel, config: ConfigModel): EmailModel => {
       const defaultEmail = config.email;
-      if (!invoice.client || !invoice.client.email) {
+      if (!i.client || !i.client.email) {
         return defaultEmail;
       }
 
-      const emailValues = Object.keys(invoice.client.email).reduce((acc: EmailModel, cur: string) => {
-        if (invoice.client.email[cur]) {
-          acc[cur] = invoice.client.email[cur];
+      const emailValues = Object.keys(i.client.email).reduce((acc: EmailModel, cur: string) => {
+        if (i.client.email[cur]) {
+          acc[cur] = i.client.email[cur];
           return acc;
         }
         return acc;
       }, {} as EmailModel);
 
       const finalValues = {...defaultEmail, ...emailValues};
-      finalValues.subject = invoiceReplacements(finalValues.subject, invoice);
-      if (invoice.lastEmail && config.emailReminder) {
+      finalValues.subject = invoiceReplacements(finalValues.subject, i);
+      if (i.lastEmail && config.emailReminder) {
         finalValues.body = config.emailReminder;
       }
-      finalValues.body = invoiceReplacements(finalValues.body, invoice);
+      finalValues.body = invoiceReplacements(finalValues.body, i);
       finalValues.body += config.emailSignature;
 
       return finalValues;

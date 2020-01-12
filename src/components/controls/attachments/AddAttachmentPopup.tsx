@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {FormLabel, FormGroup, Alert} from 'react-bootstrap';
 import {t} from '../../utils';
-import {Popup, SimpleCreatableSelect, PopupButton} from '../../controls'; // TODO: Dependency cycle detected
 import {Attachment} from '../../../models';
 import {ConfacState} from '../../../reducers/app-state';
 import {AttachmentDropzone} from './AttachmentDropzone';
+import {PopupButton, Popup} from '../Popup';
+import {SimpleCreatableSelect} from '../form-controls/select/SimpleCreatableSelect';
 
 
 type AddAttachmentPopupProps = {

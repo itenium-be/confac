@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {t} from '../../utils';
 import {SimpleSelect} from '../../controls/form-controls/select/SimpleSelect';
 import {EditClientRateType} from '../../../models';
@@ -9,22 +9,14 @@ export const invoiceLineTypes = ['hourly', 'daily', 'km', 'items', 'section', 'o
 
 type InvoiceLineTypeSelectProps = BaseInputProps<EditClientRateType>;
 
-// eslint-disable-next-line react/prefer-stateless-function
-export class InvoiceLineTypeSelect extends Component<InvoiceLineTypeSelectProps> {
-  static defaultProps = {type: 'hourly'}
-
-  render() {
-    const {value, label, ...props} = this.props;
-    return (
-      <SimpleSelect
-        transFn={(key: string) => t(`rates.types.${key}`)}
-        value={value}
-        options={invoiceLineTypes}
-        isClearable={false}
-        label={label}
-        placeholder=""
-        {...props}
-      />
-    );
-  }
-}
+export const InvoiceLineTypeSelect = ({value = 'hourly', label, ...props}: InvoiceLineTypeSelectProps) => (
+  <SimpleSelect
+    transFn={(key: string) => t(`rates.types.${key}`)}
+    value={value}
+    options={invoiceLineTypes}
+    isClearable={false}
+    label={label}
+    placeholder=""
+    {...props}
+  />
+);

@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t, formatDate} from '../utils';
-import {BusyButton, ArrayInput, AttachmentsForm} from '../controls';
+import {BusyButton, ArrayInput} from '../controls';
+import {AttachmentsForm} from '../controls/attachments/AttachmentsForm';
 import {saveClient} from '../../actions/index';
 import {defaultClientProperties} from './models/ClientConfig';
 import {getNewClient} from './models/getNewClient';
@@ -42,6 +43,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
     window.scrollTo(0, 0);
   }
 
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps: EditClientProps) {
     if (nextProps.isLoaded !== this.props.isLoaded
       || nextProps.match.params.id !== this.props.match.params.id

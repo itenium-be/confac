@@ -19,6 +19,7 @@ export const EnhanceWithBusySpinner = <P extends object>(ComposedComponent: Reac
     this.state = {isBusy: false};
   }
 
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.state.isBusy && this.props.model !== nextProps.model) {
       this.setState({isBusy: false});
