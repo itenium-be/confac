@@ -1,53 +1,53 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 export interface IAttachment {
-  type: string,
-  fileName: string,
-  fileType: string,
-  lastModifiedDate: string
+  type: string;
+  fileName: string;
+  fileType: string;
+  lastModifiedDate: string;
 }
 
 export interface IEmail {
-  from?: string,
-  to: string,
-  cc?: string,
-  bcc?: string,
-  subject: string,
-  body: string,
-  attachments: string[],
+  from?: string;
+  to: string;
+  cc?: string;
+  bcc?: string;
+  subject: string;
+  body: string;
+  attachments: string[];
 }
 
 export interface ISelectItem {
-  label: string | number,
-  value: string | number,
-  className?: string,
+  label: string | number;
+  value: string | number;
+  className?: string;
 }
 
 export interface IClientRate {
-  type: string,
-  hoursInDay: number,
-  value: number,
-  description: string,
+  type: string;
+  hoursInDay: number;
+  value: number;
+  description: string;
 }
 
 export interface IClient extends mongoose.Document {
-  _id: string,
-  slug: string,
-  active: boolean,
-  name: string,
-  address: string,
-  city: string,
-  telephone: string,
-  btw: string,
-  invoiceFileName: string,
-  rate: IClientRate,
-  attachments: IAttachment[],
-  extraFields: ISelectItem[],
-  defaultExtraInvoiceFields: ISelectItem[],
-  notes: string,
-  defaultInvoiceDateStrategy: string,
-  createdOn: string,
-  email: IEmail,
+  _id: string;
+  slug: string;
+  active: boolean;
+  name: string;
+  address: string;
+  city: string;
+  telephone: string;
+  btw: string;
+  invoiceFileName: string;
+  rate: IClientRate;
+  attachments: IAttachment[];
+  extraFields: ISelectItem[];
+  defaultExtraInvoiceFields: ISelectItem[];
+  notes: string;
+  defaultInvoiceDateStrategy: string;
+  createdOn: string;
+  email: IEmail;
 }
 
 const clientSchema = new mongoose.Schema({
@@ -61,17 +61,17 @@ const clientSchema = new mongoose.Schema({
   btw: String,
   invoiceFileName: String,
   rate: {
-    type: { type: String },
+    type: {type: String},
     hoursInDay: Number,
     value: Number,
     description: String,
   },
   attachments: [
     {
-      type: { type: String },
+      type: {type: String},
       fileName: String,
       fileType: String,
-      lastModifiedDate: String
+      lastModifiedDate: String,
     }],
   extraFields: [{
     label: String || Number,
@@ -95,6 +95,6 @@ const clientSchema = new mongoose.Schema({
     body: String,
     attachments: [String],
   },
-})
+});
 
-export const Clients = mongoose.model<IClient>('client', clientSchema, 'clients')
+export const Clients = mongoose.model<IClient>('client', clientSchema, 'clients');

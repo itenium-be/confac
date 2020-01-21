@@ -1,8 +1,8 @@
-import { Router } from 'express'
-import { getClients } from '../controllers/clients'
+import {Router} from 'express';
+import {getClients} from '../controllers/clients';
 
-const clientsRouter = Router()
+const clientsRouter = Router();
 
-clientsRouter.get('/clients', getClients)
+clientsRouter.get('/clients', getClients);
 
-export default clientsRouter
+export default clientsRouter;

@@ -1,9 +1,9 @@
-import { Router } from "express";
+import {Router} from 'express';
 
-import clientsRouter from './clients'
+import clientsRouter from './clients';
 
-const appRouter = Router()
+const appRouter = Router();
 
-appRouter.use(clientsRouter)
+appRouter.use(clientsRouter);
 
-export default appRouter
+export default appRouter;

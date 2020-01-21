@@ -1,22 +1,23 @@
 // ES5: Usage from gulpfile
 
-var moment = require('moment');
-var numeral = require('numeral');
+const moment = require('moment');
+const numeral = require('numeral');
 
 numeral.language('nl', {
   delimiters: {thousands: '.', decimal: ','},
-  currency: {symbol: '€'}
+  currency: {symbol: '€'},
 });
 numeral.language('nl');
 
-require('moment/locale/nl-be')
+require('moment/locale/nl-be');
+
 moment.locale('nl-be');
 
 module.exports = {
   locals: {
-    moment: moment,
-    numeral: numeral,
+    moment,
+    numeral,
     formatDate: dateString => moment(dateString).format('DD/MM/YYYY'),
     numberFormat: number => numeral(number).format('0,0.00'),
-  }
+  },
 };
