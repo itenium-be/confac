@@ -4,7 +4,7 @@ import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
 import {saveConsultant} from '../../../actions';
 import {ConfacState} from '../../../reducers/app-state';
-import {initNewConsultant} from '../utils/initNewConsultant';
+import {getNewConsultant} from '../models/getNewConsultant';
 import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
 import {BaseModalProps, Modal} from '../../controls/Modal';
 import {ConsultantModel} from '../models/ConsultantModel';
@@ -17,7 +17,7 @@ type ConsultantModalProps = BaseModalProps & {
 
 
 const _ConsultantModal = (props: ConsultantModalProps) => {
-  const [consultant, setConsultantProperties] = useState<ConsultantModel>(initNewConsultant());
+  const [consultant, setConsultantProperties] = useState<ConsultantModel>(getNewConsultant());
 
   return (
     <Modal

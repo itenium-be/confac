@@ -6,7 +6,7 @@ import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {saveConsultant} from '../../actions';
 import {StickyFooter} from '../controls/skeleton/StickyFooter';
-import {initNewConsultant} from './utils/initNewConsultant';
+import {getNewConsultant} from './models/getNewConsultant';
 import {ConsultantModel} from './models/ConsultantModel';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {defaultConsultantProperties} from './models/ConsultantConfig';
@@ -16,7 +16,7 @@ interface EditConsultantProps {
 }
 
 const EditConsultant = (props: EditConsultantProps) => {
-  const [consultant, setConsultant] = useState<ConsultantModel>(initNewConsultant());
+  const [consultant, setConsultant] = useState<ConsultantModel>(getNewConsultant());
 
   const onSaveConsultant = (): void => {
     props.saveConsultant(consultant);
