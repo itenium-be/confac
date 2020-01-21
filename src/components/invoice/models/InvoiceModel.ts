@@ -35,39 +35,22 @@ export type InvoiceMoney = {
  */
 export default class InvoiceModel implements IAttachment {
   _id: string;
-
   number: number;
-
   client: ClientModel;
-
   your: ConfigCompanyModel;
-
   date: moment.Moment;
-
   orderNr: string;
-
   verified: boolean;
-
   fileName: string;
-
   discount: string;
-
   attachments: Attachment[];
-
   isQuotation: boolean;
-
   lastEmail: string;
-
   _defaultTax: number;
-
   _defaultType: EditClientRateType;
-
   extraFields: SelectItem[];
-
   createdOn: string;
-
   lines: InvoiceLine[] = [];
-
   money: InvoiceMoney;
 
   static createNew(config: ConfigModel, client: undefined | ClientModel): InvoiceModel {

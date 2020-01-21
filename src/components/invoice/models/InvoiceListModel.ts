@@ -34,13 +34,9 @@ type TransformedInvoiceFilters = {
 /** Model used for filtering the InvoiceList */
 export default class InvoiceListModel {
   invoices: InvoiceModel[];
-
   clients: ClientModel[];
-
   hasFilters: boolean;
-
   fs: TransformedInvoiceFilters;
-
   isQuotation: boolean;
 
   constructor(invoices: InvoiceModel[], clients: ClientModel[], filters: InvoiceFilters, isQuotation: boolean) {
