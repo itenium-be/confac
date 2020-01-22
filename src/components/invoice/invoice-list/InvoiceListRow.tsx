@@ -1,36 +1,16 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import moment from 'moment';
-import {moneyFormat, t} from '../../utils';
-import {deleteInvoice} from '../../../actions/index';
 import {InvoiceWorkedDays} from './InvoiceWorkedDays';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import InvoiceModel from '../models/InvoiceModel';
 import {ConfacState} from '../../../reducers/app-state';
-import {NotEmailedIcon, EditIcon, ConfirmedDeleteIcon} from '../../controls/Icon';
-import {InvoiceVerifyIconToggle} from './InvoiceVerifyIcon';
-import {InvoiceDownloadIcon, InvoicePreviewIcon} from '../../controls/attachments/AttachmentDownloadIcon';
-
-
-type InvoiceListHeaderProps = {
-  columns: any[];
-}
-
-export const InvoiceListHeader = ({columns}: InvoiceListHeaderProps) => (
-  <thead>
-    <tr>
-      {columns.map((col, i) => <th key={i}>{col.header}</th>)}
-      <th>{t('invoice.days')}</th>
-      <th style={{width: '10%'}}>{t('invoice.totalTitle')}</th>
-      <th>&nbsp;</th>
-    </tr>
-  </thead>
-);
+import {IListCell} from '../../controls/table/table-models';
 
 
 type InvoiceListFooterProps = {
-  columns: any[];
+  columns: IListCell[];
   invoices: InvoiceModel[];
   isQuotation: boolean;
 }
@@ -43,7 +23,7 @@ export const InvoiceListFooter = ({columns, invoices, isQuotation}: InvoiceListF
   return (
     <tfoot>
       <tr>
-        <td colSpan={columns.length}>
+        <td colSpan={columns.length - 3}>
           <InvoiceAmountLabel invoices={invoices} isQuotation={isQuotation} data-tst="list-total-invoices" />
         </td>
         <td><InvoiceWorkedDays invoices={invoices} data-tst="list-total-days" /></td>
@@ -53,16 +33,7 @@ export const InvoiceListFooter = ({columns, invoices, isQuotation}: InvoiceListF
   );
 };
 
-type InvoiceListRowProps = {
-  columns: Array<{
-    header: string,
-    value: Function,
-    groupedBy?: boolean,
-  }>,
-  invoice: InvoiceModel,
-  isFirstRow?: boolean
-  onlyRowForMonth?: boolean,
-}
+
 
 
 /**
@@ -104,51 +75,24 @@ export function getInvoiceDueDateVariant(
 
 
 
-export const InvoiceListRow = ({invoice, isFirstRow, onlyRowForMonth, columns}: InvoiceListRowProps) => {
-  const dispatch = useDispatch();
+type InvoiceListRowProps = {
+  columns: IListCell[],
+  invoice: InvoiceModel,
+}
+
+export const InvoiceListRow = ({invoice, columns}: InvoiceListRowProps) => {
   const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
-
-  const borderStyle = columns.some(col => col.groupedBy) ? {borderBottom: 0, borderTop: 0} : undefined;
-  const tst = (key: string): string => `list-${invoice._id}-${key}`;
-
-  const invoiceType = invoice.isQuotation ? 'quotation' : 'invoice';
-
   const rowTableClassName = `table-${getInvoiceDueDateVariant(invoice, invoicePayDays)}`;
 
   return (
-    <tr className={rowTableClassName} style={borderStyle}>
+    <tr className={rowTableClassName}>
       {columns.map((col, i) => {
-        const hideValue = !isFirstRow && col.groupedBy;
         return (
-          <td key={i} style={col.groupedBy ? borderStyle : undefined} data-tst={tst(col.header)}>
-            {hideValue ? null : col.value(invoice)}
+          <td key={i} style={col.style} className={col.className}>
+            {col.value(invoice)}
           </td>
         );
       })}
-      <td style={{whiteSpace: 'nowrap'}}>
-        <InvoiceWorkedDays invoices={[invoice]} display={onlyRowForMonth ? undefined : 'invoice'} data-tst={tst('days')} />
-      </td>
-      <td style={{textAlign: 'right', whiteSpace: 'nowrap'}} data-tst={tst('money-total')}>
-        {!invoice.verified && !invoice.lastEmail && <NotEmailedIcon style={{marginRight: 6, fontSize: 12}} />}
-        {moneyFormat(invoice.money.total)}
-      </td>
-      <td className="icons-cell" style={{width: 240}}>
-        <EditIcon
-          onClick={`/${invoiceType}s/${invoice.number}`}
-          data-tst={tst('edit')}
-          style={{marginRight: invoice.isQuotation ? undefined : -15}}
-        />
-        <InvoiceVerifyIconToggle invoice={invoice} data-tst={tst('verify')} />
-        <InvoiceDownloadIcon invoice={invoice} data-tst={tst('download')} />
-        <InvoicePreviewIcon invoice={invoice} data-tst={tst('preview')} />
-        <ConfirmedDeleteIcon
-          title={t(`${invoiceType}.deleteTitle`)}
-          onClick={() => dispatch(deleteInvoice(invoice))}
-          data-tst={tst('delete')}
-        >
-          {t(`${invoiceType}.deletePopup`, {number: invoice.number, client: invoice.client.name})}
-        </ConfirmedDeleteIcon>
-      </td>
     </tr>
   );
 };
