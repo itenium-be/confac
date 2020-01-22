@@ -49,7 +49,8 @@ module.exports = {
       }
     }],
     "eol-last": [0],
-    "import/no-extraneous-dependencies": [1]
+    "import/no-extraneous-dependencies": [1],
+    "@typescript-eslint/indent": ["error", 2]
   },
   settings: {
     "import/resolver": {
