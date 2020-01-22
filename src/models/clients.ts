@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+import common from './common';
+
 export interface IAttachment {
   type: string;
   fileName: string;
@@ -51,50 +53,7 @@ export interface IClient extends mongoose.Document {
 }
 
 const clientSchema = new mongoose.Schema({
-  _id: String,
-  slug: String,
-  active: Boolean,
-  name: String,
-  address: String,
-  city: String,
-  telephone: String,
-  btw: String,
-  invoiceFileName: String,
-  rate: {
-    type: {type: String},
-    hoursInDay: Number,
-    value: Number,
-    description: String,
-  },
-  attachments: [
-    {
-      type: {type: String},
-      fileName: String,
-      fileType: String,
-      lastModifiedDate: String,
-    }],
-  extraFields: [{
-    label: String || Number,
-    value: String || Number,
-    className: String,
-  }],
-  defaultExtraInvoiceFields: [{
-    label: String || Number,
-    value: String || Number,
-    className: String,
-  }],
-  notes: String,
-  defaultInvoiceDateStrategy: String,
-  createdOn: String,
-  email: {
-    from: String,
-    to: String,
-    cc: String,
-    bcc: String,
-    subject: String,
-    body: String,
-    attachments: [String],
-  },
+  ...common.clientSchema,
 });
 
-export const Clients = mongoose.model<IClient>('client', clientSchema, 'clients');
+export const ClientsCollection = mongoose.model<IClient>('client', clientSchema, 'clients');
