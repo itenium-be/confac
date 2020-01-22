@@ -22,7 +22,6 @@ export interface IEmail {
 export interface ISelectItem {
   label: string | number;
   value: string | number;
-  className?: string;
 }
 
 export interface IClientRate {

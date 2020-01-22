@@ -34,12 +34,10 @@ const clientSchema = {
   extraFields: [{
     label: String || Number,
     value: String || Number,
-    className: String,
   }],
   defaultExtraInvoiceFields: [{
     label: String || Number,
     value: String || Number,
-    className: String,
   }],
   notes: String,
   defaultInvoiceDateStrategy: String,
