@@ -1,4 +1,4 @@
-const config = {
+const appConfig = {
   db: {
     host: process.env.MONGO_HOST || 'localhost',
     db: process.env.MONGO_DB || 'confac-dev',
@@ -15,4 +15,4 @@ const config = {
   enable_root_templates: process.env.ENABLE_ROOT_TEMPLATES || false,
 };
 
-export default config;
+export default appConfig;
