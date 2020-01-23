@@ -53,6 +53,6 @@ export interface IClient extends mongoose.Document {
 
 const clientSchema = new mongoose.Schema({
   ...common.clientSchema,
-});
+}, {timestamps: {createdAt: 'createdOn'}});
 
 export const ClientsCollection = mongoose.model<IClient>('client', clientSchema, 'clients');
