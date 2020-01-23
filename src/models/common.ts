@@ -9,7 +9,6 @@ const emailSchema = {
 };
 
 const clientSchema = {
-  _id: String,
   slug: String,
   active: Boolean,
   name: String,
