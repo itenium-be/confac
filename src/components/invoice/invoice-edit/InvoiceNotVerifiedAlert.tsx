@@ -5,10 +5,10 @@ import {Alert} from 'react-bootstrap';
 import {t} from '../../utils';
 import {toggleInvoiceVerify} from '../../../actions/index';
 import InvoiceModel from '../models/InvoiceModel';
-import {getInvoiceDueDateVariant} from '../invoice-list/InvoiceListRow';
 import {ConfacState} from '../../../reducers/app-state';
 import {NotEmailedIcon} from '../../controls/Icon';
 import {BusyButton} from '../../controls/form-controls/BusyButton';
+import {getInvoiceDueDateVariant} from '../invoice-table/getInvoiceListRowClass';
 
 
 type InvoiceNotVerifiedAlertProps = {

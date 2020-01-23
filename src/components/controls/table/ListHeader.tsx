@@ -1,16 +1,16 @@
 import React from 'react';
 import {t} from '../../utils';
-import {IListCell} from './table-models';
+import {IList} from './table-models';
 
 
-type ListHeaderProps = {
-  columns: IListCell[];
+type ListHeaderProps<TModel> = {
+  config: IList<TModel>;
 }
 
-export const ListHeader = ({columns}: ListHeaderProps) => (
+export const ListHeader = ({config}: ListHeaderProps<any>) => (
   <thead>
     <tr>
-      {columns.map(col => {
+      {config.rows.cells.map(col => {
         if (typeof col.header === 'string') {
           return <th key={col.key}>{col.header ? t(col.header) : <>&nbsp;</>}</th>;
         }

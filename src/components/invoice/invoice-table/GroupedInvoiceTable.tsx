@@ -1,16 +1,19 @@
 import React from 'react';
 import {Table} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
-import {groupInvoicesPerMonth} from '../models/InvoiceModel';
-import {InvoiceListFooter, getInvoiceDueDateVariant} from '../invoice-list/InvoiceListRow';
+import InvoiceModel, {groupInvoicesPerMonth} from '../models/InvoiceModel';
 import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
-import {getGroupedInvoiceTableColumns} from './invoice-list-column-factory';
+import {getGroupedInvoiceList} from './invoice-list-column-factory';
 import {ConfigModel} from '../../config/models/ConfigModel';
 import InvoiceListModel from '../models/InvoiceListModel';
 import {ConfacState} from '../../../reducers/app-state';
 import {ListHeader} from '../../controls/table/ListHeader';
+import {IList} from '../../controls/table/table-models';
+import {getInvoiceListRowClass} from './getInvoiceListRowClass';
+import {ListFooter} from '../../controls/table/ListFooter';
+
 
 
 type GroupedInvoiceTableProps = {
@@ -19,8 +22,14 @@ type GroupedInvoiceTableProps = {
 }
 
 export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
+  const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
+
   const invoices = vm.getFilteredInvoices();
-  const columns = getGroupedInvoiceTableColumns(config.showOrderNr, vm.isQuotation);
+  const listConfig = getGroupedInvoiceList({
+    showOrderNr: config.showOrderNr,
+    isQuotation: vm.isQuotation,
+    invoicePayDays,
+  });
   const invoicesPerMonth = groupInvoicesPerMonth(invoices).sort((a, b) => b.key.localeCompare(a.key));
 
   const hideBorderStyle = {borderBottom: 0, borderTop: 0};
@@ -28,14 +37,14 @@ export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
 
   return (
     <Table size="sm" style={{marginTop: 10}}>
-      <ListHeader columns={columns} />
+      <ListHeader config={listConfig} />
 
       {invoicesPerMonth.map(({key, invoiceList}) => [
         <tbody key={key}>
           {invoiceList.sort((a, b) => b.number - a.number).map((invoice, index) => (
             <GroupedInvoiceListRow
               key={invoice._id}
-              columns={columns}
+              config={listConfig}
               invoice={invoice}
               isFirstRow={index === 0}
             />
@@ -46,7 +55,7 @@ export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
           <tbody key={`${key}-group-row`} style={hideBorderStyle}>
             <tr style={{...hideBorderStyle, height: 60}}>
               <td style={hideBorderStyle}>&nbsp;</td>
-              <td colSpan={columns.length - 1}>
+              <td colSpan={listConfig.rows.cells.length - 1}>
                 <strong><InvoiceAmountLabel invoices={invoiceList} data-tst={tst(key, 'invoices')} isQuotation={vm.isQuotation} /></strong>
               </td>
               <td><strong><InvoiceWorkedDays invoices={invoiceList} data-tst={tst(key, 'days')} /></strong></td>
@@ -57,20 +66,26 @@ export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
         ),
       ])}
 
-      <InvoiceListFooter columns={columns} invoices={invoices} isQuotation={vm.isQuotation} />
+      <ListFooter config={listConfig} models={invoices} isQuotation={vm.isQuotation} />
     </Table>
   );
 };
 
+type GroupedInvoiceListRowProps = {
+  invoice: InvoiceModel;
+  isFirstRow: boolean;
+  config: IList<InvoiceModel>;
+}
 
-const GroupedInvoiceListRow = ({invoice, isFirstRow, columns}: any) => {
+
+const GroupedInvoiceListRow = ({invoice, isFirstRow, config}: GroupedInvoiceListRowProps) => {
   const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
-  const rowTableClassName = `table-${getInvoiceDueDateVariant(invoice, invoicePayDays)}`;
+  const rowTableClassName = getInvoiceListRowClass(invoice, invoicePayDays);
 
-  const borderStyle = columns.some(col => col.groupedBy) ? {borderBottom: 0, borderTop: 0} : undefined;
+  const borderStyle = {borderBottom: 0, borderTop: 0};
   return (
     <tr className={rowTableClassName} style={borderStyle}>
-      {columns.map((col, i) => {
+      {config.rows.cells.map((col, i) => {
         const isGroupedByColumn = col.key === 'date-month';
         const hideValue = !isFirstRow && isGroupedByColumn;
         return (

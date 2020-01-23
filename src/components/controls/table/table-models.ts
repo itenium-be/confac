@@ -1,24 +1,29 @@
-// {columns.map((col, i) => <th key={i}>{col.header}</th>)}
+
+export interface IList<TModel> {
+  rows: IListRow<TModel>;
+}
 
 
-// export interface IList {
-//   className: ()
-//   //cells: IListCell;
 
-// }
+export interface IListRow<TModel> {
+  className?: (m: TModel) => string;
+  cells: IListCell<TModel>[];
+}
 
 
-export interface IListCell {
+export interface IListCell<TModel> {
   /** unique semantic made up key */
   key: string;
   /** Translation key */
   header: string | IListHeaderCell;
   /** Render the cell */
-  value: (i: any) => string | React.ReactNode;
+  value: (m: TModel) => string | React.ReactNode;
   /** Cell styles */
   style?: React.CSSProperties;
   /** Cell className */
   className?: string;
+  /** Will span until next cell with a footer */
+  footer?: string | ((models: TModel[]) => string | React.ReactNode);
 }
 
 

@@ -3,53 +3,62 @@ import {InvoiceClientCell} from './InvoiceClientCell';
 import {InvoiceNumberCell} from './InvoiceNumberCell';
 import InvoiceModel from '../models/InvoiceModel';
 import {formatDate, moneyFormat} from '../../utils';
-import {IListCell} from '../../controls/table/table-models';
+import {IListCell, IListRow, IList} from '../../controls/table/table-models';
 import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
 import {NotEmailedIcon} from '../../controls/Icon';
 import {InvoiceListRowActions} from './InvoiceListRowActions';
+import {getInvoiceListRowClass} from './getInvoiceListRowClass';
+import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
+import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
 
 
-export function getGroupedInvoiceTableColumns(showOrderNr: boolean, isQuotation: boolean): IListCell[] {
-  const transPrefix = isQuotation ? 'quotation' : 'invoice';
-  return getInvoiceColumns([
-    'date-month',
-    'number',
-    'client',
-    'total-amount',
-    'buttons',
-    showOrderNr ? '' : 'orderNr',
-    'invoice-days',
-  ], transPrefix);
+export interface IInvoiceListConfig {
+  showOrderNr: boolean;
+  isQuotation: boolean;
+  invoicePayDays: number;
 }
 
 
-export function getNonGroupedInvoiceTableColumns(showOrderNr: boolean, isQuotation: boolean): IListCell[] {
-  const transPrefix = isQuotation ? 'quotation' : 'invoice';
-  return getInvoiceColumns([
-    'number',
-    'client',
-    'date-full',
-    'total-amount',
-    'buttons',
-    showOrderNr ? '' : 'orderNr',
-    'invoice-days',
-  ], transPrefix);
-}
-
-export function getInvoiceList() {
-
+export function getGroupedInvoiceList(config: IInvoiceListConfig): IList<InvoiceModel> {
+  return createInvoiceList(['date-month', 'number', 'client'], config);
 }
 
 
-export function getInvoiceColumns(includeFields: string[], transPrefix: string): IListCell[] {
-  const columns: IListCell[] = [{
+export function getNonGroupedInvoiceList(config: IInvoiceListConfig): IList<InvoiceModel> {
+  return createInvoiceList(['number', 'client', 'date-full'], config);
+}
+
+function createInvoiceList(colsTillTotalAmount: string[], config: IInvoiceListConfig): IList<InvoiceModel> {
+  const transPrefix = config.isQuotation ? 'quotation' : 'invoice';
+  const listRows: IListRow<InvoiceModel> = {
+    className: invoice => getInvoiceListRowClass(invoice, config.invoicePayDays),
+    cells: getInvoiceColumns([
+      ...colsTillTotalAmount,
+      'total-amount',
+      'buttons',
+      config.showOrderNr ? '' : 'orderNr',
+      'invoice-days',
+    ], transPrefix),
+  };
+
+  return {
+    rows: listRows,
+  };
+}
+
+
+export function getInvoiceColumns(includeFields: string[], transPrefix: string): IListCell<InvoiceModel>[] {
+  const isGroupedTable = includeFields.includes('date-month');
+  const columns: IListCell<InvoiceModel>[] = [{
     key: 'date-month',
     header: `${transPrefix}.date`,
     value: (i: InvoiceModel) => i.date.format('MMM YYYY'),
+    footer: (invoices: InvoiceModel[]) => <InvoiceAmountLabel invoices={invoices} isQuotation={invoices[0].isQuotation} />,
   }, {
     key: 'number',
     header: 'invoice.numberShort',
     value: (i: InvoiceModel) => <InvoiceNumberCell invoice={i} />,
+    footer: (invoices: InvoiceModel[]) => !isGroupedTable && <InvoiceAmountLabel invoices={invoices} isQuotation={invoices[0].isQuotation} />,
   }, {
     key: 'client',
     header: 'invoice.client',
@@ -72,6 +81,7 @@ export function getInvoiceColumns(includeFields: string[], transPrefix: string):
         data-tst="invoice-days"
       />
     ),
+    footer: invoices => <InvoiceWorkedDays invoices={invoices} />,
   }, {
     key: 'total-amount',
     header: {
@@ -85,6 +95,7 @@ export function getInvoiceColumns(includeFields: string[], transPrefix: string):
         {moneyFormat(invoice.money.total)}
       </>
     ),
+    footer: invoices => <InvoicesTotal invoices={invoices} />,
   }, {
     key: 'buttons',
     header: '',
