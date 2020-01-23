@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import moment from 'moment';
 
 import common from './common';
 
@@ -47,7 +48,7 @@ export interface IClient extends mongoose.Document {
   defaultExtraInvoiceFields: ISelectItem[];
   notes: string;
   defaultInvoiceDateStrategy: string;
-  createdOn: string;
+  createdOn: moment.Moment;
   email: IEmail;
 }
 

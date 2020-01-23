@@ -40,7 +40,7 @@ const clientSchema = {
   }],
   notes: String,
   defaultInvoiceDateStrategy: String,
-  createdOn: String,
+  createdOn: Date,
   email: emailSchema,
 };
 
