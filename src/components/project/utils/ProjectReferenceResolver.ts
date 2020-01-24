@@ -1,13 +1,11 @@
 import moment from 'moment';
-import {ProjectModel, FullProjectModel} from '../models/types';
+import {ProjectModel, FullProjectModel} from '../models/ProjectModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
 
 export class ProjectReferenceResolver {
   private projects: ProjectModel[]
-
   private consultants: ConsultantModel[]
-
   private clients: ClientModel[]
 
   constructor(projects: ProjectModel[], consultants: ConsultantModel[], clients: ClientModel[]) {
@@ -25,7 +23,6 @@ export class ProjectReferenceResolver {
   }
 
   getIsProjectActive(startDate: string, endDate: string): boolean {
-    // ? An end date is not always provided
     if (startDate && endDate) {
       return moment().isBetween(startDate, endDate);
     }
@@ -35,6 +32,7 @@ export class ProjectReferenceResolver {
 
   getProjects(): FullProjectModel[] {
     return this.projects.map(project => ({
+      _id: project._id,
       details: {...project, isActive: this.getIsProjectActive(project.startDate, project.endDate)},
       consultant: this.getConsultant(project.consultantId),
       client: this.getClient(project.client),

@@ -12,8 +12,10 @@ import {ConsultantModel} from '../consultant/models/ConsultantModel';
 import {ConsultantSearchSelect} from './controls/ConsultantSearchSelect';
 import {Button} from '../controls/form-controls/Button';
 import {BusyButton} from '../controls/form-controls/BusyButton';
-import {ProjectModel} from './models/types';
+import {ProjectModel} from './models/ProjectModel';
 import {projectFormConfig} from './models/ProjectFormConfig';
+import {getNewProject} from './models/getNewProject';
+
 
 interface EditProjectProps {
   saveProject: (project: ProjectModel, history: any) => void;
@@ -23,15 +25,7 @@ interface EditProjectProps {
 const EditProject = (props: EditProjectProps) => {
   const history = useHistory();
   const [modalClientId, setModalClientId] = useState<string | undefined>(undefined);
-  const [project, setProjectProperties] = useState<ProjectModel>({
-    consultantId: '',
-    startDate: '',
-    endDate: '',
-    partner: '',
-    partnerTariff: 0,
-    client: '',
-    clientTariff: 0,
-  });
+  const [project, setProjectProperties] = useState<ProjectModel>(getNewProject());
 
   useEffect(() => {
     setProjectProperties({...project, consultantId: props.lastAddedConsultantId});

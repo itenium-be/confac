@@ -1,0 +1,17 @@
+.list {
+  > div:first-child {
+    margin-bottom: 18px;
+  }
+
+
+
+}
+
+.icons-cell {
+  text-align: right;
+  font-size: 0.8rem;
+}
+
+.icons-cell > div:not(:last-child), .icons-cell > i:not(:last-child) {
+  margin-right: 12px;
+}

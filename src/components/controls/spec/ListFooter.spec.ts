@@ -12,6 +12,7 @@ function createListModel(cells: IListCell<any>[]): IList<any> {
     rows: {
       cells,
     },
+    data: [],
   };
   return listModel;
 }

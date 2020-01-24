@@ -1,4 +1,42 @@
-const trans = {
+// TODO: delete all translations in trans that have moved to features
+export const features = {
+  consultant: {
+    title: 'Consultants',
+    listTitle: 'Consultants',
+    createNew: 'Nieuwe consultant',
+    props: {
+      _id: 'Id',
+      name: 'Naam',
+      firstName: 'Voornaam',
+      slug: 'Naam in de url',
+      type: 'Type',
+      email: 'E-mail',
+      telephone: 'Telefoon nr',
+      createdOn: 'Aangemaakt op',
+    },
+  },
+  invoice: {
+    title: 'Facturen',
+    listTitle: 'Facturen',
+    createNew: 'Nieuwe factuur',
+    props: {},
+  },
+  client: {
+    title: 'Klanten',
+    listTitle: 'Klanten',
+    createNew: 'Nieuwe klant',
+    props: {},
+  },
+  project: {
+    title: 'Projecten',
+    listTitle: 'Projecten',
+    createNew: 'Nieuw project',
+    props: {},
+  },
+};
+
+
+export const trans = {
   title: 'Facturen',
   taxRequest: 'btw in aanvraag',
   nav: {
@@ -229,12 +267,8 @@ const trans = {
     },
   },
   consultant: {
+    title: 'Consultants',
     createNew: 'Nieuwe consultant',
-    name: 'Naam',
-    firstName: 'Voornaam',
-    type: 'Type',
-    email: 'E-mail',
-    telephone: 'Telefoon nr',
     types: {
       manager: 'Manager',
       consultant: 'Consultant',

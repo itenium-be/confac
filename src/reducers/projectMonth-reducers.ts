@@ -1,5 +1,5 @@
 import {ACTION_TYPES} from '../actions';
-import {ProjectMonthModel} from '../components/project/models/types';
+import {ProjectMonthModel} from '../components/project/models/ProjectModel';
 
 export const projectsMonth = (state: ProjectMonthModel[] = [], action): ProjectMonthModel[] => {
   switch (action.type) {

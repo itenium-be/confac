@@ -47,8 +47,14 @@ const Header = () => (
 
         <Dropdown.Toggle split variant="success" id="header-create-split" />
         <Dropdown.Menu>
+          <Link to="/projects/create" className="dropdown-item">
+            {t('project.createNew')}
+          </Link>
           <Link to="/clients/create" className="dropdown-item">
             {t('client.createNew')}
+          </Link>
+          <Link to="/consultants/create" className="dropdown-item">
+            {t('consultant.createNew')}
           </Link>
           <Link to="/quotations/create" className="dropdown-item">
             {t('quotation.createNew')}

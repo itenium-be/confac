@@ -4,13 +4,11 @@ import {IList} from './table-models';
 
 type ListFooterProps = {
   config: IList<any>;
-  models: any[];
-  isQuotation: boolean;
 }
 
 
-export const ListFooter = ({config, models, isQuotation}: ListFooterProps) => {
-  if (models.length === 0) {
+export const ListFooter = ({config}: ListFooterProps) => {
+  if (config.data.length === 0) {
     return null;
   }
 
@@ -32,7 +30,7 @@ export const ListFooter = ({config, models, isQuotation}: ListFooterProps) => {
 
               return (
                 <td key={cell.key} colSpan={footerCell || 1}>
-                  {typeof cell.footer === 'string' ? cell.footer : cell.footer(models)}
+                  {typeof cell.footer === 'string' ? cell.footer : cell.footer(config.data)}
                 </td>
               );
           }

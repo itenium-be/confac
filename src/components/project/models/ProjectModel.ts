@@ -3,7 +3,7 @@ import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
 
 export interface ProjectModel {
-  _id?: string;
+  _id: string;
   consultantId: string;
   startDate: string;
   endDate: string;
@@ -14,18 +14,26 @@ export interface ProjectModel {
 }
 
 export interface ProjectMonthModel {
-  _id?: string;
+  _id: string;
   month: Moment;
-  projectId?: string;
+  projectId: string;
 }
 
+/**
+ * Model used by the ProjectReferenceResolver
+ * which turns the Ids into models
+ * */
 export interface FullProjectModel {
+  /** The project._id */
+  _id: string;
+  /** The project details */
   details: ProjectDetailsModel;
   consultant: ConsultantModel;
   client: ClientModel;
   partner: ClientModel;
 }
 
+// TODO: Get rid of this: is state being manipulated? will this be sent to the backend and be saved?
 export interface ProjectDetailsModel extends ProjectModel {
   isActive: boolean;
 }

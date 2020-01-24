@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {useHistory} from 'react-router-dom';
-import {Container, Table, Row, Col} from 'react-bootstrap';
+import {Container, Row, Col} from 'react-bootstrap';
 import {t, searchinize, formatDate} from '../utils';
 import {ConfacState} from '../../reducers/app-state';
-import ProjectsListRow, {ProjectsListHeader} from './ProjectsListRow';
 import {ClientModel} from '../client/models/ClientModels';
 import {SearchStringInput} from '../controls/form-controls/inputs/SearchStringInput';
 import {ProjectFilters} from '../../models';
@@ -14,7 +13,9 @@ import {ProjectMonthModal} from './controls/ProjectMonthModal';
 import {ConsultantModel} from '../consultant/models/ConsultantModel';
 import {Switch} from '../controls/form-controls/Switch';
 import {Button} from '../controls/form-controls/Button';
-import {FullProjectModel} from './models/types';
+import {FullProjectModel} from './models/ProjectModel';
+import {ListPage} from '../controls/table/ListPage';
+import {projectFeature} from './models/getProjectFeature';
 
 type ProjectsListProps = {
   projects: FullProjectModel[];
@@ -45,11 +46,13 @@ const ProjectsList = (props: ProjectsListProps) => {
     ).includes(searchFilterText.toLowerCase());
   });
 
+  const feature = projectFeature({
+    // projects: filteredProjects,
+    projects: props.projects,
+  });
+
   return (
     <Container className="client-list">
-      <Row className="page-title-container">
-        <h1>{t('nav.projects')}</h1>
-      </Row>
       <Row style={{marginBottom: '20px'}}>
         <Col lg={3} md={12}>
           <SearchStringInput
@@ -66,20 +69,11 @@ const ProjectsList = (props: ProjectsListProps) => {
           />
         </Col>
         <Col lg={6} md={12} style={{textAlign: 'right'}}>
-          <Button
-            style={{marginRight: '10px'}}
-            onClick={() => history.push('/projects/create')}
-            size="sm"
-            variant="outline-primary"
-            data-tst="new-project"
-            icon="fa fa-plus"
-          >
-            {t('project.createNew')}
-          </Button>
           {modalProjectMonthId && (
             <ProjectMonthModal show={!!modalProjectMonthId} onClose={() => setModalProjectMonthId(undefined)} />
           )}
           <Button
+            style={{marginRight: '10px'}}
             onClick={() => setModalProjectMonthId('new_project_month')}
             size="sm"
             variant="primary"
@@ -88,20 +82,22 @@ const ProjectsList = (props: ProjectsListProps) => {
           >
             {t('project.newMonth')}
           </Button>
+          <Button
+            onClick={() => history.push('/consultants')}
+            size="sm"
+            variant="primary"
+          >
+            {t('consultant.title')}
+          </Button>
         </Col>
       </Row>
 
-      <Table size="sm" style={{marginTop: 10}}>
-        <ProjectsListHeader />
-        <tbody>
-          {filteredProjects.map(project => (
-            <ProjectsListRow project={project} key={project.details._id} />
-          ))}
-        </tbody>
-      </Table>
+      <ListPage feature={feature} />
     </Container>
   );
 };
+
+
 
 export default connect(
   (state: ConfacState) => {

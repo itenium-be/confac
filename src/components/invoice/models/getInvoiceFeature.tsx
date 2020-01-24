@@ -1,34 +1,31 @@
 import React from 'react';
-import {InvoiceClientCell} from './InvoiceClientCell';
-import {InvoiceNumberCell} from './InvoiceNumberCell';
-import InvoiceModel from '../models/InvoiceModel';
+import {InvoiceClientCell} from '../invoice-table/InvoiceClientCell';
+import {InvoiceNumberCell} from '../invoice-table/InvoiceNumberCell';
+import InvoiceModel from './InvoiceModel';
 import {formatDate, moneyFormat} from '../../utils';
-import {IListCell, IListRow, IList} from '../../controls/table/table-models';
+import {IListCell, IListRow} from '../../controls/table/table-models';
 import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
 import {NotEmailedIcon} from '../../controls/Icon';
-import {InvoiceListRowActions} from './InvoiceListRowActions';
-import {getInvoiceListRowClass} from './getInvoiceListRowClass';
+import {InvoiceListRowActions} from '../invoice-table/InvoiceListRowActions';
+import {getInvoiceListRowClass} from '../invoice-table/getInvoiceListRowClass';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
+import {IFeature} from '../../controls/feature/feature-models';
+import {features} from '../../../trans';
 
 
 export interface IInvoiceListConfig {
+  data: InvoiceModel[];
+
+  isGroupedOnMonth: boolean;
   showOrderNr: boolean;
   isQuotation: boolean;
   invoicePayDays: number;
 }
 
 
-export function getGroupedInvoiceList(config: IInvoiceListConfig): IList<InvoiceModel> {
-  return createInvoiceList(['date-month', 'number', 'client'], config);
-}
-
-
-export function getNonGroupedInvoiceList(config: IInvoiceListConfig): IList<InvoiceModel> {
-  return createInvoiceList(['number', 'client', 'date-full'], config);
-}
-
-function createInvoiceList(colsTillTotalAmount: string[], config: IInvoiceListConfig): IList<InvoiceModel> {
+export function createInvoiceList(config: IInvoiceListConfig): IFeature<InvoiceModel> {
+  const colsTillTotalAmount = config.isGroupedOnMonth ? ['date-month', 'number', 'client'] : ['number', 'client', 'date-full'];
   const transPrefix = config.isQuotation ? 'quotation' : 'invoice';
   const listRows: IListRow<InvoiceModel> = {
     className: invoice => getInvoiceListRowClass(invoice, config.invoicePayDays),
@@ -42,7 +39,13 @@ function createInvoiceList(colsTillTotalAmount: string[], config: IInvoiceListCo
   };
 
   return {
-    rows: listRows,
+    nav: m => `/invoices/${m === 'create' ? m : m.number}`,
+    trans: features.invoice as any,
+    list: {
+      rows: listRows,
+      data: config.data,
+      sorter: (a, b) => b.number - a.number,
+    },
   };
 }
 
