@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import moment from 'moment';
 
 export interface IConsultant extends mongoose.Document {
   _id: string;
@@ -7,17 +8,16 @@ export interface IConsultant extends mongoose.Document {
   type: string;
   email: string;
   telephone: string;
-  createdOn?: string;
+  createdOn?: moment.Moment;
 }
 
 const consultantSchema = new mongoose.Schema({
-  _id: String,
   name: String,
   firstName: String,
   type: String,
   email: String,
   telephone: String,
-  createdOn: String,
-});
+  createdOn: Date,
+}, {timestamps: {createdAt: 'createdOn'}});
 
 export const ConsultantsCollection = mongoose.model<IConsultant>('consultant', consultantSchema, 'consultants');
