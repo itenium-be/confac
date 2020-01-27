@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
-import moment from 'moment';
 
-export interface IProject extends mongoose.Document {
+export interface IProject {
   _id: string;
   consultantId: string;
   startDate: string;
@@ -10,13 +9,14 @@ export interface IProject extends mongoose.Document {
   partnerTariff: number;
   client: string;
   clientTariff: number;
-  createdOn: moment.Moment;
+  createdOn?: string;
 }
 
-export interface IProjectMonth extends mongoose.Document {
+export interface IProjectMonth {
   _id: string;
-  month: moment.Moment;
-  projectId?: string;
+  month: string;
+  projectId: string;
+  createdOn?: string;
 }
 
 const projectSchema = new mongoose.Schema({
@@ -27,14 +27,14 @@ const projectSchema = new mongoose.Schema({
   partnerTariff: Number,
   client: String,
   clientTariff: Number,
-  createdOn: Date,
-}, {timestamps: {createdAt: 'createdOn'}});
-
-const projectMonthSchema = new mongoose.Schema({
-  _id: String,
-  month: Date,
-  projectId: String,
+  createdOn: String,
 });
 
-export const ProjectsCollection = mongoose.model<IProject>('project', projectSchema, 'projects');
-export const ProjectsPerMonthCollection = mongoose.model<IProject>('project_month', projectMonthSchema, 'projects_month');
+const projectMonthSchema = new mongoose.Schema<IProjectMonth>({
+  month: String,
+  projectId: String,
+  createdOn: String,
+});
+
+export const ProjectsCollection = mongoose.model<IProject & mongoose.Document>('project', projectSchema, 'projects');
+export const ProjectsPerMonthCollection = mongoose.model<IProjectMonth & mongoose.Document>('project_month', projectMonthSchema, 'projects_month');

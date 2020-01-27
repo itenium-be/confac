@@ -29,6 +29,7 @@
   "license": "MIT",
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
+    "@types/jest": "^24.9.1",
     "body-parser": "^1.19.0",
     "concurrently": "^5.0.2",
     "cors": "^2.8.5",
@@ -64,19 +65,18 @@
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jest": "^23.6.0",
     "forever": "^0.15.3",
     "gulp": "^3.9.1",
     "gulp-plumber": "^1.1.0",
     "gulp-pug": "^3.2.0",
     "http-server": "^0.9.0",
     "husky": "^4.0.10",
-    "jest": "^24.9.0",
-    "jest-cli": "^24.9.0",
+    "jest": "^25.1.0",
+    "jest-cli": "^25.1.0",
     "lint-staged": "^10.0.1",
     "nodemon": "^1.11.0",
+    "ts-jest": "^25.0.0",
     "typescript": "^3.7.5"
-  },
-  "jest": {
-    "testEnvironment": "node"
   }
 }

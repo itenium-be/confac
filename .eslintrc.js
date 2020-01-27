@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
     es6: true,
     node: true,
+    "jest/globals": true,
   },
   extends: [
     'airbnb-base',
@@ -19,6 +20,7 @@ module.exports = {
   ignorePatterns: ["node_modules", "dist", ".vscode", "templates", ".github", ".gitignore"],
   plugins: [
     '@typescript-eslint',
+    'jest',
   ],
   rules: {
     "implicit-arrow-linebreak": ["error", "beside"],
@@ -31,7 +33,7 @@ module.exports = {
     "no-shadow": [1],
     "no-multiple-empty-lines": ["error", { max: 7 }],
     "linebreak-style": [0],
-    "max-len": ["error", { "code": 140 }],
+    "max-len": [1, { "code": 140 }],
     "dot-notation": [1],
     "padded-blocks": [0],
     "object-curly-newline": ["error", { "ImportDeclaration": "never" }],
@@ -50,7 +52,14 @@ module.exports = {
     }],
     "eol-last": [0],
     "import/no-extraneous-dependencies": [1],
-    "@typescript-eslint/indent": ["error", 2]
+    "@typescript-eslint/indent": ["error", 2],
+    "object-property-newline": ["error", { "allowAllPropertiesOnSameLine": false }],
+    "object-curly-newline": ["error", {
+      "ObjectExpression": "always",
+      "ObjectPattern": { "multiline": true, "minProperties": 4 },
+      "ImportDeclaration": "never",
+      "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+  }]
   },
   settings: {
     "import/resolver": {
