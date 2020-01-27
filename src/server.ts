@@ -24,7 +24,7 @@ app.use('/api', appRouter);
 
 const connectionString = `mongodb://${appConfig.db.host}:${appConfig.db.port}/${appConfig.db.db}`;
 
-mongoose.connect(connectionString, {useUnifiedTopology: true, useNewUrlParser: true})
+mongoose.connect(connectionString, {useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false})
   .then(() => console.log('Successfully connected to the database!'))
   .catch(err => console.log(`Could not connect to the database. More info: ${err}`));
 

@@ -9,7 +9,6 @@ const emailSchema = {
 };
 
 const clientSchema = {
-  _id: String,
   slug: String,
   active: Boolean,
   name: String,
@@ -41,7 +40,7 @@ const clientSchema = {
   }],
   notes: String,
   defaultInvoiceDateStrategy: String,
-  createdOn: String,
+  createdOn: Date,
   email: emailSchema,
 };
 
