@@ -1,8 +1,9 @@
 import {Router} from 'express';
-import {getConsultants} from '../controllers/consultants';
+import {getConsultants, createConsultant} from '../controllers/consultants';
 
 const consultantsRouter = Router();
 
 consultantsRouter.get('/', getConsultants);
+consultantsRouter.post('/', createConsultant);
 
 export default consultantsRouter;

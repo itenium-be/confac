@@ -9,6 +9,7 @@ export interface IProject {
   partnerTariff: number;
   client: string;
   clientTariff: number;
+  createdOn: moment.Moment;
 }
 
 export interface IProjectMonth extends mongoose.Document {
@@ -26,7 +27,8 @@ const projectSchema = new mongoose.Schema({
   partnerTariff: Number,
   client: String,
   clientTariff: Number,
-});
+  createdOn: Date,
+}, {timestamps: {createdAt: 'createdOn'}});
 
 const projectMonthSchema = new mongoose.Schema<IProjectMonth>({
   month: String,
