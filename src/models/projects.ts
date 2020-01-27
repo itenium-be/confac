@@ -9,14 +9,14 @@ export interface IProject {
   partnerTariff: number;
   client: string;
   clientTariff: number;
-  createdOn: moment.Moment;
+  createdOn?: string;
 }
 
 export interface IProjectMonth extends mongoose.Document {
   _id: string;
   month: string;
   projectId: string;
-  createdOn: string;
+  createdOn?: string;
 }
 
 const projectSchema = new mongoose.Schema({
@@ -27,8 +27,8 @@ const projectSchema = new mongoose.Schema({
   partnerTariff: Number,
   client: String,
   clientTariff: Number,
-  createdOn: Date,
-}, {timestamps: {createdAt: 'createdOn'}});
+  createdOn: String,
+});
 
 const projectMonthSchema = new mongoose.Schema<IProjectMonth>({
   month: String,
