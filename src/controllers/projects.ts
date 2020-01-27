@@ -20,7 +20,10 @@ export const getProjects = async (req: Request, res: Response) => {
 
 export const createProject = async (req: Request, res: Response) => {
   const project: IProject = req.body;
-  const createdProject = await ProjectsCollection.create(project);
+  const createdProject = await ProjectsCollection.create({
+    ...project,
+    createdOn: new Date().toISOString(),
+  });
   return res.send(createdProject);
 };
 

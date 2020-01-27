@@ -12,7 +12,7 @@ export interface IProject {
   createdOn?: string;
 }
 
-export interface IProjectMonth extends mongoose.Document {
+export interface IProjectMonth {
   _id: string;
   month: string;
   projectId: string;
