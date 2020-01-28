@@ -47,7 +47,7 @@ export const createHtml = (invoice: IInvoice): string | { error: string; } => {
   });
 };
 
-export const createPdf = async (params: IInvoice) => {
+export const createPdf = (params: IInvoice) => {
   const html = createHtml(params);
 
   if (typeof html !== 'string' && html.error) {
