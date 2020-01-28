@@ -2,15 +2,7 @@ import {Request, Response} from 'express';
 import fs from 'fs';
 
 import {ConfigCollection, DEFAULT_CONFIG} from '../models/config';
-import appConfig from '../config';
-
-export const getTemplatesPath = () => {
-  if (appConfig.enable_root_templates) {
-    return '/templates/';
-  }
-  return './templates/';
-
-};
+import {getTemplatesPath} from './utils';
 
 export const getCompanyConfig = async (req: Request, res: Response) => {
   const companyConfig = await ConfigCollection.findOne({key: 'conf'});
