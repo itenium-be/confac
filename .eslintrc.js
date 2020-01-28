@@ -55,7 +55,7 @@ module.exports = {
     "@typescript-eslint/indent": ["error", 2],
     "object-property-newline": ["error", { "allowAllPropertiesOnSameLine": false }],
     "object-curly-newline": ["error", {
-      "ObjectExpression": "always",
+      "ObjectExpression": { "multiline": true, "minProperties": 4 },
       "ObjectPattern": { "multiline": true, "minProperties": 4 },
       "ImportDeclaration": "never",
       "ExportDeclaration": { "multiline": true, "minProperties": 3 }
