@@ -16,12 +16,10 @@ export const convertHtmlToBuffer = (html: string): Promise<Buffer> => new Promis
 });
 
 export const createHtml = (invoice: IInvoice): string | { error: string; } => {
-  // BUG: extraFields was an array [{key, value}, {}, ...]
-  // But this code converted it to an object {key1, key2, ...}
-  // Was saved like this in the db and then crashed because Object.prototype doesn't have a reduce function
+  /* eslint-disable no-param-reassign */
+  invoice = JSON.parse(JSON.stringify(invoice));
   if (Array.isArray(invoice.extraFields)) {
-    // eslint-disable-next-line no-param-reassign
-    invoice.extraFields = invoice.extraFields.reduce((acc: IExtraFieldsObject, field) => { // ! DANGEROUS: Directly mutating extraFields
+    invoice.extraFields = invoice.extraFields.reduce((acc: IExtraFieldsObject, field) => {
       const label = field.label.toString().toLowerCase();
       acc[label] = field.value;
       return acc;

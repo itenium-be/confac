@@ -42,17 +42,16 @@ export const createInvoice = async (req: Request, res: Response) => {
     }
   }
 
+  const pdfBuffer = await createPdf(invoice);
+
+  if (!Buffer.isBuffer(pdfBuffer) && pdfBuffer.error) {
+    return res.status(500).send(pdfBuffer.error);
+  }
+
   const createdInvoice = await InvoicesCollection.create({
     ...invoice,
     createdOn: new Date().toISOString(),
   });
-
-  const pdfBuffer = await createPdf(invoice);
-
-  if (!Buffer.isBuffer(pdfBuffer) && pdfBuffer.error) {
-    await InvoicesCollection.findByIdAndDelete({_id: createdInvoice._id});
-    return res.status(500).send(pdfBuffer.error);
-  }
 
   await AttachmentsCollection.create({
     _id: createdInvoice._id,
