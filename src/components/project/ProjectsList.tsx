@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
-import {t, searchinize, formatDate} from '../utils';
+import {t} from '../utils';
 import {ConfacState} from '../../reducers/app-state';
 import {ClientModel} from '../client/models/ClientModels';
 import {SearchStringInput} from '../controls/form-controls/inputs/SearchStringInput';
@@ -31,23 +31,7 @@ const ProjectsList = (props: ProjectsListProps) => {
 
   const {searchFilterText, isShowingInActiveProjects} = props.filters;
 
-  const filteredProjects = props.projects.filter(project => {
-    const {consultant, partner, client, details} = project;
-
-    if (!isShowingInActiveProjects && !details.isActive) return false;
-
-    if (!searchFilterText) return true;
-
-    const startDate = formatDate(details.startDate);
-    const endDate = formatDate(details.endDate);
-
-    return searchinize(
-      `${consultant.name} ${consultant.type} ${startDate} ${endDate} ${partner && partner.name} ${client.name}`,
-    ).includes(searchFilterText.toLowerCase());
-  });
-
   const feature = projectFeature({
-    // projects: filteredProjects,
     projects: props.projects,
   });
 

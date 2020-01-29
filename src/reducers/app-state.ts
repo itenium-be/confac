@@ -32,4 +32,7 @@ export const defaultAppState: AppState = {
     searchFilterText: '',
     isShowingInActiveProjects: false,
   },
+  filters: {
+    consultants: {},
+  },
 };

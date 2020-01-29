@@ -8,4 +8,5 @@ export interface ConsultantModel {
   email: string,
   telephone: string,
   createdOn?: string,
+  active: boolean;
 }

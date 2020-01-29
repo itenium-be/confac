@@ -4,7 +4,7 @@
  *
  * A simple table with filters and action buttons
  */
-export interface IList<TModel, TFilterModel = {}, TTag = {}> {
+export interface IList<TModel, TFilterModel extends ListFilters = {}, TTag = {}> {
   /** How  */
   rows: IListRow<TModel>;
   /** The actual data */
@@ -18,12 +18,32 @@ export interface IList<TModel, TFilterModel = {}, TTag = {}> {
 }
 
 
-export interface IListFilter<TFilterModel, TModel> {
-  updateFilter?: Function,
-  fullTextSearch: (filters: TFilterModel, m: TModel) => boolean;
-  softDelete?: boolean;
 
+
+// a Filter?
+// {
+//   render() =>
+//   setState()
+//   state
+//   rowAction
+// }
+// --> instead of a Filters { softDelete?: boolean } etc...
+
+export type ListFilters = {
+  freeText?: string;
+  showInactive?: boolean;
 }
+
+export type ConsultantListFilters = ListFilters;
+
+
+export interface IListFilter<TFilterModel extends ListFilters, TModel> {
+  state: TFilterModel,
+  updateFilter: (m: TFilterModel) => void,
+  fullTextSearch?: (filters: TFilterModel, m: TModel) => boolean;
+  softDelete?: boolean;
+}
+
 
 /**
  * A row in a list

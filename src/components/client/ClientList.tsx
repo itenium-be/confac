@@ -1,20 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Container, Table, Row, Col} from 'react-bootstrap';
-import {t} from '../utils';
 import {updateInvoiceFilters, saveClient} from '../../actions/index';
-import {getInvoiceYears} from '../invoice/models/InvoiceListModel';
 import {ClientModel} from './models/ClientModels';
 import InvoiceModel from '../invoice/models/InvoiceModel';
 import {ConfacState} from '../../reducers/app-state';
-import {SearchStringInput} from '../controls/form-controls/inputs/SearchStringInput';
 import {InvoiceFilters} from '../../models';
 import {searchClientFor} from './models/searchClientFor';
-import {Switch} from '../controls/form-controls/Switch';
-import {YearsSelect} from '../controls/form-controls/select/YearsSelect';
-import {AddIcon} from '../controls/Icon';
 import {clientFeature} from './models/getClientFeature';
-import {List} from '../controls/table/List';
 import {ListPage} from '../controls/table/ListPage';
 
 

@@ -15,6 +15,7 @@ interface EditConsultantProps {
   saveConsultant: (consultant: ConsultantModel) => void;
 }
 
+
 const EditConsultant = (props: EditConsultantProps) => {
   const [consultant, setConsultant] = useState<ConsultantModel>(getNewConsultant());
 

@@ -1,6 +1,7 @@
 import {CSSProperties} from 'react';
 import {InputIcons} from './components/controls/form-controls/lib/IconFactory';
 import {StandardComponents} from './components/controls/form-controls/lib/EditComponentFactory';
+import {ListFilters, ConsultantListFilters} from './components/controls/table/table-models';
 
 export type InvoiceDateStrategy = 'prev-month-last-day' | 'today';
 
@@ -45,7 +46,10 @@ export type AppState = {
   isBusy: boolean,
   busyCount: number,
   invoiceFilters: InvoiceFilters,
-  projectFilters: ProjectFilters
+  projectFilters: ProjectFilters,
+  filters: {
+    consultants: ConsultantListFilters,
+  },
 }
 
 export type NewRowFormConfig = {forceRow: boolean}
@@ -122,9 +126,9 @@ export type InvoiceFilters = {
 /**
  * Filters used on ProjectsList
  */
-export type ProjectFilters = {
-  searchFilterText: string,
-  isShowingInActiveProjects: boolean
+export interface ProjectFilters extends ListFilters {
+  searchFilterText: string;
+  isShowingInActiveProjects: boolean;
 }
 
 /**

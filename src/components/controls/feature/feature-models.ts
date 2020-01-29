@@ -1,10 +1,14 @@
-import {IList} from '../table/table-models';
+import {IList, ListFilters} from '../table/table-models';
 
 
-export interface IFeature<TModel, TFilterModel = {}> {
+export interface IFeature<TModel, TFilterModel extends ListFilters = {}> {
+  /**
+   * Unique key that matches the keys in the store
+   * */
+  key: string;
   /**
    * Used for routing:
-   * return /${key}/:id
+   * return /${key}/:slug
    */
   nav: (m: TModel | 'create') => string;
   /** Translations */

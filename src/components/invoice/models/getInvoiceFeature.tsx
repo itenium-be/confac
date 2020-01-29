@@ -39,6 +39,7 @@ export function createInvoiceList(config: IInvoiceListConfig): IFeature<InvoiceM
   };
 
   return {
+    key: 'invoices',
     nav: m => `/invoices/${m === 'create' ? m : m.number}`,
     trans: features.invoice as any,
     list: {

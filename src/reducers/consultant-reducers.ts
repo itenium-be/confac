@@ -6,7 +6,13 @@ export const consultants = (state: ConsultantModel[] = [], action): ConsultantMo
     case ACTION_TYPES.CONSULTANTS_FETCHED:
       return action.consultants;
     case ACTION_TYPES.CONSULTANT_UPDATE: {
-      const newState: ConsultantModel[] = [...state, action.consultant];
+      let newState: ConsultantModel[];
+      if (!action.consultant._id) {
+        newState = state.concat([action.consultant]);
+      } else {
+        newState = state.filter(m => m._id !== action.consultant._id);
+        newState.push(action.consultant);
+      }
       return newState;
     }
     default:

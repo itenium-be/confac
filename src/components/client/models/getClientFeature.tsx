@@ -85,6 +85,7 @@ const clientListConfig = (config: ClientFeature): IList<ClientModel> => {
 
 export const clientFeature = (config: ClientFeature): IFeature<ClientModel> => {
   return {
+    key: 'clients',
     nav: m => `/clients/${m === 'create' ? m : m.slug}`,
     trans: features.client as any,
     list: clientListConfig(config),

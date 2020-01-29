@@ -21,11 +21,10 @@ export const List = ({feature}: ListProps) => {
   if (feature.list.filter) {
     const {filter} = feature.list;
     if (filter.fullTextSearch) {
-      data = data.filter(model => filter.fullTextSearch(feature.list.filter, model));
+      const {fullTextSearch} = filter;
+      data = data.filter(model => fullTextSearch(filter.state, model));
     }
   }
-
-  console.log('data', data.map(d => d._id));
 
   return (
     <Table size="sm">

@@ -100,16 +100,17 @@ const projectListConfig = (config: ProjectFeature): IList<FullProjectModel, Proj
       cells: list,
     },
     data: config.projects,
-    sorter: (a, b) => +a.details.endDate - +b.details.endDate,
-    filter: {
-      fullTextSearch: fullProjectSearch,
-    },
+    sorter: (a, b) => +a.details.endDate - +b.details.endDate, // TODO: the dates are strings, this probably doesn't work
+    // filter: {
+    //   fullTextSearch: fullProjectSearch,
+    // },
   };
 };
 
 
 export const projectFeature = (config: ProjectFeature): IFeature<FullProjectModel, ProjectFilters> => {
   return {
+    key: 'projects',
     nav: m => `/projects/${m === 'create' ? m : m.details._id}`,
     trans: features.project as any,
     list: projectListConfig(config),

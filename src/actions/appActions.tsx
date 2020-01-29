@@ -1,9 +1,9 @@
 import React from 'react';
-
 import {toast} from 'react-toastify';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import t from '../trans';
 import {InvoiceFilters, ProjectFilters} from '../models';
+import {ListFilters} from '../components/controls/table/table-models';
 
 type ToastType = 'error' | 'success';
 
@@ -74,5 +74,13 @@ export function updateProjectFilters(filters: ProjectFilters) {
   return {
     type: ACTION_TYPES.APP_PROJECT_FILTERUPDATED,
     filters,
+  };
+}
+
+
+export function updateAppFilters(featureKey: string, filters: ListFilters) {
+  return {
+    type: ACTION_TYPES.APP_FILTERUPDATED,
+    payload: {feature: featureKey, filters},
   };
 }

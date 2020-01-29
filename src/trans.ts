@@ -13,6 +13,7 @@ export const features = {
       email: 'E-mail',
       telephone: 'Telefoon nr',
       createdOn: 'Aangemaakt op',
+      active: 'Actief',
     },
   },
   invoice: {
@@ -73,6 +74,11 @@ export const trans = {
       other: 'Ander',
       section: 'Sectie',
     },
+  },
+  feature: {
+    showInactive: 'Toon inactieve',
+    deactivateTitle: 'Deactiveren',
+    activateTitle: 'Activeren',
   },
   config: {
     invoiceTitle: 'Standaard factuurinstellingen',
@@ -241,7 +247,6 @@ export const trans = {
     projectDesc: 'Omschrijving',
     deactivateTitle: 'Klant deactiveren',
     activateTitle: 'Klant activeren',
-    showInactive: 'Toon inactieve',
     timeTitle: 'Geïnvesteerd',
     daysWorked: '{days} dagen',
     title: 'Standaard factuurwaarden',

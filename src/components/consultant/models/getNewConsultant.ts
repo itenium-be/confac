@@ -8,4 +8,5 @@ export const getNewConsultant = (): ConsultantModel => ({
   type: 'consultant',
   email: '',
   telephone: '',
+  active: true,
 });
