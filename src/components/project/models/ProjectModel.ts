@@ -34,6 +34,7 @@ export interface FullProjectModel {
 }
 
 // TODO: Get rid of this: is state being manipulated? will this be sent to the backend and be saved?
+// If the project.endDate changes, is this also updated?
 export interface ProjectDetailsModel extends ProjectModel {
-  isActive: boolean;
+  active: boolean;
 }

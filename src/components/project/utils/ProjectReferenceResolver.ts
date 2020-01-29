@@ -33,7 +33,7 @@ export class ProjectReferenceResolver {
   getProjects(): FullProjectModel[] {
     return this.projects.map(project => ({
       _id: project._id,
-      details: {...project, isActive: this.getIsProjectActive(project.startDate, project.endDate)},
+      details: {...project, active: this.getIsProjectActive(project.startDate, project.endDate)},
       consultant: this.getConsultant(project.consultantId),
       client: this.getClient(project.client),
       partner: this.getClient(project.partner),

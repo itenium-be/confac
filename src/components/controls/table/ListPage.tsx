@@ -8,12 +8,21 @@ import {SearchStringInput} from '../form-controls/inputs/SearchStringInput';
 import {Switch} from '../form-controls/Switch';
 import {ListFilters} from './table-models';
 
+type ListPageProps = {
+  feature: IFeature<any, any>;
+  /** Renders at the title level */
+  topToolbar?: any;
+}
 
-export const ListPage = ({feature}: {feature: IFeature<any, any>}) => (
+
+export const ListPage = ({feature, topToolbar}: ListPageProps) => (
   <Container className="list">
     <Row>
-      <Col sm={12}>
+      <Col sm={6}>
         <h1>{t(feature.trans.listTitle)}</h1>
+      </Col>
+      <Col sm={6} className="list-top-toolbar">
+        {topToolbar}
       </Col>
       <Col lg={3} md={3}>
         <Button variant="light" onClick={feature.nav('create')} icon="fa fa-plus" size="md">
@@ -43,6 +52,10 @@ const ListPageFilters = ({feature}: {feature: IFeature<any, ListFilters>}) => {
       );
     }
 
+    if (filter.extras) {
+      components.push(filter.extras());
+    }
+
     if (filter.softDelete) {
       components.push(
         <Switch
@@ -61,10 +74,3 @@ const ListPageFilters = ({feature}: {feature: IFeature<any, ListFilters>}) => {
     </>
   );
 };
-
-
-/* <YearsSelect
-          values={filters.clientListYears}
-          years={getInvoiceYears(invoices)}
-          onChange={(values: number[]) => this.props.updateInvoiceFilters({...filters, clientListYears: values || []})}
-        /> */

@@ -28,3 +28,11 @@ export interface IFeatureTranslations<TModel> {
   /** Translations for each model property */
   props: TModel;
 }
+
+
+export interface IFeatureBuilderConfig<TModel, TFilters extends ListFilters> {
+  data: TModel[];
+  save: (model: TModel, stayOnPage?: boolean) => void;
+  filters: TFilters;
+  setFilters: (f: TFilters) => void;
+}

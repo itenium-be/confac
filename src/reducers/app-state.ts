@@ -40,11 +40,10 @@ export const defaultAppState: AppState = {
     freeInvoice: '',
     freeClient: '',
   },
-  projectFilters: {
-    searchFilterText: '',
-    isShowingInActiveProjects: false,
-  },
   filters: {
     consultants: getListFilters(),
+    clients: {...getListFilters(), years: [moment().year()]},
+    invoices: getListFilters(),
+    projects: getListFilters(),
   },
 };

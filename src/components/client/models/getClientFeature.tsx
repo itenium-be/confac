@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {IList, IListCell} from '../../controls/table/table-models';
-import {IFeature} from '../../controls/feature/feature-models';
+import {IList, IListCell, ClientListFilters} from '../../controls/table/table-models';
+import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {ClientModel} from './ClientModels';
 import {InvoiceWorkedDays} from '../../invoice/invoice-list/InvoiceWorkedDays';
@@ -9,16 +9,17 @@ import InvoiceModel from '../../invoice/models/InvoiceModel';
 import {InvoicesSummary} from '../../invoice/controls/InvoicesSummary';
 import {ClientEditIcon, DeleteIcon} from '../../controls/Icon';
 import {t} from '../../utils';
+import {searchClientForList} from './searchClientFor';
+import { getInvoiceYears } from '../../invoice/models/InvoiceListModel';
+import { YearsSelect } from '../../controls/form-controls/select/YearsSelect';
 
 
-export type ClientFeature = {
-  clients: ClientModel[];
+export type ClientFeatureBuilderConfig = IFeatureBuilderConfig<ClientModel, ClientListFilters> & {
   invoices: InvoiceModel[];
-  saveClient: Function;
-}
+};
 
 
-const clientListConfig = (config: ClientFeature): IList<ClientModel> => {
+const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel, ClientListFilters> => {
   const cells: IListCell<ClientModel>[] = [{
     key: 'name',
     header: 'client.name',
@@ -47,14 +48,20 @@ const clientListConfig = (config: ClientFeature): IList<ClientModel> => {
     key: 'time-invested',
     header: 'client.timeTitle',
     value: client => {
-      const clientInvoices = config.invoices.filter(i => i.client._id === client._id);
+      let clientInvoices = config.invoices.filter(i => i.client._id === client._id);
+      if (config.filters.years && config.filters.years.length) {
+        clientInvoices = clientInvoices.filter(i => config.filters.years.includes(i.date.year()));
+      }
       return <InvoiceWorkedDays invoices={clientInvoices} display="client" />;
     },
   }, {
     key: 'invoices',
     header: 'invoice.amount',
     value: client => {
-      const clientInvoices = config.invoices.filter(i => i.client._id === client._id);
+      let clientInvoices = config.invoices.filter(i => i.client._id === client._id);
+      if (config.filters.years && config.filters.years.length) {
+        clientInvoices = clientInvoices.filter(i => config.filters.years.includes(i.date.year()));
+      }
       return <InvoicesSummary invoices={clientInvoices} />;
     },
   }, {
@@ -65,7 +72,7 @@ const clientListConfig = (config: ClientFeature): IList<ClientModel> => {
       <>
         <ClientEditIcon client={client} />
         <DeleteIcon
-          onClick={() => config.saveClient({...client, active: !client.active}, true)}
+          onClick={() => config.save({...client, active: !client.active}, true)}
           title={client.active ? t('client.deactivateTitle') : t('client.activateTitle')}
         />
       </>
@@ -77,17 +84,33 @@ const clientListConfig = (config: ClientFeature): IList<ClientModel> => {
       className: client => (client.active ? undefined : 'table-danger'),
       cells,
     },
-    data: config.clients,
+    data: config.data,
     sorter: (a, b) => a.name.localeCompare(b.name),
   };
 };
 
 
-export const clientFeature = (config: ClientFeature): IFeature<ClientModel> => {
-  return {
+export const clientFeature = (config: ClientFeatureBuilderConfig): IFeature<ClientModel, ClientListFilters> => {
+  const feature: IFeature<ClientModel, ClientListFilters> = {
     key: 'clients',
     nav: m => `/clients/${m === 'create' ? m : m.slug}`,
     trans: features.client as any,
     list: clientListConfig(config),
   };
+
+  feature.list.filter = {
+    state: config.filters,
+    updateFilter: config.setFilters,
+    fullTextSearch: searchClientForList,
+    softDelete: true,
+    extras: () => (
+      <YearsSelect
+        values={config.filters.years}
+        years={getInvoiceYears(config.invoices)}
+        onChange={(values: number[]) => config.setFilters({...config.filters, years: values || []})}
+      />
+    ),
+  };
+
+  return feature;
 };

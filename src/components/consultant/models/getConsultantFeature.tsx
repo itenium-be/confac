@@ -4,17 +4,12 @@ import {Link} from 'react-router-dom';
 import {ConsultantModel} from './ConsultantModel';
 import {IList, IListCell, ConsultantListFilters} from '../../controls/table/table-models';
 import {t, searchinize} from '../../utils';
-import {IFeature} from '../../controls/feature/feature-models';
+import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {DeleteIcon, EditIcon} from '../../controls/Icon';
 
 
-export type ConsultantFeatureBuilderConfig = {
-  data: ConsultantModel[];
-  save: (model: ConsultantModel) => void;
-  filters: ConsultantListFilters;
-  setFilters: (f: ConsultantListFilters) => void;
-}
+export type ConsultantFeatureBuilderConfig = IFeatureBuilderConfig<ConsultantModel, ConsultantListFilters>;
 
 
 const searchConsultantFor = (filters: ConsultantListFilters, model: ConsultantModel): boolean => {
@@ -61,7 +56,7 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
       <>
         <EditIcon onClick={`/consultants/${m.slug}`} style={{marginRight: 15}} />
         <DeleteIcon
-          onClick={() => config.save({...m, active: false})}
+          onClick={() => config.save({...m, active: !m.active})}
           title={m.active ? t('feature.deactivateTitle') : t('feature.activateTitle')}
         />
       </>

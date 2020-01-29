@@ -34,7 +34,13 @@ export type ListFilters = {
   showInactive?: boolean;
 }
 
+export type ProjectListFilters = ListFilters;
+export type InvoiceListFilters = ListFilters;
 export type ConsultantListFilters = ListFilters;
+
+export type ClientListFilters = ListFilters & {
+  years: number[];
+};
 
 
 export interface IListFilter<TFilterModel extends ListFilters, TModel> {
@@ -42,6 +48,7 @@ export interface IListFilter<TFilterModel extends ListFilters, TModel> {
   updateFilter: (m: TFilterModel) => void,
   fullTextSearch?: (filters: TFilterModel, m: TModel) => boolean;
   softDelete?: boolean;
+  extras?: () => React.ReactNode;
 }
 
 

@@ -1,18 +1,33 @@
 import {ClientModel} from './ClientModels';
 import {getNumeric, searchinize} from '../../utils';
+import {ClientListFilters} from '../../controls/table/table-models';
 
-export function searchClientFor(client: ClientModel, input: string): boolean {
-  const text = searchinize(input);
-  if (searchinize(`${client.name} ${client.address} ${client.city}`).includes(text)) {
+export const searchClientFor = (model: ClientModel, input: string): boolean => {
+  if (!input) {
     return true;
   }
+
+  const text = searchinize(input);
+  if (searchinize(`${model.name} ${model.address} ${model.city}`).includes(text)) {
+    return true;
+  }
+
   const numericText = getNumeric(text);
   if (numericText) {
-    const numericBtw = getNumeric(client.btw);
-    const numericTelephone = getNumeric(client.telephone);
+    const numericBtw = getNumeric(model.btw);
+    const numericTelephone = getNumeric(model.telephone);
     if (numericText === numericBtw || numericText === numericTelephone) {
       return true;
     }
   }
+
   return false;
 }
+
+export const searchClientForList = (filters: ClientListFilters, model: ClientModel): boolean => {
+  if (!filters.showInactive && !model.active) {
+    return false;
+  }
+
+  return searchClientFor(model, filters.freeText || '');
+};

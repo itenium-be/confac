@@ -9,10 +9,10 @@ import {updateAppFilters} from '../../actions';
 
 export const ConsultantsList = () => {
   const dispatch = useDispatch();
-  const models = useSelector((state: ConfacState) => ({filters: state.app.filters.consultants, consultants: state.consultants}));
+  const models = useSelector((state: ConfacState) => ({filters: state.app.filters.consultants, data: state.consultants}));
 
   const config: ConsultantFeatureBuilderConfig = {
-    data: models.consultants,
+    data: models.data,
     save: m => dispatch(saveConsultant(m)),
     filters: models.filters,
     setFilters: f => dispatch(updateAppFilters('consultants', f)),

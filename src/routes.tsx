@@ -5,12 +5,12 @@ import {AppWithLayout} from './components/AppWithLayout';
 import EditInvoice from './components/invoice/invoice-edit/EditInvoice';
 import InvoiceList from './components/invoice/invoice-list/InvoiceList';
 import QuotationList from './components/invoice/invoice-list/QuotationList';
-import ClientList from './components/client/ClientList';
+import {ClientList} from './components/client/ClientList';
 import EditClient from './components/client/EditClient';
 import EditConfig from './components/config/EditConfig';
 import {EditConsultant} from './components/consultant/EditConsultant';
 import EditProject from './components/project/EditProject';
-import ProjectsList from './components/project/ProjectsList';
+import {ProjectsList} from './components/project/ProjectsList';
 import {ConsultantsList} from './components/consultant/ConsultantsList';
 
 const Routes = () => (

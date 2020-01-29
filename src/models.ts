@@ -1,7 +1,7 @@
 import {CSSProperties} from 'react';
 import {InputIcons} from './components/controls/form-controls/lib/IconFactory';
 import {StandardComponents} from './components/controls/form-controls/lib/EditComponentFactory';
-import {ListFilters, ConsultantListFilters} from './components/controls/table/table-models';
+import {ListFilters, ConsultantListFilters, ClientListFilters, InvoiceListFilters, ProjectListFilters} from './components/controls/table/table-models';
 
 export type InvoiceDateStrategy = 'prev-month-last-day' | 'today';
 
@@ -46,9 +46,11 @@ export type AppState = {
   isBusy: boolean,
   busyCount: number,
   invoiceFilters: InvoiceFilters,
-  projectFilters: ProjectFilters,
   filters: {
     consultants: ConsultantListFilters,
+    clients: ClientListFilters,
+    invoices: InvoiceListFilters,
+    projects: ProjectListFilters,
   },
 }
 
@@ -121,14 +123,6 @@ export type InvoiceFilters = {
   clientListYears: number[],
   freeClient: string,
   freeInvoice: string,
-}
-
-/**
- * Filters used on ProjectsList
- */
-export interface ProjectFilters extends ListFilters {
-  searchFilterText: string;
-  isShowingInActiveProjects: boolean;
 }
 
 /**
