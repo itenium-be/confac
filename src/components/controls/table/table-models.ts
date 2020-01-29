@@ -19,16 +19,6 @@ export interface IList<TModel, TFilterModel extends ListFilters = {}, TTag = {}>
 
 
 
-
-// a Filter?
-// {
-//   render() =>
-//   setState()
-//   state
-//   rowAction
-// }
-// --> instead of a Filters { softDelete?: boolean } etc...
-
 export type ListFilters = {
   freeText?: string;
   showInactive?: boolean;

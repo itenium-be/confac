@@ -8,7 +8,7 @@ import {getNewConsultant} from '../models/getNewConsultant';
 import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
 import {BaseModalProps, Modal} from '../../controls/Modal';
 import {ConsultantModel} from '../models/ConsultantModel';
-import {defaultConsultantProperties} from '../models/ConsultantConfig';
+import {defaultConsultantModalProperties} from '../models/ConsultantConfig';
 
 
 type ConsultantModalProps = BaseModalProps & {
@@ -30,10 +30,10 @@ const _ConsultantModal = (props: ConsultantModalProps) => {
         <Container>
           <Row>
             <ArrayInput
-              config={defaultConsultantProperties}
+              config={defaultConsultantModalProperties}
               model={consultant}
               onChange={value => setConsultantProperties({...consultant, ...value})}
-              tPrefix="consultant."
+              tPrefix="consultant.props."
             />
           </Row>
         </Container>
