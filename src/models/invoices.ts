@@ -37,14 +37,20 @@ export interface IConfigCompanyModel {
   telephone: string;
   email: string;
   website: string;
+  templateQuotation?: string;
+  template?: string;
 }
 
-export interface IInvoice extends mongoose.Document {
+export interface IExtraFieldsObject {
+  [key: string]: number | string;
+}
+
+export interface IInvoice {
   _id: string;
   number: number;
   client: IClient;
   your: IConfigCompanyModel;
-  date: moment.Moment;
+  date: string;
   orderNr: string;
   verified: boolean;
   fileName: string;
@@ -54,18 +60,15 @@ export interface IInvoice extends mongoose.Document {
   lastEmail: string;
   _defaultTax: number;
   _defaultType: string;
-  extraFields: ISelectItem[];
-  createdOn: string;
+  extraFields: ISelectItem[] | IExtraFieldsObject;
+  createdOn?: string;
   lines: InvoiceLine[];
   money: IInvoiceMoney;
 }
 
 const invoiceSchema = new mongoose.Schema({
-  _id: String,
   number: Number,
-  client: {
-    ...common.clientSchema,
-  },
+  client: {...common.clientSchema},
   your: {
     name: String,
     address: String,
@@ -79,7 +82,7 @@ const invoiceSchema = new mongoose.Schema({
     email: String,
     website: String,
   },
-  date: Date,
+  date: String,
   orderNr: String,
   verified: Boolean,
   fileName: String,
@@ -97,7 +100,6 @@ const invoiceSchema = new mongoose.Schema({
   extraFields: [{
     label: String || Number,
     value: String || Number,
-    className: String,
   }],
   createdOn: String,
   lines: [{
@@ -121,4 +123,4 @@ const invoiceSchema = new mongoose.Schema({
   },
 });
 
-export const InvoicesCollection = mongoose.model<IInvoice>('invoice', invoiceSchema, 'invoices');
+export const InvoicesCollection = mongoose.model<IInvoice & mongoose.Document>('invoice', invoiceSchema, 'invoices');
