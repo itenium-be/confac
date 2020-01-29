@@ -60,3 +60,15 @@ export const createInvoice = async (req: Request, res: Response) => {
 
   return res.send(createdInvoice);
 };
+
+export const previewPdfInvoice = async (req: Request, res: Response) => {
+  const invoice: IInvoice = req.body;
+
+  const pdfBuffer = await createPdf(invoice);
+
+  if (!Buffer.isBuffer(pdfBuffer) && pdfBuffer.error) {
+    return res.status(500).send(pdfBuffer.error);
+  }
+
+  res.type('application/pdf').send(pdfBuffer);
+};
