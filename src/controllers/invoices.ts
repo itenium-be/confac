@@ -60,3 +60,13 @@ export const createInvoice = async (req: Request, res: Response) => {
 
   return res.send(createdInvoice);
 };
+
+export const deleteInvoice = async (req: Request, res: Response) => {
+  // ? The client sends 'id' instead of '_id'
+  const {id}: IInvoice & { id: string; } = req.body;
+
+  await InvoicesCollection.findByIdAndRemove(id);
+  await AttachmentsCollection.findByIdAndRemove(id);
+
+  return res.send(id);
+};
