@@ -13,12 +13,12 @@ export const ListHeader = ({feature}: ListHeaderProps<any>) => {
       <tr>
         {feature.list.rows.cells.map(col => {
           let header: string = '';
-          let width: string | undefined;
+          let width: string | undefined | number;
           if (!col.header) {
             header = feature.trans.props[col.key];
           } else if (typeof col.header === 'string') {
             header = col.header;
-          } else if (col.header.title) {
+          } else {
             header = col.header.title;
             width = col.header.width;
           }

@@ -27,7 +27,7 @@ export const app = (state: AppState = defaultAppState, action) => {
       return {...state, projectFilters: action.filters};
 
     case ACTION_TYPES.APP_FILTERUPDATED:
-      return {...state, filters: {...state.filters, [action.featureKey]: action.filters}};
+      return {...state, filters: {...state.filters, [action.payload.feature]: action.payload.filters}};
 
     default:
       return state;

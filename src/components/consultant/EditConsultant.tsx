@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {ConfacState} from '../../reducers/app-state';
 import {t} from '../utils';
@@ -12,16 +12,20 @@ import {BusyButton} from '../controls/form-controls/BusyButton';
 import {defaultConsultantProperties} from './models/ConsultantConfig';
 
 interface EditConsultantProps {
-  saveConsultant: (consultant: ConsultantModel) => void;
+  match: {
+    params: {id: string};
+  };
 }
 
 
-const EditConsultant = (props: EditConsultantProps) => {
-  const [consultant, setConsultant] = useState<ConsultantModel>(getNewConsultant());
+export const EditConsultant = (props: EditConsultantProps) => {
+  const dispatch = useDispatch();
+  const model = useSelector((state: ConfacState) => state.consultants.find(c => c.slug === props.match.params.id));
+  const [consultant, setConsultant] = useState<ConsultantModel>(model || getNewConsultant());
 
-  const onSaveConsultant = (): void => {
-    props.saveConsultant(consultant);
-  };
+  if (model && !consultant._id) {
+    setConsultant(model);
+  }
 
   const isButtonDisabled = (): boolean => {
     const {name, firstName} = consultant;
@@ -36,20 +40,20 @@ const EditConsultant = (props: EditConsultantProps) => {
     <Container className="edit-container">
       <Form>
         <Row className="page-title-container">
-          <h1>{t('consultant.createNew')}</h1>
+          <h1>{consultant._id ? `${consultant.firstName} ${consultant.name}` : t('consultant.createNew')}</h1>
         </Row>
         <Row>
           <ArrayInput
             config={defaultConsultantProperties}
             model={consultant}
             onChange={(value: { [key: string]: any }) => setConsultant({...consultant, ...value})}
-            tPrefix="consultant."
+            tPrefix="consultant.props."
           />
         </Row>
       </Form>
       <StickyFooter>
         <BusyButton
-          onClick={onSaveConsultant}
+          onClick={() => dispatch(saveConsultant(consultant))}
           disabled={isButtonDisabled()}
           data-tst="save"
         >
@@ -59,7 +63,3 @@ const EditConsultant = (props: EditConsultantProps) => {
     </Container>
   );
 };
-
-const mapStateToProps = (state: ConfacState) => ({});
-
-export default connect(mapStateToProps, {saveConsultant})(EditConsultant);

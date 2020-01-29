@@ -2,19 +2,34 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {ConsultantModel} from './ConsultantModel';
-import {IList, IListCell, ListFilters, ConsultantListFilters} from '../../controls/table/table-models';
-import {t} from '../../utils';
+import {IList, IListCell, ConsultantListFilters} from '../../controls/table/table-models';
+import {t, searchinize} from '../../utils';
 import {IFeature} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
-import {DeleteIcon} from '../../controls/Icon';
+import {DeleteIcon, EditIcon} from '../../controls/Icon';
 
 
 export type ConsultantFeatureBuilderConfig = {
   data: ConsultantModel[];
   save: (model: ConsultantModel) => void;
+  filters: ConsultantListFilters;
+  setFilters: (f: ConsultantListFilters) => void;
 }
 
 
+const searchConsultantFor = (filters: ConsultantListFilters, model: ConsultantModel): boolean => {
+  if (!filters.showInactive && !model.active) {
+    return false;
+  }
+
+  if (!filters.freeText) {
+    return true;
+  }
+
+  return searchinize(
+    `${model.name} ${model.firstName} ${model.type} ${model.email} ${model.telephone}`,
+  ).includes(filters.freeText.toLowerCase());
+};
 
 
 
@@ -41,11 +56,12 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
     value: m => m.telephone,
   }, {
     key: 'buttons',
-    header: '',
+    header: {title: '', width: 110},
     value: m => (
       <>
+        <EditIcon onClick={`/consultants/${m.slug}`} style={{marginRight: 15}} />
         <DeleteIcon
-          onClick={() => config.save(m)}
+          onClick={() => config.save({...m, active: false})}
           title={m.active ? t('feature.deactivateTitle') : t('feature.activateTitle')}
         />
       </>
@@ -62,11 +78,22 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
   };
 };
 
+
+
 export const consultantFeature = (config: ConsultantFeatureBuilderConfig): IFeature<ConsultantModel, ConsultantListFilters> => {
-  return {
+  const feature: IFeature<ConsultantModel, ConsultantListFilters> = {
     key: 'consultants',
     nav: m => `/consultants/${m === 'create' ? m : m.slug}`,
     trans: features.consultant as any,
     list: consultantListConfig(config),
   };
+
+  feature.list.filter = {
+    state: config.filters,
+    updateFilter: config.setFilters,
+    fullTextSearch: searchConsultantFor,
+    softDelete: true,
+  };
+
+  return feature;
 };

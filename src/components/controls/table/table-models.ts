@@ -67,7 +67,7 @@ export interface IListCell<TModel> {
    * Use empty string to not render a header label
    * If omitted, will default to trans.props[key];
    * */
-  header?: string | IListHeaderCell;
+  header?: string | IListHeaderCell | false;
   /** Render the cell */
   value: (m: TModel) => string | React.ReactNode;
   /** Cell styles */
@@ -86,5 +86,5 @@ export interface IListHeaderCell {
   /** Translation key */
   title: string;
   /** The column width */
-  width?: string;
+  width?: string | number;
 }

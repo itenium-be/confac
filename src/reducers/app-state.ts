@@ -5,6 +5,7 @@ import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {ClientModel} from '../components/client/models/ClientModels';
 import {ConsultantModel} from '../components/consultant/models/ConsultantModel';
 import {ProjectModel, ProjectMonthModel} from '../components/project/models/ProjectModel';
+import {ListFilters} from '../components/controls/table/table-models';
 
 export type ConfacState = {
   app: AppState;
@@ -15,6 +16,17 @@ export type ConfacState = {
   projects: ProjectModel[];
   projectsMonth: ProjectMonthModel[];
 };
+
+
+
+const getListFilters = (): ListFilters => {
+  return {
+    freeText: '',
+    showInactive: false,
+  };
+};
+
+
 
 export const defaultAppState: AppState = {
   isLoaded: false,
@@ -33,6 +45,6 @@ export const defaultAppState: AppState = {
     isShowingInActiveProjects: false,
   },
   filters: {
-    consultants: {},
+    consultants: getListFilters(),
   },
 };

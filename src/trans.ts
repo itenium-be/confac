@@ -280,6 +280,17 @@ export const trans = {
       freelancer: 'Freelancer',
       externalConsultant: 'Externe consultant',
     },
+    props: {
+      _id: 'Id',
+      name: 'Naam',
+      firstName: 'Voornaam',
+      slug: 'Naam in de url',
+      type: 'Type',
+      email: 'E-mail',
+      telephone: 'Telefoon nr',
+      createdOn: 'Aangemaakt op',
+      active: 'Actief',
+    },
   },
   project: {
     createNew: 'Nieuw project',
