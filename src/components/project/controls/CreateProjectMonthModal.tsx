@@ -11,7 +11,7 @@ import {getNewProjectMonth} from '../models/getNewProject';
 type ProjectMonthModalProps = BaseModalProps & {};
 
 
-export const ProjectMonthModal = (props: ProjectMonthModalProps) => {
+export const CreateProjectMonthModal = (props: ProjectMonthModalProps) => {
   const dispatch = useDispatch();
   const [projectMonth, setProjectMonth] = useState<ProjectMonthModel>(getNewProjectMonth());
 

@@ -8,7 +8,7 @@ import {ListPage} from '../controls/table/ListPage';
 import {projectFeature, ProjectFeatureBuilderConfig} from './models/getProjectFeature';
 import {Icon} from '../controls/Icon';
 import {t} from '../utils';
-import {ProjectMonthModal} from './controls/ProjectMonthModal';
+import {CreateProjectMonthModal} from './controls/CreateProjectMonthModal';
 import {Button} from '../controls/form-controls/Button';
 
 
@@ -31,7 +31,7 @@ export const ProjectsList = () => {
   const TopToolbar = (
     <>
       {modalProjectMonthId && (
-        <ProjectMonthModal show={!!modalProjectMonthId} onClose={() => setModalProjectMonthId(null)} />
+        <CreateProjectMonthModal show={!!modalProjectMonthId} onClose={() => setModalProjectMonthId(null)} />
       )}
       <Button
         onClick={() => setModalProjectMonthId('create')}

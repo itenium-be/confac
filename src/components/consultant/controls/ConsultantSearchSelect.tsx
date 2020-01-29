@@ -4,7 +4,7 @@ import Select from 'react-select';
 import {t} from '../../utils';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import {ConfacState} from '../../../reducers/app-state';
-import {ConsultantModel} from '../../consultant/models/ConsultantModel';
+import {ConsultantModel} from '../models/ConsultantModel';
 import {SelectItem} from '../../../models';
 
 

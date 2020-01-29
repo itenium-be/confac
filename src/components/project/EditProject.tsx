@@ -9,7 +9,7 @@ import {ConsultantModal} from '../consultant/controls/ConsultantModal';
 import {saveProject} from '../../actions';
 import {StickyFooter} from '../controls/skeleton/StickyFooter';
 import {ConsultantModel} from '../consultant/models/ConsultantModel';
-import {ConsultantSearchSelect} from './controls/ConsultantSearchSelect';
+import {ConsultantSearchSelect} from '../consultant/controls/ConsultantSearchSelect';
 import {Button} from '../controls/form-controls/Button';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {ProjectModel} from './models/ProjectModel';
