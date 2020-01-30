@@ -5,8 +5,8 @@ import {ClientModel} from '../../client/models/ClientModels';
 export interface ProjectModel {
   _id: string;
   consultantId: string;
-  startDate: string;
-  endDate: string;
+  startDate: Moment;
+  endDate?: Moment;
   partner: string;
   partnerTariff: number;
   client: string;

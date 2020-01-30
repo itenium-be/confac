@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {ModalState} from '../../controls/Modal';
 import {t} from '../../utils';
 import {Button} from '../../controls/form-controls/Button';
@@ -7,6 +7,7 @@ import {ConsultantSelect} from './ConsultantSelect';
 import {ConsultantModel} from '../models/ConsultantModel';
 import {ConsultantModal} from './ConsultantModal';
 import {ConfacState} from '../../../reducers/app-state';
+import {saveConsultant} from '../../../actions/consultantActions';
 
 
 type SelectWithCreateModalProps<TModel> = {
@@ -16,7 +17,8 @@ type SelectWithCreateModalProps<TModel> = {
 
 
 export const ConsultantSelectWithCreateModal = ({consultantId, onChange}: SelectWithCreateModalProps<ConsultantModel>) => {
-  const [modalId, setModalId] = useState<ModalState>(consultantId || null);
+  const dispatch = useDispatch();
+  const [modalId, setModalId] = useState<ModalState>(null);
   const consultant = useSelector((state: ConfacState) => state.consultants.find(c => c._id === consultantId));
 
   return (
@@ -26,7 +28,7 @@ export const ConsultantSelectWithCreateModal = ({consultantId, onChange}: Select
           consultant={modalId !== 'create' ? consultant : null}
           show={!!modalId}
           onClose={() => setModalId(null)}
-          onConfirm={(model: ConsultantModel) => onChange(model)}
+          onConfirm={(model: ConsultantModel) => dispatch(saveConsultant(model, savedModel => onChange(savedModel)))}
         />
       )}
       <div className="unset-split">

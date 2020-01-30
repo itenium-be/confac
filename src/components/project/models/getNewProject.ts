@@ -4,8 +4,7 @@ import {ProjectMonthModel, ProjectModel} from './ProjectModel';
 export const getNewProject = (): ProjectModel => ({
   _id: '',
   consultantId: '',
-  startDate: '',
-  endDate: '',
+  startDate: moment().startOf('day'),
   partner: '',
   partnerTariff: 0,
   client: '',

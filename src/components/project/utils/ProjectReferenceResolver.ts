@@ -22,8 +22,8 @@ export class ProjectReferenceResolver {
     return this.clients.find(client => client._id === clientId) as ClientModel;
   }
 
-  getIsProjectActive(startDate: string, endDate: string): boolean {
-    if (startDate && endDate) {
+  getIsProjectActive(startDate: moment.Moment, endDate?: moment.Moment): boolean {
+    if (endDate) {
       return moment().isBetween(startDate, endDate);
     }
 

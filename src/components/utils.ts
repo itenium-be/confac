@@ -46,7 +46,12 @@ export const getNumeric = text => text.replace(/[^0-9]+/g, '');
 
 export const datePickerDateFormat = 'dd/MM/yyyy';
 
-export const formatDate = (date: string | Date | moment.Moment, format = 'DD/MM/YYYY'): string => moment(date).format(format);
+export const formatDate = (date?: string | Date | moment.Moment, format = 'DD/MM/YYYY'): string => {
+  if (!date) {
+    return '';
+  }
+  return moment(date).format(format);
+}
 
 /**
  * Make a string ready for search

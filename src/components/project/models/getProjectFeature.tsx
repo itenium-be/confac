@@ -119,7 +119,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
       if (!b.details.endDate) {
         return -1;
       }
-      return a.details.endDate.localeCompare(b.details.endDate);
+      return a.details.endDate.valueOf() - b.details.endDate.valueOf();
     },
   };
 };

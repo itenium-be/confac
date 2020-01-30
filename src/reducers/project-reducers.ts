@@ -5,10 +5,10 @@ import {ProjectModel} from '../components/project/models/ProjectModel';
 
 
 function mapProject(prj: ProjectModel) {
-  // prj.startDate = moment(prj.startDate);
-  // if (prj.endDate) {
-  //   prj.endDate = moment(prj.endDate);
-  // }
+  prj.startDate = moment(prj.startDate);
+  if (prj.endDate) {
+    prj.endDate = moment(prj.endDate);
+  }
   return prj;
 }
 

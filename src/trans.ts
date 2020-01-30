@@ -293,6 +293,7 @@ export const trans = {
     },
   },
   project: {
+    project: 'Project',
     createNew: 'Nieuw project',
     newMonth: 'Maand toevoegen',
     month: 'Maand',

@@ -24,7 +24,7 @@ export const EditProject = (props: EditProjectProps) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const model = useSelector((state: ConfacState) => state.projects.find(c => c._id === props.match.params.id));
-  const [project, setProjectProperties] = useState<ProjectModel>(model || getNewProject());
+  const [project, setProject] = useState<ProjectModel>(model || getNewProject());
 
   const isButtonDisabled = (): boolean => {
     const {consultantId} = project;
@@ -34,20 +34,20 @@ export const EditProject = (props: EditProjectProps) => {
   return (
     <Container className="edit-container">
       <Row className="page-title-container">
-        <h1>{t('project.createNew')}</h1>
+        <h1>{project._id ? t('project.project') : t('project.createNew')}</h1>
       </Row>
       <Form>
         <Row>
           <Col sm={6}>
             <ConsultantSelectWithCreateModal
               consultantId={project.consultantId}
-              onChange={consultant => setProjectProperties({...project, consultantId: consultant && consultant._id})}
+              onChange={consultant => setProject({...project, consultantId: consultant && consultant._id})}
             />
           </Col>
           <ArrayInput
             config={projectFormConfig}
             model={project}
-            onChange={(value: {[key: string]: any}) => setProjectProperties({...project, ...value})}
+            onChange={(value: {[key: string]: any}) => setProject({...project, ...value})}
             tPrefix="project."
           />
         </Row>
