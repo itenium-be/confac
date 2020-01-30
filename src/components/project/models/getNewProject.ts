@@ -1,14 +1,17 @@
 import moment from 'moment';
-import {ProjectMonthModel, ProjectModel} from './ProjectModel';
+import {ProjectMonthModel, ProjectModel, ProjectClientModel} from './ProjectModel';
+
+
+export const getNewProjectClient = (): ProjectClientModel => {
+  return {clientId: '', rateType: 'daily', tariff: 0};
+}
+
 
 export const getNewProject = (): ProjectModel => ({
   _id: '',
   consultantId: '',
   startDate: moment().startOf('day'),
-  partner: '',
-  partnerTariff: 0,
-  client: '',
-  clientTariff: 0,
+  client: getNewProjectClient(),
 });
 
 

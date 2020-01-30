@@ -1,7 +1,7 @@
 import {CSSProperties} from 'react';
 import {InputIcons} from './components/controls/form-controls/lib/IconFactory';
 import {StandardComponents} from './components/controls/form-controls/lib/EditComponentFactory';
-import {ListFilters, ConsultantListFilters, ClientListFilters, InvoiceListFilters, ProjectListFilters} from './components/controls/table/table-models';
+import {ConsultantListFilters, ClientListFilters, InvoiceListFilters, ProjectListFilters} from './components/controls/table/table-models';
 
 export type InvoiceDateStrategy = 'prev-month-last-day' | 'today';
 
@@ -82,8 +82,9 @@ export type FormConfig = {
   updateOnly?: boolean,
   /**
    * Set specific Grid col amount
+   * false to not generate a Col
    */
-  cols?: number | ColSize | ColSizes,
+  cols?: number | ColSize | ColSizes | false,
   prefix?: InputIcons | React.ReactNode | string,
   suffix?: InputIcons | React.ReactNode | string,
   style?: CSSProperties,

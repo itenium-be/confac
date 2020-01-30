@@ -66,17 +66,25 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
         };
 
         const EditComponent: any = getComponent(col);
+        const finalComponent = (
+          <EditComponent
+            label={label === '' ? null : (label && t(label)) || t(tPrefix + key)}
+            value={value}
+            onChange={(val: any) => realOnChange(val)}
+            data-tst={tPrefix + key}
+            prefix={getAddix(prefix)}
+            suffix={getAddix(suffix)}
+            {...props}
+          />
+        );
+
+        if (colSizes === null) {
+          return finalComponent;
+        }
+
         return (
           <Col {...colSizes} key={reactKey || key || index}>
-            <EditComponent
-              label={label === '' ? null : (label && t(label)) || t(tPrefix + key)}
-              value={value}
-              onChange={(val: any) => realOnChange(val)}
-              data-tst={tPrefix + key}
-              prefix={getAddix(prefix)}
-              suffix={getAddix(suffix)}
-              {...props}
-            />
+            {finalComponent}
           </Col>
         );
       })}
@@ -86,13 +94,17 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
 
 
 
-const getColSizes = (cols?: number | ColSize | ColSizes): ColSizes => {
+const getColSizes = (cols?: number | ColSize | ColSizes | false): ColSizes | null => {
   const defaultLg = 4;
   const defaultSm = 6;
   const defaultConfig = {
     lg: {span: defaultLg},
     sm: {span: defaultSm},
   };
+
+  if (cols === false) {
+    return null;
+  }
 
   if (!cols) {
     return defaultConfig;

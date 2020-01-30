@@ -5,9 +5,10 @@ import {Link} from 'react-router-dom';
 import {IList, IListCell, ProjectListFilters} from '../../controls/table/table-models';
 import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
-import {FullProjectModel} from './ProjectModel';
+import {FullProjectModel, ProjectClientModel} from './ProjectModel';
 import {t, formatDate, tariffFormat, searchinize} from '../../utils';
-import { EditIcon, DeleteIcon } from '../../controls/Icon';
+import {EditIcon, DeleteIcon} from '../../controls/Icon';
+import {InvoiceClientCell} from '../../invoice/invoice-table/InvoiceClientCell';
 
 
 export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel, ProjectListFilters>;
@@ -55,6 +56,19 @@ const getRowBackgroundColor = (prj: FullProjectModel): undefined | string => {
 };
 
 
+const ProjectClientTariff = ({projectClient}: {projectClient: ProjectClientModel | undefined}) => {
+  if (!projectClient) {
+    return null;
+  }
+
+  return (
+    <>
+      {tariffFormat(projectClient.tariff)} / {projectClient.rateType}
+    </>
+  );
+}
+
+
 const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProjectModel, ProjectListFilters> => {
   const list: IListCell<FullProjectModel>[] = [{
     key: 'consultant',
@@ -78,20 +92,20 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     value: p => p.details.endDate && formatDate(p.details.endDate),
   }, {
     key: 'partner',
-    header: 'project.partner',
-    value: p => p.partner && p.partner.name,
+    header: 'project.partner.clientId',
+    value: p => <InvoiceClientCell client={p.partner} />,
   }, {
     key: 'partnerTariff',
-    header: 'project.partnerTariff',
-    value: p => tariffFormat(p.details.partnerTariff),
+    header: 'project.partner.tariff',
+    value: p => <ProjectClientTariff projectClient={p.details.partner} />,
   }, {
     key: 'client',
-    header: 'project.client',
-    value: p => p.client && p.client.name,
+    header: 'project.client.clientId',
+    value: p => <InvoiceClientCell client={p.client} />,
   }, {
     key: 'clientTariff',
-    header: 'project.clientTariff',
-    value: p => tariffFormat(p.details.clientTariff),
+    header: 'project.client.tariff',
+    value: p => <ProjectClientTariff projectClient={p.details.client} />,
   }, {
     key: 'buttons',
     header: {title: '', width: 110},

@@ -11,7 +11,7 @@ import {ClientEditIcon} from '../../controls/Icon';
 
 type InvoiceClientCellProps = {
   clients: ClientModel[],
-  client: ClientModel,
+  client: ClientModel | undefined,
   saveClient: any,
 }
 
@@ -34,6 +34,10 @@ export const InvoiceClientCell = connect((state: ConfacState) => ({
 
     render() {
       const invoiceClient = this.props.client;
+      if (!invoiceClient) {
+        return null;
+      }
+
       const client = this.props.clients.find(c => c._id === invoiceClient._id);
       if (!client) {
         return <span>{invoiceClient.name}</span>;

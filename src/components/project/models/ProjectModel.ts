@@ -1,16 +1,22 @@
 import {Moment} from 'moment';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
+import {EditClientRateType} from '../../../models';
 
 export interface ProjectModel {
   _id: string;
   consultantId: string;
   startDate: Moment;
   endDate?: Moment;
-  partner: string;
-  partnerTariff: number;
-  client: string;
-  clientTariff: number;
+  partner?: ProjectClientModel;
+  client: ProjectClientModel;
+}
+
+export interface ProjectClientModel {
+  clientId: string;
+  tariff: number;
+  rateType: EditClientRateType;
+  ref?: string;
 }
 
 export interface ProjectMonthModel {
@@ -30,7 +36,7 @@ export interface FullProjectModel {
   details: ProjectDetailsModel;
   consultant: ConsultantModel;
   client: ClientModel;
-  partner: ClientModel;
+  partner?: ClientModel;
 }
 
 // TODO: Get rid of this: is state being manipulated? will this be sent to the backend and be saved?

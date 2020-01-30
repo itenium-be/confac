@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {ProjectModel, FullProjectModel} from '../models/ProjectModel';
+import {ProjectModel, FullProjectModel, ProjectClientModel} from '../models/ProjectModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
 
@@ -18,8 +18,11 @@ export class ProjectReferenceResolver {
     return this.consultants.find(consultant => consultant._id === consultantId) as ConsultantModel;
   }
 
-  getClient(clientId: string): ClientModel {
-    return this.clients.find(client => client._id === clientId) as ClientModel;
+  getClient(client: ProjectClientModel | undefined): ClientModel | undefined {
+    if (!client) {
+      return undefined;
+    }
+    return this.clients.find(c => c._id === client.clientId) || undefined;
   }
 
   getIsProjectActive(startDate: moment.Moment, endDate?: moment.Moment): boolean {
@@ -35,7 +38,7 @@ export class ProjectReferenceResolver {
       _id: project._id,
       details: {...project, active: this.getIsProjectActive(project.startDate, project.endDate)},
       consultant: this.getConsultant(project.consultantId),
-      client: this.getClient(project.client),
+      client: this.getClient(project.client) as ClientModel,
       partner: this.getClient(project.partner),
     }));
   }

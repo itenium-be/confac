@@ -303,10 +303,18 @@ export const trans = {
     consultantType: 'Type',
     startDate: 'Start datum',
     endDate: 'Eind datum',
-    partner: 'Partner',
-    partnerTariff: 'Partner tarief',
-    client: 'Klant',
-    clientTariff: 'Klant tarief',
+    partner: {
+      clientId: 'Partner',
+      tariff: 'Partner tarief',
+      rateType: 'Rate type',
+      ref: 'Referentie',
+    },
+    client: {
+      clientId: 'Klant',
+      tariff: 'Klant tarief',
+      rateType: 'Rate type',
+      ref: 'Referentie',
+    },
   },
   controls: {
     // browser
@@ -343,6 +351,8 @@ export const trans = {
 };
 
 export default function (key: string, params?: object): string {
+  // console.log('uhoh', key);
+
   let str: any;
   if (key.indexOf('.') === -1) {
     str = trans[key];
