@@ -169,7 +169,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
             <Col sm={6}>
               <EditInvoiceClient
                 invoice={invoice}
-                onChange={val => this.setState(val)}
+                onChange={val => this.setState({invoice: invoice.setClient(val)})}
               />
             </Col>
 

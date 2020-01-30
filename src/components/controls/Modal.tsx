@@ -3,6 +3,15 @@ import {Button, Modal as ReactModal} from 'react-bootstrap';
 import {t} from '../utils';
 import {BootstrapVariant} from '../../models';
 
+
+/**
+ * string: open modal for _id
+ * null: modal is closed
+ * create: open modal for new entity creation
+ *  */
+export type ModalState = string | null | 'create';
+
+
 export type BaseModalProps = {
   show: boolean,
   onClose: () => void,

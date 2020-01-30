@@ -10,6 +10,7 @@ import {Icon} from '../controls/Icon';
 import {t} from '../utils';
 import {CreateProjectMonthModal} from './controls/CreateProjectMonthModal';
 import {Button} from '../controls/form-controls/Button';
+import {ModalState} from '../controls/Modal';
 
 
 export const ProjectsList = () => {
@@ -27,7 +28,7 @@ export const ProjectsList = () => {
   });
 
 
-  const [modalProjectMonthId, setModalProjectMonthId] = useState<string | null | 'create'>(null);
+  const [modalProjectMonthId, setModalProjectMonthId] = useState<ModalState>(null);
   const TopToolbar = (
     <>
       {modalProjectMonthId && (

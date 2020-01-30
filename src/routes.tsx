@@ -9,7 +9,7 @@ import {ClientList} from './components/client/ClientList';
 import EditClient from './components/client/EditClient';
 import EditConfig from './components/config/EditConfig';
 import {EditConsultant} from './components/consultant/EditConsultant';
-import EditProject from './components/project/EditProject';
+import {EditProject} from './components/project/EditProject';
 import {ProjectsList} from './components/project/ProjectsList';
 import {ConsultantsList} from './components/consultant/ConsultantsList';
 
@@ -38,7 +38,7 @@ const Routes = () => (
 
       <Route path="/config" render={props => <AppWithLayout Component={EditConfig} {...props} />} />
 
-      <Route path="/" render={props => <AppWithLayout Component={InvoiceList} {...props} />} />
+      <Route path="/" render={props => <AppWithLayout Component={ProjectsList} {...props} />} />
     </Switch>
   </BrowserRouter>
 );

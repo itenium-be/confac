@@ -1,9 +1,6 @@
 import React, {useState} from 'react';
-import {connect} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
-import {saveConsultant} from '../../../actions';
-import {ConfacState} from '../../../reducers/app-state';
 import {getNewConsultant} from '../models/getNewConsultant';
 import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
 import {BaseModalProps, Modal} from '../../controls/Modal';
@@ -12,19 +9,20 @@ import {defaultConsultantModalProperties} from '../models/ConsultantConfig';
 
 
 type ConsultantModalProps = BaseModalProps & {
-  saveConsultant: (consultant: ConsultantModel) => void,
+  consultant?: ConsultantModel | null;
+  onConfirm: (consultant: ConsultantModel) => void,
 }
 
 
-const _ConsultantModal = (props: ConsultantModalProps) => {
-  const [consultant, setConsultantProperties] = useState<ConsultantModel>(getNewConsultant());
+export const ConsultantModal = (props: ConsultantModalProps) => {
+  const [consultant, setConsultantProperties] = useState<ConsultantModel>(props.consultant || getNewConsultant());
 
   return (
     <Modal
       show={props.show}
       onClose={props.onClose}
       title={t('consultant.createNew')}
-      onConfirm={() => props.saveConsultant(consultant)}
+      onConfirm={() => props.onConfirm(consultant)}
     >
       <Form>
         <Container>
@@ -41,5 +39,3 @@ const _ConsultantModal = (props: ConsultantModalProps) => {
     </Modal>
   );
 };
-
-export const ConsultantModal = connect((state: ConfacState) => ({}), {saveConsultant})(_ConsultantModal);
