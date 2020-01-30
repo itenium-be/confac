@@ -61,12 +61,14 @@ const ProjectClientTariff = ({projectClient}: {projectClient: ProjectClientModel
     return null;
   }
 
+  const rateType = projectClient.rateType ? ` / ${t(`rates.perType.${projectClient.rateType}`)}` : null;
   return (
     <>
-      {tariffFormat(projectClient.tariff)} / {projectClient.rateType}
+      {tariffFormat(projectClient.tariff)}
+      {rateType}
     </>
   );
-}
+};
 
 
 const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProjectModel, ProjectListFilters> => {

@@ -74,6 +74,14 @@ export const trans = {
       other: 'Ander',
       section: 'Sectie',
     },
+    perType: {
+      hourly: 'uur',
+      daily: 'dag',
+      km: 'km',
+      items: 'product',
+      other: 'ander',
+      section: 'sectie',
+    }
   },
   feature: {
     showInactive: 'Toon inactieve',
