@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 import {IEmail} from './clients';
-import common from './common';
+import schemas from './common';
 
 export interface IConfig {
   key: string;
@@ -59,6 +59,7 @@ export const DEFAULT_CONFIG = {
   email: {
     to: '',
     cc: '',
+    from: '',
     bcc: '',
     subject: '',
     body: '',
@@ -92,7 +93,7 @@ const configSchema = new mongoose.Schema({
   groupInvoiceListByMonth: Boolean,
   defaultInvoiceLineType: String,
   defaultInvoiceDateStrategy: String,
-  email: common.emailSchema,
+  email: schemas.emailSchema,
   emailSignature: String,
   emailReminder: String,
 });

@@ -1,14 +1,7 @@
 import mongoose from 'mongoose';
 import moment from 'moment';
 
-import common from './common';
-
-export interface IAttachment {
-  type: string;
-  fileName: string;
-  fileType: string;
-  lastModifiedDate: string;
-}
+import schemas, {IEmailAttachment} from './common';
 
 export interface IEmail {
   from?: string;
@@ -17,7 +10,8 @@ export interface IEmail {
   bcc?: string;
   subject: string;
   body: string;
-  attachments: string[];
+  combineAttachments?: boolean;
+  attachments: IEmailAttachment[];
 }
 
 export interface ISelectItem {
@@ -43,7 +37,7 @@ export interface IClient extends mongoose.Document {
   btw: string;
   invoiceFileName: string;
   rate: IClientRate;
-  attachments: IAttachment[];
+  attachments: IEmailAttachment[];
   extraFields: ISelectItem[];
   defaultExtraInvoiceFields: ISelectItem[];
   notes: string;
@@ -52,8 +46,6 @@ export interface IClient extends mongoose.Document {
   email: IEmail;
 }
 
-const clientSchema = new mongoose.Schema({
-  ...common.clientSchema,
-}, {timestamps: {createdAt: 'createdOn'}});
+const clientSchema = new mongoose.Schema({...schemas.clientSchema}, {timestamps: {createdAt: 'createdOn'}});
 
 export const ClientsCollection = mongoose.model<IClient>('client', clientSchema, 'clients');

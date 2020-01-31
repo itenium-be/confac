@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
-import moment from 'moment';
 
-import {IClient, IAttachment, ISelectItem} from './clients';
-import common from './common';
+import {IClient, ISelectItem} from './clients';
+import schemas, {IEmailAttachment} from './common';
 
 export interface IInvoiceMoney {
   totalWithoutTax: number;
@@ -55,7 +54,7 @@ export interface IInvoice {
   verified: boolean;
   fileName: string;
   discount: string;
-  attachments: IAttachment[];
+  attachments: IEmailAttachment[];
   isQuotation: boolean;
   lastEmail: string;
   _defaultTax: number;
@@ -68,7 +67,7 @@ export interface IInvoice {
 
 const invoiceSchema = new mongoose.Schema({
   number: Number,
-  client: {...common.clientSchema},
+  client: {...schemas.clientSchema},
   your: {
     name: String,
     address: String,
