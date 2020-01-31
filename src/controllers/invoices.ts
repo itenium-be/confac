@@ -143,4 +143,25 @@ export const emailInvoice = async (req: Request, res: Response) => {
   await InvoicesCollection.findByIdAndUpdate({_id: invoiceId}, {lastEmail: lastEmailSent});
 
   res.status(200).send(lastEmailSent);
+}
+ 
+export const deleteInvoice = async (req: Request, res: Response) => {
+  const {id}: {id: string;} = req.body;
+
+  await InvoicesCollection.findByIdAndRemove(id);
+  await AttachmentsCollection.findByIdAndRemove(id);
+
+  return res.send(id);
+};
+
+export const previewPdfInvoice = async (req: Request, res: Response) => {
+  const invoice: IInvoice = req.body;
+
+  const pdfBuffer = await createPdf(invoice);
+
+  if (!Buffer.isBuffer(pdfBuffer) && pdfBuffer.error) {
+    return res.status(500).send(pdfBuffer.error);
+  }
+
+  res.type('application/pdf').send(pdfBuffer);
 };
