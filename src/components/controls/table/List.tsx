@@ -27,7 +27,7 @@ export const List = ({feature}: ListProps) => {
   }
 
   return (
-    <Table size="sm">
+    <Table size="sm" className={`table-${feature.key}`}>
       <ListHeader feature={feature} />
       <tbody>
         {data.map(model => (

@@ -5,7 +5,9 @@
  * A simple table with filters and action buttons
  */
 export interface IList<TModel, TFilterModel extends ListFilters = {}, TTag = {}> {
-  /** How  */
+  /** Defaults to featureTrans.key.listTitle */
+  listTitle?: () => string;
+  /** Config for rows and cells */
   rows: IListRow<TModel>;
   /** The actual data */
   data: TModel[];
@@ -25,6 +27,7 @@ export type ListFilters = {
 }
 
 export type ProjectListFilters = ListFilters;
+export type ProjectMonthListFilters = ListFilters;
 export type InvoiceListFilters = ListFilters;
 export type ConsultantListFilters = ListFilters;
 

@@ -4,7 +4,8 @@ import {ConfigModel} from '../components/config/models/ConfigModel';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {ClientModel} from '../components/client/models/ClientModels';
 import {ConsultantModel} from '../components/consultant/models/ConsultantModel';
-import {ProjectModel, ProjectMonthModel} from '../components/project/models/ProjectModel';
+import {ProjectModel} from '../components/project/models/ProjectModel';
+import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
 import {ListFilters} from '../components/controls/table/table-models';
 
 export type ConfacState = {

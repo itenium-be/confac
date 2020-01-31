@@ -34,6 +34,18 @@ export const features = {
     createNew: 'Nieuw project',
     props: {},
   },
+  projectMonth: {
+    title: 'Project maanden',
+    listTitle: 'Project maanden',
+    createNew: false,
+    props: {
+      consultant: 'Consultant',
+      timesheet: 'Timesheet',
+      timesheetCheck: 'SDWorx',
+      inbound: 'Inbound Invoice',
+      outbound: 'Outbound Invoice',
+    },
+  },
 };
 
 
@@ -324,6 +336,14 @@ export const trans = {
       ref: 'Referentie',
     },
   },
+  projectMonth: {
+    consultant: 'Consultant',
+    title: 'Projecten maand',
+    listTitle: '{month} {year}',
+    timesheet: 'Days on timesheet',
+    timesheetCheck: 'SDWorx',
+    timesheetNote: 'Notitie Timesheet {name}',
+  },
   controls: {
     // browser
     popupBlockerTitle: 'Mislukt!? Popup blocker misschien?',
@@ -359,7 +379,9 @@ export const trans = {
 };
 
 export default function (key: string, params?: object): string {
-  // console.log('uhoh', key);
+  if (!key) {
+    return 'UNDEFINED KEY';
+  }
 
   let str: any;
   if (key.indexOf('.') === -1) {

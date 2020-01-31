@@ -19,12 +19,6 @@ export interface ProjectClientModel {
   ref?: string;
 }
 
-export interface ProjectMonthModel {
-  _id: string;
-  month: Moment;
-  projectId: string;
-}
-
 /**
  * Model used by the ProjectReferenceResolver
  * which turns the Ids into models

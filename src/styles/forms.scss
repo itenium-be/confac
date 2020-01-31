@@ -1,12 +1,10 @@
+@import 'variables';
+
 button[disabled] {
   cursor: not-allowed;
 }
 
 
-
-$border-color: #ced4da; // or: hsl(0, 0%, 70%);?
-$addon-icon-color: #9eaab5;
-$placeholder-color: #c4ccd3;
 
 ::placeholder {
   color: $placeholder-color !important;
@@ -35,11 +33,11 @@ $placeholder-color: #c4ccd3;
       color: $addon-icon-color;
 
       &.success {
-        color: #28a745;
+        color: $success;
       }
 
       &.danger {
-        color: #dc3545;
+        color: $danger;
       }
     }
   }

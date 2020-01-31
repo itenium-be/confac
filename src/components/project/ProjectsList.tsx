@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory, Link} from 'react-router-dom';
 import {ConfacState} from '../../reducers/app-state';
@@ -11,6 +11,7 @@ import {t} from '../utils';
 import {CreateProjectMonthModal} from './controls/CreateProjectMonthModal';
 import {Button} from '../controls/form-controls/Button';
 import {ModalState} from '../controls/Modal';
+import {ProjectsMonthsList} from './ProjectMonthsList';
 
 
 export const ProjectsList = () => {
@@ -52,6 +53,10 @@ export const ProjectsList = () => {
 
   const feature = projectFeature(config);
   return (
-    <ListPage feature={feature} topToolbar={TopToolbar} />
+    <>
+      <ProjectsMonthsList />
+      <hr />
+      <ListPage feature={feature} topToolbar={TopToolbar} />
+    </>
   );
 };

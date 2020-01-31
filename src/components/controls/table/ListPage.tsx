@@ -16,19 +16,23 @@ type ListPageProps = {
 
 
 export const ListPage = ({feature, topToolbar}: ListPageProps) => (
-  <Container className="list">
+  <Container className={`list list-${feature.key}`}>
     <Row>
       <Col sm={6}>
-        <h1>{t(feature.trans.listTitle)}</h1>
+        <h1>
+          {feature.list.listTitle ? feature.list.listTitle() : t(feature.trans.listTitle)}
+        </h1>
       </Col>
       <Col sm={6} className="list-top-toolbar">
         {topToolbar}
       </Col>
-      <Col lg={3} md={3}>
-        <Button variant="light" onClick={feature.nav('create')} icon="fa fa-plus" size="md">
-          {t(feature.trans.createNew)}
-        </Button>
-      </Col>
+      {feature.trans.createNew && (
+        <Col lg={3} md={3}>
+          <Button variant="light" onClick={feature.nav('create')} icon="fa fa-plus" size="md">
+            {t(feature.trans.createNew)}
+          </Button>
+        </Col>
+      )}
       <ListPageFilters feature={feature} />
     </Row>
 

@@ -26,7 +26,7 @@ export const Button = ({variant = 'primary', size = 'lg', ...props}: ButtonProps
 
   return (
     <ReactButton variant={variant} size={size === 'md' ? undefined : size} onClick={realClick} {...rest}>
-      {icon ? <Icon fa={icon} size={1} style={{marginRight: 6}} data-tst={`${props['data-tst']}-icon`} /> : null}
+      {icon ? <Icon fa={icon} size={1} style={{marginRight: 6}} /> : null}
       {children}
     </ReactButton>
   );

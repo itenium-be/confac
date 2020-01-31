@@ -1,10 +1,11 @@
 import moment from 'moment';
-import {ProjectMonthModel, ProjectModel, ProjectClientModel} from './ProjectModel';
+import {ProjectModel, ProjectClientModel} from './ProjectModel';
+import {ProjectMonthModel} from './ProjectMonthModel';
 
 
 export const getNewProjectClient = (): ProjectClientModel => {
   return {clientId: '', rateType: 'daily', tariff: 0};
-}
+};
 
 
 export const getNewProject = (): ProjectModel => ({
@@ -19,4 +20,7 @@ export const getNewProjectMonth = (): ProjectMonthModel => ({
   _id: '',
   month: moment.utc().startOf('month'),
   projectId: '',
+  timesheet: {
+    validated: false,
+  },
 });

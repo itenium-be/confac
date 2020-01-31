@@ -4,7 +4,7 @@ import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
 import {saveProjectMonth} from '../../../actions';
 import {BaseModalProps, Modal} from '../../controls/Modal';
-import {ProjectMonthModel} from '../models/ProjectModel';
+import {ProjectMonthModel} from '../models/ProjectMonthModel';
 import {DatePicker} from '../../controls/form-controls/DatePicker';
 import {getNewProjectMonth} from '../models/getNewProject';
 

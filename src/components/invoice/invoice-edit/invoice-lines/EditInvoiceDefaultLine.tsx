@@ -21,7 +21,6 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
         <StringInput
           value={line.desc}
           onChange={value => onChange(invoice.updateLine(index, {desc: value}))}
-          data-tst={`line-${index}-desc`}
         />
       </td>,
       <td key="1">
@@ -29,7 +28,6 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
           label={null}
           value={line.type}
           onChange={value => onChange(invoice.updateLine(index, {type: value}))}
-          data-tst={`line-${index}-type`}
         />
       </td>,
       <td key="2">
@@ -38,7 +36,6 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
           allowHours={line.type === 'hourly'}
           value={line.amount}
           onChange={value => onChange(invoice.updateLine(index, {amount: value}))}
-          data-tst={`line-${index}-amount`}
         />
       </td>,
       <td key="3">
@@ -48,7 +45,6 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
           float
           value={line.price}
           onChange={value => onChange(invoice.updateLine(index, {price: value}))}
-          data-tst={`line-${index}-price`}
         />
       </td>,
       <td key="4">
@@ -58,7 +54,6 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
           float
           value={line.tax}
           onChange={value => onChange(invoice.updateLine(index, {tax: value}))}
-          data-tst={`line-${index}-tax`}
         />
       </td>,
       <td key="5">
@@ -66,7 +61,6 @@ export class EditInvoiceDefaultLine extends Component<EditInvoiceDefaultLineProp
           style={{height: 35}}
           value={line.notes}
           onChange={(value: string) => onChange(invoice.updateLine(index, {notes: value}))}
-          data-tst={`line-${index}-notes`}
         />
       </td>,
     ];

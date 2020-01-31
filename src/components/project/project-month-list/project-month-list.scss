@@ -1,0 +1,69 @@
+@import '../../../styles/variables.scss';
+
+
+.table-projectMonths {
+  td {
+    padding: 0;
+  }
+
+  .consultant-cell {
+    .fa {
+      float: right;
+      font-size: 18px;
+      margin-top: 4px;
+      margin-right: 20px;
+      color: #A9D8F4;
+    }
+
+    div {
+      font-weight: bold;
+      margin-bottom: -5px;
+    }
+  }
+}
+
+.timesheet-cell {
+  display: flex;
+  padding-top: 8px;
+  padding-bottom: 8px;
+
+  &.validated {
+    // background-color: $success;
+    background:
+      /* On "top" */
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 15px,
+        rgba($success, .2) 10px,
+        rgba($success, .1) 20px
+      ),
+      /* on "bottom" */
+      // linear-gradient(
+      //   to bottom,
+      //   #eee,
+      //   #999
+      // );
+  }
+
+  .timesheet-actions {
+    > * {
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
+    }
+  }
+
+  > span {
+    font-size: 21px;
+    text-align: center;
+  }
+
+  > * {
+    width: 33%;
+
+    &:not(:last-child) {
+      margin-right: 12px;
+    }
+  }
+}
