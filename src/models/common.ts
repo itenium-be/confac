@@ -44,9 +44,14 @@ const clientSchema = {
   email: emailSchema,
 };
 
-const common = {
-  clientSchema,
-  emailSchema,
-};
+export interface IEmailAttachment {
+  type: string;
+  fileName: string;
+  fileType: string;
+  lastModifiedDate?: string;
+}
 
-export default common;
+export default {
+  emailSchema,
+  clientSchema,
+};

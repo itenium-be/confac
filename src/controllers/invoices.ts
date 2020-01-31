@@ -1,9 +1,14 @@
 import moment from 'moment';
 import {Request, Response} from 'express';
+import PDFMerge from 'pdf-merge';
+import sgMail from '@sendgrid/mail';
+import fs from 'fs';
+import tmp from 'tmp';
 
 import {InvoicesCollection, IInvoice} from '../models/invoices';
-import {AttachmentsCollection} from '../models/attachments';
+import {AttachmentsCollection, IAttachment, ISendGridAttachment} from '../models/attachments';
 import {createPdf} from './utils';
+import {IEmail} from '../models/clients';
 
 export const getInvoices = async (req: Request, res: Response) => {
   const invoices = await InvoicesCollection.find();
@@ -61,13 +66,92 @@ export const createInvoice = async (req: Request, res: Response) => {
   return res.send(createdInvoice);
 };
 
+export const emailInvoice = async (req: Request, res: Response) => {
+  const invoiceId = req.params.id;
+  const {attachments, combineAttachments, ...email}: IEmail = req.body;
+
+  const attachmentTypes = attachments.map(a => a.type).join(' ');
+  const attachmentBuffers = await AttachmentsCollection.findById({_id: invoiceId}, attachmentTypes);
+
+  let sendGridAttachments: ISendGridAttachment[] = [];
+
+  if (attachmentBuffers) {
+    if (combineAttachments) {
+      const areAttachmentsMergeable = attachments.every(attachment => attachment.fileType === 'application/pdf');
+
+      if (!areAttachmentsMergeable) {
+        return res.status(400).send('Emailing with combineAttachments=true: Can only merge pdfs');
+      }
+
+      // Make sure the invoice is the first document in the merged pdf
+      // eslint-disable-next-line no-nested-ternary
+      const sortedAttachments = attachments.sort((a, b) => (a.type === 'pdf' ? -1 : b.type === 'pdf' ? 1 : 0));
+
+      const files: tmp.FileResult[] = [];
+      sortedAttachments.forEach(attachment => {
+        const tmpFile = tmp.fileSync();
+        fs.writeSync(tmpFile.fd, attachmentBuffers[attachment.type as keyof IAttachment].buffer);
+        files.push(tmpFile);
+      });
+
+      const buffer: Buffer = await PDFMerge(files.map(f => f.name));
+
+      const invoiceAttachment = sortedAttachments.find(attachment => attachment.type === 'pdf');
+
+      if (invoiceAttachment) {
+        sendGridAttachments = [{
+          content: buffer.toString('base64'),
+          filename: invoiceAttachment.fileName,
+          type: invoiceAttachment.fileType as string,
+          disposition: 'attachment',
+        }];
+      }
+      files.forEach(file => file.removeCallback());
+
+    } else {
+      sendGridAttachments = attachments.map(attachment => ({
+        content: attachmentBuffers[attachment.type].toString('base64'),
+        filename: attachment.fileName,
+        type: attachment.fileType,
+        disposition: 'attachment',
+      }));
+    }
+  }
+
+  const mailData = {
+    to: email.to.split(';'),
+    cc: email.cc?.split(';'),
+    bcc: email.bcc?.split(';'),
+    from: email.from as string,
+    subject: email.subject,
+    // text: '', // TODO: Send body stripped from html?
+    html: email.body,
+    attachments: sendGridAttachments,
+  };
+
+  try {
+    await sgMail.send(mailData, false).then(() => { console.log('Mail sent successfully'); });
+  } catch (error) {
+    if (error.code === 401) {
+      return res.status(400).send({message: 'Has the SendGrid API Key been set?'});
+    } else {
+      return res.status(400).send(error.response.body.errors);
+    }
+  }
+
+  const lastEmailSent = new Date().toISOString();
+  await InvoicesCollection.findByIdAndUpdate({_id: invoiceId}, {lastEmail: lastEmailSent});
+
+  return res.status(200).send(lastEmailSent);
+}
+
 export const updateInvoice = async (req: Request, res: Response) => {
   const invoice: IInvoice = req.body;
 
   const updatedPdfBuffer = await createPdf(invoice);
 
   if (!Buffer.isBuffer(updatedPdfBuffer) && updatedPdfBuffer.error) {
-    res.status(500).send(updatedPdfBuffer.error);
+    return res.status(500).send(updatedPdfBuffer.error);
   }
 
   await AttachmentsCollection.findByIdAndUpdate({_id: invoice._id}, {pdf: updatedPdfBuffer});
@@ -95,6 +179,6 @@ export const previewPdfInvoice = async (req: Request, res: Response) => {
     return res.status(500).send(pdfBuffer.error);
   }
 
-  res.type('application/pdf').send(pdfBuffer);
+  return res.type('application/pdf').send(pdfBuffer);
 };
 
