@@ -80,7 +80,7 @@ export const emailInvoice = async (req: Request, res: Response) => {
       const areAttachmentsMergeable = attachments.every(attachment => attachment.fileType === 'application/pdf');
 
       if (!areAttachmentsMergeable) {
-        res.status(400).send('Emailing with combineAttachments=true: Can only merge pdfs');
+        return res.status(400).send('Emailing with combineAttachments=true: Can only merge pdfs');
       }
 
       // Make sure the invoice is the first document in the merged pdf
@@ -133,18 +133,34 @@ export const emailInvoice = async (req: Request, res: Response) => {
     await sgMail.send(mailData, false).then(() => { console.log('Mail sent successfully'); });
   } catch (error) {
     if (error.code === 401) {
-      res.status(400).send({message: 'Has the SendGrid API Key been set?'});
+      return res.status(400).send({message: 'Has the SendGrid API Key been set?'});
     } else {
-      res.status(400).send(error.response.body.errors);
+      return res.status(400).send(error.response.body.errors);
     }
   }
 
   const lastEmailSent = new Date().toISOString();
   await InvoicesCollection.findByIdAndUpdate({_id: invoiceId}, {lastEmail: lastEmailSent});
 
-  res.status(200).send(lastEmailSent);
+  return res.status(200).send(lastEmailSent);
 }
- 
+
+export const updateInvoice = async (req: Request, res: Response) => {
+  const invoice: IInvoice = req.body;
+
+  const updatedPdfBuffer = await createPdf(invoice);
+
+  if (!Buffer.isBuffer(updatedPdfBuffer) && updatedPdfBuffer.error) {
+    return res.status(500).send(updatedPdfBuffer.error);
+  }
+
+  await AttachmentsCollection.findByIdAndUpdate({_id: invoice._id}, {pdf: updatedPdfBuffer});
+
+  const updatedInvoice = await InvoicesCollection.findByIdAndUpdate({_id: invoice._id}, invoice, {new: true});
+
+  return res.send(updatedInvoice);
+};
+
 export const deleteInvoice = async (req: Request, res: Response) => {
   const {id}: {id: string;} = req.body;
 
@@ -163,5 +179,6 @@ export const previewPdfInvoice = async (req: Request, res: Response) => {
     return res.status(500).send(pdfBuffer.error);
   }
 
-  res.type('application/pdf').send(pdfBuffer);
+  return res.type('application/pdf').send(pdfBuffer);
 };
+
