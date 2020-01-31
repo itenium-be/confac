@@ -61,6 +61,15 @@ export const createInvoice = async (req: Request, res: Response) => {
   return res.send(createdInvoice);
 };
 
+export const deleteInvoice = async (req: Request, res: Response) => {
+  const {id}: {id: string;} = req.body;
+
+  await InvoicesCollection.findByIdAndRemove(id);
+  await AttachmentsCollection.findByIdAndRemove(id);
+
+  return res.send(id);
+};
+
 export const previewPdfInvoice = async (req: Request, res: Response) => {
   const invoice: IInvoice = req.body;
 
