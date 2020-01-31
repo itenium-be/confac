@@ -61,6 +61,22 @@ export const createInvoice = async (req: Request, res: Response) => {
   return res.send(createdInvoice);
 };
 
+export const updateInvoice = async (req: Request, res: Response) => {
+  const invoice: IInvoice = req.body;
+
+  const updatedPdfBuffer = await createPdf(invoice);
+
+  if (!Buffer.isBuffer(updatedPdfBuffer) && updatedPdfBuffer.error) {
+    res.status(500).send(updatedPdfBuffer.error);
+  }
+
+  await AttachmentsCollection.findByIdAndUpdate({_id: invoice._id}, {pdf: updatedPdfBuffer});
+
+  const updatedInvoice = await InvoicesCollection.findByIdAndUpdate({_id: invoice._id}, invoice, {new: true});
+
+  return res.send(updatedInvoice);
+};
+
 export const deleteInvoice = async (req: Request, res: Response) => {
   const {id}: {id: string;} = req.body;
 
@@ -81,3 +97,4 @@ export const previewPdfInvoice = async (req: Request, res: Response) => {
 
   res.type('application/pdf').send(pdfBuffer);
 };
+
