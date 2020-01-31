@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 import {IEmail} from './clients';
 import schemas from './common';
 
-export interface IConfig {
+export interface ICompanyConfig {
+  _id: string;
   key: string;
   company: {
     template: string;
@@ -32,7 +33,7 @@ export interface IConfig {
   emailReminder: string;
 }
 
-export const DEFAULT_CONFIG = {
+export const DEFAULT_COMPANY_CONFIG = {
   key: 'conf',
   company: {
     template: 'example-1.pug',
@@ -69,7 +70,7 @@ export const DEFAULT_CONFIG = {
   emailReminder: '',
 };
 
-const configSchema = new mongoose.Schema({
+const companyConfigSchema = new mongoose.Schema({
   key: String,
   company: {
     template: String,
@@ -98,4 +99,4 @@ const configSchema = new mongoose.Schema({
   emailReminder: String,
 });
 
-export const ConfigCollection = mongoose.model('config', configSchema);
+export const CompanyConfigCollection = mongoose.model<ICompanyConfig & mongoose.Document>('config', companyConfigSchema, 'config');

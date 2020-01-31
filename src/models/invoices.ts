@@ -24,7 +24,7 @@ export interface InvoiceLine {
   notes?: string;
 }
 
-export interface IConfigCompanyModel {
+export interface ICompany {
   name: string;
   address: string;
   city: string;
@@ -48,7 +48,7 @@ export interface IInvoice {
   _id: string;
   number: number;
   client: IClient;
-  your: IConfigCompanyModel;
+  your: ICompany;
   date: string;
   orderNr: string;
   verified: boolean;
