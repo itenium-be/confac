@@ -5,7 +5,7 @@ import sgMail from '@sendgrid/mail';
 import fs from 'fs';
 import tmp from 'tmp';
 
-import {InvoicesCollection, IInvoice} from '../models/invoices';
+import {InvoicesCollection, IInvoice, INVOICE_EXCEL_HEADERS} from '../models/invoices';
 import {AttachmentsCollection, IAttachment, ISendGridAttachment} from '../models/attachments';
 import {createPdf} from './utils';
 import {IEmail} from '../models/clients';
@@ -134,16 +134,16 @@ export const emailInvoice = async (req: Request, res: Response) => {
   } catch (error) {
     if (error.code === 401) {
       return res.status(400).send({message: 'Has the SendGrid API Key been set?'});
-    } else {
-      return res.status(400).send(error.response.body.errors);
     }
+    return res.status(400).send(error.response.body.errors);
+
   }
 
   const lastEmailSent = new Date().toISOString();
   await InvoicesCollection.findByIdAndUpdate({_id: invoiceId}, {lastEmail: lastEmailSent});
 
   return res.status(200).send(lastEmailSent);
-}
+};
 
 export const updateInvoice = async (req: Request, res: Response) => {
   const invoice: IInvoice = req.body;
@@ -180,5 +180,33 @@ export const previewPdfInvoice = async (req: Request, res: Response) => {
   }
 
   return res.type('application/pdf').send(pdfBuffer);
+};
+
+export const generateExcelForInvoices = async (req: Request, res: Response) => {
+  const invoiceIds: string[] = req.body;
+
+  const invoices = await InvoicesCollection.find({_id: {$in: invoiceIds}});
+
+  const separator = ';';
+
+  const excelHeader = `${INVOICE_EXCEL_HEADERS.join(separator)}\r\n`;
+
+  const excelBody = `${invoices.map(invoice => ([
+    invoice.number,
+    moment(invoice.date).format('YYYY-MM-DD'),
+    invoice.client.name,
+    invoice.orderNr,
+    invoice.money.totalWithoutTax.toString().replace('.', ','),
+    invoice.money.totalTax.toString().replace('.', ','),
+    invoice.money.total.toString().replace('.', ','),
+    invoice.verified,
+    invoice.money.discount!.toString().replace('.', ','),
+    `"${invoice.lines[0].desc}"`,
+    invoice._id,
+  ].join(separator))).join('\r\n')}`;
+
+  const excel = `${excelHeader}${excelBody}`;
+
+  return res.send(excel);
 };
 
