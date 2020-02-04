@@ -65,6 +65,8 @@ export interface IInvoice {
   money: IInvoiceMoney;
 }
 
+export const INVOICE_EXCEL_HEADERS = ['Number', 'Date', 'Client name', 'Order nr', 'Without Tax', 'Tax', 'Total', 'Verified', 'Discount', 'First line desc', 'Id'];
+
 const invoiceSchema = new mongoose.Schema({
   number: Number,
   client: {...schemas.clientSchema},
