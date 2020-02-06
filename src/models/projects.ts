@@ -4,12 +4,19 @@ export interface IProject {
   _id: string;
   consultantId: string;
   startDate: string;
-  endDate: string;
-  partner: string;
-  partnerTariff: number;
-  client: string;
-  clientTariff: number;
+  endDate?: string;
+  partner?: ProjectClientModel;
+  client: ProjectClientModel;
   createdOn?: string;
+}
+
+export type EditClientRateType = 'hourly' | 'daily' | 'km' | 'items' | 'section' | 'other';
+
+export interface ProjectClientModel {
+  clientId: string;
+  tariff: number;
+  rateType: EditClientRateType;
+  ref?: string;
 }
 
 export interface IProjectMonth {
@@ -23,12 +30,22 @@ const projectSchema = new mongoose.Schema({
   consultantId: String,
   startDate: String,
   endDate: String,
-  partner: String,
-  partnerTariff: Number,
-  client: String,
-  clientTariff: Number,
+  partner: {
+    clientId: String,
+    tariff: Number,
+    rateType: String,
+    ref: String,
+  },
+  client: {
+    clientId: String,
+    tariff: Number,
+    rateType: String,
+    ref: String,
+  },
   createdOn: String,
 });
+
+
 
 const projectMonthSchema = new mongoose.Schema<IProjectMonth>({
   month: String,
