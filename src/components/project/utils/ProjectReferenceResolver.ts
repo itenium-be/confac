@@ -34,6 +34,13 @@ export class ProjectReferenceResolver {
   }
 
   getProjects(): FullProjectModel[] {
+    if (!this.clients.length || !this.consultants.length) {
+      return [];
+    }
+
+    // TODO: projectModel.active is set here ~> This new property will be sent to the backend
+    // where it will be stored in the db and eventually become incorrect
+    // --> Turn into a class with a "get active(): boolean { return this.getIsProjectActive(); }"
     return this.projects.map(project => ({
       _id: project._id,
       details: {...project, active: this.getIsProjectActive(project.startDate, project.endDate)},

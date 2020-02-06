@@ -1,6 +1,6 @@
 import {Moment} from 'moment';
 import {ProjectModel} from './ProjectModel';
-import {ConsultantModel} from '../../consultant/models/ConsultantModel';
+import {ConsultantModel, ConsultantType} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
 
 export interface ProjectMonthModel {
@@ -8,6 +8,16 @@ export interface ProjectMonthModel {
   month: Moment;
   projectId: string;
   timesheet: ProjectMonthTimesheet;
+  inbound: ProjectMonthInbound;
+  createdOn?: string;
+}
+
+export type ProjectMonthInboundStatus = 'new' | 'validated' | 'paid';
+
+export interface ProjectMonthInbound {
+  nr: string;
+  dateReceived?: Moment | null;
+  status: ProjectMonthInboundStatus;
 }
 
 
@@ -24,9 +34,48 @@ export interface ProjectMonthTimesheet {
 
 /** ProjectMonthModel with _ids resolved */
 export type FullProjectMonthModel = {
+  /** The ProjectMonth._id */
+  _id: string;
   details: ProjectMonthModel;
   project: ProjectModel;
   consultant: ConsultantModel;
   client: ClientModel;
   partner?: ClientModel;
 };
+
+
+/** Configuration for the ProjectMonth process */
+export interface ProjectMonthConfig {
+  timesheetCheck: boolean;
+  inboundInvoice: boolean;
+}
+
+/** How monthly invoicing is handled depends on the type of consultant */
+export function getDefaultProjectMonthConfig(consultantType?: ConsultantType): ProjectMonthConfig {
+  switch (consultantType) {
+    case 'manager':
+      return {
+        timesheetCheck: false,
+        inboundInvoice: false,
+      };
+
+    case 'externalConsultant':
+    case 'freelancer':
+      return {
+        timesheetCheck: false,
+        inboundInvoice: true,
+      };
+
+    case 'consultant':
+      return {
+        timesheetCheck: true,
+        inboundInvoice: false,
+      };
+
+    default:
+      return {
+        timesheetCheck: true,
+        inboundInvoice: true,
+      };
+  }
+}

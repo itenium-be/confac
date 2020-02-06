@@ -45,12 +45,11 @@ export const ProposedAttachmentsDropzones = ({model, modelType}: ProposedAttachm
   return (
     <>
       {extraAttachments.map((a: string) => (
-        <Col key={a} lg={4} md={6} className="">
+        <Col key={a} lg={4} md={6}>
           <div style={style} className="attachment">
             <Dropzone
               onDrop={(accepted: File[], rejected: File[]) => onDrop(accepted[0], a)}
               multiple={false}
-              className={`tst-${a}`}
               style={{textAlign: 'left'}}
             >
               <Icon fa="fa fa-file-upload" style={{marginRight: 8}} />

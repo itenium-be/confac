@@ -320,6 +320,7 @@ export const trans = {
     newConsultant: 'Nieuwe consultant',
     showInactiveProjects: 'Toon inactieve projecten',
     consultant: 'Consultant',
+    consultantId: 'Consultant',
     consultantType: 'Type',
     startDate: 'Start datum',
     endDate: 'Eind datum',
@@ -335,6 +336,11 @@ export const trans = {
       rateType: 'Rate type',
       ref: 'Referentie',
     },
+    projectMonthConfig: {
+      titleConfig: 'Maandelijkse facturatie',
+      timesheetCheck: 'Timesheets: SDWorx rapport check',
+      inboundInvoice: 'Heeft inkomende factuur',
+    },
   },
   projectMonth: {
     consultant: 'Consultant',
@@ -343,6 +349,9 @@ export const trans = {
     timesheet: 'Days on timesheet',
     timesheetCheck: 'SDWorx',
     timesheetNote: 'Notitie Timesheet {name}',
+    timesheetUpload: 'Timesheet uploaden',
+    inboundInvoiceNr: 'Nr',
+    inboundDateReceived: 'Ontvangen op',
   },
   controls: {
     // browser
@@ -388,8 +397,8 @@ export default function (key: string, params?: object): string {
     str = trans[key];
   } else {
     str = key.split('.').reduce((o, i) => {
-      if (!o[i]) {
-        console.log(`trans.ts: Could not find '${key}' on`, o); // eslint-disable-line
+      if (!o || !o[i]) {
+        console.error(`trans.ts: Could not find '${key}' on`, o); // eslint-disable-line
         return key;
       }
       return o[i];

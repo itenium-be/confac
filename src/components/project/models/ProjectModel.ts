@@ -2,6 +2,7 @@ import {Moment} from 'moment';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
 import {EditClientRateType} from '../../../models';
+import {ProjectMonthConfig} from './ProjectMonthModel';
 
 export interface ProjectModel {
   _id: string;
@@ -10,6 +11,8 @@ export interface ProjectModel {
   endDate?: Moment;
   partner?: ProjectClientModel;
   client: ProjectClientModel;
+  projectMonthConfig: ProjectMonthConfig;
+  createdOn?: string;
 }
 
 export interface ProjectClientModel {

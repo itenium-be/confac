@@ -36,7 +36,13 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
 
         let value = model[key];
         if (key.includes('.')) {
-          value = key.split('.').reduce((o, i) => o[i], model);
+          value = key.split('.').reduce((o, i) => {
+            if (!o) {
+              console.error(`${key}: No property ${i} on`, model); // eslint-disable-line
+              return `${key}: No property ${i} on ${JSON.stringify(model)}`;
+            }
+            return o[i];
+          }, model);
         }
 
         const realOnChange = (val: any): void => {
@@ -68,6 +74,7 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
         const EditComponent: any = getComponent(col);
         const finalComponent = (
           <EditComponent
+            key={key}
             label={label === '' ? null : (label && t(label)) || t(tPrefix + key)}
             value={value}
             onChange={(val: any) => realOnChange(val)}

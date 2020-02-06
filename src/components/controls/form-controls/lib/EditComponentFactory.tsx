@@ -23,9 +23,11 @@ import {TextEditor} from '../inputs/TextEditor';
 import {AttachmentsTypeSelect} from '../../attachments/AttachmentsTypeSelect';
 import {DatePicker} from '../DatePicker';
 import {EditProjectClient, EditProjectPartner} from '../../../project/controls/EditProjectClient';
+import {ConsultantSelectWithCreateModal} from '../../../consultant/controls/ConsultantSelectWithCreateModal';
 
 export type CustomComponents = 'InvoiceLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect'
-  | 'ExtraFields' | 'StringsSelect' | 'ClientSelect' | 'ConsultantTypeSelect' | 'EditProjectClient';
+  | 'ExtraFields' | 'StringsSelect' | 'ClientSelect' | 'ConsultantTypeSelect' | 'EditProjectClient'
+  | 'ConsultantSelectWithCreateModal';
 
 export type StandardComponents = 'number' | 'text' | 'textarea' | 'basic-math' | 'switch'
   | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban' | 'textEditor' | 'bool' | 'date';
@@ -61,6 +63,7 @@ const componentMap = {
   ConsultantTypeSelect,
   EditProjectClient,
   EditProjectPartner,
+  ConsultantSelectWithCreateModal,
 };
 
 export function getComponent(col: FormConfig) {

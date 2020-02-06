@@ -11,15 +11,15 @@ import {saveConsultant} from '../../../actions/consultantActions';
 
 
 type SelectWithCreateModalProps<TModel> = {
-  consultantId?: string;
-  onChange: (consultant: TModel) => void;
+  value?: string | TModel;
+  onChange: (modelId: string, model: TModel) => void;
 }
 
 
-export const ConsultantSelectWithCreateModal = ({consultantId, onChange}: SelectWithCreateModalProps<ConsultantModel>) => {
+export const ConsultantSelectWithCreateModal = ({value, onChange}: SelectWithCreateModalProps<ConsultantModel>) => {
   const dispatch = useDispatch();
   const [modalId, setModalId] = useState<ModalState>(null);
-  const consultant = useSelector((state: ConfacState) => state.consultants.find(c => c._id === consultantId));
+  const consultant = useSelector((state: ConfacState) => state.consultants.find(c => c._id === value));
 
   return (
     <>
@@ -28,15 +28,15 @@ export const ConsultantSelectWithCreateModal = ({consultantId, onChange}: Select
           consultant={modalId !== 'create' ? consultant : null}
           show={!!modalId}
           onClose={() => setModalId(null)}
-          onConfirm={(model: ConsultantModel) => dispatch(saveConsultant(model, savedModel => onChange(savedModel)))}
+          onConfirm={(model: ConsultantModel) => dispatch(saveConsultant(model, savedModel => onChange(savedModel._id, savedModel)))}
         />
       )}
       <div className="unset-split">
         <div>
           <ConsultantSelect
             label={t('project.consultant')}
-            value={consultantId || ''}
-            onChange={(id, model) => onChange(model)}
+            value={value || ''}
+            onChange={(id, model) => onChange(id, model)}
           />
         </div>
         <div style={{width: 120, position: 'relative'}}>

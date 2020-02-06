@@ -40,3 +40,12 @@ export function saveProjectMonth(projectMonth: ProjectMonthModel) {
       .catch(catchHandler);
   };
 }
+
+
+export function projectMonthUpload(file: File, type: 'timesheet') {
+  console.log('projectMonthUpload', type, file);
+  return {
+    type: 'IMPLEMENT ME',
+    payload: {},
+  };
+}

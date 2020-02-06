@@ -1,69 +1,95 @@
 @import '../../../styles/variables.scss';
 
+$table-border-color: #dee2e6;
+
+$in-cell-margin: 12px;
+$cell-padding: 8px 4px;
 
 .table-projectMonths {
   td {
     padding: 0;
   }
 
-  .consultant-cell {
-    .fa {
-      float: right;
-      font-size: 18px;
-      margin-top: 4px;
-      margin-right: 20px;
-      color: #A9D8F4;
+  td, th {
+    border-right: 2px solid $table-border-color;
+
+    &:first-child {
+      border-left: 2px solid $table-border-color;
     }
+  }
+
+  .consultant-cell {
+    padding: 4px;
 
     div {
       font-weight: bold;
       margin-bottom: -5px;
     }
   }
-}
 
-.timesheet-cell {
-  display: flex;
-  padding-top: 8px;
-  padding-bottom: 8px;
-
-  &.validated {
-    // background-color: $success;
-    background:
-      /* On "top" */
-      repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 15px,
-        rgba($success, .2) 10px,
-        rgba($success, .1) 20px
-      ),
-      /* on "bottom" */
-      // linear-gradient(
-      //   to bottom,
-      //   #eee,
-      //   #999
-      // );
+  .validated {
+    background-color: rgba($success, .2);
+    padding: 6px;
   }
 
-  .timesheet-actions {
+  .timesheet-cell {
+    display: flex;
+    padding: $cell-padding;
+
+    .timesheet-actions {
+      > * {
+        &:not(:last-child) {
+          margin-right: 8px;
+        }
+      }
+    }
+
+    > span {
+      // Success timesheet/check display
+      font-size: 21px;
+      text-align: center;
+      align-self: center;
+    }
+
     > * {
+      &:first-child { width: 25%; }
+      &:nth-child(2) { width: 25%; }
+      &:last-child { width: 50%; }
+
       &:not(:last-child) {
-        margin-right: 8px;
+        margin-right: $in-cell-margin;
       }
     }
   }
 
-  > span {
-    font-size: 21px;
-    text-align: center;
-  }
 
-  > * {
-    width: 33%;
+  .inbound-cell {
+    display: flex;
+    padding: $cell-padding;
 
-    &:not(:last-child) {
-      margin-right: 12px;
+    > * {
+      &:first-child { width: 20%; }
+      &:nth-child(2) { width: 30%; }
+      &:nth-child(3) { width: 30%; }
+      &:last-child { width: 20%; }
+
+      &:not(:last-child) {
+        margin-right: $in-cell-margin;
+      }
+    }
+
+    .forecast {
+      font-size: 18px;
+      text-align: center;
+      align-self: center;
+    }
+
+    .inbound-actions {
+      > * {
+        &:not(:last-child) {
+          margin-right: 8px;
+        }
+      }
     }
   }
 }

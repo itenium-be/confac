@@ -14,10 +14,11 @@ import './project-month-list/project-month-list.scss';
 function projectMonthResolve(prj: ProjectMonthModel, state: ConfacState): FullProjectMonthModel {
   const project = state.projects.find(p => p._id === prj.projectId) as ProjectModel;
   const consultant = state.consultants.find(c => c._id === project.consultantId) as ConsultantModel;
-  const client = state.clients.find(c => c._id === project.client.clientId) as ClientModel;
+  const client = project.client && state.clients.find(c => c._id === project.client.clientId) as ClientModel;
   const partner = project.partner && state.clients.find(c => project.partner && c._id === project.partner.clientId);
 
   return {
+    _id: prj._id,
     details: prj,
     project,
     consultant,
@@ -32,8 +33,13 @@ export const ProjectsMonthsList = () => {
   const config: ProjectMonthFeatureBuilderConfig = useSelector((state: ConfacState) => {
     const projects = state.projectsMonth;
 
+    let data: FullProjectMonthModel[] = [];
+    if (state.projects.length && state.consultants.length && state.clients.length) {
+      data = projects.map(p => projectMonthResolve(p, state));
+    }
+
     return {
-      data: projects.map(p => projectMonthResolve(p, state)),
+      data,
       save: m => dispatch(saveProjectMonth(m.details)),
       filters: state.app.filters.projects,
       setFilters: f => dispatch(updateAppFilters('projectMonths', f)),
@@ -43,7 +49,6 @@ export const ProjectsMonthsList = () => {
 
 
   const feature = projectMonthFeature(config);
-  // console.log('projectMonthFeature', feature);
   return (
     <ListPage feature={feature} />
   );

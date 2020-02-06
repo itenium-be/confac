@@ -1,0 +1,53 @@
+// .react-datepicker-wrapper {
+//   width: 100%;
+
+//   .react-datepicker__input-container {
+//     width: 100%;
+//   }
+// }
+
+
+// .react-datepicker-popper {
+//   z-index: 2;
+//   top: 34px !important;
+//   /* needed because we made it inline */
+// }
+
+.date-group {
+  .react-datepicker-wrapper,
+  .react-datepicker-wrapper .react-datepicker__input-container {
+    /* https://github.com/Hacker0x01/react-datepicker/issues/1672 */
+    width: calc(100% - 40px);
+
+    /* to make it exactly the same height as the bootstrap input-group-addons */
+    display: inline;
+
+    // .react-datepicker__day-name,
+    // .react-datepicker__day,
+    // .react-datepicker__time-name {
+    //   width: 2.7rem;
+    //   line-height: 2.7rem;
+    //   font-size: 1.1rem;
+    // }
+
+
+    // .react-datepicker__current-month,
+    // .react-datepicker-time__header {
+    //   font-size: 1.4rem;
+    // }
+
+
+    input {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  .input-group-append {
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

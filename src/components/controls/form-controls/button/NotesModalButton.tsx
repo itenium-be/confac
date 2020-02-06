@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {MinimalInputProps} from '../inputs/BaseInput';
 import {Icon} from '../../Icon';
 import {Button} from '../Button';
-import {ModalState, Modal } from '../../Modal';
-import {t} from '../../../utils';
-import { TextareaInput } from '../inputs/TextareaInput';
+import {Modal} from '../../Modal';
+import {TextareaInput} from '../inputs/TextareaInput';
 
 
 type NotesModalButtonProps = MinimalInputProps<string> & {

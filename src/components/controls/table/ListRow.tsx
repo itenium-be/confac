@@ -9,9 +9,11 @@ type ListRowProps<TModel> = {
 
 
 export const ListRow = ({model, config}: ListRowProps<any>) => {
+  // console.log('START LIST_ROW', config.rows.cells.map(c => c.key));
   return (
     <tr className={config.rows.className && config.rows.className(model)}>
       {config.rows.cells.map((col: IListCell<any>) => {
+        // console.log('td', col);
         return (
           <td key={col.key} style={col.style} className={col.className}>
             {col.value(model)}
