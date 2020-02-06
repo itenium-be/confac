@@ -8,7 +8,7 @@ import {IInvoice, IExtraFieldsObject} from '../../models/invoices';
 export const convertHtmlToBuffer = (html: string): Promise<Buffer> => new Promise((resolve, reject) => {
   pdf.create(html).toBuffer((err, buffer) => {
     if (err) {
-      console.log('convertHtmlToBuffer error', err);
+      console.log('convertHtmlToBuffer error', err); // eslint-disable-line
       reject();
     }
     resolve(buffer);
@@ -32,7 +32,7 @@ export const createHtml = (invoice: IInvoice): string | { error: string; } => {
   try {
     generateHtmlTemplate = pug.compileFile(getTemplatesPath() + templateType);
   } catch (e) {
-    console.log('TemplateNotFound', e);
+    console.log('TemplateNotFound', e); // eslint-disable-line
     return {error: 'TemplateNotFound'};
   }
 
