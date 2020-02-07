@@ -61,5 +61,5 @@ export const getAttachment = async (req: Request, res: Response) => {
     console.log('Downloading a file without knowing the filename', req.params);
   }
 
-  return res.type(responseType).set('Content-disposition', `attachment; filename=${fileName}`).send(attachmentBuffer);
+  return res.type(responseType).set('Content-Disposition', `inline;filename=${fileName}`).send(attachmentBuffer);
 };
