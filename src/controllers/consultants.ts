@@ -6,8 +6,14 @@ export const getConsultants = async (req: Request, res: Response) => {
   return res.send(consultants);
 };
 
-export const createConsultant = async (req: Request, res: Response) => {
-  const consultant: IConsultant = req.body;
+export const saveConsultant = async (req: Request, res: Response) => {
+  const {_id, ...consultant}: IConsultant = req.body;
+
+  if (_id) {
+    const updatedConsultant = await ConsultantsCollection.findByIdAndUpdate({_id}, consultant, {new: true});
+    return res.send(updatedConsultant);
+  }
+
   const createdConsultant = await ConsultantsCollection.create(consultant);
   return res.send(createdConsultant);
 };
