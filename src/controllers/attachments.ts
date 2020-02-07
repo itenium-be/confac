@@ -1,6 +1,9 @@
 import {Request, Response} from 'express';
+import JSZip from 'jszip';
+import moment from 'moment';
 
 import {AttachmentsCollection, IAttachment, AttachmentsClientCollection} from '../models/attachments';
+import {InvoicesCollection} from '../models/invoices';
 
 export const getAttachment = async (req: Request, res: Response) => {
   const {
@@ -62,4 +65,24 @@ export const getAttachment = async (req: Request, res: Response) => {
   }
 
   return res.type(responseType).set('Content-Disposition', `inline;filename=${fileName}`).send(attachmentBuffer);
+};
+
+export const createZipWithInvoices = async (req: Request, res: Response) => {
+  const invoiceIds: string[] = req.body;
+
+  const attachments = await AttachmentsCollection.find({_id: {$in: invoiceIds}});
+
+  const invoices = await InvoicesCollection.find({_id: {$in: invoiceIds}});
+
+  const zip = new JSZip();
+
+  attachments.forEach(attachment => {
+    const invoice = invoices.find(i => i._id.toString() === attachment._id.toString());
+    const fileName = invoice && `${moment(invoice.date).format('YYYY-MM-DD')} - ${invoice.number} - ${invoice.client.name}.pdf`;
+    zip.file(fileName || `${attachment._id}.pdf`, attachment.pdf.buffer);
+  });
+
+  const zipWithInvoices = await zip.generateAsync({type: 'nodebuffer'});
+
+  res.send(zipWithInvoices);
 };
