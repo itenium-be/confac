@@ -35,10 +35,13 @@ export function createProjectsMonth(month: moment.Moment) {
     return request
       .post(buildUrl('/projects/month'))
       .set('Content-Type', 'application/json')
-      .send(month)
+      .send({month})
       .then(response => {
+        dispatch({
+          type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
+          projectsMonth: response.body,
+        });
         success(t('config.popupMessage'));
-        // TODO: add the newly created projects to the store!
       })
       .catch(catchHandler);
   };

@@ -2,6 +2,7 @@
 import moment from 'moment';
 import {ACTION_TYPES} from '../actions';
 import {ProjectModel} from '../components/project/models/ProjectModel';
+import {getNewProject} from '../components/project/models/getNewProject';
 
 
 function mapProject(prj: ProjectModel): ProjectModel {
@@ -9,7 +10,7 @@ function mapProject(prj: ProjectModel): ProjectModel {
   if (prj.endDate) {
     prj.endDate = moment(prj.endDate);
   }
-  return prj;
+  return {...getNewProject(), ...prj};
 }
 
 export const projects = (state: ProjectModel[] = [], action): ProjectModel[] => {

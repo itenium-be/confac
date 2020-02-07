@@ -7,7 +7,7 @@ import {t} from '../../utils';
 import {ValidityToggleButton} from '../../controls/form-controls/button/ValidityToggleButton';
 import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
 import {UploadFileButton} from '../../controls/form-controls/button/UploadFileButton';
-import {projectMonthUpload} from '../../../actions/projectActions';
+import {projectMonthUpload, saveProjectsMonth} from '../../../actions/projectActions';
 import {getNewProjectMonthTimesheet} from '../models/getNewProject';
 
 
