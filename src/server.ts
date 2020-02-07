@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import sgMail from '@sendgrid/mail';
-import errorHandler from 'errorhandler';
+import errorHandler from 'errorhandler'; // TODO: This is probably going to crash on the CI?
 import cors from 'cors';
 
 import appConfig from './config';
@@ -24,7 +25,11 @@ app.use('/api', appRouter);
 
 const connectionString = `mongodb://${appConfig.db.host}:${appConfig.db.port}/${appConfig.db.db}`;
 
-mongoose.connect(connectionString, {useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false})
+mongoose.connect(connectionString, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useFindAndModify: false,
+})
   .then(() => console.log('Successfully connected to the database!'))
   .catch(err => console.log(`Could not connect to the database. More info: ${err}`));
 
