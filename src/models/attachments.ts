@@ -18,5 +18,7 @@ export interface ISendGridAttachment {
 }
 
 const attachmentSchema = new mongoose.Schema({pdf: Buffer});
+const attachmentClientSchema = new mongoose.Schema({pdf: Buffer});
 
 export const AttachmentsCollection = mongoose.model<IAttachment & mongoose.Document>('attachment', attachmentSchema, 'attachments');
+export const AttachmentsClientCollection = mongoose.model<IAttachment & mongoose.Document>('attachment_client', attachmentClientSchema, 'attachments_client');

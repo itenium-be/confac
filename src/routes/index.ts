@@ -5,6 +5,7 @@ import consultantsRouter from './consultants';
 import projectsRouter from './projects';
 import invoicesRouter from './invoices';
 import configRouter from './config';
+import attachmentsRouter from './attachments';
 
 const appRouter = Router();
 
@@ -13,5 +14,6 @@ appRouter.use('/consultants', consultantsRouter);
 appRouter.use('/projects', projectsRouter);
 appRouter.use('/invoices', invoicesRouter);
 appRouter.use('/config', configRouter);
+appRouter.use('/attachments', attachmentsRouter);
 
 export default appRouter;
