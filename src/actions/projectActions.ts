@@ -49,17 +49,19 @@ export function createProjectsMonth(month: moment.Moment) {
 
 
 
-export function saveProjectsMonth(project: ProjectMonthModel) {
+export function patchProjectsMonth(project: ProjectMonthModel) {
+  // ATTN: ProjectsMonthsList.save would expect this to be a put, not a patch!
+
   return (dispatch: Dispatch) => {
     dispatch(busyToggle());
     return request
-      .post(buildUrl('/projects/month'))
+      .patch(buildUrl('/projects/month'))
       .set('Content-Type', 'application/json')
       .send(project)
       .then(response => {
         dispatch({
-          type: ACTION_TYPES.PROJECT_UPDATE,
-          project: response.body,
+          type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
+          projectMonth: response.body,
         });
         success(t('config.popupMessage'));
         // history.push('/projects');
