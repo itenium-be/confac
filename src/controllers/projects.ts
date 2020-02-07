@@ -44,7 +44,7 @@ export const getProjectsPerMonth = async (req: Request, res: Response) => {
 
 /** Create all projectMonths for the specified month */
 export const createProjectsMonth = async (req: Request, res: Response) => {
-  const {month}: { month: string; } = req.body;
+  const {month}: {month: string;} = req.body;
 
   const projects = await ProjectsCollection.find();
   const activeProjects = findActiveProjectsForSelectedMonth(month, projects);
