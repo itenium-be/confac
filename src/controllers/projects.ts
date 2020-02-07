@@ -18,8 +18,13 @@ export const getProjects = async (req: Request, res: Response) => {
   return res.send(projects);
 };
 
-export const createProject = async (req: Request, res: Response) => {
-  const project: IProject = req.body;
+export const saveProject = async (req: Request, res: Response) => {
+  const {_id, ...project}: IProject = req.body;
+
+  if (_id) {
+    const updatedProject = await ProjectsCollection.findByIdAndUpdate({_id}, project);
+    return res.send(updatedProject);
+  }
   const createdProject = await ProjectsCollection.create({
     ...project,
     createdOn: new Date().toISOString(),
