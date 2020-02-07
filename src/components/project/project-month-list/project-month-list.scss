@@ -10,6 +10,10 @@ $cell-padding: 8px 4px;
     padding: 0;
   }
 
+  th {
+    text-align: center;
+  }
+
   td, th {
     border-right: 2px solid $table-border-color;
 

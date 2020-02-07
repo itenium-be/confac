@@ -42,8 +42,8 @@ export const features = {
       consultant: 'Consultant',
       timesheet: 'Timesheet',
       timesheetCheck: 'SDWorx',
-      inbound: 'Inbound Invoice',
-      outbound: 'Outbound Invoice',
+      inbound: 'Ontvangen factuur',
+      outbound: 'Verstuurde factuur',
     },
   },
 };
