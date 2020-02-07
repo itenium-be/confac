@@ -22,7 +22,10 @@ const updateClient = async (id: string, client: IClient): Promise<IClient> => {
 
 const createClient = async (client: IClient): Promise<IClient> => {
   const slug = slugify(client.name).toLowerCase();
-  const createdClient = await ClientsCollection.create({...client, slug});
+  const createdClient = await ClientsCollection.create({
+    ...client,
+    slug,
+  });
   return createdClient;
 };
 
