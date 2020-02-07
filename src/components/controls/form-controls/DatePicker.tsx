@@ -40,7 +40,7 @@ export const DatePicker = EnhanceInputWithLabel((props: DatePickerProps) => {
       />
       <div className="input-group-append" onClick={() => setOpen(!open)}>
         <div className="input-group-text">
-          <i className="fa fa-calendar" />
+          <i className="fa fa-calendar-alt" />
         </div>
       </div>
     </div>
