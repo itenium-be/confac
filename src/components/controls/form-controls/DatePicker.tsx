@@ -28,7 +28,9 @@ export const DatePicker = EnhanceInputWithLabel((props: DatePickerProps) => {
         selected={props.value ? props.value.toDate() : undefined}
         onChange={dateString => {
           props.onChange(dateString ? moment(dateString) : null);
-          setOpen(false);
+          if (open) {
+            setOpen(false);
+          }
         }}
         locale={defaultLocale}
         dateFormat={props.dateFormat || datePickerDateFormat}

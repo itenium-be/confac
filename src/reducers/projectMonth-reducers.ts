@@ -15,6 +15,13 @@ export const projectsMonth = (state: ProjectMonthModel[] = [], action): ProjectM
   switch (action.type) {
     case ACTION_TYPES.PROJECTS_MONTH_FETCHED:
       return action.projectsMonth.map(mapProject);
+
+    case ACTION_TYPES.PROJECTS_MONTH_UPDATE: {
+      const newState = state.filter(x => x._id !== action.projectMonth._id);
+      newState.push(mapProject(action.projectMonth));
+      return newState;
+    }
+
     default:
       return state;
   }

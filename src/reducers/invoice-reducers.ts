@@ -2,7 +2,7 @@ import moment from 'moment';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {ACTION_TYPES} from '../actions';
 
-function mapInvoice(invoice: InvoiceModel) {
+function mapInvoice(invoice: InvoiceModel): InvoiceModel {
   // eslint-disable-next-line no-param-reassign
   invoice.date = moment(invoice.date);
   return invoice;

@@ -40,7 +40,7 @@ export const EditProject = (props: EditProjectProps) => {
 
   const isButtonDisabled = (): boolean => {
     const {consultantId} = project;
-    return !consultantId;
+    return !consultantId || !project.client || !project.client.clientId || !project.startDate || !project.client.tariff;
   };
 
   return (

@@ -1,19 +1,19 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
+import moment from 'moment';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
-import {saveProjectMonth} from '../../../actions';
+import {createProjectsMonth} from '../../../actions';
 import {BaseModalProps, Modal} from '../../controls/Modal';
-import {ProjectMonthModel} from '../models/ProjectMonthModel';
 import {DatePicker} from '../../controls/form-controls/DatePicker';
-import {getNewProjectMonth} from '../models/getNewProject';
 
 type ProjectMonthModalProps = BaseModalProps & {};
 
 
-export const CreateProjectMonthModal = (props: ProjectMonthModalProps) => {
+/** Create projectMonths by selecting a project month */
+export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
   const dispatch = useDispatch();
-  const [projectMonth, setProjectMonth] = useState<ProjectMonthModel>(getNewProjectMonth());
+  const [month, setMonth] = useState<moment.Moment>(moment.utc().startOf('month'));
 
   const {show, onClose} = props;
 
@@ -21,17 +21,17 @@ export const CreateProjectMonthModal = (props: ProjectMonthModalProps) => {
     <Modal
       show={show}
       onClose={onClose}
-      title={t('project.newMonth')}
-      onConfirm={() => dispatch(saveProjectMonth(projectMonth))}
+      title={t('projectMonth.createProjectsTitle')}
+      onConfirm={() => dispatch(createProjectsMonth(month))}
     >
       <Form>
         <Container>
           <Row>
             <DatePicker
-              label={t('project.month')}
+              label={t('projectMonth.createProjects')}
               dateFormat="MMMM - yyyy"
-              value={projectMonth.month}
-              onChange={date => date && setProjectMonth({...projectMonth, month: date.utc().startOf('month')})}
+              value={month}
+              onChange={date => date && setMonth(date.utc().startOf('month'))}
               showMonthYearPicker
             />
           </Row>

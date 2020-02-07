@@ -16,7 +16,6 @@ export function saveClient(client: ClientModel, stayOnPage = false, callback?: (
         dispatch({
           type: ACTION_TYPES.CLIENT_UPDATE,
           client: res.body,
-          isNewClient: !client._id,
         });
         success(t('config.popupMessage'));
         if (!stayOnPage) {

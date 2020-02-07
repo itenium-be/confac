@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {ConfacState} from '../../reducers/app-state';
-import {updateAppFilters, saveProjectMonth} from '../../actions';
+import {updateAppFilters, saveProjectsMonth} from '../../actions';
 import {ListPage} from '../controls/table/ListPage';
 import {projectMonthFeature, ProjectMonthFeatureBuilderConfig} from './models/getProjectMonthFeature';
 import {ProjectMonthModel, FullProjectMonthModel} from './models/ProjectMonthModel';
@@ -40,7 +40,7 @@ export const ProjectsMonthsList = () => {
 
     return {
       data,
-      save: m => dispatch(saveProjectMonth(m.details)),
+      save: m => dispatch(saveProjectsMonth(m.details)),
       filters: state.app.filters.projects,
       setFilters: f => dispatch(updateAppFilters('projectMonths', f)),
     };

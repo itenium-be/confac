@@ -1,4 +1,5 @@
 import request from 'superagent-bluebird-promise';
+import moment from 'moment';
 import {Dispatch} from 'redux';
 import {buildUrl, catchHandler} from './utils/fetch';
 import t from '../trans';
@@ -27,19 +28,44 @@ export function saveProject(project: ProjectModel, history: any) {
   };
 }
 
-export function saveProjectMonth(projectMonth: ProjectMonthModel) {
+/** Create projectMonths for all active projects in the month */
+export function createProjectsMonth(month: moment.Moment) {
   return (dispatch: Dispatch) => {
     dispatch(busyToggle());
     return request
       .post(buildUrl('/projects/month'))
       .set('Content-Type', 'application/json')
-      .send(projectMonth)
+      .send(month)
       .then(response => {
         success(t('config.popupMessage'));
+        // TODO: add the newly created projects to the store!
       })
       .catch(catchHandler);
   };
 }
+
+
+
+export function saveProjectsMonth(project: ProjectMonthModel) {
+  return (dispatch: Dispatch) => {
+    dispatch(busyToggle());
+    return request
+      .post(buildUrl('/projects/month'))
+      .set('Content-Type', 'application/json')
+      .send(project)
+      .then(response => {
+        dispatch({
+          type: ACTION_TYPES.PROJECT_UPDATE,
+          project: response.body,
+        });
+        success(t('config.popupMessage'));
+        // history.push('/projects');
+      })
+      .catch(catchHandler)
+      .then(() => dispatch(busyToggle.off()));
+  };
+}
+
 
 
 export function projectMonthUpload(file: File, type: 'timesheet') {

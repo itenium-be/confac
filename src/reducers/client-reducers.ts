@@ -12,13 +12,8 @@ export const clients = (state: ClientModel[] = [], action): ClientModel[] => {
 
     case ACTION_TYPES.CLIENT_UPDATE: {
       // console.log('CLIENT_UPDATE', action); // eslint-disable-line
-      let newState: ClientModel[];
-      if (action.isNewClient) {
-        newState = state.concat([action.client]);
-      } else {
-        newState = state.filter(client => client._id !== action.client._id);
-        newState.push(action.client);
-      }
+      const newState = state.filter(x => x._id !== action.client._id);
+      newState.push(action.client);
       return newState;
     }
 
