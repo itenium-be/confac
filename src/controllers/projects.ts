@@ -13,10 +13,12 @@ export const findActiveProjectsForSelectedMonth = (selectedMonth: string, projec
   return moment(project.startDate).isSameOrBefore(selectedMonth, 'months');
 });
 
+
 export const getProjects = async (req: Request, res: Response) => {
   const projects = await ProjectsCollection.find();
   return res.send(projects);
 };
+
 
 export const saveProject = async (req: Request, res: Response) => {
   const {_id, ...project}: IProject = req.body;
@@ -32,16 +34,19 @@ export const saveProject = async (req: Request, res: Response) => {
   return res.send(createdProject);
 };
 
+
+
+
 export const getProjectsPerMonth = async (req: Request, res: Response) => {
   const projectsPerMonth = await ProjectsPerMonthCollection.find();
   return res.send(projectsPerMonth);
 };
 
+/** Create all projectMonths for the specified month */
 export const createProjectsMonth = async (req: Request, res: Response) => {
   const {month}: { month: string; } = req.body;
 
   const projects = await ProjectsCollection.find();
-
   const activeProjects = findActiveProjectsForSelectedMonth(month, projects);
 
   const createdProjectsMonth = await Promise.all(activeProjects.map(async activeProject => {

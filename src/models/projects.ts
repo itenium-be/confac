@@ -7,6 +7,10 @@ export interface IProject {
   endDate?: string;
   partner?: ProjectClientModel;
   client: ProjectClientModel;
+  projectMonthConfig: {
+    timesheetCheck: boolean;
+    inboundInvoice: boolean;
+  };
   createdOn?: string;
 }
 
@@ -68,6 +72,10 @@ const projectSchema = new mongoose.Schema({
     tariff: Number,
     rateType: String,
     ref: String,
+  },
+  projectMonthConfig: {
+    timesheetCheck: Boolean,
+    inboundInvoice: Boolean,
   },
   createdOn: String,
 });
