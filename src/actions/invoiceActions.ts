@@ -30,7 +30,7 @@ export function createInvoice(data: InvoiceModel, history: any) {
         });
 
         const invoiceType = data.isQuotation ? 'quotations' : 'invoices';
-        success(t(`${invoiceType}.createConfirm`));
+        success(t(data.isQuotation ? 'quotation.createConfirm' : 'invoice.createConfirm'));
         history.push(`/${invoiceType}/${res.body.number}`);
 
       }, err => {
