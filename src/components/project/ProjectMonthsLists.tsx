@@ -50,7 +50,7 @@ export const ProjectMonthsLists = () => {
     return {
       data,
       save: m => dispatch(patchProjectsMonth(m.details)),
-      filters: state.app.filters.projects,
+      filters: state.app.filters.projectMonths,
       setFilters: f => dispatch(updateAppFilters('projectMonths', f)),
     };
   });

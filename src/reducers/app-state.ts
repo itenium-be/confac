@@ -44,5 +44,6 @@ export const defaultAppState: AppState = {
     clients: {...getListFilters(), years: [moment().year()]},
     invoices: getListFilters(),
     projects: getListFilters(),
+    projectMonths: getListFilters(),
   },
 };

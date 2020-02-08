@@ -4,7 +4,7 @@ import {IList, IListCell, ProjectMonthListFilters} from '../../controls/table/ta
 import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {FullProjectMonthModel} from './ProjectMonthModel';
-import {t} from '../../utils';
+import {t, searchinize} from '../../utils';
 import {ProjectMonthTimesheetCell} from '../project-month-list/ProjectMonthTimesheetCell';
 import {ProjectMonthConsultantCell} from '../project-month-list/ProjectMonthConsultantCell';
 import {ProjectMonthInboundCell} from '../project-month-list/ProjectMonthInboundCell';
@@ -24,10 +24,11 @@ const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMon
     return true;
   }
 
-  // return searchinize(
-  //   `${consultant.name} ${consultant.firstName}`,
-  // ).includes(filters.freeText.toLowerCase());
-  return true;
+  const {details, consultant, client, partner} = prj;
+
+  return searchinize(
+    `${details.month.format('MMMM YYYY')} ${consultant.firstName} ${consultant.name} ${client.name} ${partner && partner.name}`,
+  ).includes(filters.freeText.toLowerCase());
 };
 
 
