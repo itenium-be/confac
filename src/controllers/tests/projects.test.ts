@@ -4,19 +4,17 @@ import {IProject} from '../../models/projects';
 
 const initDate = (date: string) => new Date(date).toISOString();
 
-const createProject = (start: string, end?: string): IProject => {
-  return {
-    _id: '1',
-    consultantId: 'c1',
-    startDate: initDate(start),
-    endDate: end && initDate(end),
-    client: {
-      clientId: 'client1',
-      rateType: 'daily',
-      tariff: 10,
-    },
-  };
-};
+const createProject = (start: string, end?: string): IProject => ({
+  _id: '1',
+  consultantId: 'c1',
+  startDate: initDate(start),
+  endDate: end && initDate(end),
+  client: {
+    clientId: 'client1',
+    rateType: 'daily',
+    tariff: 10,
+  },
+});
 
 describe('Feature: determine whether project is active or not', () => {
   it('should return true for a project with NO end date and a start date that comes BEFORE the selectedDate', () => {

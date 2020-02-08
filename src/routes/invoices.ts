@@ -9,7 +9,6 @@ invoicesRouter.get('/', getInvoices);
 invoicesRouter.post('/', createInvoice);
 invoicesRouter.post('/email/:id', emailInvoice);
 invoicesRouter.post('/preview', previewPdfInvoice);
-invoicesRouter.post('/preview', previewPdfInvoice);
 invoicesRouter.post('/excel', generateExcelForInvoices);
 
 invoicesRouter.put('/', updateInvoice);
