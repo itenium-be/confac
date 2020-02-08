@@ -5,7 +5,7 @@ export type IAttachment = {
   _id: string;
   /** The invoice pdf */
   pdf: Buffer;
-} & {
+} & { // <-- to avoid TypeScript error
   /** User uploaded attachments */
   [attachmentKey: string]: Buffer;
 }
