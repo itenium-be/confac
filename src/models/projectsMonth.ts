@@ -46,8 +46,7 @@ const projectMonthSchema = new mongoose.Schema<IProjectMonth>({
   inbound: {
     nr: String,
     dateReceived: String,
-    validated: Boolean,
-    note: String,
+    status: String,
   },
   createdOn: String,
 });
