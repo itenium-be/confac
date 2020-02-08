@@ -4,8 +4,9 @@ import moment from 'moment';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
 import {createProjectsMonth} from '../../../actions';
-import {BaseModalProps, Modal} from '../../controls/Modal';
+import {BaseModalProps, Modal, ModalState} from '../../controls/Modal';
 import {DatePicker} from '../../controls/form-controls/DatePicker';
+import {Button} from '../../controls/form-controls/Button';
 
 type ProjectMonthModalProps = BaseModalProps & {};
 
@@ -38,5 +39,26 @@ export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
         </Container>
       </Form>
     </Modal>
+  );
+};
+
+
+
+export const CreateProjectsMonthModalButton = () => {
+  const [modalProjectMonthId, setModalProjectMonthId] = useState<ModalState>(null);
+  return (
+    <>
+      {modalProjectMonthId && (
+        <CreateProjectsMonthModal show={!!modalProjectMonthId} onClose={() => setModalProjectMonthId(null)} />
+      )}
+      <Button
+        onClick={() => setModalProjectMonthId('create')}
+        size="lg"
+        variant="light"
+        icon="fa fa-plus"
+      >
+        {t('project.newMonth')}
+      </Button>
+    </>
   );
 };

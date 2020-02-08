@@ -50,7 +50,7 @@ export function createProjectsMonth(month: moment.Moment) {
 
 
 export function patchProjectsMonth(project: ProjectMonthModel) {
-  // ATTN: ProjectsMonthsList.save would expect this to be a put, not a patch!
+  // ATTN: ProjectMonthFeatureBuilderConfig.save would expect this to be a put, not a patch!
 
   return (dispatch: Dispatch) => {
     dispatch(busyToggle());

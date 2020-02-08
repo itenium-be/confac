@@ -14,35 +14,38 @@ type ListPageProps = {
   topToolbar?: any;
 }
 
+export const ListPageHeader = ({feature, topToolbar}: ListPageProps) => (
+  <Row>
+    <Col sm={6}>
+      <h1>
+        {feature.list.listTitle ? feature.list.listTitle() : t(feature.trans.listTitle)}
+      </h1>
+    </Col>
+    <Col sm={6} className="list-top-toolbar">
+      {topToolbar}
+    </Col>
+    {feature.trans.createNew && (
+      <Col lg={3} md={3}>
+        <Button variant="light" onClick={feature.nav('create')} icon="fa fa-plus" size="md">
+          {t(feature.trans.createNew)}
+        </Button>
+      </Col>
+    )}
+    <ListPageFilters feature={feature} />
+  </Row>
+);
+
 
 export const ListPage = ({feature, topToolbar}: ListPageProps) => (
   <Container className={`list list-${feature.key}`}>
-    <Row>
-      <Col sm={6}>
-        <h1>
-          {feature.list.listTitle ? feature.list.listTitle() : t(feature.trans.listTitle)}
-        </h1>
-      </Col>
-      <Col sm={6} className="list-top-toolbar">
-        {topToolbar}
-      </Col>
-      {feature.trans.createNew && (
-        <Col lg={3} md={3}>
-          <Button variant="light" onClick={feature.nav('create')} icon="fa fa-plus" size="md">
-            {t(feature.trans.createNew)}
-          </Button>
-        </Col>
-      )}
-      <ListPageFilters feature={feature} />
-    </Row>
-
+    <ListPageHeader feature={feature} topToolbar={topToolbar} />
     <List feature={feature} />
   </Container>
 );
 
 
 
-const ListPageFilters = ({feature}: {feature: IFeature<any, ListFilters>}) => {
+export const ListPageFilters = ({feature}: {feature: IFeature<any, ListFilters>}) => {
   const components: React.ReactNode[] = [];
 
   const {filter} = feature.list;

@@ -1,17 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useHistory, Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {ConfacState} from '../../reducers/app-state';
 import {saveProject, updateAppFilters} from '../../actions';
 import {ProjectReferenceResolver} from './utils/ProjectReferenceResolver';
 import {ListPage} from '../controls/table/ListPage';
 import {projectFeature, ProjectFeatureBuilderConfig} from './models/getProjectFeature';
-import {Icon} from '../controls/Icon';
-import {t} from '../utils';
-import {CreateProjectsMonthModal} from './controls/CreateProjectsMonthModal';
-import {Button} from '../controls/form-controls/Button';
-import {ModalState} from '../controls/Modal';
-import {ProjectsMonthsList} from './ProjectMonthsList';
+import {LinkToButton} from '../controls/form-controls/button/LinkToButton';
 
 
 export const ProjectsList = () => {
@@ -28,35 +23,15 @@ export const ProjectsList = () => {
     };
   });
 
-
-  const [modalProjectMonthId, setModalProjectMonthId] = useState<ModalState>(null);
   const TopToolbar = (
     <>
-      {modalProjectMonthId && (
-        <CreateProjectsMonthModal show={!!modalProjectMonthId} onClose={() => setModalProjectMonthId(null)} />
-      )}
-      <Button
-        onClick={() => setModalProjectMonthId('create')}
-        size="md"
-        variant="light"
-        icon="fa fa-plus"
-      >
-        {t('project.newMonth')}
-      </Button>
-      <Link to="/consultants" className="btn btn-light btn-md">
-        {t('consultant.title')}
-        <Icon fa="fa fa-arrow-right" size={1} style={{marginLeft: 8}} />
-      </Link>
+      <LinkToButton to="/consultants" label="consultant.title" />
     </>
   );
 
 
   const feature = projectFeature(config);
   return (
-    <>
-      <ProjectsMonthsList />
-      <hr />
-      <ListPage feature={feature} topToolbar={TopToolbar} />
-    </>
+    <ListPage feature={feature} topToolbar={TopToolbar} />
   );
 };

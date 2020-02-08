@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Col} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
 import {updateInvoiceFilters} from '../../../actions/index';
 import InvoiceListModel from '../models/InvoiceListModel';
 import {InvoiceSearch} from '../controls/InvoiceSearch';
@@ -13,7 +12,7 @@ import InvoiceModel from '../models/InvoiceModel';
 import {ClientModel} from '../../client/models/ClientModels';
 import {InvoiceFilters} from '../../../models';
 import {t} from '../../utils';
-import {Icon} from '../../controls/Icon';
+import {LinkToButton} from '../../controls/form-controls/button/LinkToButton';
 
 
 type InvoiceListProps = {
@@ -43,10 +42,7 @@ export class InvoiceList extends Component<InvoiceListProps> {
               <h1>{t('title')}</h1>
             </Col>
             <Col xs={4} style={{textAlign: 'right'}}>
-              <Link to="/quotations" className="btn btn-light">
-                {t('quotation.title')}
-                <Icon fa="fa fa-arrow-right" size={1} style={{marginLeft: 8}} />
-              </Link>
+              <LinkToButton to="/quotations" label="quotation.title" />
             </Col>
           </Row>
         )}

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Col} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
 import {updateInvoiceFilters} from '../../../actions/index';
 import InvoiceListModel from '../models/InvoiceListModel';
 import {GroupedInvoiceTable} from '../invoice-table/GroupedInvoiceTable';
@@ -13,7 +12,7 @@ import {ClientModel} from '../../client/models/ClientModels';
 import {InvoiceFilters} from '../../../models';
 import {t} from '../../utils';
 import {QuotationSearch} from './QuotationSearch';
-import {Icon} from '../../controls/Icon';
+import {LinkToButton} from '../../controls/form-controls/button/LinkToButton';
 
 
 type QuotationListProps = {
@@ -41,10 +40,7 @@ export class QuotationList extends Component<QuotationListProps> {
             <h1>{t('quotation.title')}</h1>
           </Col>
           <Col xs={4} style={{textAlign: 'right'}}>
-            <Link to="/invoices" className="btn btn-light">
-              {t('title')}
-              <Icon fa="fa fa-arrow-right" size={1} style={{marginLeft: 8}} />
-            </Link>
+            <LinkToButton to="/invoices" label="title" />
           </Col>
         </Row>
         <QuotationSearch

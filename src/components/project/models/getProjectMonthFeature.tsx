@@ -62,13 +62,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
       cells: list,
     },
     listTitle: () => {
-      if (!config.data.length) {
-        return t('projectMonth.title');
-      }
-      const model = config.data[0];
-      let month = model.details.month.format('MMMM');
-      month = month.charAt(0).toUpperCase() + month.slice(1);
-      return t('projectMonth.listTitle', {month, year: model.details.month.year()});
+      return t('project.projectMonthConfig.titleConfig');
     },
     data: config.data,
     sorter: (a, b) => a.details._id.localeCompare(b.details._id),

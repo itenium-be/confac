@@ -33,8 +33,8 @@ const Header = () => (
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="mr-auto">
+        <OldSchoolMenuLink to="/monthly-invoicing" label={t('nav.monthlyInvoicing')} />
         <OldSchoolMenuLink to="/projects" label={t('nav.projects')} />
-        <OldSchoolMenuLink to="/invoices" label={t('title')} />
         <OldSchoolMenuLink to="/clients" label={t('nav.clients')} />
         <OldSchoolMenuLink to="/config" label={t('nav.config')} />
       </Nav>

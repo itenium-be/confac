@@ -13,6 +13,10 @@ export const ListFooter = ({config}: ListFooterProps) => {
   }
 
   const footerCells = cellsToFooterCells(config);
+  if (!footerCells.length) {
+    return null;
+  }
+
   return (
     <tfoot>
       <tr>

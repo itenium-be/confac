@@ -4,11 +4,13 @@ import {Button as ReactButton} from 'react-bootstrap';
 import {Icon} from '../Icon';
 import {BootstrapVariant} from '../../../models';
 
+export type ButtonSize = 'lg' | 'sm' | 'md';
+
 type ButtonProps = {
   onClick: Function | string,
   icon?: string,
   variant?: BootstrapVariant,
-  size?: 'lg' | 'sm' | 'md',
+  size?: ButtonSize,
   children?: any,
   style?: React.CSSProperties,
 }

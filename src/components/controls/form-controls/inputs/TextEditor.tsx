@@ -26,7 +26,7 @@ class TextEditorComponent extends Component<TextEditorProps, TextEditorState> {
   static getDerivedStateFromProps(props: TextEditorProps, state: TextEditorState) {
     if (props.value !== state.defaultValue) {
       // console.log('props', props.value, state.defaultValue);
-      const contentBlock = htmlToDraft(props.value);
+      const contentBlock = htmlToDraft(props.value || '');
       if (contentBlock) {
         const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
         const editorState = EditorState.createWithContent(contentState);

@@ -12,6 +12,7 @@ import {EditConsultant} from './components/consultant/EditConsultant';
 import {EditProject} from './components/project/EditProject';
 import {ProjectsList} from './components/project/ProjectsList';
 import {ConsultantsList} from './components/consultant/ConsultantsList';
+import {ProjectMonthsLists} from './components/project/ProjectMonthsLists';
 
 const Routes = () => (
   <BrowserRouter>
@@ -32,13 +33,14 @@ const Routes = () => (
       <Route path="/consultants/:id" render={props => <AppWithLayout Component={EditConsultant} {...props} />} />
       <Route path="/consultants" render={props => <AppWithLayout Component={ConsultantsList} {...props} />} />
 
+      <Route path="/monthly-invoicing" render={props => <AppWithLayout Component={ProjectMonthsLists} {...props} />} />
       <Route path="/projects/create" render={props => <AppWithLayout Component={EditProject} {...props} />} />
       <Route path="/projects/:id" render={props => <AppWithLayout Component={EditProject} {...props} />} />
       <Route path="/projects" render={props => <AppWithLayout Component={ProjectsList} {...props} />} />
 
       <Route path="/config" render={props => <AppWithLayout Component={EditConfig} {...props} />} />
 
-      <Route path="/" render={props => <AppWithLayout Component={ProjectsList} {...props} />} />
+      <Route path="/" render={props => <AppWithLayout Component={ProjectMonthsLists} {...props} />} />
     </Switch>
   </BrowserRouter>
 );
