@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useDispatch} from 'react-redux';
 import cn from 'classnames';
 import {FullProjectMonthModel, ProjectMonthInbound, ProjectMonthInboundStatus} from '../models/ProjectMonthModel';
@@ -8,6 +8,9 @@ import {moneyFormat, t} from '../../utils';
 import {DatePicker} from '../../controls/form-controls/DatePicker';
 import {Button} from '../../controls/form-controls/Button';
 import {Icon} from '../../controls/Icon';
+import {patchProjectsMonth, projectMonthUpload} from '../../../actions';
+import {useDebouncedSave} from '../../hooks/useDebounce';
+import {UploadFileButton} from '../../controls/form-controls/button/UploadFileButton';
 
 interface ProjectMonthInboundCellProps {
   projectMonth: FullProjectMonthModel;
@@ -16,24 +19,19 @@ interface ProjectMonthInboundCellProps {
 
 export const ProjectMonthInboundCell = ({projectMonth}: ProjectMonthInboundCellProps) => {
   const dispatch = useDispatch();
-  // const model = useSelector((state: ConfacState) => state.projects.find(c => c._id === props.match.params.id));
-  const [inbound, setInbound] = useState<ProjectMonthInbound>(projectMonth.details.inbound || getNewProjectMonthInbound());
+
+  const defaultInbound = projectMonth.details.inbound || getNewProjectMonthInbound();
+  const dispatcher = (val: ProjectMonthInbound) => {
+    dispatch(patchProjectsMonth({...projectMonth.details, inbound: val}));
+  };
+  const [inbound, setInbound, saveInbound] = useDebouncedSave<ProjectMonthInbound>(defaultInbound, dispatcher);
+
 
   if (!projectMonth.project.projectMonthConfig.inboundInvoice) {
     return <div />;
   }
 
-  // TODO: Oh my.. add a debounce hook... (duplicated in the other cells?)
-  // const realSetTimesheet = (patch: {[key in keyof ProjectMonthInbound]?: any}): ProjectMonthInbound => {
-  //   const newTimesheet = {...inbound, ...patch};
-  //   setInbound(newTimesheet);
-  //   return newTimesheet;
-  // };
-
-  // const saveTimesheet = (newTimesheet?: ProjectMonthInbound) => {
-  //   dispatch(patchProjectsMonth({...projectMonth.details, timesheet: newTimesheet || inbound}));
-  // };
-
+  const canEdit = inbound.status !== 'new' ? 'label' : undefined;
 
   return (
     <div className={cn('inbound-cell')}>
@@ -41,19 +39,19 @@ export const ProjectMonthInboundCell = ({projectMonth}: ProjectMonthInboundCellP
         value={inbound.nr}
         onChange={nr => setInbound({...inbound, nr})}
         placeholder={t('projectMonth.inboundInvoiceNr')}
+        display={canEdit}
       />
       <InboundAmountForecast projectMonth={projectMonth} />
-      <div>
-        <DatePicker
-          value={inbound.dateReceived}
-          onChange={dateReceived => setInbound({...inbound, dateReceived})}
-          placeholder={t('projectMonth.inboundDateReceived')}
-        />
-      </div>
+      <DatePicker
+        value={inbound.dateReceived}
+        onChange={dateReceived => setInbound({...inbound, dateReceived})}
+        placeholder={t('projectMonth.inboundDateReceived')}
+        display={canEdit}
+      />
       <div className="inbound-actions">
         <InboundStatusButtons
           projectMonth={projectMonth}
-          onChange={status => setInbound({...inbound, status})}
+          onChange={status => saveInbound({...inbound, status})}
         />
       </div>
     </div>
@@ -73,27 +71,28 @@ type InboundActionsMap = {
 }
 
 const InboundStatusButtons = ({projectMonth, onChange}: InboundStatusButtonsProps) => {
+  const dispatch = useDispatch();
   const {inbound} = projectMonth.details;
 
   const buttons: InboundActionsMap[] = [{
     status: 'validated',
     component: (
       <Button key="validated" variant="outline-success" onClick={() => onChange('validated')} size="md">
-        <Icon fa="fa fa-check" size={1} />
+        <Icon fa="fa fa-check" size={1} title={t('projectMonth.inboundValidated')} />
       </Button>
     ),
   }, {
     status: 'paid',
     component: (
       <Button key="paid" variant="success" onClick={() => onChange('paid')} size="md">
-        <Icon fa="fa fa-coins" size={1} />
+        <Icon fa="fa fa-coins" size={1} title={t('projectMonth.inboundPaid')} />
       </Button>
     ),
   }, {
     status: 'new',
     component: (
-      <Button key="new" variant="outline-secondary" onClick={() => onChange('new')} size="md">
-        <Icon fa="fa fa-inbox" size={1} />
+      <Button key="new" variant="outline-dark" onClick={() => onChange('new')} size="md">
+        <Icon fa="fa fa-inbox" size={1} title={t('projectMonth.inboundNew')} />
       </Button>
     ),
   }];
@@ -101,6 +100,11 @@ const InboundStatusButtons = ({projectMonth, onChange}: InboundStatusButtonsProp
   return (
     <div className="inbound-actions">
       {buttons.filter(b => b.status !== inbound.status).map(b => b.component)}
+      <UploadFileButton
+        onUpload={f => dispatch(projectMonthUpload(f, 'inbound'))}
+        icon="fa fa-file-pdf"
+        title={t('projectMonth.inboundUpload')}
+      />
     </div>
   );
 };
@@ -119,8 +123,8 @@ const InboundAmountForecast = ({projectMonth}: InboundAmountForecastProps) => {
   }
 
   return (
-    <div className="forecast">
+    <span>
       {moneyFormat(timesheet.timesheet * 1.21 * projectMonth.project.partner.tariff)}
-    </div>
+    </span>
   );
 };

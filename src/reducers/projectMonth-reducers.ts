@@ -8,6 +8,9 @@ import {getNewProjectMonth} from '../components/project/models/getNewProject';
 
 function mapProject(prj: ProjectMonthModel): ProjectMonthModel {
   prj.month = moment(prj.month);
+  if (prj.inbound.dateReceived) {
+    prj.inbound.dateReceived = moment(prj.inbound.dateReceived);
+  }
   return {...getNewProjectMonth(), ...prj};
 }
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {FormControl} from 'react-bootstrap';
 import {EnhanceInputWithLabel, EnhanceInputWithLabelProps} from '../../../enhancers/EnhanceInputWithLabel';
-import {EnhanceInputWithAddons, EnhanceInputWithAddonsProps} from '../../../enhancers/EnhanceInputWithAddons';
+import {EnhanceInputWithAddons, EnhanceInputWithAddonsProps, EnhanceInputWithDisplayProps, EnhanceInputWithDisplay} from '../../../enhancers/EnhanceInputWithAddons';
 
 
 
@@ -12,7 +12,12 @@ export type MinimalInputProps<T, TReturn = T> = {
 };
 
 
-export type BaseInputProps<T, TReturn = T> = MinimalInputProps<T, TReturn> & EnhanceInputWithAddonsProps & EnhanceInputWithLabelProps & {
+export type BaseInputProps<T, TReturn = T> =
+  MinimalInputProps<T, TReturn>
+  & EnhanceInputWithAddonsProps
+  & EnhanceInputWithLabelProps
+  & EnhanceInputWithDisplayProps
+  & {
   type?: 'textarea' | 'text' | 'number',
   onBlur?: (e: any) => void,
   placeholder?: string,
@@ -23,7 +28,7 @@ export type BaseInputProps<T, TReturn = T> = MinimalInputProps<T, TReturn> & Enh
 }
 
 // eslint-disable-next-line react/prefer-stateless-function
-export const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Component<BaseInputProps<any>> {
+export const BaseInput = EnhanceInputWithDisplay(EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Component<BaseInputProps<any>> {
   render() {
     const {type, updateOnly, ...props} = this.props;
     return (
@@ -35,4 +40,4 @@ export const BaseInput = EnhanceInputWithLabel(EnhanceInputWithAddons(class exte
       />
     );
   }
-}));
+})));

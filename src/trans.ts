@@ -354,6 +354,10 @@ export const trans = {
     timesheetUpload: 'Timesheet uploaden',
     inboundInvoiceNr: 'Nr',
     inboundDateReceived: 'Ontvangen op',
+    inboundUpload: 'Binnenkomende factuur opladen',
+    inboundNew: 'Nieuw: Factuur nog niet behandeld',
+    inboundPaid: 'Betaald: Factuur is betaald',
+    inboundValidated: 'Gevalideerd: Timesheet en bedrag zijn gecontroleerd',
   },
   controls: {
     // browser

@@ -73,7 +73,7 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
 
 
 
-export function projectMonthUpload(file: File, type: 'timesheet') {
+export function projectMonthUpload(file: File, type: 'timesheet' | 'inbound') {
   console.log('projectMonthUpload', type, file);
   return {
     type: 'IMPLEMENT ME',

@@ -7,7 +7,7 @@ $cell-padding: 8px 4px;
 
 
 .list-projectMonths {
-  max-width: 1400px !important;
+  max-width: 1600px !important;
 
   tbody {
     border-bottom: 1px solid $table-border-color;
@@ -55,7 +55,7 @@ $cell-padding: 8px 4px;
 
   .validated {
     background-color: rgba($success, .2);
-    padding: 6px;
+    // padding: 6px;
   }
 
   .timesheet-cell {
@@ -96,18 +96,29 @@ $cell-padding: 8px 4px;
     > * {
       &:first-child { width: 20%; }
       &:nth-child(2) { width: 30%; }
-      &:nth-child(3) { width: 30%; }
-      &:last-child { width: 20%; }
+      &:nth-child(3) { width: 25%; }
+      &:last-child { width: 25%; }
 
       &:not(:last-child) {
         margin-right: $in-cell-margin;
       }
     }
 
-    .forecast {
+    span {
       font-size: 18px;
-      text-align: center;
       align-self: center;
+
+      &:first-child {
+        padding-left: 10px;
+
+        &::before {
+          content: '#';
+        }
+      }
+
+      &:not(:first-child) {
+        text-align: center;
+      }
     }
 
     .inbound-actions {

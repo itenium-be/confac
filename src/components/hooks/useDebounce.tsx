@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 
 
-export default function useDebounce<T>(value: T, delay = 500) {
+export default function useDebounce<T>(value: T, delay = 500): T {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(
@@ -14,46 +14,45 @@ export default function useDebounce<T>(value: T, delay = 500) {
         clearTimeout(handler);
       };
     },
-    [value],
+    [value, delay],
   );
 
   return debouncedValue;
 }
 
 
-export function useDebounce2<T>(value: T, callback: (m: T) => void, delay: number = 500) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
+type ActionFn<T> = (m: T) => void;
 
+export function useDebouncedSave<T>(defaultValue: T, callback: ActionFn<T>, delay = 500): [T, ActionFn<T>, ActionFn<T>] {
+  const [value, setInternalValue] = useState<T>(defaultValue);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const debounced = useDebounce<T>(value, delay);
   useEffect(
     () => {
-      const handler = setTimeout(() => {
-        // setDebouncedValue(value);
-        callback(debouncedValue);
-      }, delay);
-
-      // setDebouncedValue(value);
-
-      return () => {
-        clearTimeout(handler);
-      };
+      if (editMode) {
+        callback(value);
+        setEditMode(false);
+      }
     },
-    [value],
+    // TODO: https://stackoverflow.com/questions/58866796/react-hooks-exhaustive-deps-lint-rule
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [debounced],
   );
 
-  return debouncedValue;
+  const setValue = (newValue: T): void => {
+    setEditMode(true);
+    setInternalValue(newValue);
+  };
+
+  const saveValue = (newValue: T): void => {
+    callback(newValue);
+    setEditMode(false);
+    setInternalValue(newValue);
+  };
+
+  return [
+    value,
+    setValue,
+    saveValue,
+  ];
 }
-
-
-// const dispatch = useDispatch();
-// const [timesheet, setTimesheet] = useState<ProjectMonthTimesheet>(projectMonth.details.timesheet || getNewProjectMonthTimesheet());
-
-// // TODO: Oh my.. add a debounce hook(duplicated in the other cells?)
-// const realSetTimesheet = (patch: {[key in keyof ProjectMonthTimesheet]?: any}): ProjectMonthTimesheet => {
-//   const newTimesheet = {...timesheet, ...patch};
-//   setTimesheet(newTimesheet);
-//   return newTimesheet;
-// };
-
-// const saveTimesheet = (newTimesheet?: ProjectMonthTimesheet) => {
-//   dispatch(patchProjectsMonth({...projectMonth.details, timesheet: newTimesheet || timesheet}));
-// };

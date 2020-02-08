@@ -1,5 +1,6 @@
 import React from 'react';
 import {InputGroup} from 'react-bootstrap';
+import {formatDate} from '../utils';
 
 export type EnhanceInputWithAddonsProps = {
   prefix?: string | React.ReactNode,
@@ -31,4 +32,40 @@ const Addon = ({add, options}) => {
     return <InputGroup.Text>{add}</InputGroup.Text>;
   }
   return add;
+};
+
+
+
+type ReactNodeFn = any;
+
+
+export type EnhanceInputWithDisplayProps = {
+  /** Display a label instead of an input */
+  display?: 'label' | undefined | ReactNodeFn,
+  value: any,
+}
+
+// eslint-disable-next-line max-len
+export const EnhanceInputWithDisplay = <P extends object>(ComposedComponent: React.ComponentType<P>) => ({display, ...props}: EnhanceInputWithDisplayProps & P) => {
+  if (typeof display === 'function') {
+    return display();
+  }
+
+  if (display === 'label') {
+    if (!props.value) {
+      return <span>&nbsp;</span>;
+    }
+
+    if (typeof props.value === 'string') {
+      return <span>{props.value}</span>;
+    }
+
+    if (typeof props.value.toDate === 'function') {
+      return <span>{formatDate(props.value)}</span>;
+    }
+
+    return <span>{props.value.toString()}</span>;
+  }
+
+  return <ComposedComponent {...props as P} />;
 };

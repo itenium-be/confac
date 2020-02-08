@@ -67,7 +67,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
         case 'paid':
           return 'validated';
         case 'validated':
-          return 'table-info';
+          return undefined;
         case 'new':
         default:
           return undefined;
