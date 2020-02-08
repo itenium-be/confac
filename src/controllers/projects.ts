@@ -24,7 +24,7 @@ export const saveProject = async (req: Request, res: Response) => {
   const {_id, ...project}: IProject = req.body;
 
   if (_id) {
-    const updatedProject = await ProjectsCollection.findByIdAndUpdate({_id}, project);
+    const updatedProject = await ProjectsCollection.findByIdAndUpdate({_id}, project, {new: true});
     return res.send(updatedProject);
   }
   const createdProject = await ProjectsCollection.create({

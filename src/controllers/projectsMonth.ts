@@ -36,7 +36,7 @@ export const patchProjectsMonth = async (req: Request, res: Response) => {
   const {_id, ...project}: IProjectMonth = req.body;
 
   if (_id) {
-    const updatedProject = await ProjectsPerMonthCollection.findByIdAndUpdate({_id}, project);
+    const updatedProject = await ProjectsPerMonthCollection.findByIdAndUpdate({_id}, project, {new: true});
     return res.send(updatedProject);
   }
 
