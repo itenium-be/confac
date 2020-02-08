@@ -69,7 +69,10 @@ export const INVOICE_EXCEL_HEADERS = ['Number', 'Date', 'Client name', 'Order nr
 
 const invoiceSchema = new mongoose.Schema({
   number: Number,
-  client: {...schemas.clientSchema},
+  client: {
+    _id: String,
+    ...schemas.clientSchema,
+  },
   your: {
     name: String,
     address: String,
