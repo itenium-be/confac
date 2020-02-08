@@ -59,7 +59,7 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
           <FloatInput
             value={timesheet.timesheet}
             onChange={val => realSetTimesheet({timesheet: val})}
-            onBlur={saveTimesheet}
+            onBlur={() => saveTimesheet()}
             placeholder={t('projectMonth.timesheet')}
           />
 
@@ -67,7 +67,7 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
             <FloatInput
               value={timesheet.check}
               onChange={val => realSetTimesheet({check: val})}
-              onBlur={saveTimesheet}
+              onBlur={() => saveTimesheet()}
               placeholder={t('projectMonth.timesheetCheck')}
             />
           ) : <div />}

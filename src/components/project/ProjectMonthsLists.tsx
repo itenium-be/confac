@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Container, Row, Col} from 'react-bootstrap';
+import {Container} from 'react-bootstrap';
 import {ConfacState} from '../../reducers/app-state';
 import {updateAppFilters, patchProjectsMonth} from '../../actions';
 import {ListPageHeader} from '../controls/table/ListPage';
@@ -14,11 +14,10 @@ import {LinkToButton} from '../controls/form-controls/button/LinkToButton';
 import {CreateProjectsMonthModalButton} from './controls/CreateProjectsMonthModal';
 import {IFeature} from '../controls/feature/feature-models';
 import {ListFilters} from '../controls/table/table-models';
-
+import {t} from '../utils';
 
 
 import './project-month-list/project-month-list.scss';
-import { t } from '../utils';
 
 
 function projectMonthResolve(prj: ProjectMonthModel, state: ConfacState): FullProjectMonthModel {
@@ -90,7 +89,7 @@ export const ProjectMonthsLists = () => {
         <ProjectMonthsList feature={f} />
         {uniqueMonths.length - 1 !== index && <hr className="list-separator" />}
       </div>
-    )
+    );
   });
 
 
