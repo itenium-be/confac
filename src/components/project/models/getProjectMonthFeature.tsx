@@ -49,9 +49,30 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
   }, {
     key: 'timesheet',
     value: p => <ProjectMonthTimesheetCell projectMonth={p} />,
+    className: p => {
+      if (p.details.timesheet.validated) {
+        return 'validated';
+      }
+      return undefined;
+    },
   }, {
     key: 'inbound',
     value: p => <ProjectMonthInboundCell projectMonth={p} />,
+    className: p => {
+      if (!p.project.projectMonthConfig.inboundInvoice) {
+        return 'validated';
+      }
+
+      switch (p.details.inbound.status) {
+        case 'paid':
+          return 'validated';
+        case 'validated':
+          return 'table-info';
+        case 'new':
+        default:
+          return undefined;
+      }
+    },
   }, {
     key: 'outbound',
     value: p => <ProjectMonthOutboundCell projectMonth={p} />,

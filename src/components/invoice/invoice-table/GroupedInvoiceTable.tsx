@@ -92,8 +92,10 @@ const GroupedInvoiceListRow = ({invoice, isFirstRow, config}: GroupedInvoiceList
       {config.rows.cells.map((col, i) => {
         const isGroupedByColumn = col.key === 'date-month';
         const hideValue = !isFirstRow && isGroupedByColumn;
+
+        const className = typeof col.className === 'function' ? col.className(invoice) : col.className;
         return (
-          <td key={i} style={isGroupedByColumn ? borderStyle : undefined} className={col.className}>
+          <td key={i} style={isGroupedByColumn ? borderStyle : undefined} className={className}>
             {hideValue ? null : col.value(invoice)}
           </td>
         );

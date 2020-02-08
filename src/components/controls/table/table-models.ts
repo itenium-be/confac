@@ -44,13 +44,15 @@ export interface IListFilter<TFilterModel extends ListFilters, TModel> {
   extras?: () => React.ReactNode;
 }
 
+type StringFn<TModel> = (m: TModel) => string | undefined;
+
 
 /**
  * A row in a list
  * */
 export interface IListRow<TModel> {
   /** Return a className for the <tr> element */
-  className?: (m: TModel) => string | undefined;
+  className?: StringFn<TModel>;
   /** The different columns the row exists of */
   cells: IListCell<TModel>[];
 }
@@ -73,11 +75,13 @@ export interface IListCell<TModel> {
   /** Cell styles */
   style?: React.CSSProperties;
   /** Cell className */
-  className?: string;
+  className?: string | StringFn<TModel>;
   // BUG: GroupedInvoiceTable footer is wrong
   /** Will span until next cell with a footer */
   footer?: string | ((models: TModel[]) => string | React.ReactNode);
 }
+
+
 
 /**
  * Part of IListCell containing <th> configuration

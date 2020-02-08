@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import cn from 'classnames';
 import {FullProjectMonthModel, ProjectMonthTimesheet} from '../models/ProjectMonthModel';
@@ -9,6 +9,7 @@ import {NotesModalButton} from '../../controls/form-controls/button/NotesModalBu
 import {UploadFileButton} from '../../controls/form-controls/button/UploadFileButton';
 import {projectMonthUpload, patchProjectsMonth} from '../../../actions/projectActions';
 import {getNewProjectMonthTimesheet} from '../models/getNewProject';
+import useDebounce from '../../hooks/useDebounce';
 
 
 interface ProjectMonthTimesheetCellProps {
@@ -23,21 +24,33 @@ const TimesheetDaysDisplay = ({days}: {days: number | undefined}) => {
   return <span>{t('client.daysWorked', {days})}</span>;
 };
 
-type TimesheetKeys = keyof ProjectMonthTimesheet;
 
 export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetCellProps) => {
   const dispatch = useDispatch();
-  const [timesheet, setTimesheet] = useState<ProjectMonthTimesheet>(projectMonth.details.timesheet || getNewProjectMonthTimesheet());
 
-  // TODO: Oh my.. add a debounce...
-  const realSetTimesheet = (patch: {[key in TimesheetKeys]?: any}): ProjectMonthTimesheet => {
-    const newTimesheet = {...timesheet, ...patch};
-    setTimesheet(newTimesheet);
-    return newTimesheet;
+  const defaultTimesheet = projectMonth.details.timesheet || getNewProjectMonthTimesheet();
+  const [timesheet, setInternalTimesheet] = useState<ProjectMonthTimesheet>(defaultTimesheet);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const debounced = useDebounce<ProjectMonthTimesheet>(timesheet);
+  useEffect(
+    () => {
+      if (editMode) {
+        dispatch(patchProjectsMonth({...projectMonth.details, timesheet}));
+        setEditMode(false);
+      }
+    },
+    [debounced],
+  );
+
+  const setTimesheet = (newTimesheet: ProjectMonthTimesheet): void => {
+    setEditMode(true);
+    setInternalTimesheet(newTimesheet);
   };
 
-  const saveTimesheet = (newTimesheet?: ProjectMonthTimesheet) => {
-    dispatch(patchProjectsMonth({...projectMonth.details, timesheet: newTimesheet || timesheet}));
+  const setFullTimesheet = (newTimesheet: ProjectMonthTimesheet): void => {
+    dispatch(patchProjectsMonth({...projectMonth.details, timesheet: newTimesheet}));
+    setEditMode(false);
+    setInternalTimesheet(newTimesheet);
   };
 
   const projectConfig = projectMonth.project.projectMonthConfig;
@@ -48,7 +61,7 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
   );
 
   return (
-    <div className={cn('timesheet-cell', timesheet.validated && 'validated')}>
+    <div className={cn('timesheet-cell')}>
       {timesheet.validated ? (
         <>
           <TimesheetDaysDisplay days={timesheet.timesheet} />
@@ -58,16 +71,14 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
         <>
           <FloatInput
             value={timesheet.timesheet}
-            onChange={val => realSetTimesheet({timesheet: val})}
-            onBlur={() => saveTimesheet()}
+            onChange={val => setTimesheet({...timesheet, timesheet: val})}
             placeholder={t('projectMonth.timesheet')}
           />
 
           {projectConfig.timesheetCheck ? (
             <FloatInput
               value={timesheet.check}
-              onChange={val => realSetTimesheet({check: val})}
-              onBlur={() => saveTimesheet()}
+              onChange={val => setTimesheet({...timesheet, check: val})}
               placeholder={t('projectMonth.timesheetCheck')}
             />
           ) : <div />}
@@ -77,18 +88,12 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
       <div className="timesheet-actions">
         <ValidityToggleButton
           value={timesheet.validated}
-          onChange={val => {
-            const newTimesheet = realSetTimesheet({validated: val});
-            saveTimesheet(newTimesheet);
-          }}
+          onChange={val => setFullTimesheet({...timesheet, validated: val})}
           disabled={canToggleValid}
         />
         <NotesModalButton
           value={timesheet.note}
-          onChange={val => {
-            const newTimesheet = realSetTimesheet({note: val});
-            saveTimesheet(newTimesheet);
-          }}
+          onChange={val => setFullTimesheet({...timesheet, note: val})}
           title={t('projectMonth.timesheetNote', {name: `${projectMonth.consultant.firstName} ${projectMonth.consultant.name}`})}
         />
         <UploadFileButton
