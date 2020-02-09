@@ -10,6 +10,8 @@ export const getProjectsPerMonth = async (req: Request, res: Response) => {
   return res.send(projectsPerMonth);
 };
 
+
+
 /** Create all projectMonths for the specified month */
 export const createProjectsMonth = async (req: Request, res: Response) => {
   const {month}: {month: string;} = req.body;

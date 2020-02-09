@@ -49,6 +49,8 @@ export interface IInvoice {
   number: number;
   client: IClient;
   your: ICompany;
+  projectId?: string;
+  consultantId?: string;
   date: string;
   orderNr: string;
   verified: boolean;
@@ -73,6 +75,8 @@ const invoiceSchema = new mongoose.Schema({
     _id: String,
     ...schemas.clientSchema,
   },
+  projectId: String,
+  consultantId: String,
   your: {
     name: String,
     address: String,
