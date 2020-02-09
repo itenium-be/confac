@@ -6,7 +6,14 @@ export interface IProjectMonth {
   projectId: string;
   timesheet: ProjectMonthTimesheet;
   inbound: ProjectMonthInbound;
+  outbound: ProjectMonthOutbound;
   createdOn?: string;
+}
+
+
+export interface ProjectMonthOutbound {
+  invoiceId?: string;
+  note?: string;
 }
 
 
@@ -47,6 +54,10 @@ const projectMonthSchema = new mongoose.Schema<IProjectMonth>({
     nr: String,
     dateReceived: String,
     status: String,
+  },
+  outbound: {
+    invoiceId: String,
+    note: String,
   },
   createdOn: String,
 });
