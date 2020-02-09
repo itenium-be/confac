@@ -19,7 +19,7 @@ import {t} from '../utils';
 
 import './project-month-list/project-month-list.scss';
 
-
+/** Resolve ProjectModel _ids to their corresponding models */
 function projectMonthResolve(prj: ProjectMonthModel, state: ConfacState): FullProjectMonthModel {
   const project = state.projects.find(p => p._id === prj.projectId) as ProjectModel;
   const consultant = state.consultants.find(c => c._id === project.consultantId) as ConsultantModel;
@@ -37,6 +37,8 @@ function projectMonthResolve(prj: ProjectMonthModel, state: ConfacState): FullPr
 }
 
 
+
+/** The Monthly Invoicing Table */
 export const ProjectMonthsLists = () => {
   const dispatch = useDispatch();
   const config: ProjectMonthFeatureBuilderConfig = useSelector((state: ConfacState) => {
@@ -109,6 +111,7 @@ type ProjectMonthsListProps = {
 }
 
 
+/** Display a title and a ProjectMonth list */
 const ProjectMonthsList = ({feature}: ProjectMonthsListProps) => {
   if (!feature.list.data.length) {
     return null;

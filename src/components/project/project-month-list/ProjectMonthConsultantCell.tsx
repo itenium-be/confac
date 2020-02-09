@@ -8,6 +8,7 @@ interface ProjectMonthConsultantCellProps {
 }
 
 
+/** The first cell with Consultant/Client/Partner info of a ProjectMonth */
 export const ProjectMonthConsultantCell = ({projectMonth}: ProjectMonthConsultantCellProps) => {
   const {consultant, client, partner} = projectMonth;
   return (

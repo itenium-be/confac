@@ -1,6 +1,7 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import cn from 'classnames';
+import useViewportSizes from 'use-viewport-sizes'
 import {FullProjectMonthModel, ProjectMonthTimesheet} from '../models/ProjectMonthModel';
 import {FloatInput} from '../../controls/form-controls/inputs/FloatInput';
 import {t} from '../../utils';
@@ -11,28 +12,38 @@ import {projectMonthUpload, patchProjectsMonth} from '../../../actions/projectAc
 import {getNewProjectMonthTimesheet} from '../models/getNewProject';
 import {useDebouncedSave} from '../../hooks/useDebounce';
 
-
 interface ProjectMonthTimesheetCellProps {
   projectMonth: FullProjectMonthModel;
 }
 
 
+/** Display timesheet number in days */
 const TimesheetDaysDisplay = ({days}: {days: number | undefined}) => {
+  const [vpWidth] = useViewportSizes();
+
   if (typeof days !== 'number') {
     return <span>&nbsp;</span>;
   }
-  return <span>{t('client.daysWorked', {days})}</span>;
+
+  // TODO: hourly rate not implemented
+
+  if (vpWidth > 1600) {
+    return <span>{t('client.daysWorked', {days})}</span>;
+  }
+
+  return <span>{days}</span>;
 };
 
 
+/** Timesheet form cell for a ProjectMonth row */
 export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetCellProps) => {
   const dispatch = useDispatch();
 
-  const defaultTimesheet = projectMonth.details.timesheet || getNewProjectMonthTimesheet();
-  const dispatcher = (ts: ProjectMonthTimesheet) => {
-    dispatch(patchProjectsMonth({...projectMonth.details, timesheet: ts}));
+  const defaultValue = projectMonth.details.timesheet || getNewProjectMonthTimesheet();
+  const dispatcher = (val: ProjectMonthTimesheet) => {
+    dispatch(patchProjectsMonth({...projectMonth.details, timesheet: val}));
   };
-  const [timesheet, setTimesheet, saveTimesheet] = useDebouncedSave<ProjectMonthTimesheet>(defaultTimesheet, dispatcher);
+  const [timesheet, setTimesheet, saveTimesheet] = useDebouncedSave<ProjectMonthTimesheet>(defaultValue, dispatcher);
 
 
   const projectConfig = projectMonth.project.projectMonthConfig;

@@ -34,6 +34,11 @@ $cell-padding: 8px 4px;
 
   th {
     text-align: center;
+
+    &:first-child { width: 10%; }
+    &:nth-child(2) { width: 25%; }
+    &:nth-child(3) { width: 40%; }
+    &:last-child { width: 25%; }
   }
 
   td, th {
@@ -55,9 +60,11 @@ $cell-padding: 8px 4px;
 
   .validated {
     background-color: rgba($success, .2);
-    // padding: 6px;
   }
 
+
+
+  /** The timesheet cell */
   .timesheet-cell {
     display: flex;
     padding: $cell-padding;
@@ -80,7 +87,7 @@ $cell-padding: 8px 4px;
     > * {
       &:first-child { width: 25%; }
       &:nth-child(2) { width: 25%; }
-      &:last-child { width: 50%; }
+      &:last-child { width: 50%; min-width: 150px; }
 
       &:not(:last-child) {
         margin-right: $in-cell-margin;
@@ -89,15 +96,17 @@ $cell-padding: 8px 4px;
   }
 
 
+
+  /** The inbound cell */
   .inbound-cell {
     display: flex;
     padding: $cell-padding;
 
     > * {
       &:first-child { width: 20%; }
-      &:nth-child(2) { width: 30%; }
-      &:nth-child(3) { width: 25%; }
-      &:last-child { width: 25%; }
+      &:nth-child(2) { width: 20%; }
+      &:nth-child(3) { width: 35%; }
+      &:last-child { width: 25%; min-width: 150px; }
 
       &:not(:last-child) {
         margin-right: $in-cell-margin;
@@ -107,6 +116,7 @@ $cell-padding: 8px 4px;
     span {
       font-size: 18px;
       align-self: center;
+      white-space: nowrap;
 
       &:first-child {
         padding-left: 10px;
@@ -126,6 +136,24 @@ $cell-padding: 8px 4px;
         &:not(:last-child) {
           margin-right: 8px;
         }
+      }
+    }
+  }
+
+
+
+  /** The outbound cell */
+  .outbound-cell {
+    display: flex;
+    padding: $cell-padding;
+    text-align: center;
+
+    > * {
+      &:first-child { width: 90%; }
+      &:nth-child(2) { width: 50px; }
+
+      &:not(:last-child) {
+        margin-right: $in-cell-margin;
       }
     }
   }

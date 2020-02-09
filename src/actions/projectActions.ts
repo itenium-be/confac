@@ -49,6 +49,28 @@ export function createProjectsMonth(month: moment.Moment) {
 
 
 
+/** Create the invoice for a projectMonth */
+export function createProjectsMonthInvoice(project: ProjectMonthModel) {
+  return (dispatch: Dispatch) => {
+    dispatch(busyToggle());
+    return request
+      .post(buildUrl(`/projects/month/${project._id}/create-invoice`))
+      .set('Content-Type', 'application/json')
+      // .send()
+      .then(response => {
+        dispatch({
+          type: ACTION_TYPES.PROJECTS_MONTH_INVOICE_CREATED,
+          projectsMonth: response.body.projectsMonth,
+          invoice: response.body.invoice,
+        });
+        success(t('config.popupMessage'));
+      })
+      .catch(catchHandler);
+  };
+}
+
+
+
 export function patchProjectsMonth(project: ProjectMonthModel) {
   // ATTN: ProjectMonthFeatureBuilderConfig.save would expect this to be a put, not a patch!
 

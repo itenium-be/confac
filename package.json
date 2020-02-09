@@ -68,7 +68,8 @@
     "redux-thunk": "^2.3.0",
     "superagent": "^3.8.3",
     "superagent-bluebird-promise": "^4.2.0",
-    "use-debounce": "^3.3.0"
+    "use-debounce": "^3.3.0",
+    "use-viewport-sizes": "^0.2.7"
   },
   "scripts": {
     "start": "react-scripts start",

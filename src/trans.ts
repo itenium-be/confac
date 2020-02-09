@@ -358,6 +358,8 @@ export const trans = {
     inboundNew: 'Nieuw: Factuur nog niet behandeld',
     inboundPaid: 'Betaald: Factuur is betaald',
     inboundValidated: 'Gevalideerd: Timesheet en bedrag zijn gecontroleerd',
+    outboundCreateInvoice: 'Factuur maken',
+    outboundNote: 'Facturatie perikelen',
   },
   controls: {
     // browser

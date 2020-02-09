@@ -17,14 +17,15 @@ interface ProjectMonthInboundCellProps {
 }
 
 
+/** Inbound form cell for the ProjectMonth list */
 export const ProjectMonthInboundCell = ({projectMonth}: ProjectMonthInboundCellProps) => {
   const dispatch = useDispatch();
 
-  const defaultInbound = projectMonth.details.inbound || getNewProjectMonthInbound();
+  const defaultValue = projectMonth.details.inbound || getNewProjectMonthInbound();
   const dispatcher = (val: ProjectMonthInbound) => {
     dispatch(patchProjectsMonth({...projectMonth.details, inbound: val}));
   };
-  const [inbound, setInbound, saveInbound] = useDebouncedSave<ProjectMonthInbound>(defaultInbound, dispatcher);
+  const [inbound, setInbound, saveInbound] = useDebouncedSave<ProjectMonthInbound>(defaultValue, dispatcher);
 
 
   if (!projectMonth.project.projectMonthConfig.inboundInvoice) {
@@ -48,19 +49,17 @@ export const ProjectMonthInboundCell = ({projectMonth}: ProjectMonthInboundCellP
         placeholder={t('projectMonth.inboundDateReceived')}
         display={canEdit}
       />
-      <div className="inbound-actions">
-        <InboundStatusButtons
-          projectMonth={projectMonth}
-          onChange={status => saveInbound({...inbound, status})}
-        />
-      </div>
+      <InboundActionButtons
+        projectMonth={projectMonth}
+        onChange={status => saveInbound({...inbound, status})}
+      />
     </div>
   );
 };
 
 
 
-type InboundStatusButtonsProps = {
+type InboundActionButtonsProps = {
   projectMonth: FullProjectMonthModel;
   onChange: (status: ProjectMonthInboundStatus) => void;
 }
@@ -70,7 +69,10 @@ type InboundActionsMap = {
   component: React.ReactNode;
 }
 
-const InboundStatusButtons = ({projectMonth, onChange}: InboundStatusButtonsProps) => {
+
+
+/** Switch between statusses and dropzone for uploading the inbound invoice */
+const InboundActionButtons = ({projectMonth, onChange}: InboundActionButtonsProps) => {
   const dispatch = useDispatch();
   const {inbound} = projectMonth.details;
 
@@ -100,6 +102,8 @@ const InboundStatusButtons = ({projectMonth, onChange}: InboundStatusButtonsProp
   return (
     <div className="inbound-actions">
       {buttons.filter(b => b.status !== inbound.status).map(b => b.component)}
+
+
       <UploadFileButton
         onUpload={f => dispatch(projectMonthUpload(f, 'inbound'))}
         icon="fa fa-file-pdf"
@@ -116,12 +120,14 @@ type InboundAmountForecastProps = {
   projectMonth: FullProjectMonthModel;
 }
 
+/** Expected inbound total invoice amount */
 const InboundAmountForecast = ({projectMonth}: InboundAmountForecastProps) => {
   const {timesheet} = projectMonth.details;
   if (!timesheet.timesheet || !projectMonth.project.partner) {
     return <div />;
   }
 
+  // TODO: hourly rate not implemented + magic number + this calculation already exists!
   return (
     <span>
       {moneyFormat(timesheet.timesheet * 1.21 * projectMonth.project.partner.tariff)}

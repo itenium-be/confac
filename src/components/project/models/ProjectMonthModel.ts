@@ -9,6 +9,7 @@ export interface ProjectMonthModel {
   projectId: string;
   timesheet: ProjectMonthTimesheet;
   inbound: ProjectMonthInbound;
+  outbound: ProjectMonthOutbound;
   createdOn?: string;
 }
 
@@ -18,6 +19,11 @@ export interface ProjectMonthInbound {
   nr: string;
   dateReceived?: Moment | null;
   status: ProjectMonthInboundStatus;
+}
+
+export interface ProjectMonthOutbound {
+  invoiceId?: string;
+  note?: string;
 }
 
 
@@ -46,7 +52,9 @@ export type FullProjectMonthModel = {
 
 /** Configuration for the ProjectMonth process */
 export interface ProjectMonthConfig {
+  /** Is there a check mecanism to compare the timesheet with? */
   timesheetCheck: boolean;
+  /** Does the consultant send an invoice? */
   inboundInvoice: boolean;
 }
 
