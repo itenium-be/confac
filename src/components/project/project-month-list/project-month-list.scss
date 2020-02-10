@@ -146,7 +146,6 @@ $cell-padding: 8px 4px;
   .outbound-cell {
     display: flex;
     padding: $cell-padding;
-    text-align: center;
 
     > * {
       &:first-child { width: 90%; }
@@ -155,6 +154,44 @@ $cell-padding: 8px 4px;
       &:not(:last-child) {
         margin-right: $in-cell-margin;
       }
+    }
+  }
+
+
+  // Outbound cell when invoice has been created
+  .outbound-invoice-cell {
+    display: flex;
+
+    > * {
+      &:first-child { width: 40%; }
+      &:nth-child(2) { width: 60%; }
+
+      &:not(:last-child) {
+        margin-right: $in-cell-margin;
+      }
+    }
+
+    // Invoice nr/date/amount
+    > div:first-child {
+      display: flex;
+      flex-flow: column;
+      padding: 4px;
+
+      span:first-child {
+        // Invoice amount
+        font-weight: bold;
+      }
+
+      span:last-child {
+        // invoice nr/date
+        font-size: 75%;
+      }
+    }
+
+    .icons-cell {
+      padding: $cell-padding;
+      align-self: center;
+      margin-right: 8px;
     }
   }
 }

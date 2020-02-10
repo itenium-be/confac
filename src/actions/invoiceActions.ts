@@ -16,7 +16,7 @@ function cleanViewModel(data: InvoiceModel): InvoiceModel {
 }
 
 
-export function createInvoice(data: InvoiceModel, history: any) {
+export function createInvoice(data: InvoiceModel, history?: any) {
   return dispatch => {
     dispatch(busyToggle());
     request.post(buildUrl('/invoices'))
@@ -31,7 +31,9 @@ export function createInvoice(data: InvoiceModel, history: any) {
 
         const invoiceType = data.isQuotation ? 'quotations' : 'invoices';
         success(t(data.isQuotation ? 'quotation.createConfirm' : 'invoice.createConfirm'));
-        history.push(`/${invoiceType}/${res.body.number}`);
+        if (history) {
+          history.push(`/${invoiceType}/${res.body.number}`);
+        }
 
       }, err => {
         if (err.res && err.res.text === 'TemplateNotFound') {

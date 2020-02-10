@@ -9,6 +9,7 @@ import {ProjectMonthTimesheetCell} from '../project-month-list/ProjectMonthTimes
 import {ProjectMonthConsultantCell} from '../project-month-list/ProjectMonthConsultantCell';
 import {ProjectMonthInboundCell} from '../project-month-list/ProjectMonthInboundCell';
 import {ProjectMonthOutboundCell} from '../project-month-list/ProjectMonthOutboundCell';
+import { getInvoiceDueDateVariant } from '../../invoice/invoice-table/getInvoiceListRowClass';
 
 
 export type ProjectMonthFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectMonthModel, ProjectMonthListFilters>;
@@ -16,10 +17,6 @@ export type ProjectMonthFeatureBuilderConfig = IFeatureBuilderConfig<FullProject
 
 
 const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMonthModel) => {
-  // if (!filters.showInactive && !details.active) {
-  //   return false;
-  // }
-
   if (!filters.freeText) {
     return true;
   }
@@ -34,9 +31,6 @@ const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMon
 
 
 const getRowBackgroundColor = (prj: FullProjectMonthModel): undefined | string => {
-  // return 'table-danger';
-  // return 'table-warning';
-  // return 'table-info';
   return undefined;
 };
 
@@ -76,6 +70,15 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
   }, {
     key: 'outbound',
     value: p => <ProjectMonthOutboundCell projectMonth={p} />,
+    className: p => {
+      if (p.invoice) {
+        if (p.invoice.verified) {
+          return 'table-success';
+        }
+        return `table-${getInvoiceDueDateVariant(p.invoice)}`;
+      }
+      return undefined;
+    },
   }];
 
   return {

@@ -2,13 +2,26 @@ import moment from 'moment';
 import {getNewClient} from '../../client/models/getNewClient';
 import InvoiceModel, {calculateDaysWorked} from '../models/InvoiceModel';
 import {defaultConfig} from '../../config/models/getNewConfig';
+import {ConfigModel} from '../../config/models/ConfigModel';
+import {ClientModel} from '../../client/models/ClientModels';
 
 // const defaultHoursInDay = 8;
+
+function createNew(config: ConfigModel, client: undefined | ClientModel): InvoiceModel {
+  let model = new InvoiceModel(config, {
+    client,
+    number: 1,
+    fileName: client ? client.invoiceFileName : '',
+    extraFields: client ? client.defaultExtraInvoiceFields : config.defaultExtraClientInvoiceFields,
+  });
+  model = model.setClient(client);
+  return model;
+}
 
 
 function createViewModel() {
   const client = getNewClient(defaultConfig);
-  const vm = InvoiceModel.createNew(defaultConfig, client);
+  const vm = createNew(defaultConfig, client);
   vm.date = moment('2017-02-01'); // has 20 working days
   return vm;
 }

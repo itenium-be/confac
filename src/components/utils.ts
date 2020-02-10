@@ -65,5 +65,3 @@ export const searchinize = (str: string): string => {
 };
 
 export {default as t} from '../trans';
-
-export {default as EditInvoiceViewModel} from './invoice/models/InvoiceModel';

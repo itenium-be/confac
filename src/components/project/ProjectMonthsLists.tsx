@@ -25,6 +25,7 @@ function projectMonthResolve(prj: ProjectMonthModel, state: ConfacState): FullPr
   const consultant = state.consultants.find(c => c._id === project.consultantId) as ConsultantModel;
   const client = project.client && state.clients.find(c => c._id === project.client.clientId) as ClientModel;
   const partner = project.partner && state.clients.find(c => project.partner && c._id === project.partner.clientId);
+  const invoice = state.invoices.find(i => i.projectId === prj._id);
 
   return {
     _id: prj._id,
@@ -33,6 +34,7 @@ function projectMonthResolve(prj: ProjectMonthModel, state: ConfacState): FullPr
     consultant,
     client,
     partner,
+    invoice,
   };
 }
 

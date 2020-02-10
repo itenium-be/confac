@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Col, Form} from 'react-bootstrap';
-import {t, EditInvoiceViewModel, formatDate} from '../../utils';
+import {t, formatDate} from '../../utils';
 import EditInvoiceLines from './invoice-lines/EditInvoiceLines';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
@@ -23,6 +23,7 @@ import {ExpandIcon} from '../../controls/Icon';
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {Button} from '../../controls/form-controls/Button';
 import {AttachmentsForm} from '../../controls/attachments/AttachmentsForm';
+import { getNewInvoice } from '../models/getNewInvoice';
 
 
 type EditInvoiceProps = {
@@ -81,30 +82,26 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
     return this.isQuotation ? 'quotation' : 'invoice';
   }
 
-  createModel(props: EditInvoiceProps): EditInvoiceViewModel {
-    const invoicesOrQuotations = this.isQuotation ? props.invoices.filter(x => x.isQuotation) : props.invoices.filter(x => !x.isQuotation);
+
+  createModel(props: EditInvoiceProps): InvoiceModel {
     if (props.match.params.id) {
       // Existing invoice / quotation
+      const invoicesOrQuotations = this.isQuotation ? props.invoices.filter(x => x.isQuotation) : props.invoices.filter(x => !x.isQuotation);
       const invoice = invoicesOrQuotations.find(i => i.number === parseInt(props.match.params.id, 10));
-      return new EditInvoiceViewModel(props.config, invoice);
-
+      return new InvoiceModel(props.config, invoice);
     }
-    // New invoice / quotation
-    let client: undefined | ClientModel;
-    if (props.config.defaultClient) {
-      client = props.clients.find(c => c._id === props.config.defaultClient);
-    }
-    const model = EditInvoiceViewModel.createNew(props.config, client);
 
-    model.number = invoicesOrQuotations.map(i => i.number).reduce((a, b) => Math.max(a, b), 0) + 1;
-    model.isQuotation = this.isQuotation;
-    return model;
+    const invoice = {
+      isQuotation: this.isQuotation,
+    }
+
+    return getNewInvoice(props.config, props.invoices, props.clients, invoice);
   }
 
   updateInvoice(key: string, value: any, calcMoneys = false) {
     // Naughty naughty: We are manipulating state directly!
     // To fix this: state should be a regular object, and a
-    // EditInvoiceViewModel should be created in the render
+    // InvoiceModel should be created in the render
     this.state.invoice.updateField(key, value, calcMoneys);
     this.forceUpdate();
   }

@@ -1,16 +1,18 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FullProjectMonthModel, ProjectMonthOutbound} from '../models/ProjectMonthModel';
-import {patchProjectsMonth, createProjectsMonthInvoice, createInvoice} from '../../../actions';
+import {patchProjectsMonth, createInvoice} from '../../../actions';
 import {getNewProjectMonthOutbound} from '../models/getNewProject';
 import {useDebouncedSave} from '../../hooks/useDebounce';
 import {Button} from '../../controls/form-controls/Button';
 import {Icon} from '../../controls/Icon';
-import {t} from '../../utils';
+import {t, moneyFormat, formatDate} from '../../utils';
 import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
-import InvoiceModel from '../../invoice/models/InvoiceModel';
-import { ConfacState } from '../../../reducers/app-state';
-import { useHistory } from 'react-router-dom';
+import {ConfacState} from '../../../reducers/app-state';
+import {getNewInvoice} from '../../invoice/models/getNewInvoice';
+import {InvoiceNumberCell} from '../../invoice/invoice-table/InvoiceNumberCell';
+import {InvoiceListRowActions} from '../../invoice/invoice-table/InvoiceListRowActions';
 
 
 interface ProjectMonthOutboundCellProps {
@@ -28,23 +30,58 @@ export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCel
   };
   const [outbound, setOutbound, saveOutbound] = useDebouncedSave<ProjectMonthOutbound>(defaultOutbound, dispatcher);
 
-  return (
-    <div className="outbound-cell">
-      {!outbound.invoiceId ? (
+  // TODO: NotesModalButton is no longer visible when there is an invoice!
+  // TODO: Even without having an invoice created it should be possible to mark it 'invoice.verified'.
+  // TODO: add "email invoice" functionality with statusses: Not emailed / Emailed: Tooltip with when last emailed (date + how many days ago)
+  // TODO: "Factuur maken" | "Factuur linken": Link dit naar een bestaande factuur (Need invoice selector) --> Update dan de invoice.projectId & invoice.consultantId
+  // TODO: When creating the invoice, the attachments are not reassigned (from projectMonth -> invoice)
+
+
+  if (!projectMonth.invoice) {
+    return (
+      <div className="outbound-cell">
         <CreateInvoiceButton projectMonth={projectMonth} />
-      ) : (
-        <span>{outbound.invoiceId}</span>
-      )}
 
 
-      <NotesModalButton
-        value={outbound.note}
-        onChange={val => saveOutbound({...outbound, note: val})}
-        title={t('projectMonth.outboundNote')}
-      />
+        <NotesModalButton
+          value={outbound.note}
+          onChange={val => saveOutbound({...outbound, note: val})}
+          title={t('projectMonth.outboundNote')}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <OutboundInvoice projectMonth={projectMonth} />
+  );
+};
+
+
+const OutboundInvoice = ({projectMonth}: CreateInvoiceButtonProps) => {
+  if (!projectMonth.invoice) {
+    return null;
+  }
+
+  // console.log('zed', projectMonth.invoice);
+  return (
+    <div className="outbound-invoice-cell">
+      <div>
+        <span>{moneyFormat(projectMonth.invoice.money.total)}</span>
+        <span>
+          <InvoiceNumberCell invoice={projectMonth.invoice} />
+          &nbsp;({formatDate(projectMonth.invoice.date, 'D/M')})
+        </span>
+      </div>
+      <div className="icons-cell">
+        <InvoiceListRowActions invoice={projectMonth.invoice} />
+      </div>
     </div>
   );
 };
+
+
+
 
 
 interface CreateInvoiceButtonProps {
@@ -53,23 +90,31 @@ interface CreateInvoiceButtonProps {
 
 
 const CreateInvoiceButton = ({projectMonth}: CreateInvoiceButtonProps) => {
-  const history = useHistory();
   const dispatch = useDispatch();
-  const config = useSelector((state: ConfacState) => state.config);
+  const state = useSelector((s: ConfacState) => s);
 
   const buildAndCreateInvoice = () => {
-    const invoice = new InvoiceModel(config, {
+    const blueprint = {
+      isQuotation: false,
       client: projectMonth.client,
       orderNr: projectMonth.project.client.ref,
-      // attachments: [],
       projectId: projectMonth._id,
       consultantId: projectMonth.consultant._id,
-    });
+      lines: [{
+        sort: 0,
+        desc: '',
+        amount: projectMonth.details.timesheet.timesheet || 0,
+        type: projectMonth.project.client.rateType,
+        price: projectMonth.project.client.tariff,
+        tax: state.config.defaultTax,
+      }],
+    };
 
-    console.log('creating', invoice);
-
-    // dispatch(createInvoice(invoice, history));
+    const invoice = getNewInvoice(state.config, state.invoices, state.clients, blueprint);
+    // console.log('creating', invoice);
+    dispatch(createInvoice(invoice));
   };
+
 
 
   const valid = (
@@ -77,13 +122,12 @@ const CreateInvoiceButton = ({projectMonth}: CreateInvoiceButtonProps) => {
     && (projectMonth.details.inbound.status === 'paid' || !projectMonth.project.projectMonthConfig.inboundInvoice)
   );
 
-
   return (
     <>
       <Button key="new" variant={valid ? 'success' : 'outline-danger'} onClick={() => buildAndCreateInvoice()} size="md">
+        <Icon fa="fa fa-file-invoice" size={1} style={{marginRight: 8}} />
         {t('projectMonth.outboundCreateInvoice')}
-        <Icon fa="fa fa-file-invoice" size={1} style={{marginLeft: 12}} />
       </Button>
     </>
   );
-}
+};

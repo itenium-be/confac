@@ -29,6 +29,8 @@ export type InvoiceMoney = {
   }
 }
 
+
+
 /**
  * The only invoice model
  * (InvoiceListModel is actually for filtering etc)
@@ -38,6 +40,8 @@ export default class InvoiceModel implements IAttachment {
   number: number;
   client: ClientModel;
   your: ConfigCompanyModel;
+  projectId?: string;
+  consultantId?: string;
   date: moment.Moment;
   orderNr: string;
   verified: boolean;
@@ -53,19 +57,7 @@ export default class InvoiceModel implements IAttachment {
   lines: InvoiceLine[] = [];
   money: InvoiceMoney;
 
-  static createNew(config: ConfigModel, client: undefined | ClientModel): InvoiceModel {
-    // debugger;
-    let model = new InvoiceModel(config, {
-      client,
-      number: 1,
-      fileName: client ? client.invoiceFileName : '',
-      extraFields: client ? client.defaultExtraInvoiceFields : config.defaultExtraClientInvoiceFields,
-    });
-    model = model.setClient(client);
-    return model;
-  }
-
-  get isNew() {
+  get isNew(): boolean {
     return this._id === undefined;
   }
 
@@ -77,7 +69,9 @@ export default class InvoiceModel implements IAttachment {
     this.number = obj.number || 1;
     this.client = obj.client;
     this.your = obj.company || config.company;
-    this.date = obj.date || getInvoiceDate(this.client, config);
+    this.projectId = obj.projectId;
+    this.consultantId = obj.consultantId;
+    this.date = obj.date;
     this.orderNr = obj.orderNr || '';
     this.verified = obj.verified || false;
     this.fileName = obj.fileName || config.invoiceFileName;
@@ -111,6 +105,7 @@ export default class InvoiceModel implements IAttachment {
     return this;
   }
 
+  /** Some weird stuff happening here that EditInvoice probably depends on */
   setClient(client: undefined | ClientModel): InvoiceModel {
     this.client = client as ClientModel;
     this.fileName = client ? client.invoiceFileName : this.fileName;
@@ -118,9 +113,7 @@ export default class InvoiceModel implements IAttachment {
       this.extraFields = client ? (client.defaultExtraInvoiceFields || []) : [];
     }
     this._defaultType = client && client.rate ? client.rate.type : this._defaultType;
-    if (client && client.defaultInvoiceDateStrategy) {
-      this.date = getInvoiceDate(client);
-    }
+    this.date = getInvoiceDate(client);
     if (!this.lines || this.lines.length <= 1) {
       this._lines = [this.getLine()];
     }

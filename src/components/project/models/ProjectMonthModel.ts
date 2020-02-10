@@ -2,6 +2,7 @@ import {Moment} from 'moment';
 import {ProjectModel} from './ProjectModel';
 import {ConsultantModel, ConsultantType} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
+import InvoiceModel from '../../invoice/models/InvoiceModel';
 
 export interface ProjectMonthModel {
   _id: string;
@@ -22,7 +23,7 @@ export interface ProjectMonthInbound {
 }
 
 export interface ProjectMonthOutbound {
-  invoiceId?: string;
+  invoiceId?: string; // TODO: probably need to delete this again...
   note?: string;
 }
 
@@ -47,6 +48,7 @@ export type FullProjectMonthModel = {
   consultant: ConsultantModel;
   client: ClientModel;
   partner?: ClientModel;
+  invoice?: InvoiceModel;
 };
 
 
