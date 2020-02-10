@@ -30,7 +30,12 @@ export function useDebouncedSave<T>(defaultValue: T, callback: ActionFn<T>, dela
   useEffect(
     () => {
       if (editMode) {
-        callback(value);
+        // Simple check: do not save if there are no changes
+        if (JSON.stringify(value) !== JSON.stringify(defaultValue)) {
+          // console.log('saving: ', value, defaultValue);
+          callback(value);
+        }
+
         setEditMode(false);
       }
     },

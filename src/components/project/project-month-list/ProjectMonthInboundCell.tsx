@@ -32,7 +32,12 @@ export const ProjectMonthInboundCell = ({projectMonth}: ProjectMonthInboundCellP
     return <div />;
   }
 
-  const canEdit = inbound.status !== 'new' ? 'label' : undefined;
+  if (projectMonth.details.verified) {
+    return <div />;
+  }
+
+
+  const canEdit = (projectMonth.details.verified || inbound.status !== 'new') ? 'label' : undefined;
 
   return (
     <div className={cn('inbound-cell')}>

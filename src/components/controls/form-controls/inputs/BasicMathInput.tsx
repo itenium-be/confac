@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {BaseInput, BaseInputProps} from './BaseInput';
 import {parseIntOrFloat} from './input-util';
 
@@ -17,6 +17,8 @@ type BasicMathInputProps = BaseInputProps<number> & {
 
 /**
  * Component that parses simple math onBlur
+ * ATTN: onChange returns a string (whatever the user has put in)
+ * ATTN: onBlur it will call onChange with a resolved number
  */
 export const BasicMathInput = ({value, onChange, float = false, allowHours = false, ...props}: BasicMathInputProps) => (
   <BaseInput

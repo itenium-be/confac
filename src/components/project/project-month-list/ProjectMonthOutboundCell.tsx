@@ -1,18 +1,16 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {FullProjectMonthModel, ProjectMonthOutbound} from '../models/ProjectMonthModel';
-import {patchProjectsMonth, createInvoice} from '../../../actions';
-import {getNewProjectMonthOutbound} from '../models/getNewProject';
-import {useDebouncedSave} from '../../hooks/useDebounce';
+import {FullProjectMonthModel, ProjectMonthModel} from '../models/ProjectMonthModel';
+import {createInvoice, patchProjectsMonth} from '../../../actions';
 import {Button} from '../../controls/form-controls/Button';
 import {Icon} from '../../controls/Icon';
 import {t, moneyFormat, formatDate} from '../../utils';
-import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
 import {ConfacState} from '../../../reducers/app-state';
 import {getNewInvoice} from '../../invoice/models/getNewInvoice';
 import {InvoiceNumberCell} from '../../invoice/invoice-table/InvoiceNumberCell';
 import {InvoiceListRowActions} from '../../invoice/invoice-table/InvoiceListRowActions';
+import {ValidityToggleButton} from '../../controls/form-controls/button/ValidityToggleButton';
 
 
 interface ProjectMonthOutboundCellProps {
@@ -24,30 +22,52 @@ interface ProjectMonthOutboundCellProps {
 export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCellProps) => {
   const dispatch = useDispatch();
 
-  const defaultOutbound = projectMonth.details.outbound || getNewProjectMonthOutbound();
-  const dispatcher = (val: ProjectMonthOutbound) => {
-    dispatch(patchProjectsMonth({...projectMonth.details, outbound: val}));
-  };
-  const [outbound, setOutbound, saveOutbound] = useDebouncedSave<ProjectMonthOutbound>(defaultOutbound, dispatcher);
+  const toggleValid = (verified: boolean) => {
+    const validity: Partial<ProjectMonthModel> = {
+      verified,
+      // timesheet: {
+      //   ...projectMonth.details.timesheet,
+      //   validated: verified,
+      // },
+      // inbound: {
+      //   ...projectMonth.details.inbound,
+      //   status: verified ? 'paid' : 'new',
+      // },
+    };
 
-  // TODO: NotesModalButton is no longer visible when there is an invoice!
-  // TODO: Even without having an invoice created it should be possible to mark it 'invoice.verified'.
+    dispatch(patchProjectsMonth({...projectMonth.details, ...validity}));
+  };
+
+
   // TODO: add "email invoice" functionality with statusses: Not emailed / Emailed: Tooltip with when last emailed (date + how many days ago)
-  // TODO: "Factuur maken" | "Factuur linken": Link dit naar een bestaande factuur (Need invoice selector) --> Update dan de invoice.projectId & invoice.consultantId
   // TODO: When creating the invoice, the attachments are not reassigned (from projectMonth -> invoice)
+
+
+  const ValidityToggle = (
+    <ValidityToggleButton
+      value={projectMonth.details.verified}
+      onChange={() => toggleValid(!projectMonth.details.verified)}
+      outline
+      title={t('projectMonth.forceVerified')}
+    />
+  );
+
+
+  if (projectMonth.details.verified) {
+    return (
+      <div className="outbound-cell validated">
+        <div />
+        {ValidityToggle}
+      </div>
+    );
+  }
 
 
   if (!projectMonth.invoice) {
     return (
       <div className="outbound-cell">
         <CreateInvoiceButton projectMonth={projectMonth} />
-
-
-        <NotesModalButton
-          value={outbound.note}
-          onChange={val => saveOutbound({...outbound, note: val})}
-          title={t('projectMonth.outboundNote')}
-        />
+        {ValidityToggle}
       </div>
     );
   }

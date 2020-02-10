@@ -72,7 +72,17 @@ export function createProjectsMonthInvoice(project: ProjectMonthModel) {
 
 
 export function patchProjectsMonth(project: ProjectMonthModel) {
+  // This is currently a put like all other saves
   // ATTN: ProjectMonthFeatureBuilderConfig.save would expect this to be a put, not a patch!
+
+
+  // ATTN: BasicMathInput triggers onChange with user inputted text
+  // And this is the "solution".
+  const ts = project.timesheet;
+  if (typeof ts.check === 'string' || typeof ts.timesheet === 'string') {
+    return {type: 'NONE'};
+  }
+
 
   return (dispatch: Dispatch) => {
     dispatch(busyToggle());

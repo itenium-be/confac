@@ -9,7 +9,8 @@ import {ProjectMonthTimesheetCell} from '../project-month-list/ProjectMonthTimes
 import {ProjectMonthConsultantCell} from '../project-month-list/ProjectMonthConsultantCell';
 import {ProjectMonthInboundCell} from '../project-month-list/ProjectMonthInboundCell';
 import {ProjectMonthOutboundCell} from '../project-month-list/ProjectMonthOutboundCell';
-import { getInvoiceDueDateVariant } from '../../invoice/invoice-table/getInvoiceListRowClass';
+import {getInvoiceDueDateVariant} from '../../invoice/invoice-table/getInvoiceListRowClass';
+import {ProjectMonthNotesCell} from '../project-month-list/ProjectMonthNotesCell';
 
 
 export type ProjectMonthFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectMonthModel, ProjectMonthListFilters>;
@@ -40,11 +41,17 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
   const list: IListCell<FullProjectMonthModel>[] = [{
     key: 'consultant',
     value: p => <ProjectMonthConsultantCell projectMonth={p} />,
+    className: p => {
+      if (p.details.verified) {
+        return 'validated';
+      }
+      return undefined;
+    },
   }, {
     key: 'timesheet',
     value: p => <ProjectMonthTimesheetCell projectMonth={p} />,
     className: p => {
-      if (p.details.timesheet.validated) {
+      if (p.details.timesheet.validated || p.details.verified) {
         return 'validated';
       }
       return undefined;
@@ -53,7 +60,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     key: 'inbound',
     value: p => <ProjectMonthInboundCell projectMonth={p} />,
     className: p => {
-      if (!p.project.projectMonthConfig.inboundInvoice) {
+      if (!p.project.projectMonthConfig.inboundInvoice || p.details.verified) {
         return 'validated';
       }
 
@@ -73,9 +80,18 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     className: p => {
       if (p.invoice) {
         if (p.invoice.verified) {
-          return 'table-success';
+          return 'validated';
         }
         return `table-${getInvoiceDueDateVariant(p.invoice)}`;
+      }
+      return undefined;
+    },
+  }, {
+    key: 'notes',
+    value: p => <ProjectMonthNotesCell projectMonth={p} />,
+    className: p => {
+      if (p.details.verified) {
+        return 'validated';
       }
       return undefined;
     },

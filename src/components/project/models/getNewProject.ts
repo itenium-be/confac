@@ -1,7 +1,7 @@
 import moment from 'moment';
 import {ProjectModel, ProjectClientModel} from './ProjectModel';
 import {ProjectMonthModel, getDefaultProjectMonthConfig, ProjectMonthInbound,
-  ProjectMonthTimesheet, ProjectMonthOutbound} from './ProjectMonthModel';
+  ProjectMonthTimesheet} from './ProjectMonthModel';
 
 
 export const getNewProjectClient = (): ProjectClientModel => {
@@ -24,7 +24,8 @@ export const getNewProjectMonth = (): ProjectMonthModel => ({
   projectId: '',
   timesheet: getNewProjectMonthTimesheet(),
   inbound: getNewProjectMonthInbound(),
-  outbound: getNewProjectMonthOutbound(),
+  note: '',
+  verified: false,
 });
 
 export const getNewProjectMonthInbound = (): ProjectMonthInbound => ({
@@ -34,9 +35,4 @@ export const getNewProjectMonthInbound = (): ProjectMonthInbound => ({
 
 export const getNewProjectMonthTimesheet = (): ProjectMonthTimesheet => ({
   validated: false,
-});
-
-export const getNewProjectMonthOutbound = (): ProjectMonthOutbound => ({
-  invoiceId: '',
-  note: '',
 });

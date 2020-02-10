@@ -359,7 +359,8 @@ export const trans = {
     inboundPaid: 'Betaald: Factuur is betaald',
     inboundValidated: 'Gevalideerd: Timesheet en bedrag zijn gecontroleerd',
     outboundCreateInvoice: 'Factuur maken',
-    outboundNote: 'Facturatie perikelen',
+    note: 'Facturatie perikelen',
+    forceVerified: 'Forceer afgehandeld zonder een factuur op te maken',
   },
   controls: {
     // browser

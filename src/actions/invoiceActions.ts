@@ -25,7 +25,7 @@ export function createInvoice(data: InvoiceModel, history?: any) {
       .send(cleanViewModel(data))
       .then(res => {
         dispatch({
-          type: ACTION_TYPES.INVOICE_ADDED,
+          type: ACTION_TYPES.INVOICE_UPDATED,
           invoice: res.body,
         });
 

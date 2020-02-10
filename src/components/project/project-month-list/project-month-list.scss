@@ -3,7 +3,7 @@
 $table-border-color: #dee2e6;
 
 $in-cell-margin: 12px;
-$cell-padding: 8px 4px;
+$cell-padding: 8px 8px;
 
 
 .list-projectMonths {
@@ -38,7 +38,8 @@ $cell-padding: 8px 4px;
     &:first-child { width: 10%; }
     &:nth-child(2) { width: 25%; }
     &:nth-child(3) { width: 40%; }
-    &:last-child { width: 25%; }
+    &:nth-child(4) { width: 35%; }
+    &:last-child { width: 5%; max-width: 80px; }
   }
 
   td, th {
@@ -142,7 +143,7 @@ $cell-padding: 8px 4px;
 
 
 
-  /** The outbound cell */
+  /** The outbound cell when invoice is NOT created */
   .outbound-cell {
     display: flex;
     padding: $cell-padding;
@@ -156,6 +157,7 @@ $cell-padding: 8px 4px;
       }
     }
   }
+
 
 
   // Outbound cell when invoice has been created
@@ -193,5 +195,12 @@ $cell-padding: 8px 4px;
       align-self: center;
       margin-right: 8px;
     }
+  }
+
+
+  // The notes cell
+  .notes-cell {
+    display: flex;
+    padding: $cell-padding;
   }
 }

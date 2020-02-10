@@ -10,8 +10,9 @@ export interface ProjectMonthModel {
   projectId: string;
   timesheet: ProjectMonthTimesheet;
   inbound: ProjectMonthInbound;
-  outbound: ProjectMonthOutbound;
+  note?: string;
   createdOn?: string;
+  verified: boolean;
 }
 
 export type ProjectMonthInboundStatus = 'new' | 'validated' | 'paid';
@@ -20,11 +21,6 @@ export interface ProjectMonthInbound {
   nr: string;
   dateReceived?: Moment | null;
   status: ProjectMonthInboundStatus;
-}
-
-export interface ProjectMonthOutbound {
-  invoiceId?: string; // TODO: probably need to delete this again...
-  note?: string;
 }
 
 

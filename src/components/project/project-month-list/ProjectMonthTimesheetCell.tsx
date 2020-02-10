@@ -3,7 +3,6 @@ import {useDispatch} from 'react-redux';
 import cn from 'classnames';
 import useViewportSizes from 'use-viewport-sizes'
 import {FullProjectMonthModel, ProjectMonthTimesheet} from '../models/ProjectMonthModel';
-import {FloatInput} from '../../controls/form-controls/inputs/FloatInput';
 import {t} from '../../utils';
 import {ValidityToggleButton} from '../../controls/form-controls/button/ValidityToggleButton';
 import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
@@ -11,6 +10,8 @@ import {UploadFileButton} from '../../controls/form-controls/button/UploadFileBu
 import {projectMonthUpload, patchProjectsMonth} from '../../../actions/projectActions';
 import {getNewProjectMonthTimesheet} from '../models/getNewProject';
 import {useDebouncedSave} from '../../hooks/useDebounce';
+import {BasicMathInput} from '../../controls/form-controls/inputs/BasicMathInput';
+import { FloatInput } from '../../controls/form-controls/inputs/FloatInput';
 
 interface ProjectMonthTimesheetCellProps {
   projectMonth: FullProjectMonthModel;
@@ -46,9 +47,12 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
   const [timesheet, setTimesheet, saveTimesheet] = useDebouncedSave<ProjectMonthTimesheet>(defaultValue, dispatcher);
 
 
+  if (projectMonth.details.verified) {
+    return <div />;
+  }
+
+
   const projectConfig = projectMonth.project.projectMonthConfig;
-
-
   const canToggleValid = !(
     timesheet.timesheet
     && (timesheet.timesheet === timesheet.check || timesheet.note || !projectConfig.timesheetCheck)
@@ -58,23 +62,24 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
   return (
     <div className={cn('timesheet-cell')}>
       <>
-        <FloatInput
+        <BasicMathInput
           value={timesheet.timesheet}
           onChange={val => setTimesheet({...timesheet, timesheet: val})}
           placeholder={t('projectMonth.timesheet')}
           display={timesheet.validated && (() => <TimesheetDaysDisplay days={timesheet.timesheet} />)}
+          float
         />
 
         {projectConfig.timesheetCheck ? (
-          <FloatInput
+          <BasicMathInput
             value={timesheet.check}
             onChange={val => setTimesheet({...timesheet, check: val})}
             placeholder={t('projectMonth.timesheetCheck')}
             display={timesheet.validated && (() => <TimesheetDaysDisplay days={timesheet.check} />)}
+            float
           />
         ) : <div />}
       </>
-
 
       <div className="timesheet-actions">
         <ValidityToggleButton

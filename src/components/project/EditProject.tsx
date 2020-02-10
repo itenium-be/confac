@@ -38,10 +38,9 @@ export const EditProject = (props: EditProjectProps) => {
     }
   };
 
-  const isButtonDisabled = (): boolean => {
-    const {consultantId} = project;
-    return !consultantId || !project.client || !project.client.clientId || !project.startDate || !project.client.tariff;
-  };
+  const isButtonDisabled = !project.consultantId
+    || !project.client || !project.client.clientId || !project.client.tariff
+    || !project.startDate;
 
   return (
     <Container className="edit-container">
@@ -59,7 +58,7 @@ export const EditProject = (props: EditProjectProps) => {
         </Row>
       </Form>
       <StickyFooter>
-        <BusyButton onClick={() => dispatch(saveProject(project, history))} disabled={isButtonDisabled()}>
+        <BusyButton onClick={() => dispatch(saveProject(project, history))} disabled={isButtonDisabled}>
           {t('save')}
         </BusyButton>
       </StickyFooter>

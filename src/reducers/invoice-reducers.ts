@@ -17,9 +17,6 @@ export const invoices = (state: InvoiceModel[] = [], action): InvoiceModel[] => 
     case ACTION_TYPES.INVOICE_DELETED:
       return state.filter(invoice => invoice._id !== action.id);
 
-    case ACTION_TYPES.INVOICE_ADDED:
-      return state.concat([mapInvoice(action.invoice)]);
-
     case ACTION_TYPES.INVOICE_UPDATED: {
     // console.log('UPDATED', action);
       const newState = state.filter(invoice => invoice._id !== action.invoice._id);
