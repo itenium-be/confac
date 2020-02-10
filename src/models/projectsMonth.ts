@@ -6,7 +6,9 @@ export interface IProjectMonth {
   projectId: string;
   timesheet: ProjectMonthTimesheet;
   inbound: ProjectMonthInbound;
-  outbound: ProjectMonthOutbound;
+  note?: string;
+  /** True when the invoice is verified or just true when there is no invoice to be made (user decision) */
+  verified: boolean;
   createdOn?: string;
 }
 
@@ -55,10 +57,8 @@ const projectMonthSchema = new mongoose.Schema<IProjectMonth>({
     dateReceived: String,
     status: String,
   },
-  outbound: {
-    invoiceId: String,
-    note: String,
-  },
+  note: String,
+  verified: Boolean,
   createdOn: String,
 });
 

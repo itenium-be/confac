@@ -89,6 +89,8 @@ const invoiceSchema = new mongoose.Schema({
     telephone: String,
     email: String,
     website: String,
+    template: String,
+    templateQuotation: String,
   },
   date: String,
   orderNr: String,

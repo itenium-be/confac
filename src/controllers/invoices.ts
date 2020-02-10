@@ -9,6 +9,7 @@ import {InvoicesCollection, IInvoice, INVOICE_EXCEL_HEADERS} from '../models/inv
 import {AttachmentsCollection, IAttachment, ISendGridAttachment} from '../models/attachments';
 import {createPdf} from './utils';
 import {IEmail} from '../models/clients';
+import { ProjectsPerMonthCollection } from '../models/projectsMonth';
 
 export const getInvoices = async (req: Request, res: Response) => {
   const invoices = await InvoicesCollection.find();
@@ -145,6 +146,9 @@ export const emailInvoice = async (req: Request, res: Response) => {
   return res.status(200).send(lastEmailSent);
 };
 
+
+
+/** Update an existing invoice */
 export const updateInvoice = async (req: Request, res: Response) => {
   const invoice: IInvoice = req.body;
 
@@ -155,12 +159,19 @@ export const updateInvoice = async (req: Request, res: Response) => {
   }
 
   await AttachmentsCollection.findByIdAndUpdate({_id: invoice._id}, {pdf: updatedPdfBuffer});
-
   const updatedInvoice = await InvoicesCollection.findByIdAndUpdate({_id: invoice._id}, invoice, {new: true});
+
+  if (updatedInvoice && updatedInvoice.projectId) {
+    console.log('updating', invoice.projectId, 'verified', updatedInvoice.verified);
+    await ProjectsPerMonthCollection.findByIdAndUpdate({_id: invoice.projectId}, {verified: updatedInvoice.verified});
+  }
 
   return res.send(updatedInvoice);
 };
 
+
+
+/** Hard invoice delete: There is no coming back from this one */
 export const deleteInvoice = async (req: Request, res: Response) => {
   const {id}: {id: string;} = req.body;
 
@@ -170,6 +181,9 @@ export const deleteInvoice = async (req: Request, res: Response) => {
   return res.send(id);
 };
 
+
+
+/** Open the invoice pdf in the browser in a new tab */
 export const previewPdfInvoice = async (req: Request, res: Response) => {
   const invoice: IInvoice = req.body;
 
@@ -182,6 +196,9 @@ export const previewPdfInvoice = async (req: Request, res: Response) => {
   return res.type('application/pdf').send(pdfBuffer);
 };
 
+
+
+/** Create simple CSV output of the invoice._ids passed in the body */
 export const generateExcelForInvoices = async (req: Request, res: Response) => {
   const invoiceIds: string[] = req.body;
 
