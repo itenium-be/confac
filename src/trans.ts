@@ -382,6 +382,7 @@ export const trans = {
   email: {
     title: 'Factuur emailen',
     prepareEmail: 'Email voorbereiden',
+    prepareEmailReminder: 'Email herinnering',
     to: 'Naar',
     toPlaceholder: 'Email adressen met ; scheiden',
     cc: 'CC',

@@ -229,8 +229,12 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
           <AttachmentsForm model={invoice} />
           <StickyFooter>
             {!invoice.isNew && (
-              <Button variant="light" icon="far fa-envelope" onClick={() => this.setState({showEmailModal: true})}>
-                {t('email.prepareEmail')}
+              <Button
+                variant={invoice.verified ? 'outline-danger' : 'light'}
+                icon="far fa-envelope"
+                onClick={() => this.setState({showEmailModal: true})}
+              >
+                {t(!invoice.lastEmail ? 'email.prepareEmail' : 'email.prepareEmailReminder')}
               </Button>
             )}
             <EditInvoiceSaveButtons onClick={(type, history) => this.props.invoiceAction(invoice, type, history)} invoice={invoice} />

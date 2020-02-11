@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {BaseInput, BaseInputProps} from './BaseInput';
 import {parseIntOrFloat} from './input-util';
 

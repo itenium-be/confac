@@ -11,7 +11,6 @@ import {projectMonthUpload, patchProjectsMonth} from '../../../actions/projectAc
 import {getNewProjectMonthTimesheet} from '../models/getNewProject';
 import {useDebouncedSave} from '../../hooks/useDebounce';
 import {BasicMathInput} from '../../controls/form-controls/inputs/BasicMathInput';
-import { FloatInput } from '../../controls/form-controls/inputs/FloatInput';
 
 interface ProjectMonthTimesheetCellProps {
   projectMonth: FullProjectMonthModel;

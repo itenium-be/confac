@@ -42,13 +42,13 @@ export function sendEmail(invoice: InvoiceModel, email: EmailModel) {
           type: ACTION_TYPES.INVOICE_EMAILED,
           payload: {
             _id: invoice._id,
-            lastEmail: res.body,
+            lastEmail: res.text,
           },
         });
       })
       .catch(err => {
         console.error('res ERROR', err); // eslint-disable-line
-        failure(err.body[0].message, 'Email failure', 8000);
+        failure(err.body.message, 'Email failure', 8000);
       });
   };
 }

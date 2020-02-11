@@ -39,9 +39,6 @@ export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCel
   };
 
 
-  // TODO: add "email invoice" functionality with statusses: Not emailed / Emailed: Tooltip with when last emailed (date + how many days ago)
-  // TODO: When creating the invoice, the attachments are not reassigned (from projectMonth -> invoice)
-
 
   const ValidityToggle = (
     <ValidityToggleButton
