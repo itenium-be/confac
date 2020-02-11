@@ -14,6 +14,10 @@ const createProject = (start: string, end?: string): IProject => ({
     rateType: 'daily',
     tariff: 10,
   },
+  projectMonthConfig: {
+    timesheetCheck: true,
+    inboundInvoice: false,
+  },
 });
 
 describe('Feature: determine whether project is active or not', () => {
