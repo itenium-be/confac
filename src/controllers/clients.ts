@@ -2,10 +2,13 @@ import {Request, Response} from 'express';
 import slugify from 'slugify';
 import fetch from 'node-fetch';
 
-import {ClientsCollection, IClient} from '../models/clients';
+import {ObjectID} from 'mongodb';
+import {IClient} from '../models/clients';
+import {CollectionNames} from '../models/common';
 
 export const getClients = async (req: Request, res: Response) => {
-  const clients = await ClientsCollection.find();
+  const clients = await req.db.collection(CollectionNames.CLIENTS).find()
+    .toArray();
   return res.send(clients);
 };
 
@@ -15,26 +18,17 @@ export const validateBtw = async (req: Request, res: Response) => {
   return res.send(result);
 };
 
-const updateClient = async (id: string, client: IClient): Promise<IClient> => {
-  const updatedClient = await ClientsCollection.findByIdAndUpdate({_id: id}, client, {new: true});
-  return updatedClient as IClient;
-};
+export const saveClient = async (req: Request, res: Response) => {
+  const {_id, ...client}: IClient = req.body;
 
-const createClient = async (client: IClient): Promise<IClient> => {
-  const slug = slugify(client.name).toLowerCase();
-  const createdClient = await ClientsCollection.create({
-    ...client,
-    slug,
-  });
-  return createdClient;
-};
-
-export const createOrUpdateClient = async (req: Request, res: Response) => {
-  const {_id, ...client} = req.body;
   if (_id) {
-    const updatedClient = await updateClient(_id, client);
+    const inserted = await req.db.collection<IClient>(CollectionNames.CLIENTS).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: client}, {returnOriginal: false});
+    const updatedClient = inserted.value;
     return res.send(updatedClient);
   }
-  const createdClient = await createClient(client);
+
+  client.slug = slugify(client.name).toLowerCase();
+  const inserted = await req.db.collection(CollectionNames.CLIENTS).insertOne(client);
+  const [createdClient] = inserted.ops;
   return res.send(createdClient);
 };
