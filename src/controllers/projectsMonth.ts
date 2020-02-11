@@ -1,12 +1,15 @@
 import {Request, Response} from 'express';
-import moment from 'moment';
-import {ProjectsCollection} from '../models/projects';
+
+import {ObjectID} from 'mongodb';
 import {findActiveProjectsForSelectedMonth} from './projects';
-import {ProjectsPerMonthCollection, IProjectMonth} from '../models/projectsMonth';
+import {IProjectMonth} from '../models/projectsMonth';
+import {CollectionNames} from '../models/common';
+import {IProject} from '../models/projects';
 
 
 export const getProjectsPerMonth = async (req: Request, res: Response) => {
-  const projectsPerMonth = await ProjectsPerMonthCollection.find();
+  const projectsPerMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH).find()
+    .toArray();
   return res.send(projectsPerMonth);
 };
 
@@ -16,35 +19,39 @@ export const getProjectsPerMonth = async (req: Request, res: Response) => {
 export const createProjectsMonth = async (req: Request, res: Response) => {
   const {month}: {month: string;} = req.body;
 
-  const projects = await ProjectsCollection.find();
+  const projects = await req.db.collection<IProject>(CollectionNames.PROJECTS).find()
+    .toArray();
   const activeProjects = findActiveProjectsForSelectedMonth(month, projects);
 
   const createdProjectsMonth = await Promise.all(activeProjects.map(async activeProject => {
-    const projectMonth = {
+    const projectMonth: Pick<IProjectMonth, 'month' | 'projectId' | 'createdOn'> = {
       month,
       projectId: activeProject._id,
       createdOn: new Date().toISOString(),
-    } as IProjectMonth;
-    const createdProjectMonth = await ProjectsPerMonthCollection.create(projectMonth);
+    };
+
+    const inserted = await req.db.collection<Pick<IProjectMonth, 'month' | 'projectId' | 'createdOn'>>(CollectionNames.PROJECTS_MONTH).insertOne(projectMonth);
+    const [createdProjectMonth] = inserted.ops;
     return createdProjectMonth;
   }));
 
   return res.send(createdProjectsMonth);
 };
 
-
-
 export const patchProjectsMonth = async (req: Request, res: Response) => {
-  const {_id, ...project}: IProjectMonth = req.body;
+  const {_id, ...projectMonth}: IProjectMonth = req.body;
 
   if (_id) {
-    const updatedProject = await ProjectsPerMonthCollection.findByIdAndUpdate({_id}, project, {new: true});
-    return res.send(updatedProject);
+    const inserted = await req.db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: projectMonth}, {returnOriginal: false});
+    const updatedProjectMonth = inserted.value;
+    return res.send(updatedProjectMonth);
   }
 
-  const createdProject = await ProjectsPerMonthCollection.create({
-    ...project,
+  const inserted = await req.db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).insertOne({
+    ...projectMonth,
     createdOn: new Date().toISOString(),
   });
-  return res.send(createdProject);
+  const [createdProjectMonth] = inserted.ops;
+
+  return res.send(createdProjectMonth);
 };
