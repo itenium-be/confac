@@ -180,9 +180,9 @@ export const updateInvoice = async (req: Request, res: Response) => {
   const inserted = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: invoice}, {returnOriginal: false});
   const updatedInvoice = inserted.value;
 
-  if (updatedInvoice && updatedInvoice.projectId) {
+  if (updatedInvoice?.projectId) {
     console.log('updating', invoice.projectId, 'verified', updatedInvoice.verified);
-    await ProjectsPerMonthCollection.findByIdAndUpdate({_id: invoice.projectId}, {verified: updatedInvoice.verified});
+    await req.db.collection(CollectionNames.PROJECTS_MONTH).findOneAndUpdate({_id: new ObjectID(invoice.projectId)}, {$set: {verified: updatedInvoice.verified}});
   }
 
   return res.send(updatedInvoice);
