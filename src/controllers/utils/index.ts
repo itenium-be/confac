@@ -57,9 +57,8 @@ export const createPdf = (params: IInvoice) => {
 };
 
 export const getTemplatesPath = (): string => {
-  if (appConfig.enable_root_templates) {
+  if (appConfig.ENABLE_ROOT_TEMPLATES) {
     return '/templates/';
   }
   return './templates/';
-
 };
