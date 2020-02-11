@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import {ObjectID} from 'mongodb';
 
 export interface IProject {
-  _id: string;
+  _id: ObjectID;
   consultantId: string;
   startDate: string;
   endDate?: string;
@@ -22,33 +22,3 @@ export interface ProjectClientModel {
   rateType: EditClientRateType;
   ref?: string;
 }
-
-
-
-const projectSchema = new mongoose.Schema({
-  consultantId: String,
-  startDate: String,
-  endDate: String,
-  partner: {
-    clientId: String,
-    tariff: Number,
-    rateType: String,
-    ref: String,
-  },
-  client: {
-    clientId: String,
-    tariff: Number,
-    rateType: String,
-    ref: String,
-  },
-  projectMonthConfig: {
-    timesheetCheck: Boolean,
-    inboundInvoice: Boolean,
-  },
-  createdOn: String,
-});
-
-
-export const ProjectsCollection = (
-  mongoose.model<IProject & mongoose.Document>('project', projectSchema, 'projects')
-);

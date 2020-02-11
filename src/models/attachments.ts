@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+import {ObjectID} from 'mongodb';
 
 export type IAttachment = {
   /** Corresponds with the invoice ID property */
-  _id: string;
+  _id: ObjectID;
   /** The invoice pdf */
   pdf: Buffer;
 } & { // <-- to avoid TypeScript error
@@ -16,9 +16,3 @@ export interface ISendGridAttachment {
   type?: string;
   disposition?: string;
 }
-
-const attachmentSchema = new mongoose.Schema({pdf: Buffer});
-const attachmentClientSchema = new mongoose.Schema({pdf: Buffer});
-
-export const AttachmentsCollection = mongoose.model<IAttachment & mongoose.Document>('attachment', attachmentSchema, 'attachments');
-export const AttachmentsClientCollection = mongoose.model<IAttachment & mongoose.Document>('attachment_client', attachmentClientSchema, 'attachments_client');
