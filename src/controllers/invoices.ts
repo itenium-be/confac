@@ -158,6 +158,9 @@ export const emailInvoice = async (req: Request, res: Response) => {
   return res.status(200).send(lastEmailSent);
 };
 
+
+
+/** Update an existing invoice */
 export const updateInvoice = async (req: Request, res: Response) => {
   const {_id, ...invoice}: IInvoice = req.body;
 
@@ -177,9 +180,17 @@ export const updateInvoice = async (req: Request, res: Response) => {
   const inserted = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: invoice}, {returnOriginal: false});
   const updatedInvoice = inserted.value;
 
+  if (updatedInvoice && updatedInvoice.projectId) {
+    console.log('updating', invoice.projectId, 'verified', updatedInvoice.verified);
+    await ProjectsPerMonthCollection.findByIdAndUpdate({_id: invoice.projectId}, {verified: updatedInvoice.verified});
+  }
+
   return res.send(updatedInvoice);
 };
 
+
+
+/** Hard invoice delete: There is no coming back from this one */
 export const deleteInvoice = async (req: Request, res: Response) => {
   const {id}: {id: string;} = req.body;
 
@@ -189,6 +200,9 @@ export const deleteInvoice = async (req: Request, res: Response) => {
   return res.send(id);
 };
 
+
+
+/** Open the invoice pdf in the browser in a new tab */
 export const previewPdfInvoice = async (req: Request, res: Response) => {
   const invoice: IInvoice = req.body;
 
@@ -201,6 +215,9 @@ export const previewPdfInvoice = async (req: Request, res: Response) => {
   return res.type('application/pdf').send(pdfBuffer);
 };
 
+
+
+/** Create simple CSV output of the invoice._ids passed in the body */
 export const generateExcelForInvoices = async (req: Request, res: Response) => {
   const invoiceIds: ObjectID[] = req.body.map((invoiceId: string) => new ObjectID(invoiceId));
 
