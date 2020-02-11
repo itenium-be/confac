@@ -22,7 +22,7 @@ export const searchClientFor = (model: ClientModel, input: string): boolean => {
   }
 
   return false;
-}
+};
 
 export const searchClientForList = (filters: ClientListFilters, model: ClientModel): boolean => {
   if (!filters.showInactive && !model.active) {

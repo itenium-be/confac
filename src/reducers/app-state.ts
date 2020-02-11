@@ -20,12 +20,10 @@ export type ConfacState = {
 
 
 
-const getListFilters = (): ListFilters => {
-  return {
-    freeText: '',
-    showInactive: false,
-  };
-};
+const getListFilters = (): ListFilters => ({
+  freeText: '',
+  showInactive: false,
+});
 
 
 

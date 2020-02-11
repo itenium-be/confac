@@ -23,7 +23,7 @@ import {ExpandIcon} from '../../controls/Icon';
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {Button} from '../../controls/form-controls/Button';
 import {AttachmentsForm} from '../../controls/attachments/AttachmentsForm';
-import { getNewInvoice } from '../models/getNewInvoice';
+import {getNewInvoice} from '../models/getNewInvoice';
 
 
 type EditInvoiceProps = {
@@ -86,14 +86,17 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
   createModel(props: EditInvoiceProps): InvoiceModel {
     if (props.match.params.id) {
       // Existing invoice / quotation
-      const invoicesOrQuotations = this.isQuotation ? props.invoices.filter(x => x.isQuotation) : props.invoices.filter(x => !x.isQuotation);
+      const invoicesOrQuotations = this.isQuotation
+        ? props.invoices.filter(x => x.isQuotation)
+        : props.invoices.filter(x => !x.isQuotation);
+
       const invoice = invoicesOrQuotations.find(i => i.number === parseInt(props.match.params.id, 10));
       return new InvoiceModel(props.config, invoice);
     }
 
     const invoice = {
       isQuotation: this.isQuotation,
-    }
+    };
 
     return getNewInvoice(props.config, props.invoices, props.clients, invoice);
   }

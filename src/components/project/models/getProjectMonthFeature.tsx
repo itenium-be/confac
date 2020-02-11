@@ -31,10 +31,6 @@ const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMon
 
 
 
-const getRowBackgroundColor = (prj: FullProjectMonthModel): undefined | string => {
-  return undefined;
-};
-
 
 
 const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<FullProjectMonthModel, ProjectMonthListFilters> => {
@@ -99,12 +95,9 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
 
   return {
     rows: {
-      className: getRowBackgroundColor,
       cells: list,
     },
-    listTitle: () => {
-      return t('project.projectMonthConfig.titleConfig');
-    },
+    listTitle: () => t('project.projectMonthConfig.titleConfig'),
     data: config.data,
     sorter: (a, b) => a.details._id.localeCompare(b.details._id),
   };

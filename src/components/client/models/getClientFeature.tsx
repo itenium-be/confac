@@ -10,8 +10,8 @@ import {InvoicesSummary} from '../../invoice/controls/InvoicesSummary';
 import {ClientEditIcon, DeleteIcon} from '../../controls/Icon';
 import {t} from '../../utils';
 import {searchClientForList} from './searchClientFor';
-import { getInvoiceYears } from '../../invoice/models/InvoiceListModel';
-import { YearsSelect } from '../../controls/form-controls/select/YearsSelect';
+import {getInvoiceYears} from '../../invoice/models/InvoiceListModel';
+import {YearsSelect} from '../../controls/form-controls/select/YearsSelect';
 
 
 export type ClientFeatureBuilderConfig = IFeatureBuilderConfig<ClientModel, ClientListFilters> & {

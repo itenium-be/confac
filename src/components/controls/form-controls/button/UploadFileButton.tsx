@@ -12,18 +12,16 @@ type UploadFileButtonProps = {
 
 
 
-export const UploadFileButton = ({onUpload, title, icon}: UploadFileButtonProps) => {
-  return (
-    <>
-      <Dropzone
-        onDrop={(accepted: File[], rejected: File[]) => onUpload(accepted[0])}
-        multiple={false}
-        style={{display: 'inline'}}
-      >
-        <Button size="md" onClick={() => {}} variant="outline-dark">
-          <Icon fa={icon} size={1} title={title} />
-        </Button>
-      </Dropzone>
-    </>
-  );
-};
+export const UploadFileButton = ({onUpload, title, icon}: UploadFileButtonProps) => (
+  <>
+    <Dropzone
+      onDrop={(accepted: File[], rejected: File[]) => onUpload(accepted[0])}
+      multiple={false}
+      style={{display: 'inline'}}
+    >
+      <Button size="md" onClick={() => {}} variant="outline-dark">
+        <Icon fa={icon} size={1} title={title} />
+      </Button>
+    </Dropzone>
+  </>
+);

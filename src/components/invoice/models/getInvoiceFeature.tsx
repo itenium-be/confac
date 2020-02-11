@@ -62,6 +62,7 @@ export function getInvoiceColumns(includeFields: string[], transPrefix: string):
     key: 'number',
     header: 'invoice.numberShort',
     value: (i: InvoiceModel) => <InvoiceNumberCell invoice={i} />,
+    // eslint-disable-next-line max-len
     footer: (invoices: InvoiceModel[]) => !isGroupedTable && <InvoiceAmountLabel invoices={invoices} isQuotation={invoices[0].isQuotation} />,
   }, {
     key: 'client',

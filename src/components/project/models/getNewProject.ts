@@ -4,9 +4,7 @@ import {ProjectMonthModel, getDefaultProjectMonthConfig, ProjectMonthInbound,
   ProjectMonthTimesheet} from './ProjectMonthModel';
 
 
-export const getNewProjectClient = (): ProjectClientModel => {
-  return {clientId: '', rateType: 'daily', tariff: 0};
-};
+export const getNewProjectClient = (): ProjectClientModel => ({clientId: '', rateType: 'daily', tariff: 0});
 
 
 export const getNewProject = (): ProjectModel => ({

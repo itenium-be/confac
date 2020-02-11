@@ -51,7 +51,7 @@ export const formatDate = (date?: string | Date | moment.Moment, format = 'DD/MM
     return '';
   }
   return moment(date).format(format);
-}
+};
 
 /**
  * Make a string ready for search

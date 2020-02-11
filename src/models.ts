@@ -1,7 +1,8 @@
 import {CSSProperties} from 'react';
 import {InputIcons} from './components/controls/form-controls/lib/IconFactory';
 import {StandardComponents} from './components/controls/form-controls/lib/EditComponentFactory';
-import {ConsultantListFilters, ClientListFilters, InvoiceListFilters, ProjectListFilters, ProjectMonthListFilters} from './components/controls/table/table-models';
+import {ConsultantListFilters, ClientListFilters, InvoiceListFilters,
+  ProjectListFilters, ProjectMonthListFilters} from './components/controls/table/table-models';
 
 export type InvoiceDateStrategy = 'prev-month-last-day' | 'today';
 

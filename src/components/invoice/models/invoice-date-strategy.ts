@@ -5,9 +5,7 @@ import {ConfigModel} from '../../config/models/ConfigModel';
 export const invoiceDateStrategies = ['prev-month-last-day', 'today'];
 
 
-export const today = (): moment.Moment => {
-  return moment.utc().startOf('day');
-};
+export const today = (): moment.Moment => moment.utc().startOf('day');
 
 
 const endOfMonth = (): moment.Moment => {

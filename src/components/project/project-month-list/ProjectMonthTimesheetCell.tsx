@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import cn from 'classnames';
-import useViewportSizes from 'use-viewport-sizes'
+import useViewportSizes from 'use-viewport-sizes';
 import {FullProjectMonthModel, ProjectMonthTimesheet} from '../models/ProjectMonthModel';
 import {t} from '../../utils';
 import {ValidityToggleButton} from '../../controls/form-controls/button/ValidityToggleButton';

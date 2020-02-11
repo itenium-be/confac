@@ -14,11 +14,9 @@ type LinkToButtonProps = {
 }
 
 
-export const LinkToButton = ({to, label, size, variant}: LinkToButtonProps) => {
-  return (
-    <Link to={to} className={`btn btn-${variant || 'light'} btn-${size || 'md'}`}>
-      {t(label)}
-      <Icon fa="fa fa-arrow-right" size={1} style={{marginLeft: 8}} />
-    </Link>
-  );
-};
+export const LinkToButton = ({to, label, size, variant}: LinkToButtonProps) => (
+  <Link to={to} className={`btn btn-${variant || 'light'} btn-${size || 'md'}`}>
+    {t(label)}
+    <Icon fa="fa fa-arrow-right" size={1} style={{marginLeft: 8}} />
+  </Link>
+);

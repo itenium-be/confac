@@ -30,7 +30,8 @@ const fullProjectSearch = (filters: ProjectListFilters, prj: FullProjectModel) =
   const endDate = formatDate(details.endDate);
 
   return searchinize(
-    `${consultant.name} ${consultant.firstName} ${consultant.type} ${startDate} ${endDate} ${partner && partner.name} ${client && client.name}`,
+    `${consultant.name} ${consultant.firstName} ${consultant.type}
+    ${startDate} ${endDate} ${partner && partner.name} ${client && client.name}`,
   ).includes(filters.freeText.toLowerCase());
 };
 

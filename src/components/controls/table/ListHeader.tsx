@@ -7,6 +7,8 @@ type ListHeaderProps<TModel> = {
   feature: IFeature<TModel>;
 }
 
+
+// eslint-disable-next-line arrow-body-style
 export const ListHeader = ({feature}: ListHeaderProps<any>) => {
   return (
     <thead>

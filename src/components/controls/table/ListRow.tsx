@@ -8,6 +8,7 @@ type ListRowProps<TModel> = {
 }
 
 
+// eslint-disable-next-line arrow-body-style
 export const ListRow = ({model, config}: ListRowProps<any>) => {
   // console.log('START LIST_ROW', config.rows.cells.map(c => c.key));
   return (

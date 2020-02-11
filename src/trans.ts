@@ -93,7 +93,7 @@ export const trans = {
       items: 'product',
       other: 'ander',
       section: 'sectie',
-    }
+    },
   },
   feature: {
     showInactive: 'Toon inactieve',
