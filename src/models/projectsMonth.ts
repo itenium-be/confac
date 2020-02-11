@@ -10,7 +10,6 @@ export interface IProjectMonth {
   /** True when the invoice is verified or just true when there is no invoice to be made (user decision) */
   verified: boolean;
   createdOn?: string;
-  note?: string;
 }
 
 export type ProjectMonthInboundStatus = 'new' | 'validated' | 'paid';
