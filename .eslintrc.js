@@ -59,7 +59,8 @@ module.exports = {
       "ObjectPattern": { "multiline": true, "minProperties": 4 },
       "ImportDeclaration": "never",
       "ExportDeclaration": { "multiline": true, "minProperties": 3 }
-  }]
+    }],
+    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }]
   },
   settings: {
     "import/resolver": {
