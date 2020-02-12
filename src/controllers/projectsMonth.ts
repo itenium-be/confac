@@ -24,13 +24,20 @@ export const createProjectsMonth = async (req: Request, res: Response) => {
   const activeProjects = findActiveProjectsForSelectedMonth(month, projects);
 
   const createdProjectsMonth = await Promise.all(activeProjects.map(async activeProject => {
-    const projectMonth: Pick<IProjectMonth, 'month' | 'projectId' | 'createdOn'> = {
+    const projectMonth: IProjectMonth = {
+      _id: new ObjectID(),
       month,
       projectId: activeProject._id,
       createdOn: new Date().toISOString(),
+      verified: false,
+      inbound: {
+        nr: '',
+        status: 'new',
+      },
+      timesheet: {validated: false},
     };
 
-    const inserted = await req.db.collection<Pick<IProjectMonth, 'month' | 'projectId' | 'createdOn'>>(CollectionNames.PROJECTS_MONTH).insertOne(projectMonth);
+    const inserted = await req.db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).insertOne(projectMonth);
     const [createdProjectMonth] = inserted.ops;
     return createdProjectMonth;
   }));
