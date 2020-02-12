@@ -14,16 +14,16 @@ export const List = ({feature}: ListProps) => {
   const config = feature.list;
 
   let {data} = config;
-  if (feature.list.sorter) {
-    data = data.slice().sort(feature.list.sorter);
-  }
-
   if (feature.list.filter) {
     const {filter} = feature.list;
     if (filter.fullTextSearch) {
       const {fullTextSearch} = filter;
       data = data.filter(model => fullTextSearch(filter.state, model));
     }
+  }
+
+  if (feature.list.sorter) {
+    data = data.slice().sort(feature.list.sorter);
   }
 
   return (
