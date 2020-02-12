@@ -4,7 +4,7 @@ confac-back
 Starting DEV
 ------------
 
-Expects running mongo with `src/config.json` settings.  
+Expects running mongo with `src/config/index.ts` settings.  
 A vagrant box with this configuration can be found in [confac-vagrant][confac-vagrant].
 
 ```bash
@@ -20,10 +20,18 @@ npm run start:deploy
 npm run prod
 ```
 
+Database
+--------
+
+In case you want to use MongoDB as a Docker container:
+
+`docker run -d -p 32772:27017 --name confac-mongo mongo`
+
+
 Emailing
 --------
 
-Development: Set `SENDGRID_API_KEY` in `config.json`  
+Development: Set `SENDGRID_API_KEY` in `src/config/index.ts`  
 Production: Set `process.env.SENDGRID_API_KEY`  
 
 Server Dependencies
