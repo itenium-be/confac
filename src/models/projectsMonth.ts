@@ -1,9 +1,9 @@
-import mongoose from 'mongoose';
+import {ObjectID} from 'mongodb';
 
 export interface IProjectMonth {
-  _id: string;
+  _id: ObjectID;
   month: string;
-  projectId: string;
+  projectId: ObjectID;
   timesheet: ProjectMonthTimesheet;
   inbound: ProjectMonthInbound;
   note?: string;
@@ -12,13 +12,6 @@ export interface IProjectMonth {
   createdOn?: string;
 }
 
-
-export interface ProjectMonthOutbound {
-  invoiceId?: string;
-  note?: string;
-}
-
-
 export type ProjectMonthInboundStatus = 'new' | 'validated' | 'paid';
 
 export interface ProjectMonthInbound {
@@ -26,8 +19,6 @@ export interface ProjectMonthInbound {
   dateReceived?: string;
   status: ProjectMonthInboundStatus;
 }
-
-
 
 export interface ProjectMonthTimesheet {
   /** Amount of days/hours as on the timesheet attachment */
@@ -39,30 +30,3 @@ export interface ProjectMonthTimesheet {
   /** Some contextual info */
   note?: string;
 }
-
-
-
-
-const projectMonthSchema = new mongoose.Schema<IProjectMonth>({
-  month: String,
-  projectId: String,
-  timesheet: {
-    timesheet: Number,
-    check: Number,
-    validated: Boolean,
-    note: String,
-  },
-  inbound: {
-    nr: String,
-    dateReceived: String,
-    status: String,
-  },
-  note: String,
-  verified: Boolean,
-  createdOn: String,
-});
-
-
-export const ProjectsPerMonthCollection = (
-  mongoose.model<IProjectMonth & mongoose.Document>('project_month', projectMonthSchema, 'projects_month')
-);

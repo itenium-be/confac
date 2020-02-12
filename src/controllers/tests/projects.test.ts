@@ -1,22 +1,23 @@
 /* eslint-disable max-len */
+import {ObjectID} from 'mongodb';
 import {findActiveProjectsForSelectedMonth} from '../projects';
 import {IProject} from '../../models/projects';
 
 const initDate = (date: string) => new Date(date).toISOString();
 
 const createProject = (start: string, end?: string): IProject => ({
-  _id: '1',
+  _id: new ObjectID(),
   consultantId: 'c1',
   startDate: initDate(start),
   endDate: end && initDate(end),
+  projectMonthConfig: {
+    timesheetCheck: false,
+    inboundInvoice: false,
+  },
   client: {
     clientId: 'client1',
     rateType: 'daily',
     tariff: 10,
-  },
-  projectMonthConfig: {
-    timesheetCheck: true,
-    inboundInvoice: false,
   },
 });
 

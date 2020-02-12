@@ -1,9 +1,12 @@
 import {Request, Response} from 'express';
 import JSZip from 'jszip';
 import moment from 'moment';
+import {ObjectID} from 'mongodb';
 
-import {AttachmentsCollection, IAttachment, AttachmentsClientCollection} from '../models/attachments';
-import {InvoicesCollection} from '../models/invoices';
+import {IAttachment} from '../models/attachments';
+import {CollectionNames} from '../models/common';
+import {IInvoice} from '../models/invoices';
+import {IClient} from '../models/clients';
 
 export const getAttachment = async (req: Request, res: Response) => {
   const {
@@ -12,12 +15,17 @@ export const getAttachment = async (req: Request, res: Response) => {
 
   let attachment: IAttachment | null;
   if (model === 'client') {
-    attachment = await AttachmentsClientCollection.findById({_id: id});
+    attachment = await req.db.collection(CollectionNames.ATTACHMENTS_CLIENT).findOne({_id: new ObjectID(id)});
   } else {
-    attachment = await AttachmentsCollection.findById({_id: id});
+    attachment = await req.db.collection(CollectionNames.ATTACHMENTS).findOne({_id: new ObjectID(id)});
   }
 
-  const attachmentBuffer: Buffer = attachment![type];
+  let attachmentBuffer: Buffer | null = null;
+  if (attachment) {
+    attachmentBuffer = attachment[type].buffer as Buffer;
+  } else {
+    res.status(500).send('Could not get the requested file.');
+  }
 
   let responseType: string = '';
   if (!req.query.download) {
@@ -65,15 +73,18 @@ export const getAttachment = async (req: Request, res: Response) => {
     console.log('Downloading a file without knowing the filename', req.params);
   }
 
-  return res.type(responseType).set('Content-Disposition', `inline;filename=${fileName}`).send(attachmentBuffer);
+  return res.type(responseType).set('Content-Disposition', `inline;filename=${fileName}`)
+    .send(attachmentBuffer);
 };
 
 export const createZipWithInvoices = async (req: Request, res: Response) => {
-  const invoiceIds: string[] = req.body;
+  const invoiceIds: ObjectID[] = req.body.map((invoiceId: string) => new ObjectID(invoiceId));
 
-  const attachments = await AttachmentsCollection.find({_id: {$in: invoiceIds}});
+  const attachments: IAttachment[] = await req.db.collection(CollectionNames.ATTACHMENTS).find({_id: {$in: invoiceIds}})
+    .toArray();
 
-  const invoices = await InvoicesCollection.find({_id: {$in: invoiceIds}});
+  const invoices: IInvoice[] = await req.db.collection(CollectionNames.INVOICES).find({_id: {$in: invoiceIds}})
+    .toArray();
 
   const zip = new JSZip();
 
@@ -86,4 +97,79 @@ export const createZipWithInvoices = async (req: Request, res: Response) => {
   const zipWithInvoices = await zip.generateAsync({type: 'nodebuffer'});
 
   res.send(zipWithInvoices);
+};
+
+export const addAttachment = async (req: Request, res: Response) => {
+  const {id, model, type} = req.params;
+  const [file] = req.files as Express.Multer.File[];
+
+  const fileBuffer = file.buffer;
+
+  if (model === 'invoice') {
+    const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOne({_id: new ObjectID(id)});
+    const {_id, attachments} = invoice!;
+    attachments.push({
+      type,
+      fileName: file.originalname,
+      fileType: file.mimetype,
+      lastModifiedDate: new Date().toISOString(),
+    });
+
+    await req.db.collection(CollectionNames.INVOICES).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {attachments}});
+    await req.db.collection(CollectionNames.ATTACHMENTS).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {[type]: fileBuffer}}, {upsert: true});
+    return res.send(invoice);
+  }
+
+  if (model === 'client') {
+    const client = await req.db.collection<IClient>(CollectionNames.CLIENTS).findOne({_id: new ObjectID(id)});
+    const {_id, attachments} = client!;
+    attachments.push({
+      type,
+      fileName: file.originalname,
+      fileType: file.mimetype,
+      lastModifiedDate: new Date().toISOString(),
+    });
+
+    await req.db.collection(CollectionNames.CLIENTS).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {attachments}});
+    await req.db.collection(CollectionNames.ATTACHMENTS_CLIENT).findOneAndUpdate({_id}, {$set: {[type]: fileBuffer}}, {upsert: true});
+    return res.send(client);
+  }
+
+  return res.send('Model not supported');
+};
+
+export const deleteAttachment = async (req: Request, res: Response) => {
+  const {id, model, type} = req.params;
+
+  if (type === 'pdf' && model === 'invoice') {
+    return res.status(500).send('The invoice itself cannot be deleted.');
+  }
+
+  if (model === 'client') {
+    const client = await req.db.collection<IClient>(CollectionNames.CLIENTS).findOne({_id: new ObjectID(id)});
+    const {_id, attachments} = client!;
+
+    const updatedAttachments = attachments.filter(attachment => attachment.type !== type);
+    const inserted = await req.db.collection<IClient>(CollectionNames.CLIENTS).findOneAndUpdate({_id}, {$set: {attachments: updatedAttachments}}, {returnOriginal: false});
+    const updatedClient = inserted.value;
+
+    await req.db.collection(CollectionNames.ATTACHMENTS_CLIENT).findOneAndUpdate({_id}, {$set: {[type]: undefined}});
+
+    return res.send(updatedClient);
+  }
+
+  if (model === 'invoice') {
+    const invoice = await req.db.collection<IClient>(CollectionNames.INVOICES).findOne({_id: new ObjectID(id)});
+    const {_id, attachments} = invoice!;
+
+    const updatedAttachments = attachments.filter(attachment => attachment.type !== type);
+    const inserted = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOneAndUpdate({_id}, {$set: {attachments: updatedAttachments}}, {returnOriginal: false});
+    const updatedInvoice = inserted.value;
+
+    await req.db.collection(CollectionNames.ATTACHMENTS).findOneAndUpdate({_id}, {$set: {[type]: undefined}});
+
+    return res.send(updatedInvoice);
+  }
+
+  return res.send('Model not supported');
 };

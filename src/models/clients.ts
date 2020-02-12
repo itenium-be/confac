@@ -1,7 +1,6 @@
-import mongoose from 'mongoose';
-import moment from 'moment';
+import {ObjectID} from 'mongodb';
 
-import schemas, {IEmailAttachment} from './common';
+import {IEmailAttachment} from './common';
 
 export interface IEmail {
   from?: string;
@@ -26,8 +25,8 @@ export interface IClientRate {
   description: string;
 }
 
-export interface IClient extends mongoose.Document {
-  _id: string;
+export interface IClient {
+  _id: ObjectID;
   slug: string;
   active: boolean;
   name: string;
@@ -42,10 +41,6 @@ export interface IClient extends mongoose.Document {
   defaultExtraInvoiceFields: ISelectItem[];
   notes: string;
   defaultInvoiceDateStrategy: string;
-  createdOn: moment.Moment;
+  createdOn: string;
   email: IEmail;
 }
-
-const clientSchema = new mongoose.Schema({...schemas.clientSchema}, {timestamps: {createdAt: 'createdOn'}});
-
-export const ClientsCollection = mongoose.model<IClient>('client', clientSchema, 'clients');

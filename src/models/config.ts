@@ -1,10 +1,9 @@
-import mongoose from 'mongoose';
+import {ObjectID} from 'mongodb';
 
 import {IEmail} from './clients';
-import schemas from './common';
 
 export interface ICompanyConfig {
-  _id: string;
+  _id: ObjectID;
   key: string;
   company: {
     template: string;
@@ -69,34 +68,3 @@ export const DEFAULT_COMPANY_CONFIG = {
   emailSignature: '',
   emailReminder: '',
 };
-
-const companyConfigSchema = new mongoose.Schema({
-  key: String,
-  company: {
-    template: String,
-    name: String,
-    address: String,
-    city: String,
-    btw: String,
-    bank: String,
-    iban: String,
-    bic: String,
-    telephone: String,
-    email: String,
-    website: String,
-  },
-  defaultClient: String || null,
-  defaultTax: Number,
-  attachmentTypes: [String],
-  defaultExtraClientFields: [String],
-  defaultExtraClientInvoiceFields: [String],
-  showOrderNr: Boolean,
-  groupInvoiceListByMonth: Boolean,
-  defaultInvoiceLineType: String,
-  defaultInvoiceDateStrategy: String,
-  email: schemas.emailSchema,
-  emailSignature: String,
-  emailReminder: String,
-});
-
-export const CompanyConfigCollection = mongoose.model<ICompanyConfig & mongoose.Document>('config', companyConfigSchema, 'config');

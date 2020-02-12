@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import {ObjectID} from 'mongodb';
 
 import {IClient, ISelectItem} from './clients';
-import schemas, {IEmailAttachment} from './common';
+import {IEmailAttachment} from './common';
 
 export interface IInvoiceMoney {
   totalWithoutTax: number;
@@ -45,7 +45,7 @@ export interface IExtraFieldsObject {
 }
 
 export interface IInvoice {
-  _id: string;
+  _id: ObjectID;
   number: number;
   client: IClient;
   your: ICompany;
@@ -68,69 +68,3 @@ export interface IInvoice {
 }
 
 export const INVOICE_EXCEL_HEADERS = ['Number', 'Date', 'Client name', 'Order nr', 'Without Tax', 'Tax', 'Total', 'Verified', 'Discount', 'First line desc', 'Id'];
-
-const invoiceSchema = new mongoose.Schema({
-  number: Number,
-  client: {
-    _id: String,
-    ...schemas.clientSchema,
-  },
-  projectId: String,
-  consultantId: String,
-  your: {
-    name: String,
-    address: String,
-    city: String,
-    btw: String,
-    rpr: String,
-    bank: String,
-    iban: String,
-    bic: String,
-    telephone: String,
-    email: String,
-    website: String,
-    template: String,
-    templateQuotation: String,
-  },
-  date: String,
-  orderNr: String,
-  verified: Boolean,
-  fileName: String,
-  discount: String,
-  attachments: [{
-    type: {type: String},
-    fileName: String,
-    fileType: String,
-    lastModifiedDate: String,
-  }],
-  isQuotation: Boolean,
-  lastEmail: String,
-  _defaultTax: Number,
-  _defaultType: String,
-  extraFields: [{
-    label: String || Number,
-    value: String || Number,
-  }],
-  createdOn: String,
-  lines: [{
-    desc: String,
-    amount: Number,
-    type: {type: String},
-    price: Number,
-    tax: Number,
-    sort: Number,
-    notes: String,
-  }],
-  money: {
-    totalWithoutTax: Number,
-    totalTax: Number,
-    discount: Number || String,
-    total: Number,
-    totals: {
-      daily: Number,
-      hourly: Number,
-    },
-  },
-});
-
-export const InvoicesCollection = mongoose.model<IInvoice & mongoose.Document>('invoice', invoiceSchema, 'invoices');

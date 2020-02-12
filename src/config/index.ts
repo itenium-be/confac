@@ -11,8 +11,8 @@ const appConfig = {
     basePath: process.env.SERVER_BASE_PATH || '',
   },
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY || '',
-  environment: process.env.NODE_ENV || 'development',
-  enable_root_templates: process.env.ENABLE_ROOT_TEMPLATES || false,
+  ENVIRONMENT: process.env.NODE_ENV || 'development',
+  ENABLE_ROOT_TEMPLATES: process.env.ENABLE_ROOT_TEMPLATES || false,
 };
 
 export default appConfig;

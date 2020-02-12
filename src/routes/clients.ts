@@ -1,11 +1,11 @@
 import {Router} from 'express';
-import {getClients, validateBtw, createOrUpdateClient} from '../controllers/clients';
+import {getClients, validateBtw, saveClient} from '../controllers/clients';
 
 const clientsRouter = Router();
 
 clientsRouter.get('/', getClients);
 clientsRouter.get('/btw/:btw', validateBtw);
 
-clientsRouter.post('/', createOrUpdateClient);
+clientsRouter.post('/', saveClient);
 
 export default clientsRouter;
