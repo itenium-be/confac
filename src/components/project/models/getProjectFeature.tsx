@@ -7,7 +7,7 @@ import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-mo
 import {features} from '../../../trans';
 import {FullProjectModel, ProjectClientModel} from './ProjectModel';
 import {t, formatDate, tariffFormat, searchinize} from '../../utils';
-import {EditIcon, DeleteIcon} from '../../controls/Icon';
+import {EditIcon} from '../../controls/Icon';
 import {InvoiceClientCell} from '../../invoice/invoice-table/InvoiceClientCell';
 
 
@@ -115,10 +115,6 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     value: m => (
       <>
         <EditIcon onClick={`/projects/${m._id}`} style={{marginRight: 15}} />
-        <DeleteIcon
-          onClick={() => config.save({...m, details: {...m.details, active: !m.details.active}})}
-          title={m.details.active ? t('feature.deactivateTitle') : t('feature.activateTitle')}
-        />
       </>
     ),
   }];
