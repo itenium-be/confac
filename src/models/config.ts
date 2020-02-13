@@ -7,6 +7,7 @@ export interface ICompanyConfig {
   key: string;
   company: {
     template: string;
+    templateQuotation: string;
     name: string;
     address: string;
     city: string;
@@ -32,10 +33,11 @@ export interface ICompanyConfig {
   emailReminder: string;
 }
 
-export const DEFAULT_COMPANY_CONFIG = {
+export const DEFAULT_COMPANY_CONFIG: Omit<ICompanyConfig, '_id'> = {
   key: 'conf',
   company: {
     template: 'example-1.pug',
+    templateQuotation: 'example-1.pug',
     name: 'Jouw bedrijfsnaam',
     address: 'Streetname 15',
     city: '9000 Brussel',
