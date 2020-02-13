@@ -14,10 +14,10 @@ export const defaultConfig: ConfigModel = {
     telephone: '',
     email: '',
     website: '',
+    template: 'example-1.pug',
+    templateQuotation: 'example-1.pug',
   },
   defaultClient: null,
-  template: 'example-1.pug',
-  templateQuotation: 'example-1.pug',
   invoiceFileName: '{date:YYYY-MM} {nr:4} - {clientName}', // ATTN: Duplicated in getNewClient
   defaultTax: 21,
   attachmentTypes: [],
