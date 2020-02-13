@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
@@ -21,9 +21,7 @@ type ClientModalProps = BaseModalProps & {
   client: ClientModel | null,
 }
 
-type ClientModalState = {
-
-}
+type ClientModalState = ClientModel;
 
 
 class ClientModalComponent extends Component<ClientModalProps, ClientModalState> {
@@ -60,9 +58,8 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
     }
 
     const NewClientForm = !client._id && !client.btw && (
-      <BtwInput
-        value={client.btw}
-        onChange={(val: string) => { }}
+      <BtwInputComponent
+        defaultBtw={client.btw}
         onFinalize={(btw: string, btwResp?: BtwResponse) => {
           if (btwResp && btwResp.valid) {
             this.setState(btwResponseToModel(btwResp));
@@ -99,4 +96,27 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
   }
 }
 
+
 export const ClientModal = connect((state: ConfacState) => ({config: state.config}), {saveClient})(ClientModalComponent);
+
+
+
+
+type BtwInputComponentProps = {
+  defaultBtw: string;
+  onFinalize: (btw: string, btwResp?: BtwResponse) => void;
+}
+
+
+/** Small BtwInput wrapper that keeps its own btw: string state */
+const BtwInputComponent = ({defaultBtw, onFinalize}: BtwInputComponentProps) => {
+  const [btw, setBtw] = useState<string>(defaultBtw);
+
+  return (
+    <BtwInput
+      value={btw}
+      onChange={(val: string) => setBtw(val)}
+      onFinalize={onFinalize}
+    />
+  );
+};
