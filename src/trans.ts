@@ -103,7 +103,6 @@ export const trans = {
   config: {
     invoiceTitle: 'Standaard factuurinstellingen',
     settingsTitle: 'Andere instellingen',
-    groupByMonth: 'Groepeer facturen per maand',
     popupMessage: 'Instellingen bewaard',
     defaultClient: 'Standaard klant',
     showOrderNr: 'Bestelbon nummer tonen', // in invoice list

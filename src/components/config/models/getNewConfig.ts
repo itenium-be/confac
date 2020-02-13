@@ -25,7 +25,6 @@ export const defaultConfig: ConfigModel = {
   defaultExtraClientInvoiceFields: [],
   defaultExtraInvoiceFields: [],
   showOrderNr: false,
-  groupInvoiceListByMonth: false,
   defaultInvoiceLineType: 'daily',
   defaultInvoiceDateStrategy: 'prev-month-last-day',
   invoicePayDays: 30,

@@ -31,7 +31,6 @@ export const configDefinition: FullFormConfig = [
 
   {title: 'config.settingsTitle'},
   {key: 'showOrderNr', component: 'switch'},
-  {key: 'groupByMonth', component: 'switch'},
 
   {title: 'config.email.title'},
   {key: 'email.from', cols: 6},

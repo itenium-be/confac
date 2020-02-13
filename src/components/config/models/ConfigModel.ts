@@ -20,7 +20,6 @@ export type ConfigModel = {
   templateQuotation: string,
 
   showOrderNr: boolean,
-  groupInvoiceListByMonth: boolean,
 
   /**
    * Default values for email sending
