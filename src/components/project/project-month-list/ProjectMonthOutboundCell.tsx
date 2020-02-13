@@ -52,7 +52,7 @@ export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCel
 
   if (projectMonth.details.verified) {
     return (
-      <div className="outbound-cell validated">
+      <div className="outbound-cell">
         <div />
         {ValidityToggle}
       </div>
