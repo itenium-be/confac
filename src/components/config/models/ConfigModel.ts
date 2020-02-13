@@ -16,8 +16,6 @@ export type ConfigModel = {
    * The default invoice file name when creating a new client
    */
   invoiceFileName: string,
-  template: string,
-  templateQuotation: string,
 
   showOrderNr: boolean,
   groupInvoiceListByMonth: boolean,
@@ -45,4 +43,6 @@ export type ConfigCompanyModel = {
   telephone: string,
   email: string,
   website: string,
+  template: string,
+  templateQuotation: string,
 }
