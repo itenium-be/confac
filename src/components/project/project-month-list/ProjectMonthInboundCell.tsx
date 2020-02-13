@@ -110,7 +110,7 @@ const InboundActionButtons = ({projectMonth, onChange}: InboundActionButtonsProp
 
 
       <UploadFileButton
-        onUpload={f => dispatch(projectMonthUpload(f, 'inbound'))}
+        onUpload={f => dispatch(projectMonthUpload(f, 'inbound', projectMonth._id))}
         icon="fa fa-file-pdf"
         title={t('projectMonth.inboundUpload')}
       />

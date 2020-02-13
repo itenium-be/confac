@@ -92,7 +92,7 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
           title={t('projectMonth.timesheetNote', {name: `${projectMonth.consultant.firstName} ${projectMonth.consultant.name}`})}
         />
         <UploadFileButton
-          onUpload={f => dispatch(projectMonthUpload(f, 'timesheet'))}
+          onUpload={f => dispatch(projectMonthUpload(f, 'timesheet', projectMonth._id))}
           icon="fa fa-clock"
           title={t('projectMonth.timesheetUpload')}
         />
