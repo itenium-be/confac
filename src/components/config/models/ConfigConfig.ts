@@ -19,8 +19,8 @@ export const configDefinition: FullFormConfig = [
   'company.bic',
 
   {title: 'config.invoiceTitle'},
-  {key: 'template', component: TemplatePicker},
-  {key: 'templateQuotation', component: TemplatePicker},
+  {key: 'company.template', component: TemplatePicker},
+  {key: 'company.templateQuotation', component: TemplatePicker},
   {key: 'invoicePayDays', component: 'number'},
   {key: 'attachmentTypes', component: 'StringsSelect', cols: 8},
   {key: 'defaultClient', component: 'ClientSelect'},
@@ -31,7 +31,6 @@ export const configDefinition: FullFormConfig = [
 
   {title: 'config.settingsTitle'},
   {key: 'showOrderNr', component: 'switch'},
-  {key: 'groupByMonth', component: 'switch'},
 
   {title: 'config.email.title'},
   {key: 'email.from', cols: 6},

@@ -103,7 +103,6 @@ export const trans = {
   config: {
     invoiceTitle: 'Standaard factuurinstellingen',
     settingsTitle: 'Andere instellingen',
-    groupByMonth: 'Groepeer facturen per maand',
     popupMessage: 'Instellingen bewaard',
     defaultClient: 'Standaard klant',
     showOrderNr: 'Bestelbon nummer tonen', // in invoice list
@@ -112,8 +111,6 @@ export const trans = {
     defaultInvoiceDateStrategy: 'Standaard factuurdatum',
     attachmentTypes: 'Standaard factuurbijlage(n)',
     invoicePayDays: 'Betalingstermijn (kalenderdagen)',
-    template: 'Html template (facturen)',
-    templateQuotation: 'Html template (offertes)',
     invoiceFileName: 'Standaard factuur bestandsnaam',
     company: {
       title: 'Jouw bedrijfsgegevens',
@@ -134,6 +131,8 @@ export const trans = {
       contact: 'Contact persoon',
       contactEmail: 'Email contact persoon',
       notes: 'Notitie',
+      template: 'Html template (facturen)',
+      templateQuotation: 'Html template (offertes)',
     },
     extraFields: {
       title: 'Eigen velden',

@@ -6,12 +6,6 @@ import {defaultAppState} from './app-state';
 
 export const app = (state: AppState = defaultAppState, action) => {
   switch (action.type) {
-    case ACTION_TYPES.CONFIG_FETCHED:
-      return {
-        ...state,
-        invoiceFilters: {...state.invoiceFilters, groupedByMonth: action.config.groupInvoiceListByMonth},
-      };
-
     case ACTION_TYPES.INITIAL_LOAD:
       return {...state, isLoaded: true};
 
