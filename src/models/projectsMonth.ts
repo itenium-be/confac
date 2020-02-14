@@ -1,5 +1,7 @@
 import {ObjectID} from 'mongodb';
 
+import {IAttachment} from './common';
+
 export interface IProjectMonth {
   _id: ObjectID;
   month: string;
@@ -10,6 +12,7 @@ export interface IProjectMonth {
   /** True when the invoice is verified or just true when there is no invoice to be made (user decision) */
   verified: boolean;
   createdOn?: string;
+  attachments: IAttachment[];
 }
 
 export type ProjectMonthInboundStatus = 'new' | 'validated' | 'paid';
