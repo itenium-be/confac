@@ -7,10 +7,10 @@ import tmp from 'tmp';
 import {ObjectID} from 'mongodb';
 
 import {IInvoice, INVOICE_EXCEL_HEADERS} from '../models/invoices';
-import {IAttachment, ISendGridAttachment} from '../models/attachments';
+import {IAttachmentCollection, ISendGridAttachment} from '../models/attachments';
 import {createPdf} from './utils';
 import {IEmail} from '../models/clients';
-import {CollectionNames} from '../models/common';
+import {CollectionNames, IAttachment} from '../models/common';
 
 export const getInvoices = async (req: Request, res: Response) => {
   const invoices = await req.db.collection(CollectionNames.INVOICES).find()
@@ -67,7 +67,7 @@ export const createInvoice = async (req: Request, res: Response) => {
   const [createdInvoice] = inserted.ops;
 
   if (Buffer.isBuffer(pdfBuffer)) {
-    await req.db.collection<Pick<IAttachment, '_id' | 'pdf' >>(CollectionNames.ATTACHMENTS).insertOne({
+    await req.db.collection<Pick<IAttachmentCollection, '_id' | 'pdf' >>(CollectionNames.ATTACHMENTS).insertOne({
       _id: new ObjectID(createdInvoice._id),
       pdf: pdfBuffer,
     });
@@ -84,7 +84,7 @@ export const emailInvoice = async (req: Request, res: Response) => {
     acc[cur] = 1;
     return acc;
   }, {});
-  const attachmentBuffers: IAttachment | null = await req.db.collection(CollectionNames.ATTACHMENTS).findOne({_id: new ObjectID(invoiceId)}, attachmentTypes);
+  const attachmentBuffers: IAttachmentCollection | null = await req.db.collection(CollectionNames.ATTACHMENTS).findOne({_id: new ObjectID(invoiceId)}, attachmentTypes);
 
   let sendGridAttachments: ISendGridAttachment[] = [];
 
@@ -174,7 +174,7 @@ export const updateInvoice = async (req: Request, res: Response) => {
   }
 
   if (Buffer.isBuffer(updatedPdfBuffer)) {
-    await req.db.collection<Pick<IAttachment, 'pdf'>>(CollectionNames.ATTACHMENTS).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {pdf: updatedPdfBuffer}});
+    await req.db.collection<IAttachment>(CollectionNames.ATTACHMENTS).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {pdf: updatedPdfBuffer}});
   }
 
   const inserted = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: invoice}, {returnOriginal: false});
