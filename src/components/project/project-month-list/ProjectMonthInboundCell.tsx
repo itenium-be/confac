@@ -127,7 +127,9 @@ const InboundActionButtons = ({projectMonth, onChange}: InboundActionButtonsProp
         icon="fa fa-upload"
         title={t('projectMonth.inboundUpload')}
       />
-      {hasInboundInvoiceBeenUploaded && <AttachmentPreviewButton toolTipTransString="projectMonth.viewInboundInvoice" downloadUrl={getInboundInvoiceDownloadUrl()} />}
+      {hasInboundInvoiceBeenUploaded && (
+        <AttachmentPreviewButton toolTipTransString="projectMonth.viewInboundInvoice" downloadUrl={getInboundInvoiceDownloadUrl()} />
+      )}
     </div>
   );
 };

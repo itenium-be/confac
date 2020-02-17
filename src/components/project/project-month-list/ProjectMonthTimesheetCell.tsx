@@ -107,7 +107,9 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
           icon="fa fa-upload"
           title={t('projectMonth.timesheetUpload')}
         />
-        {hasTimesheetBeenUploaded && <AttachmentPreviewButton toolTipTransString="projectMonth.viewTimesheet" downloadUrl={getTimesheetDownloadUrl()} />}
+        {hasTimesheetBeenUploaded && (
+          <AttachmentPreviewButton toolTipTransString="projectMonth.viewTimesheet" downloadUrl={getTimesheetDownloadUrl()} />
+        )}
       </div>
     </div>
   );
