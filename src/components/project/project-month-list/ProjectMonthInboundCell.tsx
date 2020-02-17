@@ -11,6 +11,8 @@ import {Icon} from '../../controls/Icon';
 import {patchProjectsMonth, projectMonthUpload} from '../../../actions';
 import {useDebouncedSave} from '../../hooks/useDebounce';
 import {UploadFileButton} from '../../controls/form-controls/button/UploadFileButton';
+import {getDownloadUrl} from '../../../actions/utils/download-helpers';
+import {AttachmentPreviewButton} from '../controls/AttachmentPreviewButton';
 
 interface ProjectMonthInboundCellProps {
   projectMonth: FullProjectMonthModel;
@@ -79,7 +81,7 @@ type InboundActionsMap = {
 /** Switch between statusses and dropzone for uploading the inbound invoice */
 const InboundActionButtons = ({projectMonth, onChange}: InboundActionButtonsProps) => {
   const dispatch = useDispatch();
-  const {inbound} = projectMonth.details;
+  const {inbound, attachments} = projectMonth.details;
 
   const buttons: InboundActionsMap[] = [{
     status: 'validated',
@@ -104,6 +106,17 @@ const InboundActionButtons = ({projectMonth, onChange}: InboundActionButtonsProp
     ),
   }];
 
+  const hasInboundInvoiceBeenUploaded = attachments.some(attachment => attachment.type === 'inbound');
+
+  const getInboundInvoiceDownloadUrl = () => {
+    const projectMonthId = projectMonth._id;
+    const inboundInvoiceDetails = attachments.find(attachment => attachment.type === 'inbound');
+
+    const {fileName} = inboundInvoiceDetails!;
+
+    return getDownloadUrl('project_month', projectMonthId, 'inbound', fileName, 'preview');
+  };
+
   return (
     <div className="inbound-actions">
       {buttons.filter(b => b.status !== inbound.status).map(b => b.component)}
@@ -111,9 +124,10 @@ const InboundActionButtons = ({projectMonth, onChange}: InboundActionButtonsProp
 
       <UploadFileButton
         onUpload={f => dispatch(projectMonthUpload(f, 'inbound', projectMonth._id))}
-        icon="fa fa-file-pdf"
+        icon="fa fa-upload"
         title={t('projectMonth.inboundUpload')}
       />
+      {hasInboundInvoiceBeenUploaded && <AttachmentPreviewButton toolTipTransString="projectMonth.viewInboundInvoice" downloadUrl={getInboundInvoiceDownloadUrl()} />}
     </div>
   );
 };

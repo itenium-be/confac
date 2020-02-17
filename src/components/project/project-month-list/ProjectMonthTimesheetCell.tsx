@@ -11,6 +11,8 @@ import {projectMonthUpload, patchProjectsMonth} from '../../../actions/projectAc
 import {getNewProjectMonthTimesheet} from '../models/getNewProject';
 import {useDebouncedSave} from '../../hooks/useDebounce';
 import {BasicMathInput} from '../../controls/form-controls/inputs/BasicMathInput';
+import {getDownloadUrl} from '../../../actions/utils/download-helpers';
+import {AttachmentPreviewButton} from '../controls/AttachmentPreviewButton';
 
 interface ProjectMonthTimesheetCellProps {
   projectMonth: FullProjectMonthModel;
@@ -34,7 +36,6 @@ const TimesheetDaysDisplay = ({days}: {days: number | undefined}) => {
   return <span>{days}</span>;
 };
 
-
 /** Timesheet form cell for a ProjectMonth row */
 export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetCellProps) => {
   const dispatch = useDispatch();
@@ -57,6 +58,16 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
     && (timesheet.timesheet === timesheet.check || timesheet.note || !projectConfig.timesheetCheck)
   );
 
+  const hasTimesheetBeenUploaded = projectMonth.details.attachments.some(attachment => attachment.type === 'timesheet');
+
+  const getTimesheetDownloadUrl = () => {
+    const projectMonthId = projectMonth._id;
+    const timesheetDetails = projectMonth.details.attachments.find(attachment => attachment.type === 'timesheet');
+
+    const {fileName} = timesheetDetails!;
+
+    return getDownloadUrl('project_month', projectMonthId, 'timesheet', fileName, 'preview');
+  };
 
   return (
     <div className={cn('timesheet-cell')}>
@@ -93,9 +104,10 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
         />
         <UploadFileButton
           onUpload={f => dispatch(projectMonthUpload(f, 'timesheet', projectMonth._id))}
-          icon="fa fa-clock"
+          icon="fa fa-upload"
           title={t('projectMonth.timesheetUpload')}
         />
+        {hasTimesheetBeenUploaded && <AttachmentPreviewButton toolTipTransString="projectMonth.viewTimesheet" downloadUrl={getTimesheetDownloadUrl()} />}
       </div>
     </div>
   );
