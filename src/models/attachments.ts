@@ -25,10 +25,7 @@ export interface IAttachmentModelConfig {
   name: string;
   standardCollectionName: string;
   attachmentCollectionName: string;
-  customRequirements?: {
-    replaceExistingAttachment: boolean;
-    fileTypesToBeReplaced: string[];
-  };
+  replaceExistingAttachment?: boolean;
 }
 
 export interface IAttachments {
@@ -51,9 +48,6 @@ export const attachmentModelsConfig: IAttachmentModelConfig[] = [
     name: 'project_month',
     standardCollectionName: CollectionNames.PROJECTS_MONTH,
     attachmentCollectionName: CollectionNames.ATTACHMENTS,
-    customRequirements: {
-      replaceExistingAttachment: true,
-      fileTypesToBeReplaced: ['timesheet', 'inbound'],
-    },
+    replaceExistingAttachment: true,
   },
 ];
