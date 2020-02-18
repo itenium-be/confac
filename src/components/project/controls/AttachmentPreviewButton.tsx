@@ -8,7 +8,7 @@ import {t} from '../../utils';
 type AttachmentPreviewButtonProps = {
   downloadUrl: string;
   /** Specifies translation key for the tooltip  */
-  toolTipTransString: string;
+  tooltip: string;
 }
 
 export const AttachmentPreviewButton = (props: AttachmentPreviewButtonProps) => {
@@ -18,7 +18,7 @@ export const AttachmentPreviewButton = (props: AttachmentPreviewButtonProps) => 
 
   return (
     <Button size="md" onClick={() => viewAttachment()} variant="outline-dark">
-      <Icon fa="fa fa-eye" size={1} title={t(props.toolTipTransString)} />
+      <Icon fa="fa fa-eye" size={1} title={t(props.tooltip)} />
     </Button>
   );
 };

@@ -58,15 +58,20 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
     && (timesheet.timesheet === timesheet.check || timesheet.note || !projectConfig.timesheetCheck)
   );
 
-  const hasTimesheetBeenUploaded = projectMonth.details.attachments.some(attachment => attachment.type === 'timesheet');
+  const hasTimesheetBeenUploaded = projectMonth.invoice
+    ? projectMonth.invoice.attachments.some(a => a.type === 'timesheet')
+    : projectMonth.details.attachments.some(a => a.type === 'timesheet');
 
   const getTimesheetDownloadUrl = () => {
+    const {details, invoice} = projectMonth;
     const projectMonthId = projectMonth._id;
-    const timesheetDetails = projectMonth.details.attachments.find(attachment => attachment.type === 'timesheet');
+    const timesheetDetails = invoice
+      ? invoice.attachments.find(a => a.type === 'timesheet')
+      : details.attachments.find(a => a.type === 'timesheet');
 
     const {fileName} = timesheetDetails!;
 
-    return getDownloadUrl('project_month', projectMonthId, 'timesheet', fileName, 'preview');
+    return getDownloadUrl('project_month', invoice ? invoice._id : projectMonthId, 'timesheet', fileName, 'preview');
   };
 
   return (
@@ -102,13 +107,15 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
           onChange={val => saveTimesheet({...timesheet, note: val})}
           title={t('projectMonth.timesheetNote', {name: `${projectMonth.consultant.firstName} ${projectMonth.consultant.name}`})}
         />
-        <UploadFileButton
-          onUpload={f => dispatch(projectMonthUpload(f, 'timesheet', projectMonth._id))}
-          icon="fa fa-upload"
-          title={t('projectMonth.timesheetUpload')}
-        />
+        {!projectMonth.invoice && (
+          <UploadFileButton
+            onUpload={f => dispatch(projectMonthUpload(f, 'timesheet', projectMonth._id))}
+            icon="fa fa-upload"
+            title={t('projectMonth.timesheetUpload')}
+          />
+        )}
         {hasTimesheetBeenUploaded && (
-          <AttachmentPreviewButton toolTipTransString="projectMonth.viewTimesheet" downloadUrl={getTimesheetDownloadUrl()} />
+          <AttachmentPreviewButton tooltip="projectMonth.viewTimesheet" downloadUrl={getTimesheetDownloadUrl()} />
         )}
       </div>
     </div>

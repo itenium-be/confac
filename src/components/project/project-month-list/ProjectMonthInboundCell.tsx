@@ -81,7 +81,7 @@ type InboundActionsMap = {
 /** Switch between statusses and dropzone for uploading the inbound invoice */
 const InboundActionButtons = ({projectMonth, onChange}: InboundActionButtonsProps) => {
   const dispatch = useDispatch();
-  const {inbound, attachments} = projectMonth.details;
+  const {details: {attachments, inbound}, invoice} = projectMonth;
 
   const buttons: InboundActionsMap[] = [{
     status: 'validated',
@@ -106,15 +106,18 @@ const InboundActionButtons = ({projectMonth, onChange}: InboundActionButtonsProp
     ),
   }];
 
-  const hasInboundInvoiceBeenUploaded = attachments.some(attachment => attachment.type === 'inbound');
+  const hasInboundInvoiceBeenUploaded = invoice
+    ? invoice.attachments.some(a => a.type === 'inbound') : attachments.some(a => a.type === 'inbound');
 
   const getInboundInvoiceDownloadUrl = () => {
     const projectMonthId = projectMonth._id;
-    const inboundInvoiceDetails = attachments.find(attachment => attachment.type === 'inbound');
+    const inboundInvoiceDetails = invoice
+      ? invoice.attachments.find(a => a.type === 'inbound')
+      : attachments.find(a => a.type === 'inbound');
 
     const {fileName} = inboundInvoiceDetails!;
 
-    return getDownloadUrl('project_month', projectMonthId, 'inbound', fileName, 'preview');
+    return getDownloadUrl('project_month', invoice ? invoice._id : projectMonthId, 'inbound', fileName, 'preview');
   };
 
   return (
@@ -122,13 +125,15 @@ const InboundActionButtons = ({projectMonth, onChange}: InboundActionButtonsProp
       {buttons.filter(b => b.status !== inbound.status).map(b => b.component)}
 
 
-      <UploadFileButton
-        onUpload={f => dispatch(projectMonthUpload(f, 'inbound', projectMonth._id))}
-        icon="fa fa-upload"
-        title={t('projectMonth.inboundUpload')}
-      />
+      {!invoice && (
+        <UploadFileButton
+          onUpload={f => dispatch(projectMonthUpload(f, 'inbound', projectMonth._id))}
+          icon="fa fa-upload"
+          title={t('projectMonth.inboundUpload')}
+        />
+      )}
       {hasInboundInvoiceBeenUploaded && (
-        <AttachmentPreviewButton toolTipTransString="projectMonth.viewInboundInvoice" downloadUrl={getInboundInvoiceDownloadUrl()} />
+        <AttachmentPreviewButton tooltip="projectMonth.viewInboundInvoice" downloadUrl={getInboundInvoiceDownloadUrl()} />
       )}
     </div>
   );

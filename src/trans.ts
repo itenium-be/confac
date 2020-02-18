@@ -361,7 +361,7 @@ export const trans = {
     note: 'Facturatie perikelen',
     forceVerified: 'Forceer afgehandeld zonder een factuur op te maken',
     viewTimesheet: 'Timesheet bekijken',
-    viewInboundInvoice: 'Inbound factuur bekijken',
+    viewInboundInvoice: 'Ontvangen factuur bekijken',
   },
   controls: {
     // browser
