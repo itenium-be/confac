@@ -10,11 +10,11 @@ import {IClient} from '../models/clients';
 
 const saveAttachment = async (req: Request, attachmentModelConfig: IAttachmentModelConfig, file: Express.Multer.File) => {
   const {id, type} = req.params;
-  const {standardCollectionName, attachmentCollectionName, replaceExistingAttachment} = attachmentModelConfig;
+  const {standardCollectionName, attachmentCollectionName} = attachmentModelConfig;
 
   const data = await req.db.collection<IAttachments>(standardCollectionName).findOne({_id: new ObjectID(id)});
   const {_id, attachments} = data!;
-  const updatedAttachments = replaceExistingAttachment ? attachments.filter(a => !(a.type === type)) : attachments;
+  const updatedAttachments = attachments.filter(a => a.type !== type);
   updatedAttachments.push({
     type,
     fileName: file.originalname,
