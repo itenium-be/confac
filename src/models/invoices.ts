@@ -49,7 +49,7 @@ export interface IInvoice {
   number: number;
   client: IClient;
   your: ICompany;
-  projectId?: string;
+  projectId?: ObjectID;
   consultantId?: string;
   date: string;
   orderNr: string;

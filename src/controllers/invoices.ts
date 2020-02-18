@@ -4,21 +4,62 @@ import PDFMerge from 'pdf-merge';
 import sgMail from '@sendgrid/mail';
 import fs from 'fs';
 import tmp from 'tmp';
-import {ObjectID} from 'mongodb';
+import {ObjectID, Db} from 'mongodb';
 
 import {IInvoice, INVOICE_EXCEL_HEADERS} from '../models/invoices';
 import {IAttachmentCollection, ISendGridAttachment} from '../models/attachments';
 import {createPdf} from './utils';
 import {IEmail} from '../models/clients';
 import {CollectionNames, IAttachment} from '../models/common';
+import {IProjectMonth} from '../models/projectsMonth';
 
-export const getInvoices = async (req: Request, res: Response) => {
+const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer) => {
+  const inserted = await db.collection<IInvoice>(CollectionNames.INVOICES).insertOne({
+    ...invoice,
+    createdOn: new Date().toISOString(),
+  });
+
+  const [createdInvoice] = inserted.ops;
+
+  await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf' >>(CollectionNames.ATTACHMENTS).insertOne({
+    _id: new ObjectID(createdInvoice._id),
+    pdf: pdfBuffer,
+  });
+
+  return createdInvoice;
+};
+
+const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMonthId: ObjectID, db: Db) => {
+  const projectMonthAttachments: IAttachmentCollection | null = await db.collection(CollectionNames.ATTACHMENTS)
+    .findOne({_id: projectMonthId}, {projection: {_id: false}});
+
+  if (projectMonthAttachments) {
+    await db.collection(CollectionNames.ATTACHMENTS).findOneAndUpdate({_id: invoice._id}, {$set: {...projectMonthAttachments}});
+  }
+
+  const projectMonth = await db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).findOne({_id: projectMonthId});
+  const updatedAttachmentDetails = projectMonth ? [...invoice.attachments, ...projectMonth?.attachments] : invoice.attachments;
+
+  const inserted = await db.collection<IInvoice>(CollectionNames.INVOICES)
+    .findOneAndUpdate({_id: new ObjectID(invoice._id)}, {$set: {attachments: updatedAttachmentDetails}}, {returnOriginal: false});
+  const updatedInvoice = inserted.value;
+
+  await db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).findOneAndUpdate({_id: projectMonthId}, {$set: {attachments: []}});
+  await db.collection(CollectionNames.ATTACHMENTS).findOneAndDelete({_id: projectMonthId});
+
+  return updatedInvoice;
+};
+
+
+export const getInvoicesController = async (req: Request, res: Response) => {
   const invoices = await req.db.collection(CollectionNames.INVOICES).find()
     .toArray();
   return res.send(invoices);
 };
 
-export const createInvoice = async (req: Request, res: Response) => {
+
+
+export const createInvoiceController = async (req: Request, res: Response) => {
   const invoice: IInvoice = req.body;
 
   if (!invoice.isQuotation) {
@@ -59,24 +100,21 @@ export const createInvoice = async (req: Request, res: Response) => {
     return res.status(500).send(pdfBuffer.error);
   }
 
-  const inserted = await req.db.collection<IInvoice>(CollectionNames.INVOICES).insertOne({
-    ...invoice,
-    createdOn: new Date().toISOString(),
-  });
+  const createdInvoice = await createInvoice(invoice, req.db, pdfBuffer as Buffer);
 
-  const [createdInvoice] = inserted.ops;
+  if (invoice.projectId) {
+    const projectMonthId = new ObjectID(invoice.projectId);
+    const updatedInvoice = await moveProjectMonthAttachmentsToInvoice(createdInvoice, projectMonthId, req.db);
 
-  if (Buffer.isBuffer(pdfBuffer)) {
-    await req.db.collection<Pick<IAttachmentCollection, '_id' | 'pdf' >>(CollectionNames.ATTACHMENTS).insertOne({
-      _id: new ObjectID(createdInvoice._id),
-      pdf: pdfBuffer,
-    });
+    return res.send(updatedInvoice);
   }
 
   return res.send(createdInvoice);
 };
 
-export const emailInvoice = async (req: Request, res: Response) => {
+
+
+export const emailInvoiceController = async (req: Request, res: Response) => {
   const invoiceId = req.params.id;
   const {attachments, combineAttachments, ...email}: IEmail = req.body;
 
@@ -161,7 +199,7 @@ export const emailInvoice = async (req: Request, res: Response) => {
 
 
 /** Update an existing invoice */
-export const updateInvoice = async (req: Request, res: Response) => {
+export const updateInvoiceController = async (req: Request, res: Response) => {
   const {_id, ...invoice}: IInvoice = req.body;
 
   const updatedPdfBuffer = await createPdf({
@@ -191,7 +229,7 @@ export const updateInvoice = async (req: Request, res: Response) => {
 
 
 /** Hard invoice delete: There is no coming back from this one */
-export const deleteInvoice = async (req: Request, res: Response) => {
+export const deleteInvoiceController = async (req: Request, res: Response) => {
   const {id}: {id: string;} = req.body;
 
   await req.db.collection(CollectionNames.INVOICES).findOneAndDelete({_id: new ObjectID(id)});
@@ -203,7 +241,7 @@ export const deleteInvoice = async (req: Request, res: Response) => {
 
 
 /** Open the invoice pdf in the browser in a new tab */
-export const previewPdfInvoice = async (req: Request, res: Response) => {
+export const previewPdfInvoiceController = async (req: Request, res: Response) => {
   const invoice: IInvoice = req.body;
 
   const pdfBuffer = await createPdf(invoice);
@@ -218,7 +256,7 @@ export const previewPdfInvoice = async (req: Request, res: Response) => {
 
 
 /** Create simple CSV output of the invoice._ids passed in the body */
-export const generateExcelForInvoices = async (req: Request, res: Response) => {
+export const generateExcelForInvoicesController = async (req: Request, res: Response) => {
   const invoiceIds: ObjectID[] = req.body.map((invoiceId: string) => new ObjectID(invoiceId));
 
   const invoices = await req.db.collection<IInvoice>(CollectionNames.INVOICES).find({_id: {$in: invoiceIds}})
