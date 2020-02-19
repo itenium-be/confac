@@ -106,7 +106,7 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
 
 
 export function projectMonthUpload(file: File, type: 'timesheet' | 'inbound', projectMonthId: string) {
-  return dispatch => {
+  return (dispatch: Dispatch) => {
     dispatch(busyToggle());
     const req = request.put(buildUrl(`/attachments/project_month/${projectMonthId}/${type}`));
     req.attach(file.name, file);
@@ -120,5 +120,14 @@ export function projectMonthUpload(file: File, type: 'timesheet' | 'inbound', pr
     })
       .catch(catchHandler)
       .then(() => dispatch(busyToggle.off()));
+  };
+}
+
+export function deleteProjectMonthAttachmentDetails(projectMonth: ProjectMonthModel) {
+  return (dispatch: Dispatch) => {
+    dispatch({
+      type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
+      projectMonth: {...projectMonth, attachments: []},
+    });
   };
 }
