@@ -7,19 +7,19 @@ import {t} from '../../utils';
 
 
 interface ProjectMonthNotesCellProps {
-  projectMonth: FullProjectMonthModel;
+  fullProjectMonth: FullProjectMonthModel;
 }
 
 
 /** Notes form cell for a ProjectMonth row */
-export const ProjectMonthNotesCell = ({projectMonth}: ProjectMonthNotesCellProps) => {
+export const ProjectMonthNotesCell = ({fullProjectMonth}: ProjectMonthNotesCellProps) => {
   const dispatch = useDispatch();
 
   return (
     <div className="notes-cell">
       <NotesModalButton
-        value={projectMonth.details.note}
-        onChange={val => dispatch(patchProjectsMonth({...projectMonth.details, note: val}))}
+        value={fullProjectMonth.details.note}
+        onChange={val => dispatch(patchProjectsMonth({...fullProjectMonth.details, note: val}))}
         title={t('projectMonth.note')}
       />
     </div>

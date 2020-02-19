@@ -36,7 +36,7 @@ const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMon
 const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<FullProjectMonthModel, ProjectMonthListFilters> => {
   const list: IListCell<FullProjectMonthModel>[] = [{
     key: 'consultant',
-    value: p => <ProjectMonthConsultantCell projectMonth={p} />,
+    value: p => <ProjectMonthConsultantCell fullProjectMonth={p} />,
     className: p => {
       if (p.details.verified) {
         return 'validated';
@@ -45,7 +45,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     },
   }, {
     key: 'timesheet',
-    value: p => <ProjectMonthTimesheetCell projectMonth={p} />,
+    value: p => <ProjectMonthTimesheetCell fullProjectMonth={p} />,
     className: p => {
       if (p.details.timesheet.validated || p.details.verified) {
         return 'validated';
@@ -54,7 +54,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     },
   }, {
     key: 'inbound',
-    value: p => <ProjectMonthInboundCell projectMonth={p} />,
+    value: p => <ProjectMonthInboundCell fullProjectMonth={p} />,
     className: p => {
       if (!p.project.projectMonthConfig.inboundInvoice || p.details.verified) {
         return 'validated';
@@ -72,7 +72,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     },
   }, {
     key: 'outbound',
-    value: p => <ProjectMonthOutboundCell projectMonth={p} />,
+    value: p => <ProjectMonthOutboundCell fullProjectMonth={p} />,
     className: p => {
       if (p.invoice) {
         if (p.invoice.verified) {
@@ -84,7 +84,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     },
   }, {
     key: 'notes',
-    value: p => <ProjectMonthNotesCell projectMonth={p} />,
+    value: p => <ProjectMonthNotesCell fullProjectMonth={p} />,
     className: p => {
       if (p.details.verified) {
         return 'validated';

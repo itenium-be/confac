@@ -15,7 +15,7 @@ import {getDownloadUrl} from '../../../actions/utils/download-helpers';
 import {AttachmentPreviewButton} from '../controls/AttachmentPreviewButton';
 
 interface ProjectMonthTimesheetCellProps {
-  projectMonth: FullProjectMonthModel;
+  fullProjectMonth: FullProjectMonthModel;
 }
 
 
@@ -37,34 +37,34 @@ const TimesheetDaysDisplay = ({days}: {days: number | undefined}) => {
 };
 
 /** Timesheet form cell for a ProjectMonth row */
-export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetCellProps) => {
+export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesheetCellProps) => {
   const dispatch = useDispatch();
 
-  const defaultValue = projectMonth.details.timesheet || getNewProjectMonthTimesheet();
+  const defaultValue = fullProjectMonth.details.timesheet || getNewProjectMonthTimesheet();
   const dispatcher = (val: ProjectMonthTimesheet) => {
-    dispatch(patchProjectsMonth({...projectMonth.details, timesheet: val}));
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, timesheet: val}));
   };
   const [timesheet, setTimesheet, saveTimesheet] = useDebouncedSave<ProjectMonthTimesheet>(defaultValue, dispatcher);
 
 
-  if (projectMonth.details.verified) {
+  if (fullProjectMonth.details.verified) {
     return <div />;
   }
 
 
-  const projectConfig = projectMonth.project.projectMonthConfig;
+  const projectConfig = fullProjectMonth.project.projectMonthConfig;
   const canToggleValid = !(
     timesheet.timesheet
     && (timesheet.timesheet === timesheet.check || timesheet.note || !projectConfig.timesheetCheck)
   );
 
-  const hasTimesheetBeenUploaded = projectMonth.invoice
-    ? projectMonth.invoice.attachments.some(a => a.type === 'timesheet')
-    : projectMonth.details.attachments.some(a => a.type === 'timesheet');
+  const hasTimesheetBeenUploaded = fullProjectMonth.invoice
+    ? fullProjectMonth.invoice.attachments.some(a => a.type === 'timesheet')
+    : fullProjectMonth.details.attachments.some(a => a.type === 'timesheet');
 
   const getTimesheetDownloadUrl = () => {
-    const {details, invoice} = projectMonth;
-    const projectMonthId = projectMonth._id;
+    const {details, invoice} = fullProjectMonth;
+    const projectMonthId = fullProjectMonth._id;
     const timesheetDetails = invoice
       ? invoice.attachments.find(a => a.type === 'timesheet')
       : details.attachments.find(a => a.type === 'timesheet');
@@ -105,11 +105,11 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
         <NotesModalButton
           value={timesheet.note}
           onChange={val => saveTimesheet({...timesheet, note: val})}
-          title={t('projectMonth.timesheetNote', {name: `${projectMonth.consultant.firstName} ${projectMonth.consultant.name}`})}
+          title={t('projectMonth.timesheetNote', {name: `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`})}
         />
-        {!projectMonth.invoice && (
+        {!fullProjectMonth.invoice && (
           <UploadFileButton
-            onUpload={f => dispatch(projectMonthUpload(f, 'timesheet', projectMonth._id))}
+            onUpload={f => dispatch(projectMonthUpload(f, 'timesheet', fullProjectMonth._id))}
             icon="fa fa-upload"
             title={t('projectMonth.timesheetUpload')}
           />

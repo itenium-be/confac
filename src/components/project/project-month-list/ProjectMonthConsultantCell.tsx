@@ -4,13 +4,13 @@ import {FullProjectMonthModel} from '../models/ProjectMonthModel';
 
 
 interface ProjectMonthConsultantCellProps {
-  projectMonth: FullProjectMonthModel;
+  fullProjectMonth: FullProjectMonthModel;
 }
 
 
 /** The first cell with Consultant/Client/Partner info of a ProjectMonth */
-export const ProjectMonthConsultantCell = ({projectMonth}: ProjectMonthConsultantCellProps) => {
-  const {consultant, client, partner} = projectMonth;
+export const ProjectMonthConsultantCell = ({fullProjectMonth}: ProjectMonthConsultantCellProps) => {
+  const {consultant, client, partner} = fullProjectMonth;
   return (
     <div className="consultant-cell">
       <div>
