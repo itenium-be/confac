@@ -11,6 +11,8 @@ import {projectMonthUpload, patchProjectsMonth} from '../../../actions/projectAc
 import {getNewProjectMonthTimesheet} from '../models/getNewProject';
 import {useDebouncedSave} from '../../hooks/useDebounce';
 import {BasicMathInput} from '../../controls/form-controls/inputs/BasicMathInput';
+import {getDownloadUrl} from '../../../actions/utils/download-helpers';
+import {AttachmentPreviewButton} from '../controls/AttachmentPreviewButton';
 
 interface ProjectMonthTimesheetCellProps {
   projectMonth: FullProjectMonthModel;
@@ -34,7 +36,6 @@ const TimesheetDaysDisplay = ({days}: {days: number | undefined}) => {
   return <span>{days}</span>;
 };
 
-
 /** Timesheet form cell for a ProjectMonth row */
 export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetCellProps) => {
   const dispatch = useDispatch();
@@ -57,6 +58,21 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
     && (timesheet.timesheet === timesheet.check || timesheet.note || !projectConfig.timesheetCheck)
   );
 
+  const hasTimesheetBeenUploaded = projectMonth.invoice
+    ? projectMonth.invoice.attachments.some(a => a.type === 'timesheet')
+    : projectMonth.details.attachments.some(a => a.type === 'timesheet');
+
+  const getTimesheetDownloadUrl = () => {
+    const {details, invoice} = projectMonth;
+    const projectMonthId = projectMonth._id;
+    const timesheetDetails = invoice
+      ? invoice.attachments.find(a => a.type === 'timesheet')
+      : details.attachments.find(a => a.type === 'timesheet');
+
+    const {fileName} = timesheetDetails!;
+
+    return getDownloadUrl('project_month', invoice ? invoice._id : projectMonthId, 'timesheet', fileName, 'preview');
+  };
 
   return (
     <div className={cn('timesheet-cell')}>
@@ -91,11 +107,16 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
           onChange={val => saveTimesheet({...timesheet, note: val})}
           title={t('projectMonth.timesheetNote', {name: `${projectMonth.consultant.firstName} ${projectMonth.consultant.name}`})}
         />
-        <UploadFileButton
-          onUpload={f => dispatch(projectMonthUpload(f, 'timesheet'))}
-          icon="fa fa-clock"
-          title={t('projectMonth.timesheetUpload')}
-        />
+        {!projectMonth.invoice && (
+          <UploadFileButton
+            onUpload={f => dispatch(projectMonthUpload(f, 'timesheet', projectMonth._id))}
+            icon="fa fa-upload"
+            title={t('projectMonth.timesheetUpload')}
+          />
+        )}
+        {hasTimesheetBeenUploaded && (
+          <AttachmentPreviewButton tooltip="projectMonth.viewTimesheet" downloadUrl={getTimesheetDownloadUrl()} />
+        )}
       </div>
     </div>
   );

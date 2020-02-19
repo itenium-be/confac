@@ -24,6 +24,7 @@ export const getNewProjectMonth = (): ProjectMonthModel => ({
   inbound: getNewProjectMonthInbound(),
   note: '',
   verified: false,
+  attachments: [],
 });
 
 export const getNewProjectMonthInbound = (): ProjectMonthInbound => ({

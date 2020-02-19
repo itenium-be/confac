@@ -3,6 +3,7 @@ import {ProjectModel} from './ProjectModel';
 import {ConsultantModel, ConsultantType} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
+import {Attachment} from '../../../models';
 
 export interface ProjectMonthModel {
   _id: string;
@@ -13,6 +14,7 @@ export interface ProjectMonthModel {
   note?: string;
   createdOn?: string;
   verified: boolean;
+  attachments: Attachment[]
 }
 
 export type ProjectMonthInboundStatus = 'new' | 'validated' | 'paid';

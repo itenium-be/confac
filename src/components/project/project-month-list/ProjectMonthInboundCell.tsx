@@ -11,6 +11,8 @@ import {Icon} from '../../controls/Icon';
 import {patchProjectsMonth, projectMonthUpload} from '../../../actions';
 import {useDebouncedSave} from '../../hooks/useDebounce';
 import {UploadFileButton} from '../../controls/form-controls/button/UploadFileButton';
+import {getDownloadUrl} from '../../../actions/utils/download-helpers';
+import {AttachmentPreviewButton} from '../controls/AttachmentPreviewButton';
 
 interface ProjectMonthInboundCellProps {
   projectMonth: FullProjectMonthModel;
@@ -79,7 +81,7 @@ type InboundActionsMap = {
 /** Switch between statusses and dropzone for uploading the inbound invoice */
 const InboundActionButtons = ({projectMonth, onChange}: InboundActionButtonsProps) => {
   const dispatch = useDispatch();
-  const {inbound} = projectMonth.details;
+  const {details: {attachments, inbound}, invoice} = projectMonth;
 
   const buttons: InboundActionsMap[] = [{
     status: 'validated',
@@ -104,16 +106,35 @@ const InboundActionButtons = ({projectMonth, onChange}: InboundActionButtonsProp
     ),
   }];
 
+  const hasInboundInvoiceBeenUploaded = invoice
+    ? invoice.attachments.some(a => a.type === 'inbound') : attachments.some(a => a.type === 'inbound');
+
+  const getInboundInvoiceDownloadUrl = () => {
+    const projectMonthId = projectMonth._id;
+    const inboundInvoiceDetails = invoice
+      ? invoice.attachments.find(a => a.type === 'inbound')
+      : attachments.find(a => a.type === 'inbound');
+
+    const {fileName} = inboundInvoiceDetails!;
+
+    return getDownloadUrl('project_month', invoice ? invoice._id : projectMonthId, 'inbound', fileName, 'preview');
+  };
+
   return (
     <div className="inbound-actions">
       {buttons.filter(b => b.status !== inbound.status).map(b => b.component)}
 
 
-      <UploadFileButton
-        onUpload={f => dispatch(projectMonthUpload(f, 'inbound'))}
-        icon="fa fa-file-pdf"
-        title={t('projectMonth.inboundUpload')}
-      />
+      {!invoice && (
+        <UploadFileButton
+          onUpload={f => dispatch(projectMonthUpload(f, 'inbound', projectMonth._id))}
+          icon="fa fa-upload"
+          title={t('projectMonth.inboundUpload')}
+        />
+      )}
+      {hasInboundInvoiceBeenUploaded && (
+        <AttachmentPreviewButton tooltip="projectMonth.viewInboundInvoice" downloadUrl={getInboundInvoiceDownloadUrl()} />
+      )}
     </div>
   );
 };

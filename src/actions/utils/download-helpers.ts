@@ -3,7 +3,7 @@ import {buildUrl} from './fetch';
 
 /** An interface you say? */
 export function getDownloadUrl(
-  fileType: 'quotation' | 'invoice' | 'client',
+  fileType: 'quotation' | 'invoice' | 'client' | 'project_month',
   _id: string,
   attachmentType: string,
   fileName: string, downloadType?: 'preview' | 'download',

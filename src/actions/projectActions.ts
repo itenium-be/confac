@@ -105,10 +105,20 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
 
 
 
-export function projectMonthUpload(file: File, type: 'timesheet' | 'inbound') {
-  console.log('projectMonthUpload', type, file);
-  return {
-    type: 'IMPLEMENT ME',
-    payload: {},
+export function projectMonthUpload(file: File, type: 'timesheet' | 'inbound', projectMonthId: string) {
+  return dispatch => {
+    dispatch(busyToggle());
+    const req = request.put(buildUrl(`/attachments/project_month/${projectMonthId}/${type}`));
+    req.attach(file.name, file);
+    req.then(response => {
+      dispatch({
+        type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
+        projectMonth: response.body,
+      });
+      success(t('config.popupMessage'));
+      return true;
+    })
+      .catch(catchHandler)
+      .then(() => dispatch(busyToggle.off()));
   };
 }
