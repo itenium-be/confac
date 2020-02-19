@@ -1,7 +1,7 @@
 import {ObjectID} from 'mongodb';
 
 import {IClient, ISelectItem} from './clients';
-import {IEmailAttachment} from './common';
+import {IAttachment} from './common';
 
 export interface IInvoiceMoney {
   totalWithoutTax: number;
@@ -49,14 +49,14 @@ export interface IInvoice {
   number: number;
   client: IClient;
   your: ICompany;
-  projectId?: string;
+  projectId?: ObjectID;
   consultantId?: string;
   date: string;
   orderNr: string;
   verified: boolean;
   fileName: string;
   discount: string;
-  attachments: IEmailAttachment[];
+  attachments: IAttachment[];
   isQuotation: boolean;
   lastEmail: string;
   _defaultTax: number;

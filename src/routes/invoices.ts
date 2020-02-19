@@ -1,18 +1,20 @@
 import {Router} from 'express';
 
-import {getInvoices, createInvoice, previewPdfInvoice, deleteInvoice, updateInvoice, emailInvoice, generateExcelForInvoices} from '../controllers/invoices';
+import {
+  getInvoicesController, createInvoiceController, previewPdfInvoiceController, deleteInvoiceController, updateInvoiceController, emailInvoiceController, generateExcelForInvoicesController,
+} from '../controllers/invoices';
 
 const invoicesRouter = Router();
 
-invoicesRouter.get('/', getInvoices);
+invoicesRouter.get('/', getInvoicesController);
 
-invoicesRouter.post('/', createInvoice);
-invoicesRouter.post('/email/:id', emailInvoice);
-invoicesRouter.post('/preview', previewPdfInvoice);
-invoicesRouter.post('/excel', generateExcelForInvoices);
+invoicesRouter.post('/', createInvoiceController);
+invoicesRouter.post('/email/:id', emailInvoiceController);
+invoicesRouter.post('/preview', previewPdfInvoiceController);
+invoicesRouter.post('/excel', generateExcelForInvoicesController);
 
-invoicesRouter.put('/', updateInvoice);
+invoicesRouter.put('/', updateInvoiceController);
 
-invoicesRouter.delete('/', deleteInvoice);
+invoicesRouter.delete('/', deleteInvoiceController);
 
 export default invoicesRouter;

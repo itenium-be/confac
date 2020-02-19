@@ -35,6 +35,7 @@ export const createProjectsMonth = async (req: Request, res: Response) => {
         status: 'new',
       },
       timesheet: {validated: false},
+      attachments: [],
     };
 
     const inserted = await req.db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).insertOne(projectMonth);

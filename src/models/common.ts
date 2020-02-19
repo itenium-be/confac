@@ -1,4 +1,4 @@
-export interface IEmailAttachment {
+export interface IAttachment {
   type: string;
   fileName: string;
   fileType: string;
