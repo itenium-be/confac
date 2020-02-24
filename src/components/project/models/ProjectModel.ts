@@ -19,6 +19,11 @@ export interface ProjectClientModel {
   clientId: string;
   tariff: number;
   rateType: EditClientRateType;
+  /**
+   * A per client reference, used as the invoice.orderNr
+   * Unless ProjectMonthConfig.changingOrderNr: Then the
+   * variable ProjectMonthModel.orderNr is used instead.
+   * */
   ref?: string;
 }
 

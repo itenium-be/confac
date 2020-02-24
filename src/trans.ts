@@ -351,6 +351,7 @@ export const trans = {
       titleConfig: 'Maandelijkse facturatie',
       timesheetCheck: 'Timesheets: SDWorx rapport check',
       inboundInvoice: 'Heeft inkomende factuur',
+      changingOrderNr: 'Het bestelbon nr wijzigt voor elke factuur',
     },
   },
   projectMonth: {

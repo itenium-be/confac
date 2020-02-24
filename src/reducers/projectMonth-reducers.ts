@@ -4,7 +4,7 @@ import {ACTION_TYPES} from '../actions';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
 import {getNewProjectMonth} from '../components/project/models/getNewProject';
 
-// TODO: We will not fetch all months, but just the months with status != OK
+// TODO: We will not fetch all months, but just the months with !verified
 
 function mapProject(prj: ProjectMonthModel): ProjectMonthModel {
   prj.month = moment(prj.month);

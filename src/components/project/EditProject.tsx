@@ -37,7 +37,14 @@ export const EditProject = (props: EditProjectProps) => {
     if (value.consultantId !== project.consultantId && consultants.length) {
       // Set ProjectMonth invoicing config based on the Consultant.Type
       const selectedConsultant = consultants.find(c => c._id === value.consultantId);
-      setProject({...project, ...value, projectMonthConfig: getDefaultProjectMonthConfig(selectedConsultant && selectedConsultant.type)});
+      setProject({
+        ...project,
+        ...value,
+        projectMonthConfig: {
+          ...project.projectMonthConfig,
+          ...getDefaultProjectMonthConfig(selectedConsultant && selectedConsultant.type),
+        },
+      });
 
     } else {
       setProject({...project, ...value});

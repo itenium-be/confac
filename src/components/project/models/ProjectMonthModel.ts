@@ -12,6 +12,8 @@ export interface ProjectMonthModel {
   timesheet: ProjectMonthTimesheet;
   inbound: ProjectMonthInbound;
   note?: string;
+  /** The invoice orderNr when ProjectMonthConfig.changingOrderNr */
+  orderNr: string;
   createdOn?: string;
   /**
    * false: The invoice has not yet been verified
@@ -55,16 +57,18 @@ export type FullProjectMonthModel = {
 };
 
 
-/** Configuration for the ProjectMonth process */
+/** Configuration for the ProjectMonth process (this is a property of ProjectModel) */
 export interface ProjectMonthConfig {
   /** Is there a check mecanism to compare the timesheet with? */
   timesheetCheck: boolean;
   /** Does the consultant send an invoice? */
   inboundInvoice: boolean;
+  /** Does the OrderNr change for each invoice? */
+  changingOrderNr: boolean;
 }
 
 /** How monthly invoicing is handled depends on the type of consultant */
-export function getDefaultProjectMonthConfig(consultantType?: ConsultantType): ProjectMonthConfig {
+export function getDefaultProjectMonthConfig(consultantType?: ConsultantType): Omit<ProjectMonthConfig, 'changingOrderNr'> {
   switch (consultantType) {
     case 'manager':
       return {

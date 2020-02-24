@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React from 'react';
+import React, { useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FullProjectMonthModel, ProjectMonthModel} from '../models/ProjectMonthModel';
 import {createInvoice, patchProjectsMonth} from '../../../actions';
@@ -11,6 +11,8 @@ import {getNewInvoice} from '../../invoice/models/getNewInvoice';
 import {InvoiceNumberCell} from '../../invoice/invoice-table/InvoiceNumberCell';
 import {InvoiceListRowActions} from '../../invoice/invoice-table/InvoiceListRowActions';
 import {ValidityToggleButton} from '../../controls/form-controls/button/ValidityToggleButton';
+import {StringInput} from '../../controls/form-controls/inputs/StringInput';
+import {useDebouncedSave} from '../../hooks/useDebounce';
 
 
 interface ProjectMonthOutboundCellProps {
@@ -22,20 +24,14 @@ interface ProjectMonthOutboundCellProps {
 export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCellProps) => {
   const dispatch = useDispatch();
 
-  const toggleValid = (verified: boolean) => {
-    const validity: Partial<ProjectMonthModel> = {
-      verified: verified ? 'forced' : false,
-      // timesheet: {
-      //   ...projectMonth.details.timesheet,
-      //   validated: verified,
-      // },
-      // inbound: {
-      //   ...projectMonth.details.inbound,
-      //   status: verified ? 'paid' : 'new',
-      // },
-    };
+  const dispatcher = (orderNr: string) => {
+    dispatch(patchProjectsMonth({...projectMonth.details, orderNr}));
+  };
+  const [orderNr, setOrderNr, saveOrderNr] = useDebouncedSave<string>(projectMonth.details.orderNr || '', dispatcher);
 
-    dispatch(patchProjectsMonth({...projectMonth.details, ...validity}));
+
+  const toggleValid = (verified: boolean) => {
+    dispatch(patchProjectsMonth({...projectMonth.details, verified: verified ? 'forced' : false}));
   };
 
 
@@ -61,6 +57,25 @@ export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCel
   }
 
 
+
+
+  if (!projectMonth.invoice && projectMonth.project.projectMonthConfig.changingOrderNr) {
+    return (
+      <div className="outbound-cell">
+        <div className="split-orderNr">
+          <StringInput
+            value={orderNr}
+            onChange={nr => setOrderNr(nr)}
+            placeholder={t('invoice.orderNrShort')}
+          />
+          <CreateInvoiceButton projectMonth={projectMonth} />
+        </div>
+        {ValidityToggle}
+      </div>
+    );
+  }
+
+
   if (!projectMonth.invoice) {
     return (
       <div className="outbound-cell">
@@ -69,6 +84,8 @@ export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCel
       </div>
     );
   }
+
+
 
   return (
     <OutboundInvoice projectMonth={projectMonth} />
@@ -115,7 +132,7 @@ const CreateInvoiceButton = ({projectMonth}: CreateInvoiceButtonProps) => {
     const blueprint = {
       isQuotation: false,
       client: projectMonth.client,
-      orderNr: projectMonth.project.client.ref,
+      orderNr: projectMonth.details.orderNr || projectMonth.project.client.ref,
       projectId: projectMonth._id,
       consultantId: projectMonth.consultant._id,
       lines: [{
@@ -137,6 +154,7 @@ const CreateInvoiceButton = ({projectMonth}: CreateInvoiceButtonProps) => {
 
   const valid = (
     projectMonth.details.timesheet.validated
+    && (!projectMonth.project.projectMonthConfig.changingOrderNr || projectMonth.details.orderNr)
     && (projectMonth.details.inbound.status === 'paid' || !projectMonth.project.projectMonthConfig.inboundInvoice)
   );
 

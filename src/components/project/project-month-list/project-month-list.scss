@@ -150,6 +150,17 @@ $cell-padding: 8px 8px;
         margin-right: $in-cell-margin;
       }
     }
+
+    .split-orderNr {
+      display: flex;
+
+      >:first-child { width: 40% }
+      >:nth-child(2) {
+        width: 60%;
+        margin-left: $in-cell-margin;
+        min-width: 160px;
+      }
+    }
   }
 
 
