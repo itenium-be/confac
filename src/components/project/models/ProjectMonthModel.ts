@@ -13,8 +13,13 @@ export interface ProjectMonthModel {
   inbound: ProjectMonthInbound;
   note?: string;
   createdOn?: string;
-  verified: boolean;
-  attachments: Attachment[]
+  /**
+   * false: The invoice has not yet been verified
+   * true: The invoice has been verified (=paid)
+   * forced: There is no invoice, just make the system happy
+   */
+  verified: boolean | 'forced';
+  attachments: Attachment[];
 }
 
 export type ProjectMonthInboundStatus = 'new' | 'validated' | 'paid';

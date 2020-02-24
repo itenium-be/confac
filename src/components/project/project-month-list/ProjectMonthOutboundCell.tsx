@@ -24,7 +24,7 @@ export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCel
 
   const toggleValid = (verified: boolean) => {
     const validity: Partial<ProjectMonthModel> = {
-      verified,
+      verified: verified ? 'forced' : false,
       // timesheet: {
       //   ...projectMonth.details.timesheet,
       //   validated: verified,
@@ -42,7 +42,7 @@ export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCel
 
   const ValidityToggle = (
     <ValidityToggleButton
-      value={projectMonth.details.verified}
+      value={!!projectMonth.details.verified}
       onChange={() => toggleValid(!projectMonth.details.verified)}
       outline
       title={t('projectMonth.forceVerified')}
@@ -50,9 +50,10 @@ export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCel
   );
 
 
-  if (projectMonth.details.verified) {
+
+  if (projectMonth.details.verified === 'forced') {
     return (
-      <div className="outbound-cell">
+      <div className="outbound-cell validated">
         <div />
         {ValidityToggle}
       </div>
