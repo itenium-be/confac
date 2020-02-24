@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React, { useState } from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {FullProjectMonthModel, ProjectMonthModel} from '../models/ProjectMonthModel';
+import {FullProjectMonthModel} from '../models/ProjectMonthModel';
 import {createInvoice, patchProjectsMonth} from '../../../actions';
 import {Button} from '../../controls/form-controls/Button';
 import {Icon} from '../../controls/Icon';
@@ -27,7 +27,7 @@ export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCel
   const dispatcher = (orderNr: string) => {
     dispatch(patchProjectsMonth({...projectMonth.details, orderNr}));
   };
-  const [orderNr, setOrderNr, saveOrderNr] = useDebouncedSave<string>(projectMonth.details.orderNr || '', dispatcher);
+  const [orderNr, setOrderNr/* , saveOrderNr */] = useDebouncedSave<string>(projectMonth.details.orderNr || '', dispatcher);
 
 
   const toggleValid = (verified: boolean) => {
