@@ -5,9 +5,12 @@ import {ListPage} from '../controls/table/ListPage';
 import {consultantFeature, ConsultantFeatureBuilderConfig} from './models/getConsultantFeature';
 import {saveConsultant} from '../../actions/consultantActions';
 import {updateAppFilters} from '../../actions';
+import {useDocumentTitle} from '../hooks/useDocumentTitle';
 
 
 export const ConsultantsList = () => {
+  useDocumentTitle('consultantList');
+
   const dispatch = useDispatch();
   const models = useSelector((state: ConfacState) => ({filters: state.app.filters.consultants, data: state.consultants}));
 

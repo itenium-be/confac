@@ -3,6 +3,7 @@ import {Container, Row, Form, Col} from 'react-bootstrap';
 import {ClientModel} from './models/ClientModels';
 import {t} from '../utils';
 import {BtwInput, BtwResponse, formatBtw} from '../controls/form-controls/inputs/BtwInput';
+import {useDocumentTitle} from '../hooks/useDocumentTitle';
 
 type NewClientProps = {
   client: ClientModel,
@@ -20,6 +21,7 @@ export function btwResponseToModel(btw: BtwResponse): ClientModel {
 
 
 export const NewClient = (props: NewClientProps) => {
+  useDocumentTitle('clientNew');
   const [client, setClient] = useState<ClientModel | null>(null);
   const [btw, setBtw] = useState(props.client.btw);
 

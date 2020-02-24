@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../utils';
@@ -9,6 +9,7 @@ import {ConfacState} from '../../reducers/app-state';
 import {StickyFooter} from '../controls/skeleton/StickyFooter';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {BusyButton} from '../controls/form-controls/BusyButton';
+import {useDocumentTitle} from '../hooks/useDocumentTitle';
 
 
 type EditConfigProps = {
@@ -16,47 +17,29 @@ type EditConfigProps = {
   updateConfig: (config: ConfigModel) => void,
 }
 
-type EditConfigState = ConfigModel;
 
-class EditConfig extends Component<EditConfigProps, EditConfigState> {
-  constructor(props: EditConfigProps) {
-    super(props);
-    this.state = JSON.parse(JSON.stringify(props.config));
-  }
+const EditConfig = (props: EditConfigProps) => {
+  useDocumentTitle('config');
+  const [state, setState] = useState<ConfigModel>(JSON.parse(JSON.stringify(props.config)));
 
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
+  return (
+    <Container className="edit-container">
+      <Form>
+        <Row>
+          <ArrayInput
+            config={configDefinition}
+            model={state}
+            onChange={(newState: ConfigModel) => setState({...newState})}
+            tPrefix="config."
+          />
+        </Row>
+      </Form>
+      <StickyFooter>
+        <BusyButton onClick={() => props.updateConfig(state)} data-tst="save">{t('save')}</BusyButton>
+      </StickyFooter>
+    </Container>
+  );
+};
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    this.setState(JSON.parse(JSON.stringify(nextProps.config)));
-  }
-
-  _save(): void {
-    console.log('save', this.state); // eslint-disable-line
-    return this.props.updateConfig(this.state);
-  }
-
-  render() {
-    return (
-      <Container className="edit-container">
-        <Form>
-          <Row>
-            <ArrayInput
-              config={configDefinition}
-              model={this.state}
-              onChange={(state: ConfigModel) => this.setState({...state})}
-              tPrefix="config."
-            />
-          </Row>
-        </Form>
-        <StickyFooter>
-          <BusyButton onClick={() => this._save()} data-tst="save">{t('save')}</BusyButton>
-        </StickyFooter>
-      </Container>
-    );
-  }
-}
 
 export default connect((state: ConfacState) => ({config: state.config}), {updateConfig})(EditConfig);

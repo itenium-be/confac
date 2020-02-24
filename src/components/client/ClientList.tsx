@@ -4,8 +4,11 @@ import {saveClient, updateAppFilters} from '../../actions/index';
 import {ConfacState} from '../../reducers/app-state';
 import {clientFeature, ClientFeatureBuilderConfig} from './models/getClientFeature';
 import {ListPage} from '../controls/table/ListPage';
+import {useDocumentTitle} from '../hooks/useDocumentTitle';
 
 export const ClientList = () => {
+  useDocumentTitle('clientList');
+
   const dispatch = useDispatch();
   const models = useSelector((state: ConfacState) => ({
     filters: state.app.filters.clients,
