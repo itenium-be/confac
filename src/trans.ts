@@ -54,6 +54,7 @@ export const trans = {
   taxRequest: 'btw in aanvraag',
   nav: {
     monthlyInvoicing: 'Facturatie',
+    invoices: 'Facturen',
     clients: 'Klanten',
     projects: 'Projecten',
     config: 'Config',

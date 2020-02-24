@@ -36,6 +36,7 @@ const Header = () => (
         <OldSchoolMenuLink to="/monthly-invoicing" label={t('nav.monthlyInvoicing')} />
         <OldSchoolMenuLink to="/projects" label={t('nav.projects')} />
         <OldSchoolMenuLink to="/clients" label={t('nav.clients')} />
+        <OldSchoolMenuLink to="/invoices" label={t('nav.invoices')} />
         <OldSchoolMenuLink to="/config" label={t('nav.config')} />
       </Nav>
 
