@@ -366,6 +366,7 @@ export const trans = {
     timesheetCheck: 'SDWorx',
     timesheetNote: 'Notitie Timesheet {name}',
     timesheetUpload: 'Timesheet uploaden',
+    timesheetExpiration: 'loopt af {daysLeft}',
     inboundInvoiceNr: 'Nr',
     inboundDateReceived: 'Ontvangen op',
     inboundUpload: 'Binnenkomende factuur opladen',
@@ -377,6 +378,7 @@ export const trans = {
     forceVerified: 'Forceer afgehandeld zonder een factuur op te maken',
     viewTimesheet: 'Timesheet bekijken',
     viewInboundInvoice: 'Ontvangen factuur bekijken',
+    linkToDetails: 'Ga naar project',
   },
   controls: {
     // browser
