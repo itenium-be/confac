@@ -14,7 +14,6 @@ import {UploadFileButton} from '../../controls/form-controls/button/UploadFileBu
 import {getDownloadUrl} from '../../../actions/utils/download-helpers';
 import {AttachmentPreviewButton} from '../controls/AttachmentPreviewButton';
 import {ConfacState} from '../../../reducers/app-state';
-import {getAmountInDays} from '../../invoice/controls/InvoiceLineTypeSelect';
 
 interface ProjectMonthInboundCellProps {
   projectMonth: FullProjectMonthModel;
