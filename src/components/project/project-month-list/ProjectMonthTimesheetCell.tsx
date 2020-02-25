@@ -79,6 +79,7 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
     && (timesheetAmount === timesheet.check || timesheet.note || !projectConfig.timesheetCheck)
   );
 
+  // TODO: 'timesheet' constant... This is "Getekende timesheet" in PROD
   const hasTimesheetBeenUploaded = projectMonth.invoice
     ? projectMonth.invoice.attachments.some(a => a.type === 'timesheet')
     : projectMonth.details.attachments.some(a => a.type === 'timesheet');
