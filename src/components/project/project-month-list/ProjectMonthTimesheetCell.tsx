@@ -13,37 +13,13 @@ import {useDebouncedSave} from '../../hooks/useDebounce';
 import {BasicMathInput} from '../../controls/form-controls/inputs/BasicMathInput';
 import {getDownloadUrl} from '../../../actions/utils/download-helpers';
 import {AttachmentPreviewButton} from '../controls/AttachmentPreviewButton';
-import {EditProjectRateType} from '../../../models';
+import {TimesheetTimeConfig, getAmountInDays} from '../../invoice/controls/InvoiceLineTypeSelect';
 
 const ViewportWidths = {showTimesheetDaysFrom: 1600};
 
-interface ProjectMonthTimesheetCellProps {
-  projectMonth: FullProjectMonthModel;
-}
-
-
-type TimesheetTimeDisplayProps = {
-  amount: number | undefined;
-  rateType: EditProjectRateType;
-  hoursInDay: number;
-}
-
-
-function getAmount({amount, rateType, hoursInDay}: TimesheetTimeDisplayProps): number {
-  if (!amount) {
-    return 0;
-  }
-
-  if (rateType === 'hourly') {
-    return amount / hoursInDay;
-  }
-
-  return amount;
-}
-
 
 /** Display timesheet number in days */
-const TimesheetTimeDisplay = (props: TimesheetTimeDisplayProps) => {
+const TimesheetTimeDisplay = (props: TimesheetTimeConfig) => {
   const [vpWidth] = useViewportSizes();
 
   if (typeof props.amount !== 'number') {
@@ -51,11 +27,20 @@ const TimesheetTimeDisplay = (props: TimesheetTimeDisplayProps) => {
   }
 
   if (vpWidth > ViewportWidths.showTimesheetDaysFrom) {
-    return <span>{t('client.daysWorked', {days: getAmount(props)})}</span>;
+    return <span>{t('client.daysWorked', {days: getAmountInDays(props)})}</span>;
   }
 
-  return <span>{getAmount(props)}</span>;
+  return <span>{getAmountInDays(props)}</span>;
 };
+
+
+
+
+
+
+interface ProjectMonthTimesheetCellProps {
+  projectMonth: FullProjectMonthModel;
+}
 
 /** Timesheet form cell for a ProjectMonth row */
 export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetCellProps) => {
@@ -79,7 +64,7 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
     hoursInDay: projectMonth.client.rate.hoursInDay,
   };
 
-  const timesheetCheckConfig: TimesheetTimeDisplayProps = {
+  const timesheetCheckConfig: TimesheetTimeConfig = {
     // TODO: Hardcoded "daily" for timesheetCheck: daily/hourly should be a global config setting
     rateType: 'daily',
     amount: timesheet.check,
@@ -88,7 +73,7 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
 
 
   const projectConfig = projectMonth.project.projectMonthConfig;
-  const timesheetAmount = getAmount(timesheetConfig);
+  const timesheetAmount = getAmountInDays(timesheetConfig);
   const canToggleValid = !(
     timesheet.timesheet
     && (timesheetAmount === timesheet.check || timesheet.note || !projectConfig.timesheetCheck)

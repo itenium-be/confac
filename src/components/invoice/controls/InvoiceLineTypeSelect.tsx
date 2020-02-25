@@ -8,6 +8,25 @@ export const projectLineTypes = ['hourly', 'daily'];
 
 export const invoiceLineTypes = [...projectLineTypes, 'km', 'items', 'section', 'other'];
 
+export type TimesheetTimeConfig = {
+  amount: number | undefined;
+  rateType: EditProjectRateType;
+  hoursInDay: number;
+}
+
+
+/** Turn Daily/Hourly into days */
+export function getAmountInDays({amount, rateType, hoursInDay}: TimesheetTimeConfig): number {
+  if (!amount) {
+    return 0;
+  }
+
+  if (rateType === 'hourly') {
+    return amount / hoursInDay;
+  }
+
+  return amount;
+}
 
 
 export const InvoiceLineTypeSelect = ({value = 'daily', label, ...props}: BaseInputProps<EditClientRateType>) => (
