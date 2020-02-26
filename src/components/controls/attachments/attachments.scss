@@ -2,7 +2,6 @@
   padding: 5px;
   display: flex;
   border-radius: 5px;
-  margin-bottom: 15px;
   border: 1px dotted #666;
 
   .icon {
@@ -19,13 +18,47 @@
 
     .fileName {
       display: block;
-      font-size: 70%;
+      font-size: .7em;
       margin-top: -2px;
     }
   }
 
-  .delete {
-    width: 25px;
-    margin-right: 12px;
+  .attachment-actions {
+    opacity: 0;
+    display: flex;
+    align-items: center;
+
+    > div {
+      margin-right: 15px;
+    }
   }
+
+  &:hover .attachment-actions {
+    opacity: 1;
+  }
+}
+
+.basic-attachment {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px dotted #666;
+
+  > i {
+    margin-right: 15px;
+  }
+
+  &-fileType {
+    font-weight: bold;
+  }
+
+  &-fileName {
+    font-size: .7em;
+  }
+
+  > * p {
+    margin-bottom: 0;
+  }
+
 }

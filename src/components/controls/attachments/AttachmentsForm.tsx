@@ -1,59 +1,60 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Attachment, IAttachment} from '../../../models';
+import React from 'react';
+import {Row, Col} from 'react-bootstrap';
+import {connect, useDispatch} from 'react-redux';
+
 import {updateAttachment, deleteAttachment} from '../../../actions/index';
-import {AbstractAttachmentsForm} from './AbstractAttachmentsForm';
+import {AdvancedAttachmentDropzone} from './AdvancedAttachmentDropzone';
+import {IAttachment, Attachment} from '../../../models';
+import {AddAttachmentPopup} from './AddAttachmentPopup';
+import {ClientModel} from '../../client/models/ClientModels';
+import InvoiceModel from '../../invoice/models/InvoiceModel';
+import {ProposedAttachmentsDropzones} from './ProposedAttachmentsDropzones';
+import {t} from '../../utils';
 
-import './attachments.scss';
-
-
-export type AttachmentsFormProps = {
-  deleteAttachment: Function,
-  updateAttachment: (model: IAttachment, modelType: 'invoice' | 'client', {file: File, type: string}) => void,
-  model: IAttachment,
+export type AttachmentModelTypes = {
+  invoice: string;
+  quotation: string;
+  client: string;
 }
 
-
-// eslint-disable-next-line react/prefer-stateless-function
-export class AttachmentsFormComponent extends Component<AttachmentsFormProps> {
-  render() {
-    const {model} = this.props;
-    if (!model._id) {
-      return null;
-    }
-
-
-    // eslint-disable-next-line dot-notation
-    const modelType = model['getType'] ? model['getType']() : 'client';
-    return (
-      <AbstractAttachmentsForm
-        attachments={model.attachments}
-        onDelete={(att: Attachment) => this.props.deleteAttachment(model, modelType, att)}
-        onAdd={att => this.props.updateAttachment(model, modelType, att)}
-        model={model}
-        modelType={modelType}
-      />
-    );
-  }
+type AttachmentsFormProps = {
+  updateAttachment: (model: IAttachment, modelType: keyof AttachmentModelTypes, {file: File, type: string}) => void;
+  model: ClientModel | InvoiceModel;
+  modelType: keyof AttachmentModelTypes;
+  createDownloadUrl: (downloadType: 'download' | 'preview', att: Attachment) => string;
 }
 
-export const AttachmentsForm = connect(null, {updateAttachment, deleteAttachment})(AttachmentsFormComponent);
+export const _AttachmentsForm = (props: AttachmentsFormProps) => {
+  const dispatch = useDispatch();
+  const {model, modelType, createDownloadUrl} = props;
 
+  return (
+    <Row className="tst-attachments attachments-form">
+      <Col sm={12}>
+        <h2>{t('invoice.attachments')}</h2>
+        <AddAttachmentPopup
+          attachments={model.attachments}
+          onAdd={(att: { file: File; type: string; }) => props.updateAttachment(props.model, modelType, att)}
+        />
+      </Col>
 
+      {model.attachments.filter(att => att.type !== 'pdf').map(att => (
+        <Col
+          lg={4}
+          md={6}
+          key={att.type}
+        >
+          <AdvancedAttachmentDropzone
+            attachment={att}
+            downloadUrl={createDownloadUrl}
+            onDelete={() => dispatch(deleteAttachment(props.model, modelType, att.type))}
+          />
+        </Col>
+      ))}
 
-export type AbstractAttachmentsFormProps = {
-  attachments: Attachment[],
-  onDelete: Function,
-  onAdd: ({file: File, type: string}) => void,
-  model: IAttachment,
-  modelType: 'invoice' | 'client',
-}
+      <ProposedAttachmentsDropzones model={props.model} modelType={modelType} />
+    </Row>
+  );
+};
 
-export type AbstractAttachmentsFormState = {
-  /** Show the attachment upload popup */
-  isOpen: boolean,
-  /** Show delete icons on the attachments */
-  isFormOpen: boolean,
-  /** The attachment.type to show the preview icon */
-  hoverId: string | null,
-}
+export const AttachmentsForm = connect(null, {updateAttachment, deleteAttachment})(_AttachmentsForm);

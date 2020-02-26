@@ -261,6 +261,7 @@ export const trans = {
     toggleEditForm: 'Bijlagen verwijderen',
     deleteTitle: 'Bijlage verwijderen?',
     deletePopup: 'De bijlage verwijderen?',
+    upload: 'Voeg een bestand toe',
   },
   client: {
     createNew: 'Nieuwe klant',
@@ -379,6 +380,7 @@ export const trans = {
     viewTimesheet: 'Timesheet bekijken',
     viewInboundInvoice: 'Ontvangen factuur bekijken',
     linkToDetails: 'Ga naar project',
+    sdWorxTimesheetUpload: 'SDWorx timesheet opladen',
   },
   controls: {
     // browser
