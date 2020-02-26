@@ -1,4 +1,5 @@
 import {ObjectID} from 'mongodb';
+import {Request} from 'express';
 
 import {CollectionNames, IAttachment} from './common';
 
@@ -39,6 +40,11 @@ export const attachmentModelsConfig: IAttachmentModelConfig[] = [
     attachmentCollectionName: CollectionNames.ATTACHMENTS,
   },
   {
+    name: 'quotation',
+    standardCollectionName: CollectionNames.INVOICES,
+    attachmentCollectionName: CollectionNames.ATTACHMENTS,
+  },
+  {
     name: 'client',
     standardCollectionName: CollectionNames.CLIENTS,
     attachmentCollectionName: CollectionNames.ATTACHMENTS_CLIENT,
@@ -46,6 +52,11 @@ export const attachmentModelsConfig: IAttachmentModelConfig[] = [
   {
     name: 'project_month',
     standardCollectionName: CollectionNames.PROJECTS_MONTH,
-    attachmentCollectionName: CollectionNames.ATTACHMENTS,
+    attachmentCollectionName: CollectionNames.ATTACHMENTS_PROJECT_MONTH,
+  },
+  {
+    name: 'project_month_overview',
+    standardCollectionName: CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW,
+    attachmentCollectionName: CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW,
   },
 ];
