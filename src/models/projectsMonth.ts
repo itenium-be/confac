@@ -1,4 +1,4 @@
-import {ObjectID} from 'mongodb';
+import {ObjectID, Binary} from 'mongodb';
 
 import {IAttachment} from './common';
 
@@ -9,8 +9,12 @@ export interface IProjectMonth {
   timesheet: ProjectMonthTimesheet;
   inbound: ProjectMonthInbound;
   note?: string;
-  /** True when the invoice is verified or just true when there is no invoice to be made (user decision) */
-  verified: boolean;
+  /**
+   * false: The invoice has not yet been verified
+   * true: The invoice has been verified (=paid)
+   * forced: There is no invoice, just make the system happy
+   */
+  verified: boolean | 'forced';
   createdOn?: string;
   attachments: IAttachment[];
 }
@@ -32,4 +36,13 @@ export interface ProjectMonthTimesheet {
   validated: boolean;
   /** Some contextual info */
   note?: string;
+}
+
+export interface IProjectMonthOverview {
+  _id: ObjectID;
+  fileDetails: IAttachment;
+  /** Format: month/year */
+  monthId: string;
+  /** One file with all the time-sheets combined  */
+  allTimesheets: Buffer;
 }

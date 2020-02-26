@@ -30,7 +30,7 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer) => {
 };
 
 const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMonthId: ObjectID, db: Db) => {
-  const projectMonthAttachments: IAttachmentCollection | null = await db.collection(CollectionNames.ATTACHMENTS)
+  const projectMonthAttachments: IAttachmentCollection | null = await db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH)
     .findOne({_id: projectMonthId}, {projection: {_id: false}});
 
   if (projectMonthAttachments) {
@@ -45,7 +45,7 @@ const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMo
   const updatedInvoice = inserted.value;
 
   await db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).findOneAndUpdate({_id: projectMonthId}, {$set: {attachments: []}});
-  await db.collection(CollectionNames.ATTACHMENTS).findOneAndDelete({_id: projectMonthId});
+  await db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).findOneAndDelete({_id: projectMonthId});
 
   return updatedInvoice;
 };

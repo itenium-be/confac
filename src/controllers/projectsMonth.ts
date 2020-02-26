@@ -2,21 +2,29 @@ import {Request, Response} from 'express';
 
 import {ObjectID} from 'mongodb';
 import {findActiveProjectsForSelectedMonth} from './projects';
-import {IProjectMonth} from '../models/projectsMonth';
+import {IProjectMonth, IProjectMonthOverview} from '../models/projectsMonth';
 import {CollectionNames} from '../models/common';
 import {IProject} from '../models/projects';
 
 
-export const getProjectsPerMonth = async (req: Request, res: Response) => {
+export const getProjectsPerMonthController = async (req: Request, res: Response) => {
   const projectsPerMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH).find()
     .toArray();
   return res.send(projectsPerMonth);
 };
 
+/** Returns only file details of a projects month attachment overview (all timesheets combined in one file) */
+export const getProjectsPerMonthOverviewController = async (req: Request, res: Response) => {
+  const projectsPerMonthOverview = await req.db.collection<IProjectMonthOverview>(CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW)
+    .find({}, {projection: {allTimesheets: false}})
+    .toArray();
+  return res.send(projectsPerMonthOverview);
+};
+
 
 
 /** Create all projectMonths for the specified month */
-export const createProjectsMonth = async (req: Request, res: Response) => {
+export const createProjectsMonthController = async (req: Request, res: Response) => {
   const {month}: {month: string;} = req.body;
 
   const projects = await req.db.collection<IProject>(CollectionNames.PROJECTS).find()
@@ -46,7 +54,7 @@ export const createProjectsMonth = async (req: Request, res: Response) => {
   return res.send(createdProjectsMonth);
 };
 
-export const patchProjectsMonth = async (req: Request, res: Response) => {
+export const patchProjectsMonthController = async (req: Request, res: Response) => {
   const {_id, ...projectMonth}: IProjectMonth = req.body;
 
   if (_id) {
