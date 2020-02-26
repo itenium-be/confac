@@ -15,6 +15,7 @@ import {CreateProjectsMonthModalButton} from './controls/CreateProjectsMonthModa
 import {IFeature} from '../controls/feature/feature-models';
 import {ListFilters} from '../controls/table/table-models';
 import {t} from '../utils';
+import {useDocumentTitle} from '../hooks/useDocumentTitle';
 
 
 import './project-month-list/project-month-list.scss';
@@ -42,6 +43,8 @@ function projectMonthResolve(prj: ProjectMonthModel, state: ConfacState): FullPr
 
 /** The Monthly Invoicing Table */
 export const ProjectMonthsLists = () => {
+  useDocumentTitle('projectMonthsList');
+
   const dispatch = useDispatch();
   const config: ProjectMonthFeatureBuilderConfig = useSelector((state: ConfacState) => {
     const projects = state.projectsMonth;

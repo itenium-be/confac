@@ -13,6 +13,7 @@ import {StickyFooter} from '../controls/skeleton/StickyFooter';
 import {NewClient} from './NewClient';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {BusyButton} from '../controls/form-controls/BusyButton';
+import {getDocumentTitle} from '../hooks/useDocumentTitle';
 
 
 type EditClientProps = {
@@ -41,6 +42,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
   }
 
   componentDidMount() {
+    document.title = getDocumentTitle(this.state.client.name);
     window.scrollTo(0, 0);
   }
 

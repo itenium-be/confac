@@ -57,7 +57,7 @@ const getRowBackgroundColor = (prj: FullProjectModel): undefined | string => {
 };
 
 
-const ProjectClientTariff = ({projectClient}: {projectClient: ProjectClientModel | undefined}) => {
+export const ProjectClientTariff = ({projectClient}: {projectClient: ProjectClientModel | undefined}) => {
   if (!projectClient) {
     return null;
   }

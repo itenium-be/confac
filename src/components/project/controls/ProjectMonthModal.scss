@@ -1,0 +1,20 @@
+.project-month-modal {
+  .project-duration {
+    > i, span {
+      margin-right: 12px;
+      font-size: 21px;
+    }
+
+    > small {
+      font-size: 16px;
+    }
+  }
+
+  .project-client {
+    font-size: 1.5rem;
+
+    small {
+      margin-left: 12px;
+    }
+  }
+}

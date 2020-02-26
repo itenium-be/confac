@@ -3,7 +3,7 @@ import {TextareaInput} from '../inputs/TextareaInput';
 import {BasicMathInput} from '../inputs/BasicMathInput';
 import {NumericInput} from '../inputs/NumericInput';
 import {StringInput} from '../inputs/StringInput';
-import {InvoiceLineTypeSelect} from '../../../invoice/controls/InvoiceLineTypeSelect';
+import {InvoiceLineTypeSelect, ProjectLineTypeSelect} from '../../../invoice/controls/InvoiceLineTypeSelect';
 import {ConsultantTypeSelect} from '../../../consultant/controls/ConsultantTypeSelect';
 import {InvoiceDateStrategySelect} from '../../../invoice/controls/InvoiceDateStrategySelect';
 import {PropertiesSelect} from '../select/PropertiesSelect';
@@ -25,7 +25,7 @@ import {DatePicker} from '../DatePicker';
 import {EditProjectClient, EditProjectPartner} from '../../../project/controls/EditProjectClient';
 import {ConsultantSelectWithCreateModal} from '../../../consultant/controls/ConsultantSelectWithCreateModal';
 
-export type CustomComponents = 'InvoiceLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect'
+export type CustomComponents = 'InvoiceLineTypeSelect' | 'ProjectLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect'
   | 'ExtraFields' | 'StringsSelect' | 'ClientSelect' | 'ConsultantTypeSelect' | 'EditProjectClient'
   | 'ConsultantSelectWithCreateModal';
 
@@ -54,6 +54,7 @@ const componentMap = {
 
   // Custom
   InvoiceLineTypeSelect,
+  ProjectLineTypeSelect,
   InvoiceDateStrategySelect,
   PropertiesSelect,
   ExtraFields: ExtraFieldsInput,

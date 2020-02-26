@@ -1,7 +1,7 @@
 import {Moment} from 'moment';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
-import {EditClientRateType} from '../../../models';
+import {EditProjectRateType} from '../../../models';
 import {ProjectMonthConfig} from './ProjectMonthModel';
 
 export interface ProjectModel {
@@ -18,7 +18,12 @@ export interface ProjectModel {
 export interface ProjectClientModel {
   clientId: string;
   tariff: number;
-  rateType: EditClientRateType;
+  rateType: EditProjectRateType;
+  /**
+   * A per client reference, used as the invoice.orderNr
+   * Unless ProjectMonthConfig.changingOrderNr: Then the
+   * variable ProjectMonthModel.orderNr is used instead.
+   * */
   ref?: string;
 }
 
@@ -32,7 +37,9 @@ export interface FullProjectModel {
   /** The project details */
   details: ProjectDetailsModel;
   consultant: ConsultantModel;
+  /** ATTN: ProjectClientModel properties to be found in details.client */
   client: ClientModel;
+  /** ATTN: ProjectClientModel properties to be found in details.partner */
   partner?: ClientModel;
 }
 

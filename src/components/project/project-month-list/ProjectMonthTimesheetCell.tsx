@@ -13,28 +13,37 @@ import {useDebouncedSave} from '../../hooks/useDebounce';
 import {BasicMathInput} from '../../controls/form-controls/inputs/BasicMathInput';
 import {getDownloadUrl} from '../../../actions/utils/download-helpers';
 import {AttachmentPreviewButton} from '../controls/AttachmentPreviewButton';
+import {TimesheetTimeConfig, getAmountInDays} from '../../invoice/controls/InvoiceLineTypeSelect';
 
 interface ProjectMonthTimesheetCellProps {
   fullProjectMonth: FullProjectMonthModel;
 }
+const ViewportWidths = {showTimesheetDaysFrom: 1600};
 
 
 /** Display timesheet number in days */
-const TimesheetDaysDisplay = ({days}: {days: number | undefined}) => {
+const TimesheetTimeDisplay = (props: TimesheetTimeConfig) => {
   const [vpWidth] = useViewportSizes();
 
-  if (typeof days !== 'number') {
+  if (typeof props.amount !== 'number') {
     return <span>&nbsp;</span>;
   }
 
-  // TODO: hourly rate not implemented
-
-  if (vpWidth > 1600) {
-    return <span>{t('client.daysWorked', {days})}</span>;
+  if (vpWidth > ViewportWidths.showTimesheetDaysFrom) {
+    return <span>{t('client.daysWorked', {days: getAmountInDays(props)})}</span>;
   }
 
-  return <span>{days}</span>;
+  return <span>{getAmountInDays(props)}</span>;
 };
+
+
+
+
+
+
+interface ProjectMonthTimesheetCellProps {
+  projectMonth: FullProjectMonthModel;
+}
 
 /** Timesheet form cell for a ProjectMonth row */
 export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesheetCellProps) => {
@@ -53,11 +62,27 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
 
 
   const projectConfig = fullProjectMonth.project.projectMonthConfig;
+  const timesheetConfig = {
+    rateType: fullProjectMonth.project.client.rateType,
+    amount: timesheet.timesheet,
+    hoursInDay: fullProjectMonth.client.rate.hoursInDay,
+  };
+
+  const timesheetCheckConfig: TimesheetTimeConfig = {
+    // TODO: Hardcoded "daily" for timesheetCheck: daily/hourly should be a global config setting
+    rateType: 'daily',
+    amount: timesheet.check,
+    hoursInDay: fullProjectMonth.client.rate.hoursInDay,
+  };
+
+
+  const timesheetAmount = getAmountInDays(timesheetConfig);
   const canToggleValid = !(
     timesheet.timesheet
-    && (timesheet.timesheet === timesheet.check || timesheet.note || !projectConfig.timesheetCheck)
+    && (timesheetAmount === timesheet.check || timesheet.note || !projectConfig.timesheetCheck)
   );
 
+  // TODO: 'timesheet' constant... This is "Getekende timesheet" in PROD
   const hasTimesheetBeenUploaded = fullProjectMonth.invoice
     ? fullProjectMonth.invoice.attachments.some(a => a.type === 'timesheet')
     : fullProjectMonth.details.attachments.some(a => a.type === 'timesheet');
@@ -74,14 +99,15 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
     return getDownloadUrl('project_month', invoice ? invoice._id : projectMonthId, 'timesheet', fileName, 'preview');
   };
 
+
   return (
     <div className={cn('timesheet-cell')}>
       <>
         <BasicMathInput
           value={timesheet.timesheet}
           onChange={val => setTimesheet({...timesheet, timesheet: val})}
-          placeholder={t('projectMonth.timesheet')}
-          display={timesheet.validated && (() => <TimesheetDaysDisplay days={timesheet.timesheet} />)}
+          placeholder={t(`projectMonth.timesheet${timesheetConfig.rateType}`)}
+          display={timesheet.validated && (() => <TimesheetTimeDisplay {...timesheetConfig} />)}
           float
         />
 
@@ -90,7 +116,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
             value={timesheet.check}
             onChange={val => setTimesheet({...timesheet, check: val})}
             placeholder={t('projectMonth.timesheetCheck')}
-            display={timesheet.validated && (() => <TimesheetDaysDisplay days={timesheet.check} />)}
+            display={timesheet.validated && (() => <TimesheetTimeDisplay {...timesheetCheckConfig} />)}
             float
           />
         ) : <div />}

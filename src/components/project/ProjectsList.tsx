@@ -7,9 +7,12 @@ import {ProjectReferenceResolver} from './utils/ProjectReferenceResolver';
 import {ListPage} from '../controls/table/ListPage';
 import {projectFeature, ProjectFeatureBuilderConfig} from './models/getProjectFeature';
 import {LinkToButton} from '../controls/form-controls/button/LinkToButton';
+import {useDocumentTitle} from '../hooks/useDocumentTitle';
 
 
 export const ProjectsList = () => {
+  useDocumentTitle('projectList');
+
   const history = useHistory();
   const dispatch = useDispatch();
   const config: ProjectFeatureBuilderConfig = useSelector((state: ConfacState) => {

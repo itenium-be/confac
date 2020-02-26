@@ -9,7 +9,7 @@ import {FullFormConfig} from '../../../models';
 const config: FullFormConfig = [
   {key: 'clientId', component: 'ClientSelect', cols: 5},
   {key: 'tariff', component: 'money', prefix: '€', cols: 2},
-  {key: 'rateType', component: 'InvoiceLineTypeSelect', cols: 2},
+  {key: 'rateType', component: 'ProjectLineTypeSelect', cols: 2},
   {key: 'ref', component: 'text', cols: 3},
 ];
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import cn from 'classnames';
 import {FullProjectMonthModel, ProjectMonthInbound, ProjectMonthInboundStatus} from '../models/ProjectMonthModel';
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
@@ -13,6 +13,7 @@ import {useDebouncedSave} from '../../hooks/useDebounce';
 import {UploadFileButton} from '../../controls/form-controls/button/UploadFileButton';
 import {getDownloadUrl} from '../../../actions/utils/download-helpers';
 import {AttachmentPreviewButton} from '../controls/AttachmentPreviewButton';
+import {ConfacState} from '../../../reducers/app-state';
 
 interface ProjectMonthInboundCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -150,15 +151,32 @@ type InboundAmountForecastProps = {
 
 /** Expected inbound total invoice amount */
 const InboundAmountForecast = ({fullProjectMonth}: InboundAmountForecastProps) => {
+  const tax = useSelector((state: ConfacState) => state.config.defaultTax);
   const {timesheet} = fullProjectMonth.details;
   if (!timesheet.timesheet || !fullProjectMonth.project.partner) {
     return <div />;
   }
 
-  // TODO: hourly rate not implemented + magic number + this calculation already exists!
+  const timesheetConfig = {
+    amount: timesheet.timesheet,
+    hoursInDay: fullProjectMonth.client.rate.hoursInDay,
+  };
+
+  if (fullProjectMonth.project.partner.rateType !== fullProjectMonth.project.client.rateType) {
+    switch (fullProjectMonth.project.client.rateType) {
+      case 'hourly':
+        timesheetConfig.amount /= timesheetConfig.hoursInDay;
+        break;
+
+      case 'daily':
+      default:
+        timesheetConfig.amount *= timesheetConfig.hoursInDay;
+    }
+  }
+
   return (
     <span>
-      {moneyFormat(timesheet.timesheet * 1.21 * fullProjectMonth.project.partner.tariff)}
+      {moneyFormat(timesheetConfig.amount * (1 + tax / 100) * fullProjectMonth.project.partner.tariff)}
     </span>
   );
 };

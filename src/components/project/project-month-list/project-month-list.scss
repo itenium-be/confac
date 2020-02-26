@@ -6,6 +6,14 @@ $in-cell-margin: 12px;
 $cell-padding: 8px 8px;
 
 
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+
 .list-projectMonths {
   max-width: 1600px !important;
 
@@ -35,10 +43,10 @@ $cell-padding: 8px 8px;
   th {
     text-align: center;
 
-    &:first-child { width: 10%; }
+    &:first-child { width: 1%; }
     &:nth-child(2) { width: 30%; }
-    &:nth-child(3) { width: 35%; }
-    &:nth-child(4) { width: 35%; }
+    &:nth-child(3) { width: 39%; }
+    &:nth-child(4) { width: 39%; }
     &:last-child { width: 5%; max-width: 80px; }
   }
 
@@ -52,10 +60,17 @@ $cell-padding: 8px 8px;
 
   .consultant-cell {
     padding: 4px;
+    min-width: 60px;
+    max-width: 150px;
 
     div {
+      @include ellipsis;
       font-weight: bold;
-      margin-bottom: -5px;
+    }
+
+    small {
+      @include ellipsis;
+      display: block;
     }
   }
 
@@ -148,6 +163,17 @@ $cell-padding: 8px 8px;
 
       &:not(:last-child) {
         margin-right: $in-cell-margin;
+      }
+    }
+
+    .split-orderNr {
+      display: flex;
+
+      >:first-child { width: 40% }
+      >:nth-child(2) {
+        width: 60%;
+        margin-left: $in-cell-margin;
+        min-width: 160px;
       }
     }
   }

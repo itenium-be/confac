@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {FullProjectMonthModel, ProjectMonthModel} from '../models/ProjectMonthModel';
+
+import {FullProjectMonthModel} from '../models/ProjectMonthModel';
 import {createInvoice, patchProjectsMonth, deleteProjectMonthAttachmentDetails} from '../../../actions';
 import {Button} from '../../controls/form-controls/Button';
 import {Icon} from '../../controls/Icon';
@@ -11,6 +12,8 @@ import {getNewInvoice} from '../../invoice/models/getNewInvoice';
 import {InvoiceNumberCell} from '../../invoice/invoice-table/InvoiceNumberCell';
 import {InvoiceListRowActions} from '../../invoice/invoice-table/InvoiceListRowActions';
 import {ValidityToggleButton} from '../../controls/form-controls/button/ValidityToggleButton';
+import {StringInput} from '../../controls/form-controls/inputs/StringInput';
+import {useDebouncedSave} from '../../hooks/useDebounce';
 
 
 interface ProjectMonthOutboundCellProps {
@@ -22,27 +25,21 @@ interface ProjectMonthOutboundCellProps {
 export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboundCellProps) => {
   const dispatch = useDispatch();
 
-  const toggleValid = (verified: boolean) => {
-    const validity: Partial<ProjectMonthModel> = {
-      verified,
-      // timesheet: {
-      //   ...projectMonth.details.timesheet,
-      //   validated: verified,
-      // },
-      // inbound: {
-      //   ...projectMonth.details.inbound,
-      //   status: verified ? 'paid' : 'new',
-      // },
-    };
+  const dispatcher = (orderNr: string) => {
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, orderNr}));
+  };
+  const [orderNr, setOrderNr/* , saveOrderNr */] = useDebouncedSave<string>(fullProjectMonth.details.orderNr || '', dispatcher);
 
-    dispatch(patchProjectsMonth({...fullProjectMonth.details, ...validity}));
+
+  const toggleValid = (verified: boolean) => {
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, verified: verified ? 'forced' : false}));
   };
 
 
 
   const ValidityToggle = (
     <ValidityToggleButton
-      value={fullProjectMonth.details.verified}
+      value={!!fullProjectMonth.details.verified}
       onChange={() => toggleValid(!fullProjectMonth.details.verified)}
       outline
       title={t('projectMonth.forceVerified')}
@@ -50,10 +47,30 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
   );
 
 
-  if (fullProjectMonth.details.verified) {
+
+  if (fullProjectMonth.details.verified === 'forced') {
+    return (
+      <div className="outbound-cell validated">
+        <div />
+        {ValidityToggle}
+      </div>
+    );
+  }
+
+
+
+
+  if (!fullProjectMonth.invoice && fullProjectMonth.project.projectMonthConfig.changingOrderNr) {
     return (
       <div className="outbound-cell">
-        <div />
+        <div className="split-orderNr">
+          <StringInput
+            value={orderNr}
+            onChange={nr => setOrderNr(nr)}
+            placeholder={t('invoice.orderNrShort')}
+          />
+          <CreateInvoiceButton fullProjectMonth={fullProjectMonth} />
+        </div>
         {ValidityToggle}
       </div>
     );
@@ -68,6 +85,8 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
       </div>
     );
   }
+
+
 
   return (
     <OutboundInvoice fullProjectMonth={fullProjectMonth} />
@@ -112,7 +131,7 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
     const blueprint = {
       isQuotation: false,
       client: fullProjectMonth.client,
-      orderNr: fullProjectMonth.project.client.ref,
+      orderNr: fullProjectMonth.details.orderNr || fullProjectMonth.project.client.ref,
       projectId: fullProjectMonth._id,
       consultantId: fullProjectMonth.consultant._id,
       lines: [{
@@ -135,6 +154,7 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
 
   const valid = (
     fullProjectMonth.details.timesheet.validated
+    && (!fullProjectMonth.project.projectMonthConfig.changingOrderNr || fullProjectMonth.details.orderNr)
     && (fullProjectMonth.details.inbound.status === 'paid' || !fullProjectMonth.project.projectMonthConfig.inboundInvoice)
   );
 
