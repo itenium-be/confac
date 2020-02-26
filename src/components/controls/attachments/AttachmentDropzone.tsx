@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {useDropzone} from 'react-dropzone';
 
 import {Icon} from '../Icon';
@@ -14,10 +14,10 @@ export type AttachmentDropzoneProps = {
 }
 
 export const AttachmentDropzone = ({onUpload, children, className, disabled, fileType}: AttachmentDropzoneProps) => {
-  const onDrop = useCallback(acceptedFiles => {
+  const onDrop = (acceptedFiles: File[]) => {
     const [file] = acceptedFiles;
     onUpload(file);
-  }, []);
+  };
   const {getRootProps, getInputProps, acceptedFiles} = useDropzone({onDrop});
 
   const file = !!acceptedFiles.length && acceptedFiles[0];

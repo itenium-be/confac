@@ -5,7 +5,7 @@ import {ConfacState} from '../../reducers/app-state';
 import {updateAppFilters, patchProjectsMonth, projectsMonthOverviewUpload, deleteProjectsMonthOverview} from '../../actions';
 import {ListPageHeader} from '../controls/table/ListPage';
 import {projectMonthFeature, ProjectMonthFeatureBuilderConfig} from './models/getProjectMonthFeature';
-import {ProjectMonthModel, FullProjectMonthModel, ProjectMonthOverviewModel} from './models/ProjectMonthModel';
+import {ProjectMonthModel, FullProjectMonthModel} from './models/ProjectMonthModel';
 import {ProjectModel} from './models/ProjectModel';
 import {ConsultantModel} from '../consultant/models/ConsultantModel';
 import {ClientModel} from '../client/models/ClientModels';
