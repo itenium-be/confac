@@ -24,6 +24,12 @@ export interface ProjectMonthModel {
   attachments: Attachment[];
 }
 
+export interface ProjectMonthOverviewModel {
+  _id: string;
+  monthId: string;
+  fileDetails: Attachment;
+}
+
 export type ProjectMonthInboundStatus = 'new' | 'validated' | 'paid';
 
 export interface ProjectMonthInbound {

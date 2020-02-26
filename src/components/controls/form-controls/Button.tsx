@@ -13,9 +13,11 @@ type ButtonProps = {
   size?: ButtonSize,
   children?: any,
   style?: React.CSSProperties,
+  disabled?: boolean;
+  className?: string;
 }
 
-export const Button = ({variant = 'primary', size = 'lg', ...props}: ButtonProps) => {
+export const Button = ({variant = 'primary', size = 'lg', disabled, className, style, ...props}: ButtonProps) => {
   const history = useHistory();
   const {children, icon, onClick, ...rest} = props;
 
@@ -27,7 +29,15 @@ export const Button = ({variant = 'primary', size = 'lg', ...props}: ButtonProps
   }
 
   return (
-    <ReactButton variant={variant} size={size === 'md' ? undefined : size} onClick={realClick} {...rest}>
+    <ReactButton
+      className={className}
+      variant={variant}
+      size={size === 'md' ? undefined : size}
+      onClick={realClick}
+      disabled={disabled}
+      style={style}
+      {...rest}
+    >
       {icon ? <Icon fa={icon} size={1} style={{marginRight: 6}} /> : null}
       {children}
     </ReactButton>

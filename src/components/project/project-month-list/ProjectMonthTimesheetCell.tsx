@@ -42,7 +42,7 @@ const TimesheetTimeDisplay = (props: TimesheetTimeConfig) => {
 
 
 interface ProjectMonthTimesheetCellProps {
-  projectMonth: FullProjectMonthModel;
+  fullProjectMonth: FullProjectMonthModel;
 }
 
 /** Timesheet form cell for a ProjectMonth row */
@@ -94,9 +94,14 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
       ? invoice.attachments.find(a => a.type === 'timesheet')
       : details.attachments.find(a => a.type === 'timesheet');
 
-    const {fileName} = timesheetDetails!;
+    if (!timesheetDetails) return '';
 
-    return getDownloadUrl('project_month', invoice ? invoice._id : projectMonthId, 'timesheet', fileName, 'preview');
+    const {fileName} = timesheetDetails;
+
+    if (invoice) {
+      return getDownloadUrl('invoice', invoice._id, 'timesheet', fileName, 'preview');
+    }
+    return getDownloadUrl('project_month', projectMonthId, 'timesheet', fileName, 'preview');
   };
 
 
@@ -133,16 +138,28 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           onChange={val => saveTimesheet({...timesheet, note: val})}
           title={t('projectMonth.timesheetNote', {name: `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`})}
         />
-        {!fullProjectMonth.invoice && (
+        <div className="timesheet-attachment-actions">
           <UploadFileButton
             onUpload={f => dispatch(projectMonthUpload(f, 'timesheet', fullProjectMonth._id))}
             icon="fa fa-upload"
             title={t('projectMonth.timesheetUpload')}
+            disabled={!!fullProjectMonth.invoice}
+            style={{
+              borderTopRightRadius: '0',
+              borderBottomRightRadius: '0',
+              borderRight: '0',
+            }}
           />
-        )}
-        {hasTimesheetBeenUploaded && (
-          <AttachmentPreviewButton tooltip="projectMonth.viewTimesheet" downloadUrl={getTimesheetDownloadUrl()} />
-        )}
+          <AttachmentPreviewButton
+            disabled={!hasTimesheetBeenUploaded}
+            tooltip="projectMonth.viewTimesheet"
+            downloadUrl={getTimesheetDownloadUrl()}
+            style={{
+              borderTopLeftRadius: '0',
+              borderBottomLeftRadius: '0',
+            }}
+          />
+        </div>
       </div>
     </div>
   );

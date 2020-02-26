@@ -1,6 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import cn from 'classnames';
+import {Moment} from 'moment';
 import {FullProjectMonthModel, ProjectMonthInbound, ProjectMonthInboundStatus} from '../models/ProjectMonthModel';
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {getNewProjectMonthInbound} from '../models/getNewProject';
@@ -22,7 +23,6 @@ interface ProjectMonthInboundCellProps {
 
 /** Inbound form cell for the ProjectMonth list */
 export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundCellProps) => {
-  console.log('TCL: ProjectMonthInboundCell -> fullProjectMonth', fullProjectMonth);
   const dispatch = useDispatch();
 
   const defaultValue = fullProjectMonth.details.inbound || getNewProjectMonthInbound();
@@ -30,7 +30,6 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
     dispatch(patchProjectsMonth({...fullProjectMonth.details, inbound: val}));
   };
   const [inbound, setInbound, saveInbound] = useDebouncedSave<ProjectMonthInbound>(defaultValue, dispatcher);
-  // console.log('TCL: ProjectMonthInboundCell -> inbound', inbound);
 
 
   if (!fullProjectMonth.project.projectMonthConfig.inboundInvoice) {
@@ -54,7 +53,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
       />
       <InboundAmountForecast fullProjectMonth={fullProjectMonth} />
       <DatePicker
-        value={inbound.dateReceived || fullProjectMonth.details.inbound.dateReceived}
+        value={fullProjectMonth.details.inbound.dateReceived || inbound.dateReceived}
         onChange={dateReceived => setInbound({...inbound, dateReceived})}
         placeholder={t('projectMonth.inboundDateReceived')}
         display={canEdit}
@@ -118,26 +117,42 @@ const InboundActionButtons = ({fullProjectMonth, onChange}: InboundActionButtons
       ? invoice.attachments.find(a => a.type === 'inbound')
       : attachments.find(a => a.type === 'inbound');
 
-    const {fileName} = inboundInvoiceDetails!;
+    if (!inboundInvoiceDetails) return '';
 
-    return getDownloadUrl('project_month', invoice ? invoice._id : projectMonthId, 'inbound', fileName, 'preview');
+    const {fileName} = inboundInvoiceDetails;
+
+    if (invoice) {
+      return getDownloadUrl('invoice', invoice._id, 'inbound', fileName, 'preview');
+    }
+    return getDownloadUrl('project_month', projectMonthId, 'inbound', fileName, 'preview');
   };
 
   return (
     <div className="inbound-actions">
       {buttons.filter(b => b.status !== inbound.status).map(b => b.component)}
-
-
-      {!invoice && (
+      <div className="inbound-attachment-actions">
         <UploadFileButton
           onUpload={f => dispatch(projectMonthUpload(f, 'inbound', fullProjectMonth._id))}
           icon="fa fa-upload"
           title={t('projectMonth.inboundUpload')}
+          disabled={!!invoice}
+          style={{
+            borderTopRightRadius: '0',
+            borderBottomRightRadius: '0',
+            borderRight: '0',
+          }}
         />
-      )}
-      {hasInboundInvoiceBeenUploaded && (
-        <AttachmentPreviewButton tooltip="projectMonth.viewInboundInvoice" downloadUrl={getInboundInvoiceDownloadUrl()} />
-      )}
+        <AttachmentPreviewButton
+          disabled={!hasInboundInvoiceBeenUploaded}
+          tooltip="projectMonth.viewInboundInvoice"
+          downloadUrl={getInboundInvoiceDownloadUrl()}
+          style={{
+            borderTopLeftRadius: '0',
+            borderBottomLeftRadius: '0',
+          }}
+        />
+      </div>
+
     </div>
   );
 };

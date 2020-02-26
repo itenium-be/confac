@@ -87,8 +87,13 @@ $cell-padding: 8px 8px;
 
     .timesheet-actions {
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
+
+      .timesheet-attachment-actions {
+        display: flex;
+      }
     }
+
 
     > span {
       // Success timesheet/check display
@@ -146,7 +151,11 @@ $cell-padding: 8px 8px;
 
     .inbound-actions {
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
+
+      .inbound-attachment-actions {
+        display: flex;
+      }
     }
   }
 

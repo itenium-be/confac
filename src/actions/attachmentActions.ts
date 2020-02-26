@@ -44,7 +44,7 @@ export function updateAttachment(
 
 
 
-export function deleteAttachment(model: IAttachment, modelType: 'client' | 'invoice' | 'quotation', {type}: {type: string}) {
+export function deleteAttachment(model: IAttachment, modelType: 'client' | 'invoice' | 'quotation', type: string) {
   return dispatch => {
     dispatch(busyToggle());
     request.delete(buildAttachmentUrl(model, type))

@@ -104,7 +104,6 @@ const OutboundInvoice = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
     return null;
   }
 
-  // console.log('zed', projectMonth.invoice);
   return (
     <div className="outbound-invoice-cell">
       <div>
@@ -145,7 +144,6 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
     };
 
     const invoice = getNewInvoice(state.config, state.invoices, state.clients, blueprint);
-    // console.log('creating', invoice);
     dispatch(createInvoice(invoice));
     dispatch(deleteProjectMonthAttachmentDetails(fullProjectMonth.details));
   };

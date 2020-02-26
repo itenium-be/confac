@@ -1,4 +1,5 @@
 import {toast} from 'react-toastify';
+import {Dispatch} from 'redux';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {buildUrl} from './utils/fetch';
 import {failure} from './appActions';
@@ -83,6 +84,15 @@ function fetchProjectsMonth() {
   });
 }
 
+function fetchProjectsMonthOverviews() {
+  return (dispatch: Dispatch) => httpGet('/projects/month/overview').then(data => {
+    dispatch({
+      type: ACTION_TYPES.PROJECTS_MONTH_OVERVIEWS_FETCHED,
+      projectsMonthOverviews: data,
+    });
+  });
+}
+
 export function initialLoad(): any {
   counter = 0;
   return dispatch => Promise.all([
@@ -92,6 +102,7 @@ export function initialLoad(): any {
     dispatch(fetchConsultants()),
     dispatch(fetchProjects()),
     dispatch(fetchProjectsMonth()),
+    dispatch(fetchProjectsMonthOverviews()),
   ]).then(() => {
     dispatch({type: ACTION_TYPES.INITIAL_LOAD});
   });

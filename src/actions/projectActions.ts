@@ -123,6 +123,41 @@ export function projectMonthUpload(file: File, type: 'timesheet' | 'inbound', pr
   };
 }
 
+export function projectsMonthOverviewUpload(file: File, monthId: string) {
+  return (dispatch: Dispatch) => {
+    dispatch(busyToggle());
+    const req = request.put(buildUrl(`/attachments/project_month_overview/${monthId}/allTimesheets`));
+    req.attach(file.name, file);
+    req.then(response => {
+      dispatch({
+        type: ACTION_TYPES.PROJECTS_MONTH_OVERVIEWS_UPDATE,
+        projectsMonthOverview: response.body,
+      });
+      success(t('config.popupMessage'));
+      return true;
+    })
+      .catch(catchHandler)
+      .then(() => dispatch(busyToggle.off()));
+  };
+}
+
+export function deleteProjectsMonthOverview(id: string) {
+  return (dispatch: Dispatch) => {
+    dispatch(busyToggle());
+    const req = request.delete(buildUrl(`/attachments/project_month_overview/${id}/allTimesheets`));
+    req.then(response => {
+      dispatch({
+        type: ACTION_TYPES.PROJECTS_MONTH_OVERVIEWS_DELETE,
+        projectsMonthOverviewId: id,
+      });
+      success(t('config.popupMessage'));
+      return true;
+    })
+      .catch(catchHandler)
+      .then(() => dispatch(busyToggle.off()));
+  };
+}
+
 export function deleteProjectMonthAttachmentDetails(projectMonth: ProjectMonthModel) {
   return (dispatch: Dispatch) => {
     dispatch({

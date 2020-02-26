@@ -2,10 +2,10 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container} from 'react-bootstrap';
 import {ConfacState} from '../../reducers/app-state';
-import {updateAppFilters, patchProjectsMonth} from '../../actions';
+import {updateAppFilters, patchProjectsMonth, projectsMonthOverviewUpload, deleteProjectsMonthOverview} from '../../actions';
 import {ListPageHeader} from '../controls/table/ListPage';
 import {projectMonthFeature, ProjectMonthFeatureBuilderConfig} from './models/getProjectMonthFeature';
-import {ProjectMonthModel, FullProjectMonthModel} from './models/ProjectMonthModel';
+import {ProjectMonthModel, FullProjectMonthModel, ProjectMonthOverviewModel} from './models/ProjectMonthModel';
 import {ProjectModel} from './models/ProjectModel';
 import {ConsultantModel} from '../consultant/models/ConsultantModel';
 import {ClientModel} from '../client/models/ClientModels';
@@ -19,6 +19,8 @@ import {useDocumentTitle} from '../hooks/useDocumentTitle';
 
 
 import './project-month-list/project-month-list.scss';
+import {getDownloadUrl} from '../../actions/utils/download-helpers';
+import {AdvancedAttachmentDropzone} from '../controls/attachments/AdvancedAttachmentDropzone';
 
 /** Resolve ProjectModel _ids to their corresponding models */
 function projectMonthResolve(prj: ProjectMonthModel, state: ConfacState): FullProjectMonthModel {
@@ -118,18 +120,50 @@ type ProjectMonthsListProps = {
 
 /** Display a title and a ProjectMonth list */
 const ProjectMonthsList = ({feature}: ProjectMonthsListProps) => {
+  const projectsMonthOverviews = useSelector((state: ConfacState) => state.projectsMonthOverviews);
+  const dispatch = useDispatch();
+
   if (!feature.list.data.length) {
     return null;
   }
 
-  const model = feature.list.data[0];
-  let month = model.details.month.format('MMMM');
-  month = month.charAt(0).toUpperCase() + month.slice(1);
-  month = t('projectMonth.listTitle', {month, year: model.details.month.year()});
+  const displayMonthWithYear = () => {
+    const {month: date} = feature.list.data[0].details;
+    const formattedMonth = date.format('MMMM').charAt(0).toUpperCase() + date.format('MMMM').substring(1);
+    return t('projectMonth.listTitle', {month: formattedMonth, year: date.year()});
+  };
+
+  const createMonthId = () => {
+    const {month: date} = feature.list.data[0].details;
+    const monthYearFormat = date.format('MMYYYY');
+    return monthYearFormat;
+  };
+
+  const getProjectsMonthOverview = () => {
+    const monthId = createMonthId();
+    return projectsMonthOverviews.find(p => p.monthId === monthId);
+  };
+
+  const projectsMonthOverview = getProjectsMonthOverview();
+
+  const createDownloadUrl = (downloadType: 'download' | 'preview') => {
+    if (!projectsMonthOverview) return '';
+    const {_id, fileDetails} = projectsMonthOverview;
+    return getDownloadUrl('project_month_overview', _id, fileDetails.type, fileDetails.fileName, downloadType);
+  };
 
   return (
     <>
-      <h2>{month}</h2>
+      <div style={{display: 'flex', alignItems: 'center', marginBottom: '20px'}}>
+        <h2 style={{marginRight: '20px', marginBottom: 0}}>{displayMonthWithYear()}</h2>
+        <AdvancedAttachmentDropzone
+          attachment={projectsMonthOverview && projectsMonthOverview.fileDetails}
+          onUpload={(f: File) => dispatch(projectsMonthOverviewUpload(f, createMonthId()))}
+          onDelete={() => (projectsMonthOverview ? dispatch(deleteProjectsMonthOverview(projectsMonthOverview._id)) : null)}
+          downloadUrl={createDownloadUrl}
+          dropzoneText={t('projectMonth.sdWorxTimesheetUpload')}
+        />
+      </div>
       <List feature={feature} />
     </>
   );
