@@ -11,9 +11,13 @@ export type AttachmentDropzoneProps = {
   className?: string;
   disabled?: boolean;
   fileType?: string;
+  disableOpacityMode?: boolean;
+  dropzonePlaceholderText?: string;
 }
 
-export const AttachmentDropzone = ({onUpload, children, className, disabled, fileType}: AttachmentDropzoneProps) => {
+export const AttachmentDropzone = (props: AttachmentDropzoneProps) => {
+  const {onUpload, children, className, disabled, fileType, disableOpacityMode = false, dropzonePlaceholderText} = props;
+
   const onDrop = (acceptedFiles: File[]) => {
     const [file] = acceptedFiles;
     onUpload(file);
@@ -22,8 +26,15 @@ export const AttachmentDropzone = ({onUpload, children, className, disabled, fil
 
   const file = !!acceptedFiles.length && acceptedFiles[0];
 
+  const styles = {
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    width: '100%',
+    // eslint-disable-next-line no-nested-ternary
+    opacity: disableOpacityMode ? 1 : (file ? 1 : 0.5),
+  };
+
   return (
-    <div {...getRootProps()} style={{cursor: disabled ? 'not-allowed' : 'pointer'}} className={className}>
+    <div {...getRootProps()} style={styles} className={className}>
       <input {...getInputProps()} multiple={false} className="tst-dropzone" disabled={disabled} />
       {children || (
         <>
@@ -37,7 +48,7 @@ export const AttachmentDropzone = ({onUpload, children, className, disabled, fil
               <span className="fileName">{file.name}</span>
             </div>
           ) : (
-            <span style={{paddingBottom: 5}}>{t('invoice.attachmentsProposed', {type: fileType})}</span>
+            <span>{dropzonePlaceholderText || t('invoice.attachmentsProposed', {type: fileType})}</span>
           )
         }
         </>

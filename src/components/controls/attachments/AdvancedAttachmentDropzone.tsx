@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Attachment} from '../../../models';
 import {AttachmentDownloadIcon, AttachmentPreviewIcon} from './AttachmentDownloadIcon';
-import {ConfirmedDeleteIcon, Icon} from '../Icon';
+import {ConfirmedDeleteIcon} from '../Icon';
 import {t} from '../../utils';
 import {AttachmentDropzone} from './AttachmentDropzone';
 import './attachments.scss';
@@ -12,11 +12,11 @@ type AttachmentFormProps = {
   downloadUrl: (downloadType: 'download' | 'preview', att: Attachment) => string;
   onDelete?: Function;
   onUpload?: (file: File) => void;
-  dropzoneText?: string;
+  dropzonePlaceholderText?: string;
 }
 
 export const AdvancedAttachmentDropzone = (
-  {dropzoneText, attachment, downloadUrl, onDelete, onUpload}:AttachmentFormProps,
+  {dropzonePlaceholderText, attachment, downloadUrl, onDelete, onUpload}:AttachmentFormProps,
 ) => (
   <div style={{minWidth: '20%'}}>
     {
@@ -52,10 +52,7 @@ export const AdvancedAttachmentDropzone = (
       )
     }
     {!attachment && onUpload && (
-    <AttachmentDropzone onUpload={onUpload} className="attachment">
-      <Icon fa="fa fa-file-upload" style={{marginRight: 8}} />
-      <span style={{paddingBottom: 5}}>{dropzoneText || t('attachment.upload')}</span>
-    </AttachmentDropzone>
+    <AttachmentDropzone onUpload={onUpload} className="attachment" dropzonePlaceholderText={dropzonePlaceholderText} />
     )}
   </div>
 );
