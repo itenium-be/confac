@@ -6,14 +6,13 @@ import {FullProjectMonthModel, ProjectMonthTimesheet} from '../models/ProjectMon
 import {t} from '../../utils';
 import {ValidityToggleButton} from '../../controls/form-controls/button/ValidityToggleButton';
 import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
-import {UploadFileButton} from '../../controls/form-controls/button/UploadFileButton';
 import {projectMonthUpload, patchProjectsMonth} from '../../../actions/projectActions';
 import {getNewProjectMonthTimesheet} from '../models/getNewProject';
 import {useDebouncedSave} from '../../hooks/useDebounce';
 import {BasicMathInput} from '../../controls/form-controls/inputs/BasicMathInput';
 import {getDownloadUrl} from '../../../actions/utils/download-helpers';
-import {AttachmentPreviewButton} from '../controls/AttachmentPreviewButton';
 import {TimesheetTimeConfig, getAmountInDays} from '../../invoice/controls/InvoiceLineTypeSelect';
+import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPreviewButtons';
 
 interface ProjectMonthTimesheetCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -38,12 +37,6 @@ const TimesheetTimeDisplay = (props: TimesheetTimeConfig) => {
 
 
 
-
-
-
-interface ProjectMonthTimesheetCellProps {
-  fullProjectMonth: FullProjectMonthModel;
-}
 
 /** Timesheet form cell for a ProjectMonth row */
 export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesheetCellProps) => {
@@ -83,16 +76,15 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
   );
 
   // TODO: 'timesheet' constant... This is "Getekende timesheet" in PROD
-  const hasTimesheetBeenUploaded = fullProjectMonth.invoice
-    ? fullProjectMonth.invoice.attachments.some(a => a.type === 'timesheet')
-    : fullProjectMonth.details.attachments.some(a => a.type === 'timesheet');
+  const timesheetDetails = fullProjectMonth.invoice
+    ? fullProjectMonth.invoice.attachments.find(a => a.type === 'timesheet')
+    : fullProjectMonth.details.attachments.find(a => a.type === 'timesheet');
+
+  const hasTimesheetBeenUploaded = !!timesheetDetails;
 
   const getTimesheetDownloadUrl = () => {
-    const {details, invoice} = fullProjectMonth;
+    const {invoice} = fullProjectMonth;
     const projectMonthId = fullProjectMonth._id;
-    const timesheetDetails = invoice
-      ? invoice.attachments.find(a => a.type === 'timesheet')
-      : details.attachments.find(a => a.type === 'timesheet');
 
     if (!timesheetDetails) return '';
 
@@ -138,28 +130,14 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           onChange={val => saveTimesheet({...timesheet, note: val})}
           title={t('projectMonth.timesheetNote', {name: `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`})}
         />
-        <div className="timesheet-attachment-actions">
-          <UploadFileButton
-            onUpload={f => dispatch(projectMonthUpload(f, 'timesheet', fullProjectMonth._id))}
-            icon="fa fa-upload"
-            title={t('projectMonth.timesheetUpload')}
-            disabled={!!fullProjectMonth.invoice}
-            style={{
-              borderTopRightRadius: '0',
-              borderBottomRightRadius: '0',
-              borderRight: '0',
-            }}
-          />
-          <AttachmentPreviewButton
-            disabled={!hasTimesheetBeenUploaded}
-            tooltip="projectMonth.viewTimesheet"
-            downloadUrl={getTimesheetDownloadUrl()}
-            style={{
-              borderTopLeftRadius: '0',
-              borderBottomLeftRadius: '0',
-            }}
-          />
-        </div>
+        <AttachmentUploadPreviewButtons
+          isUploadDisabled={!!fullProjectMonth.invoice}
+          isPreviewDisabled={!hasTimesheetBeenUploaded}
+          uploadTooltip={t('projectMonth.timesheetUpload')}
+          previewTooltip={t('projectMonth.viewTimesheet', {fileName: timesheetDetails ? timesheetDetails.fileName : ''})}
+          onUpload={f => dispatch(projectMonthUpload(f, 'timesheet', fullProjectMonth._id))}
+          downloadUrl={getTimesheetDownloadUrl()}
+        />
       </div>
     </div>
   );

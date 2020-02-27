@@ -10,10 +10,9 @@ import {Button} from '../../controls/form-controls/Button';
 import {Icon} from '../../controls/Icon';
 import {patchProjectsMonth, projectMonthUpload} from '../../../actions';
 import {useDebouncedSave} from '../../hooks/useDebounce';
-import {UploadFileButton} from '../../controls/form-controls/button/UploadFileButton';
 import {getDownloadUrl} from '../../../actions/utils/download-helpers';
-import {AttachmentPreviewButton} from '../controls/AttachmentPreviewButton';
 import {ConfacState} from '../../../reducers/app-state';
+import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPreviewButtons';
 
 interface ProjectMonthInboundCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -107,14 +106,13 @@ const InboundActionButtons = ({fullProjectMonth, onChange}: InboundActionButtons
     ),
   }];
 
-  const hasInboundInvoiceBeenUploaded = invoice
-    ? invoice.attachments.some(a => a.type === 'inbound') : attachments.some(a => a.type === 'inbound');
+  const inboundInvoiceDetails = invoice
+    ? invoice.attachments.find(a => a.type === 'inbound') : attachments.find(a => a.type === 'inbound');
+
+  const hasInboundInvoiceBeenUploaded = !!inboundInvoiceDetails;
 
   const getInboundInvoiceDownloadUrl = () => {
     const projectMonthId = fullProjectMonth._id;
-    const inboundInvoiceDetails = invoice
-      ? invoice.attachments.find(a => a.type === 'inbound')
-      : attachments.find(a => a.type === 'inbound');
 
     if (!inboundInvoiceDetails) return '';
 
@@ -130,28 +128,15 @@ const InboundActionButtons = ({fullProjectMonth, onChange}: InboundActionButtons
     <div className="inbound-actions">
       {buttons.filter(b => b.status !== inbound.status).map(b => b.component)}
       <div className="inbound-attachment-actions">
-        <UploadFileButton
+        <AttachmentUploadPreviewButtons
+          isUploadDisabled={!!invoice}
+          isPreviewDisabled={!hasInboundInvoiceBeenUploaded}
+          uploadTooltip={t('projectMonth.inboundUpload')}
+          previewTooltip={t('projectMonth.viewInboundInvoice', {fileName: inboundInvoiceDetails ? inboundInvoiceDetails.fileName : ''})}
           onUpload={f => dispatch(projectMonthUpload(f, 'inbound', fullProjectMonth._id))}
-          icon="fa fa-upload"
-          title={t('projectMonth.inboundUpload')}
-          disabled={!!invoice}
-          style={{
-            borderTopRightRadius: '0',
-            borderBottomRightRadius: '0',
-            borderRight: '0',
-          }}
-        />
-        <AttachmentPreviewButton
-          disabled={!hasInboundInvoiceBeenUploaded}
-          tooltip="projectMonth.viewInboundInvoice"
           downloadUrl={getInboundInvoiceDownloadUrl()}
-          style={{
-            borderTopLeftRadius: '0',
-            borderBottomLeftRadius: '0',
-          }}
         />
       </div>
-
     </div>
   );
 };
