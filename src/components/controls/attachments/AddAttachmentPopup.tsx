@@ -17,7 +17,7 @@ type AddAttachmentPopupProps = {
   attachmentTypes: string[],
 }
 
-const _AddAttachmentPopup = (props: AddAttachmentPopupProps) => {
+const AddAttachmentPopupComponent = (props: AddAttachmentPopupProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [type, setType] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -81,4 +81,4 @@ const _AddAttachmentPopup = (props: AddAttachmentPopupProps) => {
 
 export const AddAttachmentPopup = connect((state: ConfacState) => ({
   attachmentTypes: state.config.attachmentTypes,
-}), {})(_AddAttachmentPopup);
+}), {})(AddAttachmentPopupComponent);
