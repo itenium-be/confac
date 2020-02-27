@@ -37,7 +37,7 @@ export const ProposedAttachmentsDropzones = ({model, modelType}: ProposedAttachm
   return (
     <>
       {extraAttachments.map((fileType: string) => (
-        <Col key={fileType} lg={4} md={6}>
+        <Col key={fileType} lg={4} md={6} style={{marginBottom: '15px'}}>
           <AttachmentDropzone
             className="attachment"
             onUpload={(file: File) => onDrop(file, fileType)}

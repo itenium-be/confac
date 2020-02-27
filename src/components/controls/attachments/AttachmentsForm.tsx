@@ -29,31 +29,31 @@ export const _AttachmentsForm = (props: AttachmentsFormProps) => {
   const {model, modelType, createDownloadUrl} = props;
 
   return (
-    <Row className="tst-attachments attachments-form">
-      <Col sm={12}>
-        <h2>{t('invoice.attachments')}</h2>
-        <AddAttachmentPopup
-          attachments={model.attachments}
-          onAdd={(att: { file: File; type: string; }) => props.updateAttachment(props.model, modelType, att)}
-        />
-      </Col>
+    <>
+      <h2>{t('invoice.attachments')}</h2>
+      <AddAttachmentPopup
+        attachments={model.attachments}
+        onAdd={(att: { file: File; type: string; }) => props.updateAttachment(props.model, modelType, att)}
+      />
+      <Row>
+        {model.attachments.filter(att => att.type !== 'pdf').map(att => (
+          <Col
+            lg={4}
+            md={6}
+            key={att.type}
+            style={{marginBottom: '15px'}}
+          >
+            <AdvancedAttachmentDropzone
+              attachment={att}
+              downloadUrl={createDownloadUrl}
+              onDelete={() => dispatch(deleteAttachment(props.model, modelType, att.type))}
+            />
+          </Col>
+        ))}
 
-      {model.attachments.filter(att => att.type !== 'pdf').map(att => (
-        <Col
-          lg={4}
-          md={6}
-          key={att.type}
-        >
-          <AdvancedAttachmentDropzone
-            attachment={att}
-            downloadUrl={createDownloadUrl}
-            onDelete={() => dispatch(deleteAttachment(props.model, modelType, att.type))}
-          />
-        </Col>
-      ))}
-
-      <ProposedAttachmentsDropzones model={props.model} modelType={modelType} />
-    </Row>
+        <ProposedAttachmentsDropzones model={props.model} modelType={modelType} />
+      </Row>
+    </>
   );
 };
 
