@@ -12,7 +12,7 @@ Running the dev environment
 Projects:
 
 - confac-front: React/Redux, Bootstrap
-- [confac-back][confac-back]: Koa, Html2Pdf
+- [confac-back][confac-back]: Express, Html2Pdf
 - [confac-vagrant][confac-vagrant]: MongoDB
 
 front/back: `npm install` followed by `npm start`  
