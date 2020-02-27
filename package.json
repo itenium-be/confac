@@ -79,8 +79,8 @@
     }
   },
   "lint-staged": {
-    "./src/*.{js,ts}": [
-      "eslint --fix --ext js,ts src"
+    "./src/*.{js,ts,tsx}": [
+      "eslint --fix --ext js,ts,tsx src"
     ]
   },
   "scripts": {
