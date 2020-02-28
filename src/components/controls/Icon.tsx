@@ -122,7 +122,7 @@ export const SpinnerIcon = ({...props}: IconProps) => (
 );
 
 export const DeleteIcon = ({...props}: IconProps) => (
-  <Icon fa="fa fa-minus-circle" color="#CC1100" title={t('delete')} {...props} />
+  <Icon fa="fa fa-trash" size={props.size || 2} color="#CC1100" title={t('delete')} {...props} />
 );
 
 export const AddIcon = ({...props}: IconProps) => <Icon fa="fa fa-plus" {...props} />;

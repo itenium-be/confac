@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+
 import {FullProjectMonthModel} from '../models/ProjectMonthModel';
-import {createInvoice, patchProjectsMonth} from '../../../actions';
+import {createInvoice, patchProjectsMonth, deleteProjectMonthAttachmentDetails} from '../../../actions';
 import {Button} from '../../controls/form-controls/Button';
 import {Icon} from '../../controls/Icon';
 import {t, moneyFormat, formatDate} from '../../utils';
@@ -16,30 +17,30 @@ import {useDebouncedSave} from '../../hooks/useDebounce';
 
 
 interface ProjectMonthOutboundCellProps {
-  projectMonth: FullProjectMonthModel;
+  fullProjectMonth: FullProjectMonthModel;
 }
 
 
 /** Outbound form cell for a ProjectMonth row */
-export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCellProps) => {
+export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboundCellProps) => {
   const dispatch = useDispatch();
 
   const dispatcher = (orderNr: string) => {
-    dispatch(patchProjectsMonth({...projectMonth.details, orderNr}));
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, orderNr}));
   };
-  const [orderNr, setOrderNr/* , saveOrderNr */] = useDebouncedSave<string>(projectMonth.details.orderNr || '', dispatcher);
+  const [orderNr, setOrderNr/* , saveOrderNr */] = useDebouncedSave<string>(fullProjectMonth.details.orderNr || '', dispatcher);
 
 
   const toggleValid = (verified: boolean) => {
-    dispatch(patchProjectsMonth({...projectMonth.details, verified: verified ? 'forced' : false}));
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, verified: verified ? 'forced' : false}));
   };
 
 
 
   const ValidityToggle = (
     <ValidityToggleButton
-      value={!!projectMonth.details.verified}
-      onChange={() => toggleValid(!projectMonth.details.verified)}
+      value={!!fullProjectMonth.details.verified}
+      onChange={() => toggleValid(!fullProjectMonth.details.verified)}
       outline
       title={t('projectMonth.forceVerified')}
     />
@@ -47,7 +48,7 @@ export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCel
 
 
 
-  if (projectMonth.details.verified === 'forced') {
+  if (fullProjectMonth.details.verified === 'forced') {
     return (
       <div className="outbound-cell validated">
         <div />
@@ -59,7 +60,7 @@ export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCel
 
 
 
-  if (!projectMonth.invoice && projectMonth.project.projectMonthConfig.changingOrderNr) {
+  if (!fullProjectMonth.invoice && fullProjectMonth.project.projectMonthConfig.changingOrderNr) {
     return (
       <div className="outbound-cell">
         <div className="split-orderNr">
@@ -68,7 +69,7 @@ export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCel
             onChange={nr => setOrderNr(nr)}
             placeholder={t('invoice.orderNrShort')}
           />
-          <CreateInvoiceButton projectMonth={projectMonth} />
+          <CreateInvoiceButton fullProjectMonth={fullProjectMonth} />
         </div>
         {ValidityToggle}
       </div>
@@ -76,10 +77,10 @@ export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCel
   }
 
 
-  if (!projectMonth.invoice) {
+  if (!fullProjectMonth.invoice) {
     return (
       <div className="outbound-cell">
-        <CreateInvoiceButton projectMonth={projectMonth} />
+        <CreateInvoiceButton fullProjectMonth={fullProjectMonth} />
         {ValidityToggle}
       </div>
     );
@@ -88,28 +89,32 @@ export const ProjectMonthOutboundCell = ({projectMonth}: ProjectMonthOutboundCel
 
 
   return (
-    <OutboundInvoice projectMonth={projectMonth} />
+    <OutboundInvoice fullProjectMonth={fullProjectMonth} />
   );
 };
 
 
-const OutboundInvoice = ({projectMonth}: CreateInvoiceButtonProps) => {
-  if (!projectMonth.invoice) {
+interface CreateInvoiceButtonProps {
+  fullProjectMonth: FullProjectMonthModel;
+}
+
+
+const OutboundInvoice = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
+  if (!fullProjectMonth.invoice) {
     return null;
   }
 
-  // console.log('zed', projectMonth.invoice);
   return (
     <div className="outbound-invoice-cell">
       <div>
-        <span>{moneyFormat(projectMonth.invoice.money.total)}</span>
+        <span>{moneyFormat(fullProjectMonth.invoice.money.total)}</span>
         <span>
-          <InvoiceNumberCell invoice={projectMonth.invoice} />
-          &nbsp;({formatDate(projectMonth.invoice.date, 'D/M')})
+          <InvoiceNumberCell invoice={fullProjectMonth.invoice} />
+          &nbsp;({formatDate(fullProjectMonth.invoice.date, 'D/M')})
         </span>
       </div>
       <div className="icons-cell">
-        <InvoiceListRowActions invoice={projectMonth.invoice} />
+        <InvoiceListRowActions invoice={fullProjectMonth.invoice} />
       </div>
     </div>
   );
@@ -117,45 +122,38 @@ const OutboundInvoice = ({projectMonth}: CreateInvoiceButtonProps) => {
 
 
 
-
-
-interface CreateInvoiceButtonProps {
-  projectMonth: FullProjectMonthModel;
-}
-
-
-const CreateInvoiceButton = ({projectMonth}: CreateInvoiceButtonProps) => {
+const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
   const dispatch = useDispatch();
   const state = useSelector((s: ConfacState) => s);
 
   const buildAndCreateInvoice = () => {
     const blueprint = {
       isQuotation: false,
-      client: projectMonth.client,
-      orderNr: projectMonth.details.orderNr || projectMonth.project.client.ref,
-      projectId: projectMonth._id,
-      consultantId: projectMonth.consultant._id,
+      client: fullProjectMonth.client,
+      orderNr: fullProjectMonth.details.orderNr || fullProjectMonth.project.client.ref,
+      projectId: fullProjectMonth._id,
+      consultantId: fullProjectMonth.consultant._id,
       lines: [{
         sort: 0,
         desc: '',
-        amount: projectMonth.details.timesheet.timesheet || 0,
-        type: projectMonth.project.client.rateType,
-        price: projectMonth.project.client.tariff,
+        amount: fullProjectMonth.details.timesheet.timesheet || 0,
+        type: fullProjectMonth.project.client.rateType,
+        price: fullProjectMonth.project.client.tariff,
         tax: state.config.defaultTax,
       }],
     };
 
     const invoice = getNewInvoice(state.config, state.invoices, state.clients, blueprint);
-    // console.log('creating', invoice);
     dispatch(createInvoice(invoice));
+    dispatch(deleteProjectMonthAttachmentDetails(fullProjectMonth.details));
   };
 
 
 
   const valid = (
-    projectMonth.details.timesheet.validated
-    && (!projectMonth.project.projectMonthConfig.changingOrderNr || projectMonth.details.orderNr)
-    && (projectMonth.details.inbound.status === 'paid' || !projectMonth.project.projectMonthConfig.inboundInvoice)
+    fullProjectMonth.details.timesheet.validated
+    && (!fullProjectMonth.project.projectMonthConfig.changingOrderNr || fullProjectMonth.details.orderNr)
+    && (fullProjectMonth.details.inbound.status === 'paid' || !fullProjectMonth.project.projectMonthConfig.inboundInvoice)
   );
 
   return (

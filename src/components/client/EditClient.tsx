@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t, formatDate} from '../utils';
-import {AttachmentsForm} from '../controls/attachments/AttachmentsForm';
 import {saveClient} from '../../actions/index';
 import {defaultClientProperties} from './models/ClientConfig';
 import {getNewClient} from './models/getNewClient';
@@ -14,6 +13,7 @@ import {NewClient} from './NewClient';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {getDocumentTitle} from '../hooks/useDocumentTitle';
+import {ClientAttachmentsForm} from './controls/ClientAttachmentsForm';
 
 
 type EditClientProps = {
@@ -125,7 +125,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
             />
           </Row>
 
-          <AttachmentsForm model={client} />
+          <ClientAttachmentsForm model={client} />
 
         </Form>
         <StickyFooter>

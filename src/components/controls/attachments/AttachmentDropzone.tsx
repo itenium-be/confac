@@ -1,38 +1,58 @@
-import React, {Component} from 'react';
-import Dropzone from 'react-dropzone';
+import React from 'react';
+import {useDropzone} from 'react-dropzone';
+
+import {Icon} from '../Icon';
 import {t} from '../../utils';
 
 
 export type AttachmentDropzoneProps = {
-  onAdd: (file: File) => void,
+  onUpload: (file: File) => void,
+  children?: React.ReactNode;
+  className?: string;
+  disabled?: boolean;
+  fileType?: string;
+  disableOpacityMode?: boolean;
+  dropzonePlaceholderText?: string;
 }
 
+export const AttachmentDropzone = (props: AttachmentDropzoneProps) => {
+  const {onUpload, children, className, disabled, fileType, disableOpacityMode = false, dropzonePlaceholderText} = props;
 
-export class AttachmentDropzone extends Component<AttachmentDropzoneProps> {
-  onDrop(acceptedFiles: File[], rejectedFiles: File[]) {
-    this.props.onAdd(acceptedFiles[0]);
-    // console.log('Accepted files: ', acceptedFiles);
-    // console.log('Rejected files: ', rejectedFiles);
-  }
+  const onDrop = (acceptedFiles: File[]) => {
+    const [file] = acceptedFiles;
+    onUpload(file);
+  };
+  const {getRootProps, getInputProps, acceptedFiles} = useDropzone({onDrop});
 
-  render() {
-    const style = {
-      width: 250,
-      height: 55,
-      borderWidth: 2,
-      borderColor: '#666',
-      borderStyle: 'dashed',
-      borderRadius: 5,
-      padding: 5,
-      marginTop: 7,
-      cursor: 'pointer',
-    };
-    return (
-      <div>
-        <Dropzone onDrop={(acc, rej) => this.onDrop(acc, rej)} multiple={false} style={style} className="tst-dropzone">
-          <div>{t('invoice.attachmentsDropzone')}</div>
-        </Dropzone>
-      </div>
-    );
-  }
-}
+  const file = !!acceptedFiles.length && acceptedFiles[0];
+
+  const styles = {
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    width: '100%',
+    // eslint-disable-next-line no-nested-ternary
+    opacity: disableOpacityMode ? 1 : (file ? 1 : 0.5),
+  };
+
+  return (
+    <div {...getRootProps()} style={styles} className={className}>
+      <input {...getInputProps()} multiple={false} className="tst-dropzone" disabled={disabled} />
+      {children || (
+        <>
+          <div className="icon">
+            <Icon fa="fa fa-file-upload" style={{marginRight: 8}} />
+          </div>
+          {
+          file ? (
+            <div className="info">
+              {fileType}
+              <span className="fileName">{file.name}</span>
+            </div>
+          ) : (
+            <span>{dropzonePlaceholderText || t('invoice.attachmentsProposed', {type: fileType})}</span>
+          )
+        }
+        </>
+      )}
+    </div>
+  );
+};

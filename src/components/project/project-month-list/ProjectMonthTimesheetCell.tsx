@@ -6,15 +6,17 @@ import {FullProjectMonthModel, ProjectMonthTimesheet} from '../models/ProjectMon
 import {t} from '../../utils';
 import {ValidityToggleButton} from '../../controls/form-controls/button/ValidityToggleButton';
 import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
-import {UploadFileButton} from '../../controls/form-controls/button/UploadFileButton';
 import {projectMonthUpload, patchProjectsMonth} from '../../../actions/projectActions';
 import {getNewProjectMonthTimesheet} from '../models/getNewProject';
 import {useDebouncedSave} from '../../hooks/useDebounce';
 import {BasicMathInput} from '../../controls/form-controls/inputs/BasicMathInput';
 import {getDownloadUrl} from '../../../actions/utils/download-helpers';
-import {AttachmentPreviewButton} from '../controls/AttachmentPreviewButton';
 import {TimesheetTimeConfig, getAmountInDays} from '../../invoice/controls/InvoiceLineTypeSelect';
+import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPreviewButtons';
 
+interface ProjectMonthTimesheetCellProps {
+  fullProjectMonth: FullProjectMonthModel;
+}
 const ViewportWidths = {showTimesheetDaysFrom: 1600};
 
 
@@ -36,43 +38,37 @@ const TimesheetTimeDisplay = (props: TimesheetTimeConfig) => {
 
 
 
-
-
-interface ProjectMonthTimesheetCellProps {
-  projectMonth: FullProjectMonthModel;
-}
-
 /** Timesheet form cell for a ProjectMonth row */
-export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetCellProps) => {
+export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesheetCellProps) => {
   const dispatch = useDispatch();
 
-  const defaultValue = projectMonth.details.timesheet || getNewProjectMonthTimesheet();
+  const defaultValue = fullProjectMonth.details.timesheet || getNewProjectMonthTimesheet();
   const dispatcher = (val: ProjectMonthTimesheet) => {
-    dispatch(patchProjectsMonth({...projectMonth.details, timesheet: val}));
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, timesheet: val}));
   };
   const [timesheet, setTimesheet, saveTimesheet] = useDebouncedSave<ProjectMonthTimesheet>(defaultValue, dispatcher);
 
 
-  if (projectMonth.details.verified) {
+  if (fullProjectMonth.details.verified) {
     return <div />;
   }
 
 
+  const projectConfig = fullProjectMonth.project.projectMonthConfig;
   const timesheetConfig = {
-    rateType: projectMonth.project.client.rateType,
+    rateType: fullProjectMonth.project.client.rateType,
     amount: timesheet.timesheet,
-    hoursInDay: projectMonth.client.rate.hoursInDay,
+    hoursInDay: fullProjectMonth.client.rate.hoursInDay,
   };
 
   const timesheetCheckConfig: TimesheetTimeConfig = {
     // TODO: Hardcoded "daily" for timesheetCheck: daily/hourly should be a global config setting
     rateType: 'daily',
     amount: timesheet.check,
-    hoursInDay: projectMonth.client.rate.hoursInDay,
+    hoursInDay: fullProjectMonth.client.rate.hoursInDay,
   };
 
 
-  const projectConfig = projectMonth.project.projectMonthConfig;
   const timesheetAmount = getAmountInDays(timesheetConfig);
   const canToggleValid = !(
     timesheet.timesheet
@@ -80,20 +76,24 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
   );
 
   // TODO: 'timesheet' constant... This is "Getekende timesheet" in PROD
-  const hasTimesheetBeenUploaded = projectMonth.invoice
-    ? projectMonth.invoice.attachments.some(a => a.type === 'timesheet')
-    : projectMonth.details.attachments.some(a => a.type === 'timesheet');
+  const timesheetDetails = fullProjectMonth.invoice
+    ? fullProjectMonth.invoice.attachments.find(a => a.type === 'timesheet')
+    : fullProjectMonth.details.attachments.find(a => a.type === 'timesheet');
+
+  const hasTimesheetBeenUploaded = !!timesheetDetails;
 
   const getTimesheetDownloadUrl = () => {
-    const {details, invoice} = projectMonth;
-    const projectMonthId = projectMonth._id;
-    const timesheetDetails = invoice
-      ? invoice.attachments.find(a => a.type === 'timesheet')
-      : details.attachments.find(a => a.type === 'timesheet');
+    const {invoice} = fullProjectMonth;
+    const projectMonthId = fullProjectMonth._id;
 
-    const {fileName} = timesheetDetails!;
+    if (!timesheetDetails) return '';
 
-    return getDownloadUrl('project_month', invoice ? invoice._id : projectMonthId, 'timesheet', fileName, 'preview');
+    const {fileName} = timesheetDetails;
+
+    if (invoice) {
+      return getDownloadUrl('invoice', invoice._id, 'timesheet', fileName, 'preview');
+    }
+    return getDownloadUrl('project_month', projectMonthId, 'timesheet', fileName, 'preview');
   };
 
 
@@ -128,18 +128,16 @@ export const ProjectMonthTimesheetCell = ({projectMonth}: ProjectMonthTimesheetC
         <NotesModalButton
           value={timesheet.note}
           onChange={val => saveTimesheet({...timesheet, note: val})}
-          title={t('projectMonth.timesheetNote', {name: `${projectMonth.consultant.firstName} ${projectMonth.consultant.name}`})}
+          title={t('projectMonth.timesheetNote', {name: `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`})}
         />
-        {!projectMonth.invoice && (
-          <UploadFileButton
-            onUpload={f => dispatch(projectMonthUpload(f, 'timesheet', projectMonth._id))}
-            icon="fa fa-upload"
-            title={t('projectMonth.timesheetUpload')}
-          />
-        )}
-        {hasTimesheetBeenUploaded && (
-          <AttachmentPreviewButton tooltip="projectMonth.viewTimesheet" downloadUrl={getTimesheetDownloadUrl()} />
-        )}
+        <AttachmentUploadPreviewButtons
+          isUploadDisabled={!!fullProjectMonth.invoice}
+          isPreviewDisabled={!hasTimesheetBeenUploaded}
+          uploadTooltip={t('projectMonth.timesheetUpload')}
+          previewTooltip={t('projectMonth.viewTimesheet', {fileName: timesheetDetails ? timesheetDetails.fileName : ''})}
+          onUpload={f => dispatch(projectMonthUpload(f, 'timesheet', fullProjectMonth._id))}
+          downloadUrl={getTimesheetDownloadUrl()}
+        />
       </div>
     </div>
   );

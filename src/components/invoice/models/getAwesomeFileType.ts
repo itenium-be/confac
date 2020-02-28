@@ -1,6 +1,9 @@
 import {Attachment} from '../../../models';
 
-export function getAwesomeFileType(att: {type: string, fileType: string, fileName: string} | Attachment): string {
+export function getAwesomeFileType(att: Attachment | undefined): string {
+  if (!att) {
+    return 'fa fa-file-upload';
+  }
   if (att.type === 'pdf') {
     return 'far fa-file-pdf';
     // invoice(-dollar) doesn't have a "far"

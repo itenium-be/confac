@@ -22,9 +22,9 @@ import {invoiceReplacements} from '../../../actions/utils/download-helpers';
 import {ExpandIcon} from '../../controls/Icon';
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {Button} from '../../controls/form-controls/Button';
-import {AttachmentsForm} from '../../controls/attachments/AttachmentsForm';
 import {getNewInvoice} from '../models/getNewInvoice';
 import {getDocumentTitle} from '../../hooks/useDocumentTitle';
+import {InvoiceAttachmentsForm} from '../controls/InvoiceAttachmentsForm';
 
 
 type EditInvoiceProps = {
@@ -234,7 +234,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
               onChange={m => this.setState({invoice: m})}
             />
           </Row>
-          <AttachmentsForm model={invoice} />
+          <InvoiceAttachmentsForm model={invoice} />
           <StickyFooter>
             {!invoice.isNew && (
               <Button

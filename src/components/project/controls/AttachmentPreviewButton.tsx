@@ -2,23 +2,24 @@ import React from 'react';
 
 import {Button} from '../../controls/form-controls/Button';
 import {Icon} from '../../controls/Icon';
-import {t} from '../../utils';
 
 
 type AttachmentPreviewButtonProps = {
   downloadUrl: string;
   /** Specifies translation key for the tooltip  */
   tooltip: string;
+  disabled?: boolean;
+  style?: React.CSSProperties;
 }
 
-export const AttachmentPreviewButton = (props: AttachmentPreviewButtonProps) => {
+export const AttachmentPreviewButton = ({downloadUrl, tooltip, disabled, style}: AttachmentPreviewButtonProps) => {
   const viewAttachment = () => {
-    window.open(props.downloadUrl, '_blank');
+    window.open(downloadUrl, '_blank');
   };
 
   return (
-    <Button size="md" onClick={() => viewAttachment()} variant="outline-dark">
-      <Icon fa="fa fa-eye" size={1} title={t(props.tooltip)} />
+    <Button size="md" onClick={() => viewAttachment()} variant="outline-dark" disabled={disabled} style={style}>
+      <Icon fa="fa fa-eye" size={1} title={tooltip} />
     </Button>
   );
 };

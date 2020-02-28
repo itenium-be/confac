@@ -6,20 +6,20 @@ import {ProjectMonthModal} from '../controls/ProjectMonthModal';
 
 
 interface ProjectMonthConsultantCellProps {
-  projectMonth: FullProjectMonthModel;
+  fullProjectMonth: FullProjectMonthModel;
 }
 
 
 /** The first cell with Consultant/Client/Partner info of a ProjectMonth */
-export const ProjectMonthConsultantCell = ({projectMonth}: ProjectMonthConsultantCellProps) => {
+export const ProjectMonthConsultantCell = ({fullProjectMonth}: ProjectMonthConsultantCellProps) => {
   const [modal, setModal] = useState<boolean>(false);
-  const {consultant, client, partner} = projectMonth;
+  const {consultant, client, partner} = fullProjectMonth;
   return (
     <>
       {modal && (
         <ProjectMonthModal
           onClose={() => setModal(false)}
-          projectMonth={projectMonth}
+          projectMonth={fullProjectMonth}
         />
       )}
       <div className="consultant-cell clickable" onClick={() => setModal(true)} role="button" tabIndex={0}>

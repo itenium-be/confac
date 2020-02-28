@@ -5,7 +5,7 @@ import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {ClientModel} from '../components/client/models/ClientModels';
 import {ConsultantModel} from '../components/consultant/models/ConsultantModel';
 import {ProjectModel} from '../components/project/models/ProjectModel';
-import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
+import {ProjectMonthModel, ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
 import {ListFilters} from '../components/controls/table/table-models';
 
 export type ConfacState = {
@@ -16,6 +16,7 @@ export type ConfacState = {
   consultants: ConsultantModel[];
   projects: ProjectModel[];
   projectsMonth: ProjectMonthModel[];
+  projectsMonthOverviews: ProjectMonthOverviewModel[]
 };
 
 

@@ -1,16 +1,24 @@
 import InvoiceModel from '../../components/invoice/models/InvoiceModel';
 import {buildUrl} from './fetch';
 
+export type DownloadAttachmentModelTypes = {
+  invoice: string;
+  quotation: string;
+  client: string;
+  'project_month_overview': string;
+  'project_month': string;
+}
+
 /** An interface you say? */
 export function getDownloadUrl(
-  fileType: 'quotation' | 'invoice' | 'client' | 'project_month',
+  modelType: keyof DownloadAttachmentModelTypes,
   _id: string,
   attachmentType: string,
   fileName: string, downloadType?: 'preview' | 'download',
 ): string {
 
   const query = downloadType === 'download' ? '?download=1' : '';
-  return buildUrl(`/attachments/${fileType}/${_id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
+  return buildUrl(`/attachments/${modelType}/${_id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
 }
 
 

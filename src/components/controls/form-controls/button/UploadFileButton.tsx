@@ -1,27 +1,25 @@
 import React from 'react';
-import Dropzone from 'react-dropzone';
 import {Icon} from '../../Icon';
 import {Button} from '../Button';
+import {AttachmentDropzone} from '../../attachments/AttachmentDropzone';
 
 
 type UploadFileButtonProps = {
   onUpload: (f: File) => void;
   icon: string;
   title: string;
+  buttonText?: string;
+  disabled?: boolean;
+  style?: React.CSSProperties;
 };
 
 
 
-export const UploadFileButton = ({onUpload, title, icon}: UploadFileButtonProps) => (
-  <>
-    <Dropzone
-      onDrop={(accepted: File[], rejected: File[]) => onUpload(accepted[0])}
-      multiple={false}
-      style={{display: 'inline'}}
-    >
-      <Button size="md" onClick={() => {}} variant="outline-dark">
-        <Icon fa={icon} size={1} title={title} />
-      </Button>
-    </Dropzone>
-  </>
+export const UploadFileButton = ({onUpload, title, icon, buttonText, disabled, style}: UploadFileButtonProps) => (
+  <Button size="md" onClick={() => {}} variant="outline-dark" style={style} disabled={disabled}>
+    <AttachmentDropzone onUpload={onUpload} disabled={disabled} disableOpacityMode>
+      <Icon fa={icon} size={1} title={title} />
+      {buttonText && <span style={{marginLeft: '10px'}}>{buttonText}</span>}
+    </AttachmentDropzone>
+  </Button>
 );

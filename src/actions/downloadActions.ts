@@ -5,6 +5,7 @@ import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {Attachment} from '../models';
 import {ClientModel} from '../components/client/models/ClientModels';
 import {getInvoiceFileName, getDownloadUrl, previewPdf, downloadAttachment} from './utils/download-helpers';
+import {ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
 
 
 export function getInvoiceDownloadUrl(
@@ -30,7 +31,13 @@ export function getClientDownloadUrl(
   return getDownloadUrl('client', client._id, attachment.type, attachment.fileName, downloadType);
 }
 
-
+export function getProjectMonthOverviewDownloadUrl(
+  projectMonthOverview: ProjectMonthOverviewModel,
+  attachment: Attachment,
+  downloadType: 'preview' | 'download' = 'download',
+): string {
+  return getDownloadUrl('project_month_overview', projectMonthOverview._id, attachment.type, attachment.fileName, downloadType);
+}
 
 
 
