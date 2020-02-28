@@ -28,8 +28,16 @@ export const projectsMonth = (state: ProjectMonthModel[] = [], action): ProjectM
     }
 
     case ACTION_TYPES.PROJECTS_MONTH_UPDATE: {
-      const newState = state.filter(x => x._id !== action.projectMonth._id);
+      const newState = state.filter(pm => pm._id !== action.projectMonth._id);
       newState.push(mapProject(action.projectMonth));
+      return newState;
+    }
+
+    case ACTION_TYPES.PROJECTS_MONTH_ATTACHMENTS_UPDATE: {
+      const projectMonth = state.find(pm => pm._id === action.projectMonth._id);
+      const updatedProjectMonth = {...projectMonth, ...action.projectMonth};
+      const newState = state.filter(pm => pm._id !== action.projectMonth._id);
+      newState.push(mapProject(updatedProjectMonth));
       return newState;
     }
 
