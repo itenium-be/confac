@@ -230,12 +230,32 @@ export const updateInvoiceController = async (req: Request, res: Response) => {
 
 /** Hard invoice delete: There is no coming back from this one */
 export const deleteInvoiceController = async (req: Request, res: Response) => {
-  const {id}: {id: string;} = req.body;
+  const {id: invoiceId}: {id: string;} = req.body;
 
-  await req.db.collection(CollectionNames.INVOICES).findOneAndDelete({_id: new ObjectID(id)});
-  await req.db.collection(CollectionNames.ATTACHMENTS).findOneAndDelete({_id: new ObjectID(id)});
+  const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOne({_id: new ObjectID(invoiceId)});
 
-  return res.send(id);
+  if (invoice?.projectId) {
+    const invoiceAttachments: IAttachmentCollection | null = await req.db.collection(CollectionNames.ATTACHMENTS)
+      .findOne({_id: new ObjectID(invoiceId) as ObjectID}, {
+        projection: {
+          _id: false,
+          pdf: false,
+        },
+      });
+
+    await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).insertOne({
+      _id: new ObjectID(invoice.projectId),
+      ...invoiceAttachments,
+    });
+
+    await req.db.collection(CollectionNames.PROJECTS_MONTH)
+      .findOneAndUpdate({_id: new ObjectID(invoice.projectId)}, {$set: {attachments: invoice.attachments.filter(a => a.type !== 'pdf')}});
+  }
+
+  await req.db.collection(CollectionNames.INVOICES).findOneAndDelete({_id: new ObjectID(invoiceId)});
+  await req.db.collection(CollectionNames.ATTACHMENTS).findOneAndDelete({_id: new ObjectID(invoiceId)});
+
+  return res.send(invoiceId);
 };
 
 
