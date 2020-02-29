@@ -5,6 +5,7 @@ import {buildUrl, catchHandler} from './utils/fetch';
 import t from '../trans';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {previewInvoice} from './downloadActions';
+import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
 
 
 function cleanViewModel(data: InvoiceModel): InvoiceModel {
@@ -94,8 +95,19 @@ export function toggleInvoiceVerify(data: InvoiceModel) {
 
 
 export function deleteInvoice(invoice: InvoiceModel) {
+  const projectMonthId = invoice.projectId;
   return dispatch => {
     dispatch(busyToggle());
+    if (projectMonthId) {
+      const projectMonth: Partial<ProjectMonthModel> = {
+        _id: projectMonthId,
+        attachments: invoice.attachments,
+      };
+      dispatch({
+        type: ACTION_TYPES.PROJECTS_MONTH_ATTACHMENTS_UPDATE,
+        projectMonth,
+      });
+    }
     request.delete(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
       .send({id: invoice._id})
