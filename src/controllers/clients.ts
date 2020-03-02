@@ -13,7 +13,7 @@ export const getClients = async (req: Request, res: Response) => {
 };
 
 export const validateBtw = async (req: Request, res: Response) => {
-  const url = `https://controleerbtwnummer.eu/api/validate/${req.query.btw}.json`;
+  const url = `https://controleerbtwnummer.eu/api/validate/${req.params.btw}.json`;
   const result = await fetch(url).then(response => response.json());
   return res.send(result);
 };
