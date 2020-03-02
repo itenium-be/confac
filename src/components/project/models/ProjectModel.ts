@@ -35,16 +35,10 @@ export interface FullProjectModel {
   /** The project._id */
   _id: string;
   /** The project details */
-  details: ProjectDetailsModel;
+  details: ProjectModel;
   consultant: ConsultantModel;
   /** ATTN: ProjectClientModel properties to be found in details.client */
   client: ClientModel;
   /** ATTN: ProjectClientModel properties to be found in details.partner */
   partner?: ClientModel;
-}
-
-// TODO: Get rid of this: is state being manipulated? will this be sent to the backend and be saved?
-// If the project.endDate changes, is this also updated?
-export interface ProjectDetailsModel extends ProjectModel {
-  active: boolean;
 }

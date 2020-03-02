@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import moment from 'moment';
 import {ProjectModel, FullProjectModel, ProjectClientModel} from '../models/ProjectModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
@@ -25,28 +26,38 @@ export class ProjectReferenceResolver {
     return this.clients.find(c => c._id === client.clientId) || undefined;
   }
 
-  getIsProjectActive(startDate: moment.Moment, endDate?: moment.Moment): boolean {
-    if (endDate) {
-      return moment().isBetween(startDate, endDate);
-    }
-
-    return moment().isAfter(startDate);
-  }
-
   getProjects(): FullProjectModel[] {
     if (!this.clients.length || !this.consultants.length) {
       return [];
     }
 
-    // TODO: projectModel.active is set here ~> This new property will be sent to the backend
-    // where it will be stored in the db and eventually become incorrect
-    // --> Turn into a class with a "get active(): boolean { return this.getIsProjectActive(); }"
     return this.projects.map(project => ({
       _id: project._id,
-      details: {...project, active: this.getIsProjectActive(project.startDate, project.endDate)},
+      details: project,
       consultant: this.getConsultant(project.consultantId),
       client: this.getClient(project.client) as ClientModel,
       partner: this.getClient(project.partner),
     }));
+  }
+}
+
+export class ProjectDetailsFilters {
+  private projectDetails: ProjectModel
+
+  constructor(projectDetails: ProjectModel) {
+    this.projectDetails = projectDetails;
+  }
+
+  get active(): boolean {
+    const {startDate, endDate} = this.projectDetails;
+    const today = new Date();
+
+    if (endDate) {
+      const isStartDateInSameMonthOrBefore = moment(startDate).isSameOrBefore(today, 'months');
+      const isEndDateInSameMonthOrAfter = moment(endDate).isSameOrAfter(today, 'months');
+      return isStartDateInSameMonthOrBefore && isEndDateInSameMonthOrAfter;
+    }
+
+    return moment(startDate).isSameOrBefore(today, 'months');
   }
 }

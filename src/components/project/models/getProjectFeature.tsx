@@ -9,6 +9,7 @@ import {FullProjectModel, ProjectClientModel} from './ProjectModel';
 import {t, formatDate, tariffFormat, searchinize} from '../../utils';
 import {EditIcon} from '../../controls/Icon';
 import {InvoiceClientCell} from '../../invoice/invoice-table/InvoiceClientCell';
+import {ProjectDetailsFilters} from '../utils/ProjectReferenceResolver';
 
 
 export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel, ProjectListFilters>;
@@ -17,8 +18,9 @@ export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel
 
 const fullProjectSearch = (filters: ProjectListFilters, prj: FullProjectModel) => {
   const {consultant, partner, client, details} = prj;
+  const isProjectActive = new ProjectDetailsFilters(details).active;
 
-  if (!filters.showInactive && !details.active) {
+  if (!filters.showInactive && !isProjectActive) {
     return false;
   }
 
@@ -39,7 +41,9 @@ const fullProjectSearch = (filters: ProjectListFilters, prj: FullProjectModel) =
 
 const getRowBackgroundColor = (prj: FullProjectModel): undefined | string => {
   const projectDetails = prj.details;
-  if (!prj.details.active) {
+  const isProjectActive = new ProjectDetailsFilters(projectDetails).active;
+
+  if (!isProjectActive) {
     return 'table-danger';
   }
 
