@@ -133,11 +133,8 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     },
     data: config.data,
     sorter: (a, b) => {
-      if (!a.details.endDate) {
-        return 1;
-      }
-      if (!b.details.endDate) {
-        return -1;
+      if (!a.details.endDate || !b.details.endDate) {
+        return a.details.startDate.valueOf() - b.details.startDate.valueOf();
       }
 
       if (a.details.endDate.valueOf() === b.details.endDate.valueOf()) {
