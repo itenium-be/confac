@@ -1,5 +1,5 @@
 import request from 'superagent-bluebird-promise';
-import moment from 'moment';
+import moment, {Moment} from 'moment';
 import {Dispatch} from 'redux';
 import {buildUrl, catchHandler} from './utils/fetch';
 import t from '../trans';
@@ -29,7 +29,7 @@ export function saveProject(project: ProjectModel, history: any) {
 }
 
 /** Create projectMonths for all active projects in the month */
-export function createProjectsMonth(month: moment.Moment) {
+export function createProjectsMonth(month: Moment) {
   return (dispatch: Dispatch) => {
     dispatch(busyToggle());
     return request
@@ -123,10 +123,10 @@ export function projectMonthUpload(file: File, type: 'timesheet' | 'inbound', pr
   };
 }
 
-export function projectsMonthOverviewUpload(file: File, monthId: string) {
+export function projectsMonthOverviewUpload(file: File, month: Moment) {
   return (dispatch: Dispatch) => {
     dispatch(busyToggle());
-    const req = request.put(buildUrl(`/attachments/project_month_overview/${monthId}/allTimesheets`));
+    const req = request.put(buildUrl(`/attachments/project_month_overview/${month.toISOString()}/allTimesheets`));
     req.attach(file.name, file);
     req.then(response => {
       dispatch({

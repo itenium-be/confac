@@ -1,6 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container} from 'react-bootstrap';
+import moment from 'moment';
 import {ConfacState} from '../../reducers/app-state';
 import {updateAppFilters, patchProjectsMonth, projectsMonthOverviewUpload, deleteProjectsMonthOverview} from '../../actions';
 import {ListPageHeader} from '../controls/table/ListPage';
@@ -127,22 +128,16 @@ const ProjectMonthsList = ({feature}: ProjectMonthsListProps) => {
     return null;
   }
 
+  const projectsMonthDetails = feature.list.data[0].details;
+
   const displayMonthWithYear = () => {
-    const {month: date} = feature.list.data[0].details;
+    const {month: date} = projectsMonthDetails;
     const formattedMonth = date.format('MMMM').charAt(0).toUpperCase() + date.format('MMMM').substring(1);
     return t('projectMonth.listTitle', {month: formattedMonth, year: date.year()});
   };
 
-  const createMonthId = () => {
-    const {month: date} = feature.list.data[0].details;
-    const monthYearFormat = date.format('MMYYYY');
-    return monthYearFormat;
-  };
-
-  const getProjectsMonthOverview = () => {
-    const monthId = createMonthId();
-    return projectsMonthOverviews.find(p => p.monthId === monthId);
-  };
+  const getProjectsMonthOverview = () => projectsMonthOverviews
+    .find(pmo => moment(pmo.month).valueOf() === projectsMonthDetails.month.valueOf());
 
   const projectsMonthOverview = getProjectsMonthOverview();
 
@@ -158,7 +153,7 @@ const ProjectMonthsList = ({feature}: ProjectMonthsListProps) => {
         <h2 style={{marginRight: '20px', marginBottom: 0}}>{displayMonthWithYear()}</h2>
         <AdvancedAttachmentDropzone
           attachment={projectsMonthOverview && projectsMonthOverview.fileDetails}
-          onUpload={(f: File) => dispatch(projectsMonthOverviewUpload(f, createMonthId()))}
+          onUpload={(f: File) => dispatch(projectsMonthOverviewUpload(f, projectsMonthDetails.month))}
           onDelete={() => (projectsMonthOverview ? dispatch(deleteProjectsMonthOverview(projectsMonthOverview._id)) : null)}
           downloadUrl={createDownloadUrl}
           dropzonePlaceholderText={t('projectMonth.sdWorxTimesheetUpload')}
