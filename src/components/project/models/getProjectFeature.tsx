@@ -39,8 +39,8 @@ const fullProjectSearch = (filters: ProjectListFilters, prj: FullProjectModel) =
 
 const getRowBackgroundColor = (prj: FullProjectModel): undefined | string => {
   const projectDetails = prj.details;
-  const ONE_MONTH = 1;
-  const THREE_MONTHS = 3;
+  const MONTHS_BEFORE_WARNING = 1;
+  const MONTHS_BEFORE_INFO = 3;
 
   if (projectDetails.status === PROJECT_STATUSES.NOT_YET_ACTIVE) {
     return 'table-success';
@@ -53,10 +53,10 @@ const getRowBackgroundColor = (prj: FullProjectModel): undefined | string => {
   if (projectDetails.endDate) {
     const monthsLeft = moment(projectDetails.endDate).diff(moment(), 'months', true);
 
-    if (monthsLeft < ONE_MONTH) {
+    if (monthsLeft < MONTHS_BEFORE_WARNING) {
       return 'table-warning';
     }
-    if (monthsLeft < THREE_MONTHS) {
+    if (monthsLeft < MONTHS_BEFORE_INFO) {
       return 'table-info';
     }
   }
