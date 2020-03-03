@@ -4,6 +4,7 @@ import {IAttachment} from './common';
 
 export interface IProjectMonth {
   _id: ObjectID;
+  /** Format: ISO Date */
   month: string;
   projectId: ObjectID;
   timesheet: ProjectMonthTimesheet;
@@ -41,8 +42,8 @@ export interface ProjectMonthTimesheet {
 export interface IProjectMonthOverview {
   _id: ObjectID;
   fileDetails: IAttachment;
-  /** Format: month/year */
-  monthId: string;
+  /** Format: ISO Date */
+  month: string;
   /** One file with all the time-sheets combined  */
   allTimesheets: Buffer;
 }

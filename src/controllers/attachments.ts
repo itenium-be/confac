@@ -163,8 +163,8 @@ export const saveAttachmentController = async (req: Request, res: Response) => {
   }
 
   if (attachmentModelConfig.standardCollectionName === CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW) {
-    const monthId = id;
-    const inserted = await req.db.collection<IProjectMonthOverview>(CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW).findOneAndUpdate({monthId}, {
+    const month = id;
+    const inserted = await req.db.collection<IProjectMonthOverview>(CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW).findOneAndUpdate({month}, {
       $set: {
         [type]: file.buffer,
         fileDetails: {
@@ -173,7 +173,7 @@ export const saveAttachmentController = async (req: Request, res: Response) => {
           fileType: file.mimetype,
           lastModifiedDate: new Date().toISOString(),
         },
-        monthId,
+        month,
       },
     }, {
       projection: {allTimesheets: false},
