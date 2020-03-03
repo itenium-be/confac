@@ -26,7 +26,7 @@ export interface ProjectMonthModel {
 
 export interface ProjectMonthOverviewModel {
   _id: string;
-  monthId: string;
+  month: Moment;
   fileDetails: Attachment;
 }
 
