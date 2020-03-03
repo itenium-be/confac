@@ -1,5 +1,5 @@
 import request from 'superagent-bluebird-promise';
-import moment, {Moment} from 'moment';
+import {Moment} from 'moment';
 import {Dispatch} from 'redux';
 import {buildUrl, catchHandler} from './utils/fetch';
 import t from '../trans';
