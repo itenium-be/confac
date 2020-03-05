@@ -24,16 +24,16 @@ import {getDownloadUrl} from '../../actions/utils/download-helpers';
 import {AdvancedAttachmentDropzone} from '../controls/attachments/AdvancedAttachmentDropzone';
 
 /** Resolve ProjectModel _ids to their corresponding models */
-export function projectMonthResolve(projectMonth: ProjectMonthModel, state: ConfacState): FullProjectMonthModel {
-  const project = state.projects.find(p => p._id === projectMonth.projectId) as ProjectModel;
+function projectMonthResolve(prj: ProjectMonthModel, state: ConfacState): FullProjectMonthModel {
+  const project = state.projects.find(p => p._id === prj.projectId) as ProjectModel;
   const consultant = state.consultants.find(c => c._id === project.consultantId) as ConsultantModel;
   const client = project.client && state.clients.find(c => c._id === project.client.clientId) as ClientModel;
   const partner = project.partner && state.clients.find(c => project.partner && c._id === project.partner.clientId);
-  const invoice = state.invoices.find(i => i.projectMonthId === projectMonth._id);
+  const invoice = state.invoices.find(i => i.projectId === prj._id);
 
   return {
-    _id: projectMonth._id,
-    details: projectMonth,
+    _id: prj._id,
+    details: prj,
     project,
     consultant,
     client,
@@ -50,11 +50,11 @@ export const ProjectMonthsLists = () => {
 
   const dispatch = useDispatch();
   const config: ProjectMonthFeatureBuilderConfig = useSelector((state: ConfacState) => {
-    const {projectsMonth} = state;
+    const projects = state.projectsMonth;
 
     let data: FullProjectMonthModel[] = [];
     if (state.projects.length && state.consultants.length && state.clients.length) {
-      data = projectsMonth.map(pm => projectMonthResolve(pm, state));
+      data = projects.map(p => projectMonthResolve(p, state));
     }
 
     return {

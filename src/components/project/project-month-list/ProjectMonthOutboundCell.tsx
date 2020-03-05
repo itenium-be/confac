@@ -131,7 +131,7 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
       isQuotation: false,
       client: fullProjectMonth.client,
       orderNr: fullProjectMonth.details.orderNr || fullProjectMonth.project.client.ref,
-      projectMonthId: fullProjectMonth._id,
+      projectId: fullProjectMonth._id,
       consultantId: fullProjectMonth.consultant._id,
       lines: [{
         sort: 0,
