@@ -54,6 +54,10 @@ type EditInvoiceState = {
   showEmailModal: boolean,
 }
 
+const EditInvoiceBadge = ({label}:{label: string}) => (
+  <Badge style={{marginLeft: 10, fontSize: '100%', fontWeight: 300}} variant="secondary">{label}</Badge>
+);
+
 export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
   constructor(props: EditInvoiceProps) {
     super(props);
@@ -92,14 +96,14 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
     return this.isQuotation ? 'quotation' : 'invoice';
   }
 
-  getConsultantName(invoice: InvoiceModel) {
+  getConsultantName(invoice: InvoiceModel): string {
     const consultant = this.props.consultants.find(c => c._id === invoice.consultantId);
     if (!consultant) return '';
 
     return `${t(`consultant.types.${consultant.type}`)} ${consultant.firstName} ${consultant.name}`;
   }
 
-  getProjectPartnerClientName(invoice: InvoiceModel) {
+  getProjectPartnerClientName(invoice: InvoiceModel): string {
     const fullProjectMonth = this.props.fullProjectsMonth.find(fpm => fpm._id === invoice.projectMonthId);
     if (!fullProjectMonth) return '';
     const {client, partner} = fullProjectMonth;
@@ -132,12 +136,6 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
     // InvoiceModel should be created in the render
     this.state.invoice.updateField(key, value, calcMoneys);
     this.forceUpdate();
-  }
-
-  displayBadge(label: string) {
-    return (
-      <Badge style={{marginLeft: 10, fontSize: '100%', fontWeight: 300}} variant="secondary">{label}</Badge>
-    );
   }
 
   render() {
@@ -184,8 +182,8 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                     </>
                   ) : t(`${this.type}.createTitle`)}
                 </h1>
-                {invoice.consultantId && this.displayBadge(this.getConsultantName(invoice))}
-                {invoice.projectMonthId && this.displayBadge(this.getProjectPartnerClientName(invoice))}
+                {invoice.consultantId && <EditInvoiceBadge label={this.getConsultantName(invoice)} />}
+                {invoice.projectMonthId && <EditInvoiceBadge label={this.getProjectPartnerClientName(invoice)} />}
               </div>
               <div>
                 {invoice._id && <DownloadInvoiceButton invoice={invoice} />}
