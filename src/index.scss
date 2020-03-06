@@ -89,7 +89,6 @@ div.split > div:nth-child(2) {
 small.created-on {
 	font-size: 12px;
 	color: grey;
-  margin-left: 13px;
   display: block;
 }
 
@@ -97,10 +96,11 @@ small.created-on {
 
 .edit-container {
   padding-bottom: 120px;
+  margin-top: 15px;
 
   h1 {
     width: 100%;
-    margin-top: 15px;
+    margin-bottom: 0;
   }
 
   .edit-footer {

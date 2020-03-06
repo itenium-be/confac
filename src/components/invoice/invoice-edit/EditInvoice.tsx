@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Container, Row, Col, Form} from 'react-bootstrap';
+import {Container, Row, Col, Form, Badge} from 'react-bootstrap';
 import {t, formatDate} from '../../utils';
 import EditInvoiceLines from './invoice-lines/EditInvoiceLines';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
@@ -19,12 +19,15 @@ import {EmailModal, EmailModalTitle} from '../../controls/email/EmailModal';
 import {EmailModel} from '../../controls/email/EmailModels';
 import {sendEmail} from '../../../actions/emailActions';
 import {invoiceReplacements} from '../../../actions/utils/download-helpers';
-import {ExpandIcon} from '../../controls/Icon';
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {Button} from '../../controls/form-controls/Button';
 import {getNewInvoice} from '../models/getNewInvoice';
 import {getDocumentTitle} from '../../hooks/useDocumentTitle';
 import {InvoiceAttachmentsForm} from '../controls/InvoiceAttachmentsForm';
+import {ConsultantModel} from '../../consultant/models/ConsultantModel';
+import {projectMonthResolve} from '../../project/ProjectMonthsLists';
+import {FullProjectMonthModel} from '../../project/models/ProjectMonthModel';
+import {ConsultantSelect} from '../../consultant/controls/ConsultantSelect';
 
 
 type EditInvoiceProps = {
@@ -32,6 +35,8 @@ type EditInvoiceProps = {
   config: ConfigModel,
   app: { isLoaded: boolean },
   clients: ClientModel[],
+  consultants: ConsultantModel[],
+  fullProjectsMonth: FullProjectMonthModel[],
   invoiceAction: Function,
   match: {
     params: {
@@ -48,6 +53,10 @@ type EditInvoiceState = {
   renavigationKey: string,
   showEmailModal: boolean,
 }
+
+const EditInvoiceBadge = ({label}:{label: string}) => (
+  <Badge style={{marginLeft: 10, fontSize: '100%', fontWeight: 300}} variant="secondary">{label}</Badge>
+);
 
 export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
   constructor(props: EditInvoiceProps) {
@@ -87,6 +96,21 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
     return this.isQuotation ? 'quotation' : 'invoice';
   }
 
+  getConsultantName(invoice: InvoiceModel): string {
+    const consultant = this.props.consultants.find(c => c._id === invoice.consultantId);
+    if (!consultant) return '';
+
+    return `${t(`consultant.types.${consultant.type}`)} ${consultant.firstName} ${consultant.name}`;
+  }
+
+  getProjectPartnerClientName(invoice: InvoiceModel): string {
+    const fullProjectMonth = this.props.fullProjectsMonth.find(fpm => fpm._id === invoice.projectMonthId);
+    if (!fullProjectMonth) return '';
+    const {client, partner} = fullProjectMonth;
+
+    return `${partner ? `${partner.name} / ` : ''}${client.name}`;
+  }
+
 
   createModel(props: EditInvoiceProps): InvoiceModel {
     if (props.match.params.id) {
@@ -116,7 +140,6 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
 
   render() {
     const {invoice} = this.state;
-    const extraFieldsVisible = invoice.extraFields.length === 0 && !this.state.showExtraFields;
 
     const getDefaultEmailValue = (i: InvoiceModel, config: ConfigModel): EmailModel => {
       const defaultEmail = config.email;
@@ -147,24 +170,25 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
       <Container className="edit-container">
         <Form>
           <Row>
-            <Col sm={12}>
-              <h1>
-                {invoice._id && (
-                  <div style={{float: 'right'}}>
-                    <DownloadInvoiceButton invoice={invoice} />
-                  </div>
-                )}
-                {invoice._id ? t(`${this.type}.editTitle`) : t(`${this.type}.createTitle`)}
-                {invoice.createdOn && (
-                <small className="created-on">
-                  {t('createdOn')}
-                  {' '}
-                  {formatDate(invoice.createdOn)}
-                </small>
-                )}
-              </h1>
+            <Col sm={12} style={{marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+              <div style={{display: 'flex', alignItems: 'flex-start'}}>
+                <h1>
+                  {invoice._id ? (
+                    <>
+                      {t(`${this.type}.editTitle`)}
+                      <small className="created-on">
+                        {`${t('createdOn')} ${formatDate(invoice.createdOn)}`}
+                      </small>
+                    </>
+                  ) : t(`${this.type}.createTitle`)}
+                </h1>
+                {invoice.consultantId && <EditInvoiceBadge label={this.getConsultantName(invoice)} />}
+                {invoice.projectMonthId && <EditInvoiceBadge label={this.getProjectPartnerClientName(invoice)} />}
+              </div>
+              <div>
+                {invoice._id && <DownloadInvoiceButton invoice={invoice} />}
+              </div>
             </Col>
-
             <Col sm={12}>
               <InvoiceNotVerifiedAlert invoice={invoice} />
             </Col>
@@ -184,28 +208,24 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                   invoice={invoice}
                   onChange={(fieldName: string, value: any) => this.updateInvoice(fieldName, value)}
                 />
-
-                {extraFieldsVisible ? (
-                  <Col sm={12}>
-                    <ExpandIcon
-                      center
-                      color="#D3D3D3"
-                      title={t('config.extraFields.open')}
-                      onClick={() => this.setState(prevState => ({showExtraFields: !prevState.showExtraFields}))}
-                      data-tst="extra-fields-open"
-                    />
-                  </Col>
-                ) : (
-                  <Col sm={12}>
-                    <StringInput
-                      label={t('invoice.discount')}
-                      placeholder={t('invoice.discountPlaceholder')}
-                      value={invoice.discount}
-                      onChange={value => this.updateInvoice('discount', value, true)}
-                      data-tst="invoice.discount"
-                    />
-                  </Col>
-                )}
+              </Row>
+              <Row>
+                <Col sm={12}>
+                  <StringInput
+                    label={t('invoice.discount')}
+                    placeholder={t('invoice.discountPlaceholder')}
+                    value={invoice.discount}
+                    onChange={value => this.updateInvoice('discount', value, true)}
+                    data-tst="invoice.discount"
+                  />
+                </Col>
+                <Col>
+                  <ConsultantSelect
+                    label={t('project.consultant')}
+                    value={invoice.consultantId ? invoice.consultantId : ''}
+                    onChange={consultantId => this.updateInvoice('consultantId', consultantId)}
+                  />
+                </Col>
               </Row>
             </Col>
           </Row>
@@ -254,12 +274,16 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
 }
 
 function mapStateToProps(state: ConfacState, props: any) {
+  const fullProjectsMonth = state.projectsMonth.map(pm => projectMonthResolve(pm, state));
+
   return {
     config: state.config,
     app: state.app,
     clients: state.clients,
     invoices: state.invoices,
     renavigationKey: props.location.key,
+    consultants: state.consultants,
+    fullProjectsMonth,
   };
 }
 

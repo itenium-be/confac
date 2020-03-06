@@ -95,7 +95,7 @@ export function toggleInvoiceVerify(data: InvoiceModel) {
 
 
 export function deleteInvoice(invoice: InvoiceModel) {
-  const projectMonthId = invoice.projectId;
+  const {projectMonthId} = invoice;
   return dispatch => {
     dispatch(busyToggle());
     if (projectMonthId) {

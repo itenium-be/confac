@@ -14,16 +14,14 @@ export const DownloadInvoiceButton = ({invoice}: DownloadInvoiceButtonProps) => 
   const downloadUrl = getInvoiceDownloadUrl(invoice, 'pdf', 'download');
   return (
     <div className="attachment">
-      <div style={{marginLeft: 3}}>
-        <Icon
-          fa="fa fa-file-invoice"
-          style={{color: '#0062cc', marginRight: 20}}
-          title={t('invoice.downloadInvoice')}
-          href={downloadUrl}
-          size={1}
-        />
-        <InvoicePreviewIcon invoice={invoice} size={1} color="#EEB4B4" />
-      </div>
+      <Icon
+        fa="fa fa-file-invoice"
+        style={{color: '#0062cc', marginRight: 20}}
+        title={t('invoice.downloadInvoice')}
+        href={downloadUrl}
+        size={2}
+      />
+      <InvoicePreviewIcon invoice={invoice} size={2} color="#EEB4B4" />
     </div>
   );
 };
