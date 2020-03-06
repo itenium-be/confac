@@ -40,7 +40,7 @@ export default class InvoiceModel implements IAttachment {
   number: number;
   client: ClientModel;
   your: ConfigCompanyModel;
-  projectId?: string;
+  projectMonthId?: string;
   consultantId?: string;
   date: moment.Moment;
   orderNr: string;
@@ -69,7 +69,7 @@ export default class InvoiceModel implements IAttachment {
     this.number = obj.number || 1;
     this.client = obj.client;
     this.your = obj.company || config.company;
-    this.projectId = obj.projectId;
+    this.projectMonthId = obj.projectMonthId;
     this.consultantId = obj.consultantId;
     this.date = obj.date;
     this.orderNr = obj.orderNr || '';
