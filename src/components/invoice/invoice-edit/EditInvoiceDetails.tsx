@@ -6,7 +6,6 @@ import {NumericInput} from '../../controls/form-controls/inputs/NumericInput';
 import {VerifyIcon} from '../../controls/Icon';
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {DatePicker} from '../../controls/form-controls/DatePicker';
-import {ProjectSelect} from '../../project/controls/ProjectSelect';
 
 type EditInvoiceDetailsProps = {
   invoice: InvoiceModel;
@@ -43,13 +42,7 @@ export const EditInvoiceDetails = ({invoice, onChange}: EditInvoiceDetailsProps)
           data-tst="invoice.orderNr"
         />
       </Col>
-      <Col sm={7}>
-        <ProjectSelect
-          label={t('project.project')}
-          value={invoice.projectId || ''}
-          onChange={(value: string) => onChange('projectId', value)}
-        />
-      </Col>
+      <Col sm={7} />
     </>
   );
 };
