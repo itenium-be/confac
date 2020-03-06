@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import {IList, IListCell, ProjectListFilters} from '../../controls/table/table-models';
 import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
-import {FullProjectModel, ProjectClientModel} from './ProjectModel';
+import {FullProjectModel, ProjectClientModel, PROJECT_STATUSES} from './ProjectModel';
 import {t, formatDate, tariffFormat, searchinize} from '../../utils';
 import {EditIcon} from '../../controls/Icon';
 import {InvoiceClientCell} from '../../invoice/invoice-table/InvoiceClientCell';
@@ -18,7 +18,7 @@ export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel
 const fullProjectSearch = (filters: ProjectListFilters, prj: FullProjectModel) => {
   const {consultant, partner, client, details} = prj;
 
-  if (!filters.showInactive && !details.active) {
+  if (!filters.showInactive && details.status === PROJECT_STATUSES.NOT_ACTIVE_ANYMORE) {
     return false;
   }
 
@@ -39,17 +39,24 @@ const fullProjectSearch = (filters: ProjectListFilters, prj: FullProjectModel) =
 
 const getRowBackgroundColor = (prj: FullProjectModel): undefined | string => {
   const projectDetails = prj.details;
-  if (!prj.details.active) {
+  const MONTHS_BEFORE_WARNING = 1;
+  const MONTHS_BEFORE_INFO = 3;
+
+  if (projectDetails.status === PROJECT_STATUSES.NOT_YET_ACTIVE) {
+    return 'table-success';
+  }
+
+  if (projectDetails.status === PROJECT_STATUSES.NOT_ACTIVE_ANYMORE) {
     return 'table-danger';
   }
 
   if (projectDetails.endDate) {
     const monthsLeft = moment(projectDetails.endDate).diff(moment(), 'months', true);
 
-    if (monthsLeft < 1) {
+    if (monthsLeft < MONTHS_BEFORE_WARNING) {
       return 'table-warning';
     }
-    if (monthsLeft < 3) {
+    if (monthsLeft < MONTHS_BEFORE_INFO) {
       return 'table-info';
     }
   }
@@ -126,12 +133,14 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     },
     data: config.data,
     sorter: (a, b) => {
-      if (!a.details.endDate) {
-        return 1;
+      if (!a.details.endDate || !b.details.endDate) {
+        return a.details.startDate.valueOf() - b.details.startDate.valueOf();
       }
-      if (!b.details.endDate) {
-        return -1;
+
+      if (a.details.endDate.valueOf() === b.details.endDate.valueOf()) {
+        return a.details.startDate.valueOf() - b.details.startDate.valueOf();
       }
+
       return a.details.endDate.valueOf() - b.details.endDate.valueOf();
     },
   };

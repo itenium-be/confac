@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {ProjectModel, FullProjectModel, ProjectClientModel} from '../models/ProjectModel';
+import {ProjectModel, FullProjectModel, ProjectClientModel, IProjectStatuses} from '../models/ProjectModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
 
@@ -25,12 +25,20 @@ export class ProjectReferenceResolver {
     return this.clients.find(c => c._id === client.clientId) || undefined;
   }
 
-  getIsProjectActive(startDate: moment.Moment, endDate?: moment.Moment): boolean {
+  getStatusProject(startDate: moment.Moment, endDate?: moment.Moment): keyof IProjectStatuses {
     if (endDate) {
-      return moment().isBetween(startDate, endDate);
+      if (moment(startDate).isAfter(moment()) && moment(endDate).isAfter(startDate)) {
+        return 'NOT_YET_ACTIVE';
+      }
+
+      if (moment().isBetween(startDate, endDate)) {
+        return 'ACTIVE';
+      }
+
+      return 'NOT_ACTIVE_ANYMORE';
     }
 
-    return moment().isAfter(startDate);
+    return moment(startDate).isSameOrBefore(moment()) ? 'ACTIVE' : 'NOT_YET_ACTIVE';
   }
 
   getProjects(): FullProjectModel[] {
@@ -43,7 +51,7 @@ export class ProjectReferenceResolver {
     // --> Turn into a class with a "get active(): boolean { return this.getIsProjectActive(); }"
     return this.projects.map(project => ({
       _id: project._id,
-      details: {...project, active: this.getIsProjectActive(project.startDate, project.endDate)},
+      details: {...project, status: this.getStatusProject(project.startDate, project.endDate)},
       consultant: this.getConsultant(project.consultantId),
       client: this.getClient(project.client) as ClientModel,
       partner: this.getClient(project.partner),

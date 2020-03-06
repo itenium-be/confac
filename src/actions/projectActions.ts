@@ -30,43 +30,37 @@ export function saveProject(project: ProjectModel, history: any) {
 
 /** Create projectMonths for all active projects in the month */
 export function createProjectsMonth(month: Moment) {
-  return (dispatch: Dispatch) => {
-    dispatch(busyToggle());
-    return request
-      .post(buildUrl('/projects/month'))
-      .set('Content-Type', 'application/json')
-      .send({month})
-      .then(response => {
-        dispatch({
-          type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
-          projectsMonth: response.body,
-        });
-        success(t('config.popupMessage'));
-      })
-      .catch(catchHandler);
-  };
+  return (dispatch: Dispatch) => request
+    .post(buildUrl('/projects/month'))
+    .set('Content-Type', 'application/json')
+    .send({month})
+    .then(response => {
+      dispatch({
+        type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
+        projectsMonth: response.body,
+      });
+      success(t('config.popupMessage'));
+    })
+    .catch(catchHandler);
 }
 
 
 
 /** Create the invoice for a projectMonth */
 export function createProjectsMonthInvoice(project: ProjectMonthModel) {
-  return (dispatch: Dispatch) => {
-    dispatch(busyToggle());
-    return request
-      .post(buildUrl(`/projects/month/${project._id}/create-invoice`))
-      .set('Content-Type', 'application/json')
-      // .send()
-      .then(response => {
-        dispatch({
-          type: ACTION_TYPES.PROJECTS_MONTH_INVOICE_CREATED,
-          projectsMonth: response.body.projectsMonth,
-          invoice: response.body.invoice,
-        });
-        success(t('config.popupMessage'));
-      })
-      .catch(catchHandler);
-  };
+  return (dispatch: Dispatch) => request
+    .post(buildUrl(`/projects/month/${project._id}/create-invoice`))
+    .set('Content-Type', 'application/json')
+  // .send()
+    .then(response => {
+      dispatch({
+        type: ACTION_TYPES.PROJECTS_MONTH_INVOICE_CREATED,
+        projectsMonth: response.body.projectsMonth,
+        invoice: response.body.invoice,
+      });
+      success(t('config.popupMessage'));
+    })
+    .catch(catchHandler);
 }
 
 
@@ -84,30 +78,25 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
   }
 
 
-  return (dispatch: Dispatch) => {
-    dispatch(busyToggle());
-    return request
-      .patch(buildUrl('/projects/month'))
-      .set('Content-Type', 'application/json')
-      .send(project)
-      .then(response => {
-        dispatch({
-          type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
-          projectMonth: response.body,
-        });
-        success(t('config.popupMessage'));
-        // history.push('/projects');
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
-  };
+  return (dispatch: Dispatch) => request
+    .patch(buildUrl('/projects/month'))
+    .set('Content-Type', 'application/json')
+    .send(project)
+    .then(response => {
+      dispatch({
+        type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
+        projectMonth: response.body,
+      });
+      success(t('config.popupMessage'));
+      // history.push('/projects');
+    })
+    .catch(catchHandler);
 }
 
 
 
 export function projectMonthUpload(file: File, type: 'timesheet' | 'inbound', projectMonthId: string) {
   return (dispatch: Dispatch) => {
-    dispatch(busyToggle());
     const req = request.put(buildUrl(`/attachments/project_month/${projectMonthId}/${type}`));
     req.attach(file.name, file);
     req.then(response => {
@@ -118,14 +107,12 @@ export function projectMonthUpload(file: File, type: 'timesheet' | 'inbound', pr
       success(t('config.popupMessage'));
       return true;
     })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+      .catch(catchHandler);
   };
 }
 
 export function projectsMonthOverviewUpload(file: File, month: Moment) {
   return (dispatch: Dispatch) => {
-    dispatch(busyToggle());
     const req = request.put(buildUrl(`/attachments/project_month_overview/${month.toISOString()}/allTimesheets`));
     req.attach(file.name, file);
     req.then(response => {
@@ -136,14 +123,12 @@ export function projectsMonthOverviewUpload(file: File, month: Moment) {
       success(t('config.popupMessage'));
       return true;
     })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+      .catch(catchHandler);
   };
 }
 
 export function deleteProjectsMonthOverview(id: string) {
   return (dispatch: Dispatch) => {
-    dispatch(busyToggle());
     const req = request.delete(buildUrl(`/attachments/project_month_overview/${id}/allTimesheets`));
     req.then(response => {
       dispatch({
@@ -153,8 +138,7 @@ export function deleteProjectsMonthOverview(id: string) {
       success(t('config.popupMessage'));
       return true;
     })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+      .catch(catchHandler);
   };
 }
 

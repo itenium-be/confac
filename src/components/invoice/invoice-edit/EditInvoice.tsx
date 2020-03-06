@@ -19,12 +19,12 @@ import {EmailModal, EmailModalTitle} from '../../controls/email/EmailModal';
 import {EmailModel} from '../../controls/email/EmailModels';
 import {sendEmail} from '../../../actions/emailActions';
 import {invoiceReplacements} from '../../../actions/utils/download-helpers';
-import {ExpandIcon} from '../../controls/Icon';
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {Button} from '../../controls/form-controls/Button';
 import {getNewInvoice} from '../models/getNewInvoice';
 import {getDocumentTitle} from '../../hooks/useDocumentTitle';
 import {InvoiceAttachmentsForm} from '../controls/InvoiceAttachmentsForm';
+import {ConsultantSelect} from '../../consultant/controls/ConsultantSelect';
 
 
 type EditInvoiceProps = {
@@ -116,7 +116,6 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
 
   render() {
     const {invoice} = this.state;
-    const extraFieldsVisible = invoice.extraFields.length === 0 && !this.state.showExtraFields;
 
     const getDefaultEmailValue = (i: InvoiceModel, config: ConfigModel): EmailModel => {
       const defaultEmail = config.email;
@@ -184,28 +183,24 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                   invoice={invoice}
                   onChange={(fieldName: string, value: any) => this.updateInvoice(fieldName, value)}
                 />
-
-                {extraFieldsVisible ? (
-                  <Col sm={12}>
-                    <ExpandIcon
-                      center
-                      color="#D3D3D3"
-                      title={t('config.extraFields.open')}
-                      onClick={() => this.setState(prevState => ({showExtraFields: !prevState.showExtraFields}))}
-                      data-tst="extra-fields-open"
-                    />
-                  </Col>
-                ) : (
-                  <Col sm={12}>
-                    <StringInput
-                      label={t('invoice.discount')}
-                      placeholder={t('invoice.discountPlaceholder')}
-                      value={invoice.discount}
-                      onChange={value => this.updateInvoice('discount', value, true)}
-                      data-tst="invoice.discount"
-                    />
-                  </Col>
-                )}
+              </Row>
+              <Row>
+                <Col sm={12}>
+                  <StringInput
+                    label={t('invoice.discount')}
+                    placeholder={t('invoice.discountPlaceholder')}
+                    value={invoice.discount}
+                    onChange={value => this.updateInvoice('discount', value, true)}
+                    data-tst="invoice.discount"
+                  />
+                </Col>
+                <Col>
+                  <ConsultantSelect
+                    label={t('project.consultant')}
+                    value={invoice.consultantId ? invoice.consultantId : ''}
+                    onChange={consultantId => this.updateInvoice('consultantId', consultantId)}
+                  />
+                </Col>
               </Row>
             </Col>
           </Row>
