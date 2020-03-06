@@ -14,7 +14,7 @@ type ProjectMonthModalProps = BaseModalProps & {};
 /** Create projectMonths by selecting a project month */
 export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
   const dispatch = useDispatch();
-  const [month, setMonth] = useState<moment.Moment>(moment.utc().startOf('month'));
+  const [date, setDate] = useState<moment.Moment>(moment());
 
   const {show, onClose} = props;
 
@@ -23,7 +23,7 @@ export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
       show={show}
       onClose={onClose}
       title={t('projectMonth.createProjectsTitle')}
-      onConfirm={() => dispatch(createProjectsMonth(month))}
+      onConfirm={() => dispatch(createProjectsMonth(date.utc().startOf('month')))}
     >
       <Form>
         <Container>
@@ -31,8 +31,8 @@ export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
             <DatePicker
               label={t('projectMonth.createProjects')}
               dateFormat="MMMM - yyyy"
-              value={month}
-              onChange={date => date && setMonth(date.utc().startOf('month'))}
+              value={date}
+              onChange={value => value && setDate(value)}
               showMonthYearPicker
             />
           </Row>
