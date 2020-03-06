@@ -102,8 +102,8 @@ export const createInvoiceController = async (req: Request, res: Response) => {
 
   const createdInvoice = await createInvoice(invoice, req.db, pdfBuffer as Buffer);
 
-  if (invoice.projectId) {
-    const projectMonthId = new ObjectID(invoice.projectId);
+  if (invoice.projectMonthId) {
+    const projectMonthId = new ObjectID(invoice.projectMonthId);
     const updatedInvoice = await moveProjectMonthAttachmentsToInvoice(createdInvoice, projectMonthId, req.db);
 
     return res.send(updatedInvoice);
@@ -218,9 +218,9 @@ export const updateInvoiceController = async (req: Request, res: Response) => {
   const inserted = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: invoice}, {returnOriginal: false});
   const updatedInvoice = inserted.value;
 
-  if (updatedInvoice?.projectId) {
-    console.log('updating', invoice.projectId, 'verified', updatedInvoice.verified);
-    await req.db.collection(CollectionNames.PROJECTS_MONTH).findOneAndUpdate({_id: new ObjectID(invoice.projectId)}, {$set: {verified: updatedInvoice.verified}});
+  if (updatedInvoice?.projectMonthId) {
+    console.log('updating', invoice.projectMonthId, 'verified', updatedInvoice.verified);
+    await req.db.collection(CollectionNames.PROJECTS_MONTH).findOneAndUpdate({_id: new ObjectID(invoice.projectMonthId)}, {$set: {verified: updatedInvoice.verified}});
   }
 
   return res.send(updatedInvoice);
@@ -234,7 +234,7 @@ export const deleteInvoiceController = async (req: Request, res: Response) => {
 
   const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOne({_id: new ObjectID(invoiceId)});
 
-  if (invoice?.projectId) {
+  if (invoice?.projectMonthId) {
     const invoiceAttachments: IAttachmentCollection | null = await req.db.collection(CollectionNames.ATTACHMENTS)
       .findOne({_id: new ObjectID(invoiceId) as ObjectID}, {
         projection: {
@@ -244,12 +244,12 @@ export const deleteInvoiceController = async (req: Request, res: Response) => {
       });
 
     await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).insertOne({
-      _id: new ObjectID(invoice.projectId),
+      _id: new ObjectID(invoice.projectMonthId),
       ...invoiceAttachments,
     });
 
     await req.db.collection(CollectionNames.PROJECTS_MONTH)
-      .findOneAndUpdate({_id: new ObjectID(invoice.projectId)}, {$set: {attachments: invoice.attachments.filter(a => a.type !== 'pdf')}});
+      .findOneAndUpdate({_id: new ObjectID(invoice.projectMonthId)}, {$set: {attachments: invoice.attachments.filter(a => a.type !== 'pdf')}});
   }
 
   await req.db.collection(CollectionNames.INVOICES).findOneAndDelete({_id: new ObjectID(invoiceId)});
