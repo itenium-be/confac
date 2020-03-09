@@ -182,8 +182,8 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                     </>
                   ) : t(`${this.type}.createTitle`)}
                 </h1>
-                {invoice.consultantId && <EditInvoiceBadge label={this.getConsultantName(invoice)} />}
-                {invoice.projectMonthId && <EditInvoiceBadge label={this.getProjectPartnerClientName(invoice)} />}
+                {invoice._id && invoice.consultantId && <EditInvoiceBadge label={this.getConsultantName(invoice)} />}
+                {invoice._id && invoice.projectMonthId && <EditInvoiceBadge label={this.getProjectPartnerClientName(invoice)} />}
               </div>
               <div>
                 {invoice._id && <DownloadInvoiceButton invoice={invoice} />}
@@ -220,11 +220,13 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                   />
                 </Col>
                 <Col>
-                  <ConsultantSelect
-                    label={t('project.consultant')}
-                    value={invoice.consultantId ? invoice.consultantId : ''}
-                    onChange={consultantId => this.updateInvoice('consultantId', consultantId)}
-                  />
+                  {!invoice.projectMonthId && (
+                    <ConsultantSelect
+                      label={t('project.consultant')}
+                      value={invoice.consultantId ? invoice.consultantId : ''}
+                      onChange={consultantId => this.updateInvoice('consultantId', consultantId)}
+                    />
+                  )}
                 </Col>
               </Row>
             </Col>
