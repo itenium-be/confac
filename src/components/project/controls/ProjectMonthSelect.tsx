@@ -39,7 +39,8 @@ const ProjectMonthSelectComponent = (props: ProjectMonthSelectProps) => {
   const currentInvoice = urlParams.id ? getCurrentInvoice(urlParams.id) : null;
 
   const options: SelectItem[] = fullProjectsMonth
-    .filter(fpm => (currentInvoice && currentInvoice.projectMonthId) === fpm._id || !fpm.invoice)
+    .filter(fpm => ((currentInvoice && currentInvoice.projectMonthId) === fpm._id) || !fpm.invoice)
+    .filter(fpm => !fpm.details.attachments.length)
     .sort((a, b) => getProjectMonthDesc(a).localeCompare(getProjectMonthDesc(b)))
     .map(item => ({value: item._id, label: getProjectMonthDesc(item)} as SelectItem));
 
