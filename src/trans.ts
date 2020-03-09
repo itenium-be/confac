@@ -183,6 +183,7 @@ export const trans = {
     deletePopup: 'Offerte {number} ({client}) permanent verwijderen?',
     deleteConfirm: 'Offerte verwijderd',
     createConfirm: 'Offerte aangemaakt',
+    consultant: 'Consultant',
     viewPdf: 'Pdf offerte bekijken',
   },
   invoice: {
@@ -201,6 +202,7 @@ export const trans = {
     number: 'Factuurnummer',
     numberShort: 'Nr',
     discount: 'Korting',
+    consultant: 'Consultant',
     discountPlaceholder: 'Geef een vaste korting (vb 250) of een percentage (vb 10%)',
     deleteTitle: 'Factuur verwijderen',
     deletePopup: 'Factuur {number} ({client}) permanent verwijderen?',
