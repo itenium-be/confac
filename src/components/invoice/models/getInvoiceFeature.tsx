@@ -1,18 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import {InvoiceClientCell} from '../invoice-table/InvoiceClientCell';
 import {InvoiceNumberCell} from '../invoice-table/InvoiceNumberCell';
 import InvoiceModel from './InvoiceModel';
 import {formatDate, moneyFormat} from '../../utils';
 import {IListCell, IListRow} from '../../controls/table/table-models';
 import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
-import {NotEmailedIcon} from '../../controls/Icon';
+import {NotEmailedIcon, Icon} from '../../controls/Icon';
 import {InvoiceListRowActions} from '../invoice-table/InvoiceListRowActions';
 import {getInvoiceListRowClass} from '../invoice-table/getInvoiceListRowClass';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
 import {IFeature} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
+import {ConsultantModel} from '../../consultant/models/ConsultantModel';
+import {ProjectMonthModal} from '../../project/controls/ProjectMonthModal';
+import {ConfacState} from '../../../reducers/app-state';
+import {projectMonthResolve} from '../../project/ProjectMonthsLists';
 
+
+export interface IInvoiceListData {
+  invoices: InvoiceModel[],
+  consultants: ConsultantModel[]
+}
 
 export interface IInvoiceListConfig {
   data: InvoiceModel[];
@@ -22,6 +33,56 @@ export interface IInvoiceListConfig {
   isQuotation: boolean;
   invoicePayDays: number;
 }
+
+const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
+  const [modal, setModal] = useState<boolean>(false);
+  const [hover, setHover] = useState<boolean>(false);
+  const {projectMonthId} = invoice;
+  const fullProjectMonth = useSelector((state: ConfacState) => {
+    if (!projectMonthId) {
+      return null;
+    }
+    const projectMonth = state.projectsMonth.find(pm => pm._id === projectMonthId);
+    if (!projectMonth) return null;
+
+    return projectMonthResolve(projectMonth, state);
+  });
+
+  const consultants = useSelector((state: ConfacState) => state.consultants);
+  const consultant = consultants.find(c => c._id === invoice.consultantId);
+
+  if (!consultant) return null;
+
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      <Link to={fullProjectMonth ? `/projects/${fullProjectMonth.project._id}` : `/consultants/${consultant.slug}`}>
+        {`${consultant.firstName} ${consultant.name}`}
+      </Link>
+      {fullProjectMonth && (
+        <>
+          <Icon
+            style={{visibility: hover ? 'unset' : 'hidden', marginLeft: 8, color: 'grey'}}
+            fa="fa fa-external-link-alt"
+            size={1}
+            onClick={() => setModal(true)}
+          />
+          {modal && (
+            <ProjectMonthModal
+              onClose={() => {
+                setModal(false);
+                setHover(false);
+              }}
+              projectMonth={fullProjectMonth}
+            />
+          )}
+        </>
+      )}
+    </div>
+  );
+};
 
 
 export function createInvoiceList(config: IInvoiceListConfig): IFeature<InvoiceModel> {
@@ -33,6 +94,7 @@ export function createInvoiceList(config: IInvoiceListConfig): IFeature<InvoiceM
       ...colsTillTotalAmount,
       'total-amount',
       'buttons',
+      'consultant',
       config.showOrderNr ? '' : 'orderNr',
       'invoice-days',
     ], transPrefix),
@@ -72,6 +134,10 @@ export function getInvoiceColumns(includeFields: string[], transPrefix: string):
     key: 'date-full',
     header: `${transPrefix}.date`,
     value: (i: InvoiceModel) => formatDate(i.date),
+  }, {
+    key: 'consultant',
+    header: `${transPrefix}.consultant`,
+    value: (i: InvoiceModel) => <InvoiceConsultantCell invoice={i} />,
   }, {
     key: 'orderNr',
     header: `${transPrefix}.orderNrShort`,
