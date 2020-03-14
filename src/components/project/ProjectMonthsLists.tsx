@@ -42,6 +42,12 @@ export function projectMonthResolve(projectMonth: ProjectMonthModel, state: Conf
   };
 }
 
+export const displayMonthWithYear = (projectsMonthDetails: ProjectMonthModel) => {
+  const {month: date} = projectsMonthDetails;
+  const formattedMonth = date.format('MMMM').charAt(0).toUpperCase() + date.format('MMMM').substring(1);
+  return t('projectMonth.listTitle', {month: formattedMonth, year: date.year()});
+};
+
 
 
 /** The Monthly Invoicing Table */
@@ -130,12 +136,6 @@ const ProjectMonthsList = ({feature}: ProjectMonthsListProps) => {
 
   const projectsMonthDetails = feature.list.data[0].details;
 
-  const displayMonthWithYear = () => {
-    const {month: date} = projectsMonthDetails;
-    const formattedMonth = date.format('MMMM').charAt(0).toUpperCase() + date.format('MMMM').substring(1);
-    return t('projectMonth.listTitle', {month: formattedMonth, year: date.year()});
-  };
-
   const getProjectsMonthOverview = () => projectsMonthOverviews
     .find(pmo => moment(pmo.month).valueOf() === projectsMonthDetails.month.valueOf());
 
@@ -150,7 +150,7 @@ const ProjectMonthsList = ({feature}: ProjectMonthsListProps) => {
   return (
     <>
       <div style={{display: 'flex', alignItems: 'center', marginBottom: '20px'}}>
-        <h2 style={{marginRight: '20px', marginBottom: 0}}>{displayMonthWithYear()}</h2>
+        <h2 style={{marginRight: '20px', marginBottom: 0}}>{displayMonthWithYear(projectsMonthDetails)}</h2>
         <AdvancedAttachmentDropzone
           attachment={projectsMonthOverview && projectsMonthOverview.fileDetails}
           onUpload={(f: File) => dispatch(projectsMonthOverviewUpload(f, projectsMonthDetails.month))}

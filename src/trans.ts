@@ -381,6 +381,7 @@ export const trans = {
     viewInboundInvoice: 'Ontvangen factuur bekijken: {fileName}',
     linkToDetails: 'Ga naar project',
     sdWorxTimesheetUpload: 'SDWorx timesheet opladen',
+    selectLabel: 'Project maand',
   },
   controls: {
     // browser
