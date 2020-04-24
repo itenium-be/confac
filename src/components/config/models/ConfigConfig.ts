@@ -33,8 +33,8 @@ export const configDefinition: FullFormConfig = [
   {key: 'showOrderNr', component: 'switch'},
 
   {title: 'config.email.title'},
-  {key: 'email.from', cols: 6},
-  {key: 'email.bcc', cols: 6},
+  {key: 'email.from', cols: 6, component: 'email'},
+  {key: 'email.bcc', cols: 6, component: 'email'},
   {key: 'email.subject', cols: 6},
   {key: 'email.attachments', component: 'AttachmentsTypeSelect', cols: 6},
   {key: 'email.body', component: 'TextEditor', cols: 12},
