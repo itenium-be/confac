@@ -1,18 +1,22 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import App from './App';
+import {ConfacState} from '../reducers/app-state';
+import {LoadingPage} from './pages/LoadingPage';
 
 type AppWithLayoutProps = {
   Component: any
 }
 
-// eslint-disable-next-line react/prefer-stateless-function
-export class AppWithLayout extends React.Component<AppWithLayoutProps> {
-  render() {
-    const {Component, ...props} = this.props;
-    return (
-      <App {...props}>
-        <Component {...props} />
-      </App>
-    );
+export const AppWithLayout = ({Component, ...props}: AppWithLayoutProps) => {
+  const isLoaded = useSelector((state: ConfacState) => state.app.isLoaded);
+  if (!isLoaded) {
+    return <App {...props}><LoadingPage /></App>;
   }
-}
+
+  return (
+    <App {...props}>
+      <Component {...props} />
+    </App>
+  );
+};

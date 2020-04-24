@@ -52,6 +52,7 @@ export const features = {
 export const trans = {
   title: 'Facturen',
   taxRequest: 'btw in aanvraag',
+  loadingApp: 'Bezig met laden applicatie...',
   nav: {
     monthlyInvoicing: 'Facturatie',
     invoices: 'Facturen',

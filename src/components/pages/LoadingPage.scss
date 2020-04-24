@@ -1,0 +1,13 @@
+.loading-page {
+  margin-top: 75px;
+
+  > div:first-child {
+    margin-right: 80px;
+    width: 75px;
+    height: 75px;
+  }
+
+  h2 {
+    padding-top: 16px;
+  }
+}
