@@ -11,7 +11,7 @@ export const EmailInput = ({value, onChange, ...props}: EmailInputProps) => (
     onChange={e => onChange(e.target.value as string)}
     {...props}
     suffix={(
-      <a href={`mailto:${value}`} className="btn input-group-text">
+      <a href={`mailto:${value}`} className="btn input-group-text" target="_blank" rel="noopener noreferrer">
         <Icon fa="fa fa-envelope" size={1} />
       </a>
       )}

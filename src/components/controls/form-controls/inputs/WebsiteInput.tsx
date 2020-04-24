@@ -4,6 +4,14 @@ import {Icon} from '../../Icon';
 
 type WebsiteInputProps = BaseInputProps<string>;
 
+const addProtocol = (url: string): string => {
+  if (!url.startsWith('http')) {
+    return `https://${url}`;
+  }
+  return url;
+};
+
+
 export const WebsiteInput = ({value, onChange, ...props}: WebsiteInputProps) => (
   <BaseInput
     type="text"
@@ -11,7 +19,7 @@ export const WebsiteInput = ({value, onChange, ...props}: WebsiteInputProps) => 
     onChange={e => onChange(e.target.value as string)}
     {...props}
     suffix={(
-      <a href={value} className="btn input-group-text">
+      <a href={addProtocol(value)} className="btn input-group-text" target="_blank" rel="noopener noreferrer">
         <Icon fa="fa fa-globe" size={1} />
       </a>
       )}
