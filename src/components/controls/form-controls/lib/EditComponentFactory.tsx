@@ -6,6 +6,7 @@ import {StringInput} from '../inputs/StringInput';
 import {InvoiceLineTypeSelect, ProjectLineTypeSelect} from '../../../invoice/controls/InvoiceLineTypeSelect';
 import {ConsultantTypeSelect} from '../../../consultant/controls/ConsultantTypeSelect';
 import {InvoiceDateStrategySelect} from '../../../invoice/controls/InvoiceDateStrategySelect';
+import {InvoiceFileNameInput} from '../../../invoice/controls/InvoiceFileNameInput';
 import {PropertiesSelect} from '../select/PropertiesSelect';
 import {MoneyInput} from '../inputs/MoneyInput';
 import {Switch} from '../Switch';
@@ -27,7 +28,7 @@ import {ConsultantSelectWithCreateModal} from '../../../consultant/controls/Cons
 
 export type CustomComponents = 'InvoiceLineTypeSelect' | 'ProjectLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect'
   | 'ExtraFields' | 'StringsSelect' | 'ClientSelect' | 'ConsultantTypeSelect' | 'EditProjectClient'
-  | 'ConsultantSelectWithCreateModal';
+  | 'ConsultantSelectWithCreateModal' | 'InvoiceFileNameInput';
 
 export type StandardComponents = 'number' | 'text' | 'textarea' | 'basic-math' | 'switch'
   | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban' | 'textEditor' | 'bool' | 'date';
@@ -65,6 +66,7 @@ const componentMap = {
   EditProjectClient,
   EditProjectPartner,
   ConsultantSelectWithCreateModal,
+  InvoiceFileNameInput,
 };
 
 export function getComponent(col: FormConfig) {

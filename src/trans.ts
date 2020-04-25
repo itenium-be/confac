@@ -126,6 +126,14 @@ export const trans = {
     attachmentTypes: 'Standaard factuurbijlage(n)',
     invoicePayDays: 'Betalingstermijn (kalenderdagen)',
     invoiceFileName: 'Standaard factuur bestandsnaam',
+    invoiceFileNameReplacements: {
+      title: 'Factuur bestandsnaam substituties',
+      nr: 'Factuurnummer',
+      nrX: 'Factuurnummer prefixed met 0 tot X getallen',
+      date: 'Factuurdatum met FORMAT: jaar=YYYY, maand=MM, dag=DD (MomentJS)',
+      orderNr: 'Bestelbon nummer',
+      clientName: 'Naam klant',
+    },
     company: {
       title: 'Jouw bedrijfsgegevens',
       name: 'Bedrijfsnaam',

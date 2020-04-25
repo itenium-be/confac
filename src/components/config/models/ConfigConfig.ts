@@ -26,7 +26,7 @@ export const configDefinition: FullFormConfig = [
   {key: 'defaultClient', component: 'ClientSelect'},
   {key: 'defaultInvoiceLineType', component: 'InvoiceLineTypeSelect'},
   {key: 'defaultInvoiceDateStrategy', component: 'InvoiceDateStrategySelect'},
-  {key: 'invoiceFileName', suffix: 'invoice', cols: 10},
+  {key: 'invoiceFileName', component: 'InvoiceFileNameInput', cols: 10},
   {key: 'defaultTax', component: 'float', suffix: '%', cols: 2},
 
   {title: 'config.settingsTitle'},

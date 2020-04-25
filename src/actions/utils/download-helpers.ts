@@ -31,6 +31,7 @@ export function downloadAttachment(fileName: string, content: Blob): void {
 }
 
 
+/** ATTN: Keep InvoiceFileNameInput popover in sync! */
 export function invoiceReplacements(input: string, invoice: InvoiceModel): string {
   let str = input;
 
