@@ -1,5 +1,6 @@
 import InvoiceModel from '../../components/invoice/models/InvoiceModel';
 import {buildUrl} from './fetch';
+import {invoiceReplacements} from '../../components/invoice/invoice-filename-replacements';
 
 export type DownloadAttachmentModelTypes = {
   invoice: string;
@@ -30,41 +31,6 @@ export function downloadAttachment(fileName: string, content: Blob): void {
   link.click();
 }
 
-
-/** ATTN: Keep InvoiceFileNameInput popover in sync! */
-export function invoiceReplacements(input: string, invoice: InvoiceModel): string {
-  let str = input;
-
-  const nrRegex = /\{nr:(\d+)\}/;
-  const nrMatch = str.match(nrRegex);
-  if (nrMatch) {
-    const nrSize = Math.max(parseInt(nrMatch[1], 10), invoice.number.toString().length);
-    str = str.replace(nrRegex, (`000000${invoice.number}`).slice(-nrSize));
-  }
-
-  str = str.replace(/\{nr\}/g, invoice.number.toString());
-
-  const dateRegex = /\{date:([^}]+)\}/;
-  const dateMatch = str.match(dateRegex);
-  if (dateMatch && invoice.date) {
-    const dateFormat = dateMatch[1];
-    str = str.replace(dateRegex, invoice.date.format(dateFormat));
-  }
-
-  if (str.indexOf('{orderNr}') !== -1) {
-    str = str.replace('{orderNr}', invoice.orderNr);
-  }
-
-  if (str.indexOf('{clientName}') !== -1) {
-    str = str.replace('{clientName}', invoice.client.name);
-  }
-
-  // Object.keys(data).forEach(invoiceProp => {
-  //   str = str.replace('{' + invoiceProp + '}', data[invoiceProp]);
-  // });
-
-  return str;
-}
 
 export function getInvoiceFileName(invoice: InvoiceModel): string {
   const {fileName} = invoice;

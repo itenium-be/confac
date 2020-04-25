@@ -26,11 +26,11 @@ export const defaultClientProperties: FullFormConfig = [
   {key: 'extraFields', component: 'ExtraFields', cols: 12, reactKey: 'extraFieldsImpl'},
 
   {title: 'config.email.title'},
-  {key: 'email.to', cols: 6},
+  {key: 'email.to', component: 'email', cols: 6},
   {key: 'email.attachments', component: 'AttachmentsTypeSelect', cols: 6},
-  {key: 'email.cc', cols: 6},
-  {key: 'email.bcc', cols: 6},
-  {key: 'email.subject', cols: 12},
+  {key: 'email.cc', component: 'email', cols: 6},
+  {key: 'email.bcc', component: 'email', cols: 6},
+  {key: 'email.subject', component: 'InvoiceReplacementsInput', cols: 12},
   {key: 'email.body', component: 'TextEditor', cols: 12, label: ''},
   {key: 'email.combineAttachments', component: 'bool'},
 ];
@@ -48,6 +48,6 @@ export const requiredClientProperties: FullFormConfig = [
   {key: 'telephone'},
   {forceRow: true},
   {key: 'contact', cols: 6},
-  {key: 'contactEmail', cols: 6, suffix: 'email'},
+  {key: 'contactEmail', component: 'email', cols: 6},
   {key: 'notes', component: 'TextEditor', cols: 12, style: {height: 120}},
 ];

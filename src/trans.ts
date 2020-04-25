@@ -126,8 +126,8 @@ export const trans = {
     attachmentTypes: 'Standaard factuurbijlage(n)',
     invoicePayDays: 'Betalingstermijn (kalenderdagen)',
     invoiceFileName: 'Standaard factuur bestandsnaam',
-    invoiceFileNameReplacements: {
-      title: 'Factuur bestandsnaam substituties',
+    invoiceReplacements: {
+      title: 'Factuur substituties',
       nr: 'Factuurnummer',
       nrX: 'Factuurnummer prefixed met 0 tot X getallen',
       date: 'Factuurdatum met FORMAT: jaar=YYYY, maand=MM, dag=DD (MomentJS)',
@@ -245,7 +245,7 @@ export const trans = {
     isVerifiedConfirm: 'Factuur nu geverifieerd',
     isNotVerifiedConfirm: 'Factuur niet meer geverifieerd',
     downloadAttachment: '{type} downloaden',
-    downloadInvoice: 'Factuur downloaden',
+    downloadInvoice: '"{fileName}" downloaden',
     addLine: 'Factuurlijn toevoegen',
     attachments: 'Bijlagen',
     attachmentsAdd: 'Bijlage toevoegen',

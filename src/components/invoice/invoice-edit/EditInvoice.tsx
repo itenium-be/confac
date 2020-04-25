@@ -18,7 +18,6 @@ import {DownloadInvoiceButton} from './DownloadInvoiceButton';
 import {EmailModal, EmailModalTitle} from '../../controls/email/EmailModal';
 import {EmailModel} from '../../controls/email/EmailModels';
 import {sendEmail} from '../../../actions/emailActions';
-import {invoiceReplacements} from '../../../actions/utils/download-helpers';
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {Button} from '../../controls/form-controls/Button';
 import {getNewInvoice} from '../models/getNewInvoice';
@@ -28,6 +27,7 @@ import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {projectMonthResolve} from '../../project/ProjectMonthsLists';
 import {FullProjectMonthModel} from '../../project/models/ProjectMonthModel';
 import {ConsultantSelect} from '../../consultant/controls/ConsultantSelect';
+import {invoiceReplacements} from '../invoice-filename-replacements';
 
 
 type EditInvoiceProps = {

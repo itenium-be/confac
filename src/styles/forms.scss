@@ -42,3 +42,12 @@ button[disabled] {
     }
   }
 }
+
+
+// For the TextEditor InvoiceReplacements dropdown
+.placeholder-ul {
+  visibility: hidden;
+}
+.placeholder-li:hover {
+  background: #F1F1F1;
+}

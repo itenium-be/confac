@@ -6,6 +6,7 @@ import htmlToDraft from 'html-to-draftjs';
 import draftToHtml from 'draftjs-to-html';
 import {BaseInputProps} from './BaseInput';
 import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
+import {InvoiceTextEditorReplacements} from '../../../invoice/invoice-filename-replacements';
 
 type TextEditorProps = BaseInputProps<string>;
 type TextEditorState = {
@@ -62,6 +63,7 @@ class TextEditorComponent extends Component<TextEditorProps, TextEditorState> {
             list: {inDropdown: true},
             textAlign: {inDropdown: true},
           }}
+          toolbarCustomButtons={[<InvoiceTextEditorReplacements editorState={editorState} />]}
           editorState={editorState}
           wrapperClassName="demo-wrapper"
           editorClassName="demo-editor"

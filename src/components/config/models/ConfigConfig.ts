@@ -26,7 +26,7 @@ export const configDefinition: FullFormConfig = [
   {key: 'defaultClient', component: 'ClientSelect'},
   {key: 'defaultInvoiceLineType', component: 'InvoiceLineTypeSelect'},
   {key: 'defaultInvoiceDateStrategy', component: 'InvoiceDateStrategySelect'},
-  {key: 'invoiceFileName', component: 'InvoiceFileNameInput', cols: 10},
+  {key: 'invoiceFileName', component: 'InvoiceReplacementsInput', cols: 10},
   {key: 'defaultTax', component: 'float', suffix: '%', cols: 2},
 
   {title: 'config.settingsTitle'},
@@ -35,7 +35,7 @@ export const configDefinition: FullFormConfig = [
   {title: 'config.email.title'},
   {key: 'email.from', cols: 6, component: 'email'},
   {key: 'email.bcc', cols: 6, component: 'email'},
-  {key: 'email.subject', cols: 6},
+  {key: 'email.subject', cols: 6, component: 'InvoiceReplacementsInput'},
   {key: 'email.attachments', component: 'AttachmentsTypeSelect', cols: 6},
   {key: 'email.body', component: 'TextEditor', cols: 12},
   {key: 'emailSignature', component: 'TextEditor', cols: 12},

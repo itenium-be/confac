@@ -4,6 +4,7 @@ import {t} from '../../utils';
 import {Icon} from '../../controls/Icon';
 import {InvoicePreviewIcon} from '../../controls/attachments/AttachmentDownloadIcon';
 import InvoiceModel from '../models/InvoiceModel';
+import {invoiceReplacements} from '../invoice-filename-replacements';
 
 type DownloadInvoiceButtonProps = {
   invoice: InvoiceModel;
@@ -17,7 +18,7 @@ export const DownloadInvoiceButton = ({invoice}: DownloadInvoiceButtonProps) => 
       <Icon
         fa="fa fa-file-invoice"
         style={{color: '#0062cc', marginRight: 20}}
-        title={t('invoice.downloadInvoice')}
+        title={t('invoice.downloadInvoice', {fileName: invoiceReplacements(invoice.fileName, invoice)})}
         href={downloadUrl}
         size={2}
       />
