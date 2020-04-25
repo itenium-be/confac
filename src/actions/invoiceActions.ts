@@ -1,7 +1,8 @@
 import request from 'superagent-bluebird-promise';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {success, failure, busyToggle} from './appActions';
-import {buildUrl, catchHandler} from './utils/fetch';
+import {catchHandler} from './utils/fetch';
+import {buildUrl} from './utils/buildUrl';
 import t from '../trans';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {previewInvoice} from './downloadActions';

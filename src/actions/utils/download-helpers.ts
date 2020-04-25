@@ -1,5 +1,5 @@
 import InvoiceModel from '../../components/invoice/models/InvoiceModel';
-import {buildUrl} from './fetch';
+import {buildUrl} from './buildUrl';
 import {invoiceReplacements} from '../../components/invoice/invoice-replacements';
 
 export type DownloadAttachmentModelTypes = {

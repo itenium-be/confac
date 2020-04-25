@@ -1,7 +1,8 @@
 import request from 'superagent-bluebird-promise';
 import {Moment} from 'moment';
 import {Dispatch} from 'redux';
-import {buildUrl, catchHandler} from './utils/fetch';
+import {catchHandler} from './utils/fetch';
+import {buildUrl} from './utils/buildUrl';
 import t from '../trans';
 import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';

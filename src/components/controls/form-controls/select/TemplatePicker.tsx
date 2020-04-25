@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {toast} from 'react-toastify';
 import {SimpleSelect} from './SimpleSelect';
-import {buildUrl} from '../../../../actions/utils/fetch';
+import {buildUrl} from '../../../../actions/utils/buildUrl';
 import {failure} from '../../../../actions';
 import {t} from '../../../utils';
 

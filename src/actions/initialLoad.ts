@@ -1,7 +1,7 @@
 import {toast} from 'react-toastify';
 import {Dispatch} from 'redux';
 import {ACTION_TYPES} from './utils/ActionTypes';
-import {buildUrl} from './utils/fetch';
+import {buildUrl} from './utils/buildUrl';
 import {failure} from './appActions';
 
 let counter: number;

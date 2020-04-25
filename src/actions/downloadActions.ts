@@ -1,6 +1,7 @@
 import request from 'superagent-bluebird-promise';
 import moment from 'moment';
-import {buildUrl, catchHandler} from './utils/fetch';
+import {catchHandler} from './utils/fetch';
+import {buildUrl} from './utils/buildUrl';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {Attachment} from '../models';
 import {ClientModel} from '../components/client/models/ClientModels';

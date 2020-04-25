@@ -1,5 +1,6 @@
 import request from 'superagent-bluebird-promise';
-import {buildUrl, catchHandler} from './utils/fetch';
+import {catchHandler} from './utils/fetch';
+import {buildUrl} from './utils/buildUrl';
 import t from '../trans';
 import {ConsultantModel} from '../components/consultant/models/ConsultantModel';
 import {busyToggle, success} from './appActions';

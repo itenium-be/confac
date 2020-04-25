@@ -8,7 +8,7 @@ import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
 import {EnhanceInputWithAddons} from '../../../enhancers/EnhanceInputWithAddons';
 import {t} from '../../../utils';
 import {Icon} from '../../Icon';
-import {buildUrl} from '../../../../actions/utils/fetch';
+import {buildUrl} from '../../../../actions/utils/buildUrl';
 
 /** Default to this country code if none provided */
 const DefaultBtwCountry = 'BE';

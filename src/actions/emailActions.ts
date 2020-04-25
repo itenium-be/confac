@@ -1,7 +1,7 @@
 import request from 'superagent-bluebird-promise';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {EmailModel} from '../components/controls/email/EmailModels';
-import {buildUrl} from './utils/fetch';
+import {buildUrl} from './utils/buildUrl';
 import {success, failure} from './appActions';
 import {t} from '../components/utils';
 import {ACTION_TYPES} from './utils/ActionTypes';
