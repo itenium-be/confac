@@ -12,7 +12,7 @@ import {PropertiesSelect} from '../select/PropertiesSelect';
 import {MoneyInput} from '../inputs/MoneyInput';
 import {Switch} from '../Switch';
 import {ClientSelect} from '../../../client/controls/ClientSelect';
-// import {ClientSelectWithCreateModal} from '../../../client/controls/ClientSelectWithCreateModal';
+import {ClientSelectWithCreateModal} from '../../../client/controls/ClientSelectWithCreateModal';
 import {FloatInput} from '../inputs/FloatInput';
 import {StringsSelect} from '../select/StringsSelect';
 import {BtwInput} from '../inputs/BtwInput';
@@ -29,45 +29,46 @@ import {EditProjectClient, EditProjectPartner} from '../../../project/controls/E
 import {ConsultantSelectWithCreateModal} from '../../../consultant/controls/ConsultantSelectWithCreateModal';
 
 
-const componentMap = {
-  // Standard
-  number: NumericInput,
-  money: MoneyInput,
-  text: StringInput,
-  textarea: TextareaInput,
-  switch: Switch,
-  float: FloatInput,
-  bool: CheckboxInput,
-  date: DatePicker,
-
-  // Specialized
-  'basic-math': BasicMathInput,
-  email: EmailInput,
-  phone: PhoneInput,
-  website: WebsiteInput,
-  btw: BtwInput,
-  iban: IbanInput,
-  TextEditor,
-
-  // Custom
-  InvoiceLineTypeSelect,
-  ProjectLineTypeSelect,
-  InvoiceDateStrategySelect,
-  PropertiesSelect,
-  ExtraFields: ExtraFieldsInput,
-  ClientSelect,
-  // ClientSelectWithCreateModal,
-  StringsSelect,
-  AttachmentsTypeSelect,
-  ConsultantTypeSelect,
-  EditProjectClient,
-  EditProjectPartner,
-  ConsultantSelectWithCreateModal,
-  InvoiceReplacementsInput,
-  InvoiceReplacementsTextEditor,
-};
-
 export function getComponent(col: FormConfig) {
+  const componentMap = {
+    // Standard
+    number: NumericInput,
+    money: MoneyInput,
+    text: StringInput,
+    textarea: TextareaInput,
+    switch: Switch,
+    float: FloatInput,
+    bool: CheckboxInput,
+    date: DatePicker,
+
+    // Specialized
+    'basic-math': BasicMathInput,
+    email: EmailInput,
+    phone: PhoneInput,
+    website: WebsiteInput,
+    btw: BtwInput,
+    iban: IbanInput,
+    TextEditor,
+
+    // Custom
+    InvoiceLineTypeSelect,
+    ProjectLineTypeSelect,
+    InvoiceDateStrategySelect,
+    PropertiesSelect,
+    ExtraFields: ExtraFieldsInput,
+    ClientSelect,
+    ClientSelectWithCreateModal,
+    StringsSelect,
+    AttachmentsTypeSelect,
+    ConsultantTypeSelect,
+    EditProjectClient,
+    EditProjectPartner,
+    ConsultantSelectWithCreateModal,
+    InvoiceReplacementsInput,
+    InvoiceReplacementsTextEditor,
+  };
+
+
   if (typeof col.component === 'string') {
     if (componentMap[col.component]) {
       return componentMap[col.component];
