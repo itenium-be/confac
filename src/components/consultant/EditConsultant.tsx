@@ -23,7 +23,9 @@ export const EditConsultant = (props: EditConsultantProps) => {
   const dispatch = useDispatch();
   const model = useSelector((state: ConfacState) => state.consultants.find(c => c.slug === props.match.params.id));
   const [consultant, setConsultant] = useState<ConsultantModel>(model || getNewConsultant());
-  useDocumentTitle('consultantEdit', {name: `${consultant.firstName} ${consultant.name}`});
+
+  const docTitle = consultant._id ? 'consultantEdit' : 'consultantNew';
+  useDocumentTitle(docTitle, {name: `${consultant.firstName} ${consultant.name}`});
 
   if (model && !consultant._id) {
     setConsultant(model);

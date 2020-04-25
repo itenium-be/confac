@@ -72,8 +72,14 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
   componentDidMount() {
     // TODO: When converting this to a functional component, also update the title:
     // "#Nr clientName (consultantName) YYYY-MM" (YYYY-MM of projectMonth.date)
-    const name = t(this.isQuotation ? 'quotation.pdfName' : 'invoice.invoice');
-    document.title = getDocumentTitle(`${name} #${this.state.invoice.number}`);
+    let docTitle: string;
+    if (this.state.invoice._id) {
+      const name = t(this.isQuotation ? 'quotation.pdfName' : 'invoice.invoice');
+      docTitle = `${name} #${this.state.invoice.number}`;
+    } else {
+      docTitle = t(this.isQuotation ? 'titles.quotationNew' : 'titles.invoiceNew');
+    }
+    document.title = getDocumentTitle(docTitle);
     window.scrollTo(0, 0);
   }
 
