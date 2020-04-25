@@ -29,7 +29,7 @@ export const EnhanceWithBusySpinner = <P extends object>(ComposedComponent: Reac
   render() {
     const {isBusy, onClick, model, ...props} = this.props;
     if (isBusy && this.state.isBusy) {
-      return <SpinnerIcon style={{marginLeft: 0}} data-tst={this.props['data-tst']} />;
+      return <SpinnerIcon style={{marginLeft: 0}} />;
     }
 
     const realOnclick = () => {

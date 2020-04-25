@@ -57,7 +57,6 @@ export const EditConsultant = (props: EditConsultantProps) => {
         <BusyButton
           onClick={() => dispatch(saveConsultant(consultant))}
           disabled={isButtonDisabled()}
-          data-tst="save"
         >
           {t('save')}
         </BusyButton>

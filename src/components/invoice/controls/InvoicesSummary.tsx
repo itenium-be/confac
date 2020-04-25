@@ -11,9 +11,9 @@ type InvoiceAmountLabelProps = {
 export const InvoiceAmountLabel = ({invoices, isQuotation, ...props}: InvoiceAmountLabelProps) => {
   const type = isQuotation ? 'quotation' : 'invoice';
   if (invoices.length === 1) {
-    return <span data-tst={props['data-tst']}>{t(type + '.amountOne')}</span>; //eslint-disable-line
+    return <span>{t(type + '.amountOne')}</span>; //eslint-disable-line
   }
-  return <span data-tst={props['data-tst']}>{invoices.length} {t(type + '.amount').toLowerCase()}</span>; //eslint-disable-line
+  return <span>{invoices.length} {t(type + '.amount').toLowerCase()}</span>; //eslint-disable-line
 };
 
 
@@ -40,13 +40,12 @@ export const InvoicesSummary = ({invoices, ...props}: InvoicesSummaryProps) => {
   tooltip += '<br>';
   tooltip += `${t('invoice.total')}: ${moneyFormat(money.total)}`;
 
-  const tst = props['data-tst']; //eslint-disable-line
   return (
     <Tooltip title={tooltip} mouseEnterDelay={0}>
       <div>
-        <InvoiceAmountLabel invoices={invoices} data-tst={`${tst}-amount`} isQuotation={false} />
+        <InvoiceAmountLabel invoices={invoices} isQuotation={false} />
         <br />
-        <span data-tst={`${tst}-total`}>{moneyFormat(money.total)}</span>
+        <span>{moneyFormat(money.total)}</span>
       </div>
     </Tooltip>
   );

@@ -44,7 +44,6 @@ export const EnhanceWithConfirmation = <P extends object>(ComposedComponent: Rea
               title={title}
               buttons={buttons}
               onHide={() => this.setState({popupActive: false})}
-              data-tst={`${props['data-tst']}-popup`}
             >
               {children}
             </Popup>

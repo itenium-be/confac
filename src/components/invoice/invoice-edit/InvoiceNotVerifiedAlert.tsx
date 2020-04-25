@@ -38,7 +38,7 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
     const daysOpen = moment().diff(invoice.date, 'days');
     return (
       <div>
-        <Alert variant={variant} onClose={() => this.setState({dismissed: true})} dismissible data-tst="invoice-verify-alert">
+        <Alert variant={variant} onClose={() => this.setState({dismissed: true})} dismissible>
 
           {!invoice.lastEmail && <NotEmailedIcon style={{marginRight: 10, fontSize: 13, marginTop: -6}} />}
 
@@ -47,7 +47,6 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
             onClick={() => toggleInvoiceVerify(invoice)}
             size="sm"
             style={{marginTop: -5, marginRight: 10, textTransform: 'uppercase'}}
-            data-tst="invoice-verify"
           >
             {t('invoice.verifyAction')}
           </BusyButton>

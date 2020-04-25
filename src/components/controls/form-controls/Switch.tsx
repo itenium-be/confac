@@ -11,7 +11,6 @@ export const Switch = ({value, onChange, label, style, ...props}: SwitchProps) =
     <ReactSwitch
       checked={value || false}
       onChange={onChange}
-      className={props['data-tst']}
       {...props}
     />
     <span style={{position: 'absolute', left: 60, bottom: 10, whiteSpace: 'nowrap'}}>{label}</span>

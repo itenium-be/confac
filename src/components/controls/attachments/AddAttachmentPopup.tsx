@@ -48,23 +48,21 @@ const AddAttachmentPopupComponent = (props: AddAttachmentPopupProps) => {
         onClick={() => setIsModalOpen(true)}
         label={t('invoice.attachmentsAdd')}
         size={1}
-        data-tst="add-attachment"
       />
 
       {isModalOpen && (
-      <Popup title={t('invoice.attachmentsAdd')} buttons={buttons} onHide={() => setIsModalOpen(false)} data-tst="add-att">
+      <Popup title={t('invoice.attachmentsAdd')} buttons={buttons} onHide={() => setIsModalOpen(false)}>
         <FormGroup>
           <FormLabel>{t('attachment.type')}</FormLabel>
           <SimpleCreatableSelect
             value={type}
             options={props.attachmentTypes}
             onChange={(text: string) => setType(text)}
-            data-tst="add-att-type"
           />
         </FormGroup>
 
         {!canAddFile && type ? (
-          <Alert variant="danger" data-tst="add-att-type-warning">{t('attachment.typeExists')}</Alert>
+          <Alert variant="danger">{t('attachment.typeExists')}</Alert>
         ) : null}
 
         {canAddFile && type

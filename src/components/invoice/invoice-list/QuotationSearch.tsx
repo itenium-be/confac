@@ -33,7 +33,6 @@ export class QuotationSearch extends Component<QuotationSearchProps> {
             onChange={(value: InvoiceFiltersSearch[]) => this.onFilterChange({search: value})}
             value={search}
             options={this.props.filterOptions}
-            data-tst="filter-all"
           />
         </Col>
       </Row>

@@ -48,7 +48,7 @@ export const EditInvoiceClient = (props: EditInvoiceClientProps) => {
           <Col md={6}>
             <div style={dottedCellStyle}>
               <h4>{t('invoice.totalTitle')}</h4>
-              <InvoiceTotal {...invoice.money} data-tst="invoice-total" />
+              <InvoiceTotal {...invoice.money} />
             </div>
           </Col>
         </Row>

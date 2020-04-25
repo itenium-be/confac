@@ -23,7 +23,7 @@ const EditInvoiceDeleteLineIcon = (props: EditInvoiceLineIconsProps) => {
     return null;
   }
 
-  return <DeleteIcon onClick={() => onChange(invoice.removeLine(index))} data-tst={`line-${index}-delete`} />;
+  return <DeleteIcon onClick={() => onChange(invoice.removeLine(index))} />;
 };
 
 

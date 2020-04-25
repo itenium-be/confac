@@ -132,7 +132,6 @@ class EditClient extends Component<EditClientProps, EditClientState> {
           <BusyButton
             onClick={() => this._onSave()}
             disabled={this.isClientDisabled(client)}
-            data-tst="save"
           >
             {t('save')}
           </BusyButton>

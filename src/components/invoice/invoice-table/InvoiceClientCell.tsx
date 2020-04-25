@@ -57,7 +57,6 @@ export const InvoiceClientCell = connect((state: ConfacState) => ({
             style={{marginLeft: 8, color: 'grey', visibility: this.state.hover ? 'unset' : 'hidden'}}
             client={client}
             onClick={() => this.setState({modal: true})}
-            data-tst="edit"
             fa="fa fa-external-link-alt"
           />
 

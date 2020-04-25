@@ -44,7 +44,6 @@ export const HeaderWithEditIcon = ({label, onEditClick, children, editIconVisibl
               title=""
               size={1}
               style={{display: 'inline', marginLeft: 10}}
-              data-tst="open-header-icon"
             />
           )}
         </small>

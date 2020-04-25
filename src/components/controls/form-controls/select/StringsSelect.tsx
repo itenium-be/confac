@@ -32,7 +32,6 @@ export const StringsSelect = EnhanceInputWithLabel(({value = [], onChange, optio
     noOptionsMessage={() => t('controls.noOptionsMessage')}
     formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
     placeholder={t('controls.selectPlaceholder')}
-    className={`tst-${props['data-tst']}`}
     options={(options || []).map(o => ({label: o, value: o}))}
     {...props}
   />

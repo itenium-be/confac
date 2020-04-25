@@ -48,7 +48,6 @@ export const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component
         noOptionsMessage={() => t('controls.noResultsText')}
         formatCreateLabel={value => t('controls.addFilterText', {value})}
         placeholder={t('invoice.search.placeholder')}
-        className={`tst-${this.props['data-tst']}`}
       />
     );
   }

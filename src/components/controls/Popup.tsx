@@ -42,7 +42,6 @@ export class Popup extends Component<PopupProps> {
                 variant={button.variant}
                 onClick={button.onClick}
                 disabled={button.disabled || false}
-                data-tst={`${this.props['data-tst']}-btn-${i}`}
               >
                 {button.text}
               </UsedButton>

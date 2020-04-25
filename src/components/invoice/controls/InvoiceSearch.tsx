@@ -41,7 +41,6 @@ export class InvoiceSearch extends Component<InvoiceSearchProps> {
             onChange={(value: InvoiceFiltersSearch[]) => this.onFilterChange({search: value})}
             value={search}
             options={this.props.filterOptions}
-            data-tst="filter-all"
           />
         </Col>
 
@@ -99,7 +98,6 @@ const InvoiceSearchAdvanced = (props: InvoiceSearchAdvancedProps) => {
               value={props.groupedByMonth}
               onChange={(checked: boolean) => props.onGroupedByMonthCange(checked)}
               label={t('invoice.groupByMonth')}
-              data-tst="filter-groupedByMonth"
             />
           </Col>
         </Row>

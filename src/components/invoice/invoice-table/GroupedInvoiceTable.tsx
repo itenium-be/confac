@@ -37,7 +37,6 @@ export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
   const invoicesPerMonth = groupInvoicesPerMonth(invoices).sort((a, b) => b.key.localeCompare(a.key));
 
   const hideBorderStyle = {borderBottom: 0, borderTop: 0};
-  const tst = (key, key2) => `invoice-${key}-${key2}`;
 
   return (
     <Table size="sm" style={{marginTop: 10}}>
@@ -60,10 +59,10 @@ export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
             <tr style={{...hideBorderStyle, height: 60}}>
               <td style={hideBorderStyle}>&nbsp;</td>
               <td colSpan={featureConfig.list.rows.cells.length - 1}>
-                <strong><InvoiceAmountLabel invoices={invoiceList} data-tst={tst(key, 'invoices')} isQuotation={vm.isQuotation} /></strong>
+                <strong><InvoiceAmountLabel invoices={invoiceList} isQuotation={vm.isQuotation} /></strong>
               </td>
-              <td><strong><InvoiceWorkedDays invoices={invoiceList} data-tst={tst(key, 'days')} /></strong></td>
-              <td><InvoicesTotal invoices={invoiceList} totalOnly data-tst={tst(key, 'money')} /></td>
+              <td><strong><InvoiceWorkedDays invoices={invoiceList} /></strong></td>
+              <td><InvoicesTotal invoices={invoiceList} totalOnly /></td>
               <td>&nbsp;</td>
             </tr>
           </tbody>

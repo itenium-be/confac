@@ -60,7 +60,6 @@ export default class EditInvoiceLines extends Component<EditInvoiceLinesProps, E
                   title=""
                   size={1}
                   onClick={() => this.setState({notesVisible: !notesVisible})}
-                  data-tst="line-notes-toggle"
                 />
               </div>
             </th>
@@ -94,7 +93,7 @@ export default class EditInvoiceLines extends Component<EditInvoiceLinesProps, E
         <tbody>
           <tr>
             <td colSpan={nrOfColumns}>
-              <AddIcon onClick={() => onChange(invoice.addLine())} label={tp('.addLine')} size={1} data-tst="line-add" />
+              <AddIcon onClick={() => onChange(invoice.addLine())} label={tp('.addLine')} size={1} />
             </td>
           </tr>
         </tbody>

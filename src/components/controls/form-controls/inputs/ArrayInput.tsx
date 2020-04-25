@@ -78,7 +78,6 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
             label={label === '' ? null : (label && t(label)) || t(tPrefix + key)}
             value={value}
             onChange={(val: any) => realOnChange(val)}
-            data-tst={tPrefix + key}
             prefix={getAddix(prefix)}
             suffix={getAddix(suffix)}
             {...props}

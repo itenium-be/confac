@@ -216,7 +216,6 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                     placeholder={t('invoice.discountPlaceholder')}
                     value={invoice.discount}
                     onChange={value => this.updateInvoice('discount', value, true)}
-                    data-tst="invoice.discount"
                   />
                 </Col>
                 <Col>

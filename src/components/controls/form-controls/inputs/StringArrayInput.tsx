@@ -18,7 +18,6 @@ export const StringArrayInput = ({keys, model, onChange, tPrefix}: StringArrayIn
           label={t(tPrefix + key)}
           value={model[key]}
           onChange={(value: string) => onChange({...model, [key]: value})}
-          data-tst={tPrefix + key}
         />
       </Col>
     ))}

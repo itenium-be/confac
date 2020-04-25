@@ -26,7 +26,6 @@ export const AdvancedAttachmentDropzone = (
             <AttachmentDownloadIcon
               attachment={attachment}
               downloadUrl={downloadUrl('download', attachment)}
-              data-tst={`att-download-${attachment.type}`}
             />
           </div>
           <div className="info">
@@ -40,7 +39,6 @@ export const AdvancedAttachmentDropzone = (
             <ConfirmedDeleteIcon
               title={t('attachment.deleteTitle')}
               onClick={() => onDelete(attachment)}
-              data-tst={`att-delete-${attachment.type}`}
               size={1}
             >
               {t('attachment.deletePopup')}

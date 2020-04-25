@@ -28,7 +28,6 @@ export const SimpleCreatableSelect = ({options, value, onChange, isClearable = f
       noOptionsMessage={() => t('controls.noResultsText')}
       formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
       placeholder={t('controls.selectPlaceholder')}
-      className={`tst-${props['data-tst']}`}
     />
   );
 };

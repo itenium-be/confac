@@ -149,7 +149,6 @@ export function getInvoiceColumns(includeFields: string[], transPrefix: string):
       <InvoiceWorkedDays
         invoices={[invoice]}
         display="invoice"
-        data-tst="invoice-days"
       />
     ),
     footer: invoices => <InvoiceWorkedDays invoices={invoices} />,

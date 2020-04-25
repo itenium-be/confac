@@ -19,11 +19,10 @@ export const EditInvoiceDetails = ({invoice, onChange}: EditInvoiceDetailsProps)
     <>
       <Col sm={5}>
         <NumericInput
-          prefix={invoice.verified && <VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} data-tst="is-verified" />}
+          prefix={invoice.verified && <VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} />}
           label={tp('.number')}
           value={invoice.number}
           onChange={value => onChange('number', value)}
-          data-tst="invoice.number"
         />
       </Col>
       <Col sm={7}>
@@ -31,7 +30,6 @@ export const EditInvoiceDetails = ({invoice, onChange}: EditInvoiceDetailsProps)
           label={tp('.date')}
           value={invoice.date}
           onChange={value => onChange('date', value)}
-          data-tst="invoice.date"
         />
       </Col>
 
@@ -40,7 +38,6 @@ export const EditInvoiceDetails = ({invoice, onChange}: EditInvoiceDetailsProps)
           label={t('invoice.orderNr')}
           value={invoice.orderNr}
           onChange={value => onChange('orderNr', value)}
-          data-tst="invoice.orderNr"
         />
       </Col>
       <Col sm={7}>

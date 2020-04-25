@@ -18,7 +18,6 @@ export const BaseSelect = EnhanceInputWithLabel((props: BaseSelect) => (
   <Select
     noOptionsMessage={() => t('controls.noResultsText')}
     placeholder={t('controls.selectPlaceholder')}
-    className={`tst-${props['data-tst']}`}
     {...props}
   />
 ));

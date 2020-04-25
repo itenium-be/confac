@@ -35,7 +35,7 @@ const EditConfig = (props: EditConfigProps) => {
         </Row>
       </Form>
       <StickyFooter>
-        <BusyButton onClick={() => props.updateConfig(state)} data-tst="save">{t('save')}</BusyButton>
+        <BusyButton onClick={() => props.updateConfig(state)}>{t('save')}</BusyButton>
       </StickyFooter>
     </Container>
   );
