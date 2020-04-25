@@ -1,6 +1,6 @@
 import {CSSProperties} from 'react';
 import {InputIcons} from './components/controls/form-controls/lib/IconFactory';
-import {StandardComponents} from './components/controls/form-controls/lib/EditComponentFactory';
+import {StandardComponents} from './components/controls/form-controls/lib/ComponentsTypes';
 import {ConsultantListFilters, ClientListFilters, InvoiceListFilters,
   ProjectListFilters, ProjectMonthListFilters} from './components/controls/table/table-models';
 

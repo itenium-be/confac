@@ -27,12 +27,6 @@ import {DatePicker} from '../DatePicker';
 import {EditProjectClient, EditProjectPartner} from '../../../project/controls/EditProjectClient';
 import {ConsultantSelectWithCreateModal} from '../../../consultant/controls/ConsultantSelectWithCreateModal';
 
-export type CustomComponents = 'InvoiceLineTypeSelect' | 'ProjectLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect'
-  | 'ExtraFields' | 'StringsSelect' | 'ClientSelect' | 'ConsultantTypeSelect' | 'EditProjectClient'
-  | 'ConsultantSelectWithCreateModal' | 'InvoiceReplacementsInput' | 'InvoiceReplacementsTextEditor';
-
-export type StandardComponents = 'number' | 'text' | 'textarea' | 'basic-math' | 'switch'
-  | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban' | 'textEditor' | 'bool' | 'date';
 
 const componentMap = {
   // Standard
