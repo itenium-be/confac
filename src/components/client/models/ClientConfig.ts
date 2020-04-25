@@ -31,7 +31,7 @@ export const defaultClientProperties: FullFormConfig = [
   {key: 'email.cc', component: 'email', cols: 6},
   {key: 'email.bcc', component: 'email', cols: 6},
   {key: 'email.subject', component: 'InvoiceReplacementsInput', cols: 12},
-  {key: 'email.body', component: 'TextEditor', cols: 12, label: ''},
+  {key: 'email.body', component: 'InvoiceReplacementsTextEditor', cols: 12, label: ''},
   {key: 'email.combineAttachments', component: 'bool'},
 ];
 

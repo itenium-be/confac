@@ -6,9 +6,11 @@ import htmlToDraft from 'html-to-draftjs';
 import draftToHtml from 'draftjs-to-html';
 import {BaseInputProps} from './BaseInput';
 import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
-import {InvoiceTextEditorReplacements} from '../../../invoice/invoice-filename-replacements';
 
-type TextEditorProps = BaseInputProps<string>;
+type TextEditorProps = BaseInputProps<string> & {
+  getToolbarCustomButtons?: (editorState: EditorState) => JSX.Element[]
+};
+
 type TextEditorState = {
   editorState: EditorState,
   defaultValue: string,
@@ -51,6 +53,7 @@ class TextEditorComponent extends Component<TextEditorProps, TextEditorState> {
 
   render() {
     const {editorState} = this.state;
+    const toolbarCustomButtons = this.props.getToolbarCustomButtons && this.props.getToolbarCustomButtons(editorState);
     return (
       <div style={{height: 300, overflowY: 'auto'}} className="form-control">
         <Editor
@@ -63,7 +66,7 @@ class TextEditorComponent extends Component<TextEditorProps, TextEditorState> {
             list: {inDropdown: true},
             textAlign: {inDropdown: true},
           }}
-          toolbarCustomButtons={[<InvoiceTextEditorReplacements editorState={editorState} />]}
+          toolbarCustomButtons={toolbarCustomButtons}
           editorState={editorState}
           wrapperClassName="demo-wrapper"
           editorClassName="demo-editor"

@@ -4,7 +4,7 @@ import {t} from '../../utils';
 import {Icon} from '../../controls/Icon';
 import {InvoicePreviewIcon} from '../../controls/attachments/AttachmentDownloadIcon';
 import InvoiceModel from '../models/InvoiceModel';
-import {invoiceReplacements} from '../invoice-filename-replacements';
+import {invoiceReplacements} from '../invoice-replacements';
 
 type DownloadInvoiceButtonProps = {
   invoice: InvoiceModel;

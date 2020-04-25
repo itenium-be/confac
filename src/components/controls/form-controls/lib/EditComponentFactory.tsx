@@ -7,6 +7,7 @@ import {InvoiceLineTypeSelect, ProjectLineTypeSelect} from '../../../invoice/con
 import {ConsultantTypeSelect} from '../../../consultant/controls/ConsultantTypeSelect';
 import {InvoiceDateStrategySelect} from '../../../invoice/controls/InvoiceDateStrategySelect';
 import {InvoiceReplacementsInput} from '../../../invoice/controls/InvoiceReplacementsInput';
+import {InvoiceReplacementsTextEditor} from '../../../invoice/controls/InvoiceReplacementsTextEditor';
 import {PropertiesSelect} from '../select/PropertiesSelect';
 import {MoneyInput} from '../inputs/MoneyInput';
 import {Switch} from '../Switch';
@@ -28,7 +29,7 @@ import {ConsultantSelectWithCreateModal} from '../../../consultant/controls/Cons
 
 export type CustomComponents = 'InvoiceLineTypeSelect' | 'ProjectLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect'
   | 'ExtraFields' | 'StringsSelect' | 'ClientSelect' | 'ConsultantTypeSelect' | 'EditProjectClient'
-  | 'ConsultantSelectWithCreateModal' | 'InvoiceReplacementsInput';
+  | 'ConsultantSelectWithCreateModal' | 'InvoiceReplacementsInput' | 'InvoiceReplacementsTextEditor';
 
 export type StandardComponents = 'number' | 'text' | 'textarea' | 'basic-math' | 'switch'
   | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban' | 'textEditor' | 'bool' | 'date';
@@ -67,6 +68,7 @@ const componentMap = {
   EditProjectPartner,
   ConsultantSelectWithCreateModal,
   InvoiceReplacementsInput,
+  InvoiceReplacementsTextEditor,
 };
 
 export function getComponent(col: FormConfig) {

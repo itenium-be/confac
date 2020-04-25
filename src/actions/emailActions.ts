@@ -5,7 +5,7 @@ import {buildUrl} from './utils/fetch';
 import {success, failure} from './appActions';
 import {t} from '../components/utils';
 import {ACTION_TYPES} from './utils/ActionTypes';
-import {invoiceReplacements} from '../components/invoice/invoice-filename-replacements';
+import {invoiceReplacements} from '../components/invoice/invoice-replacements';
 
 export function sendEmail(invoice: InvoiceModel, email: EmailModel) {
   return dispatch => {

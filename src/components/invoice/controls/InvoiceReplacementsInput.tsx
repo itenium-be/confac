@@ -3,7 +3,7 @@ import {OverlayTrigger, Popover} from 'react-bootstrap';
 import {BaseInput, BaseInputProps} from '../../controls/form-controls/inputs/BaseInput';
 import {Icon} from '../../controls/Icon';
 import {t} from '../../utils';
-import {invoiceReplacementsPopoverConfig} from '../invoice-filename-replacements';
+import {invoiceReplacementsPopoverConfig} from '../invoice-replacements';
 
 type InvoiceReplacementsInputProps = BaseInputProps<string>;
 

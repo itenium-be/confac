@@ -27,7 +27,7 @@ import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {projectMonthResolve} from '../../project/ProjectMonthsLists';
 import {FullProjectMonthModel} from '../../project/models/ProjectMonthModel';
 import {ConsultantSelect} from '../../consultant/controls/ConsultantSelect';
-import {invoiceReplacements} from '../invoice-filename-replacements';
+import {invoiceReplacements} from '../invoice-replacements';
 
 
 type EditInvoiceProps = {
