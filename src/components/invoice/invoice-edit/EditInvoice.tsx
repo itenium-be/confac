@@ -25,7 +25,7 @@ import {getDocumentTitle} from '../../hooks/useDocumentTitle';
 import {InvoiceAttachmentsForm} from '../controls/InvoiceAttachmentsForm';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {projectMonthResolve} from '../../project/ProjectMonthsLists';
-import {FullProjectMonthModel} from '../../project/models/ProjectMonthModel';
+import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
 import {ConsultantSelect} from '../../consultant/controls/ConsultantSelect';
 import {invoiceReplacements} from '../invoice-replacements';
 

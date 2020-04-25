@@ -1,8 +1,5 @@
 import {Moment} from 'moment';
-import {ProjectModel} from './ProjectModel';
-import {ConsultantModel, ConsultantType} from '../../consultant/models/ConsultantModel';
-import {ClientModel} from '../../client/models/ClientModels';
-import InvoiceModel from '../../invoice/models/InvoiceModel';
+import {ConsultantType} from '../../consultant/models/ConsultantModel';
 import {Attachment} from '../../../models';
 
 export interface ProjectMonthModel {
@@ -49,18 +46,6 @@ export interface ProjectMonthTimesheet {
   /** Some contextual info */
   note?: string;
 }
-
-/** ProjectMonthModel with _ids resolved */
-export type FullProjectMonthModel = {
-  /** The ProjectMonth._id */
-  _id: string;
-  details: ProjectMonthModel;
-  project: ProjectModel;
-  consultant: ConsultantModel;
-  client: ClientModel;
-  partner?: ClientModel;
-  invoice?: InvoiceModel;
-};
 
 
 /** Configuration for the ProjectMonth process (this is a property of ProjectModel) */

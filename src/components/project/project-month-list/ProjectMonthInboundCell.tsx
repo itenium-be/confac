@@ -1,7 +1,8 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import cn from 'classnames';
-import {FullProjectMonthModel, ProjectMonthInbound, ProjectMonthInboundStatus} from '../models/ProjectMonthModel';
+import {ProjectMonthInbound, ProjectMonthInboundStatus} from '../models/ProjectMonthModel';
+import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {getNewProjectMonthInbound} from '../models/getNewProject';
 import {moneyFormat, t} from '../../utils';

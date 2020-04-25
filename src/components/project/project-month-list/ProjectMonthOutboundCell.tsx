@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-
-import {FullProjectMonthModel} from '../models/ProjectMonthModel';
+import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import {createInvoice, patchProjectsMonth, deleteProjectMonthAttachmentDetails} from '../../../actions';
 import {Button} from '../../controls/form-controls/Button';
 import {Icon} from '../../controls/Icon';

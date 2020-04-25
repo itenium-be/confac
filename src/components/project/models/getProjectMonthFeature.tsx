@@ -3,7 +3,7 @@ import React from 'react';
 import {IList, IListCell, ProjectMonthListFilters} from '../../controls/table/table-models';
 import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
-import {FullProjectMonthModel} from './ProjectMonthModel';
+import {FullProjectMonthModel} from './FullProjectMonthModel';
 import {t, searchinize} from '../../utils';
 import {ProjectMonthTimesheetCell} from '../project-month-list/ProjectMonthTimesheetCell';
 import {ProjectMonthConsultantCell} from '../project-month-list/ProjectMonthConsultantCell';

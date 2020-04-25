@@ -12,6 +12,7 @@ import {PropertiesSelect} from '../select/PropertiesSelect';
 import {MoneyInput} from '../inputs/MoneyInput';
 import {Switch} from '../Switch';
 import {ClientSelect} from '../../../client/controls/ClientSelect';
+// import {ClientSelectWithCreateModal} from '../../../client/controls/ClientSelectWithCreateModal';
 import {FloatInput} from '../inputs/FloatInput';
 import {StringsSelect} from '../select/StringsSelect';
 import {BtwInput} from '../inputs/BtwInput';
@@ -55,6 +56,7 @@ const componentMap = {
   PropertiesSelect,
   ExtraFields: ExtraFieldsInput,
   ClientSelect,
+  // ClientSelectWithCreateModal,
   StringsSelect,
   AttachmentsTypeSelect,
   ConsultantTypeSelect,

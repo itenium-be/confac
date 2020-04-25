@@ -7,7 +7,7 @@ import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import {ConfacState} from '../../../reducers/app-state';
 import {SelectItem} from '../../../models';
 import {projectMonthResolve, displayMonthWithYear} from '../ProjectMonthsLists';
-import {FullProjectMonthModel} from '../models/ProjectMonthModel';
+import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
 
 

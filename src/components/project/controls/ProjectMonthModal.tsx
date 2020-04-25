@@ -2,7 +2,7 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
 import moment from 'moment';
-import {FullProjectMonthModel} from '../models/ProjectMonthModel';
+import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import {Icon} from '../../controls/Icon';
 import {formatDate, t} from '../../utils';
 import {Modal} from '../../controls/Modal';
