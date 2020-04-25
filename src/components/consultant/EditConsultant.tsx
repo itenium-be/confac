@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
+import {useHistory} from 'react-router-dom';
 import {ConfacState} from '../../reducers/app-state';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
@@ -20,6 +21,7 @@ interface EditConsultantProps {
 
 
 export const EditConsultant = (props: EditConsultantProps) => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const model = useSelector((state: ConfacState) => state.consultants.find(c => c.slug === props.match.params.id));
   const [consultant, setConsultant] = useState<ConsultantModel>(model || getNewConsultant());
@@ -57,7 +59,7 @@ export const EditConsultant = (props: EditConsultantProps) => {
       </Form>
       <StickyFooter>
         <BusyButton
-          onClick={() => dispatch(saveConsultant(consultant))}
+          onClick={() => dispatch(saveConsultant(consultant, undefined, history))}
           disabled={isButtonDisabled()}
         >
           {t('save')}

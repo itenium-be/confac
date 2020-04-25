@@ -6,10 +6,11 @@ import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
 
 
-export function saveConsultant(consultant: ConsultantModel, callback?: (savedConsultant: ConsultantModel) => void) {
+export function saveConsultant(consultant: ConsultantModel, callback?: (savedConsultant: ConsultantModel) => void, history?: any) {
   return dispatch => {
     dispatch(busyToggle());
-    return request.post(buildUrl('/consultants'))
+    return request
+      .post(buildUrl('/consultants'))
       .set('Content-Type', 'application/json')
       .send(consultant)
       .then(response => {
@@ -18,6 +19,9 @@ export function saveConsultant(consultant: ConsultantModel, callback?: (savedCon
           consultant: response.body,
         });
         success(t('config.popupMessage'));
+        if (history) {
+          history.push('/consultants');
+        }
         if (callback) {
           callback(response.body);
         }
