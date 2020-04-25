@@ -1,11 +1,13 @@
 import React from 'react';
-
 import {Attachment} from '../../../models';
 import {AttachmentDownloadIcon, AttachmentPreviewIcon} from './AttachmentDownloadIcon';
-import {ConfirmedDeleteIcon} from '../Icon';
 import {t} from '../../utils';
 import {AttachmentDropzone} from './AttachmentDropzone';
+import {ConfirmedDeleteIcon} from '../icons/DeleteIcon';
+
+
 import './attachments.scss';
+
 
 type AttachmentFormProps = {
   attachment?: Attachment;

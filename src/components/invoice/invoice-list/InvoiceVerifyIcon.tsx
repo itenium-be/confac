@@ -4,7 +4,7 @@ import moment from 'moment';
 import t from '../../../trans';
 import {toggleInvoiceVerify} from '../../../actions/index';
 import InvoiceModel from '../models/InvoiceModel';
-import {BusyVerifyIcon} from '../../controls/Icon';
+import {BusyVerifyIcon} from '../../controls/icons/VerifyIcon';
 
 
 type InvoiceVerifyIconProps = {

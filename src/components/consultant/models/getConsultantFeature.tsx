@@ -6,7 +6,8 @@ import {IList, IListCell, ConsultantListFilters} from '../../controls/table/tabl
 import {t, searchinize} from '../../utils';
 import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
-import {DeleteIcon, EditIcon} from '../../controls/Icon';
+import {EditIcon} from '../../controls/Icon';
+import {DeleteIcon} from '../../controls/icons/DeleteIcon';
 
 
 export type ConsultantFeatureBuilderConfig = IFeatureBuilderConfig<ConsultantModel, ConsultantListFilters>;

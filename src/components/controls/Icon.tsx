@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import cn from 'classnames';
 import {Tooltip} from './Tooltip';
-import {EnhanceWithConfirmation, EnhanceWithBusySpinner} from '../enhancers/index';
 import t from '../../trans';
-import {ConfacState} from '../../reducers/app-state';
-import {ClientModel} from '../client/models/ClientModels';
 
 
 const EnhanceIconWithCenter = <P extends object>(EnhancedComponent: React.ComponentType<P>) => (
@@ -112,17 +108,8 @@ class IconComponent extends Component<IconProps> {
 }
 
 
-export const VerifyIcon = ({...props}: IconProps) => (
-  <Icon fa="fa fa-check" color="green" {...props} />
-);
-export const BusyVerifyIcon = connect((state: ConfacState) => ({isBusy: state.app.isBusy}))(EnhanceWithBusySpinner(VerifyIcon));
-
 export const SpinnerIcon = ({...props}: IconProps) => (
   <Icon fa="fa fa-spinner fa-pulse fa-fw" {...props} />
-);
-
-export const DeleteIcon = ({...props}: IconProps) => (
-  <Icon fa="fa fa-trash" size={props.size || 2} color="#CC1100" title={t('delete')} {...props} />
 );
 
 export const AddIcon = ({...props}: IconProps) => <Icon fa="fa fa-plus" {...props} />;
@@ -130,17 +117,6 @@ export const AddIcon = ({...props}: IconProps) => <Icon fa="fa fa-plus" {...prop
 export const DragAndDropIcon = ({...props}: IconProps) => <Icon fa="fa fa-arrows" color="#EEE9E9" {...props} />;
 
 export const EditIcon = ({...props}: IconProps) => <Icon fa="far fa-edit" title={t('edit')} {...props} />;
-
-type ClientEditIconProps = IconProps & {
-  client: ClientModel;
-}
-
-export const ClientEditIcon = ({client, ...props}: ClientEditIconProps) => {
-  if (props.onClick) {
-    return <EditIcon {...props} />;
-  }
-  return <EditIcon onClick={`/clients/${client.slug}`} {...props} />;
-};
 
 export const ExpandIcon = ({...props}: IconProps) => <Icon fa="fa fa-expand-arrows-alt" {...props} />;
 
@@ -150,5 +126,3 @@ export const NotEmailedIcon = ({...props}) => (
     <Icon fa="fas fa-ban fa-stack-2x" size={1} title={t('email.notMailed')} color="#CC1100" />
   </span>
 );
-
-export const ConfirmedDeleteIcon = EnhanceWithConfirmation(DeleteIcon);

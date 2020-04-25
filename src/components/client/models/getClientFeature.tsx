@@ -7,11 +7,12 @@ import {ClientModel} from './ClientModels';
 import {InvoiceWorkedDays} from '../../invoice/invoice-list/InvoiceWorkedDays';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
 import {InvoicesSummary} from '../../invoice/controls/InvoicesSummary';
-import {ClientEditIcon, DeleteIcon} from '../../controls/Icon';
+import {DeleteIcon} from '../../controls/icons/DeleteIcon';
 import {t} from '../../utils';
 import {searchClientForList} from './searchClientFor';
 import {getInvoiceYears} from '../../invoice/models/InvoiceListModel';
 import {YearsSelect} from '../../controls/form-controls/select/YearsSelect';
+import {ClientEditIcon} from '../controls/ClientEditIcon';
 
 
 export type ClientFeatureBuilderConfig = IFeatureBuilderConfig<ClientModel, ClientListFilters> & {

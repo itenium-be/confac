@@ -1,6 +1,7 @@
 import React from 'react';
 import InvoiceModel, {InvoiceLine} from '../../models/InvoiceModel';
-import {DeleteIcon, DragAndDropIcon} from '../../../controls/Icon';
+import {DragAndDropIcon} from '../../../controls/Icon';
+import {DeleteIcon} from '../../../controls/icons/DeleteIcon';
 
 
 type EditInvoiceLineIconsProps = {

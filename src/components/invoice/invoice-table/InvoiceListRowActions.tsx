@@ -1,11 +1,12 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import InvoiceModel from '../models/InvoiceModel';
-import {EditIcon, ConfirmedDeleteIcon} from '../../controls/Icon';
+import {EditIcon} from '../../controls/Icon';
 import {InvoiceVerifyIconToggle} from '../invoice-list/InvoiceVerifyIcon';
 import {InvoiceDownloadIcon, InvoicePreviewIcon} from '../../controls/attachments/AttachmentDownloadIcon';
 import {t} from '../../utils';
 import {deleteInvoice} from '../../../actions';
+import {ConfirmedDeleteIcon} from '../../controls/icons/DeleteIcon';
 
 
 type InvoiceListRowActionsProps = {

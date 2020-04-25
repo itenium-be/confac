@@ -2,8 +2,9 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {t} from '../../utils';
 import {ClientModel} from '../models/ClientModels';
-import {EditIcon, ClientEditIcon} from '../../controls/Icon';
+import {EditIcon} from '../../controls/Icon';
 import {HeaderWithEditIcon} from '../../controls/Headers';
+import {ClientEditIcon} from './ClientEditIcon';
 
 type ClientDetailsProps = {
   client: ClientModel;
