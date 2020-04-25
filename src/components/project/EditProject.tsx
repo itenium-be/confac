@@ -33,7 +33,7 @@ export const EditProject = (props: EditProjectProps) => {
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === project.client.clientId) || getNewClient());
 
   const docTitle = consultant._id ? 'projectEdit' : 'projectNew';
-  useDocumentTitle(docTitle, {consultant: `${consultant.firstName} ${consultant.name}`, client: client.name});
+  useDocumentTitle(docTitle, {consultant: consultant.firstName, client: client.name});
 
   const setProjectInterceptor = (value: ProjectModel) => {
     if (value.consultantId !== project.consultantId && consultants.length) {
