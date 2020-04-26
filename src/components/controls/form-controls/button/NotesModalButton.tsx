@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {MinimalInputProps} from '../inputs/BaseInput';
-import {Icon} from '../../Icon';
 import {Button} from '../Button';
 import {Modal} from '../../Modal';
 import {TextareaInput} from '../inputs/TextareaInput';
@@ -19,9 +18,12 @@ export const NotesModalButton = ({value, onChange, title}: NotesModalButtonProps
   const icon = !value ? 'far fa-comment' : 'far fa-comment-dots';
   return (
     <>
-      <Button size="md" onClick={() => setOpen(!open)} variant="outline-dark" title={text || t('projectMonth.addNote')}>
-        <Icon fa={icon} size={1} />
-      </Button>
+      <Button
+        onClick={() => setOpen(!open)}
+        variant="outline-dark"
+        title={text || t('projectMonth.addNote')}
+        icon={icon}
+      />
       {open && (
         <Modal
           show

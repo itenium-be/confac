@@ -1,5 +1,5 @@
 import React, {Component, useState} from 'react';
-import {Row, Col, ButtonGroup, Button} from 'react-bootstrap';
+import {Row, Col, ButtonGroup} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
 import {t} from '../../utils';
 import {InvoiceFiltersSearch, InvoiceFilters} from '../../../models';
@@ -7,8 +7,8 @@ import {InvoiceSearchSelect} from './InvoiceSearchSelect';
 import {SearchStringInput} from '../../controls/form-controls/inputs/SearchStringInput';
 import {downloadInvoicesZip, downloadInvoicesExcel} from '../../../actions';
 import InvoiceListModel from '../models/InvoiceListModel';
-import {Icon} from '../../controls/Icon';
 import {Switch} from '../../controls/form-controls/Switch';
+import {Button} from '../../controls/form-controls/Button';
 
 
 type InvoiceSearchProps = {
@@ -80,15 +80,24 @@ const InvoiceSearchAdvanced = (props: InvoiceSearchAdvancedProps) => {
     <>
       <Col xl={2} md={2}>
         <ButtonGroup style={{float: 'right'}}>
-          <Button variant="outline-secondary" onClick={downloadZip} title={t('invoice.listDownloadZip')}>
-            <Icon fa="fa fa-download" size={1} />
-          </Button>
-          <Button variant="outline-secondary" onClick={downloadExcel} title={t('invoice.listDownloadExcel')}>
-            <Icon fa="fa fa-file-excel" size={1} />
-          </Button>
-          <Button variant="outline-secondary" onClick={() => setOpen(!open)} title={t('invoice.listAdvancedFilters')}>
-            <Icon fa="fa fa-ellipsis-v" size={1} />
-          </Button>
+          <Button
+            variant="outline-secondary"
+            onClick={downloadZip}
+            title={t('invoice.listDownloadZip')}
+            icon="fa fa-download"
+          />
+          <Button
+            variant="outline-secondary"
+            onClick={downloadExcel}
+            title={t('invoice.listDownloadExcel')}
+            icon="fa fa-file-excel"
+          />
+          <Button
+            variant="outline-secondary"
+            onClick={() => setOpen(!open)}
+            title={t('invoice.listAdvancedFilters')}
+            icon="fa fa-ellipsis-v"
+          />
         </ButtonGroup>
       </Col>
       {open && (

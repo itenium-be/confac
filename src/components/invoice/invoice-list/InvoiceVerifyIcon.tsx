@@ -20,12 +20,14 @@ class InvoiceVerifyIcon extends Component<InvoiceVerifyIconProps> {
       return null;
     }
 
+    const daysPassed = moment().diff(invoice.createdOn, 'days');
+    const title = invoice.verified ? t('invoice.verifyAction') : t('invoice.verifyActionTooltip', {days: daysPassed});
     return (
       <BusyVerifyIcon
         model={invoice}
         style={{marginLeft: 8}}
         onClick={() => toggleInvoiceVerify(invoice)}
-        title={invoice.verified ? t('invoice.verifyAction') : t('invoice.verifyActionTooltip', {days: moment().diff(invoice.createdOn, 'days')})}
+        title={title}
         {...props}
       />
     );

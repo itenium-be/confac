@@ -1,9 +1,8 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container} from 'react-bootstrap';
-import moment from 'moment';
 import {ConfacState} from '../../reducers/app-state';
-import {updateAppFilters, patchProjectsMonth, projectsMonthOverviewUpload, deleteProjectsMonthOverview} from '../../actions';
+import {updateAppFilters, patchProjectsMonth} from '../../actions';
 import {ListPageHeader} from '../controls/table/ListPage';
 import {projectMonthFeature, ProjectMonthFeatureBuilderConfig} from './models/getProjectMonthFeature';
 import {FullProjectMonthModel} from './models/FullProjectMonthModel';
@@ -11,18 +10,17 @@ import {ProjectMonthModel} from './models/ProjectMonthModel';
 import {ProjectModel} from './models/ProjectModel';
 import {ConsultantModel} from '../consultant/models/ConsultantModel';
 import {ClientModel} from '../client/models/ClientModels';
-import {List} from '../controls/table/List';
 import {LinkToButton} from '../controls/form-controls/button/LinkToButton';
 import {CreateProjectsMonthModalButton} from './controls/CreateProjectsMonthModal';
 import {IFeature} from '../controls/feature/feature-models';
 import {ListFilters} from '../controls/table/table-models';
 import {t} from '../utils';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
+import {CollapsibleProjectMonthsList} from './project-month-list/ProjectMonthsList';
 
 
 import './project-month-list/project-month-list.scss';
-import {getDownloadUrl} from '../../actions/utils/download-helpers';
-import {AdvancedAttachmentDropzone} from '../controls/attachments/AdvancedAttachmentDropzone';
+
 
 /** Resolve ProjectModel _ids to their corresponding models */
 export function projectMonthResolve(projectMonth: ProjectMonthModel, state: ConfacState): FullProjectMonthModel {
@@ -103,8 +101,7 @@ export const ProjectMonthsLists = () => {
 
     return (
       <div key={month}>
-        <ProjectMonthsList feature={f} />
-        {uniqueMonths.length - 1 !== index && <hr className="list-separator" />}
+        <CollapsibleProjectMonthsList feature={f} defaultOpen={index === 0} />
       </div>
     );
   });
@@ -115,53 +112,5 @@ export const ProjectMonthsLists = () => {
       <ListPageHeader feature={feature} topToolbar={topToolbar} />
       {features}
     </Container>
-  );
-};
-
-
-
-
-type ProjectMonthsListProps = {
-  feature: IFeature<FullProjectMonthModel, ListFilters>;
-}
-
-
-/** Display a title and a ProjectMonth list */
-const ProjectMonthsList = ({feature}: ProjectMonthsListProps) => {
-  const projectsMonthOverviews = useSelector((state: ConfacState) => state.projectsMonthOverviews);
-  const dispatch = useDispatch();
-
-  if (!feature.list.data.length) {
-    return null;
-  }
-
-  const projectsMonthDetails = feature.list.data[0].details;
-
-  const getProjectsMonthOverview = () => projectsMonthOverviews
-    .find(pmo => moment(pmo.month).valueOf() === projectsMonthDetails.month.valueOf());
-
-  const projectsMonthOverview = getProjectsMonthOverview();
-
-  const createDownloadUrl = (downloadType: 'download' | 'preview') => {
-    if (!projectsMonthOverview) return '';
-    const {_id, fileDetails} = projectsMonthOverview;
-    return getDownloadUrl('project_month_overview', _id, fileDetails.type, fileDetails.fileName, downloadType);
-  };
-
-  return (
-    <>
-      <div style={{display: 'flex', alignItems: 'center', marginBottom: '20px'}}>
-        <h2 style={{marginRight: '20px', marginBottom: 0}}>{displayMonthWithYear(projectsMonthDetails)}</h2>
-        <AdvancedAttachmentDropzone
-          attachment={projectsMonthOverview && projectsMonthOverview.fileDetails}
-          onUpload={(f: File) => dispatch(projectsMonthOverviewUpload(f, projectsMonthDetails.month))}
-          onDelete={() => (projectsMonthOverview ? dispatch(deleteProjectsMonthOverview(projectsMonthOverview._id)) : null)}
-          downloadUrl={createDownloadUrl}
-          dropzonePlaceholderText={t('projectMonth.sdWorxTimesheetUpload')}
-          viewFileTooltip={t('projectMonth.timesheetCheckDownloadTooltip')}
-        />
-      </div>
-      <List feature={feature} />
-    </>
   );
 };

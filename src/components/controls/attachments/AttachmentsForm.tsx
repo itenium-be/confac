@@ -41,7 +41,7 @@ export const _AttachmentsForm = (props: AttachmentsFormProps) => {
             lg={4}
             md={6}
             key={att.type}
-            style={{marginBottom: '15px'}}
+            style={{marginBottom: 15}}
           >
             <AdvancedAttachmentDropzone
               attachment={att}

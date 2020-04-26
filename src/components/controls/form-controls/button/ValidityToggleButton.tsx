@@ -1,6 +1,5 @@
 import React from 'react';
 import {MinimalInputProps} from '../inputs/BaseInput';
-import {Icon} from '../../Icon';
 import {Button} from '../Button';
 import {BootstrapVariant} from '../../../../models';
 
@@ -23,8 +22,6 @@ export const ValidityToggleButton = ({value, onChange, outline, ...props}: Valid
 
 
   return (
-    <Button size="md" onClick={() => onChange(!value)} variant={variant} {...props}>
-      <Icon fa={icon} size={1} />
-    </Button>
+    <Button onClick={() => onChange(!value)} variant={variant} icon={icon} {...props} />
   );
 };

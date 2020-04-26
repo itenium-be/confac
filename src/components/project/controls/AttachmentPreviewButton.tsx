@@ -1,7 +1,5 @@
 import React from 'react';
-
 import {Button} from '../../controls/form-controls/Button';
-import {Icon} from '../../controls/Icon';
 
 
 type AttachmentPreviewButtonProps = {
@@ -18,8 +16,13 @@ export const AttachmentPreviewButton = ({downloadUrl, tooltip, disabled, style}:
   };
 
   return (
-    <Button size="md" onClick={() => viewAttachment()} variant="outline-dark" disabled={disabled} style={style} title={disabled ? undefined : tooltip}>
-      <Icon fa="fa fa-eye" size={1} />
-    </Button>
+    <Button
+      onClick={() => viewAttachment()}
+      variant="outline-dark"
+      disabled={disabled}
+      style={style}
+      title={disabled ? undefined : tooltip}
+      icon="fa fa-eye"
+    />
   );
 };

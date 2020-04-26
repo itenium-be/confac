@@ -54,29 +54,27 @@ export const InvoicesTotal = ({invoices, totalOnly = false, ...props}: { invoice
 /**
  * Show moneys of one InvoiceModel: Subtotal, taxtotal, (optional) discount, total
  */
-const InvoiceTotal = ({totalWithoutTax, totalTax, total, discount, ...props}: InvoiceMoney) => {
-  return (
+const InvoiceTotal = ({totalWithoutTax, totalTax, total, discount, ...props}: InvoiceMoney) => (
+  <div>
     <div>
-      <div>
-        {t('invoice.subtotal')}
-        <span style={amountsStyle}>{moneyFormat(totalWithoutTax)}</span>
-      </div>
-      <div>
-        {t('invoice.taxtotal')}
-        <span style={amountsStyle}>{moneyFormat(totalTax)}</span>
-      </div>
-      {discount ? (
-        <div>
-          {t('invoice.discount')}
-          <span style={amountsStyle}>{discountFormat(discount)}</span>
-        </div>
-      ) : null}
-      <div>
-        {t('invoice.total')}
-        <span style={amountsStyle}><strong>{moneyFormat(total)}</strong></span>
-      </div>
+      {t('invoice.subtotal')}
+      <span style={amountsStyle}>{moneyFormat(totalWithoutTax)}</span>
     </div>
-  );
-};
+    <div>
+      {t('invoice.taxtotal')}
+      <span style={amountsStyle}>{moneyFormat(totalTax)}</span>
+    </div>
+    {discount ? (
+      <div>
+        {t('invoice.discount')}
+        <span style={amountsStyle}>{discountFormat(discount)}</span>
+      </div>
+    ) : null}
+    <div>
+      {t('invoice.total')}
+      <span style={amountsStyle}><strong>{moneyFormat(total)}</strong></span>
+    </div>
+  </div>
+);
 
 export default InvoiceTotal;

@@ -26,7 +26,7 @@ export const ListPageHeader = ({feature, topToolbar}: ListPageProps) => (
     </Col>
     {feature.trans.createNew && (
       <Col lg={3} md={3}>
-        <Button variant="light" onClick={feature.nav('create')} icon="fa fa-plus" size="md">
+        <Button variant="light" onClick={feature.nav('create')} icon="fa fa-plus">
           {t(feature.trans.createNew)}
         </Button>
       </Col>

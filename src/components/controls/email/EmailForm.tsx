@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {Form, Button, Row} from 'react-bootstrap';
+import {Form, Row} from 'react-bootstrap';
 import {StringInput} from '../form-controls/inputs/StringInput';
 import {t} from '../../utils';
 import {TextEditor} from '../form-controls/inputs/TextEditor';
 import {EmailModel} from './EmailModels';
 import {BaseInputProps} from '../form-controls/inputs/BaseInput';
 import {getNewEmail} from './getNewEmail';
-import {Icon} from '../Icon';
+import {Button} from '../form-controls/Button';
 
 import './EmailForm.scss';
 
@@ -33,9 +33,7 @@ export const EmailForm = ({value, onChange, attachmentsAvailable, ...props}: Ema
         label={t('email.to')}
         placeholder={t('email.toPlaceholder')}
         suffix={(
-          <Button variant="outline-secondary" onClick={() => setShowAllTos(!showAllTos)}>
-            <Icon fa="fa fa-ellipsis-v" size={1} />
-          </Button>
+          <Button variant="outline-secondary" onClick={() => setShowAllTos(!showAllTos)} icon="fa fa-ellipsis-v" />
         )}
         suffixOptions={{type: 'button'}}
       />

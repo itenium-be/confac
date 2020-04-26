@@ -19,6 +19,24 @@ $cell-padding: 8px 8px;
     border-bottom: 1px solid $table-border-color;
   }
 
+  .list-projectMonths-collapsed {
+    > * {
+      margin-right: 8px;
+    }
+
+    .separate > span {
+      margin-right: 18px;
+
+      > * {
+        margin-right: 8px;
+
+        &:nth-child(even):not(:last-child) {
+          margin-right: 24px;
+        }
+      }
+    }
+  }
+
   .list-separator {
     width: 70%;
 
@@ -31,6 +49,18 @@ $cell-padding: 8px 8px;
   }
 }
 
+
+.projectMonths-toolbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  > h2 {
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 0;
+  }
+}
 
 
 .table-projectMonths {

@@ -16,6 +16,7 @@ export type ConfacState = {
   consultants: ConsultantModel[];
   projects: ProjectModel[];
   projectsMonth: ProjectMonthModel[];
+  /** Attachment details for a ProjectMonth (Timesheet check) */
   projectsMonthOverviews: ProjectMonthOverviewModel[]
 };
 

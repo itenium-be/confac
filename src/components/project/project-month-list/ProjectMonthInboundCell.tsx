@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import cn from 'classnames';
 import {ProjectMonthInbound, ProjectMonthInboundStatus} from '../models/ProjectMonthModel';
@@ -8,13 +9,11 @@ import {getNewProjectMonthInbound} from '../models/getNewProject';
 import {moneyFormat, t} from '../../utils';
 import {DatePicker} from '../../controls/form-controls/DatePicker';
 import {Button} from '../../controls/form-controls/Button';
-import {Icon} from '../../controls/Icon';
 import {patchProjectsMonth, projectMonthUpload} from '../../../actions';
 import {useDebouncedSave} from '../../hooks/useDebounce';
 import {getDownloadUrl} from '../../../actions/utils/download-helpers';
 import {ConfacState} from '../../../reducers/app-state';
 import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPreviewButtons';
-import moment from 'moment';
 
 interface ProjectMonthInboundCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -44,8 +43,8 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
   const canEdit = (fullProjectMonth.details.verified || inbound.status !== 'new') ? 'label' : undefined;
 
 
-  const inboundInvoiceDetails = fullProjectMonth.invoice
-    ? fullProjectMonth.invoice.attachments.find(a => a.type === 'inbound') : fullProjectMonth.details.attachments.find(a => a.type === 'inbound');
+  const attachments = fullProjectMonth.invoice ? fullProjectMonth.invoice.attachments : fullProjectMonth.details.attachments;
+  const inboundInvoiceDetails = attachments.find(a => a.type === 'inbound');
 
   const getInboundInvoiceDownloadUrl = (): string => {
     if (!inboundInvoiceDetails) {
@@ -121,23 +120,35 @@ const InboundActionButtons = ({fullProjectMonth, onChange}: InboundActionButtons
   const buttons: InboundActionsMap[] = [{
     status: 'validated',
     component: (
-      <Button key="validated" variant="outline-success" onClick={() => onChange('validated')} size="md" title={t('projectMonth.inboundValidated')}>
-        <Icon fa="fa fa-check" size={1} />
-      </Button>
+      <Button
+        key="validated"
+        variant="outline-success"
+        onClick={() => onChange('validated')}
+        title={t('projectMonth.inboundValidated')}
+        icon="fa fa-check"
+      />
     ),
   }, {
     status: 'paid',
     component: (
-      <Button key="paid" variant="success" onClick={() => onChange('paid')} size="md" title={t('projectMonth.inboundPaid')}>
-        <Icon fa="fa fa-coins" size={1} />
-      </Button>
+      <Button
+        key="paid"
+        variant="success"
+        onClick={() => onChange('paid')}
+        title={t('projectMonth.inboundPaid')}
+        icon="fa fa-coins"
+      />
     ),
   }, {
     status: 'new',
     component: (
-      <Button key="new" variant="outline-dark" onClick={() => onChange('new')} size="md" title={t('projectMonth.inboundNew')}>
-        <Icon fa="fa fa-inbox" size={1} />
-      </Button>
+      <Button
+        key="new"
+        variant="outline-dark"
+        onClick={() => onChange('new')}
+        title={t('projectMonth.inboundNew')}
+        icon="fa fa-inbox"
+      />
     ),
   }];
 

@@ -9,6 +9,7 @@ export type ButtonSize = 'lg' | 'sm' | 'md';
 
 type ButtonProps = {
   onClick: Function | string,
+  /** Full fa. ex: "far fa-xxx" */
   icon?: string,
   variant?: BootstrapVariant,
   size?: ButtonSize,
@@ -19,7 +20,7 @@ type ButtonProps = {
   title?: string;
 }
 
-export const Button = ({variant = 'primary', size = 'lg', disabled, className, style, title, ...props}: ButtonProps) => {
+export const Button = ({variant = 'primary', size = 'md', disabled, className, style, title, ...props}: ButtonProps) => {
   const history = useHistory();
   const {children, icon, onClick, ...rest} = props;
 

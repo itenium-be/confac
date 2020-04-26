@@ -33,6 +33,7 @@ export const Icon = EnhanceIconWithCenter(
 );
 
 export type IconProps = {
+  /** Full fa. ex: "far fa-xxx" */
   fa?: string,
   color?: string,
   style?: React.CSSProperties,

@@ -7,24 +7,22 @@ import {invoiceReplacementsPopoverConfig} from '../invoice-replacements';
 
 type InvoiceReplacementsInputProps = BaseInputProps<string>;
 
-export const InvoiceReplacementsInput = ({value, onChange, ...props}: InvoiceReplacementsInputProps) => {
-  return (
-    <BaseInput
-      type="text"
-      value={value || ''}
-      onChange={e => onChange(e.target.value as string)}
-      {...props}
-      suffix={(
-        <OverlayTrigger trigger="click" placement="top" overlay={InvoiceReplacementsPopover}>
-          <button className="btn input-group-text" type="button">
-            <Icon fa="fa fa-file-invoice" size={1} />
-          </button>
-        </OverlayTrigger>
-        )}
-      suffixOptions={{type: 'button'}}
-    />
-  );
-};
+export const InvoiceReplacementsInput = ({value, onChange, ...props}: InvoiceReplacementsInputProps) => (
+  <BaseInput
+    type="text"
+    value={value || ''}
+    onChange={e => onChange(e.target.value as string)}
+    {...props}
+    suffix={(
+      <OverlayTrigger trigger="click" placement="top" overlay={InvoiceReplacementsPopover}>
+        <button className="btn input-group-text" type="button">
+          <Icon fa="fa fa-file-invoice" size={1} />
+        </button>
+      </OverlayTrigger>
+      )}
+    suffixOptions={{type: 'button'}}
+  />
+);
 
 
 

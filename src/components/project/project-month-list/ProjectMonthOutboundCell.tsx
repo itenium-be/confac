@@ -152,12 +152,15 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
   const valid = (
     fullProjectMonth.details.timesheet.validated
     && (!fullProjectMonth.project.projectMonthConfig.changingOrderNr || fullProjectMonth.details.orderNr)
-    && (['paid', 'validated'].includes(fullProjectMonth.details.inbound.status) || !fullProjectMonth.project.projectMonthConfig.inboundInvoice)
+    && (
+      ['paid', 'validated'].includes(fullProjectMonth.details.inbound.status)
+      || !fullProjectMonth.project.projectMonthConfig.inboundInvoice
+    )
   );
 
   return (
     <>
-      <Button key="new" variant={valid ? 'success' : 'outline-danger'} onClick={() => buildAndCreateInvoice()} size="md">
+      <Button variant={valid ? 'success' : 'outline-danger'} onClick={() => buildAndCreateInvoice()}>
         <Icon fa="fa fa-file-invoice" size={1} style={{marginRight: 8}} />
         {t('projectMonth.outboundCreateInvoice')}
       </Button>

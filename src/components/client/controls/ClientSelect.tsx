@@ -36,6 +36,6 @@ const ClientSelectComponent = ({value, onChange}: ClientSelectProps) => {
       placeholder={t('controls.selectPlaceholder')}
     />
   );
-}
+};
 
 export const ClientSelect = EnhanceInputWithLabel(ClientSelectComponent);
