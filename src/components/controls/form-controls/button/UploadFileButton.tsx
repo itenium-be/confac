@@ -19,7 +19,7 @@ export const UploadFileButton = ({onUpload, title, buttonText, disabled, hasFile
     <Button
       size="md"
       onClick={() => {}}
-      variant={hasFile ? 'outline-dark' : 'outline-warning'}
+      variant={hasFile || disabled ? 'outline-dark' : 'outline-warning'}
       disabled={disabled}
       title={disabled ? undefined : title}
     >
