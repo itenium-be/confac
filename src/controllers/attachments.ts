@@ -26,10 +26,7 @@ const saveAttachment = async (req: Request, attachmentModelConfig: IAttachmentMo
   if (standardCollectionName === CollectionNames.PROJECTS_MONTH && type === 'inbound') {
     inserted = await req.db.collection(standardCollectionName)
       .findOneAndUpdate({_id: new ObjectID(_id)}, {
-        $set: {
-          attachments: updatedAttachments,
-          'inbound.dateReceived': new Date().toISOString(),
-        },
+        $set: {attachments: updatedAttachments},
       }, {returnOriginal: false});
   } else {
     inserted = await req.db.collection(standardCollectionName)
