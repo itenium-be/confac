@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React from 'react';
+import {useSelector} from 'react-redux';
 import Select from 'react-select';
 import {t} from '../../utils';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
@@ -9,40 +9,32 @@ import {SelectItem} from '../../../models';
 
 
 type ClientSelectProps = {
-  clients: ClientModel[],
   /** The client _id */
   value: string | ClientModel,
   onChange: (clientId: string, client: ClientModel) => void,
 }
 
-class ClientSelectComponent extends Component<ClientSelectProps> {
-  getClient(clientId: string): ClientModel {
-    return this.props.clients.find(c => c._id === clientId) as ClientModel;
-  }
+const ClientSelectComponent = ({value, onChange}: ClientSelectProps) => {
+  const models = useSelector((state: ConfacState) => state.clients);
+  const getModel = (consultantId: string): ClientModel => models.find(c => c._id === consultantId) as ClientModel;
+  const getModelDesc = (c: ClientModel) => c.name;
 
-  render() {
-    const {value} = this.props;
-    const selectedClientId = value && typeof value === 'object' ? value._id : value;
-    const selectedClient = this.props.clients.find(c => c._id === selectedClientId);
+  const selectedModelId = value && typeof value === 'object' ? value._id : value;
+  const options: SelectItem[] = models
+    .sort((a, b) => getModelDesc(a).localeCompare(getModelDesc(b)))
+    .map(item => ({value: item._id, label: getModelDesc(item)} as SelectItem));
 
-    const clients = this.props.clients.filter(c => c.active);
-    if (selectedClient && !selectedClient.active) {
-      clients.push(selectedClient);
-    }
+  const selectedOption = options.find(o => o.value === selectedModelId);
 
-    const options: SelectItem[] = clients.sort((a, b) => a.name.localeCompare(b.name)).map(item => ({value: item._id, label: item.name}));
-    const selectedOption = options.find(o => o.value === selectedClientId);
-
-    return (
-      <Select
-        value={selectedOption}
-        options={options as any}
-        onChange={((itm: SelectItem) => this.props.onChange(itm && itm.value as string, itm && this.getClient(itm.value as string))) as any}
-        isClearable
-        placeholder={t('controls.selectPlaceholder')}
-      />
-    );
-  }
+  return (
+    <Select
+      value={selectedOption}
+      options={options as any}
+      onChange={((itm: SelectItem) => onChange(itm && itm.value as string, itm && getModel(itm.value as string))) as any}
+      isClearable
+      placeholder={t('controls.selectPlaceholder')}
+    />
+  );
 }
 
-export const ClientSelect = EnhanceInputWithLabel(connect((state: ConfacState) => ({clients: state.clients}))(ClientSelectComponent));
+export const ClientSelect = EnhanceInputWithLabel(ClientSelectComponent);

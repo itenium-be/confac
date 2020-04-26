@@ -211,6 +211,8 @@ export const trans = {
     amountOne: '1 factuur',
     client: 'Klant',
     clientNew: 'Nieuwe klant',
+    partner: 'Partner',
+    partnerNew: 'Nieuwe partner',
     clientEditModal: 'Open details in modal',
     number: 'Factuurnummer',
     numberShort: 'Nr',
@@ -304,6 +306,7 @@ export const trans = {
       value: 'Standaard prijs',
       type: 'Standaard factuurlijn eenheid',
     },
+    defaultChangingOrderNr: 'Het bestelbon nr wijzigt voor elke factuur',
     defaultExtraInvoiceFields: 'Extra factuur velden',
     defaultInvoiceDateStrategy: 'Standaard factuurdatum',
     invoiceFileName: 'Standaard factuur bestandsnaam',
@@ -355,13 +358,13 @@ export const trans = {
     partner: {
       clientId: 'Partner',
       tariff: 'Partner tarief',
-      rateType: 'Rate type',
+      rateType: 'Eenheid',
       ref: 'Referentie',
     },
     client: {
       clientId: 'Klant',
       tariff: 'Klant tarief',
-      rateType: 'Rate type',
+      rateType: 'Eenheid',
       ref: 'Referentie',
     },
     projectMonthConfig: {

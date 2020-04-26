@@ -6,8 +6,15 @@ import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
 import {FullFormConfig} from '../../../models';
 
 
-const config: FullFormConfig = [
-  {key: 'clientId', component: 'ClientSelect', cols: 5},
+const clientConfig: FullFormConfig = [
+  {key: 'clientId', component: 'ClientSelectWithCreateModal', cols: 5},
+  {key: 'tariff', component: 'money', prefix: '€', cols: 2},
+  {key: 'rateType', component: 'ProjectLineTypeSelect', cols: 2},
+  {key: 'ref', component: 'text', cols: 3},
+];
+
+const partnerConfig: FullFormConfig = [
+  {key: 'clientId', component: 'PartnerSelectWithCreateModal', cols: 5},
   {key: 'tariff', component: 'money', prefix: '€', cols: 2},
   {key: 'rateType', component: 'ProjectLineTypeSelect', cols: 2},
   {key: 'ref', component: 'text', cols: 3},
@@ -18,11 +25,11 @@ type EditProjectClientProps = BaseInputProps<ProjectClientModel>;
 
 export const EditProjectClient = ({value, onChange}: EditProjectClientProps) => {
   const prjClient: ProjectClientModel = value || getNewProjectClient();
-  return <ArrayInput config={config} model={prjClient} onChange={onChange} tPrefix="project.client." />;
+  return <ArrayInput config={clientConfig} model={prjClient} onChange={onChange} tPrefix="project.client." />;
 };
 
 
 export const EditProjectPartner = ({value, onChange}: EditProjectClientProps) => {
   const prjClient: ProjectClientModel = value || getNewProjectClient();
-  return <ArrayInput config={config} model={prjClient} onChange={onChange} tPrefix="project.partner." />;
+  return <ArrayInput config={partnerConfig} model={prjClient} onChange={onChange} tPrefix="project.partner." />;
 };

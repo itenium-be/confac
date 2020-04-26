@@ -6,7 +6,7 @@ import InvoiceTotal from './InvoiceTotal';
 import InvoiceModel from '../models/InvoiceModel';
 import {ClientModel} from '../../client/models/ClientModels';
 import {ModalState} from '../../controls/Modal';
-import {ClientSelectWithCreateModal} from '../../client/controls/ClientSelectWithCreateModal';
+import {InvoiceClientSelectWithCreateModal} from '../controls/InvoiceClientSelectWithCreateModal';
 
 
 
@@ -28,7 +28,7 @@ export const EditInvoiceClient = (props: EditInvoiceClientProps) => {
   const dottedCellStyle = {border: '1px dotted black', padding: 10, height: '100%', width: '100%'};
   return (
     <div>
-      <ClientSelectWithCreateModal
+      <InvoiceClientSelectWithCreateModal
         client={invoice.client}
         onChange={onChange}
         modalId={modalId}

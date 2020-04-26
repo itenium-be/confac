@@ -64,7 +64,7 @@ export function getDefaultProjectMonthConfig(consultantType?: ConsultantType): O
     case 'manager':
       return {
         timesheetCheck: false,
-        inboundInvoice: false,
+        inboundInvoice: true,
       };
 
     case 'externalConsultant':

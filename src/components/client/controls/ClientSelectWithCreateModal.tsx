@@ -1,47 +1,46 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {useSelector} from 'react-redux';
 import {ClientModel} from '../models/ClientModels';
 import {ModalState} from '../../controls/Modal';
 import {ClientModal} from './ClientModal';
 import {ClientSelect} from './ClientSelect';
 import {t} from '../../utils';
-import {Button} from '../../controls/form-controls/Button';
+import {SelectWithCreateButton, SelectWithCreateModalProps} from '../../controls/form-controls/select/SelectWithCreateButton';
+import {ConfacState} from '../../../reducers/app-state';
 
 
-type SelectWithCreateModalProps<TModel> = {
-  client: TModel;
-  onChange: (client: TModel) => void;
-  modalId: ModalState;
-  setModalId: (id: ModalState) => void;
+type ClientSelectWithCreateModalProps = SelectWithCreateModalProps<ClientModel> & {
+  clientType: 'client' | 'partner';
 }
 
-export const ClientSelectWithCreateModal = ({client, onChange, modalId, setModalId}: SelectWithCreateModalProps<ClientModel>) => (
-  <>
-    {modalId && (
-      <ClientModal
-        client={modalId !== 'create' ? client : null}
-        show={!!modalId}
-        onClose={() => setModalId(null)}
-        onConfirm={(updatedClient: ClientModel) => onChange(updatedClient)}
-      />
-    )}
-    <div className="unset-split">
-      <div>
-        <ClientSelect
-          label={t('invoice.client')}
-          value={client && client._id}
-          onChange={(clientId, clientModel) => onChange(clientModel)}
-        />
-      </div>
-      <div style={{width: 120, position: 'relative'}}>
-        <Button
-          onClick={() => setModalId('create')}
-          variant="light"
-          size="sm"
-          style={{position: 'absolute', bottom: 18, left: 5}}
-        >
-          {t('invoice.clientNew')}
-        </Button>
-      </div>
-    </div>
-  </>
+
+export const PartnerSelectWithCreateModal = (props: ClientSelectWithCreateModalProps) => (
+  <ClientSelectWithCreateModal {...props} clientType="partner" />
 );
+
+
+
+export const ClientSelectWithCreateModal = ({value, onChange, clientType = 'client'}: ClientSelectWithCreateModalProps) => {
+  const [modalId, setModalId] = useState<ModalState>(null);
+  const client = useSelector((state: ConfacState) => state.clients.find(c => c._id === value));
+
+  return (
+    <>
+      {modalId && (
+        <ClientModal
+          client={modalId !== 'create' ? (client || null) : null}
+          show={!!modalId}
+          onClose={() => setModalId(null)}
+          onConfirm={(model: ClientModel) => onChange(model._id, model)}
+        />
+      )}
+      <SelectWithCreateButton setModalId={setModalId} createButtonText={`invoice.${clientType}New`}>
+        <ClientSelect
+          label={t(`invoice.${clientType}`)}
+          value={value || ''}
+          onChange={(id, model) => onChange(id, model)}
+        />
+      </SelectWithCreateButton>
+    </>
+  );
+};

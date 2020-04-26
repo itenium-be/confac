@@ -14,25 +14,23 @@ type ConsultantSelectProps = {
   onChange: (consultantId: string, consultant: ConsultantModel) => void,
 }
 
-const ConsultantSelectComponent = (props: ConsultantSelectProps) => {
-  const consultants = useSelector((state: ConfacState) => state.consultants);
-  const {value} = props;
+const ConsultantSelectComponent = ({value, onChange}: ConsultantSelectProps) => {
+  const models = useSelector((state: ConfacState) => state.consultants);
+  const getModel = (consultantId: string): ConsultantModel => models.find(c => c._id === consultantId) as ConsultantModel;
+  const getModelDesc = (c: ConsultantModel) => `${c.firstName} ${c.name} (${t(`consultant.types.${c.type}`)})`;
 
-  const getConsultant = (consultantId: string): ConsultantModel => consultants.find(c => c._id === consultantId) as ConsultantModel;
-  const getConsultantDesc = (c: ConsultantModel) => `${c.firstName} ${c.name} (${t(`consultant.types.${c.type}`)})`;
+  const selectedModelId = value && typeof value === 'object' ? value._id : value;
+  const options: SelectItem[] = models
+    .sort((a, b) => getModelDesc(a).localeCompare(getModelDesc(b)))
+    .map(item => ({value: item._id, label: getModelDesc(item)} as SelectItem));
 
-  const selectedConsultantId = value && typeof value === 'object' ? value._id : value;
-  const options: SelectItem[] = consultants
-    .sort((a, b) => getConsultantDesc(a).localeCompare(getConsultantDesc(b)))
-    .map(item => ({value: item._id, label: getConsultantDesc(item)} as SelectItem));
-
-  const selectedOption = options.find(o => o.value === selectedConsultantId);
+  const selectedOption = options.find(o => o.value === selectedModelId);
 
   return (
     <Select
       value={selectedOption}
       options={options as any}
-      onChange={((item: SelectItem) => props.onChange(item && item.value as string, item && getConsultant(item.value as string))) as any}
+      onChange={((item: SelectItem) => onChange(item && item.value as string, item && getModel(item.value as string))) as any}
       isClearable
       placeholder={t('controls.selectPlaceholder')}
     />

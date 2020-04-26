@@ -12,7 +12,7 @@ import {PropertiesSelect} from '../select/PropertiesSelect';
 import {MoneyInput} from '../inputs/MoneyInput';
 import {Switch} from '../Switch';
 import {ClientSelect} from '../../../client/controls/ClientSelect';
-import {ClientSelectWithCreateModal} from '../../../client/controls/ClientSelectWithCreateModal';
+import {ClientSelectWithCreateModal, PartnerSelectWithCreateModal} from '../../../client/controls/ClientSelectWithCreateModal';
 import {FloatInput} from '../inputs/FloatInput';
 import {StringsSelect} from '../select/StringsSelect';
 import {BtwInput} from '../inputs/BtwInput';
@@ -58,6 +58,7 @@ export function getComponent(col: FormConfig) {
     ExtraFields: ExtraFieldsInput,
     ClientSelect,
     ClientSelectWithCreateModal,
+    PartnerSelectWithCreateModal,
     StringsSelect,
     AttachmentsTypeSelect,
     ConsultantTypeSelect,

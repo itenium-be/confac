@@ -9,7 +9,7 @@ export const getNewProjectClient = (): ProjectClientModel => ({clientId: '', rat
 export const getNewProject = (): ProjectModel => ({
   _id: '',
   consultantId: '',
-  startDate: moment().startOf('day'),
+  startDate: null as unknown as moment.Moment,
   client: getNewProjectClient(),
   projectMonthConfig: {
     changingOrderNr: false,

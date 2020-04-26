@@ -27,6 +27,7 @@ export function getNewClient(config?: ConfigModel): ClientModel {
     defaultExtraInvoiceFields: config.defaultExtraClientInvoiceFields.slice(),
     notes: '',
     defaultInvoiceDateStrategy: config.defaultInvoiceDateStrategy,
+    defaultChangingOrderNr: false,
     email: getNewEmail(config.email),
   };
 }

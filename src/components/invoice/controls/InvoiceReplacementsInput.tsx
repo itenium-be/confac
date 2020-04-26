@@ -15,7 +15,7 @@ export const InvoiceReplacementsInput = ({value, onChange, ...props}: InvoiceRep
       onChange={e => onChange(e.target.value as string)}
       {...props}
       suffix={(
-        <OverlayTrigger trigger="click" placement="right" overlay={InvoiceReplacementsPopover}>
+        <OverlayTrigger trigger="click" placement="top" overlay={InvoiceReplacementsPopover}>
           <button className="btn input-group-text" type="button">
             <Icon fa="fa fa-file-invoice" size={1} />
           </button>

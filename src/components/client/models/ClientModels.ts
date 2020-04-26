@@ -24,6 +24,7 @@ export type ClientModel = IAttachment & {
   defaultExtraInvoiceFields: Array<SelectItem>,
   notes: string,
   defaultInvoiceDateStrategy: InvoiceDateStrategy,
+  defaultChangingOrderNr: boolean,
   createdOn?: string,
   email: EmailModel,
 }

@@ -30,27 +30,36 @@ export const EditProject = (props: EditProjectProps) => {
   const consultants = useSelector((state: ConfacState) => state.consultants);
   const [project, setProject] = useState<ProjectModel>(model || getNewProject());
   const consultant = useSelector((state: ConfacState) => state.consultants.find(x => x._id === project.consultantId) || getNewConsultant());
+  const clients = useSelector((state: ConfacState) => state.clients);
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === project.client.clientId) || getNewClient());
 
   const docTitle = consultant._id ? 'projectEdit' : 'projectNew';
   useDocumentTitle(docTitle, {consultant: consultant.firstName, client: client.name});
 
   const setProjectInterceptor = (value: ProjectModel) => {
+    let newProject = {...project, ...value};
+
     if (value.consultantId !== project.consultantId && consultants.length) {
       // Set ProjectMonth invoicing config based on the Consultant.Type
       const selectedConsultant = consultants.find(c => c._id === value.consultantId);
-      setProject({
-        ...project,
-        ...value,
+      newProject = {
+        ...newProject,
         projectMonthConfig: {
-          ...project.projectMonthConfig,
+          ...newProject.projectMonthConfig,
           ...getDefaultProjectMonthConfig(selectedConsultant && selectedConsultant.type),
         },
-      });
-
-    } else {
-      setProject({...project, ...value});
+      };
     }
+
+    if (value.client.clientId && value.client.clientId !== project.client.clientId && clients.length) {
+      // Set ProjectMonth invoicing config based on the Client.ChangingOrderNr
+      const selectedClient = clients.find(x => x._id === value.client.clientId);
+      if (selectedClient) {
+        newProject.projectMonthConfig.changingOrderNr = selectedClient.defaultChangingOrderNr;
+      }
+    }
+
+    setProject(newProject);
   };
 
   const isButtonDisabled = !project.consultantId
