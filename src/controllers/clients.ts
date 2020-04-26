@@ -14,6 +14,9 @@ export const getClients = async (req: Request, res: Response) => {
 
 export const validateBtw = async (req: Request, res: Response) => {
   const url = `https://controleerbtwnummer.eu/api/validate/${req.params.btw}.json`;
+  // TODO: Apparently the controleerbtwnummer.eu API is not very stable
+  // Getting alot of 500 responses
+  // console.log('btw fetch url', url);
   const result = await fetch(url).then(response => response.json());
   return res.send(result);
 };
