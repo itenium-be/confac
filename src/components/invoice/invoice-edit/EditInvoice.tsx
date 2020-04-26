@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Container, Row, Col, Form, Badge} from 'react-bootstrap';
+import {Container, Row, Col, Form} from 'react-bootstrap';
 import {t, formatDate} from '../../utils';
 import EditInvoiceLines from './invoice-lines/EditInvoiceLines';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
@@ -18,7 +18,6 @@ import {DownloadInvoiceButton} from './DownloadInvoiceButton';
 import {EmailModal, EmailModalTitle} from '../../controls/email/EmailModal';
 import {EmailModel} from '../../controls/email/EmailModels';
 import {sendEmail} from '../../../actions/emailActions';
-import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {Button} from '../../controls/form-controls/Button';
 import {getNewInvoice} from '../models/getNewInvoice';
 import {getDocumentTitle} from '../../hooks/useDocumentTitle';
@@ -28,6 +27,8 @@ import {projectMonthResolve} from '../../project/ProjectMonthsLists';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
 import {ConsultantSelect} from '../../consultant/controls/ConsultantSelect';
 import {invoiceReplacements} from '../invoice-replacements';
+import {ProjectMonthSelect} from '../../project/controls/ProjectMonthSelect';
+import {EditInvoiceBadges} from './EditInvoiceBadges';
 
 
 type EditInvoiceProps = {
@@ -54,9 +55,6 @@ type EditInvoiceState = {
   showEmailModal: boolean,
 }
 
-const EditInvoiceBadge = ({label}:{label: string}) => (
-  <Badge style={{marginLeft: 10, fontSize: '100%', fontWeight: 300}} variant="secondary">{label}</Badge>
-);
 
 export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
   constructor(props: EditInvoiceProps) {
@@ -101,22 +99,6 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
   get type(): 'quotation' | 'invoice' {
     return this.isQuotation ? 'quotation' : 'invoice';
   }
-
-  getConsultantName(invoice: InvoiceModel): string {
-    const consultant = this.props.consultants.find(c => c._id === invoice.consultantId);
-    if (!consultant) return '';
-
-    return `${t(`consultant.types.${consultant.type}`)} ${consultant.firstName} ${consultant.name}`;
-  }
-
-  getProjectPartnerClientName(invoice: InvoiceModel): string {
-    const fullProjectMonth = this.props.fullProjectsMonth.find(fpm => fpm._id === invoice.projectMonthId);
-    if (!fullProjectMonth) return '';
-    const {client, partner} = fullProjectMonth;
-
-    return `${partner ? `${partner.name} / ` : ''}${client.name}`;
-  }
-
 
   createModel(props: EditInvoiceProps): InvoiceModel {
     if (props.match.params.id) {
@@ -188,8 +170,9 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                     </>
                   ) : t(`${this.type}.createTitle`)}
                 </h1>
-                {invoice._id && invoice.consultantId && <EditInvoiceBadge label={this.getConsultantName(invoice)} />}
-                {invoice._id && invoice.projectMonthId && <EditInvoiceBadge label={this.getProjectPartnerClientName(invoice)} />}
+                <div>
+                  <EditInvoiceBadges invoice={invoice} />
+                </div>
               </div>
               <div>
                 {invoice._id && <DownloadInvoiceButton invoice={invoice} />}
@@ -217,21 +200,14 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
               </Row>
               <Row>
                 <Col sm={12}>
-                  <StringInput
-                    label={t('invoice.discount')}
-                    placeholder={t('invoice.discountPlaceholder')}
-                    value={invoice.discount}
-                    onChange={value => this.updateInvoice('discount', value, true)}
+                  <ProjectMonthSelect
+                    label={t('projectMonth.selectLabel')}
+                    value={invoice.projectMonthId ? invoice.projectMonthId : ''}
+                    onChange={fullProjectMonth => {
+                      this.updateInvoice('projectMonthId', fullProjectMonth._id);
+                      this.updateInvoice('consultantId', fullProjectMonth.consultant._id);
+                    }}
                   />
-                </Col>
-                <Col>
-                  {!invoice.projectMonthId && (
-                    <ConsultantSelect
-                      label={t('project.consultant')}
-                      value={invoice.consultantId ? invoice.consultantId : ''}
-                      onChange={consultantId => this.updateInvoice('consultantId', consultantId)}
-                    />
-                  )}
                 </Col>
               </Row>
             </Col>

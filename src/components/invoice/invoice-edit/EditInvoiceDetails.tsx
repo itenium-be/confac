@@ -41,13 +41,11 @@ export const EditInvoiceDetails = ({invoice, onChange}: EditInvoiceDetailsProps)
         />
       </Col>
       <Col sm={7}>
-        <ProjectMonthSelect
-          label={t('projectMonth.selectLabel')}
-          value={invoice.projectMonthId ? invoice.projectMonthId : ''}
-          onChange={fullProjectMonth => {
-            onChange('projectMonthId', fullProjectMonth._id);
-            onChange('consultantId', fullProjectMonth.consultant._id);
-          }}
+        <StringInput
+          label={t('invoice.discount')}
+          placeholder={t('invoice.discountPlaceholder')}
+          value={invoice.discount}
+          onChange={value => onChange('discount', value)}
         />
       </Col>
     </>

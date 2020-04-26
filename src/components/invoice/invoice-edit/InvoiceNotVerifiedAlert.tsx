@@ -35,7 +35,7 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
 
 
     const variant = getInvoiceDueDateVariant(invoice, this.props.invoicePayDays) as any;
-    const daysOpen = moment().diff(invoice.date, 'days');
+    const daysOpen = moment().diff(invoice.createdOn, 'days');
     return (
       <div>
         <Alert variant={variant} onClose={() => this.setState({dismissed: true})} dismissible>

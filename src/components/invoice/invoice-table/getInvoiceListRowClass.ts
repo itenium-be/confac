@@ -28,7 +28,7 @@ export function getInvoiceDueDateVariant(
     return '';
   }
 
-  const payDate = moment(invoice.date).add(invoicePayDays, 'days');
+  const payDate = moment(invoice.createdOn).add(invoicePayDays, 'days');
   if (moment().isAfter(moment(payDate).add(DangerDays, 'days'))) {
     return 'danger';
   }
