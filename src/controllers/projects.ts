@@ -26,6 +26,10 @@ export const getProjects = async (req: Request, res: Response) => {
 export const saveProject = async (req: Request, res: Response) => {
   const {_id, ...project}: IProject = req.body;
 
+  if (project.partner && !project.partner.clientId && !project.partner.tariff && !project.partner.ref) {
+    project.partner = undefined;
+  }
+
   if (_id) {
     const inserted = await req.db.collection<IProject>(CollectionNames.PROJECTS).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: project}, {returnOriginal: false});
     const updatedProject = inserted.value;
