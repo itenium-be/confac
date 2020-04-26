@@ -32,16 +32,17 @@ export const EditProject = (props: EditProjectProps) => {
   const consultant = useSelector((state: ConfacState) => state.consultants.find(x => x._id === project.consultantId) || getNewConsultant());
   const clients = useSelector((state: ConfacState) => state.clients);
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === project.client.clientId) || getNewClient());
+  const [needsSync, setNeedsSync] = useState<{consultant: boolean, client: boolean}>({consultant: false, client: false});
 
   const docTitle = consultant._id ? 'projectEdit' : 'projectNew';
   useDocumentTitle(docTitle, {consultant: consultant.firstName, client: client.name});
 
-  const setProjectInterceptor = (value: ProjectModel) => {
-    let newProject = {...project, ...value};
+  if (needsSync.consultant || needsSync.client) {
+    let newProject = {...project};
 
-    if (value.consultantId !== project.consultantId && consultants.length) {
+    if (needsSync.consultant) {
       // Set ProjectMonth invoicing config based on the Consultant.Type
-      const selectedConsultant = consultants.find(c => c._id === value.consultantId);
+      const selectedConsultant = consultants.find(c => c._id === project.consultantId);
       newProject = {
         ...newProject,
         projectMonthConfig: {
@@ -51,15 +52,33 @@ export const EditProject = (props: EditProjectProps) => {
       };
     }
 
-    if (value.client.clientId && value.client.clientId !== project.client.clientId && clients.length) {
+    if (needsSync.client) {
       // Set ProjectMonth invoicing config based on the Client.ChangingOrderNr
-      const selectedClient = clients.find(x => x._id === value.client.clientId);
+      const selectedClient = clients.find(x => x._id === project.client.clientId);
       if (selectedClient) {
         newProject.projectMonthConfig.changingOrderNr = selectedClient.defaultChangingOrderNr;
       }
     }
 
+    setNeedsSync({consultant: false, client: false});
     setProject(newProject);
+  }
+
+
+
+  const setProjectInterceptor = (value: ProjectModel) => {
+    const newProject = {...project, ...value};
+    setProject(newProject);
+
+    // Set a flag to update fields that receive default values from the
+    // selected Consultant/Client. Cannot update them at this point because
+    // the selectors have not yet included the Consultant/Client when the
+    // user created a new entity with the CreateModal button
+    const consultantChanged = value.consultantId !== project.consultantId;
+    const clientChanged = value.client.clientId !== project.client.clientId;
+    if (consultantChanged || clientChanged) {
+      setNeedsSync({consultant: consultantChanged, client: clientChanged});
+    }
   };
 
   const isButtonDisabled = !project.consultantId
