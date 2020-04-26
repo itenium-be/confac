@@ -47,6 +47,7 @@ export const _AttachmentsForm = (props: AttachmentsFormProps) => {
               attachment={att}
               downloadUrl={createDownloadUrl}
               onDelete={() => dispatch(deleteAttachment(props.model, modelType, att.type))}
+              viewFileTooltip={t('invoice.attachmentViewTooltip', {type: att.type})}
             />
           </Col>
         ))}

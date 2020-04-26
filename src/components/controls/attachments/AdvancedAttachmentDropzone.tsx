@@ -15,10 +15,11 @@ type AttachmentFormProps = {
   onDelete?: Function;
   onUpload?: (file: File) => void;
   dropzonePlaceholderText?: string;
+  viewFileTooltip?: string;
 }
 
 export const AdvancedAttachmentDropzone = (
-  {dropzonePlaceholderText, attachment, downloadUrl, onDelete, onUpload}:AttachmentFormProps,
+  {dropzonePlaceholderText, attachment, downloadUrl, onDelete, onUpload, viewFileTooltip}:AttachmentFormProps,
 ) => (
   <div style={{minWidth: '20%'}}>
     {
@@ -38,21 +39,25 @@ export const AdvancedAttachmentDropzone = (
           </div>
           <div className="attachment-actions">
             {onDelete && (
-            <ConfirmedDeleteIcon
-              title={t('attachment.deleteTitle')}
-              onClick={() => onDelete(attachment)}
-              size={1}
-            >
-              {t('attachment.deletePopup')}
-            </ConfirmedDeleteIcon>
+              <ConfirmedDeleteIcon
+                title={t('attachment.deleteTitle')}
+                onClick={() => onDelete(attachment)}
+                size={1}
+              >
+                {t('attachment.deletePopup')}
+              </ConfirmedDeleteIcon>
             )}
-            <AttachmentPreviewIcon attachment={attachment} previewUrl={downloadUrl('preview', attachment)} />
+            <AttachmentPreviewIcon
+              attachment={attachment}
+              previewUrl={downloadUrl('preview', attachment)}
+              title={viewFileTooltip}
+            />
           </div>
         </div>
       )
     }
     {!attachment && onUpload && (
-    <AttachmentDropzone onUpload={onUpload} className="attachment" dropzonePlaceholderText={dropzonePlaceholderText} />
+      <AttachmentDropzone onUpload={onUpload} className="attachment" dropzonePlaceholderText={dropzonePlaceholderText} />
     )}
   </div>
 );

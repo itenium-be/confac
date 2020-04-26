@@ -41,16 +41,14 @@ export const AttachmentDropzone = (props: AttachmentDropzoneProps) => {
           <div className="icon">
             <Icon fa="fa fa-file-upload" style={{marginRight: 8}} />
           </div>
-          {
-          file ? (
+          {file ? (
             <div className="info">
               {fileType}
               <span className="fileName">{file.name}</span>
             </div>
           ) : (
             <span>{dropzonePlaceholderText || t('invoice.attachmentsProposed', {type: fileType})}</span>
-          )
-        }
+          )}
         </>
       )}
     </div>

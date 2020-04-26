@@ -6,20 +6,19 @@ import {AttachmentDropzone} from '../../attachments/AttachmentDropzone';
 
 type UploadFileButtonProps = {
   onUpload: (f: File) => void;
-  icon: string;
   title: string;
   buttonText?: string;
   disabled?: boolean;
-  style?: React.CSSProperties;
+  hasFile?: boolean;
 };
 
 
 
-export const UploadFileButton = ({onUpload, title, icon, buttonText, disabled, style}: UploadFileButtonProps) => (
-  <Button size="md" onClick={() => {}} variant="outline-dark" style={style} disabled={disabled}>
-    <AttachmentDropzone onUpload={onUpload} disabled={disabled} disableOpacityMode>
-      <Icon fa={icon} size={1} title={title} />
-      {buttonText && <span style={{marginLeft: '10px'}}>{buttonText}</span>}
-    </AttachmentDropzone>
-  </Button>
+export const UploadFileButton = ({onUpload, title, buttonText, disabled, hasFile}: UploadFileButtonProps) => (
+  <AttachmentDropzone onUpload={onUpload} disabled={disabled} disableOpacityMode>
+    <Button size="md" onClick={() => {}} variant={hasFile ? 'outline-dark' : 'outline-secondary'} disabled={disabled} title={title}>
+      <Icon fa="fa fa-upload" size={1} />
+      {buttonText && <span style={{marginLeft: 10}}>{buttonText}</span>}
+    </Button>
+  </AttachmentDropzone>
 );

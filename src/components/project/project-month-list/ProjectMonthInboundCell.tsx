@@ -87,22 +87,22 @@ const InboundActionButtons = ({fullProjectMonth, onChange}: InboundActionButtons
   const buttons: InboundActionsMap[] = [{
     status: 'validated',
     component: (
-      <Button key="validated" variant="outline-success" onClick={() => onChange('validated')} size="md">
-        <Icon fa="fa fa-check" size={1} title={t('projectMonth.inboundValidated')} />
+      <Button key="validated" variant="outline-success" onClick={() => onChange('validated')} size="md" title={t('projectMonth.inboundValidated')}>
+        <Icon fa="fa fa-check" size={1} />
       </Button>
     ),
   }, {
     status: 'paid',
     component: (
-      <Button key="paid" variant="success" onClick={() => onChange('paid')} size="md">
-        <Icon fa="fa fa-coins" size={1} title={t('projectMonth.inboundPaid')} />
+      <Button key="paid" variant="success" onClick={() => onChange('paid')} size="md" title={t('projectMonth.inboundPaid')}>
+        <Icon fa="fa fa-coins" size={1} />
       </Button>
     ),
   }, {
     status: 'new',
     component: (
-      <Button key="new" variant="outline-dark" onClick={() => onChange('new')} size="md">
-        <Icon fa="fa fa-inbox" size={1} title={t('projectMonth.inboundNew')} />
+      <Button key="new" variant="outline-dark" onClick={() => onChange('new')} size="md" title={t('projectMonth.inboundNew')}>
+        <Icon fa="fa fa-inbox" size={1} />
       </Button>
     ),
   }];
@@ -110,21 +110,20 @@ const InboundActionButtons = ({fullProjectMonth, onChange}: InboundActionButtons
   const inboundInvoiceDetails = invoice
     ? invoice.attachments.find(a => a.type === 'inbound') : attachments.find(a => a.type === 'inbound');
 
-  const hasInboundInvoiceBeenUploaded = !!inboundInvoiceDetails;
-
-  const getInboundInvoiceDownloadUrl = () => {
-    const projectMonthId = fullProjectMonth._id;
-
-    if (!inboundInvoiceDetails) return '';
-
-    const {fileName} = inboundInvoiceDetails;
+  const getInboundInvoiceDownloadUrl = (): string => {
+    if (!inboundInvoiceDetails) {
+      return '';
+    }
 
     if (invoice) {
-      return getDownloadUrl('invoice', invoice._id, 'inbound', fileName, 'preview');
+      return getDownloadUrl('invoice', invoice._id, 'inbound', inboundInvoiceDetails.fileName, 'preview');
     }
-    return getDownloadUrl('project_month', projectMonthId, 'inbound', fileName, 'preview');
+
+    const projectMonthId = fullProjectMonth._id;
+    return getDownloadUrl('project_month', projectMonthId, 'inbound', inboundInvoiceDetails.fileName, 'preview');
   };
 
+  const hasInboundInvoiceBeenUploaded = !!inboundInvoiceDetails;
   return (
     <div className="inbound-actions">
       {buttons.filter(b => b.status !== inbound.status).map(b => b.component)}

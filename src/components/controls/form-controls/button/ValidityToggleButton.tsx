@@ -11,7 +11,7 @@ type ValidityToggleButtonProps = MinimalInputProps<boolean> & {
 };
 
 
-export const ValidityToggleButton = ({value, onChange, outline, title, ...props}: ValidityToggleButtonProps) => {
+export const ValidityToggleButton = ({value, onChange, outline, ...props}: ValidityToggleButtonProps) => {
   const icon = !value ? 'fa fa-check' : 'fas fa-ban';
 
   let variant: BootstrapVariant;
@@ -24,7 +24,7 @@ export const ValidityToggleButton = ({value, onChange, outline, title, ...props}
 
   return (
     <Button size="md" onClick={() => onChange(!value)} variant={variant} {...props}>
-      <Icon fa={icon} size={1} title={title} />
+      <Icon fa={icon} size={1} />
     </Button>
   );
 };

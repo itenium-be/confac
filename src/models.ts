@@ -38,6 +38,11 @@ export type Attachment = {
   lastModifiedDate: string,
 }
 
+
+/** Duplicated on backend */
+export const TimesheetCheckAttachmentType = 'Timesheet check';
+export const SignedTimesheetAttachmentType = 'Getekende timesheet';
+
 /**
  * InvoiceModel | ClientModel
  * TODO: Add the modelType here

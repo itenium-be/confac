@@ -3,6 +3,7 @@ import {useHistory} from 'react-router-dom';
 import {Button as ReactButton} from 'react-bootstrap';
 import {Icon} from '../Icon';
 import {BootstrapVariant} from '../../../models';
+import {Tooltip} from '../Tooltip';
 
 export type ButtonSize = 'lg' | 'sm' | 'md';
 
@@ -15,9 +16,10 @@ type ButtonProps = {
   style?: React.CSSProperties,
   disabled?: boolean;
   className?: string;
+  title?: string;
 }
 
-export const Button = ({variant = 'primary', size = 'lg', disabled, className, style, ...props}: ButtonProps) => {
+export const Button = ({variant = 'primary', size = 'lg', disabled, className, style, title, ...props}: ButtonProps) => {
   const history = useHistory();
   const {children, icon, onClick, ...rest} = props;
 
@@ -28,7 +30,7 @@ export const Button = ({variant = 'primary', size = 'lg', disabled, className, s
     };
   }
 
-  return (
+  let FinalButton = (
     <ReactButton
       className={className}
       variant={variant}
@@ -42,4 +44,14 @@ export const Button = ({variant = 'primary', size = 'lg', disabled, className, s
       {children}
     </ReactButton>
   );
+
+  if (title) {
+    FinalButton = (
+      <Tooltip title={title}>
+        {FinalButton}
+      </Tooltip>
+    );
+  }
+
+  return FinalButton;
 };

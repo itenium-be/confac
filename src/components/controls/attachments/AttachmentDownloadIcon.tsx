@@ -25,10 +25,11 @@ export const InvoicePreviewIcon = ({invoice, ...props}: InvoiceModelProps & Icon
 type AttachmentPreviewIconProps = {
   attachment: Attachment,
   previewUrl: string,
+  title?: string,
 }
 
 export const AttachmentPreviewIcon = ({previewUrl, attachment, ...props}: AttachmentPreviewIconProps) => (
-  <Icon title={t('invoice.viewPdf')} href={previewUrl} size={1} fa="far fa-eye" {...props} />
+  <Icon title={t(props.title || 'invoice.viewPdf')} href={previewUrl} size={1} fa="far fa-eye" {...props} />
 );
 
 

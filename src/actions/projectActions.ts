@@ -8,6 +8,7 @@ import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {ProjectModel} from '../components/project/models/ProjectModel';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
+import {TimesheetCheckAttachmentType} from '../models';
 
 export function saveProject(project: ProjectModel, history: any) {
   return (dispatch: Dispatch) => {
@@ -96,7 +97,7 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
 
 
 
-export function projectMonthUpload(file: File, type: 'timesheet' | 'inbound', projectMonthId: string) {
+export function projectMonthUpload(file: File, type: 'Getekende timesheet' | 'inbound', projectMonthId: string) {
   return (dispatch: Dispatch) => {
     const req = request.put(buildUrl(`/attachments/project_month/${projectMonthId}/${type}`));
     req.attach(file.name, file);
@@ -114,7 +115,7 @@ export function projectMonthUpload(file: File, type: 'timesheet' | 'inbound', pr
 
 export function projectsMonthOverviewUpload(file: File, month: Moment) {
   return (dispatch: Dispatch) => {
-    const req = request.put(buildUrl(`/attachments/project_month_overview/${month.toISOString()}/allTimesheets`));
+    const req = request.put(buildUrl(`/attachments/project_month_overview/${month.toISOString()}/${TimesheetCheckAttachmentType}`));
     req.attach(file.name, file);
     req.then(response => {
       dispatch({
@@ -130,7 +131,7 @@ export function projectsMonthOverviewUpload(file: File, month: Moment) {
 
 export function deleteProjectsMonthOverview(id: string) {
   return (dispatch: Dispatch) => {
-    const req = request.delete(buildUrl(`/attachments/project_month_overview/${id}/allTimesheets`));
+    const req = request.delete(buildUrl(`/attachments/project_month_overview/${id}/${TimesheetCheckAttachmentType}`));
     req.then(response => {
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_OVERVIEWS_DELETE,

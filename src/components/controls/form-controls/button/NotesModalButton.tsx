@@ -4,6 +4,7 @@ import {Icon} from '../../Icon';
 import {Button} from '../Button';
 import {Modal} from '../../Modal';
 import {TextareaInput} from '../inputs/TextareaInput';
+import {t} from '../../../utils';
 
 
 type NotesModalButtonProps = MinimalInputProps<string> & {
@@ -18,8 +19,8 @@ export const NotesModalButton = ({value, onChange, title}: NotesModalButtonProps
   const icon = !value ? 'far fa-comment' : 'far fa-comment-dots';
   return (
     <>
-      <Button size="md" onClick={() => setOpen(!open)} variant="outline-dark">
-        <Icon fa={icon} size={1} title={text} />
+      <Button size="md" onClick={() => setOpen(!open)} variant="outline-dark" title={text || t('projectMonth.addNote')}>
+        <Icon fa={icon} size={1} />
       </Button>
       {open && (
         <Modal

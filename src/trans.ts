@@ -257,6 +257,7 @@ export const trans = {
     attachmentsAdd: 'Bijlage toevoegen',
     attachmentsDropzone: 'Drop hier een bestand of klik hier om een factuur bijlage op te laden',
     attachmentsProposed: '{type} opladen',
+    attachmentViewTooltip: '{type} bekijken',
     pdfTemplateNotFoundTitle: 'Pdf template niet gevonden!',
     pdfTemplateNotFound: 'De pdf template was niet gevonden (check Config)',
     search: {
@@ -384,6 +385,7 @@ export const trans = {
     timesheetdaily: 'Dagen',
     timesheethourly: 'Uren ',
     timesheetCheck: 'SDWorx',
+    timesheetCheckDownloadTooltip: 'SDWorx timesheet bekijken',
     timesheetNote: 'Notitie Timesheet {name}',
     timesheetUpload: 'Timesheet uploaden',
     timesheetExpiration: 'loopt af {daysLeft}',
@@ -395,6 +397,7 @@ export const trans = {
     inboundValidated: 'Gevalideerd: Timesheet en bedrag zijn gecontroleerd',
     outboundCreateInvoice: 'Factuur maken',
     note: 'Facturatie perikelen',
+    addNote: 'Commentaar toevoegen',
     forceVerified: 'Forceer afgehandeld zonder een factuur op te maken',
     viewTimesheet: 'Timesheet bekijken: {fileName}',
     viewInboundInvoice: 'Ontvangen factuur bekijken: {fileName}',

@@ -21,8 +21,8 @@ export const AttachmentUploadPreviewButtons = (props: AttachmentUploadPreviewBut
       <UploadFileButton
         onUpload={onUpload}
         title={uploadTooltip}
-        icon="fa fa-upload"
         disabled={isUploadDisabled}
+        hasFile={!isPreviewDisabled}
       />
       <AttachmentPreviewButton downloadUrl={downloadUrl} tooltip={previewTooltip} disabled={isPreviewDisabled} />
     </ButtonGroup>

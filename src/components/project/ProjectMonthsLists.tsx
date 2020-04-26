@@ -158,6 +158,7 @@ const ProjectMonthsList = ({feature}: ProjectMonthsListProps) => {
           onDelete={() => (projectsMonthOverview ? dispatch(deleteProjectsMonthOverview(projectsMonthOverview._id)) : null)}
           downloadUrl={createDownloadUrl}
           dropzonePlaceholderText={t('projectMonth.sdWorxTimesheetUpload')}
+          viewFileTooltip={t('projectMonth.timesheetCheckDownloadTooltip')}
         />
       </div>
       <List feature={feature} />

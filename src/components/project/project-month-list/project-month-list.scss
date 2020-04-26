@@ -13,7 +13,7 @@ $cell-padding: 8px 8px;
 
 
 .list-projectMonths {
-  max-width: 1600px !important;
+  max-width: 1700px !important;
 
   tbody {
     border-bottom: 1px solid $table-border-color;
@@ -42,9 +42,9 @@ $cell-padding: 8px 8px;
     text-align: center;
 
     &:first-child { width: 1%; }
-    &:nth-child(2) { width: 30%; }
-    &:nth-child(3) { width: 39%; }
-    &:nth-child(4) { width: 39%; }
+    &:nth-child(2) { width: 29%; }
+    &:nth-child(3) { width: 40%; }
+    &:nth-child(4) { width: 25%; }
     &:last-child { width: 5%; max-width: 80px; }
   }
 
@@ -116,9 +116,9 @@ $cell-padding: 8px 8px;
 
     > * {
       &:first-child { width: 10%; }
-      &:nth-child(2) { width: 15%; }
-      &:nth-child(3) { width: 35%; }
-      &:last-child { width: 40%; min-width: 150px; }
+      &:nth-child(2) { width: 20%; text-align: right; }
+      &:nth-child(3) { width: 35%; text-align: center; }
+      &:last-child { width: 35%; min-width: 150px; }
 
       &:not(:last-child) {
         margin-right: $in-cell-margin;
@@ -136,10 +136,6 @@ $cell-padding: 8px 8px;
         &::before {
           content: '#';
         }
-      }
-
-      &:not(:first-child) {
-        text-align: center;
       }
     }
 

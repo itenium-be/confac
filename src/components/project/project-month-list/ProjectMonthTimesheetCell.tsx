@@ -14,6 +14,7 @@ import {BasicMathInput} from '../../controls/form-controls/inputs/BasicMathInput
 import {getDownloadUrl} from '../../../actions/utils/download-helpers';
 import {TimesheetTimeConfig, getAmountInDays} from '../../invoice/controls/InvoiceLineTypeSelect';
 import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPreviewButtons';
+import {SignedTimesheetAttachmentType} from '../../../models';
 
 interface ProjectMonthTimesheetCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -76,10 +77,9 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
     && (timesheetAmount === timesheet.check || timesheet.note || !projectConfig.timesheetCheck)
   );
 
-  // TODO: 'timesheet' constant... This is "Getekende timesheet" in PROD
   const timesheetDetails = fullProjectMonth.invoice
-    ? fullProjectMonth.invoice.attachments.find(a => a.type === 'timesheet')
-    : fullProjectMonth.details.attachments.find(a => a.type === 'timesheet');
+    ? fullProjectMonth.invoice.attachments.find(a => a.type === SignedTimesheetAttachmentType)
+    : fullProjectMonth.details.attachments.find(a => a.type === SignedTimesheetAttachmentType);
 
   const hasTimesheetBeenUploaded = !!timesheetDetails;
 
@@ -92,9 +92,9 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
     const {fileName} = timesheetDetails;
 
     if (invoice) {
-      return getDownloadUrl('invoice', invoice._id, 'timesheet', fileName, 'preview');
+      return getDownloadUrl('invoice', invoice._id, SignedTimesheetAttachmentType, fileName, 'preview');
     }
-    return getDownloadUrl('project_month', projectMonthId, 'timesheet', fileName, 'preview');
+    return getDownloadUrl('project_month', projectMonthId, SignedTimesheetAttachmentType, fileName, 'preview');
   };
 
 
@@ -136,7 +136,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           isPreviewDisabled={!hasTimesheetBeenUploaded}
           uploadTooltip={t('projectMonth.timesheetUpload')}
           previewTooltip={t('projectMonth.viewTimesheet', {fileName: timesheetDetails ? timesheetDetails.fileName : ''})}
-          onUpload={f => dispatch(projectMonthUpload(f, 'timesheet', fullProjectMonth._id))}
+          onUpload={f => dispatch(projectMonthUpload(f, SignedTimesheetAttachmentType, fullProjectMonth._id))}
           downloadUrl={getTimesheetDownloadUrl()}
         />
       </div>

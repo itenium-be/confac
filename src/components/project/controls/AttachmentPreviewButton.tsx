@@ -18,8 +18,8 @@ export const AttachmentPreviewButton = ({downloadUrl, tooltip, disabled, style}:
   };
 
   return (
-    <Button size="md" onClick={() => viewAttachment()} variant="outline-dark" disabled={disabled} style={style}>
-      <Icon fa="fa fa-eye" size={1} title={tooltip} />
+    <Button size="md" onClick={() => viewAttachment()} variant="outline-dark" disabled={disabled} style={style} title={tooltip}>
+      <Icon fa="fa fa-eye" size={1} />
     </Button>
   );
 };
