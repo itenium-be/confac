@@ -19,7 +19,7 @@ import {SignedTimesheetAttachmentType} from '../../../models';
 interface ProjectMonthTimesheetCellProps {
   fullProjectMonth: FullProjectMonthModel;
 }
-const ViewportWidths = {showTimesheetDaysFrom: 1600};
+const ViewportWidths = {showTimesheetDaysFrom: 1800};
 
 
 /** Display timesheet number in days */

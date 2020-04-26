@@ -32,6 +32,7 @@ export const features = {
     title: 'Projecten',
     listTitle: 'Projecten',
     createNew: 'Nieuw project',
+    project: 'Project',
     props: {},
   },
   projectMonth: {
@@ -39,6 +40,7 @@ export const features = {
     listTitle: 'Project maanden',
     createNew: false,
     props: {
+      project: 'Project',
       consultant: 'Consultant',
       timesheet: 'Timesheet',
       timesheetCheck: 'SDWorx',

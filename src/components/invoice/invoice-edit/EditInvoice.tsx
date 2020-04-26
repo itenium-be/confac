@@ -25,7 +25,6 @@ import {InvoiceAttachmentsForm} from '../controls/InvoiceAttachmentsForm';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {projectMonthResolve} from '../../project/ProjectMonthsLists';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
-import {ConsultantSelect} from '../../consultant/controls/ConsultantSelect';
 import {invoiceReplacements} from '../invoice-replacements';
 import {ProjectMonthSelect} from '../../project/controls/ProjectMonthSelect';
 import {EditInvoiceBadges} from './EditInvoiceBadges';
@@ -159,8 +158,8 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
         <Form>
           <Row>
             <Col sm={12} style={{marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-              <div style={{display: 'flex', alignItems: 'flex-start'}}>
-                <h1>
+              <div style={{display: 'inline-flex', alignItems: 'flex-start'}}>
+                <h1 style={{width: 'unset'}}>
                   {invoice._id ? (
                     <>
                       {t(`${this.type}.editTitle`)}
@@ -207,6 +206,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                       this.updateInvoice('projectMonthId', fullProjectMonth._id);
                       this.updateInvoice('consultantId', fullProjectMonth.consultant._id);
                     }}
+                    invoice={invoice}
                   />
                 </Col>
               </Row>

@@ -25,7 +25,7 @@ class InvoiceVerifyIcon extends Component<InvoiceVerifyIconProps> {
         model={invoice}
         style={{marginLeft: 8}}
         onClick={() => toggleInvoiceVerify(invoice)}
-        title={invoice.verified ? t('invoice.verifyAction') : t('invoice.verifyActionTooltip', {days: moment().diff(invoice.date, 'days')})}
+        title={invoice.verified ? t('invoice.verifyAction') : t('invoice.verifyActionTooltip', {days: moment().diff(invoice.createdOn, 'days')})}
         {...props}
       />
     );

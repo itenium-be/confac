@@ -6,7 +6,6 @@ import {NumericInput} from '../../controls/form-controls/inputs/NumericInput';
 import {VerifyIcon} from '../../controls/icons/VerifyIcon';
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {DatePicker} from '../../controls/form-controls/DatePicker';
-import {ProjectMonthSelect} from '../../project/controls/ProjectMonthSelect';
 
 type EditInvoiceDetailsProps = {
   invoice: InvoiceModel;

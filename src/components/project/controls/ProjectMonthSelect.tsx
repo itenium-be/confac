@@ -1,49 +1,46 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {useParams} from 'react-router-dom';
 import Select from 'react-select';
 import {t} from '../../utils';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import {ConfacState} from '../../../reducers/app-state';
 import {SelectItem} from '../../../models';
-import {projectMonthResolve, displayMonthWithYear} from '../ProjectMonthsLists';
+import {projectMonthResolve} from '../ProjectMonthsLists';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
 
 
 type ProjectMonthSelectProps = {
-  /** The project _id */
+  /** The projectModel _id */
   value: string,
   onChange: (fullProjectMonth: FullProjectMonthModel) => void,
+  /** Currently selected Invoice */
+  invoice?: InvoiceModel;
 }
+
+
+
+const getProjectMonthDesc = (fpm: FullProjectMonthModel): string => {
+  const {consultant, details, client, partner} = fpm;
+  return (
+    `${details.month.format('YYYY/MM')}: ${consultant.firstName} ${consultant.name} @ ${client.name}${partner ? ` (${partner.name})` : ''}`
+  );
+};
+
+
 
 const ProjectMonthSelectComponent = (props: ProjectMonthSelectProps) => {
   const fullProjectsMonth = useSelector((state: ConfacState) => state.projectsMonth.map(pm => projectMonthResolve(pm, state)));
-  const invoices = useSelector((state: ConfacState) => state.invoices);
-  const urlParams: {id: string} = useParams();
-
-  const {value: selectedProjectMonthId} = props;
 
   const getFullProjectMonth = (projectMonthId: string): FullProjectMonthModel => fullProjectsMonth
     .find(fpm => fpm._id === projectMonthId) as FullProjectMonthModel;
 
-  const getProjectMonthDesc = (fpm: FullProjectMonthModel): string => {
-    const {consultant, details, client, partner} = fpm;
-    return (
-      `${displayMonthWithYear(details)} - ${consultant.firstName} ${consultant.name} - ${partner ? `${partner.name} / ` : ''}${client.name}`
-    );
-  };
-
-  const getCurrentInvoice = (invoiceNumber: string): InvoiceModel => invoices.find(i => i.number === +invoiceNumber)!;
-
-  const currentInvoice = urlParams.id ? getCurrentInvoice(urlParams.id) : null;
-
   const options: SelectItem[] = fullProjectsMonth
-    .filter(fpm => ((currentInvoice && currentInvoice.projectMonthId) === fpm._id) || !fpm.invoice)
-    .filter(fpm => !fpm.details.attachments.length)
+    .filter(fpm => !fpm.invoice || (props.invoice && props.invoice._id === fpm.invoice._id))
     .sort((a, b) => getProjectMonthDesc(a).localeCompare(getProjectMonthDesc(b)))
-    .map(item => ({value: item._id, label: getProjectMonthDesc(item)} as SelectItem));
+    .map(item => ({value: item._id, label: getProjectMonthDesc(item)}));
 
+  const selectedProjectMonthId = props.value;
   const selectedOption = options.find(o => o.value === selectedProjectMonthId);
 
   return (

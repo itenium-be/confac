@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux';
 import {Badge} from 'react-bootstrap';
 import InvoiceModel from '../models/InvoiceModel';
 import {ConfacState} from '../../../reducers/app-state';
-import {projectMonthResolve} from '../../project/ProjectMonthsLists';
+import {projectMonthResolve, displayMonthWithYear} from '../../project/ProjectMonthsLists';
 import {tariffFormat, t} from '../../utils';
 
 
@@ -30,17 +30,22 @@ export const EditInvoiceBadges = ({invoice}: InvoiceProps) => {
   const consultant = `${projectMonth.consultant.firstName} ${projectMonth.consultant.name}`;
   return (
     <>
-      <Badge pill style={defaultBadgeStyle} variant="success">
+      <Badge style={defaultBadgeStyle} variant="primary">
+        {displayMonthWithYear(projectMonth.details)}
+      </Badge>
+      <Badge style={defaultBadgeStyle} variant="success">
         {projectMonth.client.name}
         <small style={{paddingLeft: 10}}>{tariffFormat(projectMonth.project.client.tariff)}</small>
       </Badge>
       {projectMonth.project.partner && (
-        <Badge pill style={defaultBadgeStyle} variant="dark">
+        <Badge style={defaultBadgeStyle} variant="danger">
           {t('projectMonth.markup')}
           <small style={{paddingLeft: 10}}>{tariffFormat(projectMonth.project.client.tariff - projectMonth.project.partner.tariff)}</small>
         </Badge>
       )}
+
       <br />
+
       <Badge style={{...defaultBadgeStyle, marginTop: 8}} variant="info">
         {consultant}
         {projectMonth.partner && <small style={{paddingLeft: 8}}>({projectMonth.partner.name})</small>}

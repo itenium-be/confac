@@ -35,7 +35,7 @@ const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMon
 
 const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<FullProjectMonthModel, ProjectMonthListFilters> => {
   const list: IListCell<FullProjectMonthModel>[] = [{
-    key: 'consultant',
+    key: 'project',
     value: p => <ProjectMonthConsultantCell fullProjectMonth={p} />,
     className: p => {
       if (p.details.verified) {
