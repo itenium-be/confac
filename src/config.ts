@@ -2,7 +2,7 @@ const appConfig = {
   db: {
     host: process.env.MONGO_HOST || 'localhost',
     db: process.env.MONGO_DB || 'confac-dev',
-    other_dbs: 'confac-dev | confac-test | confac-acc | confac',
+    other_dbs: 'confac-dev | confac-test | confac-acc | confac | confac-mi',
     port: process.env.MONGO_PORT || 32772,
   },
   server: {
