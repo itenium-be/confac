@@ -1,6 +1,9 @@
-import {ObjectID, Binary} from 'mongodb';
+import {ObjectID} from 'mongodb';
 
 import {IAttachment} from './common';
+
+/** Duplicated on frontend */
+export const TimesheetCheckAttachmentType = 'Timesheet check';
 
 export interface IProjectMonth {
   _id: ObjectID;
@@ -45,5 +48,5 @@ export interface IProjectMonthOverview {
   /** Format: ISO Date */
   month: string;
   /** One file with all the time-sheets combined  */
-  allTimesheets: Buffer;
+  [TimesheetCheckAttachmentType]: Buffer;
 }

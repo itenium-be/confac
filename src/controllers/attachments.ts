@@ -2,12 +2,10 @@ import {Request, Response} from 'express';
 import JSZip from 'jszip';
 import moment from 'moment';
 import {ObjectID, Db} from 'mongodb';
-
 import {IAttachmentCollection, IAttachmentModelConfig, attachmentModelsConfig, IAttachments} from '../models/attachments';
 import {CollectionNames} from '../models/common';
 import {IInvoice} from '../models/invoices';
-import {IClient} from '../models/clients';
-import {IProjectMonthOverview} from '../models/projectsMonth';
+import {IProjectMonthOverview, TimesheetCheckAttachmentType} from '../models/projectsMonth';
 
 const saveAttachment = async (req: Request, attachmentModelConfig: IAttachmentModelConfig, file: Express.Multer.File) => {
   const {id, type} = req.params;
@@ -82,7 +80,7 @@ export const getAttachmentController = async (req: Request, res: Response) => {
 
   let responseType: string = '';
   if (!req.query.download) {
-    const ext = fileName.substr(fileName.lastIndexOf('.') + 1);
+    const ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
 
     const determineResponseType = (): string => {
       if (type === 'pdf' || ext === 'pdf') {
@@ -176,7 +174,7 @@ export const saveAttachmentController = async (req: Request, res: Response) => {
         month,
       },
     }, {
-      projection: {allTimesheets: false},
+      projection: {[TimesheetCheckAttachmentType]: false},
       upsert: true,
       returnOriginal: false,
     });

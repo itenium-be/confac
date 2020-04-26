@@ -1,8 +1,7 @@
 import {Request, Response} from 'express';
-
 import {ObjectID} from 'mongodb';
 import {findActiveProjectsForSelectedMonth} from './projects';
-import {IProjectMonth, IProjectMonthOverview} from '../models/projectsMonth';
+import {IProjectMonth, IProjectMonthOverview, TimesheetCheckAttachmentType} from '../models/projectsMonth';
 import {CollectionNames} from '../models/common';
 import {IProject} from '../models/projects';
 
@@ -16,7 +15,7 @@ export const getProjectsPerMonthController = async (req: Request, res: Response)
 /** Returns only file details of a projects month attachment overview (all timesheets combined in one file) */
 export const getProjectsPerMonthOverviewController = async (req: Request, res: Response) => {
   const projectsPerMonthOverview = await req.db.collection<IProjectMonthOverview>(CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW)
-    .find({}, {projection: {allTimesheets: false}})
+    .find({}, {projection: {[TimesheetCheckAttachmentType]: false}})
     .toArray();
   return res.send(projectsPerMonthOverview);
 };
