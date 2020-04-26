@@ -1,0 +1,15 @@
+@import '../../styles/variables.scss';
+
+$borderSeparator: 3px solid $table-border-color;
+
+.list-projects {
+  max-width: 1400px !important;
+
+  table.table-projects {
+    th, td {
+      &:nth-child(3), &:nth-child(5) {
+        border-right: $borderSeparator;
+      }
+    }
+  }
+}

@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import moment from 'moment';
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {IList, IListCell, ProjectListFilters} from '../../controls/table/table-models';
 import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
@@ -9,6 +8,7 @@ import {FullProjectModel, ProjectClientModel, PROJECT_STATUSES} from './ProjectM
 import {t, formatDate, tariffFormat, searchinize} from '../../utils';
 import {EditIcon} from '../../controls/Icon';
 import {InvoiceClientCell} from '../../invoice/invoice-table/InvoiceClientCell';
+import {ConsultantLinkWithModal} from '../../consultant/controls/ConsultantLink';
 
 
 export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel, ProjectListFilters>;
@@ -83,15 +83,8 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
   const list: IListCell<FullProjectModel>[] = [{
     key: 'consultant',
     header: 'project.consultant',
-    value: p => (
-      <Link to={`consultants/${p.consultant.slug}`}>
-        {p.consultant.firstName} {p.consultant.name}
-      </Link>
-    ),
-  }, {
-    key: 'type',
-    header: 'project.consultantType',
-    value: p => t(`consultant.types.${p.consultant.type}`),
+    value: p => <ConsultantLinkWithModal consultant={p.consultant} showType />,
+    footer: (models: FullProjectModel[]) => <span>{models.length} {t('consultant.title').toLowerCase()}</span>,
   }, {
     key: 'startDate',
     header: 'project.startDate',

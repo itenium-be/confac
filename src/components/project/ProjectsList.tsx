@@ -10,6 +10,9 @@ import {LinkToButton} from '../controls/form-controls/button/LinkToButton';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 
 
+import './ProjectsList.scss';
+
+
 export const ProjectsList = () => {
   useDocumentTitle('projectList');
 

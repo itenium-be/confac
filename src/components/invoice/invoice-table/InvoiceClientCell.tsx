@@ -1,74 +1,62 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, {useState} from 'react';
+import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import t from '../../../trans';
 import {ClientModal} from '../../client/controls/ClientModal';
-import {saveClient} from '../../../actions/index';
 import {ConfacState} from '../../../reducers/app-state';
 import {ClientModel} from '../../client/models/ClientModels';
-import {ClientEditIcon} from '../../client/controls/ClientEditIcon';
+import {Icon} from '../../controls/Icon';
 
 
 type InvoiceClientCellProps = {
-  clients: ClientModel[],
   client: ClientModel | undefined,
-  saveClient: any,
 }
 
-type InvoiceClientCellState = {
-  hover: boolean,
-  modal: boolean,
-}
+/** Link to a Client with option to open a Modal */
+export const InvoiceClientCell = ({client, ...props}: InvoiceClientCellProps) => {
+  const clients = useSelector((state: ConfacState) => state.clients);
+  const [hover, setHover] = useState<boolean>(false);
+  const [modal, setModal] = useState<boolean>(false);
 
-export const InvoiceClientCell = connect((state: ConfacState) => ({
-  clients: state.clients,
-}), {saveClient})(
-  class extends Component<InvoiceClientCellProps, InvoiceClientCellState> {
-    constructor(props) {
-      super(props);
-      this.state = {
-        hover: false,
-        modal: false,
-      };
-    }
+  if (!client) {
+    return null;
+  }
 
-    render() {
-      const invoiceClient = this.props.client;
-      if (!invoiceClient) {
-        return null;
-      }
+  // An Invoice keeps a copy of the client details, this is stored
+  // in the InvoiceModel itself and is not present in the store
+  // (they have no _id)
+  const storeClient = clients.find(c => c._id === client._id);
+  if (!storeClient) {
+    return <span>{client.name}</span>;
+  }
 
-      const client = this.props.clients.find(c => c._id === invoiceClient._id);
-      if (!client) {
-        return <span>{invoiceClient.name}</span>;
-      }
-      return (
-        <div
-          onMouseEnter={() => this.setState({hover: true})}
-          onMouseLeave={() => this.setState({hover: false})}
-        >
-          <Link to={`/clients/${client.slug}`} className="invoice-list-client">
-            {client.name}
-          </Link>
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      <Link to={`/clients/${client.slug}`} {...props}>
+        {client.name}
+      </Link>
 
-          <ClientEditIcon
-            title={t('invoice.clientEditModal')}
-            size={1}
-            style={{marginLeft: 8, color: 'grey', visibility: this.state.hover ? 'unset' : 'hidden'}}
-            client={client}
-            onClick={() => this.setState({modal: true})}
-            fa="fa fa-external-link-alt"
-          />
+      <Icon
+        title={t('invoice.clientEditModal')}
+        size={1}
+        style={{marginLeft: 8, color: 'grey', visibility: hover ? 'unset' : 'hidden'}}
+        onClick={() => setModal(true)}
+        fa="fa fa-external-link-alt"
+      />
 
-          {this.state.modal && (
-          <ClientModal
-            client={client}
-            show={this.state.modal}
-            onClose={() => this.setState({modal: false, hover: false})}
-          />
-          )}
-        </div>
-      );
-    }
-  },
-);
+      {modal && (
+        <ClientModal
+          client={client}
+          show={modal}
+          onClose={() => {
+            setModal(false);
+            setHover(false);
+          }}
+        />
+      )}
+    </div>
+  );
+};

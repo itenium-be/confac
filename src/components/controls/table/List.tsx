@@ -34,7 +34,7 @@ export const List = ({feature}: ListProps) => {
           <ListRow config={config} model={model} key={model._id} />
         ))}
       </tbody>
-      <ListFooter config={config} />
+      <ListFooter config={config} data={data} />
     </Table>
   );
 };

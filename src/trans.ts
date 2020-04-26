@@ -325,6 +325,7 @@ export const trans = {
   consultant: {
     title: 'Consultants',
     createNew: 'Nieuwe consultant',
+    openEditModal: 'Open details in modal',
     types: {
       manager: 'Manager',
       consultant: 'Consultant',

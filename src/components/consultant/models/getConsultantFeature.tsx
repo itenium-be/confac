@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {ConsultantModel} from './ConsultantModel';
 import {IList, IListCell, ConsultantListFilters} from '../../controls/table/table-models';
 import {t, searchinize} from '../../utils';
@@ -8,6 +7,7 @@ import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-mo
 import {features} from '../../../trans';
 import {EditIcon} from '../../controls/Icon';
 import {DeleteIcon} from '../../controls/icons/DeleteIcon';
+import {ConsultantLinkWithModal} from '../controls/ConsultantLink';
 
 
 export type ConsultantFeatureBuilderConfig = IFeatureBuilderConfig<ConsultantModel, ConsultantListFilters>;
@@ -40,7 +40,7 @@ function getRowClassName(m: ConsultantModel): string | undefined {
 const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<ConsultantModel, ConsultantListFilters> => {
   const cells: IListCell<ConsultantModel>[] = [{
     key: 'name',
-    value: m => <Link to={`consultants/${m.slug}`}>{m.firstName} {m.name}</Link>,
+    value: m => <ConsultantLinkWithModal consultant={m} />,
   }, {
     key: 'type',
     value: m => t(`consultant.types.${m.type}`),
@@ -55,10 +55,11 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
     header: {title: '', width: 110},
     value: m => (
       <>
-        <EditIcon onClick={`/consultants/${m.slug}`} style={{marginRight: 15}} />
+        <EditIcon onClick={`/consultants/${m.slug}`} style={{marginRight: 15}} size={1} />
         <DeleteIcon
           onClick={() => config.save({...m, active: !m.active})}
           title={m.active ? t('feature.deactivateTitle') : t('feature.activateTitle')}
+          size={1}
         />
       </>
     ),

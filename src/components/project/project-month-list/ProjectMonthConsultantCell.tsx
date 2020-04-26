@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import {ProjectMonthModal} from '../controls/ProjectMonthModal';
+import {ConsultantLink} from '../../consultant/controls/ConsultantLink';
 
 
 interface ProjectMonthConsultantCellProps {
@@ -24,9 +25,7 @@ export const ProjectMonthConsultantCell = ({fullProjectMonth}: ProjectMonthConsu
       )}
       <div className="consultant-cell clickable" onClick={() => setModal(true)} role="button" tabIndex={0}>
         <div>
-          <Link to={`consultants/${consultant.slug}`}>
-            {`${consultant.firstName} ${consultant.name}`}
-          </Link>
+          <ConsultantLink consultant={consultant} />
         </div>
         <small>
           {client && (

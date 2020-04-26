@@ -69,7 +69,7 @@ export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
         ),
       ])}
 
-      <ListFooter config={featureConfig.list} />
+      <ListFooter config={featureConfig.list} data={invoices} />
     </Table>
   );
 };
