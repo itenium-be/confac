@@ -21,6 +21,7 @@ const ConsultantSelectComponent = ({value, onChange}: ConsultantSelectProps) => 
 
   const selectedModelId = value && typeof value === 'object' ? value._id : value;
   const options: SelectItem[] = models
+    .filter(x => x.active || x._id === selectedModelId)
     .sort((a, b) => getModelDesc(a).localeCompare(getModelDesc(b)))
     .map(item => ({value: item._id, label: getModelDesc(item)} as SelectItem));
 
