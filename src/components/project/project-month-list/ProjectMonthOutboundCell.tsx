@@ -152,7 +152,7 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
   const valid = (
     fullProjectMonth.details.timesheet.validated
     && (!fullProjectMonth.project.projectMonthConfig.changingOrderNr || fullProjectMonth.details.orderNr)
-    && (fullProjectMonth.details.inbound.status === 'paid' || !fullProjectMonth.project.projectMonthConfig.inboundInvoice)
+    && (['paid', 'validated'].includes(fullProjectMonth.details.inbound.status) || !fullProjectMonth.project.projectMonthConfig.inboundInvoice)
   );
 
   return (

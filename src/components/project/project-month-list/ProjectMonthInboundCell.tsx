@@ -14,6 +14,7 @@ import {useDebouncedSave} from '../../hooks/useDebounce';
 import {getDownloadUrl} from '../../../actions/utils/download-helpers';
 import {ConfacState} from '../../../reducers/app-state';
 import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPreviewButtons';
+import moment from 'moment';
 
 interface ProjectMonthInboundCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -42,6 +43,25 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
 
   const canEdit = (fullProjectMonth.details.verified || inbound.status !== 'new') ? 'label' : undefined;
 
+
+  const inboundInvoiceDetails = fullProjectMonth.invoice
+    ? fullProjectMonth.invoice.attachments.find(a => a.type === 'inbound') : fullProjectMonth.details.attachments.find(a => a.type === 'inbound');
+
+  const getInboundInvoiceDownloadUrl = (): string => {
+    if (!inboundInvoiceDetails) {
+      return '';
+    }
+
+    if (fullProjectMonth.invoice) {
+      return getDownloadUrl('invoice', fullProjectMonth.invoice._id, 'inbound', inboundInvoiceDetails.fileName, 'preview');
+    }
+
+    const projectMonthId = fullProjectMonth._id;
+    return getDownloadUrl('project_month', projectMonthId, 'inbound', inboundInvoiceDetails.fileName, 'preview');
+  };
+
+  const hasInboundInvoiceBeenUploaded = !!inboundInvoiceDetails;
+
   return (
     <div className={cn('inbound-cell')}>
       <StringInput
@@ -57,10 +77,27 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
         placeholder={t('projectMonth.inboundDateReceived')}
         display={canEdit}
       />
-      <InboundActionButtons
-        fullProjectMonth={fullProjectMonth}
-        onChange={status => saveInbound({...inbound, status})}
-      />
+      <div className="inbound-actions">
+        <InboundActionButtons
+          fullProjectMonth={fullProjectMonth}
+          onChange={status => saveInbound({...inbound, status})}
+        />
+        <div className="inbound-attachment-actions">
+          <AttachmentUploadPreviewButtons
+            isUploadDisabled={!!fullProjectMonth.invoice}
+            isPreviewDisabled={!hasInboundInvoiceBeenUploaded}
+            uploadTooltip={t('projectMonth.inboundUpload')}
+            previewTooltip={t('projectMonth.viewInboundInvoice', {fileName: inboundInvoiceDetails ? inboundInvoiceDetails.fileName : ''})}
+            onUpload={f => {
+              if (!inbound.dateReceived) {
+                setInbound({...inbound, dateReceived: moment()});
+              }
+              return dispatch(projectMonthUpload(f, 'inbound', fullProjectMonth._id));
+            }}
+            downloadUrl={getInboundInvoiceDownloadUrl()}
+          />
+        </div>
+      </div>
     </div>
   );
 };
@@ -79,11 +116,8 @@ type InboundActionsMap = {
 
 
 
-/** Switch between statusses and dropzone for uploading the inbound invoice */
+/** Switch between statusses for the inbound invoice */
 const InboundActionButtons = ({fullProjectMonth, onChange}: InboundActionButtonsProps) => {
-  const dispatch = useDispatch();
-  const {details: {attachments, inbound}, invoice} = fullProjectMonth;
-
   const buttons: InboundActionsMap[] = [{
     status: 'validated',
     component: (
@@ -107,37 +141,10 @@ const InboundActionButtons = ({fullProjectMonth, onChange}: InboundActionButtons
     ),
   }];
 
-  const inboundInvoiceDetails = invoice
-    ? invoice.attachments.find(a => a.type === 'inbound') : attachments.find(a => a.type === 'inbound');
-
-  const getInboundInvoiceDownloadUrl = (): string => {
-    if (!inboundInvoiceDetails) {
-      return '';
-    }
-
-    if (invoice) {
-      return getDownloadUrl('invoice', invoice._id, 'inbound', inboundInvoiceDetails.fileName, 'preview');
-    }
-
-    const projectMonthId = fullProjectMonth._id;
-    return getDownloadUrl('project_month', projectMonthId, 'inbound', inboundInvoiceDetails.fileName, 'preview');
-  };
-
-  const hasInboundInvoiceBeenUploaded = !!inboundInvoiceDetails;
   return (
-    <div className="inbound-actions">
-      {buttons.filter(b => b.status !== inbound.status).map(b => b.component)}
-      <div className="inbound-attachment-actions">
-        <AttachmentUploadPreviewButtons
-          isUploadDisabled={!!invoice}
-          isPreviewDisabled={!hasInboundInvoiceBeenUploaded}
-          uploadTooltip={t('projectMonth.inboundUpload')}
-          previewTooltip={t('projectMonth.viewInboundInvoice', {fileName: inboundInvoiceDetails ? inboundInvoiceDetails.fileName : ''})}
-          onUpload={f => dispatch(projectMonthUpload(f, 'inbound', fullProjectMonth._id))}
-          downloadUrl={getInboundInvoiceDownloadUrl()}
-        />
-      </div>
-    </div>
+    <>
+      {buttons.filter(b => b.status !== fullProjectMonth.details.inbound.status).map(b => b.component)}
+    </>
   );
 };
 

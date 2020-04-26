@@ -43,9 +43,9 @@ $cell-padding: 8px 8px;
 
     &:first-child { width: 1%; }
     &:nth-child(2) { width: 29%; }
-    &:nth-child(3) { width: 40%; }
+    &:nth-child(3) { width: 44%; }
     &:nth-child(4) { width: 25%; }
-    &:last-child { width: 5%; max-width: 80px; }
+    &:last-child { width: 1%; max-width: 60px; }
   }
 
   td, th {
@@ -115,7 +115,7 @@ $cell-padding: 8px 8px;
     padding: $cell-padding;
 
     > * {
-      &:first-child { width: 10%; }
+      &:first-child { width: 10%; min-width: 120px; }
       &:nth-child(2) { width: 20%; text-align: right; }
       &:nth-child(3) { width: 35%; text-align: center; }
       &:last-child { width: 35%; min-width: 150px; }
@@ -132,6 +132,9 @@ $cell-padding: 8px 8px;
 
       &:first-child {
         padding-left: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         &::before {
           content: '#';
