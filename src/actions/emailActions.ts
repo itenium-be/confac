@@ -6,15 +6,17 @@ import {success, failure} from './appActions';
 import {t} from '../components/utils';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {invoiceReplacements} from '../components/invoice/invoice-replacements';
+import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
 
-export function sendEmail(invoice: InvoiceModel, email: EmailModel) {
+
+export function sendEmail(invoice: InvoiceModel, email: EmailModel, fullProjectMonth?: FullProjectMonthModel) {
   return dispatch => {
     // eslint-disable-next-line no-param-reassign
     email.attachments = email.attachments.map(attachmentType => {
       if (attachmentType === 'pdf') {
         return {
           type: 'pdf',
-          fileName: `${invoiceReplacements(invoice.fileName, invoice)}.pdf`,
+          fileName: `${invoiceReplacements(invoice.fileName, invoice, fullProjectMonth)}.pdf`,
           fileType: 'application/pdf',
         };
       }

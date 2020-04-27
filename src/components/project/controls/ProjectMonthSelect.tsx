@@ -30,12 +30,12 @@ const getProjectMonthDesc = (fpm: FullProjectMonthModel): string => {
 
 
 const ProjectMonthSelectComponent = (props: ProjectMonthSelectProps) => {
-  const fullProjectsMonth = useSelector((state: ConfacState) => state.projectsMonth.map(pm => projectMonthResolve(pm, state)));
+  const fullProjectMonths = useSelector((state: ConfacState) => state.projectsMonth.map(pm => projectMonthResolve(pm, state)));
 
-  const getFullProjectMonth = (projectMonthId: string): FullProjectMonthModel => fullProjectsMonth
+  const getFullProjectMonth = (projectMonthId: string): FullProjectMonthModel => fullProjectMonths
     .find(fpm => fpm._id === projectMonthId) as FullProjectMonthModel;
 
-  const options: SelectItem[] = fullProjectsMonth
+  const options: SelectItem[] = fullProjectMonths
     .filter(fpm => !fpm.invoice || (props.invoice && props.invoice._id === fpm.invoice._id))
     .sort((a, b) => getProjectMonthDesc(a).localeCompare(getProjectMonthDesc(b)))
     .map(item => ({value: item._id, label: getProjectMonthDesc(item)}));

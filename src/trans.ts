@@ -139,6 +139,8 @@ export const trans = {
       date: 'Factuurdatum met FORMAT: jaar=YYYY, maand=MM, dag=DD (MomentJS)',
       orderNr: 'Bestelbon nummer',
       clientName: 'Naam klant',
+      consultantName: 'Naam consultant',
+      projectMonth: 'Project maand (MomentJS)',
     },
     company: {
       title: 'Jouw bedrijfsgegevens',

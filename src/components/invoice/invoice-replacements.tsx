@@ -1,4 +1,5 @@
 import InvoiceModel from './models/InvoiceModel';
+import {FullProjectMonthModel} from '../project/models/FullProjectMonthModel';
 
 
 
@@ -8,14 +9,15 @@ export const invoiceReplacementsPopoverConfig = [
   {code: '{date:FORMAT}', desc: 'config.invoiceReplacements.date', defaultValue: '{date:YYYY-MM}'},
   {code: '{orderNr}', desc: 'config.invoiceReplacements.orderNr'},
   {code: '{clientName}', desc: 'config.invoiceReplacements.clientName'},
-  // {code: '', desc: 'config.invoiceReplacements.'},
-  // {code: '', desc: 'config.invoiceReplacements.'},
+
+  {code: '{projectMonth:FORMAT}', desc: 'config.invoiceReplacements.projectMonth', defaultValue: '{projectMonth:YYYY-MM}'},
+  {code: '{consultantName}', desc: 'config.invoiceReplacements.consultantName'},
   // {code: '', desc: 'config.invoiceReplacements.'},
 ];
 
 
 
-export function invoiceReplacements(input: string, invoice: InvoiceModel): string {
+export function invoiceReplacements(input: string, invoice: InvoiceModel, fullProjectMonth?: FullProjectMonthModel): string {
   let str = input;
 
   const nrRegex = /\{nr:(\d+)\}/;
@@ -32,6 +34,19 @@ export function invoiceReplacements(input: string, invoice: InvoiceModel): strin
   if (dateMatch && invoice.date) {
     const dateFormat = dateMatch[1];
     str = str.replace(dateRegex, invoice.date.format(dateFormat));
+  }
+
+  if (fullProjectMonth) {
+    const projectMonthRegex = /\{projectMonth:([^}]+)\}/;
+    const projectMonthMatch = str.match(projectMonthRegex);
+    if (projectMonthMatch) {
+      const dateFormat = projectMonthMatch[1];
+      str = str.replace(projectMonthRegex, fullProjectMonth.details.month.format(dateFormat));
+    }
+
+    if (str.indexOf('{consultantName}') !== -1) {
+      str = str.replace('{consultantName}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`);
+    }
   }
 
   if (str.indexOf('{orderNr}') !== -1) {

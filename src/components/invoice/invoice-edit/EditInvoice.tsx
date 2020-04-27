@@ -36,7 +36,7 @@ type EditInvoiceProps = {
   app: { isLoaded: boolean },
   clients: ClientModel[],
   consultants: ConsultantModel[],
-  fullProjectsMonth: FullProjectMonthModel[],
+  fullProjectMonths: FullProjectMonthModel[],
   invoiceAction: Function,
   match: {
     params: {
@@ -44,7 +44,7 @@ type EditInvoiceProps = {
     }
   },
   renavigationKey: string,
-  sendEmail: (invoice: InvoiceModel, email: EmailModel) => void,
+  sendEmail: (invoice: InvoiceModel, email: EmailModel, fullProjectMonth?: FullProjectMonthModel) => void,
 }
 
 type EditInvoiceState = {
@@ -128,6 +128,8 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
   render() {
     const {invoice} = this.state;
 
+    const fullProjectMonth = this.props.fullProjectMonths.find(x => x.invoice && x.invoice._id === invoice._id);
+
     const getDefaultEmailValue = (i: InvoiceModel, config: ConfigModel): EmailModel => {
       const defaultEmail = config.email;
       if (!i.client || !i.client.email) {
@@ -143,11 +145,11 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
       }, {} as EmailModel);
 
       const finalValues = {...defaultEmail, ...emailValues};
-      finalValues.subject = invoiceReplacements(finalValues.subject, i);
+      finalValues.subject = invoiceReplacements(finalValues.subject, i, fullProjectMonth);
       if (i.lastEmail && config.emailReminder) {
         finalValues.body = config.emailReminder;
       }
-      finalValues.body = invoiceReplacements(finalValues.body, i);
+      finalValues.body = invoiceReplacements(finalValues.body, i, fullProjectMonth);
       finalValues.body += config.emailSignature;
 
       return finalValues;
@@ -202,9 +204,9 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                   <ProjectMonthSelect
                     label={t('projectMonth.selectLabel')}
                     value={invoice.projectMonthId ? invoice.projectMonthId : ''}
-                    onChange={fullProjectMonth => {
-                      this.updateInvoice('projectMonthId', fullProjectMonth._id);
-                      this.updateInvoice('consultantId', fullProjectMonth.consultant._id);
+                    onChange={fpm => {
+                      this.updateInvoice('projectMonthId', fpm._id);
+                      this.updateInvoice('consultantId', fpm.consultant._id);
                     }}
                     invoice={invoice}
                   />
@@ -220,7 +222,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
               attachmentsAvailable={invoice.attachments.map(a => a.type)}
               title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} />}
               onClose={() => this.setState({showEmailModal: false})}
-              onConfirm={(email: EmailModel) => this.props.sendEmail(invoice, email)}
+              onConfirm={(email: EmailModel) => this.props.sendEmail(invoice, email, fullProjectMonth)}
             />
           )}
 
@@ -248,7 +250,10 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                 {t(!invoice.lastEmail ? 'email.prepareEmail' : 'email.prepareEmailReminder')}
               </Button>
             )}
-            <EditInvoiceSaveButtons onClick={(type, history) => this.props.invoiceAction(invoice, type, history)} invoice={invoice} />
+            <EditInvoiceSaveButtons
+              onClick={(type, history) => this.props.invoiceAction(invoice, type, history, fullProjectMonth)}
+              invoice={invoice}
+            />
           </StickyFooter>
         </Form>
       </Container>
@@ -257,7 +262,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
 }
 
 function mapStateToProps(state: ConfacState, props: any) {
-  const fullProjectsMonth = state.projectsMonth.map(pm => projectMonthResolve(pm, state));
+  const fullProjectMonths = state.projectsMonth.map(pm => projectMonthResolve(pm, state));
 
   return {
     config: state.config,
@@ -266,7 +271,7 @@ function mapStateToProps(state: ConfacState, props: any) {
     invoices: state.invoices,
     renavigationKey: props.location.key,
     consultants: state.consultants,
-    fullProjectsMonth,
+    fullProjectMonths,
   };
 }
 

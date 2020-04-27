@@ -7,6 +7,7 @@ import t from '../trans';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {previewInvoice} from './downloadActions';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
+import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
 
 
 function cleanViewModel(data: InvoiceModel): InvoiceModel {
@@ -75,11 +76,16 @@ function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined
 
 
 
-export function invoiceAction(invoice: InvoiceModel, type: 'create' | 'update' | 'preview', history: any) {
+export function invoiceAction(
+  invoice: InvoiceModel,
+  type: 'create' | 'update' | 'preview',
+  history: any,
+  fullProjectMonth?: FullProjectMonthModel,
+) {
   if (type === 'create') {
     return createInvoice(invoice, history);
   } if (type === 'preview') {
-    return previewInvoice(invoice);
+    return previewInvoice(invoice, fullProjectMonth);
   } if (type === 'update') {
     return updateInvoiceRequest(invoice, undefined, false, history);
   }

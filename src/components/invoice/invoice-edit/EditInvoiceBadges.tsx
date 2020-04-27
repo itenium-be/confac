@@ -37,7 +37,7 @@ export const EditInvoiceBadges = ({invoice}: InvoiceProps) => {
         {projectMonth.client.name}
         <small style={{paddingLeft: 10}}>{tariffFormat(projectMonth.project.client.tariff)}</small>
       </Badge>
-      {projectMonth.project.partner && (
+      {projectMonth.project.partner && projectMonth.project.client.tariff !== projectMonth.project.partner.tariff && (
         <Badge style={defaultBadgeStyle} variant="danger">
           {t('projectMonth.markup')}
           <small style={{paddingLeft: 10}}>{tariffFormat(projectMonth.project.client.tariff - projectMonth.project.partner.tariff)}</small>
