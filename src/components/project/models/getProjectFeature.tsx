@@ -9,6 +9,8 @@ import {t, formatDate, tariffFormat, searchinize} from '../../utils';
 import {EditIcon} from '../../controls/Icon';
 import {InvoiceClientCell} from '../../invoice/invoice-table/InvoiceClientCell';
 import {ConsultantLinkWithModal} from '../../consultant/controls/ConsultantLink';
+import {ConsultantCountFooter, ProjectClientForecastFooter,
+  ProjectForecastPartnerFooter} from '../project-month-list/ProjectMonthFooters';
 
 
 export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel, ProjectListFilters>;
@@ -84,7 +86,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     key: 'consultant',
     header: 'project.consultant',
     value: p => <ConsultantLinkWithModal consultant={p.consultant} showType />,
-    footer: (models: FullProjectModel[]) => <span>{models.length} {t('consultant.title').toLowerCase()}</span>,
+    footer: (models: FullProjectModel[]) => <ConsultantCountFooter consultants={models.map(x => x.consultant)} />,
   }, {
     key: 'startDate',
     header: 'project.startDate',
@@ -97,6 +99,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     key: 'partner',
     header: 'project.partner.clientId',
     value: p => <InvoiceClientCell client={p.partner} />,
+    footer: (models: FullProjectModel[]) => <ProjectForecastPartnerFooter models={models} />,
   }, {
     key: 'partnerTariff',
     header: 'project.partner.tariff',
@@ -105,6 +108,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     key: 'client',
     header: 'project.client.clientId',
     value: p => <InvoiceClientCell client={p.client} />,
+    footer: (models: FullProjectModel[]) => <ProjectClientForecastFooter models={models} />,
   }, {
     key: 'clientTariff',
     header: 'project.client.tariff',

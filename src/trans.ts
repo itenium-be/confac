@@ -329,6 +329,8 @@ export const trans = {
   },
   consultant: {
     title: 'Consultants',
+    externals: 'Externen',
+    managers: 'Managers',
     createNew: 'Nieuwe consultant',
     openEditModal: 'Open details in modal',
     types: {
@@ -386,6 +388,11 @@ export const trans = {
     consultant: 'Consultant',
     title: 'Projecten maand',
     listTitle: '{month} {year}',
+    footer: {
+      forecast: 'Forecast',
+      projecten: '{projects} projecten',
+      workDays: '{count} werkdagen in {month}',
+    },
     list: {
       openList: 'Tonen',
       closeList: 'Verbergen',

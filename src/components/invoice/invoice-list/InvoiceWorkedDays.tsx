@@ -7,10 +7,20 @@ type InvoiceWorkedDaysProps = {
   display?: 'month' | 'client' | 'invoice',
 }
 
-// eslint-disable-next-line react/prefer-stateless-function
-export const InvoiceWorkedDays = ({invoices = [], display = 'month', ...props}: InvoiceWorkedDaysProps) => {
-  const days = calculateDaysWorked(invoices);
 
+export const InvoiceWorkedDays = ({invoices = [], ...props}: InvoiceWorkedDaysProps) => {
+  const days = calculateDaysWorked(invoices);
+  return <WorkedDays days={days} {...props} />;
+};
+
+
+type WorkedDaysProps = {
+  days: DaysWorked & {workDaysInMonth: number},
+  display?: 'month' | 'client' | 'invoice',
+}
+
+
+export const WorkedDays = ({days, display = 'month'}: WorkedDaysProps) => {
   if (days.daysWorked === 0) {
     return null;
   }

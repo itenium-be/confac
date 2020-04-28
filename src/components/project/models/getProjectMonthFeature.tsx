@@ -11,6 +11,7 @@ import {ProjectMonthInboundCell} from '../project-month-list/ProjectMonthInbound
 import {ProjectMonthOutboundCell} from '../project-month-list/ProjectMonthOutboundCell';
 import {getInvoiceDueDateVariant} from '../../invoice/invoice-table/getInvoiceListRowClass';
 import {ProjectMonthNotesCell} from '../project-month-list/ProjectMonthNotesCell';
+import {ConsultantCountFooter} from '../project-month-list/ProjectMonthFooters';
 
 
 export type ProjectMonthFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectMonthModel, ProjectMonthListFilters>;
@@ -42,6 +43,13 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
         return 'validated';
       }
       return undefined;
+    },
+    footer: models => {
+      const consultants = models.map(x => x.consultant);
+      if (!consultants.length) {
+        return null;
+      }
+      return <ConsultantCountFooter consultants={consultants} month={models[0].details.month} />;
     },
   }, {
     key: 'timesheet',

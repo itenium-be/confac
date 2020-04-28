@@ -329,7 +329,7 @@ export function groupInvoicesPerMonth(invoices: InvoiceModel[]): GroupedInvoices
 }
 
 
-function getWorkDaysInMonth(momentInst: moment.Moment): Date[] {
+export function getWorkDaysInMonth(momentInst: moment.Moment): Date[] {
   const curMonth = momentInst.month();
 
   const date = new Date(momentInst.year(), curMonth, 1);

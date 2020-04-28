@@ -6,9 +6,62 @@ $borderSeparator: 3px solid $table-border-color;
   max-width: 1400px !important;
 
   table.table-projects {
-    th, td {
-      &:nth-child(3), &:nth-child(5) {
+    thead, tbody {
+      th, td {
+        &:nth-child(3), &:nth-child(5) {
+          border-right: $borderSeparator;
+        }
+      }
+    }
+
+    tfoot {
+      border-top: $borderSeparator;
+
+      td:nth-child(1) {
         border-right: $borderSeparator;
+      }
+      td:nth-child(2) {
+        border-right: $borderSeparator;
+      }
+
+      dl {
+        display: flex;
+        flex-wrap: wrap;
+
+        dt {
+          width: 33%;
+        }
+
+        dd {
+          margin-left: auto;
+          width: 66%;
+          text-align: right;
+          margin-bottom: .5rem;
+        }
+      }
+
+      .client-markup {
+        display: flex;
+        flex-wrap: wrap;
+
+        > * {
+          margin-bottom: .5rem;
+
+          &.label {
+            width: 30%;
+          }
+
+          &.total {
+            width: 40%;
+            text-align: right;
+          }
+
+          &.markup {
+            width: 30%;
+            margin-left: auto;
+            text-align: right;
+          }
+        }
       }
     }
   }
