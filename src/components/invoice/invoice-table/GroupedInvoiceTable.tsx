@@ -58,7 +58,7 @@ export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
           <tbody key={`${key}-group-row`} style={hideBorderStyle}>
             <tr style={{...hideBorderStyle, height: 60}}>
               <td style={hideBorderStyle}>&nbsp;</td>
-              <td colSpan={featureConfig.list.rows.cells.length - 1}>
+              <td colSpan={featureConfig.list.rows.cells.length - 3}>
                 <strong><InvoiceAmountLabel invoices={invoiceList} isQuotation={vm.isQuotation} /></strong>
               </td>
               <td><strong><InvoiceWorkedDays invoices={invoiceList} /></strong></td>
