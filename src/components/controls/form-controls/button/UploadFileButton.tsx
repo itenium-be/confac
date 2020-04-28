@@ -21,6 +21,7 @@ export const UploadFileButton = ({onUpload, title, buttonText, disabled, hasFile
       disabled={disabled}
       title={disabled ? undefined : title}
       icon="fa fa-upload"
+      style={{borderTopRightRadius: 0, borderBottomRightRadius: 0}}
     >
       {buttonText && <span style={{marginLeft: 10}}>{buttonText}</span>}
     </Button>
