@@ -45,6 +45,7 @@ module.exports = {
     "react/no-array-index-key": [0],
     "lines-between-class-members": [0],
     "prefer-destructuring": [0],
+    "arrow-body-style": [0],
   },
   "settings": {
     "import/resolver": {
