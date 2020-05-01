@@ -41,6 +41,7 @@ export interface FullProjectModel {
   client: ClientModel;
   /** ATTN: ProjectClientModel properties to be found in details.partner */
   partner?: ClientModel;
+  notes?: string;
 }
 
 // TODO: Get rid of this: is state being manipulated? will this be sent to the backend and be saved?

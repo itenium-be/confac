@@ -10,4 +10,6 @@ export const projectFormConfig: FullFormConfig = [
   {key: 'projectMonthConfig.timesheetCheck', component: 'switch'},
   {key: 'projectMonthConfig.inboundInvoice', component: 'switch'},
   {key: 'projectMonthConfig.changingOrderNr', component: 'switch'},
+  {title: 'notes'},
+  {key: 'notes', label: '', component: 'TextEditor', cols: 12},
 ];
