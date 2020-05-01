@@ -40,7 +40,11 @@ export const EditInvoiceBadges = ({invoice}: InvoiceProps) => {
       {projectMonth.project.partner && projectMonth.project.client.tariff !== projectMonth.project.partner.tariff && (
         <Badge style={defaultBadgeStyle} variant="danger">
           {t('projectMonth.markup')}
-          <small style={{paddingLeft: 10}}>{tariffFormat(projectMonth.project.client.tariff - projectMonth.project.partner.tariff)}</small>
+          <small style={{paddingLeft: 10}}>
+            {tariffFormat(projectMonth.project.client.tariff - projectMonth.project.partner.tariff)}
+            &nbsp;
+            ({(((projectMonth.project.client.tariff / projectMonth.project.partner.tariff) * 100) - 100).toFixed(0)}%)
+          </small>
         </Badge>
       )}
 

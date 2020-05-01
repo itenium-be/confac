@@ -26,7 +26,6 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
 
         if (!key) {
           if (title) {
-            // TODO: Technical debt: padding-top
             // eslint-disable-next-line react/no-array-index-key
             return <Col key={index} xs={12} style={{paddingTop: 25}}><h2>{t(title)}</h2></Col>;
           }

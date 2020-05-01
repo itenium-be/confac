@@ -80,6 +80,21 @@ export const ProjectClientTariff = ({projectClient}: {projectClient: ProjectClie
   );
 };
 
+const ProjectMarkup = ({project}: {project: FullProjectModel}) => {
+  if (!project.details.partner) {
+    return null;
+  }
+
+  const markup = project.details.client.tariff - project.details.partner.tariff;
+  return (
+    <span>
+      {tariffFormat(markup)}
+      &nbsp;
+      ({(((project.details.client.tariff / project.details.partner.tariff) * 100) - 100).toFixed(0)}%)
+    </span>
+  );
+};
+
 
 const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProjectModel, ProjectListFilters> => {
   const list: IListCell<FullProjectModel>[] = [{
@@ -113,6 +128,10 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     key: 'clientTariff',
     header: 'project.client.tariff',
     value: p => <ProjectClientTariff projectClient={p.details.client} />,
+  }, {
+    key: 'markup',
+    header: 'projectMonth.markup',
+    value: p => <ProjectMarkup project={p} />,
   }, {
     key: 'buttons',
     header: {title: '', width: 110},
