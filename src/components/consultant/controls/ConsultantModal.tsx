@@ -21,7 +21,7 @@ export const ConsultantModal = (props: ConsultantModalProps) => {
     <Modal
       show={props.show}
       onClose={props.onClose}
-      title={t('consultant.createNew')}
+      title={consultant._id ? `${consultant.firstName} ${consultant.name}` : t('consultant.createNew')}
       onConfirm={() => props.onConfirm(consultant)}
     >
       <Form>
