@@ -122,7 +122,8 @@ export const emailInvoiceController = async (req: Request, res: Response) => {
     acc[cur] = 1;
     return acc;
   }, {});
-  const attachmentBuffers: IAttachmentCollection | null = await req.db.collection(CollectionNames.ATTACHMENTS).findOne({_id: new ObjectID(invoiceId)}, attachmentTypes);
+  const attachmentBuffers: IAttachmentCollection | null = await req.db.collection(CollectionNames.ATTACHMENTS)
+    .findOne({_id: new ObjectID(invoiceId)}, attachmentTypes);
 
   let sendGridAttachments: ISendGridAttachment[] = [];
 
@@ -191,7 +192,8 @@ export const emailInvoiceController = async (req: Request, res: Response) => {
   }
 
   const lastEmailSent = new Date().toISOString();
-  await req.db.collection(CollectionNames.INVOICES).findOneAndUpdate({_id: new ObjectID(invoiceId)}, {$set: {lastEmail: lastEmailSent}});
+  await req.db.collection(CollectionNames.INVOICES)
+    .findOneAndUpdate({_id: new ObjectID(invoiceId)}, {$set: {lastEmail: lastEmailSent}});
 
   return res.status(200).send(lastEmailSent);
 };
@@ -212,18 +214,34 @@ export const updateInvoiceController = async (req: Request, res: Response) => {
   }
 
   if (Buffer.isBuffer(updatedPdfBuffer)) {
-    await req.db.collection<IAttachment>(CollectionNames.ATTACHMENTS).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {pdf: updatedPdfBuffer}});
+    await req.db.collection<IAttachment>(CollectionNames.ATTACHMENTS)
+      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {pdf: updatedPdfBuffer}});
   }
 
-  const inserted = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: invoice}, {returnOriginal: false});
+  const inserted = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
+    .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: invoice}, {returnOriginal: false});
   const updatedInvoice = inserted.value;
 
+  let projectMonth;
   if (updatedInvoice?.projectMonthId) {
-    console.log('updating', invoice.projectMonthId, 'verified', updatedInvoice.verified);
-    await req.db.collection(CollectionNames.PROJECTS_MONTH).findOneAndUpdate({_id: new ObjectID(invoice.projectMonthId)}, {$set: {verified: updatedInvoice.verified}});
+    // TODO: This should be a separate route once security is implemented
+    // Right now it is always updating the projectMonth.verified but this only changes when the invoice.verified changes
+    projectMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
+      .findOneAndUpdate({_id: new ObjectID(invoice.projectMonthId)}, {$set: {verified: updatedInvoice.verified}});
   }
 
-  return res.send(updatedInvoice);
+  const result: Array<any> = [{
+    type: 'invoice',
+    model: updatedInvoice,
+  }];
+  if (projectMonth && projectMonth.ok) {
+    result.push({
+      type: 'projectMonth',
+      model: projectMonth.value,
+    });
+  }
+
+  return res.send(result);
 };
 
 
