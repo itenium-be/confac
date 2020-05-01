@@ -30,8 +30,8 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
   const [orderNr, setOrderNr/* , saveOrderNr */] = useDebouncedSave<string>(fullProjectMonth.details.orderNr || '', dispatcher);
 
 
-  const toggleValid = (verified: boolean) => {
-    dispatch(patchProjectsMonth({...fullProjectMonth.details, verified: verified ? 'forced' : false}));
+  const toggleValid = (verified: boolean | 'forced') => {
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, verified}));
   };
 
 
@@ -39,7 +39,7 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
   const ValidityToggle = (
     <ValidityToggleButton
       value={!!fullProjectMonth.details.verified}
-      onChange={() => toggleValid(!fullProjectMonth.details.verified)}
+      onChange={() => toggleValid(fullProjectMonth.details.verified ? false : 'forced')}
       outline
       title={t('projectMonth.forceVerified')}
     />
@@ -88,17 +88,18 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
 
 
   return (
-    <OutboundInvoice fullProjectMonth={fullProjectMonth} />
+    <OutboundInvoice fullProjectMonth={fullProjectMonth} toggleValid={toggleValid} />
   );
 };
 
 
-interface CreateInvoiceButtonProps {
+interface OutboundInvoiceProps {
   fullProjectMonth: FullProjectMonthModel;
+  toggleValid: (valid: boolean) => void;
 }
 
 
-const OutboundInvoice = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
+const OutboundInvoice = ({fullProjectMonth, toggleValid}: OutboundInvoiceProps) => {
   if (!fullProjectMonth.invoice) {
     return null;
   }
@@ -113,13 +114,17 @@ const OutboundInvoice = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
         </span>
       </div>
       <div className="icons-cell">
-        <InvoiceListRowActions invoice={fullProjectMonth.invoice} />
+        <InvoiceListRowActions invoice={fullProjectMonth.invoice} toggleValid={toggleValid} />
       </div>
     </div>
   );
 };
 
 
+
+interface CreateInvoiceButtonProps {
+  fullProjectMonth: FullProjectMonthModel;
+}
 
 const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
   const dispatch = useDispatch();

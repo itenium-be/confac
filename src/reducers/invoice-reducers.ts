@@ -17,6 +17,14 @@ export const invoices = (state: InvoiceModel[] = [], action): InvoiceModel[] => 
     case ACTION_TYPES.INVOICE_DELETED:
       return state.filter(invoice => invoice._id !== action.id);
 
+    case ACTION_TYPES.MODELS_UPDATED: {
+      const toUpdate = action.payload.filter(x => x.type === 'invoice');
+      const removeIds = toUpdate.map(x => x.model._id);
+      const newState = state.filter(model => !removeIds.includes(model._id));
+      toUpdate.forEach(model => newState.push(mapInvoice(model.model)));
+      return newState;
+    }
+
     case ACTION_TYPES.INVOICE_UPDATED: {
     // console.log('UPDATED', action);
       const newState = state.filter(invoice => invoice._id !== action.invoice._id);

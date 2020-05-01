@@ -59,8 +59,8 @@ function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined
       .send(cleanViewModel(data))
       .then(res => {
         dispatch({
-          type: ACTION_TYPES.INVOICE_UPDATED,
-          invoice: res.body,
+          type: ACTION_TYPES.MODELS_UPDATED,
+          payload: res.body,
         });
 
         success(successMsg || t('toastrConfirm'));

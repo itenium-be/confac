@@ -27,6 +27,14 @@ export const projectsMonth = (state: ProjectMonthModel[] = [], action): ProjectM
       return state.filter(pm => !newIds.includes(pm._id)).concat(newProjects);
     }
 
+    case ACTION_TYPES.MODELS_UPDATED: {
+      const toUpdate = action.payload.filter(x => x.type === 'projectMonth');
+      const removeIds = toUpdate.map(x => x.model._id);
+      const newState = state.filter(model => !removeIds.includes(model._id));
+      toUpdate.forEach(model => newState.push(mapProject(model.model)));
+      return newState;
+    }
+
     case ACTION_TYPES.PROJECTS_MONTH_UPDATE: {
       const newState = state.filter(pm => pm._id !== action.projectMonth._id);
       newState.push(mapProject(action.projectMonth));

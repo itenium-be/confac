@@ -2,7 +2,7 @@ import React from 'react';
 import {useDispatch} from 'react-redux';
 import InvoiceModel from '../models/InvoiceModel';
 import {EditIcon} from '../../controls/Icon';
-import {InvoiceVerifyIconToggle} from '../invoice-list/InvoiceVerifyIcon';
+import {InvoiceVerifyIconToggle} from '../invoice-list/InvoiceVerifyIconToggle';
 import {InvoiceDownloadIcon, InvoicePreviewIcon} from '../../controls/attachments/AttachmentDownloadIcon';
 import {t} from '../../utils';
 import {deleteInvoice} from '../../../actions';
@@ -11,9 +11,10 @@ import {ConfirmedDeleteIcon} from '../../controls/icons/DeleteIcon';
 
 type InvoiceListRowActionsProps = {
   invoice: InvoiceModel;
+  toggleValid?: (valid: boolean) => void;
 }
 
-export const InvoiceListRowActions = ({invoice}: InvoiceListRowActionsProps) => {
+export const InvoiceListRowActions = ({invoice, toggleValid}: InvoiceListRowActionsProps) => {
   const dispatch = useDispatch();
   const invoiceType = invoice.isQuotation ? 'quotation' : 'invoice';
   return (
@@ -22,7 +23,7 @@ export const InvoiceListRowActions = ({invoice}: InvoiceListRowActionsProps) => 
         onClick={`/${invoiceType}s/${invoice.number}`}
         style={{marginRight: invoice.isQuotation ? undefined : -15}}
       />
-      <InvoiceVerifyIconToggle invoice={invoice} />
+      <InvoiceVerifyIconToggle invoice={invoice} toggleValid={toggleValid} />
       <InvoiceDownloadIcon invoice={invoice} />
       <InvoicePreviewIcon invoice={invoice} />
       <ConfirmedDeleteIcon
