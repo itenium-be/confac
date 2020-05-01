@@ -10,7 +10,6 @@ export const NonGroupedInvoiceTable = ({vm, config}: {vm: InvoiceListModel, conf
   const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
   const invoices = vm.getFilteredInvoices();
   const featureConfig = createInvoiceList({
-    showOrderNr: config.showOrderNr,
     isQuotation: vm.isQuotation,
     invoicePayDays,
     isGroupedOnMonth: false,

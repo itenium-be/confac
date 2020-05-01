@@ -29,9 +29,6 @@ export const configDefinition: FullFormConfig = [
   {key: 'invoiceFileName', component: 'InvoiceReplacementsInput', cols: 10},
   {key: 'defaultTax', component: 'float', suffix: '%', cols: 2},
 
-  {title: 'config.settingsTitle'},
-  {key: 'showOrderNr', component: 'switch'},
-
   {title: 'config.email.title'},
   {key: 'email.from', cols: 6, component: 'email'},
   {key: 'email.bcc', cols: 6, component: 'email'},

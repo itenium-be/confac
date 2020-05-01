@@ -27,9 +27,7 @@ export interface IInvoiceListData {
 
 export interface IInvoiceListConfig {
   data: InvoiceModel[];
-
   isGroupedOnMonth: boolean;
-  showOrderNr: boolean;
   isQuotation: boolean;
   invoicePayDays: number;
 }
@@ -95,7 +93,7 @@ export function createInvoiceList(config: IInvoiceListConfig): IFeature<InvoiceM
       'total-amount',
       'buttons',
       'consultant',
-      config.showOrderNr ? '' : 'orderNr',
+      'orderNr',
       'invoice-days',
     ], transPrefix),
   };

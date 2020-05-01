@@ -14,8 +14,6 @@ export type ConfigModel = {
    */
   invoiceFileName: string,
 
-  showOrderNr: boolean,
-
   /**
    * Default values for email sending
    * (not all are configurable)

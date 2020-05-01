@@ -121,10 +121,8 @@ export const trans = {
   },
   config: {
     invoiceTitle: 'Standaard factuurinstellingen',
-    settingsTitle: 'Andere instellingen',
     popupMessage: 'Instellingen bewaard',
     defaultClient: 'Standaard klant',
-    showOrderNr: 'Bestelbon nummer tonen', // in invoice list
     defaultTax: 'Standaard btw',
     defaultInvoiceLineType: 'Standaard factuurlijn eenheid',
     defaultInvoiceDateStrategy: 'Standaard factuurdatum',

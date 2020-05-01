@@ -26,7 +26,6 @@ export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
 
   const invoices = vm.getFilteredInvoices();
   const featureConfig = createInvoiceList({
-    showOrderNr: config.showOrderNr,
     isQuotation: vm.isQuotation,
     invoicePayDays,
     data: invoices,
@@ -58,7 +57,7 @@ export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
           <tbody key={`${key}-group-row`} style={hideBorderStyle}>
             <tr style={{...hideBorderStyle, height: 60}}>
               <td style={hideBorderStyle}>&nbsp;</td>
-              <td colSpan={featureConfig.list.rows.cells.length - 3}>
+              <td colSpan={featureConfig.list.rows.cells.length - 4}>
                 <strong><InvoiceAmountLabel invoices={invoiceList} isQuotation={vm.isQuotation} /></strong>
               </td>
               <td><strong><InvoiceWorkedDays invoices={invoiceList} /></strong></td>
