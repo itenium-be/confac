@@ -87,11 +87,10 @@ const ProjectMarkup = ({project}: {project: FullProjectModel}) => {
 
   const markup = project.details.client.tariff - project.details.partner.tariff;
   return (
-    <span>
-      {tariffFormat(markup)}
-      &nbsp;
-      ({(((project.details.client.tariff / project.details.partner.tariff) * 100) - 100).toFixed(0)}%)
-    </span>
+    <div>
+      <span>{tariffFormat(markup)}</span>
+      <span style={{float: 'right'}}>{(((project.details.client.tariff / project.details.partner.tariff) * 100) - 100).toFixed(0)}%</span>
+    </div>
   );
 };
 
