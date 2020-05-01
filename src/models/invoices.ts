@@ -1,6 +1,6 @@
 import {ObjectID} from 'mongodb';
 
-import {IClient, ISelectItem} from './clients';
+import {IClient} from './clients';
 import {IAttachment} from './common';
 
 export interface IInvoiceMoney {
@@ -40,10 +40,6 @@ export interface ICompany {
   template?: string;
 }
 
-export interface IExtraFieldsObject {
-  [key: string]: number | string;
-}
-
 export interface IInvoice {
   _id: ObjectID;
   number: number;
@@ -61,10 +57,14 @@ export interface IInvoice {
   lastEmail: string;
   _defaultTax: number;
   _defaultType: string;
-  extraFields: ISelectItem[] | IExtraFieldsObject;
+  // extraFields: ISelectItem[] | IExtraFieldsObject;
   createdOn?: string;
   lines: InvoiceLine[];
   money: IInvoiceMoney;
 }
 
-export const INVOICE_EXCEL_HEADERS = ['Number', 'Date', 'Client name', 'Order nr', 'Without Tax', 'Tax', 'Total', 'Verified', 'Discount', 'First line desc', 'Id'];
+export const INVOICE_EXCEL_HEADERS = [
+  'Number', 'Date', 'Client name', 'Order nr',
+  'Without Tax', 'Tax', 'Total', 'Verified', 'Discount',
+  'First line desc', 'Id',
+];

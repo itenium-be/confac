@@ -37,8 +37,8 @@ export interface IClient {
   invoiceFileName: string;
   rate: IClientRate;
   attachments: IAttachment[];
-  extraFields: ISelectItem[];
-  defaultExtraInvoiceFields: ISelectItem[];
+  // extraFields: ISelectItem[];
+  // defaultExtraInvoiceFields: ISelectItem[];
   notes: string;
   defaultInvoiceDateStrategy: string;
   createdOn: string;

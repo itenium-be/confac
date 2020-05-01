@@ -22,8 +22,8 @@ export interface ICompanyConfig {
   defaultClient: string | null;
   defaultTax: number;
   attachmentTypes: string[];
-  defaultExtraClientFields: string[];
-  defaultExtraClientInvoiceFields: string[];
+  // defaultExtraClientFields: string[];
+  // defaultExtraClientInvoiceFields: string[];
   showOrderNr: boolean;
   groupInvoiceListByMonth: boolean;
   defaultInvoiceLineType: string;
@@ -52,8 +52,8 @@ export const DEFAULT_COMPANY_CONFIG: Omit<ICompanyConfig, '_id'> = {
   defaultClient: null,
   defaultTax: 21,
   attachmentTypes: ['Getekende timesheet'],
-  defaultExtraClientFields: [],
-  defaultExtraClientInvoiceFields: [],
+  // defaultExtraClientFields: [],
+  // defaultExtraClientInvoiceFields: [],
   showOrderNr: false,
   groupInvoiceListByMonth: false,
   defaultInvoiceLineType: 'daily',

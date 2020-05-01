@@ -3,7 +3,7 @@ import pug from 'pug';
 
 import appConfig from '../../config';
 import locals from '../../pug-helpers';
-import {IInvoice, IExtraFieldsObject} from '../../models/invoices';
+import {IInvoice} from '../../models/invoices';
 
 export const convertHtmlToBuffer = (html: string): Promise<Buffer> => new Promise((resolve, reject) => {
   pdf.create(html).toBuffer((err, buffer) => {
@@ -18,13 +18,13 @@ export const convertHtmlToBuffer = (html: string): Promise<Buffer> => new Promis
 export const createHtml = (invoice: IInvoice): string | { error: string; } => {
   /* eslint-disable no-param-reassign */
   invoice = JSON.parse(JSON.stringify(invoice));
-  if (Array.isArray(invoice.extraFields)) {
-    invoice.extraFields = invoice.extraFields.reduce((acc: IExtraFieldsObject, field) => {
-      const label = field.label.toString().toLowerCase();
-      acc[label] = field.value;
-      return acc;
-    }, {});
-  }
+  // if (Array.isArray(invoice.extraFields)) {
+  //   invoice.extraFields = invoice.extraFields.reduce((acc: IExtraFieldsObject, field) => {
+  //     const label = field.label.toString().toLowerCase();
+  //     acc[label] = field.value;
+  //     return acc;
+  //   }, {});
+  // }
 
   let generateHtmlTemplate: pug.compileTemplate;
   const templateType = invoice.isQuotation ? invoice.your.templateQuotation : invoice.your.template;
