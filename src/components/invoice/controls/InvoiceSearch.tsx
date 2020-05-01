@@ -30,7 +30,7 @@ export class InvoiceSearch extends Component<InvoiceSearchProps> {
     const {search, freeInvoice} = this.props.filters;
     return (
       <Row>
-        <Col xl={4} md={4}>
+        <Col xl={4} md={4} className="list">
           <SearchStringInput
             value={freeInvoice}
             onChange={str => this.onFilterChange({freeInvoice: str})}
@@ -101,7 +101,7 @@ const InvoiceSearchAdvanced = (props: InvoiceSearchAdvancedProps) => {
         </ButtonGroup>
       </Col>
       {open && (
-        <Row style={{paddingTop: 25, paddingLeft: 25}}>
+        <Row style={{paddingBottom: 10, paddingLeft: 25}}>
           <Col>
             <Switch
               value={props.groupedByMonth}
