@@ -61,29 +61,58 @@ export const ConsultantCountFooter = ({consultants, month}: ConsultantsProps) =>
 
 
 
-function getProjectForecast(models: FullProjectModel[], getFor: 'client' | 'partner') {
+function getProjectForecast(models: Array<FullProjectModel | FullProjectMonthModel>, getFor: 'client' | 'partner', month?: moment.Moment) {
+  // eslint-disable-next-line no-param-reassign
+  month = month || moment();
+
   const result = {
     consultants: models.filter(x => x.consultant.type === 'consultant'),
     externals: models.filter(x => x.consultant.type === 'externalConsultant' || x.consultant.type === 'freelancer'),
     managers: models.filter(x => x.consultant.type === 'manager'),
   };
 
-  const workDaysInMonth = getWorkDaysInMonth(moment()).length;
-  const getTotal = (projects: FullProjectModel[]) => {
+  const getTotalsProjectModel = (projectMonths: FullProjectMonthModel[]) => {
     if (getFor === 'partner') {
-      return projects
-        .map(x => (x.details.partner ? x.details.partner.tariff * workDaysInMonth : 0))
+      return projectMonths
+        .map(pm => {
+          if (!pm.project.partner || !pm.details.timesheet.timesheet) {
+            return 0;
+          }
+          return pm.project.partner.tariff * pm.details.timesheet.timesheet;
+        })
         .reduce((acc, cur) => acc + cur, 0);
     }
-    return projects
-      .map(x => x.details.client.tariff * workDaysInMonth)
+    return projectMonths
+      .map(pm => {
+        if (!pm.details.timesheet.timesheet) {
+          return 0;
+        }
+        return pm.project.client.tariff * pm.details.timesheet.timesheet;
+      })
       .reduce((acc, cur) => acc + cur, 0);
   };
 
+  // TODO: Should take begin/end date into account to give more precise forecast
+  // TODO: Also doesn't take hourly/daily rates into account
+  const workDaysInMonth = getWorkDaysInMonth(month).length;
+  const getTotalsProject = (projects: FullProjectModel[]) => {
+    if (getFor === 'partner') {
+      return projects
+        .map(p => (p.details.partner ? p.details.partner.tariff * workDaysInMonth : 0))
+        .reduce((acc, cur) => acc + cur, 0);
+    }
+    return projects
+      .map(p => p.details.client.tariff * workDaysInMonth)
+      .reduce((acc, cur) => acc + cur, 0);
+  };
+
+  const isProjectModel = !((models[0] as FullProjectMonthModel).project);
+  const totalGetter: Function = isProjectModel ? getTotalsProject : getTotalsProjectModel;
+
   return {
-    consultants: getTotal(result.consultants),
-    externals: getTotal(result.externals),
-    managers: getTotal(result.managers),
+    consultants: totalGetter(result.consultants),
+    externals: totalGetter(result.externals),
+    managers: totalGetter(result.managers),
   };
 }
 
@@ -91,15 +120,16 @@ function getProjectForecast(models: FullProjectModel[], getFor: 'client' | 'part
 
 
 type FullProjectMonthsProps = {
-  models: FullProjectModel[];
+  models: FullProjectModel[] | FullProjectMonthModel[];
+  month?: moment.Moment;
 }
 
-export const ProjectForecastPartnerFooter = ({models}: FullProjectMonthsProps) => {
+export const ProjectForecastPartnerFooter = ({models, month}: FullProjectMonthsProps) => {
   if (!models.length) {
     return null;
   }
 
-  const result = getProjectForecast(models, 'partner');
+  const result = getProjectForecast(models, 'partner', month);
   return (
     <dl className="dl-box">
       <dt>{t('consultant.title')}</dt>
@@ -117,16 +147,17 @@ export const ProjectForecastPartnerFooter = ({models}: FullProjectMonthsProps) =
 
 
 type ProjectMarkupFooterProps = {
-  models: FullProjectModel[];
+  models: FullProjectModel[] | FullProjectMonthModel[];
+  month?: moment.Moment;
 }
 
-export const ProjectClientForecastFooter = ({models}: ProjectMarkupFooterProps) => {
+export const ProjectClientForecastFooter = ({models, month}: ProjectMarkupFooterProps) => {
   if (!models.length) {
     return null;
   }
 
-  const clients = getProjectForecast(models, 'client');
-  const partners = getProjectForecast(models, 'partner');
+  const clients = getProjectForecast(models, 'client', month);
+  const partners = getProjectForecast(models, 'partner', month);
 
   return (
     <div className="client-markup">

@@ -389,7 +389,7 @@ export const trans = {
     title: 'Projecten maand',
     listTitle: '{month} {year}',
     footer: {
-      forecast: 'Forecast',
+      forecast: 'Forecast excl. btw',
       projecten: '{projects} projecten',
       workDays: '{count} werkdagen in {month}',
     },

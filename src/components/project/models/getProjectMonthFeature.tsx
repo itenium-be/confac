@@ -11,7 +11,7 @@ import {ProjectMonthInboundCell} from '../project-month-list/ProjectMonthInbound
 import {ProjectMonthOutboundCell} from '../project-month-list/ProjectMonthOutboundCell';
 import {getInvoiceDueDateVariant} from '../../invoice/invoice-table/getInvoiceListRowClass';
 import {ProjectMonthNotesCell} from '../project-month-list/ProjectMonthNotesCell';
-import {ConsultantCountFooter} from '../project-month-list/ProjectMonthFooters';
+import {ConsultantCountFooter, ProjectForecastPartnerFooter, ProjectClientForecastFooter} from '../project-month-list/ProjectMonthFooters';
 
 
 export type ProjectMonthFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectMonthModel, ProjectMonthListFilters>;
@@ -78,6 +78,12 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
           return undefined;
       }
     },
+    footer: (models: FullProjectMonthModel[]) => {
+      if (!models.length) {
+        return null;
+      }
+      return <ProjectForecastPartnerFooter models={models} month={models[0].details.month} />;
+    },
   }, {
     key: 'outbound',
     value: p => <ProjectMonthOutboundCell fullProjectMonth={p} />,
@@ -89,6 +95,12 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
         return `table-${getInvoiceDueDateVariant(p.invoice)}`;
       }
       return undefined;
+    },
+    footer: (models: FullProjectMonthModel[]) => {
+      if (!models.length) {
+        return null;
+      }
+      return <ProjectClientForecastFooter models={models} month={models[0].details.month} />;
     },
   }, {
     key: 'notes',

@@ -23,45 +23,48 @@ $borderSeparator: 3px solid $table-border-color;
       td:nth-child(2) {
         border-right: $borderSeparator;
       }
+    }
+  }
+}
 
-      dl {
-        display: flex;
-        flex-wrap: wrap;
 
-        dt {
-          width: 33%;
-        }
+table.table-projectMonths, table.table-projects {
+  dl {
+    display: flex;
+    flex-wrap: wrap;
 
-        dd {
-          margin-left: auto;
-          width: 66%;
-          text-align: right;
-          margin-bottom: .5rem;
-        }
+    dt {
+      width: 33%;
+    }
+
+    dd {
+      margin-left: auto;
+      width: 66%;
+      text-align: right;
+      margin-bottom: .5rem;
+    }
+  }
+
+  .client-markup {
+    display: flex;
+    flex-wrap: wrap;
+
+    > * {
+      margin-bottom: .5rem;
+
+      &.label {
+        width: 30%;
       }
 
-      .client-markup {
-        display: flex;
-        flex-wrap: wrap;
+      &.total {
+        width: 40%;
+        text-align: right;
+      }
 
-        > * {
-          margin-bottom: .5rem;
-
-          &.label {
-            width: 30%;
-          }
-
-          &.total {
-            width: 40%;
-            text-align: right;
-          }
-
-          &.markup {
-            width: 30%;
-            margin-left: auto;
-            text-align: right;
-          }
-        }
+      &.markup {
+        width: 30%;
+        margin-left: auto;
+        text-align: right;
       }
     }
   }
