@@ -2,7 +2,7 @@ import moment from 'moment';
 import {ConfigModel, ConfigCompanyModel} from '../../config/models/ConfigModel';
 import {getInvoiceDate} from './invoice-date-strategy';
 import {ClientModel} from '../../client/models/ClientModels';
-import {Attachment, EditClientRateType, IAttachment, SelectItem} from '../../../models';
+import {Attachment, EditClientRateType, IAttachment} from '../../../models';
 
 
 // const getInvoiceString = invoice => `${invoice.number} - ${invoice.client.name} (${invoice.date.format('YYYY-MM')})`;

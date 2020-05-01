@@ -6,7 +6,6 @@ import {t, moneyFormat} from '../../utils';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {FullProjectModel} from '../models/ProjectModel';
-import {WorkedDays} from '../../invoice/invoice-list/InvoiceWorkedDays';
 import {getWorkDaysInMonth} from '../../invoice/models/InvoiceModel';
 
 
