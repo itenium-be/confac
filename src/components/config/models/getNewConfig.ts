@@ -21,9 +21,6 @@ export const defaultConfig: ConfigModel = {
   invoiceFileName: '{date:YYYY-MM} {nr:4} - {clientName}', // ATTN: Duplicated in getNewClient
   defaultTax: 21,
   attachmentTypes: [],
-  defaultExtraClientFields: [],
-  defaultExtraClientInvoiceFields: [],
-  defaultExtraInvoiceFields: [],
   showOrderNr: false,
   defaultInvoiceLineType: 'daily',
   defaultInvoiceDateStrategy: 'prev-month-last-day',

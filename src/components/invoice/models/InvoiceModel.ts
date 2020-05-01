@@ -52,7 +52,6 @@ export default class InvoiceModel implements IAttachment {
   lastEmail: string;
   _defaultTax: number;
   _defaultType: EditClientRateType;
-  extraFields: SelectItem[];
   createdOn: string;
   lines: InvoiceLine[] = [];
   money: InvoiceMoney;
@@ -77,7 +76,6 @@ export default class InvoiceModel implements IAttachment {
     this.fileName = obj.fileName || config.invoiceFileName;
     this.discount = obj.discount;
     this.attachments = obj.attachments || [{type: 'pdf'}];
-    this.extraFields = obj.extraFields || [];
     this.isQuotation = obj.isQuotation || false;
     this.lastEmail = obj.lastEmail;
 
@@ -109,9 +107,6 @@ export default class InvoiceModel implements IAttachment {
   setClient(client: undefined | ClientModel): InvoiceModel {
     this.client = client as ClientModel;
     this.fileName = client ? client.invoiceFileName : this.fileName;
-    if (!this.extraFields.length) {
-      this.extraFields = client ? (client.defaultExtraInvoiceFields || []) : [];
-    }
     this._defaultType = client && client.rate ? client.rate.type : this._defaultType;
     this.date = getInvoiceDate(client);
     if (!this.lines || this.lines.length <= 1) {

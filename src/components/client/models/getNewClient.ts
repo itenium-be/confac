@@ -23,8 +23,6 @@ export function getNewClient(config?: ConfigModel): ClientModel {
       description: '',
     },
     attachments: [],
-    extraFields: config.defaultExtraClientFields.slice(),
-    defaultExtraInvoiceFields: config.defaultExtraClientInvoiceFields.slice(),
     notes: '',
     defaultInvoiceDateStrategy: config.defaultInvoiceDateStrategy,
     defaultChangingOrderNr: false,

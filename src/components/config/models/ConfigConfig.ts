@@ -40,8 +40,4 @@ export const configDefinition: FullFormConfig = [
   {key: 'email.body', component: 'InvoiceReplacementsTextEditor', cols: 12},
   {key: 'emailSignature', component: 'InvoiceReplacementsTextEditor', cols: 12},
   {key: 'emailReminder', component: 'InvoiceReplacementsTextEditor', cols: 12},
-
-  {title: 'config.extraFields.title'},
-  {key: 'defaultExtraClientFields', component: 'PropertiesSelect', label: 'config.extraFields.client', cols: 6},
-  {key: 'defaultExtraClientInvoiceFields', component: 'PropertiesSelect', label: 'config.extraFields.clientInvoice', cols: 6},
 ];

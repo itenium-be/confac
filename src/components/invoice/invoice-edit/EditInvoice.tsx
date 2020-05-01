@@ -7,7 +7,6 @@ import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
 import {invoiceAction} from '../../../actions/index';
 import {EditInvoiceClient} from './EditInvoiceClient';
-import {EditInvoiceExtraFields} from './EditInvoiceExtraFields';
 import InvoiceModel from '../models/InvoiceModel';
 import {ConfigModel} from '../../config/models/ConfigModel';
 import {ClientModel} from '../../client/models/ClientModels';
@@ -49,7 +48,6 @@ type EditInvoiceProps = {
 
 type EditInvoiceState = {
   invoice: InvoiceModel,
-  showExtraFields: boolean,
   renavigationKey: string,
   showEmailModal: boolean,
 }
@@ -60,7 +58,6 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
     super(props);
     this.state = {
       invoice: this.createModel(props),
-      showExtraFields: false,
       renavigationKey: '',
       showEmailModal: false,
     };
@@ -225,13 +222,6 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
               onConfirm={(email: EmailModel) => this.props.sendEmail(invoice, email, fullProjectMonth)}
             />
           )}
-
-          <EditInvoiceExtraFields
-            forceOpen={this.state.showExtraFields}
-            invoice={invoice}
-            // eslint-disable-next-line react/jsx-no-bind
-            onChange={this.updateInvoice.bind(this, 'extraFields')}
-          />
 
           <Row style={{marginTop: 8}}>
             <EditInvoiceLines

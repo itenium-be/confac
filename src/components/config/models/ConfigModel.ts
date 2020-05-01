@@ -8,9 +8,6 @@ export type ConfigModel = {
   attachmentTypes: string[],
   defaultInvoiceLineType: EditClientRateType,
   defaultInvoiceDateStrategy: InvoiceDateStrategy,
-  defaultExtraClientFields: SelectItem[],
-  defaultExtraInvoiceFields: SelectItem[],
-  defaultExtraClientInvoiceFields: SelectItem[],
   invoicePayDays: number,
   /**
    * The default invoice file name when creating a new client

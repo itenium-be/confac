@@ -92,7 +92,6 @@ export const trans = {
   toastrFailure: 'Boem! Crash! Kapot!',
   toastrConfirm: 'Wijzigingen bewaard',
   notes: 'Notitie',
-  extraFields: 'Extra velden',
   createdOn: 'Aangemaakt op:',
   rates: {
     type: 'Eenheid',
@@ -163,13 +162,6 @@ export const trans = {
       notes: 'Notitie',
       template: 'Html template (facturen)',
       templateQuotation: 'Html template (offertes)',
-    },
-    extraFields: {
-      title: 'Eigen velden',
-      open: 'Extra velden tonen',
-      config: 'Extra config velden',
-      client: 'Extra klant velden',
-      clientInvoice: 'Extra factuur velden',
     },
     email: {
       title: 'Factuur emails',
@@ -267,7 +259,6 @@ export const trans = {
     search: {
       placeholder: 'Lijst filteren',
     },
-    editExtraFields: 'Extra velden bewerken',
     badRequest: {
       nrExists: 'Nr {nr} kan niet gemaakt worden omdat nr {lastNr} reeds bestaat',
       dateAfterExists: 'Op {date} kan niet gemaakt worden om dat nr {lastNr} op {lastDate} gemaakt is',
@@ -312,10 +303,8 @@ export const trans = {
       type: 'Standaard factuurlijn eenheid',
     },
     defaultChangingOrderNr: 'Het bestelbon nr wijzigt voor elke factuur',
-    defaultExtraInvoiceFields: 'Extra factuur velden',
     defaultInvoiceDateStrategy: 'Standaard factuurdatum',
     invoiceFileName: 'Standaard factuur bestandsnaam',
-    extraFields: 'Extra klant velden',
     viewDetails: 'Ga naar detail scherm',
     email: {
       to: 'Naar',

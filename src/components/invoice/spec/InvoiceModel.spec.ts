@@ -12,7 +12,6 @@ function createNew(config: ConfigModel, client: undefined | ClientModel): Invoic
     client,
     number: 1,
     fileName: client ? client.invoiceFileName : '',
-    extraFields: client ? client.defaultExtraInvoiceFields : config.defaultExtraClientInvoiceFields,
   });
   model = model.setClient(client);
   return model;

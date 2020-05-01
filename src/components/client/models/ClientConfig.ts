@@ -21,9 +21,6 @@ export const defaultClientProperties: FullFormConfig = [
   {key: 'defaultInvoiceDateStrategy', component: 'InvoiceDateStrategySelect'},
   {key: 'invoiceFileName', component: 'InvoiceReplacementsInput', cols: 8},
   {key: 'rate.hoursInDay', component: 'number', suffix: 'fa fa-hourglass-half'},
-  {key: 'defaultExtraInvoiceFields', component: 'PropertiesSelect'},
-  {key: 'extraFields', component: 'PropertiesSelect', reactKey: 'extraFields'},
-  {key: 'extraFields', component: 'ExtraFields', cols: 12, reactKey: 'extraFieldsImpl'},
   {key: 'defaultChangingOrderNr', component: 'switch'},
 
   {title: 'config.email.title'},
