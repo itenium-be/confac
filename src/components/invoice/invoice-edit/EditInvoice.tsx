@@ -193,7 +193,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
               <Row>
                 <EditInvoiceDetails
                   invoice={invoice}
-                  onChange={(fieldName: string, value: any) => this.updateInvoice(fieldName, value)}
+                  onChange={(fieldName: string, value: any) => this.updateInvoice(fieldName, value, true)}
                 />
               </Row>
               <Row>
