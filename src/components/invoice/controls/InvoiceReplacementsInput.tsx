@@ -1,11 +1,12 @@
 import React from 'react';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
+import {Placement} from 'react-bootstrap/Overlay';
 import {BaseInput, BaseInputProps} from '../../controls/form-controls/inputs/BaseInput';
 import {Icon} from '../../controls/Icon';
 import {t} from '../../utils';
 import {invoiceReplacementsPopoverConfig} from '../invoice-replacements';
 
-type InvoiceReplacementsInputProps = BaseInputProps<string>;
+type InvoiceReplacementsInputProps = BaseInputProps<string>
 
 export const InvoiceReplacementsInput = ({value, onChange, ...props}: InvoiceReplacementsInputProps) => (
   <BaseInput
@@ -14,7 +15,7 @@ export const InvoiceReplacementsInput = ({value, onChange, ...props}: InvoiceRep
     onChange={e => onChange(e.target.value as string)}
     {...props}
     suffix={(
-      <OverlayTrigger trigger="click" placement="top" overlay={InvoiceReplacementsPopover}>
+      <OverlayTrigger trigger="click" placement="auto" overlay={InvoiceReplacementsPopover}>
         <button className="btn input-group-text" type="button">
           <Icon fa="fa fa-file-invoice" size={1} />
         </button>

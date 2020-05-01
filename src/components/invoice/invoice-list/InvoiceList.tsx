@@ -37,7 +37,7 @@ export const InvoiceList = (props: InvoiceListProps) => {
 
   const TableComponent = props.filters.groupedByMonth ? GroupedInvoiceTable : NonGroupedInvoiceTable;
   return (
-    <Container className="invoice-list">
+    <Container className="invoice-list" style={{maxWidth: 1400}}>
       {!isQuotation && (
         <Row>
           <Col xs={8}>

@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React from 'react';
+import React, { useState } from 'react';
+import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import {createInvoice, patchProjectsMonth, deleteProjectMonthAttachmentDetails} from '../../../actions';
 import {Button} from '../../controls/form-controls/Button';
-import {Icon} from '../../controls/Icon';
+import {Icon, NotEmailedIcon, EmailedIcon} from '../../controls/Icon';
 import {t, moneyFormat, formatDate} from '../../utils';
 import {ConfacState} from '../../../reducers/app-state';
 import {getNewInvoice} from '../../invoice/models/getNewInvoice';
@@ -13,6 +14,9 @@ import {InvoiceListRowActions} from '../../invoice/invoice-table/InvoiceListRowA
 import {ValidityToggleButton} from '../../controls/form-controls/button/ValidityToggleButton';
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {useDebouncedSave} from '../../hooks/useDebounce';
+import InvoiceModel from '../../invoice/models/InvoiceModel';
+import { ModalState } from '../../controls/Modal';
+import { EmailModal } from '../../controls/email/EmailModal';
 
 
 interface ProjectMonthOutboundCellProps {
@@ -113,12 +117,42 @@ const OutboundInvoice = ({fullProjectMonth, toggleValid}: OutboundInvoiceProps) 
           &nbsp;({formatDate(fullProjectMonth.invoice.date, 'D/M')})
         </span>
       </div>
+      <div className="email">
+        <InvoiceEmail invoice={fullProjectMonth.invoice} />
+      </div>
       <div className="icons-cell">
         <InvoiceListRowActions invoice={fullProjectMonth.invoice} toggleValid={toggleValid} />
       </div>
     </div>
   );
 };
+
+type InvoiceEmailProps = {
+  invoice: InvoiceModel;
+}
+
+export const InvoiceEmail = ({invoice}: InvoiceEmailProps) => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  return (
+    <>
+      <Button onClick={() => setShowModal(true)} variant="link">
+        {!invoice.lastEmail ? (
+          <NotEmailedIcon style={{fontSize: 17}} />
+        ) : (
+          <EmailedIcon title={t('email.lastEmailDaysAgo', {daysAgo: moment(invoice.lastEmail).fromNow()})} style={{fontSize: 17}} />
+        )}
+      </Button>
+      {showModal && (
+        <EmailModal
+          invoice={invoice}
+          onClose={() => setShowModal(false)}
+        />
+      )}
+    </>
+  );
+};
+
 
 
 

@@ -11,6 +11,7 @@ import {ConfirmedDeleteIcon} from '../../controls/icons/DeleteIcon';
 
 type InvoiceListRowActionsProps = {
   invoice: InvoiceModel;
+  /** When from the ProjectMonth listing, also update the state of the form there */
   toggleValid?: (valid: boolean) => void;
 }
 

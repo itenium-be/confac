@@ -442,7 +442,7 @@ export const trans = {
     send: 'Versturen',
     attachments: 'Bijlagen',
     sent: 'Email verstuurd',
-    lastEmail: 'Laatst verstuurd op {at}',
+    lastEmail: 'Laatst verstuurd op {at} - {daysAgo}',
     lastEmailDaysAgo: 'Laatste email {daysAgo}.',
     notMailed: 'Mail nog niet verstuurd',
   },

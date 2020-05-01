@@ -14,9 +14,8 @@ import {ConfacState} from '../../../reducers/app-state';
 import {EditInvoiceDetails} from './EditInvoiceDetails';
 import {StickyFooter} from '../../controls/skeleton/StickyFooter';
 import {DownloadInvoiceButton} from './DownloadInvoiceButton';
-import {EmailModal, EmailModalTitle} from '../../controls/email/EmailModal';
+import {EmailModal} from '../../controls/email/EmailModal';
 import {EmailModel} from '../../controls/email/EmailModels';
-import {sendEmail} from '../../../actions/emailActions';
 import {Button} from '../../controls/form-controls/Button';
 import {getNewInvoice} from '../models/getNewInvoice';
 import {getDocumentTitle} from '../../hooks/useDocumentTitle';
@@ -24,7 +23,6 @@ import {InvoiceAttachmentsForm} from '../controls/InvoiceAttachmentsForm';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {projectMonthResolve} from '../../project/ProjectMonthsLists';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
-import {invoiceReplacements} from '../invoice-replacements';
 import {ProjectMonthSelect} from '../../project/controls/ProjectMonthSelect';
 import {EditInvoiceBadges} from './EditInvoiceBadges';
 
@@ -124,34 +122,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
 
   render() {
     const {invoice} = this.state;
-
     const fullProjectMonth = this.props.fullProjectMonths.find(x => x.invoice && x.invoice._id === invoice._id);
-
-    const getDefaultEmailValue = (i: InvoiceModel, config: ConfigModel): EmailModel => {
-      const defaultEmail = config.email;
-      if (!i.client || !i.client.email) {
-        return defaultEmail;
-      }
-
-      const emailValues = Object.keys(i.client.email).reduce((acc: EmailModel, cur: string) => {
-        if (i.client.email[cur]) {
-          acc[cur] = i.client.email[cur];
-          return acc;
-        }
-        return acc;
-      }, {} as EmailModel);
-
-      const finalValues = {...defaultEmail, ...emailValues};
-      finalValues.subject = invoiceReplacements(finalValues.subject, i, fullProjectMonth);
-      if (i.lastEmail && config.emailReminder) {
-        finalValues.body = config.emailReminder;
-      }
-      finalValues.body = invoiceReplacements(finalValues.body, i, fullProjectMonth);
-      finalValues.body += config.emailSignature;
-
-      return finalValues;
-    };
-
     return (
       <Container className="edit-container">
         <Form>
@@ -214,12 +185,8 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
 
           {!invoice.isNew && invoice.client && this.state.showEmailModal && (
             <EmailModal
-              show={this.state.showEmailModal}
-              defaultValue={getDefaultEmailValue(invoice, this.props.config)}
-              attachmentsAvailable={invoice.attachments.map(a => a.type)}
-              title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} />}
+              invoice={invoice}
               onClose={() => this.setState({showEmailModal: false})}
-              onConfirm={(email: EmailModel) => this.props.sendEmail(invoice, email, fullProjectMonth)}
             />
           )}
 
@@ -252,6 +219,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
 }
 
 function mapStateToProps(state: ConfacState, props: any) {
+  // TODO: need a selector for this stuff, this is going to be a performance issue
   const fullProjectMonths = state.projectsMonth.map(pm => projectMonthResolve(pm, state));
 
   return {
@@ -265,4 +233,4 @@ function mapStateToProps(state: ConfacState, props: any) {
   };
 }
 
-export default connect(mapStateToProps, {invoiceAction, sendEmail})(EditInvoice);
+export default connect(mapStateToProps, {invoiceAction})(EditInvoice);

@@ -54,6 +54,7 @@ export type IconProps = {
   history?: any,
   center?: boolean,
   dispatch?: any,
+  children?: any,
 }
 
 
@@ -63,7 +64,7 @@ class IconComponent extends Component<IconProps> {
   // }
 
   render() {
-    const {fa, color, style, onClick, href, dispatch, className, label, labelStyle, title, size = 2, history, ...props} = this.props;
+    const {fa, color, style, onClick, href, dispatch, className, label, labelStyle, title, size = 2, history, children, ...props} = this.props;
     let realClick: any = onClick;
     if (typeof onClick === 'string') {
       realClick = () => {
@@ -80,6 +81,7 @@ class IconComponent extends Component<IconProps> {
         style={{color, ...style}}
       >
         {label ? <span style={{marginLeft: 6, ...labelStyle}}>{label}</span> : null}
+        {children}
       </i>
     );
 
@@ -126,4 +128,11 @@ export const NotEmailedIcon = ({...props}) => (
     <i className="fas fa-envelope fa-stack-1x" />
     <Icon fa="fas fa-ban fa-stack-2x" size={1} title={t('email.notMailed')} color="#CC1100" />
   </span>
+);
+
+export const EmailedIcon = ({...props}) => (
+  <Icon fa="fa-stack fa-2x" {...props}>
+    <i className="fas fa-envelope fa-stack-1x" />
+    <Icon fa="fas fa-check fa-stack-2x" size={1} color="green" />
+  </Icon>
 );

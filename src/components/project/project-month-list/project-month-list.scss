@@ -225,8 +225,9 @@ $cell-padding: 8px 8px;
     display: flex;
 
     > * {
-      &:first-child { width: 40%; }
-      &:nth-child(2) { width: 60%; }
+      &:first-child { width: 30%; }
+      &:nth-child(2) { width: 10%; }
+      &:nth-child(3) { width: 60%; }
 
       &:not(:last-child) {
         margin-right: $in-cell-margin;
@@ -247,6 +248,18 @@ $cell-padding: 8px 8px;
       span:last-child {
         // invoice nr/date
         font-size: 75%;
+      }
+    }
+
+    .email {
+      padding: $cell-padding;
+
+      button {
+        padding: 0;
+
+        .fa-envelope {
+          color: black;
+        }
       }
     }
 
