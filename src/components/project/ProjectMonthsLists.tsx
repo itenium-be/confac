@@ -74,7 +74,7 @@ export const ProjectMonthsLists = () => {
   const topToolbar = (
     <>
       <CreateProjectsMonthModalButton />
-      <LinkToButton to="/invoices" label="title" size="lg" variant="primary" />
+      <LinkToButton to="/invoices" label="title" size="lg" variant="light" />
     </>
   );
 
