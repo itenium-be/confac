@@ -41,7 +41,7 @@ export const Button = ({variant = 'primary', size = 'md', disabled, className, s
       style={style}
       {...rest}
     >
-      {icon ? <Icon fa={icon} size={1} style={{marginRight: 6}} /> : null}
+      {icon ? <Icon fa={icon} size={1} style={{marginRight: children ? 6 : 0}} /> : null}
       {children}
     </ReactButton>
   );
