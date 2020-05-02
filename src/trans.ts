@@ -446,6 +446,11 @@ export const trans = {
     lastEmailDaysAgo: 'Laatste email {daysAgo}.',
     notMailed: 'Mail nog niet verstuurd',
   },
+  user: {
+    login: 'Sign in with Google',
+    logout: 'Logout of Google',
+    loginError: 'Inloggen mislukt',
+  },
 };
 
 export default function (key: string, params?: object): string {

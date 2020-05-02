@@ -2,7 +2,7 @@ import React from 'react';
 import {Nav, Navbar, Dropdown, ButtonGroup} from 'react-bootstrap';
 import {Link, Route} from 'react-router-dom';
 import {t} from './utils';
-import {AddIcon} from './controls/Icon';
+import {AddIcon, Icon} from './controls/Icon';
 
 type OldSchoolMenuLinkProps = {
   label: string;
@@ -61,6 +61,12 @@ const Header = () => (
             {t('quotation.createNew')}
           </Link>
         </Dropdown.Menu>
+        <Icon
+          fa="fa fa-user-circle"
+          color="#668014"
+          onClick="/user"
+          style={{marginLeft: 22, paddingTop: 3}}
+        />
       </Dropdown>
     </Navbar.Collapse>
   </Navbar>

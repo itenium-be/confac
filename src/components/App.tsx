@@ -4,7 +4,7 @@ import {ToastContainer} from 'react-toastify';
 import Header from './Header';
 
 import {ConfacState} from '../reducers/app-state';
-// import { success, failure } from '../actions/appActions';
+// import {success, failure} from '../actions/appActions';
 // <button onClick={() => success("greato success")}>Success</button>
 // <button onClick={() => failure("oh noes")}>Error</button>
 
@@ -21,8 +21,8 @@ const ConfiguredToastContainer = () => (
 
 // Compilation Warnings from react-pdf:
 // https://github.com/wojtekmaj/react-pdf/issues/280
-// import { Document, pdfjs, Page } from 'react-pdf';
-// import { useSelector } from 'react-redux';
+// import {Document, pdfjs, Page} from 'react-pdf';
+// import {useSelector} from 'react-redux';
 // pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 // const PdfViewer = () => {
 //   const pdf = useSelector(state => state.app.pdf);

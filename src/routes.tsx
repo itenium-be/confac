@@ -13,6 +13,8 @@ import {EditProject} from './components/project/EditProject';
 import {ProjectsList} from './components/project/ProjectsList';
 import {ConsultantsList} from './components/consultant/ConsultantsList';
 import {ProjectMonthsLists} from './components/project/ProjectMonthsLists';
+import {UnauthicatedAppLayout, LoginPage} from './components/pages/LoginPage';
+import {UserPage} from './components/pages/UserPage';
 
 const Routes = () => (
   <BrowserRouter>
@@ -39,6 +41,9 @@ const Routes = () => (
       <Route path="/projects" render={props => <AppWithLayout Component={ProjectsList} {...props} />} />
 
       <Route path="/config" render={props => <AppWithLayout Component={EditConfig} {...props} />} />
+
+      <Route path="/user" render={props => <AppWithLayout Component={UserPage} {...props} />} />
+      <Route path="/login" render={props => <UnauthicatedAppLayout Component={LoginPage} {...props} />} />
 
       <Route path="/" render={props => <AppWithLayout Component={ProjectMonthsLists} {...props} />} />
     </Switch>

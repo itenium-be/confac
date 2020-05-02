@@ -15,8 +15,7 @@ import {ValidityToggleButton} from '../../controls/form-controls/button/Validity
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {useDebouncedSave} from '../../hooks/useDebounce';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
-import { ModalState } from '../../controls/Modal';
-import { EmailModal } from '../../controls/email/EmailModal';
+import {EmailModal} from '../../controls/email/EmailModal';
 
 
 interface ProjectMonthOutboundCellProps {

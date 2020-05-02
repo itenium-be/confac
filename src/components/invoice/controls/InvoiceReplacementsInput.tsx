@@ -1,6 +1,5 @@
 import React from 'react';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
-import {Placement} from 'react-bootstrap/Overlay';
 import {BaseInput, BaseInputProps} from '../../controls/form-controls/inputs/BaseInput';
 import {Icon} from '../../controls/Icon';
 import {t} from '../../utils';
