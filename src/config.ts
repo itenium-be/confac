@@ -21,6 +21,7 @@ const appConfig: IConfig = {
   jwt: {
     secret: 'SUPER DUPER SECRET',
     expiresIn: '5h',
+    superUser: 'wouter.van.schandevijl@itenium.be',
   },
 };
 
@@ -43,13 +44,16 @@ interface IConfig {
   SENDGRID_API_KEY: string;
   ENVIRONMENT: 'development' | string;
   ENABLE_ROOT_TEMPLATES: string | boolean;
+  /** GSuite authentication */
   security: {
     clientId: string;
     secret: string;
     domain: string;
   };
+  /** Confac security */
   jwt: {
     secret: string;
     expiresIn: string;
+    superUser: string;
   };
 }

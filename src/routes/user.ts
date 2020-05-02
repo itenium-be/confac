@@ -1,12 +1,10 @@
 import {Router} from 'express';
-import {authUser} from '../controllers/user';
+import {authUser, getUsers, saveUser} from '../controllers/user';
 
 const userRouter = Router();
 
-// userRouter.get('/:model/:id/:type/:fileName', getAttachmentController);
-// userRouter.put('/:model/:id/:type', multiPartFormMiddleware.any(), saveAttachmentController);
-// userRouter.delete('/:model/:id/:type', deleteAttachmentController);
-
+userRouter.get('/', getUsers);
 userRouter.post('/login', authUser);
+userRouter.put('/:id', saveUser);
 
 export default userRouter;

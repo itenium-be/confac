@@ -5,5 +5,6 @@ export interface IUser {
   email: string;
   name: string;
   firstName: string;
+  alias: string;
   active: boolean;
 }
