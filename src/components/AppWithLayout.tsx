@@ -4,7 +4,7 @@ import {Redirect} from 'react-router-dom';
 import App from './App';
 import {ConfacState} from '../reducers/app-state';
 import {LoadingPage} from './pages/LoadingPage';
-import {authService} from '../actions/utils/authService';
+import {authService} from './users/authService';
 
 type AppWithLayoutProps = {
   Component: any

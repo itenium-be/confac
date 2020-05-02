@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import {routerReducer} from 'react-router-redux';
 import thunk from 'redux-thunk';
-import {app, config, invoices, clients, consultants, projects, projectsMonth, projectsMonthOverviews} from './reducers';
+import {app, config, invoices, clients, consultants, projects, projectsMonth, projectsMonthOverviews, users} from './reducers';
 
 // https://redux-docs.netlify.com/recipes/configuring-your-store
 function configureStore(preloadedState = undefined) {
@@ -21,6 +21,7 @@ function configureStore(preloadedState = undefined) {
     projects,
     projectsMonth,
     projectsMonthOverviews,
+    user: users,
     routing: routerReducer,
   });
 

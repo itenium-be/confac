@@ -8,6 +8,8 @@ export enum ACTION_TYPES {
 
   CONFIG_FETCHED = 'CONFIG_FETCHED',
   CONFIG_UPDATE = 'CONFIG_UPDATE',
+  USERS_FETCHED = 'USERS_FETCHED',
+  USER_UPDATE = 'USERS_UPDATE',
 
   CLIENTS_FETCHED = 'CLIENTS_FETCHED',
   /** Client inserts are also done with update */

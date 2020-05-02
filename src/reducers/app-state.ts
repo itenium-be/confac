@@ -7,6 +7,7 @@ import {ConsultantModel} from '../components/consultant/models/ConsultantModel';
 import {ProjectModel} from '../components/project/models/ProjectModel';
 import {ProjectMonthModel, ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
 import {ListFilters} from '../components/controls/table/table-models';
+import {UserState} from '../components/users/models/UserModel';
 
 export type ConfacState = {
   app: AppState;
@@ -17,7 +18,8 @@ export type ConfacState = {
   projects: ProjectModel[];
   projectsMonth: ProjectMonthModel[];
   /** Attachment details for a ProjectMonth (Timesheet check) */
-  projectsMonthOverviews: ProjectMonthOverviewModel[]
+  projectsMonthOverviews: ProjectMonthOverviewModel[];
+  user: UserState;
 };
 
 
@@ -45,5 +47,6 @@ export const defaultAppState: AppState = {
     invoices: getListFilters(),
     projects: getListFilters(),
     projectMonths: getListFilters(),
+    users: getListFilters(),
   },
 };

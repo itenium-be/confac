@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {useHistory, Redirect} from 'react-router-dom';
+import {useHistory, Redirect, Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {GoogleLogin} from 'react-google-login';
 import {Alert} from 'react-bootstrap';
 import {t} from '../utils';
-import {authService} from '../../actions/utils/authService';
+import {authService} from '../users/authService';
 
 
 
@@ -15,7 +15,9 @@ export const UnauthicatedAppLayout = ({Component, props}: any) => {
 
   return (
     <div className="container unauthicated">
-      <img src="/img/itenium.png" role="presentation" alt="itenium logo" />
+      <Link to="/">
+        <img src="/img/itenium.png" role="presentation" alt="itenium logo" />
+      </Link>
       <hr />
       <Component {...props} />
     </div>

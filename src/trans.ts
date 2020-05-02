@@ -48,6 +48,17 @@ export const features = {
       outbound: 'Verstuurde factuur',
     },
   },
+  users: {
+    title: 'Gebruikers',
+    listTitle: 'Gebruikers',
+    createNew: 'Nieuwe gebruiker',
+    props: {
+      email: 'Email',
+      name: 'Naam',
+      firstName: 'Voornaam',
+      alias: 'Alias',
+    },
+  },
 };
 
 
@@ -77,6 +88,9 @@ export const trans = {
     consultantList: 'Consultants',
     consultantEdit: '{name}',
     consultantNew: 'Nieuwe consultant',
+    usersList: 'Gebruikers',
+    userEdit: '{name}',
+    userNew: 'Nieuwe gebruiker',
   },
   search: 'Zoeken',
   edit: 'Aanpassen',
@@ -450,6 +464,14 @@ export const trans = {
     login: 'Sign in with Google',
     logout: 'Logout of Google',
     loginError: 'Inloggen mislukt',
+    users: 'Gebruikers',
+    createNew: 'Nieuwe gebruiker',
+    props: {
+      email: 'Email',
+      name: 'Naam',
+      firstName: 'Voornaam',
+      alias: 'Alias',
+    },
   },
 };
 

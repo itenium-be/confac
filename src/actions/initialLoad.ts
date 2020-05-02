@@ -1,34 +1,49 @@
 import {toast} from 'react-toastify';
 import {Dispatch} from 'redux';
+import {authService} from '../components/users/authService';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {buildUrl} from './utils/buildUrl';
 import {failure} from './appActions';
 
 let counter: number;
 
-const httpGet = (url: string) => fetch(buildUrl(url))
-  .then(
-    res => res.json(),
-    err => {
-      console.log('Initial Load Failure', err);// eslint-disable-line
-      if (counter === 0) {
-        failure(err.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
-      }
-      counter++;
-      return Promise.reject(err);
-    },
-  )
-  .then(data => {
-    if (data.message && data.stack) {
-      console.log('Initial Load Failure', data); // eslint-disable-line
-      if (counter === 0) {
-        failure(data.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
-      }
-      counter++;
-      return Promise.reject(data);
-    }
-    return data;
+const httpGet = (url: string) => {
+  const headers = new Headers();
+  headers.append('Accept-Language', 'nl');
+  if (authService.loggedIn()) {
+    headers.append('Authorization', authService.getBearer());
+  }
+  const request = new Request(buildUrl(url), {
+    method: 'GET',
+    headers,
+    // mode: 'cors',
+    // cache: 'default',
   });
+
+  return fetch(request)
+    .then(
+      res => res.json(),
+      err => {
+        console.log('Initial Load Failure', err);// eslint-disable-line
+        if (counter === 0) {
+          failure(err.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
+        }
+        counter++;
+        return Promise.reject(err);
+      },
+    )
+    .then(data => {
+      if (data.message && data.stack) {
+        console.log('Initial Load Failure', data); // eslint-disable-line
+        if (counter === 0) {
+          failure(data.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
+        }
+        counter++;
+        return Promise.reject(data);
+      }
+      return data;
+    });
+};
 
 function fetchClients() {
   return dispatch => httpGet('/clients').then(data => {
@@ -75,6 +90,15 @@ function fetchInvoices() {
   });
 }
 
+function fetchUsers() {
+  return dispatch => httpGet('/user').then(data => {
+    dispatch({
+      type: ACTION_TYPES.USERS_FETCHED,
+      users: data,
+    });
+  });
+}
+
 function fetchProjectsMonth() {
   return dispatch => httpGet('/projects/month').then(data => {
     dispatch({
@@ -94,6 +118,10 @@ function fetchProjectsMonthOverviews() {
 }
 
 export function initialLoad(): any {
+  if (!authService.loggedIn()) {
+    return {type: 'NONE'};
+  }
+
   counter = 0;
   return dispatch => Promise.all([
     dispatch(fetchClients()),
@@ -103,6 +131,7 @@ export function initialLoad(): any {
     dispatch(fetchProjects()),
     dispatch(fetchProjectsMonth()),
     dispatch(fetchProjectsMonthOverviews()),
+    dispatch(fetchUsers()),
   ]).then(() => {
     dispatch({type: ACTION_TYPES.INITIAL_LOAD});
   });

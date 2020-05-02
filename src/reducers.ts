@@ -6,3 +6,4 @@ export * from './reducers/consultant-reducers';
 export * from './reducers/project-reducers';
 export * from './reducers/projectMonth-reducers';
 export * from './reducers/projectMonthOverview-reducers';
+export * from './reducers/user-reducers';

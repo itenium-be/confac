@@ -1,19 +1,18 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
-import {ConsultantModel} from './ConsultantModel';
-import {IList, IListCell, ConsultantListFilters} from '../../controls/table/table-models';
+import {IList, IListCell, UsersListFilters} from '../../controls/table/table-models';
 import {t, searchinize} from '../../utils';
 import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {EditIcon} from '../../controls/Icon';
 import {DeleteIcon} from '../../controls/icons/DeleteIcon';
-import {ConsultantLinkWithModal} from '../controls/ConsultantLink';
+import {UserModel} from './UserModel';
 
 
-export type ConsultantFeatureBuilderConfig = IFeatureBuilderConfig<ConsultantModel, ConsultantListFilters>;
+export type UserFeatureBuilderConfig = IFeatureBuilderConfig<UserModel, UsersListFilters>;
 
 
-const searchConsultantFor = (filters: ConsultantListFilters, model: ConsultantModel): boolean => {
+const searchUserFor = (filters: UsersListFilters, model: UserModel): boolean => {
   if (!filters.showInactive && !model.active) {
     return false;
   }
@@ -23,13 +22,13 @@ const searchConsultantFor = (filters: ConsultantListFilters, model: ConsultantMo
   }
 
   return searchinize(
-    `${model.name} ${model.firstName} ${model.type} ${model.email} ${model.telephone}`,
+    `${model.name} ${model.firstName} ${model.alias} ${model.email} ${model.email}`,
   ).includes(filters.freeText.toLowerCase());
 };
 
 
 
-function getRowClassName(m: ConsultantModel): string | undefined {
+function getRowClassName(m: UserModel): string | undefined {
   if (!m.active) {
     return 'table-danger';
   }
@@ -37,13 +36,10 @@ function getRowClassName(m: ConsultantModel): string | undefined {
 }
 
 
-const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<ConsultantModel, ConsultantListFilters> => {
-  const cells: IListCell<ConsultantModel>[] = [{
+const userListConfig = (config: UserFeatureBuilderConfig): IList<UserModel, UsersListFilters> => {
+  const cells: IListCell<UserModel>[] = [{
     key: 'name',
-    value: m => <ConsultantLinkWithModal consultant={m} />,
-  }, {
-    key: 'type',
-    value: m => t(`consultant.types.${m.type}`),
+    value: m => `${m.firstName} ${m.name}`,
   }, {
     key: 'email',
     value: m => {
@@ -53,14 +49,11 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
       return '';
     },
   }, {
-    key: 'telephone',
-    value: m => m.telephone,
-  }, {
     key: 'buttons',
     header: {title: '', width: 110},
     value: m => (
       <>
-        <EditIcon onClick={`/consultants/${m.slug}`} style={{marginRight: 15}} size={1} />
+        <EditIcon onClick={`/users/${m.alias}`} style={{marginRight: 15}} size={1} />
         <DeleteIcon
           onClick={() => config.save({...m, active: !m.active})}
           title={m.active ? t('feature.deactivateTitle') : t('feature.activateTitle')}
@@ -82,18 +75,18 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
 
 
 
-export const consultantFeature = (config: ConsultantFeatureBuilderConfig): IFeature<ConsultantModel, ConsultantListFilters> => {
-  const feature: IFeature<ConsultantModel, ConsultantListFilters> = {
-    key: 'consultants',
-    nav: m => `/consultants/${m === 'create' ? m : m.slug}`,
-    trans: features.consultant as any,
-    list: consultantListConfig(config),
+export const userFeature = (config: UserFeatureBuilderConfig): IFeature<UserModel, UsersListFilters> => {
+  const feature: IFeature<UserModel, UsersListFilters> = {
+    key: 'users',
+    nav: m => `/users/${m === 'create' ? m : m.alias}`,
+    trans: features.users as any,
+    list: userListConfig(config),
   };
 
   feature.list.filter = {
     state: config.filters,
     updateFilter: config.setFilters,
-    fullTextSearch: searchConsultantFor,
+    fullTextSearch: searchUserFor,
     softDelete: true,
   };
 
