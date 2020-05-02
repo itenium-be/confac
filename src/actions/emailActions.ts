@@ -7,6 +7,7 @@ import {t} from '../components/utils';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {invoiceReplacements} from '../components/invoice/invoice-replacements';
 import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
+import {authService} from '../components/users/authService';
 
 
 export function sendEmail(invoice: InvoiceModel, email: EmailModel, fullProjectMonth?: FullProjectMonthModel) {
@@ -36,6 +37,7 @@ export function sendEmail(invoice: InvoiceModel, email: EmailModel, fullProjectM
       .filter(att => att);
 
     request.post(buildUrl(`/invoices/email/${invoice._id}`))
+      .set('Authorization', authService.getBearer())
       .send(email)
       .then(res => {
         console.log('res', res); // eslint-disable-line

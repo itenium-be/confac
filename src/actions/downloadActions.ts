@@ -8,6 +8,7 @@ import {ClientModel} from '../components/client/models/ClientModels';
 import {getInvoiceFileName, getDownloadUrl, previewPdf, downloadAttachment} from './utils/download-helpers';
 import {ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
 import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
+import {authService} from '../components/users/authService';
 
 
 export function getInvoiceDownloadUrl(
@@ -48,6 +49,7 @@ export function getProjectMonthOverviewDownloadUrl(
 export function previewInvoice(data: InvoiceModel, fullProjectMonth?: FullProjectMonthModel) {
   return dispatch => {
     request.post(buildUrl('/invoices/preview'))
+      .set('Authorization', authService.getBearer())
       .responseType('blob')
       .send(data)
       .then(res => {
@@ -68,6 +70,7 @@ export function downloadInvoicesExcel(ids: string[]) {
   return dispatch => {
     request.post(buildUrl('/invoices/excel'))
       .responseType('blob')
+      .set('Authorization', authService.getBearer())
       .send(ids)
       .then(res => {
         console.log('downloaded', res); // eslint-disable-line
@@ -82,6 +85,7 @@ export function downloadInvoicesZip(ids: string[]) {
   return dispatch => {
     request.post(buildUrl('/attachments'))
       .responseType('blob')
+      .set('Authorization', authService.getBearer())
       .send(ids)
       .then(res => {
         // console.log('downloaded', res);

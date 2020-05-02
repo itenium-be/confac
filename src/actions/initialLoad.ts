@@ -7,9 +7,10 @@ import {failure} from './appActions';
 
 let counter: number;
 
-const httpGet = (url: string) => {
+
+export const buildRequest = (url: string) => {
   const headers = new Headers();
-  headers.append('Accept-Language', 'nl');
+  // headers.append('Accept-Language', 'nl');
   if (authService.loggedIn()) {
     headers.append('Authorization', authService.getBearer());
   }
@@ -19,7 +20,12 @@ const httpGet = (url: string) => {
     // mode: 'cors',
     // cache: 'default',
   });
+  return request;
+};
 
+
+const httpGet = (url: string) => {
+  const request = buildRequest(url);
   return fetch(request)
     .then(
       res => res.json(),

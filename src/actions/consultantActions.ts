@@ -5,6 +5,7 @@ import t from '../trans';
 import {ConsultantModel} from '../components/consultant/models/ConsultantModel';
 import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
+import {authService} from '../components/users/authService';
 
 
 export function saveConsultant(consultant: ConsultantModel, callback?: (savedConsultant: ConsultantModel) => void, history?: any) {
@@ -13,6 +14,7 @@ export function saveConsultant(consultant: ConsultantModel, callback?: (savedCon
     return request
       .post(buildUrl('/consultants'))
       .set('Content-Type', 'application/json')
+      .set('Authorization', authService.getBearer())
       .send(consultant)
       .then(response => {
         dispatch({

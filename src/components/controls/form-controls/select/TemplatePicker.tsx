@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {toast} from 'react-toastify';
 import {SimpleSelect} from './SimpleSelect';
-import {buildUrl} from '../../../../actions/utils/buildUrl';
-import {failure} from '../../../../actions';
+import {failure, buildRequest} from '../../../../actions';
 import {t} from '../../../utils';
 
 
@@ -16,7 +15,6 @@ type TemplatePickerState = {
   templates: any[],
 }
 
-const httpGet = (url: string) => fetch(buildUrl(url));
 
 class TemplatePickerComponent extends Component<TemplatePickerProps, TemplatePickerState> {
   constructor(props: any) {
@@ -25,7 +23,7 @@ class TemplatePickerComponent extends Component<TemplatePickerProps, TemplatePic
   }
 
   componentDidMount() {
-    httpGet('/config/templates')
+    fetch(buildRequest('/config/templates'))
       .then(res => res.json())
       .then(templates => {
         if (!templates.message) {

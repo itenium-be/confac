@@ -8,6 +8,7 @@ import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {previewInvoice} from './downloadActions';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
 import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
+import {authService} from '../components/users/authService';
 
 
 function cleanViewModel(data: InvoiceModel): InvoiceModel {
@@ -24,6 +25,7 @@ export function createInvoice(data: InvoiceModel, history?: any) {
     dispatch(busyToggle());
     request.post(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
+      .set('Authorization', authService.getBearer())
       .set('Accept', 'application/json')
       .send(cleanViewModel(data))
       .then(res => {
@@ -55,6 +57,7 @@ function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined
     dispatch(busyToggle());
     request.put(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
+      .set('Authorization', authService.getBearer())
       .set('Accept', 'application/json')
       .send(cleanViewModel(data))
       .then(res => {
@@ -117,6 +120,7 @@ export function deleteInvoice(invoice: InvoiceModel) {
     }
     request.delete(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
+      .set('Authorization', authService.getBearer())
       .send({id: invoice._id})
       .then(res => {
         console.log('invoice deleted', invoice); // eslint-disable-line

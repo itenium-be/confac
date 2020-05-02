@@ -8,7 +8,7 @@ import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
 import {EnhanceInputWithAddons} from '../../../enhancers/EnhanceInputWithAddons';
 import {t} from '../../../utils';
 import {Icon} from '../../Icon';
-import {buildUrl} from '../../../../actions/utils/buildUrl';
+import {buildRequest} from '../../../../actions/initialLoad';
 
 /** Default to this country code if none provided */
 const DefaultBtwCountry = 'BE';
@@ -130,7 +130,7 @@ export type BtwResponse = {
 }
 
 async function fetchBtwInfo(btw: string): Promise<BtwResponse> {
-  return (await fetch(buildUrl(`/clients/btw/${btw}`)).then(result => result.json())) as BtwResponse;
+  return (await fetch(buildRequest(`/clients/btw/${btw}`)).then(result => result.json())) as BtwResponse;
 }
 
 

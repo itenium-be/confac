@@ -5,6 +5,7 @@ import {buildUrl} from './utils/buildUrl';
 import t from '../trans';
 import {ClientModel} from '../components/client/models/ClientModels';
 import {busyToggle, success} from './appActions';
+import {authService} from '../components/users/authService';
 
 
 export function saveClient(client: ClientModel, stayOnPage = false, callback?: (client: ClientModel) => void) {
@@ -12,6 +13,7 @@ export function saveClient(client: ClientModel, stayOnPage = false, callback?: (
     dispatch(busyToggle());
     return request.post(buildUrl('/clients'))
       .set('Content-Type', 'application/json')
+      .set('Authorization', authService.getBearer())
       .send(client)
       .then(res => {
         dispatch({

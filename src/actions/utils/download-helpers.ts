@@ -20,6 +20,7 @@ export function getDownloadUrl(
 ): string {
 
   const query = downloadType === 'download' ? '?download=1' : '';
+  // TODO: need to set auth header for these guys
   return buildUrl(`/attachments/${modelType}/${_id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
 }
 

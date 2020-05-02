@@ -4,6 +4,7 @@ import {success, busyToggle} from './appActions';
 import {catchHandler} from './utils/fetch';
 import {buildUrl} from './utils/buildUrl';
 import {IAttachment} from '../models';
+import {authService} from '../components/users/authService';
 
 
 function buildAttachmentUrl(invoiceOrClient: IAttachment, type: 'pdf' | string) {
@@ -20,8 +21,8 @@ export function updateAttachment(
 ) {
   return dispatch => {
     dispatch(busyToggle());
-    const req = request.put(buildAttachmentUrl(model, type));
-    // .set('Content-Type', 'application/json');
+    const req = request.put(buildAttachmentUrl(model, type))
+      .set('Authorization', authService.getBearer());
 
     req.attach(file.name, file);
 
@@ -49,6 +50,7 @@ export function deleteAttachment(model: IAttachment, modelType: 'client' | 'invo
   return dispatch => {
     dispatch(busyToggle());
     request.delete(buildAttachmentUrl(model, type))
+      .set('Authorization', authService.getBearer())
       .then(res => {
         dispatch({
           type: modelType === 'client' ? ACTION_TYPES.CLIENT_UPDATE : ACTION_TYPES.INVOICE_UPDATED,

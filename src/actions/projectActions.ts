@@ -9,6 +9,7 @@ import {ACTION_TYPES} from './utils/ActionTypes';
 import {ProjectModel} from '../components/project/models/ProjectModel';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
 import {TimesheetCheckAttachmentType} from '../models';
+import {authService} from '../components/users/authService';
 
 export function saveProject(project: ProjectModel, history: any) {
   return (dispatch: Dispatch) => {
@@ -16,6 +17,7 @@ export function saveProject(project: ProjectModel, history: any) {
     return request
       .post(buildUrl('/projects'))
       .set('Content-Type', 'application/json')
+      .set('Authorization', authService.getBearer())
       .send(project)
       .then(response => {
         dispatch({
@@ -35,6 +37,7 @@ export function createProjectsMonth(month: Moment) {
   return (dispatch: Dispatch) => request
     .post(buildUrl('/projects/month'))
     .set('Content-Type', 'application/json')
+    .set('Authorization', authService.getBearer())
     .send({month})
     .then(response => {
       dispatch({
@@ -53,7 +56,7 @@ export function createProjectsMonthInvoice(project: ProjectMonthModel) {
   return (dispatch: Dispatch) => request
     .post(buildUrl(`/projects/month/${project._id}/create-invoice`))
     .set('Content-Type', 'application/json')
-  // .send()
+    .set('Authorization', authService.getBearer())
     .then(response => {
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_INVOICE_CREATED,
@@ -83,6 +86,7 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
   return (dispatch: Dispatch) => request
     .patch(buildUrl('/projects/month'))
     .set('Content-Type', 'application/json')
+    .set('Authorization', authService.getBearer())
     .send(project)
     .then(response => {
       dispatch({
@@ -99,7 +103,10 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
 
 export function projectMonthUpload(file: File, type: 'Getekende timesheet' | 'inbound', projectMonthId: string) {
   return (dispatch: Dispatch) => {
-    const req = request.put(buildUrl(`/attachments/project_month/${projectMonthId}/${type}`));
+    const req = request
+      .put(buildUrl(`/attachments/project_month/${projectMonthId}/${type}`))
+      .set('Authorization', authService.getBearer());
+
     req.attach(file.name, file);
     req.then(response => {
       dispatch({
@@ -115,7 +122,10 @@ export function projectMonthUpload(file: File, type: 'Getekende timesheet' | 'in
 
 export function projectsMonthOverviewUpload(file: File, month: Moment) {
   return (dispatch: Dispatch) => {
-    const req = request.put(buildUrl(`/attachments/project_month_overview/${month.toISOString()}/${TimesheetCheckAttachmentType}`));
+    const req = request
+      .put(buildUrl(`/attachments/project_month_overview/${month.toISOString()}/${TimesheetCheckAttachmentType}`))
+      .set('Authorization', authService.getBearer());
+
     req.attach(file.name, file);
     req.then(response => {
       dispatch({
@@ -131,7 +141,10 @@ export function projectsMonthOverviewUpload(file: File, month: Moment) {
 
 export function deleteProjectsMonthOverview(id: string) {
   return (dispatch: Dispatch) => {
-    const req = request.delete(buildUrl(`/attachments/project_month_overview/${id}/${TimesheetCheckAttachmentType}`));
+    const req = request
+      .delete(buildUrl(`/attachments/project_month_overview/${id}/${TimesheetCheckAttachmentType}`))
+      .set('Authorization', authService.getBearer());
+
     req.then(response => {
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_OVERVIEWS_DELETE,
