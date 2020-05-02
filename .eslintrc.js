@@ -60,7 +60,8 @@ module.exports = {
       "ImportDeclaration": { "multiline": true, "minProperties": 5 },
       "ExportDeclaration": { "multiline": true, "minProperties": 3 }
     }],
-    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }]
+    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }],
+    "prefer-destructuring": [0],
   },
   settings: {
     "import/resolver": {

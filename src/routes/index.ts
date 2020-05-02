@@ -6,8 +6,11 @@ import projectsRouter from './projects';
 import invoicesRouter from './invoices';
 import configRouter from './config';
 import attachmentsRouter from './attachments';
+import userRouter from './user';
 
 const appRouter = Router();
+
+appRouter.use('/user', userRouter);
 
 appRouter.use('/clients', clientsRouter);
 appRouter.use('/consultants', consultantsRouter);
