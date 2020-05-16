@@ -19,9 +19,9 @@ const appConfig: IConfig = {
     domain: process.env.GOOGLE_DOMAIN || 'itenium.be',
   },
   jwt: {
-    secret: 'SUPER DUPER SECRET',
-    expiresIn: '5h',
-    superUser: 'wouter.van.schandevijl@itenium.be',
+    secret: process.env.JWT_SECRET || 'SUPER DUPER SECRET',
+    expiresIn: process.env.JWT_EXPIRES || '5h',
+    superUser: process.env.SUPERUSER || 'wouter.van.schandevijl@itenium.be',
   },
 };
 
