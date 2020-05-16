@@ -2,7 +2,7 @@
 import express, {Request, Response, NextFunction} from 'express';
 import bodyParser from 'body-parser';
 import sgMail from '@sendgrid/mail';
-import errorHandler from 'errorhandler'; // TODO: This is probably going to crash on the CI?
+import errorHandler from 'errorhandler';
 import {MongoClient} from 'mongodb';
 import cors from 'cors';
 
