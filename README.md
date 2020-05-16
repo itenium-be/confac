@@ -15,9 +15,6 @@ npm start
 npm run deploy
 # Copy some config.json to deploy folder
 npm run start:deploy
-
-# Start forever
-npm run prod
 ```
 
 Database
