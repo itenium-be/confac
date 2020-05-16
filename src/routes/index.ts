@@ -22,7 +22,7 @@ appRouter.use('/consultants', jwtMiddleware(), consultantsRouter);
 appRouter.use('/projects', jwtMiddleware(), projectsRouter);
 appRouter.use('/invoices', jwtMiddleware(), invoicesRouter);
 appRouter.use('/config', jwtMiddleware(), configRouter);
-appRouter.use('/attachments', jwtMiddleware(), attachmentsRouter);
+appRouter.use('/attachments'/*, jwtMiddleware()*/, attachmentsRouter);
 
 
 export default appRouter;
