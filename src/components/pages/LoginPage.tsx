@@ -41,6 +41,10 @@ export const LoginPage = (props: any) => {
   const [state, setState] = useState<string | 'loggedIn'>('');
 
   if (state === 'loggedIn') {
+    if (document.location.pathname === '/login') {
+      return <Redirect to="/" />;
+    }
+
     history.goBack();
     return <div />;
   }
