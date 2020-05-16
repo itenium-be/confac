@@ -64,7 +64,7 @@ class IconComponent extends Component<IconProps> {
   // }
 
   render() {
-    const {fa, color, style, onClick, href, dispatch, className, label, labelStyle, title, size = 2, history, children, ...props} = this.props;
+    const {fa, onClick, href, dispatch, className, label, labelStyle, title, size = 2, history, children, ...props} = this.props;
     let realClick: any = onClick;
     if (typeof onClick === 'string') {
       realClick = () => {
@@ -78,7 +78,7 @@ class IconComponent extends Component<IconProps> {
         {...props}
         className={cn(fa, `fa-${size}x`, className, {clickable: !!onClick || !!href})}
         onClick={realClick}
-        style={{color, ...style}}
+        style={{color: this.props.color, ...this.props.style}}
       >
         {label ? <span style={{marginLeft: 6, ...labelStyle}}>{label}</span> : null}
         {children}

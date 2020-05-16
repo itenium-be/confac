@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
