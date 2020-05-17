@@ -17,6 +17,14 @@ export const getCompanyConfig = async (req: Request, res: Response) => {
   return res.send(DEFAULT_COMPANY_CONFIG);
 };
 
+
+
+export const getSecurityConfig = async (req: Request, res: Response) => {
+  return res.send({googleClientId: appConfig.security.clientId});
+};
+
+
+
 export const saveCompanyConfig = async (req: Request, res: Response) => {
   const {_id, ...companyConfig}: ICompanyConfig = req.body;
 

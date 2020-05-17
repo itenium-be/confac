@@ -21,7 +21,7 @@ appRouter.use('/clients', jwtMiddleware(), clientsRouter);
 appRouter.use('/consultants', jwtMiddleware(), consultantsRouter);
 appRouter.use('/projects', jwtMiddleware(), projectsRouter);
 appRouter.use('/invoices', jwtMiddleware(), invoicesRouter);
-appRouter.use('/config', jwtMiddleware(), configRouter);
+appRouter.use('/config', jwtMiddleware().unless({path: ['/api/config/security']}), configRouter);
 appRouter.use('/attachments'/*, jwtMiddleware()*/, attachmentsRouter);
 
 
