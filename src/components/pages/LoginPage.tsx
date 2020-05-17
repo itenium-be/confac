@@ -53,6 +53,9 @@ export const LoginPage = (props: any) => {
   }, []);
 
   if (state === 'loggedIn') {
+    // TODO: need to find if the previous path was /login
+    // ie we opened on the login page, then redirect to the
+    // index, otherwise redirect to where we came from!
     if (document.location.pathname === '/login') {
       return <Redirect to="/" />;
     }
