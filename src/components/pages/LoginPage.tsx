@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useHistory, Redirect, Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {GoogleLogin} from 'react-google-login';
 import {Alert} from 'react-bootstrap';
 import {t} from '../utils';
 import {authService} from '../users/authService';
+import {buildRequest} from '../../actions/initialLoad';
+
 
 
 
@@ -39,6 +41,16 @@ export const LoginPage = (props: any) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [state, setState] = useState<string | 'loggedIn'>('');
+  const [googleClientId, setGoogleClientId] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch(buildRequest('/config/security'))
+      .then(res => res.json())
+      .then(data => {
+        setGoogleClientId(data.googleClientId);
+        localStorage.setItem('googleClientId', data.googleClientId);
+      });
+  });
 
   if (state === 'loggedIn') {
     if (document.location.pathname === '/login') {
@@ -46,6 +58,10 @@ export const LoginPage = (props: any) => {
     }
 
     history.goBack();
+    return <div />;
+  }
+
+  if (!googleClientId) {
     return <div />;
   }
 
@@ -58,7 +74,7 @@ export const LoginPage = (props: any) => {
       )}
 
       <GoogleLogin
-        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ''}
+        clientId={googleClientId}
         buttonText={t('user.login')}
         onSuccess={res => authService.login(res, dispatch, setState)}
         onFailure={() => setState('user.loginError')}

@@ -7,7 +7,7 @@ import {defaultConfig} from '../components/config/models/getNewConfig';
 export const config = (state: ConfigModel = defaultConfig, action): ConfigModel => {
   switch (action.type) {
     case ACTION_TYPES.CONFIG_FETCHED:
-    console.log('CONFIG_FETCHED', action.config); // eslint-disable-line
+      console.log('CONFIG_FETCHED', action.config); // eslint-disable-line
       return {...defaultConfig, ...action.config};
 
     case ACTION_TYPES.CONFIG_UPDATE:

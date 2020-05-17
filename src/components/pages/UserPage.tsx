@@ -36,7 +36,7 @@ export const Logout = () => {
   return (
     <div>
       <GoogleLogout
-        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ''}
+        clientId={localStorage.getItem('googleClientId') || ''}
         buttonText={t('user.logout')}
         onLogoutSuccess={logout}
         onFailure={logout}
