@@ -68,6 +68,8 @@ export const LoginPage = (props: any) => {
     return <div />;
   }
 
+  console.log('googleClientId', googleClientId);
+
   return (
     <div>
       {state && (
@@ -80,7 +82,7 @@ export const LoginPage = (props: any) => {
         clientId={googleClientId}
         buttonText={t('user.login')}
         onSuccess={res => authService.login(res, dispatch, setState)}
-        onFailure={() => setState('user.loginError')}
+        onFailure={err => {setState('user.loginError'); console.log('google-login-failure', err);}}
         cookiePolicy="single_host_origin"
         scope={requiredAccess.join(' ')}
       />
