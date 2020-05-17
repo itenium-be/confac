@@ -1,6 +1,6 @@
 import {ObjectID} from 'mongodb';
-
 import {IEmail} from './clients';
+
 
 export interface ICompanyConfig {
   _id: ObjectID;
@@ -25,13 +25,15 @@ export interface ICompanyConfig {
   // defaultExtraClientFields: string[];
   // defaultExtraClientInvoiceFields: string[];
   // showOrderNr: boolean;
-  groupInvoiceListByMonth: boolean;
+  // groupInvoiceListByMonth: boolean;
   defaultInvoiceLineType: string;
   defaultInvoiceDateStrategy: string;
   email: IEmail;
   emailSignature: string;
   emailReminder: string;
 }
+
+
 
 export const DEFAULT_COMPANY_CONFIG: Omit<ICompanyConfig, '_id'> = {
   key: 'conf',
@@ -55,7 +57,7 @@ export const DEFAULT_COMPANY_CONFIG: Omit<ICompanyConfig, '_id'> = {
   // defaultExtraClientFields: [],
   // defaultExtraClientInvoiceFields: [],
   // showOrderNr: false,
-  groupInvoiceListByMonth: false,
+  // groupInvoiceListByMonth: false,
   defaultInvoiceLineType: 'daily',
   defaultInvoiceDateStrategy: 'prev-month-last-day',
   email: {
