@@ -50,7 +50,7 @@ export const LoginPage = (props: any) => {
         setGoogleClientId(data.googleClientId);
         localStorage.setItem('googleClientId', data.googleClientId);
       });
-  });
+  }, []);
 
   if (state === 'loggedIn') {
     if (document.location.pathname === '/login') {
