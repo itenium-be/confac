@@ -24,16 +24,16 @@ type JwtModel = {
 
 
 export const authService: IAuthService = {
-  loggedIn: () => !!sessionStorage.getItem('jwt'),
+  loggedIn: () => !!localStorage.getItem('jwt'),
   login: (res: any, dispatch: Dispatch<any>, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) => {
     dispatch(authenticateUser(res, setState));
   },
   logout: () => {
-    sessionStorage.removeItem('jwt');
+    localStorage.removeItem('jwt');
   },
-  getBearer: (): string => `Bearer ${sessionStorage.getItem('jwt')}`,
+  getBearer: (): string => `Bearer ${localStorage.getItem('jwt')}`,
   getToken: (): JwtModel | null => {
-    const token = sessionStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
     if (!token) {
       return null;
     }
@@ -74,7 +74,7 @@ function authenticateUser(loginResponse: any, setState: React.Dispatch<SetStateA
       .send({idToken})
       .then(res => {
         console.log('login result', res.body);
-        sessionStorage.setItem('jwt', res.body.jwt);
+        localStorage.setItem('jwt', res.body.jwt);
         dispatch(initialLoad());
         setState('loggedIn');
       })
