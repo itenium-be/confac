@@ -7,12 +7,18 @@ import {t} from '../utils';
 import {authService} from '../users/authService';
 import {buildRequest} from '../../actions/initialLoad';
 
+const Redirecter = () => {
+  if (authService.entryPathname === '/login') {
+    return <Redirect to="/" />;
+  }
 
+  return <Redirect to={authService.entryPathname} />;
+}
 
 
 export const UnauthicatedAppLayout = ({Component, props}: any) => {
   if (authService.loggedIn()) {
-    return <Redirect to="/" />;
+    return <Redirecter />;
   }
 
   return (
@@ -54,15 +60,7 @@ export const LoginPage = (props: any) => {
   }, []);
 
   if (state === 'loggedIn') {
-    // TODO: need to find if the previous path was /login
-    // ie we opened on the login page, then redirect to the
-    // index, otherwise redirect to where we came from!
-    if (document.location.pathname === '/login') {
-      return <Redirect to="/" />;
-    }
-
-    history.goBack();
-    return <div />;
+    return <Redirecter />;
   }
 
   if (!googleClientId) {

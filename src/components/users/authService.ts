@@ -14,6 +14,8 @@ interface IAuthService {
   getBearer: () => string;
   getToken: () => JwtModel | null;
   getUser: () => UserModel | null;
+  /** For redirecting after login */
+  entryPathname: string;
 }
 
 type JwtModel = {
@@ -46,6 +48,7 @@ export const authService: IAuthService = {
     }
     return token.data;
   },
+  entryPathname: document.location.pathname,
 };
 
 function parseJwt(token: string): JwtModel {
