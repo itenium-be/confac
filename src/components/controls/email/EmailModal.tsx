@@ -32,8 +32,16 @@ const getDefaultEmailValue = (i: InvoiceModel, config: ConfigModel, fullProjectM
 
   const finalValues = {...defaultEmail, ...emailValues};
   finalValues.subject = invoiceReplacements(finalValues.subject, i, fullProjectMonth);
-  if (i.lastEmail && config.emailReminder) {
-    finalValues.body = config.emailReminder;
+  if (i.lastEmail) {
+    if (config.emailReminder) {
+      finalValues.body = config.emailReminder;
+    }
+    if (config.emailReminderCc && !i.client.email.cc) {
+      finalValues.cc = config.emailReminderCc;
+    }
+    if (config.emailReminderBcc && !i.client.email.bcc) {
+      finalValues.bcc = config.emailReminderBcc;
+    }
   }
   finalValues.body = invoiceReplacements(finalValues.body, i, fullProjectMonth);
   finalValues.body += config.emailSignature;

@@ -27,4 +27,6 @@ export const defaultConfig: ConfigModel = {
   email: getNewEmail(),
   emailSignature: '',
   emailReminder: '',
+  emailReminderCc: '',
+  emailReminderBcc: '',
 };

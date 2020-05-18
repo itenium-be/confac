@@ -186,6 +186,8 @@ export const trans = {
     },
     emailSignature: 'Standaard email signature',
     emailReminder: 'Email factuur herinnering',
+    emailReminderCc: 'Herinnering CC',
+    emailReminderBcc: 'Herinnering BCC',
   },
   quotation: {
     title: 'Offertes',

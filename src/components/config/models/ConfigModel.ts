@@ -23,6 +23,8 @@ export type ConfigModel = {
   emailSignature: string,
   /** Email body for invoice reminder emails */
   emailReminder: string,
+  emailReminderCc: string,
+  emailReminderBcc: string,
 }
 
 export type ConfigCompanyModel = {

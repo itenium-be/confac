@@ -38,4 +38,6 @@ export const configDefinition: FullFormConfig = [
   {key: 'email.body', component: 'InvoiceReplacementsTextEditor', cols: 12},
   {key: 'emailSignature', component: 'InvoiceReplacementsTextEditor', cols: 12},
   {key: 'emailReminder', component: 'InvoiceReplacementsTextEditor', cols: 12},
+  {key: 'emailReminderCc', component: 'email', cols: 6},
+  {key: 'emailReminderBcc', component: 'email', cols: 6},
 ];

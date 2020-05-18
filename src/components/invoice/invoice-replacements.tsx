@@ -36,17 +36,21 @@ export function invoiceReplacements(input: string, invoice: InvoiceModel, fullPr
     str = str.replace(dateRegex, invoice.date.format(dateFormat));
   }
 
-  if (fullProjectMonth) {
-    const projectMonthRegex = /\{projectMonth:([^}]+)\}/;
-    const projectMonthMatch = str.match(projectMonthRegex);
-    if (projectMonthMatch) {
-      const dateFormat = projectMonthMatch[1];
+  const projectMonthRegex = /\{projectMonth:([^}]+)\}/;
+  const projectMonthMatch = str.match(projectMonthRegex);
+  if (projectMonthMatch) {
+    const dateFormat = projectMonthMatch[1];
+    if (fullProjectMonth) {
       str = str.replace(projectMonthRegex, fullProjectMonth.details.month.format(dateFormat));
+    } else {
+      str = str.replace(projectMonthRegex, invoice.date.format(dateFormat));
     }
+  }
 
-    if (str.indexOf('{consultantName}') !== -1) {
-      str = str.replace('{consultantName}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`);
-    }
+  if (fullProjectMonth && str.indexOf('{consultantName}') !== -1) {
+    str = str.replace('{consultantName}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`);
+  } else {
+    str = str.replace('{consultantName}', '???');
   }
 
   if (str.indexOf('{orderNr}') !== -1) {
