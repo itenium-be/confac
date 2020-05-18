@@ -15,35 +15,47 @@ import {projectMonthResolve} from '../../project/ProjectMonthsLists';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
 
 
+export enum EmailTemplate {
+  None,
+  InitialEmail,
+  Reminder,
+}
 
-const getDefaultEmailValue = (i: InvoiceModel, config: ConfigModel, fullProjectMonth?: FullProjectMonthModel): EmailModel => {
+
+const getDefaultEmailValue = (
+  invoice: InvoiceModel,
+  template: EmailTemplate,
+  config: ConfigModel,
+  fullProjectMonth?: FullProjectMonthModel,
+): EmailModel => {
+
   const defaultEmail = config.email;
-  if (!i.client || !i.client.email) {
+  if (!invoice.client || !invoice.client.email) {
     return defaultEmail;
   }
 
-  const emailValues = Object.keys(i.client.email).reduce((acc: EmailModel, cur: string) => {
-    if (i.client.email[cur]) {
-      acc[cur] = i.client.email[cur];
+  const emailValues = Object.keys(invoice.client.email).reduce((acc: EmailModel, cur: string) => {
+    if (invoice.client.email[cur]) {
+      acc[cur] = invoice.client.email[cur];
       return acc;
     }
     return acc;
   }, {} as EmailModel);
 
   const finalValues = {...defaultEmail, ...emailValues};
-  finalValues.subject = invoiceReplacements(finalValues.subject, i, fullProjectMonth);
-  if (i.lastEmail) {
+  finalValues.subject = invoiceReplacements(finalValues.subject, invoice, fullProjectMonth);
+  if (template === EmailTemplate.Reminder) {
     if (config.emailReminder) {
       finalValues.body = config.emailReminder;
     }
-    if (config.emailReminderCc && !i.client.email.cc) {
+    if (config.emailReminderCc && !invoice.client.email.cc) {
       finalValues.cc = config.emailReminderCc;
     }
-    if (config.emailReminderBcc && !i.client.email.bcc) {
+    if (config.emailReminderBcc && !invoice.client.email.bcc) {
       finalValues.bcc = config.emailReminderBcc;
     }
   }
-  finalValues.body = invoiceReplacements(finalValues.body, i, fullProjectMonth);
+  finalValues.body = invoiceReplacements(finalValues.body, invoice, fullProjectMonth);
   finalValues.body += config.emailSignature;
 
   return getNewEmail(finalValues);
@@ -54,15 +66,16 @@ const getDefaultEmailValue = (i: InvoiceModel, config: ConfigModel, fullProjectM
 
 type EmailModalProps = Omit<BaseModalProps, 'show'> & {
   invoice: InvoiceModel;
+  template: EmailTemplate;
 }
 
 
-export const EmailModal = ({invoice, onClose, ...props}: EmailModalProps) => {
+export const EmailModal = ({invoice, onClose, template, ...props}: EmailModalProps) => {
   const dispatch = useDispatch();
   const config = useSelector((state: ConfacState) => state.config);
   const fullProjectMonths = useSelector((state: ConfacState) => state.projectsMonth.map(pm => projectMonthResolve(pm, state)));
   const fullProjectMonth = fullProjectMonths.find(x => x.invoice && x.invoice._id === invoice._id);
-  const [value, setValue] = useState(getDefaultEmailValue(invoice, config, fullProjectMonth));
+  const [value, setValue] = useState(getDefaultEmailValue(invoice, template, config, fullProjectMonth));
 
   const attachmentsAvailable = invoice.attachments.map(a => a.type);
   return (
@@ -72,7 +85,7 @@ export const EmailModal = ({invoice, onClose, ...props}: EmailModalProps) => {
       onConfirm={() => dispatch(sendEmail(invoice, value, fullProjectMonth))}
       confirmText={t('email.send')}
       confirmVariant="danger"
-      title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} />}
+      title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} template={template} />}
       {...props}
     >
       <EmailForm value={value} onChange={setValue} attachmentsAvailable={attachmentsAvailable} />
@@ -87,18 +100,16 @@ export const EmailModal = ({invoice, onClose, ...props}: EmailModalProps) => {
 type EmailModalTitleProps = {
   title: string,
   lastEmail: string,
+  template: EmailTemplate;
 }
 
 export const EmailModalTitle = ({title, lastEmail}: EmailModalTitleProps) => {
-  if (!lastEmail) {
-    return <span>{title}</span>;
-  }
-
   return (
     <span>
       {title}
       <small className="modal-subtitle">
-        {t('email.lastEmail', {at: moment(lastEmail).format('D/M/YYYY'), daysAgo: moment(lastEmail).fromNow()})}
+        {lastEmail && t('email.lastEmail', {at: moment(lastEmail).format('D/M/YYYY'), daysAgo: moment(lastEmail).fromNow()})}
+        {!lastEmail && t('email.notMailed')}
       </small>
     </span>
   );

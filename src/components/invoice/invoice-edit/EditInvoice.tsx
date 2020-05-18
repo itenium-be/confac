@@ -14,7 +14,7 @@ import {ConfacState} from '../../../reducers/app-state';
 import {EditInvoiceDetails} from './EditInvoiceDetails';
 import {StickyFooter} from '../../controls/skeleton/StickyFooter';
 import {DownloadInvoiceButton} from './DownloadInvoiceButton';
-import {EmailModal} from '../../controls/email/EmailModal';
+import {EmailModal, EmailTemplate} from '../../controls/email/EmailModal';
 import {EmailModel} from '../../controls/email/EmailModels';
 import {Button} from '../../controls/form-controls/Button';
 import {getNewInvoice} from '../models/getNewInvoice';
@@ -47,7 +47,7 @@ type EditInvoiceProps = {
 type EditInvoiceState = {
   invoice: InvoiceModel,
   renavigationKey: string,
-  showEmailModal: boolean,
+  showEmailModal: EmailTemplate,
 }
 
 
@@ -57,7 +57,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
     this.state = {
       invoice: this.createModel(props),
       renavigationKey: '',
-      showEmailModal: false,
+      showEmailModal: EmailTemplate.None,
     };
   }
 
@@ -183,10 +183,11 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
             </Col>
           </Row>
 
-          {!invoice.isNew && invoice.client && this.state.showEmailModal && (
+          {!invoice.isNew && invoice.client && this.state.showEmailModal !== EmailTemplate.None && (
             <EmailModal
               invoice={invoice}
-              onClose={() => this.setState({showEmailModal: false})}
+              template={this.state.showEmailModal}
+              onClose={() => this.setState({showEmailModal: EmailTemplate.None})}
             />
           )}
 
@@ -199,13 +200,22 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
           <InvoiceAttachmentsForm model={invoice} />
           <StickyFooter>
             {!invoice.isNew && (
-              <Button
-                variant={invoice.verified ? 'outline-danger' : 'light'}
-                icon="far fa-envelope"
-                onClick={() => this.setState({showEmailModal: true})}
-              >
-                {t(!invoice.lastEmail ? 'email.prepareEmail' : 'email.prepareEmailReminder')}
-              </Button>
+              <>
+                <Button
+                  variant={invoice.verified || invoice.lastEmail ? 'outline-danger' : 'light'}
+                  icon="far fa-envelope"
+                  onClick={() => this.setState({showEmailModal: EmailTemplate.InitialEmail})}
+                >
+                  {t('email.prepareEmail')}
+                </Button>
+                <Button
+                  variant={invoice.verified || !invoice.lastEmail ? 'outline-danger' : 'light'}
+                  icon="far fa-envelope"
+                  onClick={() => this.setState({showEmailModal: EmailTemplate.Reminder})}
+                >
+                  {t('email.prepareEmailReminder')}
+                </Button>
+              </>
             )}
             <EditInvoiceSaveButtons
               onClick={(type, history) => this.props.invoiceAction(invoice, type, history, fullProjectMonth)}

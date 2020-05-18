@@ -15,7 +15,7 @@ import {ValidityToggleButton} from '../../controls/form-controls/button/Validity
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {useDebouncedSave} from '../../hooks/useDebounce';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
-import {EmailModal} from '../../controls/email/EmailModal';
+import {EmailModal, EmailTemplate} from '../../controls/email/EmailModal';
 
 
 interface ProjectMonthOutboundCellProps {
@@ -144,6 +144,7 @@ export const InvoiceEmail = ({invoice}: InvoiceEmailProps) => {
       </Button>
       {showModal && (
         <EmailModal
+          template={invoice.lastEmail ? EmailTemplate.Reminder : EmailTemplate.InitialEmail}
           invoice={invoice}
           onClose={() => setShowModal(false)}
         />
