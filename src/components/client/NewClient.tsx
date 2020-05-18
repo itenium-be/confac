@@ -10,6 +10,7 @@ type NewClientProps = {
   onChange: (client: ClientModel) => void,
 }
 
+/** Returns a partial ClientModel with the data from the BTW lookup */
 export function btwResponseToModel(btw: BtwResponse): ClientModel {
   return {
     name: btw.name,
@@ -23,7 +24,7 @@ export function btwResponseToModel(btw: BtwResponse): ClientModel {
 export const NewClient = (props: NewClientProps) => {
   useDocumentTitle('clientNew');
   const [client, setClient] = useState<ClientModel | null>(null);
-  const [btw, setBtw] = useState(props.client.btw);
+  const [btw, setBtw] = useState<string>(props.client.btw);
 
   const onBtwChange = (res: BtwResponse) => {
     setClient(btwResponseToModel(res));
@@ -46,13 +47,13 @@ export const NewClient = (props: NewClientProps) => {
           </Col>
         </Row>
         {client && (
-        <Row style={{marginTop: 25}}>
-          <Col md={6} sm={12}>
-            <h3>{client.name}</h3>
-            <div>{client.address}</div>
-            <div>{client.city}</div>
-          </Col>
-        </Row>
+          <Row style={{marginTop: 25}}>
+            <Col md={6} sm={12}>
+              <h3>{client.name}</h3>
+              <div>{client.address}</div>
+              <div>{client.city}</div>
+            </Col>
+          </Row>
         )}
       </Form>
     </Container>
