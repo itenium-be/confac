@@ -31,9 +31,10 @@ export const configDefinition: FullFormConfig = [
 
   {title: 'config.email.title'},
   {key: 'email.from', cols: 6, component: 'email'},
-  {key: 'email.bcc', cols: 6, component: 'email'},
-  {key: 'email.subject', cols: 6, component: 'InvoiceReplacementsInput'},
   {key: 'email.attachments', component: 'AttachmentsTypeSelect', cols: 6},
+  {key: 'email.cc', cols: 6, component: 'email'},
+  {key: 'email.bcc', cols: 6, component: 'email'},
+  {key: 'email.subject', cols: 12, component: 'InvoiceReplacementsInput'},
   {key: 'email.body', component: 'InvoiceReplacementsTextEditor', cols: 12},
   {key: 'emailSignature', component: 'InvoiceReplacementsTextEditor', cols: 12},
   {key: 'emailReminder', component: 'InvoiceReplacementsTextEditor', cols: 12},

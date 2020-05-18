@@ -180,6 +180,7 @@ export const trans = {
       subject: 'Standaard onderwerp',
       body: 'Standaard email',
       from: 'Emails versturen vanuit',
+      cc: 'Standaard CC',
       bcc: 'Standaard BCC',
       attachments: 'Standaard extra email bijlagen',
     },
