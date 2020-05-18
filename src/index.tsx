@@ -1,10 +1,10 @@
+/* eslint-disable import/order */
 /* eslint-disable import/first */
 // import 'react-app-polyfill/ie11';
 // import 'react-app-polyfill/stable';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import {defaultLocale} from './components/utils';
 
 // TODO: need to fetch this from the backend
 if (process.env.NODE_ENV !== 'production') {
@@ -17,14 +17,15 @@ import moment from 'moment';
 import 'moment/locale/nl';
 import 'moment/locale/fr';
 
-moment.locale('nl');
+
+moment.locale(defaultLocale);
 
 
 import {registerLocale, setDefaultLocale} from 'react-datepicker';
 import nl from 'date-fns/locale/nl';
 
-registerLocale('nl', nl);
-setDefaultLocale('nl');
+registerLocale(defaultLocale, nl);
+setDefaultLocale(defaultLocale);
 
 // ATTN: See util.ts for numeral nl configuration
 

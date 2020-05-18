@@ -10,7 +10,7 @@ let counter: number;
 
 export const buildRequest = (url: string) => {
   const headers = new Headers();
-  // headers.append('Accept-Language', 'nl');
+  // headers.append('Accept-Language', defaultLocale);
   if (authService.loggedIn()) {
     headers.append('Authorization', authService.getBearer());
   }

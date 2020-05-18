@@ -5,14 +5,18 @@ import {ConfigModel} from '../../config/models/ConfigModel';
 export const invoiceDateStrategies = ['prev-month-last-day', 'today'];
 
 
-export const today = (): moment.Moment => moment.utc().startOf('day');
+export const today = (): moment.Moment => moment().startOf('day');
 
 
 const endOfMonth = (): moment.Moment => {
   if (moment().date() > 28) {
     return today();
   }
-  return moment.utc().subtract(1, 'months').endOf('month');
+
+  // ATTN: The following returns something like: "Thu Apr 30 2020 23:59:59 GMT+0200"
+  // (which should probably be cleaned up at some point)
+  const lastDayPrevMonth = moment().subtract(1, 'months').endOf('month');
+  return lastDayPrevMonth;
 };
 
 
