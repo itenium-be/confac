@@ -1,7 +1,7 @@
 import {ClientModel} from './ClientModels';
 import {ConfigModel} from '../../config/models/ConfigModel';
 import {getNewEmail} from '../../controls/email/getNewEmail';
-import {defaultConfig} from '../../config/models/getNewConfig';
+import {defaultConfig, defaultCommunicationLanguage} from '../../config/models/getNewConfig';
 
 export function getNewClient(config?: ConfigModel): ClientModel {
   // eslint-disable-next-line no-param-reassign
@@ -27,5 +27,6 @@ export function getNewClient(config?: ConfigModel): ClientModel {
     defaultInvoiceDateStrategy: config.defaultInvoiceDateStrategy,
     defaultChangingOrderNr: false,
     email: getNewEmail(config.email),
+    language: config.language || defaultCommunicationLanguage,
   };
 }

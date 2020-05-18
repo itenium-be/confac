@@ -1,4 +1,4 @@
-import {EditClientRateType, InvoiceDateStrategy, SelectItem} from '../../../models';
+import {EditClientRateType, InvoiceDateStrategy, SelectItem, Language} from '../../../models';
 import {EmailModel} from '../../controls/email/EmailModels';
 
 export type ConfigModel = {
@@ -25,6 +25,7 @@ export type ConfigModel = {
   emailReminder: string,
   emailReminderCc: string,
   emailReminderBcc: string,
+  language: Language,
 }
 
 export type ConfigCompanyModel = {

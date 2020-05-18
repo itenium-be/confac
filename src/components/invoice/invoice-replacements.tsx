@@ -1,5 +1,6 @@
-import InvoiceModel from './models/InvoiceModel';
+import moment from 'moment';
 import {FullProjectMonthModel} from '../project/models/FullProjectMonthModel';
+import InvoiceModel from './models/InvoiceModel';
 
 
 
@@ -20,6 +21,15 @@ export const invoiceReplacementsPopoverConfig = [
 export function invoiceReplacements(input: string, invoice: InvoiceModel, fullProjectMonth?: FullProjectMonthModel): string {
   let str = input;
 
+  const appLanguage = moment.locale();
+  const clientLanguage = invoice.client.language;
+  if (clientLanguage) {
+    moment.locale(clientLanguage);
+  }
+
+  /** Need to wrap moment instances for the locale change to have effect */
+  const clientFormat = (m: moment.Moment, format: string): string => moment(m.toDate()).format(format);
+
   const nrRegex = /\{nr:(\d+)\}/;
   const nrMatch = str.match(nrRegex);
   if (nrMatch) {
@@ -33,7 +43,7 @@ export function invoiceReplacements(input: string, invoice: InvoiceModel, fullPr
   const dateMatch = str.match(dateRegex);
   if (dateMatch && invoice.date) {
     const dateFormat = dateMatch[1];
-    str = str.replace(dateRegex, invoice.date.format(dateFormat));
+    str = str.replace(dateRegex, clientFormat(invoice.date, dateFormat));
   }
 
   const projectMonthRegex = /\{projectMonth:([^}]+)\}/;
@@ -41,9 +51,9 @@ export function invoiceReplacements(input: string, invoice: InvoiceModel, fullPr
   if (projectMonthMatch) {
     const dateFormat = projectMonthMatch[1];
     if (fullProjectMonth) {
-      str = str.replace(projectMonthRegex, fullProjectMonth.details.month.format(dateFormat));
+      str = str.replace(projectMonthRegex, clientFormat(fullProjectMonth.details.month, dateFormat));
     } else {
-      str = str.replace(projectMonthRegex, invoice.date.format(dateFormat));
+      str = str.replace(projectMonthRegex, clientFormat(invoice.date, dateFormat));
     }
   }
 
@@ -64,6 +74,10 @@ export function invoiceReplacements(input: string, invoice: InvoiceModel, fullPr
   // Object.keys(data).forEach(invoiceProp => {
   //   str = str.replace('{' + invoiceProp + '}', data[invoiceProp]);
   // });
+
+  if (clientLanguage) {
+    moment.locale(appLanguage);
+  }
 
   return str;
 }

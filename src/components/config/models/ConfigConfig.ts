@@ -13,6 +13,7 @@ export const configDefinition: FullFormConfig = [
   {key: 'company.website', component: 'website'},
   {key: 'company.btw', component: 'btw'},
   'company.rpr',
+  {key: 'company.language', component: 'LanguageSelect'},
   {forceRow: true},
   {key: 'company.bank'},
   {key: 'company.iban', component: 'iban'},

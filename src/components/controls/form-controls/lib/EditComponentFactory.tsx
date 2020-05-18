@@ -27,6 +27,7 @@ import {AttachmentsTypeSelect} from '../../attachments/AttachmentsTypeSelect';
 import {DatePicker} from '../DatePicker';
 import {EditProjectClient, EditProjectPartner} from '../../../project/controls/EditProjectClient';
 import {ConsultantSelectWithCreateModal} from '../../../consultant/controls/ConsultantSelectWithCreateModal';
+import {LanguageSelect} from '../../LanguageSelect';
 
 
 export function getComponent(col: FormConfig) {
@@ -67,6 +68,7 @@ export function getComponent(col: FormConfig) {
     ConsultantSelectWithCreateModal,
     InvoiceReplacementsInput,
     InvoiceReplacementsTextEditor,
+    LanguageSelect,
   };
 
 

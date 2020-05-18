@@ -1,4 +1,4 @@
-import {EditClientRateType, InvoiceDateStrategy, IAttachment, Attachment, SelectItem} from '../../../models';
+import {EditClientRateType, InvoiceDateStrategy, IAttachment, Attachment, SelectItem, Language} from '../../../models';
 import {EmailModel} from '../../controls/email/EmailModels';
 
 export type ClientRateModel = {
@@ -25,4 +25,5 @@ export type ClientModel = IAttachment & {
   defaultChangingOrderNr: boolean,
   createdOn?: string,
   email: EmailModel,
+  language: Language,
 }

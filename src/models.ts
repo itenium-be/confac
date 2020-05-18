@@ -7,15 +7,18 @@ import {ConsultantListFilters, ClientListFilters, InvoiceListFilters,
 export type InvoiceDateStrategy = 'prev-month-last-day' | 'today';
 
 
-/**
- * Array defined as projectLineTypes
- */
+/** Array defined as projectLineTypes */
 export type EditProjectRateType = 'hourly' | 'daily';
 
-/**
- * Array defined as invoiceLineTypes
- */
+/** Array defined as invoiceLineTypes */
 export type EditClientRateType = EditProjectRateType | 'km' | 'items' | 'section' | 'other';
+
+export enum Language {
+  nl = 'nl',
+  en = 'en',
+  fr = 'fr',
+}
+
 
 export type ClientRate = {
   type: EditClientRateType,
