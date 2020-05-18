@@ -14,6 +14,7 @@ import {useDebouncedSave} from '../../hooks/useDebounce';
 import {getDownloadUrl} from '../../../actions/utils/download-helpers';
 import {ConfacState} from '../../../reducers/app-state';
 import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPreviewButtons';
+import {InboundInvoiceAttachmentType} from '../../../models';
 
 interface ProjectMonthInboundCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -44,7 +45,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
 
 
   const attachments = fullProjectMonth.invoice ? fullProjectMonth.invoice.attachments : fullProjectMonth.details.attachments;
-  const inboundInvoiceDetails = attachments.find(a => a.type === 'inbound');
+  const inboundInvoiceDetails = attachments.find(a => a.type === InboundInvoiceAttachmentType);
 
   const getInboundInvoiceDownloadUrl = (): string => {
     if (!inboundInvoiceDetails) {
@@ -52,11 +53,11 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
     }
 
     if (fullProjectMonth.invoice) {
-      return getDownloadUrl('invoice', fullProjectMonth.invoice._id, 'inbound', inboundInvoiceDetails.fileName, 'preview');
+      return getDownloadUrl('invoice', fullProjectMonth.invoice._id, InboundInvoiceAttachmentType, inboundInvoiceDetails.fileName, 'preview');
     }
 
     const projectMonthId = fullProjectMonth._id;
-    return getDownloadUrl('project_month', projectMonthId, 'inbound', inboundInvoiceDetails.fileName, 'preview');
+    return getDownloadUrl('project_month', projectMonthId, InboundInvoiceAttachmentType, inboundInvoiceDetails.fileName, 'preview');
   };
 
   const hasInboundInvoiceBeenUploaded = !!inboundInvoiceDetails;
@@ -91,7 +92,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
               if (!inbound.dateReceived) {
                 setInbound({...inbound, dateReceived: moment()});
               }
-              return dispatch(projectMonthUpload(f, 'inbound', fullProjectMonth._id));
+              return dispatch(projectMonthUpload(f, InboundInvoiceAttachmentType, fullProjectMonth._id));
             }}
             downloadUrl={getInboundInvoiceDownloadUrl()}
           />

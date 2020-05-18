@@ -101,7 +101,7 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
 
 
 
-export function projectMonthUpload(file: File, type: 'Getekende timesheet' | 'inbound', projectMonthId: string) {
+export function projectMonthUpload(file: File, type: 'Getekende timesheet' | 'Factuur freelancer', projectMonthId: string) {
   return (dispatch: Dispatch) => {
     const req = request
       .put(buildUrl(`/attachments/project_month/${projectMonthId}/${type}`))

@@ -45,6 +45,7 @@ export type Attachment = {
 /** Duplicated on backend */
 export const TimesheetCheckAttachmentType = 'Timesheet check';
 export const SignedTimesheetAttachmentType = 'Getekende timesheet';
+export const InboundInvoiceAttachmentType = 'Factuur freelancer';
 
 /**
  * InvoiceModel | ClientModel
