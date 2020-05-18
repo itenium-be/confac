@@ -119,7 +119,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     },
     listTitle: () => t('project.projectMonthConfig.titleConfig'),
     data: config.data,
-    sorter: (a, b) => a.details._id.localeCompare(b.details._id),
+    sorter: (a, b) => `${a.client.name} ${a.consultant.firstName} ${a.consultant.name}`.localeCompare(`${b.client.name} ${b.consultant.firstName} ${b.consultant.name}`),
   };
 };
 
