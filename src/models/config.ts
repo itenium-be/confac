@@ -53,7 +53,7 @@ export const DEFAULT_COMPANY_CONFIG: Omit<ICompanyConfig, '_id'> = {
   },
   defaultClient: null,
   defaultTax: 21,
-  attachmentTypes: ['Getekende timesheet'],
+  attachmentTypes: ['Getekende timesheet', 'Factuur freelancer'],
   // defaultExtraClientFields: [],
   // defaultExtraClientInvoiceFields: [],
   // showOrderNr: false,
