@@ -43,10 +43,13 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use('/api', appRouter);
 
-console.log('__dirname', __dirname);
 
+// Serving the index.html for all 404s - only used when deployed:
+console.log('__dirname', __dirname); // === "/home"
 app.use((req: Request, res: Response) => res.sendFile('/home/public/index.html'));
-// app.use((req: Request, res: Response) => res.sendFile('../public/index.html', {root: __dirname}));
+// app.use((req: Request, res: Response) => res.sendFile('./public/index.html', {root: __dirname}));
+
+
 
 app.listen(appConfig.server.port, () => {
   console.log(`Server connected to port ${appConfig.server.port}, running in a ${appConfig.ENVIRONMENT} environment.`);
