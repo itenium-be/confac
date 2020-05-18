@@ -182,11 +182,19 @@ export const emailInvoiceController = async (req: Request, res: Response) => {
   };
 
   try {
-    await sgMail.send(mailData, false).then(() => { console.log('Mail sent successfully'); });
+    await sgMail.send(mailData, false).then(() => {
+      // eslint-disable-next-line
+      console.log(`Mail sent successfully to ${mailData.to}. Subject=${mailData.subject}`);
+    });
   } catch (error) {
     if (error.code === 401) {
+      // eslint-disable-next-line
+      console.log('SendGrid returned 401. API key not set?');
       return res.status(400).send({message: 'Has the SendGrid API Key been set?'});
     }
+
+    // eslint-disable-next-line
+    console.log('SendGrid returned an error', error.response.body);
     return res.status(400).send(error.response.body.errors);
 
   }
