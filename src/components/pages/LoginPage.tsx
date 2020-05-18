@@ -41,6 +41,7 @@ export const LoginPage = (props: any) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [state, setState] = useState<string | 'loggedIn'>('');
+  const [errDetails, setErrDetails] = useState<string>('');
   const [googleClientId, setGoogleClientId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -68,8 +69,7 @@ export const LoginPage = (props: any) => {
     return <div />;
   }
 
-  console.log('googleClientId', googleClientId);
-
+  console.log('googleClientId', googleClientId); // eslint-disable-line
   return (
     <div>
       {state && (
@@ -82,10 +82,17 @@ export const LoginPage = (props: any) => {
         clientId={googleClientId}
         buttonText={t('user.login')}
         onSuccess={res => authService.login(res, dispatch, setState)}
-        onFailure={err => {setState('user.loginError'); console.log('google-login-failure', err);}}
+        onFailure={err => {
+          setState('user.loginError');
+          if (err && err.details) {
+            setErrDetails(err.details);
+          }
+          console.log('google-login-failure', err); // eslint-disable-line
+        }}
         cookiePolicy="single_host_origin"
         scope={requiredAccess.join(' ')}
       />
+      {errDetails && (<div className="err-details">{errDetails}</div>)}
     </div>
   );
 };

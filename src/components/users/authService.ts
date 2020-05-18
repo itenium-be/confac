@@ -80,6 +80,7 @@ function authenticateUser(loginResponse: any, setState: React.Dispatch<SetStateA
       })
       .catch(err => {
         console.log('login error', err);
+        localStorage.removeItem('jwt');
         setState((err.body && err.body.err) || 'Unknown error');
       });
   };
