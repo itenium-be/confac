@@ -53,7 +53,7 @@ module.exports = {
     "eol-last": [0],
     "import/no-extraneous-dependencies": [1],
     "@typescript-eslint/indent": ["error", 2],
-    "object-property-newline": ["error", { "allowAllPropertiesOnSameLine": false }],
+    "object-property-newline": [0],
     "object-curly-newline": ["error", {
       "ObjectExpression": { "multiline": true, "minProperties": 4 },
       "ObjectPattern": { "multiline": true, "minProperties": 4 },
