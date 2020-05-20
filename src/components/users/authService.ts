@@ -14,7 +14,10 @@ interface IAuthService {
   getBearer: () => string;
   getToken: () => JwtModel | null;
   getUser: () => UserModel | null;
-  /** For redirecting after login */
+  refresh: () => void;
+  /** In ms */
+  refreshInterval: () => number;
+  /** For redirecting to after login */
   entryPathname: string;
 }
 
@@ -48,6 +51,10 @@ export const authService: IAuthService = {
     }
     return token.data;
   },
+  refresh: (): void => {
+    refreshToken();
+  },
+  refreshInterval: () => (+(localStorage.getItem('jwtInterval') || (60 * 60)) * 1000),
   entryPathname: document.location.pathname,
 };
 
@@ -62,6 +69,21 @@ function parseJwt(token: string): JwtModel {
   );
 
   return JSON.parse(jsonPayload);
+}
+
+
+function refreshToken(): void {
+  request.post(buildUrl('/user/refresh'))
+    .set('Content-Type', 'application/json')
+    .set('Authorization', authService.getBearer())
+    .set('Accept', 'application/json')
+    .then(res => {
+      console.log('refresh result', res.body);
+      localStorage.setItem('jwt', res.body.jwt);
+    })
+    .catch(err => {
+      console.log('refresh error', err);
+    });
 }
 
 
@@ -83,7 +105,8 @@ function authenticateUser(loginResponse: any, setState: React.Dispatch<SetStateA
       })
       .catch(err => {
         console.log('login error', err);
-        localStorage.removeItem('jwt');
+        authService.logout();
+        window.location.reload(false);
         setState((err.body && err.body.err) || 'Unknown error');
       });
   };

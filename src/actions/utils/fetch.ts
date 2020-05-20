@@ -3,6 +3,7 @@ import {failure} from '../appActions';
 import {store} from '../../store';
 import {initialLoad} from '../initialLoad';
 import t from '../../trans';
+import {authService} from '../../components/users/authService';
 
 export function catchHandler(err) {
   console.log('oepsie', err);
@@ -17,7 +18,7 @@ export function catchHandler(err) {
     if (err.body) {
       console.error('BadRequest', err.body);
 
-      const msg = t(err.body.msg, err.body.data);
+      const msg = t(err.body.message, err.body.data);
       failure(msg, 'BadRequest', 5000);
 
       if (err.body.reload) {
@@ -30,5 +31,15 @@ export function catchHandler(err) {
     }
     return;
   }
+
+  if (err.res.unauthorized) {
+    failure(err.body.message);
+    setTimeout(() => {
+      authService.logout();
+      window.location.reload(false);
+    }, 2000);
+    return;
+  }
+
   failure();
 }

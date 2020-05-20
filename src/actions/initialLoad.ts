@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {toast} from 'react-toastify';
 import {Dispatch} from 'redux';
 import {authService} from '../components/users/authService';
@@ -27,20 +28,31 @@ export const buildRequest = (url: string) => {
 const httpGet = (url: string) => {
   const request = buildRequest(url);
   return fetch(request)
-    .then(
-      res => res.json(),
-      err => {
-        console.log('Initial Load Failure', err);// eslint-disable-line
-        if (counter === 0) {
-          failure(err.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      console.log('Initial Load No Success Status', res);
+      return res.json().then(data => {
+        if (res.status === 401 && data.me === 'invalid_token') {
+          authService.logout();
+          window.location.reload(false);
         }
-        counter++;
-        return Promise.reject(err);
-      },
-    )
+        return data;
+      });
+    })
+    .catch(err => {
+      console.log('Initial Load Failure', err);
+      if (counter === 0) {
+        failure(err.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
+      }
+      counter++;
+      return Promise.reject(err);
+    })
     .then(data => {
-      if (data.message && data.stack) {
-        console.log('Initial Load Failure', data); // eslint-disable-line
+      if (data.message) {
+        console.log('Initial Load Failure', data);
         if (counter === 0) {
           failure(data.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
         }

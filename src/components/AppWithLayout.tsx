@@ -5,6 +5,7 @@ import App from './App';
 import {ConfacState} from '../reducers/app-state';
 import {LoadingPage} from './pages/LoadingPage';
 import {authService} from './users/authService';
+import {useInterval} from './hooks/useInterval';
 
 type AppWithLayoutProps = {
   Component: any
@@ -12,6 +13,9 @@ type AppWithLayoutProps = {
 
 export const AppWithLayout = ({Component, ...props}: AppWithLayoutProps) => {
   const isLoaded = useSelector((state: ConfacState) => state.app.isLoaded);
+  useInterval(() => {
+    authService.refresh();
+  }, authService.refreshInterval());
 
   if (!authService.loggedIn()) {
     return <Redirect to="/login" />;

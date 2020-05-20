@@ -56,6 +56,7 @@ export const LoginPage = (props: any) => {
       .then(data => {
         setGoogleClientId(data.googleClientId);
         localStorage.setItem('googleClientId', data.googleClientId);
+        localStorage.setItem('jwtInterval', data.jwtInterval);
       });
   }, []);
 
