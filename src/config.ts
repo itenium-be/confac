@@ -4,6 +4,8 @@ const appConfig: IConfig = {
     db: process.env.MONGO_DB || 'confac-dev',
     otherDbs: 'confac-dev | confac-test | confac-acc | confac | confac-mi',
     port: +(process.env.MONGO_PORT || 32772),
+    user: process.env.MONGO_USERNAME || 'admin',
+    pwd: process.env.MONGO_PASSWORD || 'pwd',
   },
   server: {
     host: process.env.SERVER_HOST || 'localhost',
@@ -20,7 +22,7 @@ const appConfig: IConfig = {
   },
   jwt: {
     secret: process.env.JWT_SECRET || 'SUPER DUPER SECRET',
-    expiresIn: process.env.JWT_EXPIRES || '5h',
+    expiresIn: +(process.env.JWT_EXPIRES || 0) || (5 * 60 * 60), // 5 hours
     superUser: process.env.SUPERUSER || 'wouter.van.schandevijl@itenium.be',
   },
 };
@@ -35,6 +37,8 @@ interface IConfig {
     /* Not used: just for development copy/paste */
     otherDbs: string;
     port: number;
+    user: string;
+    pwd: string;
   };
   server: {
     host: string;
@@ -53,7 +57,9 @@ interface IConfig {
   /** Confac security */
   jwt: {
     secret: string;
-    expiresIn: string;
+    /** In seconds */
+    expiresIn: number;
+    /** This email can login without an user.active record */
     superUser: string;
   };
 }

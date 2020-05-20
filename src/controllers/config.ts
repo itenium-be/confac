@@ -18,9 +18,12 @@ export const getCompanyConfig = async (req: Request, res: Response) => {
 };
 
 
-
+/** Unprotected route */
 export const getSecurityConfig = async (req: Request, res: Response) => {
-  return res.send({googleClientId: appConfig.security.clientId});
+  return res.send({
+    googleClientId: appConfig.security.clientId,
+    jwtInterval: Math.floor(appConfig.jwt.expiresIn / 2),
+  });
 };
 
 

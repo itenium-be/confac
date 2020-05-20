@@ -72,7 +72,7 @@ export const createInvoiceController = async (req: Request, res: Response) => {
       if (invoice.number <= lastInvoice.number) {
         return res.status(400)
           .send({
-            msg: 'invoice.badRequest.nrExists',
+            message: 'invoice.badRequest.nrExists',
             data: {
               nr: invoice.number,
               lastNr: lastInvoice.number,
@@ -83,7 +83,7 @@ export const createInvoiceController = async (req: Request, res: Response) => {
 
       if (moment(invoice.date).startOf('day') < moment(lastInvoice.date).startOf('day')) {
         return res.status(400).send({
-          msg: 'invoice.badRequest.dateAfterExists',
+          message: 'invoice.badRequest.dateAfterExists',
           data: {
             lastNr: lastInvoice.number,
             date: moment(invoice.date).format('DD/MM/YYYY'),
@@ -132,7 +132,7 @@ export const emailInvoiceController = async (req: Request, res: Response) => {
       const areAttachmentsMergeable = attachments.every(attachment => attachment.fileType === 'application/pdf');
 
       if (!areAttachmentsMergeable) {
-        return res.status(400).send('Emailing with combineAttachments=true: Can only merge pdfs');
+        return res.status(400).send({message: 'Emailing with combineAttachments=true: Can only merge pdfs'});
       }
 
       // Make sure the invoice is the first document in the merged pdf
@@ -195,8 +195,7 @@ export const emailInvoiceController = async (req: Request, res: Response) => {
 
     // eslint-disable-next-line
     console.log('SendGrid returned an error', error.response.body);
-    return res.status(400).send(error.response.body.errors);
-
+    return res.status(400).send(error.response.body.errors[0]);
   }
 
   const lastEmailSent = new Date().toISOString();
