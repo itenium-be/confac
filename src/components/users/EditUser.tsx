@@ -12,6 +12,7 @@ import {BusyButton} from '../controls/form-controls/BusyButton';
 import {defaultUserProperties} from './models/UserConfig';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {saveUser} from '../../actions/userActions';
+import {Audit} from '../admin/Audit';
 
 interface EditUserProps {
   match: {
@@ -47,6 +48,7 @@ export const EditUser = (props: EditUserProps) => {
       <Form>
         <Row className="page-title-container">
           <h1>{user._id ? `${user.firstName} ${user.name}` : t('user.createNew')}</h1>
+          <Audit audit={user.audit} />
         </Row>
         <Row>
           <ArrayInput

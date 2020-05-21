@@ -1,4 +1,5 @@
 import {ConsultantModel} from './ConsultantModel';
+import {IAudit} from '../../../models';
 
 export const getNewConsultant = (): ConsultantModel => ({
   _id: '',
@@ -9,4 +10,5 @@ export const getNewConsultant = (): ConsultantModel => ({
   email: '',
   telephone: '',
   active: true,
+  audit: {} as IAudit,
 });

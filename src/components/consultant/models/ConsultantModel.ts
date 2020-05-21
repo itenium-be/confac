@@ -1,3 +1,5 @@
+import {IAudit} from '../../../models';
+
 export type ConsultantType = 'manager' | 'consultant' | 'freelancer' | 'externalConsultant';
 
 export const ConsultantTypes: ConsultantType[] = ['manager', 'consultant', 'freelancer', 'externalConsultant'];
@@ -10,6 +12,6 @@ export interface ConsultantModel {
   type: ConsultantType,
   email: string,
   telephone: string,
-  createdOn?: string,
+  audit: IAudit;
   active: boolean;
 }

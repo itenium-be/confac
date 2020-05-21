@@ -108,7 +108,10 @@ export const trans = {
   toastrFailure: 'Boem! Crash! Kapot!',
   toastrConfirm: 'Wijzigingen bewaard',
   notes: 'Notitie',
-  createdOn: 'Aangemaakt op:',
+  createdOn: 'Aangemaakt op {date}',
+  createdBy: ' door {name}',
+  modifiedOn: 'Laatst gewijzigd op {date}',
+  modifiedBy: ' door {name}',
   rates: {
     type: 'Eenheid',
     value: 'Aantal',

@@ -1,6 +1,6 @@
 import {Moment} from 'moment';
 import {ConsultantType} from '../../consultant/models/ConsultantModel';
-import {Attachment} from '../../../models';
+import {Attachment, IAudit} from '../../../models';
 
 export interface ProjectMonthModel {
   _id: string;
@@ -11,7 +11,7 @@ export interface ProjectMonthModel {
   note?: string;
   /** The invoice orderNr when ProjectMonthConfig.changingOrderNr */
   orderNr: string;
-  createdOn?: string;
+  audit: IAudit;
   /**
    * false: The invoice has not yet been verified
    * true: The invoice has been verified (=paid)

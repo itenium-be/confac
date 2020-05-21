@@ -2,7 +2,7 @@ import moment from 'moment';
 import {ConfigModel, ConfigCompanyModel} from '../../config/models/ConfigModel';
 import {getInvoiceDate} from './invoice-date-strategy';
 import {ClientModel} from '../../client/models/ClientModels';
-import {Attachment, EditClientRateType, IAttachment} from '../../../models';
+import {Attachment, EditClientRateType, IAttachment, IAudit} from '../../../models';
 
 
 // const getInvoiceString = invoice => `${invoice.number} - ${invoice.client.name} (${invoice.date.format('YYYY-MM')})`;
@@ -52,7 +52,7 @@ export default class InvoiceModel implements IAttachment {
   lastEmail: string;
   _defaultTax: number;
   _defaultType: EditClientRateType;
-  createdOn: string;
+  audit: IAudit;
   lines: InvoiceLine[] = [];
   money: InvoiceMoney;
 
@@ -82,7 +82,7 @@ export default class InvoiceModel implements IAttachment {
     this.money = this._calculateMoneys();
 
     this._lines = obj.lines || [];
-    this.createdOn = obj.createdOn;
+    this.audit = obj.audit;
   }
 
   getType(): 'quotation' | 'invoice' {

@@ -1,5 +1,5 @@
 import {ConfigModel} from './ConfigModel';
-import {Language} from '../../../models';
+import {Language, IAudit} from '../../../models';
 import {getNewEmail} from '../../controls/email/getNewEmail';
 
 export const defaultCommunicationLanguage = Language.en;
@@ -33,4 +33,5 @@ export const defaultConfig: ConfigModel = {
   emailReminderCc: '',
   emailReminderBcc: '',
   language: defaultCommunicationLanguage,
+  audit: {} as IAudit,
 };

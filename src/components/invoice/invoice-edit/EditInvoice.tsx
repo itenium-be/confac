@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Col, Form} from 'react-bootstrap';
-import {t, formatDate} from '../../utils';
+import {t} from '../../utils';
 import EditInvoiceLines from './invoice-lines/EditInvoiceLines';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
@@ -25,6 +25,7 @@ import {projectMonthResolve} from '../../project/ProjectMonthsLists';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
 import {ProjectMonthSelect} from '../../project/controls/ProjectMonthSelect';
 import {EditInvoiceBadges} from './EditInvoiceBadges';
+import {Audit} from '../../admin/Audit';
 
 
 type EditInvoiceProps = {
@@ -130,14 +131,8 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
             <Col sm={12} style={{marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
               <div style={{display: 'inline-flex', alignItems: 'flex-start'}}>
                 <h1 style={{width: 'unset'}}>
-                  {invoice._id ? (
-                    <>
-                      {t(`${this.type}.editTitle`)}
-                      <small className="created-on">
-                        {`${t('createdOn')} ${formatDate(invoice.createdOn)}`}
-                      </small>
-                    </>
-                  ) : t(`${this.type}.createTitle`)}
+                  {invoice._id ? t(`${this.type}.editTitle`) : t(`${this.type}.createTitle`)}
+                  <Audit audit={invoice.audit} />
                 </h1>
                 <div>
                   <EditInvoiceBadges invoice={invoice} />

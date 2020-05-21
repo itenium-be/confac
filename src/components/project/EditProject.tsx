@@ -15,6 +15,7 @@ import {getDefaultProjectMonthConfig} from './models/ProjectMonthModel';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {getNewClient} from '../client/models/getNewClient';
 import {getNewConsultant} from '../consultant/models/getNewConsultant';
+import {Audit} from '../admin/Audit';
 
 interface EditProjectProps {
   match: {
@@ -89,6 +90,7 @@ export const EditProject = (props: EditProjectProps) => {
     <Container className="edit-container">
       <Row className="page-title-container">
         <h1>{project._id ? t('project.project') : t('project.createNew')}</h1>
+        <Audit audit={project.audit} />
       </Row>
       <Form>
         <Row>

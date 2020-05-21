@@ -155,3 +155,10 @@ export type SelectItem = {
 export type BootstrapVariant = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | 'link'
   | 'outline-primary' | 'outline-secondary' | 'outline-success' | 'outline-danger' | 'outline-warning'
   | 'outline-info' | 'outline-dark' | 'outline-light';
+
+export interface IAudit {
+  createdOn: string;
+  createdBy: string;
+  modifiedOn?: string;
+  modifiedBy?: string;
+}

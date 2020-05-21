@@ -1,3 +1,5 @@
+import {IAudit} from '../../../models';
+
 export type UserModel = {
   _id: string;
   email: string;
@@ -5,6 +7,7 @@ export type UserModel = {
   firstName: string;
   alias: string;
   active: boolean;
+  audit: IAudit;
 }
 
 

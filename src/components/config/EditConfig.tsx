@@ -10,6 +10,7 @@ import {StickyFooter} from '../controls/skeleton/StickyFooter';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
+import {Audit} from '../admin/Audit';
 
 
 type EditConfigProps = {
@@ -33,6 +34,7 @@ const EditConfig = (props: EditConfigProps) => {
             tPrefix="config."
           />
         </Row>
+        <Audit audit={props.config.audit} />
       </Form>
       <StickyFooter>
         <BusyButton onClick={() => props.updateConfig(state)}>{t('save')}</BusyButton>

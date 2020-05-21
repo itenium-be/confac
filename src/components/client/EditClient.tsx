@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
-import {t, formatDate} from '../utils';
+import {t} from '../utils';
 import {saveClient} from '../../actions/index';
 import {defaultClientProperties} from './models/ClientConfig';
 import {getNewClient} from './models/getNewClient';
@@ -14,6 +14,7 @@ import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {getDocumentTitle} from '../hooks/useDocumentTitle';
 import {ClientAttachmentsForm} from './controls/ClientAttachmentsForm';
+import {Audit} from '../admin/Audit';
 
 
 type EditClientProps = {
@@ -107,13 +108,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
           <Row>
             <h1>
               {client.name || (client._id ? '' : t('client.createNew'))}
-              {client.createdOn && (
-              <small className="created-on">
-                {t('createdOn')}
-                {' '}
-                {formatDate(client.createdOn)}
-              </small>
-              )}
+              <Audit audit={client.audit} />
             </h1>
           </Row>
           <Row>

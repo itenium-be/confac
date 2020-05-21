@@ -1,7 +1,7 @@
 import {Moment} from 'moment';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
-import {EditProjectRateType} from '../../../models';
+import {EditProjectRateType, IAudit} from '../../../models';
 import {ProjectMonthConfig} from './ProjectMonthModel';
 
 export interface ProjectModel {
@@ -12,7 +12,7 @@ export interface ProjectModel {
   partner?: ProjectClientModel;
   client: ProjectClientModel;
   projectMonthConfig: ProjectMonthConfig;
-  createdOn?: string;
+  audit: IAudit;
 }
 
 export interface ProjectClientModel {

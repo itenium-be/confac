@@ -1,4 +1,5 @@
 import {UserModel} from './UserModel';
+import {IAudit} from '../../../models';
 
 export const getNewUser = (): UserModel => ({
   _id: '',
@@ -7,4 +8,5 @@ export const getNewUser = (): UserModel => ({
   alias: '',
   email: '',
   active: true,
+  audit: {} as IAudit,
 });

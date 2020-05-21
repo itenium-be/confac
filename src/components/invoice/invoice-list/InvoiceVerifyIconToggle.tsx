@@ -18,7 +18,7 @@ export const InvoiceVerifyIconToggle = ({invoice, toggleValid, ...props}: Invoic
     return null;
   }
 
-  const daysPassed = moment().diff(invoice.createdOn, 'days');
+  const daysPassed = moment().diff(invoice.audit.createdOn, 'days');
   const title = invoice.verified ? t('invoice.verifyAction') : t('invoice.verifyActionTooltip', {days: daysPassed});
   return (
     <BusyVerifyIcon

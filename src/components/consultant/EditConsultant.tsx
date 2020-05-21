@@ -12,6 +12,7 @@ import {ConsultantModel} from './models/ConsultantModel';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {defaultConsultantProperties} from './models/ConsultantConfig';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
+import {Audit} from '../admin/Audit';
 
 interface EditConsultantProps {
   match: {
@@ -47,6 +48,7 @@ export const EditConsultant = (props: EditConsultantProps) => {
       <Form>
         <Row className="page-title-container">
           <h1>{consultant._id ? `${consultant.firstName} ${consultant.name}` : t('consultant.createNew')}</h1>
+          <Audit audit={consultant.audit} />
         </Row>
         <Row>
           <ArrayInput
