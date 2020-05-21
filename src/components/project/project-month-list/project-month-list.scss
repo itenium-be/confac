@@ -4,14 +4,6 @@ $in-cell-margin: 12px;
 $cell-padding: 8px 8px;
 
 
-@mixin ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-
-
 .list-projectMonths {
   max-width: 1800px !important;
 

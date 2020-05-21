@@ -7,3 +7,9 @@ $addon-icon-color: #9eaab5;
 $placeholder-color: #c4ccd3;
 
 $table-border-color: #dee2e6;
+
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
