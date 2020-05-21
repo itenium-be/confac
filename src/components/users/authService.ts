@@ -91,7 +91,9 @@ function refreshToken(): void {
 function authenticateUser(loginResponse: any, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) {
   setState('');
 
-  const idToken = loginResponse.tc.id_token;
+  console.log('loginResponse', loginResponse);
+  const idToken = loginResponse.tokenId; // TODO: Answer on laptop looked like this
+  // const idToken = loginResponse.tc.id_token; // But on desktop it looked like this. wtf?
   return dispatch => {
     request.post(buildUrl('/user/login'))
       .set('Content-Type', 'application/json')
