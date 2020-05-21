@@ -24,9 +24,9 @@ export type ConfacState = {
 
 
 
-const getListFilters = (): ListFilters => ({
+const getListFilters = (showInactive = false): ListFilters => ({
   freeText: '',
-  showInactive: false,
+  showInactive,
 });
 
 
@@ -47,6 +47,6 @@ export const defaultAppState: AppState = {
     invoices: getListFilters(),
     projects: getListFilters(),
     projectMonths: getListFilters(),
-    users: getListFilters(),
+    users: getListFilters(true),
   },
 };
