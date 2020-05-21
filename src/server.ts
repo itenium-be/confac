@@ -2,9 +2,10 @@
 import express, {Request, Response, NextFunction} from 'express';
 import bodyParser from 'body-parser';
 import sgMail from '@sendgrid/mail';
-import errorHandler from 'errorhandler';
 import {MongoClient} from 'mongodb';
 import cors from 'cors';
+
+import 'express-async-errors';
 
 import appConfig from './config';
 import appRouter from './routes';
@@ -12,11 +13,6 @@ import appRouter from './routes';
 const app = express();
 
 sgMail.setApiKey(appConfig.SENDGRID_API_KEY);
-
-
-// if (appConfig.ENVIRONMENT === 'development') {
-//   app.use(errorHandler());
-// }
 
 
 
@@ -61,7 +57,10 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err.name === 'UnauthorizedError') {
     console.log('UnauthorizedError', err);
     res.status(401).send({message: err.code});
+    return;
   }
+
+  res.status(500).send({message: err.message, stack: err.stack});
 });
 
 
