@@ -72,6 +72,7 @@ export const trans = {
     clients: 'Klanten',
     projects: 'Projecten',
     config: 'Config',
+    admin: 'Admin',
   },
   titles: {
     config: 'Configuratie',
@@ -91,6 +92,7 @@ export const trans = {
     usersList: 'Gebruikers',
     userEdit: '{name}',
     userNew: 'Nieuwe gebruiker',
+    admin: 'Beheer applicatie',
   },
   search: 'Zoeken',
   edit: 'Aanpassen',
@@ -478,6 +480,10 @@ export const trans = {
       alias: 'Alias',
     },
   },
+  admin: {
+    title: 'Administrator Configuratie',
+    users: 'Beheer gebruikers',
+  }
 };
 
 export default function (key: string, params?: object): string {

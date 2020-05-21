@@ -38,6 +38,7 @@ const Header = () => (
         <OldSchoolMenuLink to="/clients" label={t('nav.clients')} />
         <OldSchoolMenuLink to="/invoices" label={t('nav.invoices')} />
         <OldSchoolMenuLink to="/config" label={t('nav.config')} />
+        <OldSchoolMenuLink to="/admin" label={t('nav.admin')} />
       </Nav>
 
       <Dropdown as={ButtonGroup} style={{top: 8, position: 'absolute', right: 80}}>

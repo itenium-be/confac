@@ -17,6 +17,7 @@ import {UnauthicatedAppLayout, LoginPage} from './components/pages/LoginPage';
 import {UserPage} from './components/pages/UserPage';
 import {UsersList} from './components/users/UsersList';
 import {EditUser} from './components/users/EditUser';
+import {EditAdmin} from './components/admin/EditAdmin';
 
 
 
@@ -45,6 +46,7 @@ const Routes = () => (
       <Route path="/projects" render={props => <AppWithLayout Component={ProjectsList} {...props} />} />
 
       <Route path="/config" render={props => <AppWithLayout Component={EditConfig} {...props} />} />
+      <Route path="/admin" render={props => <AppWithLayout Component={EditAdmin} {...props} />} />
 
       <Route path="/user" render={props => <AppWithLayout Component={UserPage} {...props} />} />
       <Route path="/users/:id" render={props => <AppWithLayout Component={EditUser} {...props} />} />
