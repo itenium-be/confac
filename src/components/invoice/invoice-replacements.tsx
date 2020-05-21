@@ -1,10 +1,18 @@
 import moment from 'moment';
 import {FullProjectMonthModel} from '../project/models/FullProjectMonthModel';
 import InvoiceModel from './models/InvoiceModel';
+import {t} from '../utils';
 
 
 
-export const invoiceReplacementsPopoverConfig = [
+export interface ITextEditorCustomReplacement {
+  code: string;
+  desc: string;
+  defaultValue?: string;
+}
+
+
+export const invoiceReplacementsPopoverConfig: ITextEditorCustomReplacement[] = [
   {code: '{nr}', desc: 'config.invoiceReplacements.nr'},
   {code: '{nr:X}', desc: 'config.invoiceReplacements.nrX', defaultValue: '{nr:4}'},
   {code: '{date:FORMAT}', desc: 'config.invoiceReplacements.date', defaultValue: '{date:YYYY-MM}'},
@@ -13,8 +21,25 @@ export const invoiceReplacementsPopoverConfig = [
 
   {code: '{projectMonth:FORMAT}', desc: 'config.invoiceReplacements.projectMonth', defaultValue: '{projectMonth:YYYY-MM}'},
   {code: '{consultantName}', desc: 'config.invoiceReplacements.consultantName'},
-  // {code: '', desc: 'config.invoiceReplacements.'},
 ];
+
+
+
+export function getInvoiceReplacements(invoice: InvoiceModel, projectMonth?: FullProjectMonthModel): ITextEditorCustomReplacement[] {
+  const result: ITextEditorCustomReplacement[] = [
+    {code: '{nr}', desc: 'config.invoiceReplacements.nr'},
+    {code: '{date:DD/MM/YYYY}', desc: 'config.invoiceReplacements.dateShort'},
+    {code: '{orderNr}', desc: 'config.invoiceReplacements.orderNr'},
+    {code: '{clientName}', desc: 'config.invoiceReplacements.clientName'},
+  ];
+
+  if (projectMonth) {
+    result.push({code: '{projectMonth:MMMM YYYY}', desc: 'config.invoiceReplacements.projectMonthShort'});
+    result.push({code: '{consultantName}', desc: 'config.invoiceReplacements.consultantName'});
+  }
+
+  return result.map(replacement => ({code: t(replacement.desc), desc: '', defaultValue: invoiceReplacements(replacement.code, invoice, projectMonth)}));
+}
 
 
 

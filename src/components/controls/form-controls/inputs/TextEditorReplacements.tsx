@@ -2,18 +2,19 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, {useState} from 'react';
 import {Modifier, EditorState} from 'draft-js';
-import {t} from '../../utils';
-import {invoiceReplacementsPopoverConfig} from '../invoice-replacements';
+import {t} from '../../../utils';
+import {ITextEditorCustomReplacement} from '../../../invoice/invoice-replacements';
 
 
-type InvoiceTextEditorReplacementsProps = {
+type TextEditorReplacementsProps = {
   onChange?: (editorState: EditorState) => void,
   editorState: EditorState,
+  replacements: ITextEditorCustomReplacement[],
 }
 
 
 
-export const InvoiceTextEditorReplacements = ({onChange, editorState}: InvoiceTextEditorReplacementsProps) => {
+export const TextEditorReplacements = ({onChange, editorState, replacements}: TextEditorReplacementsProps) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const addPlaceholder = (placeholder: string): void => {
@@ -37,7 +38,7 @@ export const InvoiceTextEditorReplacements = ({onChange, editorState}: InvoiceTe
           <div className={`rdw-dropdown-caretto${open ? 'close' : 'open'}`} />
         </div>
         <ul className={`rdw-dropdown-optionwrapper ${open ? '' : 'placeholder-ul'}`}>
-          {invoiceReplacementsPopoverConfig.map(item => (
+          {replacements.map(item => (
             <li
               onClick={() => addPlaceholder(item.defaultValue || item.code)}
               key={item.code}

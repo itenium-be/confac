@@ -1,28 +1,37 @@
 import React, {useState} from 'react';
 import {Form, Row} from 'react-bootstrap';
+import {EditorState} from 'draft-js';
 import {StringInput} from '../form-controls/inputs/StringInput';
 import {t} from '../../utils';
-import {TextEditor} from '../form-controls/inputs/TextEditor';
 import {EmailModel} from './EmailModels';
 import {BaseInputProps} from '../form-controls/inputs/BaseInput';
 import {getNewEmail} from './getNewEmail';
 import {Button} from '../form-controls/Button';
+import {TextEditor} from '../form-controls/inputs/TextEditor';
+import {ITextEditorCustomReplacement} from '../../invoice/invoice-replacements';
+import {TextEditorReplacements} from '../form-controls/inputs/TextEditorReplacements';
 
 import './EmailForm.scss';
 
 
 type EmailFormProps = BaseInputProps<EmailModel> & {
-  /**
-   * Attachments that are available for emailing
-   */
+  /** Attachments that are available for emailing */
   attachmentsAvailable: string[],
+  textEditorReplacements?: ITextEditorCustomReplacement[];
 };
 
-export const EmailForm = ({value, onChange, attachmentsAvailable, ...props}: EmailFormProps) => {
+export const EmailForm = ({value, onChange, attachmentsAvailable, textEditorReplacements}: EmailFormProps) => {
   const [showAllTos, setShowAllTos] = useState(false);
 
   // eslint-disable-next-line no-param-reassign
   value = value || getNewEmail();
+
+  let getToolbarCustomButtons: (editorState: EditorState) => JSX.Element[] = () => [];
+  if (textEditorReplacements && textEditorReplacements.length) {
+    getToolbarCustomButtons = (editorState: EditorState) => (
+      [<TextEditorReplacements editorState={editorState} replacements={textEditorReplacements} />]
+    );
+  }
 
   return (
     <Form>
@@ -52,10 +61,16 @@ export const EmailForm = ({value, onChange, attachmentsAvailable, ...props}: Ema
         label={t('email.subject')}
       />
 
+      <TextEditor
+        value={value.body}
+        onChange={body => onChange({...value, body} as EmailModel)}
+        getToolbarCustomButtons={getToolbarCustomButtons}
+      />
 
-      <TextEditor value={value.body} onChange={body => onChange({...value, body} as EmailModel)} />
-
-      <h4 style={{marginTop: 20}}>{t('email.attachments')}</h4>
+      <h4 style={{marginTop: 20}}>
+        {t('email.attachments')}
+        {attachmentsAvailable.length === 1 && <div style={{fontSize: 14}}>{t('attachment.noneUploaded')}</div>}
+      </h4>
       <EmailFormAttachments expectedAttachments={value.attachments} attachmentsAvailable={attachmentsAvailable} />
 
     </Form>

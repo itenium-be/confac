@@ -150,10 +150,12 @@ export const trans = {
       nr: 'Factuurnummer',
       nrX: 'Factuurnummer prefixed met 0 tot X getallen',
       date: 'Factuurdatum met FORMAT: jaar=YYYY, maand=MM, dag=DD (MomentJS)',
+      dateShort: 'Factuurdatum',
       orderNr: 'Bestelbon nummer',
       clientName: 'Naam klant',
       consultantName: 'Naam consultant',
       projectMonth: 'Project maand (MomentJS)',
+      projectMonthShort: 'Project maand',
     },
     company: {
       title: 'Jouw bedrijfsgegevens',
@@ -293,6 +295,7 @@ export const trans = {
     deleteTitle: 'Bijlage verwijderen?',
     deletePopup: 'De bijlage verwijderen?',
     upload: 'Voeg een bestand toe',
+    noneUploaded: 'Er zijn nog geen bijlages toegevoegd.',
   },
   client: {
     createNew: 'Nieuwe klant',

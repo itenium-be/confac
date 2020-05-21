@@ -7,7 +7,7 @@ import {EmailForm} from './EmailForm';
 import {EmailModel} from './EmailModels';
 import {getNewEmail} from './getNewEmail';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
-import {invoiceReplacements} from '../../invoice/invoice-replacements';
+import {invoiceReplacements, getInvoiceReplacements} from '../../invoice/invoice-replacements';
 import {ConfacState} from '../../../reducers/app-state';
 import {sendEmail} from '../../../actions/emailActions';
 import {ConfigModel} from '../../config/models/ConfigModel';
@@ -88,7 +88,12 @@ export const EmailModal = ({invoice, onClose, template, ...props}: EmailModalPro
       title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} template={template} />}
       {...props}
     >
-      <EmailForm value={value} onChange={setValue} attachmentsAvailable={attachmentsAvailable} />
+      <EmailForm
+        value={value}
+        onChange={setValue}
+        attachmentsAvailable={attachmentsAvailable}
+        textEditorReplacements={getInvoiceReplacements(invoice, fullProjectMonth)}
+      />
     </Modal>
   );
 };
