@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {MinimalInputProps} from '../inputs/BaseInput';
 import {Button} from '../Button';
 import {Modal} from '../../Modal';
-import {TextareaInput} from '../inputs/TextareaInput';
 import {t} from '../../../utils';
+import {TextEditor} from '../inputs/TextEditor';
 
 
 type NotesModalButtonProps = MinimalInputProps<string> & {
@@ -31,7 +31,7 @@ export const NotesModalButton = ({value, onChange, title}: NotesModalButtonProps
           onConfirm={() => onChange(text)}
           title={title}
         >
-          <TextareaInput
+          <TextEditor
             value={text}
             onChange={val => setText(val)}
             style={{height: 300}}
