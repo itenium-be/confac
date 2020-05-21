@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useHistory, Redirect, Link} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {GoogleLogin} from 'react-google-login';
 import {Alert} from 'react-bootstrap';
@@ -45,7 +45,6 @@ const requiredAccess = [
 
 export const LoginPage = (props: any) => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const [state, setState] = useState<string | 'loggedIn'>('');
   const [errDetails, setErrDetails] = useState<string>('');
   const [googleClientId, setGoogleClientId] = useState<string | null>(null);

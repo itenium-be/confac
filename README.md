@@ -12,11 +12,9 @@ Running the dev environment
 Projects:
 
 - confac-front: React/Redux, Bootstrap
-- [confac-back][confac-back]: Express, Html2Pdf
-- [confac-vagrant][confac-vagrant]: MongoDB
+- [confac-back][confac-back]: Express, Html2Pdf, MongoDB
 
 front/back: `npm install` followed by `npm start`  
-[vagrant][vagrant]: `vagrant up`
 
 ### Junction error
 
@@ -30,16 +28,6 @@ React.FC<P & ButtonWithClickOnceProps>
 ```
 
 
-react-create-app
-----------------
-
-```bash
-npm start
-npm run build
-npm run eject
-```
-
-
 Known Issues
 ------------
 
@@ -47,8 +35,5 @@ Known Issues
 Switched to `rc-tooltip`.
 
 
-
 [confac-back]: https://github.com/be-pongit/confac-back
-[confac-vagrant]: https://github.com/be-pongit/confac-vagrant
-[vagrant]: https://www.vagrantup.com/
 [demo]: https://pongit.be/assets/confac-demo/index.html
