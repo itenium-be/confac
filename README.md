@@ -22,7 +22,7 @@ MongoDb
 -------
 
 ```bash
-docker run -d -p 32772:27017 --name confac-mongo mongo
+docker run -id -p 27010:27017 -e "MONGO_INITDB_ROOT_USERNAME=admin" -e "MONGO_INITDB_ROOT_PASSWORD=pwd" --name confac-mongo mongo
 ```
 
 
