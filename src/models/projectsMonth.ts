@@ -1,6 +1,5 @@
 import {ObjectID} from 'mongodb';
-
-import {IAttachment} from './common';
+import {IAttachment, IAudit} from './common';
 
 /** Duplicated on frontend */
 export const TimesheetCheckAttachmentType = 'Timesheet check';
@@ -19,8 +18,8 @@ export interface IProjectMonth {
    * forced: There is no invoice, just make the system happy
    */
   verified: boolean | 'forced';
-  createdOn?: string;
   attachments: IAttachment[];
+  audit: IAudit;
 }
 
 export type ProjectMonthInboundStatus = 'new' | 'validated' | 'paid';

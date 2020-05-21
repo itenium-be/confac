@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import {ObjectID} from 'mongodb';
 import {findActiveProjectsForSelectedMonth} from '../projects';
+import {IAudit} from '../../models/common';
 import {IProject} from '../../models/projects';
 
 const initDate = (date: string) => new Date(date).toISOString();
@@ -19,6 +20,7 @@ const createProject = (start: string, end?: string): IProject => ({
     rateType: 'daily',
     tariff: 10,
   },
+  audit: {} as IAudit,
 });
 
 describe('Feature: determine whether project is active or not', () => {

@@ -3,9 +3,10 @@ import {Request, Response} from 'express';
 import {ObjectID} from 'mongodb';
 import {OAuth2Client, TokenPayload} from 'google-auth-library';
 import jwt from 'jsonwebtoken';
-import {CollectionNames} from '../models/common';
+import {CollectionNames, IAudit, createAudit, updateAudit} from '../models/common';
 import config from '../config';
 import {IUser} from '../models/user';
+import {ConfacRequest} from '../models/technical';
 
 
 const client = new OAuth2Client(config.security.clientId);
@@ -42,6 +43,7 @@ async function verify(token: string): Promise<string | IUser> {
     alias: payload.given_name || '',
     firstName: payload.given_name || '',
     active: false,
+    audit: createAudit(),
   };
 }
 
@@ -92,9 +94,18 @@ export const getUsers = async (req: Request, res: Response) => {
 
 
 
-export const saveUser = async (req: Request, res: Response) => {
+export const saveUser = async (req: ConfacRequest, res: Response) => {
   const {_id, ...user}: IUser = req.body;
   const collection = req.db.collection<IUser>(CollectionNames.USERS);
-  const updated = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: user}, {returnOriginal: false});
-  return res.send(updated.value);
+
+  if (_id) {
+    user.audit = updateAudit(user.audit, req.user);
+    const updated = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: user}, {returnOriginal: false});
+    return res.send(updated.value);
+  }
+
+  user.audit = createAudit(req.user);
+  const inserted = await collection.insertOne(user);
+  const [createdClient] = inserted.ops;
+  return res.send(createdClient);
 };

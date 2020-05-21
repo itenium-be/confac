@@ -2,8 +2,9 @@ import {Request, Response} from 'express';
 import {ObjectID} from 'mongodb';
 import {findActiveProjectsForSelectedMonth} from './projects';
 import {IProjectMonth, IProjectMonthOverview, TimesheetCheckAttachmentType} from '../models/projectsMonth';
-import {CollectionNames} from '../models/common';
+import {CollectionNames, createAudit, updateAudit} from '../models/common';
 import {IProject} from '../models/projects';
+import {ConfacRequest} from '../models/technical';
 
 
 export const getProjectsPerMonthController = async (req: Request, res: Response) => {
@@ -23,7 +24,7 @@ export const getProjectsPerMonthOverviewController = async (req: Request, res: R
 
 
 /** Create all projectMonths for the specified month */
-export const createProjectsMonthController = async (req: Request, res: Response) => {
+export const createProjectsMonthController = async (req: ConfacRequest, res: Response) => {
   const {month}: {month: string;} = req.body;
 
   const projects = await req.db.collection<IProject>(CollectionNames.PROJECTS).find()
@@ -35,7 +36,7 @@ export const createProjectsMonthController = async (req: Request, res: Response)
       _id: new ObjectID(),
       month,
       projectId: activeProject._id,
-      createdOn: new Date().toISOString(),
+      audit: createAudit(req.user),
       verified: false,
       inbound: {
         nr: '',
@@ -53,18 +54,22 @@ export const createProjectsMonthController = async (req: Request, res: Response)
   return res.send(createdProjectsMonth);
 };
 
-export const patchProjectsMonthController = async (req: Request, res: Response) => {
+
+
+export const patchProjectsMonthController = async (req: ConfacRequest, res: Response) => {
   const {_id, ...projectMonth}: IProjectMonth = req.body;
 
   if (_id) {
-    const inserted = await req.db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: projectMonth}, {returnOriginal: false});
+    projectMonth.audit = updateAudit(projectMonth.audit, req.user);
+    const projMonthCollection = req.db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH);
+    const inserted = await projMonthCollection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: projectMonth}, {returnOriginal: false});
     const updatedProjectMonth = inserted.value;
     return res.send(updatedProjectMonth);
   }
 
   const inserted = await req.db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).insertOne({
     ...projectMonth,
-    createdOn: new Date().toISOString(),
+    audit: createAudit(req.user),
   });
   const [createdProjectMonth] = inserted.ops;
 

@@ -4,6 +4,6 @@ import {getConsultants, saveConsultant} from '../controllers/consultants';
 const consultantsRouter = Router();
 
 consultantsRouter.get('/', getConsultants);
-consultantsRouter.post('/', saveConsultant);
+consultantsRouter.post('/', saveConsultant as any);
 
 export default consultantsRouter;

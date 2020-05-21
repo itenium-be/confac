@@ -1,6 +1,4 @@
 import {ObjectID} from 'mongodb';
-import {Request} from 'express';
-
 import {CollectionNames, IAttachment} from './common';
 
 /** Represents attachments database collection */

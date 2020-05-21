@@ -5,18 +5,19 @@ import sgMail from '@sendgrid/mail';
 import fs from 'fs';
 import tmp from 'tmp';
 import {ObjectID, Db} from 'mongodb';
-
 import {IInvoice, INVOICE_EXCEL_HEADERS} from '../models/invoices';
 import {IAttachmentCollection, ISendGridAttachment} from '../models/attachments';
 import {createPdf} from './utils';
 import {IEmail} from '../models/clients';
-import {CollectionNames, IAttachment} from '../models/common';
+import {CollectionNames, IAttachment, createAudit, updateAudit} from '../models/common';
 import {IProjectMonth} from '../models/projectsMonth';
+import {ConfacRequest, Jwt} from '../models/technical';
 
-const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer) => {
+
+const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
   const inserted = await db.collection<IInvoice>(CollectionNames.INVOICES).insertOne({
     ...invoice,
-    createdOn: new Date().toISOString(),
+    audit: createAudit(user),
   });
 
   const [createdInvoice] = inserted.ops;
@@ -28,6 +29,8 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer) => {
 
   return createdInvoice;
 };
+
+
 
 const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMonthId: ObjectID, db: Db) => {
   const projectMonthAttachments: IAttachmentCollection | null = await db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH)
@@ -52,14 +55,13 @@ const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMo
 
 
 export const getInvoicesController = async (req: Request, res: Response) => {
-  const invoices = await req.db.collection(CollectionNames.INVOICES).find()
-    .toArray();
+  const invoices = await req.db.collection(CollectionNames.INVOICES).find().toArray();
   return res.send(invoices);
 };
 
 
 
-export const createInvoiceController = async (req: Request, res: Response) => {
+export const createInvoiceController = async (req: ConfacRequest, res: Response) => {
   const invoice: IInvoice = req.body;
 
   if (!invoice.isQuotation) {
@@ -100,7 +102,7 @@ export const createInvoiceController = async (req: Request, res: Response) => {
     return res.status(500).send(pdfBuffer.error);
   }
 
-  const createdInvoice = await createInvoice(invoice, req.db, pdfBuffer as Buffer);
+  const createdInvoice = await createInvoice(invoice, req.db, pdfBuffer as Buffer, req.user);
 
   if (invoice.projectMonthId) {
     const projectMonthId = new ObjectID(invoice.projectMonthId);
@@ -208,8 +210,10 @@ export const emailInvoiceController = async (req: Request, res: Response) => {
 
 
 /** Update an existing invoice */
-export const updateInvoiceController = async (req: Request, res: Response) => {
+export const updateInvoiceController = async (req: ConfacRequest, res: Response) => {
   const {_id, ...invoice}: IInvoice = req.body;
+
+  invoice.audit = updateAudit(invoice.audit, req.user);
 
   const updatedPdfBuffer = await createPdf({
     _id,
@@ -273,8 +277,9 @@ export const deleteInvoiceController = async (req: Request, res: Response) => {
       ...invoiceAttachments,
     });
 
-    await req.db.collection(CollectionNames.PROJECTS_MONTH)
-      .findOneAndUpdate({_id: new ObjectID(invoice.projectMonthId)}, {$set: {attachments: invoice.attachments.filter(a => a.type !== 'pdf')}});
+    const projectMonthCollection = req.db.collection(CollectionNames.PROJECTS_MONTH);
+    const attachments = invoice.attachments.filter(a => a.type !== 'pdf');
+    await projectMonthCollection.findOneAndUpdate({_id: new ObjectID(invoice.projectMonthId)}, {$set: {attachments}});
   }
 
   await req.db.collection(CollectionNames.INVOICES).findOneAndDelete({_id: new ObjectID(invoiceId)});
@@ -329,4 +334,3 @@ export const generateExcelForInvoicesController = async (req: Request, res: Resp
 
   return res.send(excel);
 };
-

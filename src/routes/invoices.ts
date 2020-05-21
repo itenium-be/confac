@@ -8,12 +8,12 @@ const invoicesRouter = Router();
 
 invoicesRouter.get('/', getInvoicesController);
 
-invoicesRouter.post('/', createInvoiceController);
+invoicesRouter.post('/', createInvoiceController as any);
 invoicesRouter.post('/email/:id', emailInvoiceController);
 invoicesRouter.post('/preview', previewPdfInvoiceController);
 invoicesRouter.post('/excel', generateExcelForInvoicesController);
 
-invoicesRouter.put('/', updateInvoiceController);
+invoicesRouter.put('/', updateInvoiceController as any);
 
 invoicesRouter.delete('/', deleteInvoiceController);
 

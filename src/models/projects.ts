@@ -1,4 +1,5 @@
 import {ObjectID} from 'mongodb';
+import {IAudit} from './common';
 
 export interface IProject {
   _id: ObjectID;
@@ -11,7 +12,7 @@ export interface IProject {
     timesheetCheck: boolean;
     inboundInvoice: boolean;
   };
-  createdOn?: string;
+  audit: IAudit;
 }
 
 export type EditClientRateType = 'hourly' | 'daily' | 'km' | 'items' | 'section' | 'other';

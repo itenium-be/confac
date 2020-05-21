@@ -1,5 +1,6 @@
 import {ObjectID} from 'mongodb';
 import {IEmail} from './clients';
+import {IAudit, createAudit} from './common';
 
 
 export interface ICompanyConfig {
@@ -31,6 +32,7 @@ export interface ICompanyConfig {
   email: IEmail;
   emailSignature: string;
   emailReminder: string;
+  audit: IAudit;
 }
 
 
@@ -71,4 +73,5 @@ export const DEFAULT_COMPANY_CONFIG: Omit<ICompanyConfig, '_id'> = {
   },
   emailSignature: '',
   emailReminder: '',
+  audit: createAudit(),
 };

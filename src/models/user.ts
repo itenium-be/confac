@@ -1,4 +1,5 @@
 import {ObjectID} from 'mongodb';
+import {IAudit} from './common';
 
 export interface IUser {
   _id: ObjectID;
@@ -7,4 +8,5 @@ export interface IUser {
   firstName: string;
   alias: string;
   active: boolean;
+  audit: IAudit;
 }

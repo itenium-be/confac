@@ -1,4 +1,5 @@
 import {ObjectID} from 'mongodb';
+import {IAudit} from './common';
 
 export interface IConsultant {
   _id: ObjectID;
@@ -8,6 +9,6 @@ export interface IConsultant {
   type: string;
   email: string;
   telephone: string;
-  createdOn?: string;
   active: boolean;
+  audit: IAudit;
 }

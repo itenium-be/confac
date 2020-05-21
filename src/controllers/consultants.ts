@@ -1,21 +1,23 @@
 import {Request, Response} from 'express';
 import slugify from 'slugify';
 import {ObjectID} from 'mongodb';
-
 import {IConsultant} from '../models/consultants';
-import {CollectionNames} from '../models/common';
+import {CollectionNames, createAudit, updateAudit} from '../models/common';
+import {ConfacRequest} from '../models/technical';
 
 export const getConsultants = async (req: Request, res: Response) => {
-  const consultants = await req.db.collection<IConsultant>(CollectionNames.CONSULTANTS).find()
-    .toArray();
+  const consultants = await req.db.collection<IConsultant>(CollectionNames.CONSULTANTS).find().toArray();
   return res.send(consultants);
 };
 
-export const saveConsultant = async (req: Request, res: Response) => {
+export const saveConsultant = async (req: ConfacRequest, res: Response) => {
   const {_id, ...consultant}: IConsultant = req.body;
 
   if (_id) {
-    const inserted = await req.db.collection<IConsultant>(CollectionNames.CONSULTANTS).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: consultant}, {returnOriginal: false});
+    consultant.audit = updateAudit(consultant.audit, req.user);
+    const inserted = await req.db.collection<IConsultant>(CollectionNames.CONSULTANTS)
+      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: consultant}, {returnOriginal: false});
+
     const updatedConsultant = inserted.value;
     return res.send(updatedConsultant);
   }
@@ -25,7 +27,7 @@ export const saveConsultant = async (req: Request, res: Response) => {
 
   const inserted = await req.db.collection<Omit<IConsultant, '_id'>>('consultants').insertOne({
     ...consultant,
-    createdOn: new Date().toISOString(),
+    audit: createAudit(req.user),
   });
   const [createdConsultant] = inserted.ops;
   return res.send(createdConsultant);

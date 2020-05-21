@@ -6,6 +6,6 @@ const configRouter = Router();
 configRouter.get('/', getCompanyConfig);
 configRouter.get('/security', getSecurityConfig);
 configRouter.get('/templates', getTemplates);
-configRouter.post('/', saveCompanyConfig);
+configRouter.post('/', saveCompanyConfig as any);
 
 export default configRouter;

@@ -6,6 +6,6 @@ const userRouter = Router();
 userRouter.get('/', getUsers);
 userRouter.post('/login', authUser);
 userRouter.post('/refresh', refreshToken);
-userRouter.put('/', saveUser);
+userRouter.put('/', saveUser as any);
 
 export default userRouter;

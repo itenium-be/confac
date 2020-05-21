@@ -1,6 +1,5 @@
 import {ObjectID} from 'mongodb';
-
-import {IAttachment} from './common';
+import {IAttachment, IAudit} from './common';
 
 export interface IEmail {
   from?: string;
@@ -41,6 +40,6 @@ export interface IClient {
   // defaultExtraInvoiceFields: ISelectItem[];
   notes: string;
   defaultInvoiceDateStrategy: string;
-  createdOn: string;
   email: IEmail;
+  audit: IAudit;
 }

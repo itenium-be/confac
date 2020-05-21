@@ -6,6 +6,6 @@ const clientsRouter = Router();
 clientsRouter.get('/', getClients);
 clientsRouter.get('/btw/:btw', validateBtw);
 
-clientsRouter.post('/', saveClient);
+clientsRouter.post('/', saveClient as any);
 
 export default clientsRouter;

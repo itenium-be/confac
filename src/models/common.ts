@@ -1,3 +1,5 @@
+import {Jwt} from './technical';
+
 export interface IAttachment {
   type: string;
   fileName: string;
@@ -18,4 +20,26 @@ export enum CollectionNames {
   PROJECTS_MONTH = 'projects_month',
   CONFIG = 'config',
   USERS = 'users',
+}
+
+export interface IAudit {
+  createdOn: string;
+  createdBy: string;
+  modifiedOn?: string;
+  modifiedBy?: string;
+}
+
+export function createAudit(user?: Jwt): IAudit {
+  return {
+    createdOn: new Date().toISOString(),
+    createdBy: user ? user.data._id : '',
+  };
+}
+
+export function updateAudit(audit: IAudit, user: Jwt): IAudit {
+  return {
+    ...audit,
+    modifiedOn: new Date().toISOString(),
+    modifiedBy: user.data._id,
+  };
 }

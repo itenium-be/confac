@@ -1,7 +1,6 @@
 import {ObjectID} from 'mongodb';
-
 import {IClient} from './clients';
-import {IAttachment} from './common';
+import {IAttachment, IAudit} from './common';
 
 export interface IInvoiceMoney {
   totalWithoutTax: number;
@@ -58,9 +57,9 @@ export interface IInvoice {
   _defaultTax: number;
   _defaultType: string;
   // extraFields: ISelectItem[] | IExtraFieldsObject;
-  createdOn?: string;
   lines: InvoiceLine[];
   money: IInvoiceMoney;
+  audit: IAudit;
 }
 
 export const INVOICE_EXCEL_HEADERS = [

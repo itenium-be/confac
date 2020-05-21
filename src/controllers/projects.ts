@@ -1,9 +1,9 @@
 import {Request, Response} from 'express';
 import moment from 'moment';
-
 import {ObjectID} from 'mongodb';
 import {IProject} from '../models/projects';
-import {CollectionNames} from '../models/common';
+import {CollectionNames, createAudit, updateAudit} from '../models/common';
+import {ConfacRequest} from '../models/technical';
 
 export const findActiveProjectsForSelectedMonth = (selectedMonth: string, projects: IProject[]) => projects.filter(project => {
   if (project.endDate) {
@@ -23,7 +23,7 @@ export const getProjects = async (req: Request, res: Response) => {
 };
 
 
-export const saveProject = async (req: Request, res: Response) => {
+export const saveProject = async (req: ConfacRequest, res: Response) => {
   const {_id, ...project}: IProject = req.body;
 
   if (project.partner && !project.partner.clientId && !project.partner.tariff && !project.partner.ref) {
@@ -31,14 +31,16 @@ export const saveProject = async (req: Request, res: Response) => {
   }
 
   if (_id) {
-    const inserted = await req.db.collection<IProject>(CollectionNames.PROJECTS).findOneAndUpdate({_id: new ObjectID(_id)}, {$set: project}, {returnOriginal: false});
+    project.audit = updateAudit(project.audit, req.user);
+    const projectsCollection = req.db.collection<IProject>(CollectionNames.PROJECTS);
+    const inserted = await projectsCollection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: project}, {returnOriginal: false});
     const updatedProject = inserted.value;
     return res.send(updatedProject);
   }
 
   const inserted = await req.db.collection<Omit<IProject, '_id'>>(CollectionNames.PROJECTS).insertOne({
     ...project,
-    createdOn: new Date().toISOString(),
+    audit: createAudit(req.user),
   });
   const [createdProject] = inserted.ops;
   return res.send(createdProject);
