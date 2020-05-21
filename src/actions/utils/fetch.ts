@@ -41,5 +41,18 @@ export function catchHandler(err) {
     return;
   }
 
+  if (err.status === 500) {
+    if (err.body) {
+      console.error('InternalServerError', err.body.message);
+      failure(err.body.message, 'InternalServerError', 5000);
+      console.error('Stack Trace', err.body.stack.replace(/↵/g, '\n'));
+
+    } else {
+      console.error('InternalServerError', err.res.error);
+      failure('Unknown Erreur', 'InternalServerError', 5000);
+    }
+    return;
+  }
+
   failure();
 }
