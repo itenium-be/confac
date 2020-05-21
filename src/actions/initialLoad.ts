@@ -35,7 +35,7 @@ const httpGet = (url: string) => {
 
       console.log('Initial Load No Success Status', res);
       return res.json().then(data => {
-        if (res.status === 401 && data.me === 'invalid_token') {
+        if (res.status === 401 && data.message === 'invalid_token') {
           authService.logout();
           window.location.reload(false);
         }
