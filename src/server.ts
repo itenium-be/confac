@@ -60,6 +60,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     return;
   }
 
+  console.error(err);
   res.status(500).send({message: err.message, stack: err.stack});
 });
 
