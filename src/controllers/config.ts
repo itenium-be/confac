@@ -2,7 +2,7 @@ import {Request, Response} from 'express';
 import fs from 'fs';
 import {ObjectID} from 'mongodb';
 import appConfig from '../config';
-import {DEFAULT_COMPANY_CONFIG, ICompanyConfig} from '../models/config';
+import {ICompanyConfig} from '../models/config';
 import {getTemplatesPath} from './utils';
 import {CollectionNames, updateAudit} from '../models/common';
 import {ConfacRequest} from '../models/technical';
@@ -14,7 +14,8 @@ export const getCompanyConfig = async (req: Request, res: Response) => {
     return res.send(companyConfig);
   }
 
-  return res.send(DEFAULT_COMPANY_CONFIG);
+  // A default config is defined on the frontend
+  return res.status(404).send();
 };
 
 

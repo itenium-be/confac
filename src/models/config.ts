@@ -1,6 +1,6 @@
 import {ObjectID} from 'mongodb';
 import {IEmail} from './clients';
-import {IAudit, createAudit} from './common';
+import {IAudit} from './common';
 
 
 export interface ICompanyConfig {
@@ -34,44 +34,3 @@ export interface ICompanyConfig {
   emailReminder: string;
   audit: IAudit;
 }
-
-
-
-export const DEFAULT_COMPANY_CONFIG: Omit<ICompanyConfig, '_id'> = {
-  key: 'conf',
-  company: {
-    template: 'example-1.pug',
-    templateQuotation: 'example-1.pug',
-    name: 'Jouw bedrijfsnaam',
-    address: 'Streetname 15',
-    city: '9000 Brussel',
-    btw: '0000.000.000',
-    bank: 'Banknaam',
-    iban: 'BE00 0000 0000 0000',
-    bic: 'GKCCBEAD',
-    telephone: '0000 / 00 00 00',
-    email: 'ceo@yahoo.com',
-    website: 'www.clicky-me-IT.be',
-  },
-  defaultClient: null,
-  defaultTax: 21,
-  attachmentTypes: ['Getekende timesheet', 'Factuur freelancer'],
-  // defaultExtraClientFields: [],
-  // defaultExtraClientInvoiceFields: [],
-  // showOrderNr: false,
-  // groupInvoiceListByMonth: false,
-  defaultInvoiceLineType: 'daily',
-  defaultInvoiceDateStrategy: 'prev-month-last-day',
-  email: {
-    to: '',
-    cc: '',
-    from: '',
-    bcc: '',
-    subject: '',
-    body: '',
-    attachments: [],
-  },
-  emailSignature: '',
-  emailReminder: '',
-  audit: createAudit(),
-};
