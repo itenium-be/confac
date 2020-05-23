@@ -19,13 +19,13 @@ export const Audit = ({audit}: {audit: IAudit}) => {
 
   return (
     <small className="created-on">
-      {audit.createdOn && t('createdOn', {date: formatDate(audit.createdOn)})}
+      {audit.createdOn && t('createdOn', {date: formatDate(audit.createdOn, 'DD/MM/YYYY'), hour: formatDate(audit.createdOn, 'HH:mm')})}
       {createdBy && t('createdBy', {name: createdBy.alias})}
 
       {audit.modifiedOn && (
         <>
           {audit.createdOn && <br />}
-          {t('modifiedOn', {date: formatDate(audit.modifiedOn)})}
+          {t('modifiedOn', {date: formatDate(audit.modifiedOn), hour: formatDate(audit.modifiedOn, 'HH:mm')})}
           {modifiedBy && t('modifiedBy', {name: modifiedBy.alias})}
         </>
       )}
