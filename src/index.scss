@@ -36,6 +36,7 @@ body {
 }
 
 .top-header {
+  padding-bottom: 6px;
   margin-bottom: 14px;
   background-repeat: repeat-x;
   border-radius: 4px;
@@ -45,7 +46,6 @@ body {
 
 .button-row {
 	text-align: center;
-	margin-bottom: 8px;
 }
 
 .button-row button:not(:last-child) {
@@ -111,7 +111,6 @@ small.created-on {
     // box-shadow: 0px -8px 8px -10px rgba(0,0,0,.4);
 
     .navbar-center {
-      margin-top: 8px;
       text-align: center;
       width: 100%;
 
