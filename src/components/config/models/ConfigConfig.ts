@@ -13,11 +13,12 @@ export const configDefinition: FullFormConfig = [
   {key: 'company.website', component: 'website'},
   {key: 'company.btw', component: 'btw'},
   'company.rpr',
-  {key: 'company.language', component: 'LanguageSelect'},
+  {key: 'language', component: 'LanguageSelect'},
   {forceRow: true},
   {key: 'company.bank'},
   {key: 'company.iban', component: 'iban'},
   'company.bic',
+
 
   {title: 'config.invoiceTitle'},
   {key: 'company.template', component: TemplatePicker},
@@ -25,10 +26,12 @@ export const configDefinition: FullFormConfig = [
   {key: 'invoicePayDays', component: 'number'},
   {key: 'attachmentTypes', component: 'StringsSelect', cols: 8},
   {key: 'defaultClient', component: 'ClientSelect'},
-  {key: 'defaultInvoiceLineType', component: 'InvoiceLineTypeSelect'},
   {key: 'defaultInvoiceDateStrategy', component: 'InvoiceDateStrategySelect'},
-  {key: 'invoiceFileName', component: 'InvoiceReplacementsInput', cols: 10},
-  {key: 'defaultTax', component: 'float', suffix: '%', cols: 2},
+  {key: 'invoiceFileName', component: 'InvoiceReplacementsInput', cols: 8},
+
+  {title: {title: 'config.defaultInvoiceLines', level: 4}},
+  {key: 'defaultInvoiceLines', component: 'EditInvoiceLines', cols: 12},
+
 
   {title: 'config.email.title'},
   {key: 'email.from', cols: 6, component: 'email'},

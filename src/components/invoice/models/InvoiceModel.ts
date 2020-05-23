@@ -2,20 +2,9 @@ import moment from 'moment';
 import {ConfigModel, ConfigCompanyModel} from '../../config/models/ConfigModel';
 import {getInvoiceDate} from './invoice-date-strategy';
 import {ClientModel} from '../../client/models/ClientModels';
-import {Attachment, EditClientRateType, IAttachment, IAudit} from '../../../models';
+import {Attachment, IAttachment, IAudit} from '../../../models';
+import {InvoiceLine} from './InvoiceLineModels';
 
-
-// const getInvoiceString = invoice => `${invoice.number} - ${invoice.client.name} (${invoice.date.format('YYYY-MM')})`;
-
-export type InvoiceLine = {
-  desc: string,
-  amount: number,
-  type: EditClientRateType,
-  price: number,
-  tax: number,
-  sort: number,
-  notes?: string,
-}
 
 export type InvoiceMoney = {
   totalWithoutTax: number,
@@ -50,8 +39,6 @@ export default class InvoiceModel implements IAttachment {
   attachments: Attachment[];
   isQuotation: boolean;
   lastEmail: string;
-  _defaultTax: number;
-  _defaultType: EditClientRateType;
   audit: IAudit;
   lines: InvoiceLine[] = [];
   money: InvoiceMoney;
@@ -61,9 +48,6 @@ export default class InvoiceModel implements IAttachment {
   }
 
   constructor(config: ConfigModel, obj: any = {}) {
-    this._defaultTax = config.defaultTax;
-    this._defaultType = config.defaultInvoiceLineType;
-
     this._id = obj._id;
     this.number = obj.number || 1;
     this.client = obj.client;
@@ -81,7 +65,7 @@ export default class InvoiceModel implements IAttachment {
 
     this.money = this._calculateMoneys();
 
-    this._lines = obj.lines || [];
+    this._lines = obj.lines || config.defaultInvoiceLines || [];
     this.audit = obj.audit;
   }
 
@@ -107,44 +91,12 @@ export default class InvoiceModel implements IAttachment {
   setClient(client: undefined | ClientModel): InvoiceModel {
     this.client = client as ClientModel;
     this.fileName = client ? client.invoiceFileName : this.fileName;
-    this._defaultType = client && client.rate ? client.rate.type : this._defaultType;
     this.date = getInvoiceDate(client);
-    if (!this.lines || this.lines.length <= 1) {
-      this._lines = [this.getLine()];
+
+    if (client && client.defaultInvoiceLines.length) {
+      this._lines = client.defaultInvoiceLines.map(x => ({...x}));
     }
-    return this;
-  }
 
-  addLine(line?: InvoiceLine): InvoiceModel {
-    this._lines = this._lines.concat([line || this.getLine(true)]);
-    return this;
-  }
-
-  updateLine(index: number, updateWith: InvoiceLine | object): InvoiceModel {
-    const newArr = this.lines.slice();
-
-    this.daysVsHoursSwitchFix(newArr[index], updateWith);
-
-    newArr[index] = {...newArr[index], ...updateWith};
-    this._lines = newArr;
-    return this;
-  }
-
-  removeLine(index: number): InvoiceModel {
-    const newArr = this.lines.slice();
-    newArr.splice(index, 1);
-    this._lines = newArr;
-    return this;
-  }
-
-  /**
-   * Switch location of two InvoiceLines
-   */
-  reorderLines(startIndex: number, endIndex: number): InvoiceModel {
-    const newArr = this.lines.slice();
-    const [removed] = newArr.splice(startIndex, 1);
-    newArr.splice(endIndex, 0, removed);
-    this._lines = newArr;
     return this;
   }
 
@@ -155,57 +107,6 @@ export default class InvoiceModel implements IAttachment {
     if (calcMoneys) {
       this.money = this._calculateMoneys();
     }
-  }
-
-  daysVsHoursSwitchFix(input: InvoiceLine, updateWith: InvoiceLine | any): void {
-    const oldLine = input;
-
-    if (updateWith.type && updateWith.type !== oldLine.type && (oldLine.price || oldLine.amount)
-      && this.client && this.client.rate && this.client.rate.hoursInDay) {
-
-      const newType = updateWith.type;
-      const oldType = oldLine.type;
-
-      if (oldType === 'daily' && newType === 'hourly') {
-        if (oldLine.price) {
-          oldLine.price /= this.client.rate.hoursInDay;
-        }
-        if (oldLine.amount) {
-          oldLine.amount *= this.client.rate.hoursInDay;
-        }
-
-      } else if (oldType === 'hourly' && newType === 'daily') {
-        if (oldLine.price) {
-          oldLine.price *= this.client.rate.hoursInDay;
-        }
-        if (oldLine.amount) {
-          oldLine.amount /= this.client.rate.hoursInDay;
-        }
-      }
-    }
-  }
-
-  getLine(getEmpty = false): InvoiceLine {
-    const defaultLine: InvoiceLine = {
-      desc: '',
-      price: 0,
-      amount: 0,
-      tax: this._defaultTax,
-      type: this._defaultType,
-      sort: this._lines.reduce((acc, line) => (acc <= line.sort ? line.sort + 1 : acc), 0),
-    };
-
-    if (!this.client || getEmpty) {
-      return Object.assign(defaultLine, {
-        desc: '',
-        price: this.client ? this.client.rate.value : 0,
-      });
-    }
-
-    return Object.assign(defaultLine, {
-      desc: this.client.rate.description,
-      price: this.client.rate.value,
-    });
   }
 
   static emptyMoney(): InvoiceMoney {
@@ -280,14 +181,14 @@ function daysCalc(invoice: InvoiceModel): DaysWorked {
       return prev + cur.amount;
     }
     if (cur.type === 'hourly') {
-      return prev + cur.amount / invoice.client.rate.hoursInDay;
+      return prev + cur.amount / invoice.client.hoursInDay;
     }
     return prev;
   }, 0);
 
   const hoursWorked = invoice.lines.reduce((prev, cur) => {
     if (cur.type === 'daily') {
-      return prev + cur.amount * invoice.client.rate.hoursInDay;
+      return prev + cur.amount * invoice.client.hoursInDay;
     }
     if (cur.type === 'hourly') {
       return prev + cur.amount;
@@ -304,9 +205,7 @@ function daysCalc(invoice: InvoiceModel): DaysWorked {
 
 type GroupedInvoicesPerMonth = {
   invoiceList: InvoiceModel[],
-  /**
-   * Month in format: YYYYMM
-   */
+  /** Month in format: YYYYMM */
   key: string,
 }
 

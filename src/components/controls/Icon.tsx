@@ -117,7 +117,7 @@ export const SpinnerIcon = ({...props}: IconProps) => (
 
 export const AddIcon = ({...props}: IconProps) => <Icon fa="fa fa-plus" {...props} />;
 
-export const DragAndDropIcon = ({...props}: IconProps) => <Icon fa="fa fa-arrows" color="#EEE9E9" {...props} />;
+export const DragAndDropIcon = ({...props}: IconProps) => <Icon fa="fa fa-arrows-alt" color="#EEE9E9" {...props} />;
 
 export const EditIcon = ({...props}: IconProps) => <Icon fa="far fa-edit" title={t('edit')} {...props} />;
 

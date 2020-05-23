@@ -1,31 +1,20 @@
 import React from 'react';
-import InvoiceModel, {InvoiceLine} from '../../models/InvoiceModel';
-import {DragAndDropIcon} from '../../../controls/Icon';
 import {DeleteIcon} from '../../../controls/icons/DeleteIcon';
+import {InvoiceLine, InvoiceLineActions} from '../../models/InvoiceLineModels';
 
 
 type EditInvoiceLineIconsProps = {
-  index: number,
-  onChange: any,
-  invoice: InvoiceModel,
-  line: InvoiceLine,
+  lines: InvoiceLine[],
+  index: number;
+  allowEmpty?: boolean,
+  onChange: (lines: InvoiceLine[]) => void,
 }
 
-export const EditInvoiceLineIcons = (props: EditInvoiceLineIconsProps) => (
-  <td>
-    <EditInvoiceDeleteLineIcon {...props} />
-  </td>
-);
 
-
-const EditInvoiceDeleteLineIcon = (props: EditInvoiceLineIconsProps) => {
-  const {index, onChange, invoice} = props;
-  if (!index) {
-    return null;
+export const EditInvoiceLineIcons = ({index, onChange, lines, allowEmpty}: EditInvoiceLineIconsProps) => {
+  if (index === 0 && !allowEmpty) {
+    return <td>&nbsp;</td>;
   }
 
-  return <DeleteIcon onClick={() => onChange(invoice.removeLine(index))} />;
+  return <td><DeleteIcon onClick={() => onChange(InvoiceLineActions.removeLine(lines, index))} /></td>;
 };
-
-
-export const EditInvoiceDragHandle = () => <td><DragAndDropIcon /></td>;

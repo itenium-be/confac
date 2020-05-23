@@ -21,15 +21,17 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
   return (
     <>
       {result.map((col: FormConfig, index: number) => {
-        const {key, reactKey, label, cols, component, suffix, prefix, title, ...props} = col;
+        const {key, reactKey, label, cols, component, suffix, prefix, title, props, ...restProps} = col;
         const colSizes = getColSizes(cols);
 
         if (!key) {
           if (title) {
-            // eslint-disable-next-line react/no-array-index-key
-            return <Col key={index} xs={12} style={{paddingTop: 25}}><h2>{t(title)}</h2></Col>;
+            const sectionTitle = typeof title === 'string' ? title : title.title;
+            if (typeof title === 'string' || title.level === 2) {
+              return <Col key={sectionTitle} xs={12} style={{paddingTop: 25}}><h2>{t(sectionTitle)}</h2></Col>;
+            }
+            return <Col key={title.title} xs={12}><h4>{t(title.title)}</h4></Col>;
           }
-          // eslint-disable-next-line react/no-array-index-key
           return <Col key={index} {...colSizes} />;
         }
 
@@ -80,6 +82,7 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
             prefix={getAddix(prefix)}
             suffix={getAddix(suffix)}
             {...props}
+            {...restProps}
           />
         );
 

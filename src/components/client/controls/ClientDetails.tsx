@@ -18,20 +18,18 @@ type ClientDetailsProps = {
  * (used in EditInvoice)
  */
 const ClientDetails = ({client, onOpenDetails, onOpenDetailsTitle}: ClientDetailsProps) => (
-  <div>
+  <>
     <HeaderWithEditIcon label={client.name} size={4}>
       <ClientEditIcon
         onClick={onOpenDetails}
         client={client}
         title={t(onOpenDetailsTitle || 'edit')}
-        size={1}
-        style={{marginLeft: 8, marginRight: 8}}
+        style={{marginLeft: 6, marginRight: 12, fontSize: 14}}
         fa="fa fa-external-link-alt"
       />
       <Link to={`/clients/${client.slug}`} className="icon-link">
         <EditIcon
-          size={1}
-          style={{marginLeft: 6}}
+          style={{fontSize: 14}}
           title={t('client.viewDetails')}
         />
       </Link>
@@ -40,7 +38,7 @@ const ClientDetails = ({client, onOpenDetails, onOpenDetailsTitle}: ClientDetail
     <div>{client.city}</div>
     <div>{client.telephone}</div>
     <div>{client.btw}</div>
-  </div>
+  </>
 );
 
 export default ClientDetails;

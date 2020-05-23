@@ -28,6 +28,7 @@ import {DatePicker} from '../DatePicker';
 import {EditProjectClient, EditProjectPartner} from '../../../project/controls/EditProjectClient';
 import {ConsultantSelectWithCreateModal} from '../../../consultant/controls/ConsultantSelectWithCreateModal';
 import {LanguageSelect} from '../../LanguageSelect';
+import {EditInvoiceLines} from '../../../invoice/invoice-edit/invoice-lines/EditInvoiceLines';
 
 
 export function getComponent(col: FormConfig) {
@@ -69,6 +70,7 @@ export function getComponent(col: FormConfig) {
     InvoiceReplacementsInput,
     InvoiceReplacementsTextEditor,
     LanguageSelect,
+    EditInvoiceLines,
   };
 
 

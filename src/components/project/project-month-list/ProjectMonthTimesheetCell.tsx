@@ -60,14 +60,14 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
   const timesheetConfig = {
     rateType: fullProjectMonth.project.client.rateType,
     amount: timesheet.timesheet,
-    hoursInDay: fullProjectMonth.client.rate.hoursInDay,
+    hoursInDay: fullProjectMonth.client.hoursInDay,
   };
 
   const timesheetCheckConfig: TimesheetTimeConfig = {
     // TODO: Hardcoded "daily" for timesheetCheck: daily/hourly should be a global config setting
     rateType: 'daily',
     amount: timesheet.check,
-    hoursInDay: fullProjectMonth.client.rate.hoursInDay,
+    hoursInDay: fullProjectMonth.client.hoursInDay,
   };
 
 

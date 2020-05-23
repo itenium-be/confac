@@ -1,10 +1,11 @@
 import {ConfigModel} from './ConfigModel';
 import {Language, IAudit} from '../../../models';
-import {getNewEmail} from '../../controls/email/getNewEmail';
+import {InvoiceLineActions} from '../../invoice/models/InvoiceLineModels';
 
 export const defaultCommunicationLanguage = Language.en;
 
 export const defaultConfig: ConfigModel = {
+  key: 'conf',
   company: {
     name: '',
     address: '',
@@ -21,13 +22,12 @@ export const defaultConfig: ConfigModel = {
     templateQuotation: 'example-1.pug',
   },
   defaultClient: null,
-  invoiceFileName: '{date:YYYY-MM} {nr:4} - {clientName}', // ATTN: Duplicated in getNewClient
-  defaultTax: 21,
+  invoiceFileName: '{date:YYYY-MM} {nr:4} - {clientName}',
+  defaultInvoiceLines: InvoiceLineActions.addEmptyLine([]),
   attachmentTypes: [],
-  defaultInvoiceLineType: 'daily',
   defaultInvoiceDateStrategy: 'prev-month-last-day',
   invoicePayDays: 30,
-  email: getNewEmail(),
+  email: {cc: '', bcc: '', subject: '', body: '', attachments: []},
   emailSignature: '',
   emailReminder: '',
   emailReminderCc: '',

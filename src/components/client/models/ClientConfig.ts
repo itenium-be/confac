@@ -15,14 +15,14 @@ export const defaultClientProperties: FullFormConfig = [
   {key: 'notes', component: 'TextEditor', cols: 12, style: {height: 140}},
 
   {title: 'client.title'},
-  {key: 'rate.description'},
-  {key: 'rate.type', component: 'InvoiceLineTypeSelect'},
-  {key: 'rate.value', prefix: '€', component: 'money'},
   {forceRow: true},
   {key: 'defaultInvoiceDateStrategy', component: 'InvoiceDateStrategySelect'},
   {key: 'invoiceFileName', component: 'InvoiceReplacementsInput', cols: 8},
-  {key: 'rate.hoursInDay', component: 'number', suffix: 'fa fa-hourglass-half'},
+  {key: 'hoursInDay', component: 'number', suffix: 'fa fa-hourglass-half'},
   {key: 'defaultChangingOrderNr', component: 'switch'},
+
+  {title: {title: 'config.defaultInvoiceLines', level: 4}},
+  {key: 'defaultInvoiceLines', component: 'EditInvoiceLines', cols: 12, props: {allowEmpty: true}},
 
   {title: 'config.email.title'},
   {key: 'email.to', component: 'email', cols: 6},

@@ -1,26 +1,21 @@
-import React, {Component} from 'react';
-import {/* EnhanceInputWithLabel, */EnhanceInputWithLabelProps} from '../../../enhancers/EnhanceInputWithLabel';
+import React from 'react';
+import {MinimalInputProps} from './BaseInput';
 
-export type BaseInputProps<TReturn> = EnhanceInputWithLabelProps & {
-  value?: boolean,
-  onChange: (e: TReturn) => void,
+export type CheckboxInputProps = MinimalInputProps<boolean> & {
   style?: React.CSSProperties,
+  label: string,
 }
 
-// eslint-disable-next-line react/prefer-stateless-function
-export const CheckboxInput = /* EnhanceInputWithLabel( */class extends Component<BaseInputProps<any>> {
-  render() {
-    const {value, label, onChange, ...props} = this.props;
-    return (
-      <div style={{marginBottom: 5}}>
-        <input
-          type="checkbox"
-          checked={value || false}
-          onChange={evt => onChange(evt.target.checked)}
-          {...props}
-        />
-        <span style={{paddingLeft: 10}}>{label}</span>
-      </div>
-    );
-  }
-}/* ) */;
+export const CheckboxInput = ({value, label, onChange, ...props}: CheckboxInputProps) => {
+  return (
+    <div style={{marginBottom: 5}}>
+      <input
+        type="checkbox"
+        checked={value || false}
+        onChange={evt => onChange(evt.target.checked)}
+        {...props}
+      />
+      <span style={{paddingLeft: 10}}>{label}</span>
+    </div>
+  );
+};

@@ -29,6 +29,11 @@ const httpGet = (url: string) => {
   const request = buildRequest(url);
   return fetch(request)
     .then(res => {
+      if (url === '/config' && res.status === 404) {
+        // First run: Stick to frontend config defaults
+        return null;
+      }
+
       if (res.ok) {
         return res.json();
       }
@@ -51,6 +56,11 @@ const httpGet = (url: string) => {
       return Promise.reject(err);
     })
     .then(data => {
+      if (url === '/config' && data === null) {
+        // First run: Stick to frontend config defaults
+        return null;
+      }
+
       if (data.message) {
         console.log('Initial Load Failure', data);
         if (counter === 0) {

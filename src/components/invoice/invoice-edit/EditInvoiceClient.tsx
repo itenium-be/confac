@@ -25,7 +25,6 @@ export const EditInvoiceClient = (props: EditInvoiceClientProps) => {
   const [modalId, setModalId] = useState<ModalState>(null);
 
   const {invoice, onChange} = props;
-  const dottedCellStyle = {border: '1px dotted black', padding: 10, height: '100%', width: '100%'};
   return (
     <div>
       <InvoiceClientSelectWithCreateModal
@@ -35,9 +34,9 @@ export const EditInvoiceClient = (props: EditInvoiceClientProps) => {
         setModalId={setModalId}
       />
       {invoice.client ? (
-        <Row>
+        <Row className="dotted-cells-container">
           <Col md={6}>
-            <div style={dottedCellStyle}>
+            <div className="dotted-cell">
               <ClientDetails
                 client={invoice.client}
                 onOpenDetails={() => setModalId(invoice.client._id)}
@@ -46,7 +45,7 @@ export const EditInvoiceClient = (props: EditInvoiceClientProps) => {
             </div>
           </Col>
           <Col md={6}>
-            <div style={dottedCellStyle}>
+            <div className="dotted-cell">
               <h4>{t('invoice.totalTitle')}</h4>
               <InvoiceTotal {...invoice.money} />
             </div>

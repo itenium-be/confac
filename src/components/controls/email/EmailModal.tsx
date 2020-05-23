@@ -31,7 +31,7 @@ const getDefaultEmailValue = (
 
   const defaultEmail = config.email;
   if (!invoice.client || !invoice.client.email) {
-    return defaultEmail;
+    return {to: '', ...defaultEmail};
   }
 
   const emailValues = Object.keys(invoice.client.email).reduce((acc: EmailModel, cur: string) => {

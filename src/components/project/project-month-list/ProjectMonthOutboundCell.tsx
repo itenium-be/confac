@@ -177,7 +177,7 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
         amount: fullProjectMonth.details.timesheet.timesheet || 0,
         type: fullProjectMonth.project.client.rateType,
         price: fullProjectMonth.project.client.tariff,
-        tax: state.config.defaultTax,
+        tax: state.config.defaultInvoiceLines[0].tax,
       }],
     };
 

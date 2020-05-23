@@ -5,8 +5,6 @@ export type EmailModel = {
   bcc?: string,
   subject: string,
   body: string,
-  /**
-   * Expected email attachments
-   */
+  /** Expected email attachments */
   attachments: string[],
 }

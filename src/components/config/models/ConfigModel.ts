@@ -1,24 +1,23 @@
-import {EditClientRateType, InvoiceDateStrategy, Language, IAudit} from '../../../models';
+import {InvoiceDateStrategy, Language, IAudit} from '../../../models';
 import {EmailModel} from '../../controls/email/EmailModels';
+import {InvoiceLine} from '../../invoice/models/InvoiceLineModels';
+
 
 export type ConfigModel = {
+  key: 'conf',
   company: ConfigCompanyModel,
   defaultClient: string | null,
-  defaultTax: number,
   attachmentTypes: string[],
-  defaultInvoiceLineType: EditClientRateType,
+  defaultInvoiceLines: InvoiceLine[],
   defaultInvoiceDateStrategy: InvoiceDateStrategy,
   invoicePayDays: number,
-  /**
-   * The default invoice file name when creating a new client
-   */
+  /** The default invoice file name when creating a new client */
   invoiceFileName: string,
-
   /**
    * Default values for email sending
-   * (not all are configurable)
+   * "to" doesn't make sense on config level
    */
-  email: EmailModel,
+  email: Omit<EmailModel, 'to'>,
   /** The signature for all emails */
   emailSignature: string,
   /** Email body for invoice reminder emails */

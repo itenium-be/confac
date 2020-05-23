@@ -1,0 +1,22 @@
+.dotted-cells-container {
+  > div {
+    &:first-child {
+      padding-right: 8px;
+    }
+
+    &:last-child {
+      padding-left: 8px;
+    }
+  }
+
+  .dotted-cell {
+    border: 1px dotted black;
+    padding: 6px;
+    height: 100%;
+    width: 100%;
+
+    h4 {
+      margin-left: 0;
+    }
+  }
+}

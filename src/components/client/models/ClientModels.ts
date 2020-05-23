@@ -1,12 +1,6 @@
-import {EditClientRateType, InvoiceDateStrategy, IAttachment, Attachment, Language, IAudit} from '../../../models';
+import {InvoiceDateStrategy, IAttachment, Attachment, Language, IAudit} from '../../../models';
 import {EmailModel} from '../../controls/email/EmailModels';
-
-export type ClientRateModel = {
-  type: EditClientRateType,
-  hoursInDay: number,
-  value: number,
-  description: string,
-}
+import {InvoiceLine} from '../../invoice/models/InvoiceLineModels';
 
 export type ClientModel = IAttachment & {
   _id: string,
@@ -17,13 +11,22 @@ export type ClientModel = IAttachment & {
   city: string,
   telephone: string,
   btw: string,
-  invoiceFileName: string,
-  rate: ClientRateModel,
-  attachments: Array<Attachment>,
+  language: Language,
   notes: string,
+  /** ex: Invoicing or Timesheet info documents */
+  attachments: Attachment[],
+  email: EmailModel & {
+    /**
+     * When emailing combine attachments to a single pdf.
+     * ATTN: Only pdf attachments can be merged!
+     */
+    combineAttachments: boolean
+  },
+  invoiceFileName: string,
   defaultInvoiceDateStrategy: InvoiceDateStrategy,
   defaultChangingOrderNr: boolean,
-  email: EmailModel,
-  language: Language,
+  hoursInDay: number,
+  defaultInvoiceLines: InvoiceLine[],
+
   audit: IAudit,
 }

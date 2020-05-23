@@ -4,6 +4,8 @@ import {getNewEmail} from '../../controls/email/getNewEmail';
 import {defaultConfig, defaultCommunicationLanguage} from '../../config/models/getNewConfig';
 import {IAudit} from '../../../models';
 
+export const DefaultHoursInDay = 8;
+
 export function getNewClient(config?: ConfigModel): ClientModel {
   // eslint-disable-next-line no-param-reassign
   config = config || defaultConfig;
@@ -16,18 +18,14 @@ export function getNewClient(config?: ConfigModel): ClientModel {
     city: '',
     telephone: '',
     btw: '',
-    invoiceFileName: config.invoiceFileName || '{date:YYYY-MM} {nr:4} - {clientName}', // ATTN: Duplicated in default-states
-    rate: {
-      type: config.defaultInvoiceLineType,
-      hoursInDay: 8,
-      value: 0,
-      description: '',
-    },
+    invoiceFileName: '',
+    hoursInDay: DefaultHoursInDay,
+    defaultInvoiceLines: [],
     attachments: [],
     notes: '',
     defaultInvoiceDateStrategy: config.defaultInvoiceDateStrategy,
     defaultChangingOrderNr: false,
-    email: getNewEmail(config.email),
+    email: {...getNewEmail(config.email), combineAttachments: false},
     language: config.language || defaultCommunicationLanguage,
     audit: {} as IAudit,
   };

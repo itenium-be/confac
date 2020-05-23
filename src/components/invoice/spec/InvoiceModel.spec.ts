@@ -4,8 +4,9 @@ import InvoiceModel, {calculateDaysWorked} from '../models/InvoiceModel';
 import {defaultConfig} from '../../config/models/getNewConfig';
 import {ConfigModel} from '../../config/models/ConfigModel';
 import {ClientModel} from '../../client/models/ClientModels';
+import {InvoiceLineActions} from '../models/InvoiceLineModels';
 
-// const defaultHoursInDay = 8;
+// const DefaultHoursInDay = 8;
 
 function createNew(config: ConfigModel, client: undefined | ClientModel): InvoiceModel {
   let model = new InvoiceModel(config, {
@@ -34,15 +35,17 @@ describe('calculating money (taxes and totals)', () => {
 
   it('should ignore "section" lines', () => {
     const vm = createViewModel();
-    vm.addLine({type: 'section', amount: 1, tax: 21, price: 500, desc: '', sort: 0});
+    vm.setLines([{type: 'section', amount: 1, tax: 21, price: 500, desc: '', sort: 0}]);
     expect(vm.money.total).toEqual(0);
   });
 
 
   it('should have correct money values for daily/hourly invoice lines mixed', () => {
     const vm = createViewModel();
-    vm.addLine({type: 'daily', amount: 1, tax: 21, price: 500, desc: '', sort: 0});
-    vm.addLine({type: 'hourly', amount: 1, tax: 21, price: 500, desc: '', sort: 0});
+    vm.setLines([
+      {type: 'daily', amount: 1, tax: 21, price: 500, desc: '', sort: 0},
+      {type: 'hourly', amount: 1, tax: 21, price: 500, desc: '', sort: 0},
+    ]);
 
     expect(vm.money).toEqual({
       totalWithoutTax: 1000,
@@ -58,7 +61,7 @@ describe('calculating money (taxes and totals)', () => {
     it('should use a fixed amount when the discount is a number', () => {
       const vm = createViewModel();
       vm.discount = '200';
-      vm.addLine({type: 'daily', amount: 1, tax: 10, price: 500, desc: '', sort: 0});
+      vm.setLines([{type: 'daily', amount: 1, tax: 10, price: 500, desc: '', sort: 0}]);
 
       expect(vm.money).toEqual({
         totalWithoutTax: 500,
@@ -72,7 +75,7 @@ describe('calculating money (taxes and totals)', () => {
     it('should use a percentage when the discount ends with the % sign', () => {
       const vm = createViewModel();
       vm.discount = '10%';
-      vm.addLine({type: 'daily', amount: 1, tax: 10, price: 500, desc: '', sort: 0});
+      vm.setLines([{type: 'daily', amount: 1, tax: 10, price: 500, desc: '', sort: 0}]);
 
       expect(vm.money).toEqual({
         totalWithoutTax: 500,
@@ -88,8 +91,10 @@ describe('calculating money (taxes and totals)', () => {
   describe('totals per line.type', () => {
     it('should calculate total without tax for each line.type', () => {
       const vm = createViewModel();
-      vm.addLine({type: 'daily', amount: 1, tax: 0, price: 500, desc: '', sort: 0});
-      vm.addLine({type: 'hourly', amount: 2, tax: 10, price: 500, desc: '', sort: 0});
+      vm.setLines([
+        {type: 'daily', amount: 1, tax: 0, price: 500, desc: '', sort: 0},
+        {type: 'hourly', amount: 2, tax: 10, price: 500, desc: '', sort: 0},
+      ]);
 
       expect(vm.money.totals).toEqual({
         daily: 500,
@@ -104,8 +109,10 @@ describe('calculating money (taxes and totals)', () => {
 describe('calculating days worked', () => {
   it('calcs 2 hourly lines correctly', () => {
     const vm = createViewModel();
-    vm.addLine({type: 'hourly', amount: 8, tax: 21, price: 500, desc: '', sort: 0});
-    vm.addLine({type: 'hourly', amount: 8, tax: 21, price: 500, desc: '', sort: 0});
+    vm.setLines([
+      {type: 'hourly', amount: 8, tax: 21, price: 500, desc: '', sort: 0},
+      {type: 'hourly', amount: 8, tax: 21, price: 500, desc: '', sort: 0},
+    ]);
     const result = calculateDaysWorked([vm]);
 
     expect(result).toEqual({
@@ -117,8 +124,10 @@ describe('calculating days worked', () => {
 
   it('calcs 2 daily lines correctly', () => {
     const vm = createViewModel();
-    vm.addLine({type: 'daily', amount: 1, tax: 21, price: 500, desc: '', sort: 0});
-    vm.addLine({type: 'daily', amount: 1, tax: 21, price: 500, desc: '', sort: 0});
+    vm.setLines([
+      {type: 'daily', amount: 1, tax: 21, price: 500, desc: '', sort: 0},
+      {type: 'daily', amount: 1, tax: 21, price: 500, desc: '', sort: 0},
+    ]);
     const result = calculateDaysWorked([vm]);
 
     expect(result).toEqual({
@@ -130,8 +139,10 @@ describe('calculating days worked', () => {
 
   it('calcs days and hours mixed correctly', () => {
     const vm = createViewModel();
-    vm.addLine({type: 'hourly', amount: 8, tax: 21, price: 500, desc: '', sort: 0});
-    vm.addLine({type: 'daily', amount: 1, tax: 21, price: 500, desc: '', sort: 0});
+    vm.setLines([
+      {type: 'hourly', amount: 8, tax: 21, price: 500, desc: '', sort: 0},
+      {type: 'daily', amount: 1, tax: 21, price: 500, desc: '', sort: 0},
+    ]);
     const result = calculateDaysWorked([vm]);
 
     expect(result).toEqual({
@@ -144,15 +155,15 @@ describe('calculating days worked', () => {
   it('calcs workDaysInMonth for multiple invoices in same month correctly', () => {
     const vm = createViewModel();
     vm.date = moment('2017-02-01'); // has 20 working days
-    vm.addLine({type: 'hourly', amount: 8, tax: 21, price: 500, desc: '', sort: 0});
+    vm.setLines([{type: 'hourly', amount: 8, tax: 21, price: 500, desc: '', sort: 0}]);
 
     const vm2 = createViewModel();
     vm.date = moment('2017-02-01');
-    vm2.addLine({type: 'daily', amount: 1, tax: 21, price: 500, desc: '', sort: 0});
+    vm2.setLines([{type: 'daily', amount: 1, tax: 21, price: 500, desc: '', sort: 0}]);
 
     const vm3 = createViewModel();
     vm.date = moment('2017-01-01'); // has 22 working days
-    vm2.addLine({type: 'daily', amount: 1, tax: 21, price: 500, desc: '', sort: 0});
+    vm3.setLines([{type: 'daily', amount: 1, tax: 21, price: 500, desc: '', sort: 0}]);
 
 
     const result = calculateDaysWorked([vm, vm2, vm3]);
@@ -166,9 +177,10 @@ describe('calculating days worked', () => {
 describe('Switch between days and hours', () => {
   it('Fixes price & amount when switching from daily to hourly', () => {
     const vm = createViewModel();
-    vm.updateLine(0, {type: 'daily', amount: 1, price: 800});
+    let lines = InvoiceLineActions.updateLine(vm.lines, 0, {type: 'daily', amount: 1, price: 800}, vm);
 
-    vm.updateLine(0, {type: 'hourly'});
+    lines = InvoiceLineActions.updateLine(lines, 0, {type: 'hourly'}, vm);
+    vm.setLines(lines);
 
     expect(vm.lines[0].type).toBe('hourly');
     expect(vm.lines[0].price).toBe(100);
@@ -177,10 +189,11 @@ describe('Switch between days and hours', () => {
 
   it('Fixes price & amount when switching from hourly to daily', () => {
     const vm = createViewModel();
-    vm.updateLine(0, {type: 'hourly'});
-    vm.updateLine(0, {amount: 8, price: 100});
+    let lines = InvoiceLineActions.updateLine(vm.lines, 0, {type: 'hourly'}, vm);
+    lines = InvoiceLineActions.updateLine(lines, 0, {amount: 8, price: 100}, vm);
 
-    vm.updateLine(0, {type: 'daily'});
+    lines = InvoiceLineActions.updateLine(lines, 0, {type: 'daily'}, vm);
+    vm.setLines(lines);
 
     expect(vm.lines[0].type).toBe('daily');
     expect(vm.lines[0].price).toBe(800);
@@ -189,10 +202,11 @@ describe('Switch between days and hours', () => {
 
   it('Takes the client rate.hoursInDay into account', () => {
     const vm = createViewModel();
-    vm.client.rate.hoursInDay = 10;
-    vm.updateLine(0, {type: 'daily', amount: 1});
+    vm.client.hoursInDay = 10;
+    let lines = InvoiceLineActions.updateLine(vm.lines, 0, {type: 'daily', amount: 1, price: 100}, vm);
 
-    vm.updateLine(0, {type: 'hourly'});
+    lines = InvoiceLineActions.updateLine(lines, 0, {type: 'hourly'}, vm);
+    vm.setLines(lines);
 
     expect(vm.lines[0].amount).toBe(10);
   });

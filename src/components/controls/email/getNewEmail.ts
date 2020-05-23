@@ -1,6 +1,6 @@
 import {EmailModel} from './EmailModels';
 
-export function getNewEmail(defaultValues?: EmailModel): EmailModel {
+export function getNewEmail(defaultValues?: Partial<EmailModel>): EmailModel {
   return {
     to: '',
     cc: '',

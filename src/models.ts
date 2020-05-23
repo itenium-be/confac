@@ -82,7 +82,7 @@ export type FormConfig = {
   /**
    * Full row title
    */
-  title?: string,
+  title?: string | {title: string, level: 2 | 4},
   /**
    * The property name of the model
    */
@@ -106,6 +106,8 @@ export type FormConfig = {
   prefix?: InputIcons | React.ReactNode | string,
   suffix?: InputIcons | React.ReactNode | string,
   style?: CSSProperties,
+  /** Additional props passed to the component */
+  props?: {[key: string]: any},
 }
 
 /** Grid Col size */

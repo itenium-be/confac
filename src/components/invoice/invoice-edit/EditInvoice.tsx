@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Col, Form} from 'react-bootstrap';
 import {t} from '../../utils';
-import EditInvoiceLines from './invoice-lines/EditInvoiceLines';
+import {EditInvoiceLines} from './invoice-lines/EditInvoiceLines';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
 import {invoiceAction} from '../../../actions/index';
@@ -26,6 +26,9 @@ import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel'
 import {ProjectMonthSelect} from '../../project/controls/ProjectMonthSelect';
 import {EditInvoiceBadges} from './EditInvoiceBadges';
 import {Audit} from '../../admin/Audit';
+
+
+import './EditInvoice.scss';
 
 
 type EditInvoiceProps = {
@@ -188,8 +191,9 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
 
           <Row style={{marginTop: 8}}>
             <EditInvoiceLines
-              invoice={invoice}
-              onChange={m => this.setState({invoice: m})}
+              value={invoice.lines}
+              onChange={m => this.setState({invoice: invoice.setLines(m)})}
+              translationPrefix={invoice.getType()}
             />
           </Row>
           <InvoiceAttachmentsForm model={invoice} />

@@ -3,7 +3,7 @@ import {BaseInputProps} from './form-controls/inputs/BaseInput';
 import {Language} from '../../models';
 import {SimpleSelect} from './form-controls/select/SimpleSelect';
 
-export type LanguageSelectProps = BaseInputProps<string[]>
+export type LanguageSelectProps = BaseInputProps<string>
 
 const languages: string[] = Object.keys(Language);
 

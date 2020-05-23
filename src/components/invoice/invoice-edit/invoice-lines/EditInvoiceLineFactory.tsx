@@ -1,6 +1,7 @@
 import {EditInvoiceDefaultLine} from './EditInvoiceDefaultLine';
 import {EditInvoiceSectionLine} from './EditInvoiceSectionLine';
-import {InvoiceLine} from '../../models/InvoiceModel';
+import {InvoiceLine} from '../../models/InvoiceLineModels';
+
 
 const lineTypeComponentMapping = {
   section: EditInvoiceSectionLine,

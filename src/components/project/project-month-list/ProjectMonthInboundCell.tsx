@@ -169,7 +169,7 @@ type InboundAmountForecastProps = {
 
 /** Expected inbound total invoice amount */
 const InboundAmountForecast = ({fullProjectMonth}: InboundAmountForecastProps) => {
-  const tax = useSelector((state: ConfacState) => state.config.defaultTax);
+  const tax = useSelector((state: ConfacState) => state.config.defaultInvoiceLines[0].tax);
   const {timesheet} = fullProjectMonth.details;
   if (!timesheet.timesheet || !fullProjectMonth.project.partner) {
     return <div />;
@@ -177,7 +177,7 @@ const InboundAmountForecast = ({fullProjectMonth}: InboundAmountForecastProps) =
 
   const timesheetConfig = {
     amount: timesheet.timesheet,
-    hoursInDay: fullProjectMonth.client.rate.hoursInDay,
+    hoursInDay: fullProjectMonth.client.hoursInDay,
   };
 
   if (fullProjectMonth.project.partner.rateType !== fullProjectMonth.project.client.rateType) {
