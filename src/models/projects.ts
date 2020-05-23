@@ -1,5 +1,6 @@
 import {ObjectID} from 'mongodb';
 import {IAudit} from './common';
+import {InvoiceLine} from './invoices';
 
 export interface IProject {
   _id: ObjectID;
@@ -17,9 +18,15 @@ export interface IProject {
 
 export type EditClientRateType = 'hourly' | 'daily' | 'km' | 'items' | 'section' | 'other';
 
+export type EditProjectRateType = 'hourly' | 'daily';
+
+export type ProjectClientInvoiceLine = InvoiceLine & {
+  type: EditProjectRateType;
+}
+
+
 export interface ProjectClientModel {
   clientId: string;
-  tariff: number;
-  rateType: EditClientRateType;
+  defaultInvoiceLines: ProjectClientInvoiceLine[];
   ref?: string;
 }

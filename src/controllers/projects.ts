@@ -17,8 +17,7 @@ export const findActiveProjectsForSelectedMonth = (selectedMonth: string, projec
 
 
 export const getProjects = async (req: Request, res: Response) => {
-  const projects = await req.db.collection<IProject>(CollectionNames.PROJECTS).find()
-    .toArray();
+  const projects = await req.db.collection<IProject>(CollectionNames.PROJECTS).find().toArray();
   return res.send(projects);
 };
 
@@ -26,7 +25,11 @@ export const getProjects = async (req: Request, res: Response) => {
 export const saveProject = async (req: ConfacRequest, res: Response) => {
   const {_id, ...project}: IProject = req.body;
 
-  if (project.partner && !project.partner.clientId && !project.partner.tariff && !project.partner.ref) {
+  if (project.partner
+    && !project.partner.clientId
+    && (!project.partner.defaultInvoiceLines.length || !project.partner.defaultInvoiceLines[0].price)
+    && !project.partner.ref) {
+
     project.partner = undefined;
   }
 
