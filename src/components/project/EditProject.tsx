@@ -83,7 +83,8 @@ export const EditProject = (props: EditProjectProps) => {
   };
 
   const isButtonDisabled = !project.consultantId
-    || !project.client || !project.client.clientId || !project.client.tariff
+    || !project.client || !project.client.clientId
+    || (!project.client.defaultInvoiceLines.length && !project.client.defaultInvoiceLines[0].price)
     || !project.startDate;
 
   return (

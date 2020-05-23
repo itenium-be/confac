@@ -42,7 +42,7 @@ export function tariffFormat(input: number): string {
 /**
  * Discards all non-numeric characters
  */
-export const getNumeric = text => text.replace(/[^0-9]+/g, '');
+export const getNumeric = (text: string) => text.replace(/[^0-9]+/g, '');
 
 export const datePickerDateFormat = 'dd/MM/yyyy';
 

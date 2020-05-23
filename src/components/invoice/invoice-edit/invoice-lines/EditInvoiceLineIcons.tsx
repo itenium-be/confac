@@ -6,6 +6,7 @@ import {InvoiceLine, InvoiceLineActions} from '../../models/InvoiceLineModels';
 type EditInvoiceLineIconsProps = {
   lines: InvoiceLine[],
   index: number;
+  /** Allow 0 invoice lines? */
   allowEmpty?: boolean,
   onChange: (lines: InvoiceLine[]) => void,
 }

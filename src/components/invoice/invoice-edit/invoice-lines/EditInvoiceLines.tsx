@@ -11,7 +11,7 @@ import InvoiceModel from '../../models/InvoiceModel';
 
 
 type EditInvoiceLinesProps = BaseInputProps<InvoiceLine[]> & {
-  translationPrefix: 'quotation' | 'invoice';
+  translationPrefix?: 'quotation' | 'invoice';
   allowEmpty?: boolean;
   invoice?: InvoiceModel;
 };
@@ -48,7 +48,7 @@ export const EditInvoiceLines = ({value, onChange, invoice, translationPrefix = 
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
             <tbody ref={provided.innerRef}>
-              {value.map((item, index) => (
+              {(value || []).map((item, index) => (
                 <Draggable key={item.sort} draggableId={(typeof item.sort === 'number' ? item.sort : index).toString()} index={index}>
                   {(providedInner, snapshotInner) => {
                     const EditInvoiceLine = createEditInvoiceLine(item);

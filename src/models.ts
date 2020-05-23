@@ -20,21 +20,8 @@ export enum Language {
 }
 
 
-export type ClientRate = {
-  type: EditClientRateType,
-  hoursInDay: number,
-  /**
-   * TODO: rename to price?
-   */
-  value: number,
-  description: string,
-}
-
-
 export type Attachment = {
-  /**
-   * 'pdf' is the invoice pdf (for invoice/quotation)
-   */
+  /** 'pdf' is the invoice pdf (for invoice/quotation) */
   type: 'pdf' | string,
   fileName: string,
   fileType: string,
@@ -77,20 +64,20 @@ export type NewRowFormConfig = {forceRow: boolean}
 export type AnyFormConfig = string | NewRowFormConfig | FormConfig;
 
 export type FormConfig = {
+  /** Technical React key, defaults to key */
   reactKey?: string,
   label?: string,
-  /**
-   * Full row title
-   */
+  /** Full row title */
   title?: string | {title: string, level: 2 | 4},
   /**
    * The property name of the model
+   * Supports "dots" for deeper navigation
+   * Optional when title has a value
    */
   key?: string,
   /**
    * The React Component to use
    * Defaults to StringInput
-   * TODO: Need an interface for this component...
    */
   component?: React.ReactNode | StandardComponents,
   /**

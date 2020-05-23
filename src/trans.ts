@@ -108,9 +108,9 @@ export const trans = {
   toastrFailure: 'Boem! Crash! Kapot!',
   toastrConfirm: 'Wijzigingen bewaard',
   notes: 'Notitie',
-  createdOn: 'Aangemaakt op {date}',
+  createdOn: 'Aangemaakt op {date} om {hour}',
   createdBy: ' door {name}',
-  modifiedOn: 'Laatst gewijzigd op {date}',
+  modifiedOn: 'Laatst gewijzigd op {date} om {hour}',
   modifiedBy: ' door {name}',
   rates: {
     type: 'Eenheid',
@@ -383,6 +383,7 @@ export const trans = {
       tariff: 'Klant tarief',
       rateType: 'Eenheid',
       ref: 'Referentie',
+      advancedInvoicing: 'Specifieke facturatiedetails instellen',
     },
     projectMonthConfig: {
       titleConfig: 'Maandelijkse facturatie',

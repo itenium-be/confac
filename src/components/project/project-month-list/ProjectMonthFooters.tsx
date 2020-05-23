@@ -5,7 +5,7 @@ import {Badge} from 'react-bootstrap';
 import {t, moneyFormat} from '../../utils';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
-import {FullProjectModel} from '../models/ProjectModel';
+import {FullProjectModel, getTariffs} from '../models/ProjectModel';
 import {getWorkDaysInMonth} from '../../invoice/models/InvoiceModel';
 
 
@@ -77,7 +77,9 @@ function getProjectForecast(models: Array<FullProjectModel | FullProjectMonthMod
           if (!pm.project.partner || !pm.details.timesheet.timesheet) {
             return 0;
           }
-          return pm.project.partner.tariff * pm.details.timesheet.timesheet;
+
+          const {tariff} = getTariffs(pm.project.partner);
+          return tariff * pm.details.timesheet.timesheet;
         })
         .reduce((acc, cur) => acc + cur, 0);
     }
@@ -86,7 +88,9 @@ function getProjectForecast(models: Array<FullProjectModel | FullProjectMonthMod
         if (!pm.details.timesheet.timesheet) {
           return 0;
         }
-        return pm.project.client.tariff * pm.details.timesheet.timesheet;
+
+        const {tariff} = getTariffs(pm.project.client);
+        return tariff * pm.details.timesheet.timesheet;
       })
       .reduce((acc, cur) => acc + cur, 0);
   };
@@ -97,11 +101,11 @@ function getProjectForecast(models: Array<FullProjectModel | FullProjectMonthMod
   const getTotalsProject = (projects: FullProjectModel[]) => {
     if (getFor === 'partner') {
       return projects
-        .map(p => (p.details.partner ? p.details.partner.tariff * workDaysInMonth : 0))
+        .map(p => (p.details.partner ? getTariffs(p.details.partner).tariff * workDaysInMonth : 0))
         .reduce((acc, cur) => acc + cur, 0);
     }
     return projects
-      .map(p => p.details.client.tariff * workDaysInMonth)
+      .map(p => getTariffs(p.details.client).tariff * workDaysInMonth)
       .reduce((acc, cur) => acc + cur, 0);
   };
 

@@ -1,8 +1,9 @@
 import {Moment} from 'moment';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
-import {EditProjectRateType, IAudit} from '../../../models';
+import {IAudit, EditProjectRateType} from '../../../models';
 import {ProjectMonthConfig} from './ProjectMonthModel';
+import {InvoiceLine} from '../../invoice/models/InvoiceLineModels';
 
 export interface ProjectModel {
   _id: string;
@@ -15,17 +16,77 @@ export interface ProjectModel {
   audit: IAudit;
 }
 
+
+export type ProjectClientInvoiceLine = InvoiceLine & {
+  type: EditProjectRateType
+}
+
+
+/** Client/Partner model for a Project */
 export interface ProjectClientModel {
   clientId: string;
-  tariff: number;
-  rateType: EditProjectRateType;
   /**
    * A per client reference, used as the invoice.orderNr
    * Unless ProjectMonthConfig.changingOrderNr: Then the
    * variable ProjectMonthModel.orderNr is used instead.
    * */
   ref?: string;
+  defaultInvoiceLines: ProjectClientInvoiceLine[];
+  /**
+   * False (default for Client, always false for Partner): Only price & rateType
+   * True: Allow full InvoiceLine[] configuration
+   */
+  advancedInvoicing: boolean;
 }
+
+
+/** Calculated: Tariff info for a ProjectClientModel */
+export type ProjectClientTariff = {
+  tariff: number;
+  rateType: EditProjectRateType;
+}
+
+
+/** Calculated: Markup between Client/Partner for ProjectModel */
+export type ProjectMarkup = {
+  totalClient: number,
+  amount: number,
+  percentage: number,
+}
+
+
+
+
+export function getTariffs(projectClient: ProjectClientModel): ProjectClientTariff {
+  return {
+    tariff: projectClient.defaultInvoiceLines.reduce((prev, cur) => prev + cur.price, 0),
+    rateType: projectClient.defaultInvoiceLines[0].type,
+  };
+}
+
+
+
+export function getProjectMarkup(project: ProjectModel): ProjectMarkup {
+  const totalClient = project.client.defaultInvoiceLines.reduce((prev, cur) => prev + cur.price, 0);
+
+  if (project.partner) {
+    const totalPartner = project.partner.defaultInvoiceLines.reduce((prev, cur) => prev + cur.price, 0);
+    return {
+      totalClient,
+      amount: totalClient - totalPartner,
+      percentage: ((totalClient / totalPartner) * 100) - 100,
+    };
+  }
+
+  return {
+    totalClient,
+    amount: 0,
+    percentage: 0,
+  };
+}
+
+
+
 
 /**
  * Model used by the ProjectReferenceResolver

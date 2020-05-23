@@ -15,6 +15,7 @@ import {getDownloadUrl} from '../../../actions/utils/download-helpers';
 import {ConfacState} from '../../../reducers/app-state';
 import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPreviewButtons';
 import {InboundInvoiceAttachmentType} from '../../../models';
+import {getTariffs} from '../models/ProjectModel';
 
 interface ProjectMonthInboundCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -180,8 +181,10 @@ const InboundAmountForecast = ({fullProjectMonth}: InboundAmountForecastProps) =
     hoursInDay: fullProjectMonth.client.hoursInDay,
   };
 
-  if (fullProjectMonth.project.partner.rateType !== fullProjectMonth.project.client.rateType) {
-    switch (fullProjectMonth.project.client.rateType) {
+  const clientTariffs = getTariffs(fullProjectMonth.project.client);
+  const partnerTariffs = getTariffs(fullProjectMonth.project.partner);
+  if (clientTariffs.rateType !== partnerTariffs.rateType) {
+    switch (clientTariffs.rateType) {
       case 'hourly':
         timesheetConfig.amount /= timesheetConfig.hoursInDay;
         break;
@@ -194,7 +197,7 @@ const InboundAmountForecast = ({fullProjectMonth}: InboundAmountForecastProps) =
 
   return (
     <span>
-      {moneyFormat(timesheetConfig.amount * (1 + tax / 100) * fullProjectMonth.project.partner.tariff)}
+      {moneyFormat(timesheetConfig.amount * (1 + tax / 100) * partnerTariffs.tariff)}
     </span>
   );
 };

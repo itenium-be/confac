@@ -165,20 +165,18 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
   const state = useSelector((s: ConfacState) => s);
 
   const buildAndCreateInvoice = () => {
+    const invoiceLines = fullProjectMonth.project.client.defaultInvoiceLines.map(invoiceLine => ({
+      ...invoiceLine,
+      amount: fullProjectMonth.details.timesheet.timesheet || 0,
+    }));
+
     const blueprint = {
       isQuotation: false,
       client: fullProjectMonth.client,
       orderNr: fullProjectMonth.details.orderNr || fullProjectMonth.project.client.ref,
       projectMonthId: fullProjectMonth._id,
       consultantId: fullProjectMonth.consultant._id,
-      lines: [{
-        sort: 0,
-        desc: '',
-        amount: fullProjectMonth.details.timesheet.timesheet || 0,
-        type: fullProjectMonth.project.client.rateType,
-        price: fullProjectMonth.project.client.tariff,
-        tax: state.config.defaultInvoiceLines[0].tax,
-      }],
+      lines: invoiceLines,
     };
 
     const invoice = getNewInvoice(state.config, state.invoices, state.clients, blueprint);

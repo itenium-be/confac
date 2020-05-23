@@ -2,9 +2,14 @@ import moment from 'moment';
 import {ProjectModel, ProjectClientModel} from './ProjectModel';
 import {ProjectMonthModel, getDefaultProjectMonthConfig, ProjectMonthInbound, ProjectMonthTimesheet} from './ProjectMonthModel';
 import {IAudit} from '../../../models';
+import {getNewInvoiceLine} from '../../invoice/models/InvoiceLineModels';
 
 
-export const getNewProjectClient = (): ProjectClientModel => ({clientId: '', rateType: 'daily', tariff: 0});
+export const getNewProjectClient = (): ProjectClientModel => ({
+  clientId: '',
+  defaultInvoiceLines: [getNewInvoiceLine()],
+  advancedInvoicing: false,
+});
 
 
 export const getNewProject = (): ProjectModel => ({

@@ -6,6 +6,7 @@ import InvoiceModel from '../models/InvoiceModel';
 import {ConfacState} from '../../../reducers/app-state';
 import {projectMonthResolve, displayMonthWithYear} from '../../project/ProjectMonthsLists';
 import {tariffFormat, t} from '../../utils';
+import {getProjectMarkup} from '../../project/models/ProjectModel';
 
 
 type InvoiceProps = {
@@ -27,6 +28,7 @@ export const EditInvoiceBadges = ({invoice}: InvoiceProps) => {
     return null;
   }
 
+  const markup = getProjectMarkup(projectMonth.project);
   const consultant = `${projectMonth.consultant.firstName} ${projectMonth.consultant.name}`;
   return (
     <>
@@ -35,15 +37,15 @@ export const EditInvoiceBadges = ({invoice}: InvoiceProps) => {
       </Badge>
       <Badge style={defaultBadgeStyle} variant="success">
         {projectMonth.client.name}
-        <small style={{paddingLeft: 10}}>{tariffFormat(projectMonth.project.client.tariff)}</small>
+        <small style={{paddingLeft: 10}}>{tariffFormat(markup.totalClient)}</small>
       </Badge>
-      {projectMonth.project.partner && projectMonth.project.client.tariff !== projectMonth.project.partner.tariff && (
+      {markup && (
         <Badge style={defaultBadgeStyle} variant="danger">
           {t('projectMonth.markup')}
           <small style={{paddingLeft: 10}}>
-            {tariffFormat(projectMonth.project.client.tariff - projectMonth.project.partner.tariff)}
+            {tariffFormat(markup.amount)}
             &nbsp;
-            ({(((projectMonth.project.client.tariff / projectMonth.project.partner.tariff) * 100) - 100).toFixed(0)}%)
+            ({markup.percentage.toFixed(0)}%)
           </small>
         </Badge>
       )}

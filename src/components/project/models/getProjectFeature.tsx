@@ -4,7 +4,7 @@ import React from 'react';
 import {IList, IListCell, ProjectListFilters} from '../../controls/table/table-models';
 import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
-import {FullProjectModel, ProjectClientModel, PROJECT_STATUSES} from './ProjectModel';
+import {FullProjectModel, ProjectClientModel, PROJECT_STATUSES, getProjectMarkup, getTariffs} from './ProjectModel';
 import {t, formatDate, tariffFormat, searchinize} from '../../utils';
 import {EditIcon} from '../../controls/Icon';
 import {InvoiceClientCell} from '../../invoice/invoice-table/InvoiceClientCell';
@@ -71,11 +71,12 @@ export const ProjectClientTariff = ({projectClient}: {projectClient: ProjectClie
     return null;
   }
 
-  const rateType = projectClient.rateType ? ` / ${t(`rates.perType.${projectClient.rateType}`)}` : null;
+  const tariffs = getTariffs(projectClient);
+  const rateTypeLabel = tariffs.rateType ? ` / ${t(`rates.perType.${tariffs.rateType}`)}` : null;
   return (
     <>
-      {tariffFormat(projectClient.tariff)}
-      {rateType}
+      {tariffFormat(tariffs.tariff)}
+      {rateTypeLabel}
     </>
   );
 };
@@ -85,11 +86,11 @@ const ProjectMarkup = ({project}: {project: FullProjectModel}) => {
     return null;
   }
 
-  const markup = project.details.client.tariff - project.details.partner.tariff;
+  const markup = getProjectMarkup(project.details);
   return (
     <div>
-      <span>{tariffFormat(markup)}</span>
-      <span style={{float: 'right'}}>{(((project.details.client.tariff / project.details.partner.tariff) * 100) - 100).toFixed(0)}%</span>
+      <span>{tariffFormat(markup.amount)}</span>
+      <span style={{float: 'right'}}>{markup.percentage.toFixed(0)}%</span>
     </div>
   );
 };

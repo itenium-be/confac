@@ -1,9 +1,10 @@
-import {EditClientRateType} from '../../../models';
+import {EditClientRateType, EditProjectRateType} from '../../../models';
 import InvoiceModel from './InvoiceModel';
+import {ProjectClientInvoiceLine} from '../../project/models/ProjectModel';
 
 
 const DefaultTax = 21;
-const DefaultRateType: EditClientRateType = 'daily';
+const DefaultRateType: EditProjectRateType = 'daily';
 
 
 export type InvoiceLine = {
@@ -13,7 +14,6 @@ export type InvoiceLine = {
   price: number,
   tax: number,
   sort: number,
-  notes?: string,
 }
 
 
@@ -28,13 +28,13 @@ function reorderLines(lines: InvoiceLine[], startIndex: number, endIndex: number
 
 
 function addEmptyLine(lines: InvoiceLine[]): InvoiceLine[] {
-  return (lines || []).concat([getLine(lines)]);
+  return (lines || []).concat([getNewInvoiceLine(lines)]);
 }
 
 
 
-function getLine(lines?: InvoiceLine[]): InvoiceLine {
-  const defaultLine: InvoiceLine = {
+export function getNewInvoiceLine(lines?: Array<InvoiceLine | ProjectClientInvoiceLine>): ProjectClientInvoiceLine {
+  const defaultLine: ProjectClientInvoiceLine = {
     desc: '',
     price: 0,
     amount: 0,
@@ -45,6 +45,8 @@ function getLine(lines?: InvoiceLine[]): InvoiceLine {
 
   return defaultLine;
 }
+
+
 
 function updateLine(lines: InvoiceLine[], index: number, updateWith: Partial<InvoiceLine>, invoice?: InvoiceModel): InvoiceLine[] {
   const newArr = lines.slice();

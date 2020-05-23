@@ -57,8 +57,8 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
 
 
   const projectConfig = fullProjectMonth.project.projectMonthConfig;
-  const timesheetConfig = {
-    rateType: fullProjectMonth.project.client.rateType,
+  const timesheetConfig: TimesheetTimeConfig = {
+    rateType: fullProjectMonth.project.client.defaultInvoiceLines[0].type,
     amount: timesheet.timesheet,
     hoursInDay: fullProjectMonth.client.hoursInDay,
   };
