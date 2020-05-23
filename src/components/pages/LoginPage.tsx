@@ -13,7 +13,7 @@ const Redirecter = () => {
   }
 
   return <Redirect to={authService.entryPathname} />;
-}
+};
 
 
 export const UnauthicatedAppLayout = ({Component, props}: any) => {

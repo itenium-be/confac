@@ -54,7 +54,8 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
     }
 
     if (fullProjectMonth.invoice) {
-      return getDownloadUrl('invoice', fullProjectMonth.invoice._id, InboundInvoiceAttachmentType, inboundInvoiceDetails.fileName, 'preview');
+      return getDownloadUrl('invoice', fullProjectMonth.invoice._id,
+        InboundInvoiceAttachmentType, inboundInvoiceDetails.fileName, 'preview');
     }
 
     const projectMonthId = fullProjectMonth._id;

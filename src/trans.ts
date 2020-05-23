@@ -485,7 +485,7 @@ export const trans = {
   admin: {
     title: 'Administrator Configuratie',
     users: 'Beheer gebruikers',
-  }
+  },
 };
 
 export default function (key: string, params?: object): string {

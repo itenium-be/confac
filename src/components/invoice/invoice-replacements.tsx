@@ -38,7 +38,11 @@ export function getInvoiceReplacements(invoice: InvoiceModel, projectMonth?: Ful
     result.push({code: '{consultantName}', desc: 'config.invoiceReplacements.consultantName'});
   }
 
-  return result.map(replacement => ({code: t(replacement.desc), desc: '', defaultValue: invoiceReplacements(replacement.code, invoice, projectMonth)}));
+  return result.map(replacement => ({
+    code: t(replacement.desc),
+    desc: '',
+    defaultValue: invoiceReplacements(replacement.code, invoice, projectMonth),
+  }));
 }
 
 
