@@ -104,8 +104,8 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
 
   const createdInvoice = await createInvoice(invoice, req.db, pdfBuffer as Buffer, req.user);
 
-  if (invoice.projectMonthId) {
-    const projectMonthId = new ObjectID(invoice.projectMonthId);
+  if (invoice.projectMonth) {
+    const projectMonthId = new ObjectID(invoice.projectMonth.projectMonthId);
     const updatedInvoice = await moveProjectMonthAttachmentsToInvoice(createdInvoice, projectMonthId, req.db);
 
     return res.send(updatedInvoice);
@@ -234,11 +234,11 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
   const updatedInvoice = inserted.value;
 
   let projectMonth;
-  if (updatedInvoice?.projectMonthId) {
+  if (updatedInvoice?.projectMonth) {
     // TODO: This should be a separate route once security is implemented
     // Right now it is always updating the projectMonth.verified but this only changes when the invoice.verified changes
     projectMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
-      .findOneAndUpdate({_id: new ObjectID(invoice.projectMonthId)}, {$set: {verified: updatedInvoice.verified}});
+      .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth?.projectMonthId)}, {$set: {verified: updatedInvoice.verified}});
   }
 
   const result: Array<any> = [{
@@ -263,7 +263,7 @@ export const deleteInvoiceController = async (req: Request, res: Response) => {
 
   const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOne({_id: new ObjectID(invoiceId)});
 
-  if (invoice?.projectMonthId) {
+  if (invoice?.projectMonth) {
     const invoiceAttachments: IAttachmentCollection | null = await req.db.collection(CollectionNames.ATTACHMENTS)
       .findOne({_id: new ObjectID(invoiceId) as ObjectID}, {
         projection: {
@@ -273,13 +273,13 @@ export const deleteInvoiceController = async (req: Request, res: Response) => {
       });
 
     await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).insertOne({
-      _id: new ObjectID(invoice.projectMonthId),
+      _id: new ObjectID(invoice.projectMonth.projectMonthId),
       ...invoiceAttachments,
     });
 
     const projectMonthCollection = req.db.collection(CollectionNames.PROJECTS_MONTH);
     const attachments = invoice.attachments.filter(a => a.type !== 'pdf');
-    await projectMonthCollection.findOneAndUpdate({_id: new ObjectID(invoice.projectMonthId)}, {$set: {attachments}});
+    await projectMonthCollection.findOneAndUpdate({_id: new ObjectID(invoice.projectMonth.projectMonthId)}, {$set: {attachments}});
   }
 
   await req.db.collection(CollectionNames.INVOICES).findOneAndDelete({_id: new ObjectID(invoiceId)});

@@ -39,13 +39,21 @@ export interface ICompany {
   template?: string;
 }
 
+export interface InvoiceProjectMonth {
+  projectMonthId: string;
+  month: string;
+
+  consultantId: string;
+  consultantName: string;
+}
+
+
 export interface IInvoice {
   _id: ObjectID;
   number: number;
   client: IClient;
   your: ICompany;
-  projectMonthId?: ObjectID;
-  consultantId?: string;
+  projectMonth?: InvoiceProjectMonth;
   date: string;
   orderNr: string;
   verified: boolean;
