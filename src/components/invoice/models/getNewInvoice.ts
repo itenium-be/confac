@@ -5,7 +5,7 @@ import {ClientModel} from '../../client/models/ClientModels';
 import {today} from './invoice-date-strategy';
 
 
-type NewInvoiceType = Partial<Omit<InvoiceModel, '_id'>> & {
+export type NewInvoiceType = Partial<Omit<InvoiceModel, '_id'>> & {
   isQuotation: boolean;
 };
 

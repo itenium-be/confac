@@ -35,21 +35,26 @@ export interface IInvoiceListConfig {
 const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
   const [modal, setModal] = useState<boolean>(false);
   const [hover, setHover] = useState<boolean>(false);
-  const {projectMonthId} = invoice;
+
+  const invoiceProjectMonth = invoice.projectMonth;
   const fullProjectMonth = useSelector((state: ConfacState) => {
-    if (!projectMonthId) {
+    if (!invoiceProjectMonth) {
       return null;
     }
-    const projectMonth = state.projectsMonth.find(pm => pm._id === projectMonthId);
-    if (!projectMonth) return null;
+    const projectMonth = state.projectsMonth.find(pm => pm._id === invoiceProjectMonth.projectMonthId);
+    if (!projectMonth) {
+      return null;
+    }
 
     return projectMonthResolve(projectMonth, state);
   });
 
   const consultants = useSelector((state: ConfacState) => state.consultants);
-  const consultant = consultants.find(c => c._id === invoice.consultantId);
+  const consultant = consultants.find(c => c._id === (invoiceProjectMonth && invoiceProjectMonth.consultantId));
 
-  if (!consultant) return null;
+  if (!invoiceProjectMonth || !consultant) {
+    return null;
+  }
 
   return (
     <div

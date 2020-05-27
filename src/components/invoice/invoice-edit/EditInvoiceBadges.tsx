@@ -19,11 +19,11 @@ const defaultBadgeStyle = {marginLeft: 10, fontSize: '100%', fontWeight: 300};
 export const EditInvoiceBadges = ({invoice}: InvoiceProps) => {
   const projectMonths = useSelector((state: ConfacState) => state.projectsMonth.map(pm => projectMonthResolve(pm, state)));
 
-  if (!invoice._id || !invoice.projectMonthId) {
+  if (!invoice._id || !invoice.projectMonth) {
     return null;
   }
 
-  const projectMonth = projectMonths.find(c => c._id === invoice.projectMonthId);
+  const projectMonth = projectMonths.find(c => c._id === (invoice.projectMonth && invoice.projectMonth.projectMonthId));
   if (!projectMonth) {
     return null;
   }

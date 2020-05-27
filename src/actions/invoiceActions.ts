@@ -105,17 +105,17 @@ export function toggleInvoiceVerify(data: InvoiceModel) {
 
 
 export function deleteInvoice(invoice: InvoiceModel) {
-  const {projectMonthId} = invoice;
+  const {projectMonth} = invoice;
   return dispatch => {
     dispatch(busyToggle());
-    if (projectMonthId) {
-      const projectMonth: Partial<ProjectMonthModel> = {
-        _id: projectMonthId,
+    if (projectMonth) {
+      const deleteModel: Partial<ProjectMonthModel> = {
+        _id: projectMonth.projectMonthId,
         attachments: invoice.attachments,
       };
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_ATTACHMENTS_UPDATE,
-        projectMonth,
+        projectMonth: deleteModel,
       });
     }
     request.delete(buildUrl('/invoices'))

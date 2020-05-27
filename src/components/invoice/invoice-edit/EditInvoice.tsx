@@ -169,10 +169,10 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                 <Col sm={12}>
                   <ProjectMonthSelect
                     label={t('projectMonth.selectLabel')}
-                    value={invoice.projectMonthId ? invoice.projectMonthId : ''}
+                    value={invoice.projectMonth ? invoice.projectMonth.projectMonthId : ''}
                     onChange={fpm => {
-                      this.updateInvoice('projectMonthId', fpm._id);
-                      this.updateInvoice('consultantId', fpm.consultant._id);
+                      this.state.invoice.setProjectMonth(fpm);
+                      this.forceUpdate();
                     }}
                     invoice={invoice}
                   />

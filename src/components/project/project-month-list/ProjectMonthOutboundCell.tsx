@@ -8,7 +8,7 @@ import {Button} from '../../controls/form-controls/Button';
 import {Icon, NotEmailedIcon, EmailedIcon} from '../../controls/Icon';
 import {t, moneyFormat, formatDate} from '../../utils';
 import {ConfacState} from '../../../reducers/app-state';
-import {getNewInvoice} from '../../invoice/models/getNewInvoice';
+import {getNewInvoice, NewInvoiceType} from '../../invoice/models/getNewInvoice';
 import {InvoiceNumberCell} from '../../invoice/invoice-table/InvoiceNumberCell';
 import {InvoiceListRowActions} from '../../invoice/invoice-table/InvoiceListRowActions';
 import {ValidityToggleButton} from '../../controls/form-controls/button/ValidityToggleButton';
@@ -170,12 +170,16 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
       amount: fullProjectMonth.details.timesheet.timesheet || 0,
     }));
 
-    const blueprint = {
+    const blueprint: NewInvoiceType = {
       isQuotation: false,
       client: fullProjectMonth.client,
       orderNr: fullProjectMonth.details.orderNr || fullProjectMonth.project.client.ref,
-      projectMonthId: fullProjectMonth._id,
-      consultantId: fullProjectMonth.consultant._id,
+      projectMonth: {
+        projectMonthId: fullProjectMonth._id,
+        month: fullProjectMonth.details.month,
+        consultantId: fullProjectMonth.consultant._id,
+        consultantName: `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`,
+      },
       lines: invoiceLines,
     };
 

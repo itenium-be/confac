@@ -4,6 +4,7 @@ import {getInvoiceDate} from './invoice-date-strategy';
 import {ClientModel} from '../../client/models/ClientModels';
 import {Attachment, IAttachment, IAudit} from '../../../models';
 import {InvoiceLine} from './InvoiceLineModels';
+import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
 
 
 export type InvoiceMoney = {
@@ -20,6 +21,16 @@ export type InvoiceMoney = {
 
 
 
+export interface InvoiceProjectMonth {
+  projectMonthId: string;
+  month: moment.Moment;
+
+  consultantId: string;
+  consultantName: string;
+}
+
+
+
 /**
  * The only invoice model
  * (InvoiceListModel is actually for filtering etc)
@@ -29,8 +40,7 @@ export default class InvoiceModel implements IAttachment {
   number: number;
   client: ClientModel;
   your: ConfigCompanyModel;
-  projectMonthId?: string;
-  consultantId?: string;
+  projectMonth?: InvoiceProjectMonth;
   date: moment.Moment;
   orderNr: string;
   verified: boolean;
@@ -52,8 +62,7 @@ export default class InvoiceModel implements IAttachment {
     this.number = obj.number || 1;
     this.client = obj.client;
     this.your = obj.company || config.company;
-    this.projectMonthId = obj.projectMonthId;
-    this.consultantId = obj.consultantId;
+    this.projectMonth = obj.projectMonth;
     this.date = obj.date;
     this.orderNr = obj.orderNr || '';
     this.verified = obj.verified || false;
@@ -107,6 +116,20 @@ export default class InvoiceModel implements IAttachment {
     if (calcMoneys) {
       this.money = this._calculateMoneys();
     }
+  }
+
+  setProjectMonth(fpm?: FullProjectMonthModel): void {
+    if (!fpm) {
+      this.projectMonth = undefined;
+      return;
+    }
+
+    this.projectMonth = {
+      projectMonthId: fpm._id,
+      month: fpm.details.month,
+      consultantId: fpm.consultant._id,
+      consultantName: `${fpm.consultant.firstName} ${fpm.consultant.name}`,
+    };
   }
 
   static emptyMoney(): InvoiceMoney {

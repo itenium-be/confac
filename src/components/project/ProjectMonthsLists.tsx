@@ -28,7 +28,7 @@ export function projectMonthResolve(projectMonth: ProjectMonthModel, state: Conf
   const consultant = state.consultants.find(c => c._id === project.consultantId) as ConsultantModel;
   const client = project.client && state.clients.find(c => c._id === project.client.clientId) as ClientModel;
   const partner = project.partner && state.clients.find(c => project.partner && c._id === project.partner.clientId);
-  const invoice = state.invoices.find(i => i.projectMonthId === projectMonth._id);
+  const invoice = state.invoices.find(i => i.projectMonth && i.projectMonth.projectMonthId === projectMonth._id);
 
   return {
     _id: projectMonth._id,
