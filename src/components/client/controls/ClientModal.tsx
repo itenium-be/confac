@@ -44,7 +44,7 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
   }
 
   onSave(): void {
-    const updatedClient = this.state;
+    const updatedClient = this.state.client;
     const {onConfirm} = this.props;
     const onSuccess = onConfirm ? (clientWithServerValues: ClientModel) => (onConfirm && onConfirm(clientWithServerValues)) : null;
     this.props.saveClient(updatedClient, true, onSuccess);
@@ -102,7 +102,7 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
                 <ArrayInput
                   config={requiredClientProperties}
                   model={client}
-                  onChange={value => this.setState({...client, ...value})}
+                  onChange={value => this.setState({client: {...client, ...value}})}
                   tPrefix="config.company."
                 />
               </Row>
