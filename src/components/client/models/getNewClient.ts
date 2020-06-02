@@ -25,7 +25,7 @@ export function getNewClient(config?: ConfigModel): ClientModel {
     notes: '',
     defaultInvoiceDateStrategy: config.defaultInvoiceDateStrategy,
     defaultChangingOrderNr: false,
-    email: {...getNewEmail(config.email), combineAttachments: false},
+    email: {...getNewEmail(), combineAttachments: false},
     language: config.language || defaultCommunicationLanguage,
     audit: {} as IAudit,
   };
