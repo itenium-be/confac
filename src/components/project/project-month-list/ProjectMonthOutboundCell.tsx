@@ -16,6 +16,7 @@ import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {useDebouncedSave} from '../../hooks/useDebounce';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
 import {EmailModal, EmailTemplate} from '../../controls/email/EmailModal';
+import {InvoiceLine} from '../../invoice/models/InvoiceLineModels';
 
 
 interface ProjectMonthOutboundCellProps {
@@ -154,6 +155,21 @@ export const InvoiceEmail = ({invoice}: InvoiceEmailProps) => {
 };
 
 
+function getInvoiceDesc(lineDesc: string, lineIndex: number, defaultInvoiceLines: InvoiceLine[]): string {
+  if (lineDesc) {
+    return lineDesc;
+  }
+
+  if (defaultInvoiceLines[lineIndex]) {
+    return defaultInvoiceLines[lineIndex].desc;
+  }
+
+  if (defaultInvoiceLines.length) {
+    return defaultInvoiceLines[0].desc;
+  }
+
+  return '';
+}
 
 
 interface CreateInvoiceButtonProps {
@@ -165,9 +181,10 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
   const state = useSelector((s: ConfacState) => s);
 
   const buildAndCreateInvoice = () => {
-    const invoiceLines = fullProjectMonth.project.client.defaultInvoiceLines.map(invoiceLine => ({
+    const invoiceLines = fullProjectMonth.project.client.defaultInvoiceLines.map((invoiceLine, index) => ({
       ...invoiceLine,
       amount: fullProjectMonth.details.timesheet.timesheet || 0,
+      desc: getInvoiceDesc(invoiceLine.desc, index, state.config.defaultInvoiceLines),
     }));
 
     const blueprint: NewInvoiceType = {
