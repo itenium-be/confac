@@ -125,6 +125,11 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           value={timesheet.validated}
           onChange={val => saveTimesheet({...timesheet, validated: val})}
           disabled={canToggleValid}
+          title={{
+            on: t('projectMonth.validateTimesheet'),
+            off: t('projectMonth.unvalidateTimesheet'),
+            disabled: t('projectMonth.validateTimesheetDisabled')
+          }}
         />
         <NotesModalButton
           value={timesheet.note}

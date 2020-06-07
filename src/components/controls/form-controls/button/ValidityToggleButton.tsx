@@ -5,12 +5,14 @@ import {BootstrapVariant} from '../../../../models';
 
 
 type ValidityToggleButtonProps = MinimalInputProps<boolean> & {
+  /** True: Outline-Success/Danger. False Success/Danger bootstrap classes */
   outline?: boolean;
-  title?: string;
+  /** Button tooltip */
+  title?: string | {on: string, off: string, disabled: string};
 };
 
 
-export const ValidityToggleButton = ({value, onChange, outline, ...props}: ValidityToggleButtonProps) => {
+export const ValidityToggleButton = ({value, onChange, outline, title, disabled, ...props}: ValidityToggleButtonProps) => {
   const icon = !value ? 'fa fa-check' : 'fas fa-ban';
 
   let variant: BootstrapVariant;
@@ -20,8 +22,18 @@ export const ValidityToggleButton = ({value, onChange, outline, ...props}: Valid
     variant = !value ? 'success' : 'danger';
   }
 
+  let tooltip: string | undefined;
+  if (!title || typeof title === 'string') {
+    tooltip = title;
+
+  } else if (disabled) {
+    tooltip = title.disabled;
+  } else {
+    tooltip = value ? title.off : title.on;
+  }
+
 
   return (
-    <Button onClick={() => onChange(!value)} variant={variant} icon={icon} {...props} />
+    <Button onClick={() => onChange(!value)} variant={variant} icon={icon} title={tooltip} disabled={disabled} {...props} />
   );
 };
