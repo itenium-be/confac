@@ -31,7 +31,14 @@ if (appConfig.ENABLE_ROOT_TEMPLATES) {
 
 
 
-const connectionString = `mongodb://${appConfig.db.user}:${appConfig.db.pwd}@${appConfig.db.host}:${appConfig.db.port}/${appConfig.db.db}`;
+let connectionString: string;
+if (appConfig.db.user && appConfig.db.pwd) {
+  connectionString = `mongodb://${appConfig.db.user}:${appConfig.db.pwd}@${appConfig.db.host}:${appConfig.db.port}/${appConfig.db.db}`;
+} else {
+  console.log('ATTN: Running against unsecured mongodb');
+  connectionString = `mongodb://${appConfig.db.host}:${appConfig.db.port}/${appConfig.db.db}`;
+}
+
 const opts = {authSource: 'admin', useUnifiedTopology: true};
 let _MongoClient: MongoClient;
 MongoClient.connect(connectionString, opts).then(client => {
