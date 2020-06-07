@@ -1,4 +1,5 @@
 import React from 'react';
+import {ButtonGroup} from 'react-bootstrap';
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import cn from 'classnames';
@@ -120,45 +121,31 @@ type InboundActionsMap = {
 
 /** Switch between statusses for the inbound invoice */
 const InboundActionButtons = ({fullProjectMonth, onChange}: InboundActionButtonsProps) => {
-  const buttons: InboundActionsMap[] = [{
-    status: 'validated',
-    component: (
+  const currentStatus = fullProjectMonth.details.inbound.status;
+  return (
+    <ButtonGroup>
       <Button
         key="validated"
-        variant="outline-success"
+        variant={currentStatus === 'validated' ? 'success' : 'outline-dark'}
         onClick={() => onChange('validated')}
         title={t('projectMonth.inboundValidated')}
         icon="fa fa-check"
       />
-    ),
-  }, {
-    status: 'paid',
-    component: (
       <Button
         key="paid"
-        variant="success"
+        variant={currentStatus === 'paid' ? 'success' : 'outline-dark'}
         onClick={() => onChange('paid')}
         title={t('projectMonth.inboundPaid')}
         icon="fa fa-coins"
       />
-    ),
-  }, {
-    status: 'new',
-    component: (
       <Button
         key="new"
-        variant="outline-dark"
+        variant={currentStatus === 'new' ? 'success' : 'outline-dark'}
         onClick={() => onChange('new')}
         title={t('projectMonth.inboundNew')}
         icon="fa fa-inbox"
       />
-    ),
-  }];
-
-  return (
-    <>
-      {buttons.filter(b => b.status !== fullProjectMonth.details.inbound.status).map(b => b.component)}
-    </>
+    </ButtonGroup>
   );
 };
 

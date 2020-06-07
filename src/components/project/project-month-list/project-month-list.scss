@@ -148,7 +148,7 @@ $cell-padding: 8px 8px;
       &:first-child { width: 10%; min-width: 120px; }
       &:nth-child(2) { width: 20%; text-align: right; }
       &:nth-child(3) { width: 35%; text-align: center; }
-      &:last-child { width: 35%; min-width: 150px; }
+      &:last-child { width: 45%; min-width: 180px; }
 
       &:not(:last-child) {
         margin-right: $in-cell-margin;
