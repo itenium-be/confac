@@ -121,7 +121,7 @@ const OutboundInvoice = ({fullProjectMonth, toggleValid}: OutboundInvoiceProps) 
         <InvoiceEmail invoice={fullProjectMonth.invoice} />
       </div>
       <div className="icons-cell">
-        <InvoiceListRowActions invoice={fullProjectMonth.invoice} toggleValid={toggleValid} />
+        <InvoiceListRowActions invoice={fullProjectMonth.invoice} toggleValid={toggleValid} small />
       </div>
     </div>
   );

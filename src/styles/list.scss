@@ -15,8 +15,13 @@
 .icons-cell {
   text-align: right;
   font-size: 0.8rem;
+
+  &>:not(:first-child) {
+    margin-left: 8px;
+  }
 }
 
-.icons-cell > div:not(:last-child), .icons-cell > i:not(:last-child) {
+.icons-cell > div:not(:last-child),
+.icons-cell > i:not(:last-child) {
   margin-right: 12px;
 }

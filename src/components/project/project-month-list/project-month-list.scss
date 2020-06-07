@@ -217,9 +217,9 @@ $cell-padding: 8px 8px;
     display: flex;
 
     > * {
-      &:first-child { width: 30%; }
+      &:first-child { width: 40%; }
       &:nth-child(2) { width: 10%; }
-      &:nth-child(3) { width: 60%; }
+      &:nth-child(3) { width: 50%; }
 
       &:not(:last-child) {
         margin-right: $in-cell-margin;
