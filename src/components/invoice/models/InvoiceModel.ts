@@ -1,3 +1,4 @@
+import { DefaultHoursInDay } from './../../client/models/getNewClient';
 import moment from 'moment';
 import {ConfigModel, ConfigCompanyModel} from '../../config/models/ConfigModel';
 import {getInvoiceDate} from './invoice-date-strategy';
@@ -199,19 +200,22 @@ export type DaysWorked = {
  * Calculate days/hours worked in invoice
  */
 function daysCalc(invoice: InvoiceModel): DaysWorked {
+  // Legacy: Old invoices without client.hoursInDay exist
+  const hoursInDay = invoice.client.hoursInDay || DefaultHoursInDay;
+
   const daysWorked = invoice.lines.reduce((prev, cur) => {
     if (cur.type === 'daily') {
       return prev + cur.amount;
     }
     if (cur.type === 'hourly') {
-      return prev + cur.amount / invoice.client.hoursInDay;
+      return prev + cur.amount / hoursInDay;
     }
     return prev;
   }, 0);
 
   const hoursWorked = invoice.lines.reduce((prev, cur) => {
     if (cur.type === 'daily') {
-      return prev + cur.amount * invoice.client.hoursInDay;
+      return prev + cur.amount * hoursInDay;
     }
     if (cur.type === 'hourly') {
       return prev + cur.amount;
