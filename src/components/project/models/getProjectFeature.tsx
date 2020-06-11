@@ -155,21 +155,27 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     },
     data: config.data,
     sorter: (a, b) => {
-      // Without end date -> bottom of the list
-      if (!a.details.endDate || !b.details.endDate) {
-        return b.details.startDate.valueOf() - a.details.startDate.valueOf();
+      // Not active anymore -> complete bottom
+      const aStatus = a.details.status;
+      const bStatus = b.details.status;
+      if (aStatus !== bStatus) {
+        if (aStatus === ProjectStatus.NotActiveAnymore) {
+          return 1;
+        }
+        if (bStatus === ProjectStatus.NotActiveAnymore) {
+          return -1;
+        }
       }
 
-      // Except for projects that have 'truly ended', they end up completely at the bottom
-      const aEnded = moment().diff(a.details.endDate, 'days') > ProjectStatusDaysPassedForRecentlyInactive;
-      const bEnded = moment().diff(b.details.endDate, 'days') > ProjectStatusDaysPassedForRecentlyInactive;
-      if (aEnded && bEnded) {
+
+      // Without end date -> bottom of the list
+      if (!a.details.endDate && !b.details.endDate) {
         return startDateSort(a, b);
       }
-      if (aEnded) {
+      if (!a.details.endDate) {
         return 1;
       }
-      if (bEnded) {
+      if (!b.details.endDate) {
         return -1;
       }
 
@@ -178,7 +184,6 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
       if (a.details.endDate.valueOf() === b.details.endDate.valueOf()) {
         return startDateSort(a, b);
       }
-
       return a.details.endDate.valueOf() - b.details.endDate.valueOf();
     },
   };
