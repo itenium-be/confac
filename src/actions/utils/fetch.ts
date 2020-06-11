@@ -19,7 +19,8 @@ export function catchHandler(err) {
       console.error('BadRequest', err.body);
 
       const msg = t(err.body.message, err.body.data);
-      failure(msg, 'BadRequest', 5000);
+      console.error('BadRequest', msg);
+      failure(msg, 'BadRequest', false);
 
       if (err.body.reload) {
         store.dispatch(initialLoad());

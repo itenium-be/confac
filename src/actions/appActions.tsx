@@ -36,7 +36,7 @@ const ToastMessage = ({msg, title, type}: ToastMessageProps) => (
 );
 
 
-export function success(msg = '', title = '', timeout = 2000): void {
+export function success(msg = '', title = '', timeout: number | false = 2000): void {
   toast(
     <ToastMessage msg={msg} title={title || t('toastrSuccessTitle')} type="success" />,
     {autoClose: timeout, position: toast.POSITION.BOTTOM_LEFT},
@@ -44,7 +44,7 @@ export function success(msg = '', title = '', timeout = 2000): void {
 }
 
 
-export function failure(msg = '', title = '', timeout = 4000, position?: Position): void {
+export function failure(msg = '', title = '', timeout: number | false = 4000, position?: Position): void {
   toast.error(
     <ToastMessage
       msg={msg || t('toastrFailure')}
