@@ -37,6 +37,7 @@ const ProjectMonthSelectComponent = (props: ProjectMonthSelectProps) => {
 
   const options: SelectItem[] = fullProjectMonths
     .filter(fpm => !fpm.invoice || (props.invoice && props.invoice._id === fpm.invoice._id))
+    .filter(fpm => fpm.details.verified !== 'forced')
     .sort((a, b) => getProjectMonthDesc(a).localeCompare(getProjectMonthDesc(b)))
     .map(item => ({value: item._id, label: getProjectMonthDesc(item)}));
 
