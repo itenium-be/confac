@@ -105,20 +105,17 @@ export interface FullProjectModel {
   notes?: string;
 }
 
-// TODO: Get rid of this: is state being manipulated? will this be sent to the backend and be saved?
-// If the project.endDate changes, is this also updated?
 
-export enum PROJECT_STATUSES {
-  ACTIVE= 'ACTIVE',
-  NOT_ACTIVE_ANYMORE= 'NOT_ACTIVE_ANYMORE',
-  NOT_YET_ACTIVE= 'NOT_YET_ACTIVE',
+export const ProjectStatusDaysPassedForRecentlyInactive = 60;
+
+
+export enum ProjectStatus {
+  Active = 'Active',
+  RecentlyInactive = 'RecentlyInactive',
+  NotActiveAnymore = 'NotActiveAnymore',
+  NotYetActive = 'NotYetActive',
 }
 
-export interface IProjectStatuses {
-  ACTIVE: string;
-  NOT_ACTIVE_ANYMORE: string;
-  NOT_YET_ACTIVE: string;
-}
 export interface ProjectDetailsModel extends ProjectModel {
-  status: keyof IProjectStatuses
+  status: ProjectStatus;
 }

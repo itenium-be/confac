@@ -1,5 +1,6 @@
 import moment from 'moment';
-import {ProjectModel, FullProjectModel, ProjectClientModel, IProjectStatuses} from '../models/ProjectModel';
+import {ProjectModel, FullProjectModel, ProjectClientModel,
+  ProjectStatus, ProjectStatusDaysPassedForRecentlyInactive} from '../models/ProjectModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
 
@@ -25,20 +26,25 @@ export class ProjectReferenceResolver {
     return this.clients.find(c => c._id === client.clientId) || undefined;
   }
 
-  getStatusProject(startDate: moment.Moment, endDate?: moment.Moment): keyof IProjectStatuses {
+  getStatusProject(startDate: moment.Moment, endDate?: moment.Moment): ProjectStatus {
     if (endDate) {
-      if (moment(startDate).isAfter(moment()) && moment(endDate).isAfter(startDate)) {
-        return 'NOT_YET_ACTIVE';
+      if (moment(startDate).isAfter(moment())) {
+        return ProjectStatus.NotYetActive;
       }
 
       if (moment().isBetween(startDate, endDate)) {
-        return 'ACTIVE';
+        return ProjectStatus.Active;
       }
 
-      return 'NOT_ACTIVE_ANYMORE';
+      const daysEndedAgo = moment().diff(endDate, 'days');
+      if (daysEndedAgo < ProjectStatusDaysPassedForRecentlyInactive) {
+        return ProjectStatus.RecentlyInactive;
+      }
+
+      return ProjectStatus.NotActiveAnymore;
     }
 
-    return moment(startDate).isSameOrBefore(moment()) ? 'ACTIVE' : 'NOT_YET_ACTIVE';
+    return ProjectStatus.Active;
   }
 
   getProjects(): FullProjectModel[] {

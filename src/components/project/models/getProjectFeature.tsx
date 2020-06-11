@@ -4,7 +4,8 @@ import React from 'react';
 import {IList, IListCell, ProjectListFilters} from '../../controls/table/table-models';
 import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
-import {FullProjectModel, ProjectClientModel, PROJECT_STATUSES, getProjectMarkup, getTariffs} from './ProjectModel';
+import {FullProjectModel, ProjectClientModel, getProjectMarkup, getTariffs,
+  ProjectStatus, ProjectStatusDaysPassedForRecentlyInactive} from './ProjectModel';
 import {t, formatDate, tariffFormat, searchinize} from '../../utils';
 import {EditIcon} from '../../controls/Icon';
 import {InvoiceClientCell} from '../../invoice/invoice-table/InvoiceClientCell';
@@ -21,7 +22,7 @@ export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel
 const fullProjectSearch = (filters: ProjectListFilters, prj: FullProjectModel) => {
   const {consultant, partner, client, details} = prj;
 
-  if (!filters.showInactive && details.status === PROJECT_STATUSES.NOT_ACTIVE_ANYMORE) {
+  if (!filters.showInactive && details.status === ProjectStatus.NotActiveAnymore) {
     return false;
   }
 
@@ -45,11 +46,11 @@ const getRowBackgroundColor = (prj: FullProjectModel): undefined | string => {
   const MONTHS_BEFORE_WARNING = 1;
   const MONTHS_BEFORE_INFO = 3;
 
-  if (projectDetails.status === PROJECT_STATUSES.NOT_YET_ACTIVE) {
+  if (projectDetails.status === ProjectStatus.NotYetActive) {
     return 'table-success';
   }
 
-  if (projectDetails.status === PROJECT_STATUSES.NOT_ACTIVE_ANYMORE) {
+  if (projectDetails.status === ProjectStatus.NotActiveAnymore || projectDetails.status === ProjectStatus.RecentlyInactive) {
     return 'table-danger';
   }
 
@@ -154,20 +155,40 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     },
     data: config.data,
     sorter: (a, b) => {
+      // Without end date -> bottom of the list
       if (!a.details.endDate || !b.details.endDate) {
         return b.details.startDate.valueOf() - a.details.startDate.valueOf();
       }
 
+      // Except for projects that have 'truly ended', they end up completely at the bottom
+      const aEnded = moment().diff(a.details.endDate, 'days') > ProjectStatusDaysPassedForRecentlyInactive;
+      const bEnded = moment().diff(b.details.endDate, 'days') > ProjectStatusDaysPassedForRecentlyInactive;
+      if (aEnded && bEnded) {
+        return startDateSort(a, b);
+      }
+      if (aEnded) {
+        return 1;
+      }
+      if (bEnded) {
+        return -1;
+      }
+
+
+      // Sort on endDate, startDate, consultantName
       if (a.details.endDate.valueOf() === b.details.endDate.valueOf()) {
-        if (a.details.startDate.valueOf() === b.details.startDate.valueOf()) {
-          return a.consultant.firstName.localeCompare(b.consultant.firstName);
-        }
-        return a.details.startDate.valueOf() - b.details.startDate.valueOf();
+        return startDateSort(a, b);
       }
 
       return a.details.endDate.valueOf() - b.details.endDate.valueOf();
     },
   };
+};
+
+const startDateSort = (a: FullProjectModel, b: FullProjectModel): number => {
+  if (a.details.startDate.valueOf() === b.details.startDate.valueOf()) {
+    return a.consultant.firstName.localeCompare(b.consultant.firstName);
+  }
+  return a.details.startDate.valueOf() - b.details.startDate.valueOf();
 };
 
 
