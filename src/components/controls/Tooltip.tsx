@@ -25,3 +25,24 @@ export const Tooltip = ({children, title, placement = 'left', mouseEnterDelay = 
     {children}
   </RcTooltip>
 );
+
+type EllipsisProps = {
+  title: string | undefined;
+  children: any;
+  width: number;
+}
+
+
+export const Ellipsis = ({children, title, width}: EllipsisProps) => {
+  if (!title) {
+    return children || null;
+  }
+
+  return (
+    <div style={{width}} className="ellipsis">
+      <Tooltip title={title}>
+        {children}
+      </Tooltip>
+    </div>
+  );
+};

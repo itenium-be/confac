@@ -13,3 +13,7 @@ $table-border-color: #dee2e6;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.ellipsis {
+  @include ellipsis
+}

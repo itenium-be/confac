@@ -11,6 +11,7 @@ import {InvoiceClientCell} from '../../invoice/invoice-table/InvoiceClientCell';
 import {ConsultantLinkWithModal} from '../../consultant/controls/ConsultantLink';
 import {ConsultantCountFooter, ProjectClientForecastFooter,
   ProjectForecastPartnerFooter} from '../project-month-list/ProjectMonthFooters';
+import {Ellipsis} from '../../controls/Tooltip';
 
 
 export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel, ProjectListFilters>;
@@ -132,6 +133,10 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     key: 'markup',
     header: 'projectMonth.markup',
     value: p => <ProjectMarkup project={p} />,
+  }, {
+    key: 'clientRef',
+    header: 'project.client.ref',
+    value: p => <Ellipsis title={p.details.client.ref} width={100}><small>{p.details.client.ref}</small></Ellipsis>,
   }, {
     key: 'buttons',
     header: {title: '', width: 110},
