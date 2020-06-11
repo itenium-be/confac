@@ -53,6 +53,7 @@ export default class InvoiceModel implements IAttachment {
   audit: IAudit;
   lines: InvoiceLine[] = [];
   money: InvoiceMoney;
+  note: string;
 
   get isNew(): boolean {
     return this._id === undefined;
@@ -72,6 +73,7 @@ export default class InvoiceModel implements IAttachment {
     this.attachments = obj.attachments || [{type: 'pdf'}];
     this.isQuotation = obj.isQuotation || false;
     this.lastEmail = obj.lastEmail;
+    this.note = obj.note || '';
 
     this.money = this._calculateMoneys();
 

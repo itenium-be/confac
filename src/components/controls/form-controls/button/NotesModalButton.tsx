@@ -4,14 +4,16 @@ import {Button} from '../Button';
 import {Modal} from '../../Modal';
 import {t} from '../../../utils';
 import {TextEditor} from '../inputs/TextEditor';
+import {BootstrapVariant} from '../../../../models';
 
 
 type NotesModalButtonProps = MinimalInputProps<string> & {
   title: string;
+  variant?: BootstrapVariant;
 };
 
 
-export const NotesModalButton = ({value, onChange, title}: NotesModalButtonProps) => {
+export const NotesModalButton = ({value, onChange, title, variant}: NotesModalButtonProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [text, setText] = useState<string>(value || '');
 
@@ -20,7 +22,7 @@ export const NotesModalButton = ({value, onChange, title}: NotesModalButtonProps
     <>
       <Button
         onClick={() => setOpen(!open)}
-        variant="outline-dark"
+        variant={variant || 'outline-dark'}
         title={text || t('projectMonth.addNote')}
         icon={icon}
       />

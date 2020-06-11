@@ -26,6 +26,7 @@ import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel'
 import {ProjectMonthSelect} from '../../project/controls/ProjectMonthSelect';
 import {EditInvoiceBadges} from './EditInvoiceBadges';
 import {Audit} from '../../admin/Audit';
+import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
 
 
 import './EditInvoice.scss';
@@ -142,7 +143,15 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                 </div>
               </div>
               <div>
-                {invoice._id && <DownloadInvoiceButton invoice={invoice} />}
+                <div className={`invoice-top-buttonbar ${invoice._id ? 'invoice-edit' : 'invoice-new'}`}>
+                  <NotesModalButton
+                    value={invoice.note}
+                    onChange={val => this.updateInvoice('note', val)}
+                    title={t('projectMonth.note')}
+                    variant="link"
+                  />
+                  {invoice._id && <DownloadInvoiceButton invoice={invoice} />}
+                </div>
               </div>
             </Col>
             <Col sm={12}>

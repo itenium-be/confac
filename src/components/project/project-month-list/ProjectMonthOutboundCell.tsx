@@ -198,6 +198,7 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
         consultantName: `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`,
       },
       lines: invoiceLines,
+      note: fullProjectMonth.details.note,
     };
 
     const invoice = getNewInvoice(state.config, state.invoices, state.clients, blueprint);
