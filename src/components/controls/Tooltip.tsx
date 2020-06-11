@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import RcTooltip from 'rc-tooltip';
 
@@ -8,11 +9,16 @@ type TooltipProps = {
   mouseEnterDelay?: number;
 }
 
+
+// ATTN: The dangerouslySetInnerHTML is quite dangerous in this case:
+// --> The user can craft a malicious script with the NotesModalButton and this will just execute it!
+
+
 export const Tooltip = ({children, title, placement = 'left', mouseEnterDelay = 0.6}: TooltipProps) => (
   <RcTooltip
     placement={placement} // ['left','right','top','bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight']
     trigger={['hover'/* , 'click', 'focus' */]}
-    overlay={title.split('<br>').map((line, i) => <div key={i}>{line}</div>)}
+    overlay={<div dangerouslySetInnerHTML={{__html: title}} />}
     mouseEnterDelay={mouseEnterDelay}
     mouseLeaveDelay={0.1}
   >
