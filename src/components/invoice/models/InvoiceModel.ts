@@ -1,5 +1,5 @@
-import { DefaultHoursInDay } from './../../client/models/getNewClient';
 import moment from 'moment';
+import {DefaultHoursInDay} from '../../client/models/getNewClient';
 import {ConfigModel, ConfigCompanyModel} from '../../config/models/ConfigModel';
 import {getInvoiceDate} from './invoice-date-strategy';
 import {ClientModel} from '../../client/models/ClientModels';
