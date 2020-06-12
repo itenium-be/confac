@@ -137,7 +137,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           title={t('projectMonth.timesheetNote', {name: `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`})}
         />
         <AttachmentUploadPreviewButtons
-          isUploadDisabled={!!fullProjectMonth.invoice}
+          isUploadDisabled={fullProjectMonth.details.timesheet.validated}
           isPreviewDisabled={!hasTimesheetBeenUploaded}
           uploadTooltip={t('projectMonth.timesheetUpload')}
           previewTooltip={t('projectMonth.viewTimesheet', {fileName: timesheetDetails ? timesheetDetails.fileName : ''})}
