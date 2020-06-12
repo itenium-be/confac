@@ -4,8 +4,7 @@ import React from 'react';
 import {IList, IListCell, ProjectListFilters} from '../../controls/table/table-models';
 import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
-import {FullProjectModel, ProjectClientModel, getProjectMarkup, getTariffs,
-  ProjectStatus, ProjectStatusDaysPassedForRecentlyInactive} from './ProjectModel';
+import {FullProjectModel, ProjectClientModel, getProjectMarkup, getTariffs, ProjectStatus} from './ProjectModel';
 import {t, formatDate, tariffFormat, searchinize} from '../../utils';
 import {EditIcon} from '../../controls/Icon';
 import {InvoiceClientCell} from '../../invoice/invoice-table/InvoiceClientCell';

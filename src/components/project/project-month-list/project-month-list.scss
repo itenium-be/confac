@@ -63,6 +63,32 @@ $cell-padding: 8px 8px;
 }
 
 
+@mixin attachment-upload-preview-buttons {
+  display: flex;
+
+  .btn-group {
+    width: 100%;
+
+    > * {
+      width: 50% !important;
+
+      > * { width: 100%; }
+    }
+  }
+
+  .single-button {
+    width: 100%;
+
+    > * { width: 100%; }
+    button { width: 100%; }
+  }
+}
+
+
+
+
+
+
 .table-projectMonths {
   td {
     padding: 0;
@@ -114,8 +140,15 @@ $cell-padding: 8px 8px;
     padding: $cell-padding;
 
     .timesheet-actions {
-      display: flex;
-      justify-content: space-between;
+      @include attachment-upload-preview-buttons;
+
+      >*:not(:last-child) {
+        margin-right: $in-cell-margin;
+      }
+
+      >*:first-child { width: 25%; }
+      >*:nth-child(2) { width: 25%; }
+      >*:last-child { width: 50%; }
     }
 
 
@@ -129,7 +162,7 @@ $cell-padding: 8px 8px;
     > * {
       &:first-child { width: 25%; }
       &:nth-child(2) { width: 25%; }
-      &:last-child { width: 50%; min-width: 150px; }
+      &:last-child { width: 50%; min-width: 200px; }
 
       &:not(:last-child) {
         margin-right: $in-cell-margin;
@@ -148,7 +181,7 @@ $cell-padding: 8px 8px;
       &:first-child { width: 10%; min-width: 120px; }
       &:nth-child(2) { width: 20%; text-align: right; }
       &:nth-child(3) { width: 35%; text-align: center; }
-      &:last-child { width: 45%; min-width: 180px; }
+      &:last-child { width: 45%; min-width: 230px; }
 
       &:not(:last-child) {
         margin-right: $in-cell-margin;
@@ -176,8 +209,11 @@ $cell-padding: 8px 8px;
       display: flex;
       justify-content: space-between;
 
+      >:first-child { width: 60%; margin-right: $in-cell-margin }
+      >:last-child { width: 40%; }
+
       .inbound-attachment-actions {
-        display: flex;
+        @include attachment-upload-preview-buttons
       }
     }
   }

@@ -87,7 +87,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
         />
         <div className="inbound-attachment-actions">
           <AttachmentUploadPreviewButtons
-            isUploadDisabled={!!fullProjectMonth.invoice}
+            isUploadDisabled={fullProjectMonth.details.inbound.status !== 'new'}
             isPreviewDisabled={!hasInboundInvoiceBeenUploaded}
             uploadTooltip={t('projectMonth.inboundUpload')}
             previewTooltip={t('projectMonth.viewInboundInvoice', {fileName: inboundInvoiceDetails ? inboundInvoiceDetails.fileName : ''})}
@@ -111,12 +111,6 @@ type InboundActionButtonsProps = {
   fullProjectMonth: FullProjectMonthModel;
   onChange: (status: ProjectMonthInboundStatus) => void;
 }
-
-type InboundActionsMap = {
-  status: ProjectMonthInboundStatus;
-  component: React.ReactNode;
-}
-
 
 
 /** Switch between statusses for the inbound invoice */

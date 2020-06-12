@@ -128,7 +128,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           title={{
             on: t('projectMonth.validateTimesheet'),
             off: t('projectMonth.unvalidateTimesheet'),
-            disabled: t('projectMonth.validateTimesheetDisabled')
+            disabled: t('projectMonth.validateTimesheetDisabled'),
           }}
         />
         <NotesModalButton

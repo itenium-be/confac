@@ -16,15 +16,31 @@ type AttachmentUploadPreviewButtonsProps = {
 export const AttachmentUploadPreviewButtons = (props: AttachmentUploadPreviewButtonsProps) => {
   const {isUploadDisabled, isPreviewDisabled, uploadTooltip, previewTooltip, onUpload, downloadUrl} = props;
 
+  const uploadButton = (
+    <UploadFileButton
+      onUpload={onUpload}
+      title={uploadTooltip}
+      disabled={isUploadDisabled}
+      hasFile={!isPreviewDisabled}
+    />
+  );
+
+  const previewButton = (
+    <AttachmentPreviewButton downloadUrl={downloadUrl} tooltip={previewTooltip} disabled={isPreviewDisabled} />
+  );
+
+  if (isUploadDisabled) {
+    return <div className="single-button">{previewButton}</div>;
+  }
+
+  if (isPreviewDisabled) {
+    return <div className="single-button">{uploadButton}</div>;
+  }
+
   return (
     <ButtonGroup>
-      <UploadFileButton
-        onUpload={onUpload}
-        title={uploadTooltip}
-        disabled={isUploadDisabled}
-        hasFile={!isPreviewDisabled}
-      />
-      <AttachmentPreviewButton downloadUrl={downloadUrl} tooltip={previewTooltip} disabled={isPreviewDisabled} />
+      {uploadButton}
+      {previewButton}
     </ButtonGroup>
   );
 };

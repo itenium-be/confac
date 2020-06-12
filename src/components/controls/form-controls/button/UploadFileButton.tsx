@@ -17,11 +17,11 @@ export const UploadFileButton = ({onUpload, title, buttonText, disabled, hasFile
   <AttachmentDropzone onUpload={onUpload} disabled={disabled} disableOpacityMode>
     <Button
       onClick={() => {}}
-      variant={hasFile || disabled ? 'outline-dark' : 'outline-warning'}
+      variant="outline-dark"
       disabled={disabled}
       title={disabled ? undefined : title}
       icon="fa fa-upload"
-      style={{borderTopRightRadius: 0, borderBottomRightRadius: 0}}
+      style={hasFile ? {borderTopRightRadius: 0, borderBottomRightRadius: 0} : undefined}
     >
       {buttonText && <span style={{marginLeft: 10}}>{buttonText}</span>}
     </Button>
