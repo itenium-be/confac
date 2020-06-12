@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // TODO: delete all translations in trans that have moved to features
 export const features = {
   consultant: {
@@ -430,7 +431,7 @@ export const trans = {
     addNote: 'Commentaar toevoegen',
     forceVerified: 'Forceer afgehandeld zonder een factuur op te maken',
     validateTimesheet: 'Timesheet valideren',
-    validateTimesheetDisabled: 'Timesheet kan pas gevalideerd worden als de twee getallen overeenkomen (consultants), er een getal ingevuld is (externen) of er een commentaar is toegevoegd',
+    validateTimesheetDisabled: 'Timesheet kan pas gevalideerd worden als de twee getallen overeenkomen (consultants),<br>er een getal ingevuld is (externen) of er een commentaar is toegevoegd',
     unvalidateTimesheet: 'Timesheet invalideren',
     viewTimesheet: 'Timesheet bekijken: {fileName}',
     viewInboundInvoice: 'Ontvangen factuur bekijken: {fileName}',

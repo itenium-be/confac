@@ -47,11 +47,35 @@ export const Button = ({variant = 'primary', size = 'md', disabled, className, s
   );
 
   if (title) {
-    FinalButton = (
-      <Tooltip title={title}>
-        {FinalButton}
-      </Tooltip>
-    );
+    if (disabled) {
+      // WORKAROUND: Tooltip not going away when the button is disabled
+      // https://github.com/react-component/tooltip/issues/18#issuecomment-411476678
+      FinalButton = (
+        <Tooltip title={title}>
+          <div>
+            <ReactButton
+              className={className}
+              variant={variant}
+              size={size === 'md' ? undefined : size}
+              onClick={realClick}
+              disabled={disabled}
+              style={{...style, pointerEvents: 'none'}}
+              {...rest}
+            >
+              {icon ? <Icon fa={icon} size={1} style={{marginRight: children ? 6 : 0}} /> : null}
+              {children}
+            </ReactButton>
+          </div>
+        </Tooltip>
+      );
+
+    } else {
+      FinalButton = (
+        <Tooltip title={title}>
+          {FinalButton}
+        </Tooltip>
+      );
+    }
   }
 
   return FinalButton;

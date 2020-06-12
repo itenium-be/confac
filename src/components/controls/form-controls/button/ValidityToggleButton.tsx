@@ -34,6 +34,13 @@ export const ValidityToggleButton = ({value, onChange, outline, title, disabled,
 
 
   return (
-    <Button onClick={() => onChange(!value)} variant={variant} icon={icon} title={tooltip} disabled={disabled} {...props} />
+    <Button
+      onClick={() => onChange(!value)}
+      variant={variant}
+      icon={icon}
+      title={tooltip}
+      disabled={disabled}
+      {...props}
+    />
   );
 };
