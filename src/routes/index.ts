@@ -13,7 +13,19 @@ import userRouter from './user';
 
 const appRouter = Router();
 
-const jwtMiddleware = () => jwt({secret: config.jwt.secret});
+const jwtMiddleware = () => jwt({
+  secret: config.jwt.secret,
+  getToken: req => {
+    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+      return req.headers.authorization.split(' ')[1];
+    }
+    if (req.query && req.query.token) {
+      return req.query.token;
+    }
+    return null;
+  },
+});
+
 
 appRouter.use('/user', jwtMiddleware().unless({path: ['/api/user/login']}), userRouter);
 
@@ -22,7 +34,7 @@ appRouter.use('/consultants', jwtMiddleware(), consultantsRouter);
 appRouter.use('/projects', jwtMiddleware(), projectsRouter);
 appRouter.use('/invoices', jwtMiddleware(), invoicesRouter);
 appRouter.use('/config', jwtMiddleware().unless({path: ['/api/config/security']}), configRouter);
-appRouter.use('/attachments'/*, jwtMiddleware()*/, attachmentsRouter);
+appRouter.use('/attachments', jwtMiddleware(), attachmentsRouter);
 
 
 export default appRouter;
