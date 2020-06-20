@@ -31,6 +31,7 @@ export type ProjectMonthListFilters = ListFilters;
 export type InvoiceListFilters = ListFilters;
 export type ConsultantListFilters = ListFilters;
 export type UsersListFilters = ListFilters;
+export type RolesListFilters = ListFilters;
 
 export type ClientListFilters = ListFilters & {
   years: number[];

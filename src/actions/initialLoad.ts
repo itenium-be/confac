@@ -127,6 +127,15 @@ function fetchUsers() {
   });
 }
 
+function fetchRoles() {
+  return dispatch => httpGet('/user/roles').then(data => {
+    dispatch({
+      type: ACTION_TYPES.ROLES_FETCHED,
+      roles: data,
+    });
+  });
+}
+
 function fetchProjectsMonth() {
   return dispatch => httpGet('/projects/month').then(data => {
     dispatch({
@@ -160,6 +169,7 @@ export function initialLoad(): any {
     dispatch(fetchProjectsMonth()),
     dispatch(fetchProjectsMonthOverviews()),
     dispatch(fetchUsers()),
+    dispatch(fetchRoles()),
   ]).then(() => {
     dispatch({type: ACTION_TYPES.INITIAL_LOAD});
   });

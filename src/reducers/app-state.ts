@@ -48,5 +48,6 @@ export const defaultAppState: AppState = {
     projects: getListFilters(),
     projectMonths: getListFilters(),
     users: getListFilters(true),
+    roles: getListFilters(),
   },
 };

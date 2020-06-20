@@ -17,6 +17,7 @@ import {UnauthicatedAppLayout, LoginPage} from './components/pages/LoginPage';
 import {UserPage} from './components/pages/UserPage';
 import {UsersList} from './components/users/UsersList';
 import {EditUser} from './components/users/EditUser';
+import {EditRole} from './components/users/EditRole';
 import {EditAdmin} from './components/admin/EditAdmin';
 
 
@@ -51,6 +52,7 @@ const Routes = () => (
       <Route path="/user" render={props => <AppWithLayout Component={UserPage} {...props} />} />
       <Route path="/users/:id" render={props => <AppWithLayout Component={EditUser} {...props} />} />
       <Route path="/users" render={props => <AppWithLayout Component={UsersList} {...props} />} />
+      <Route path="/roles/:id" render={props => <AppWithLayout Component={EditRole} {...props} />} />
       <Route path="/login" render={props => <UnauthicatedAppLayout Component={LoginPage} {...props} />} />
 
       <Route path="/" render={props => <AppWithLayout Component={ProjectMonthsLists} {...props} />} />

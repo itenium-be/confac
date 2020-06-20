@@ -22,7 +22,7 @@ const searchUserFor = (filters: UsersListFilters, model: UserModel): boolean => 
   }
 
   return searchinize(
-    `${model.name} ${model.firstName} ${model.alias} ${model.email} ${model.email}`,
+    `${model.name} ${model.firstName} ${model.alias} ${model.email}`,
   ).includes(filters.freeText.toLowerCase());
 };
 
@@ -48,6 +48,9 @@ const userListConfig = (config: UserFeatureBuilderConfig): IList<UserModel, User
       }
       return '';
     },
+  }, {
+    key: 'roles',
+    value: m => m.roles.join(', '),
   }, {
     key: 'buttons',
     header: {title: '', width: 110},

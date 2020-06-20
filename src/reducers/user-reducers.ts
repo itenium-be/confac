@@ -3,6 +3,7 @@ import {UserState} from '../components/users/models/UserModel';
 
 const defaultUserState = {
   users: [],
+  roles: [],
 };
 
 
@@ -16,6 +17,18 @@ export const users = (state: UserState = defaultUserState, action) => {
       newUsers.push(action.user);
       return {...state, users: newUsers};
     }
+
+
+
+    case ACTION_TYPES.ROLES_FETCHED:
+      return {...state, roles: action.roles};
+
+    case ACTION_TYPES.ROLE_UPDATE: {
+      const newRoles = state.roles.filter(x => x._id !== action.role._id);
+      newRoles.push(action.role);
+      return {...state, roles: newRoles};
+    }
+
 
     default:
       return state;

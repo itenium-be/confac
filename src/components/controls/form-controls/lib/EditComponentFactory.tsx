@@ -29,6 +29,7 @@ import {EditProjectClient, EditProjectPartner} from '../../../project/controls/E
 import {ConsultantSelectWithCreateModal} from '../../../consultant/controls/ConsultantSelectWithCreateModal';
 import {LanguageSelect} from '../../LanguageSelect';
 import {EditInvoiceLines} from '../../../invoice/invoice-edit/invoice-lines/EditInvoiceLines';
+import {RolesSelect, ClaimsSelect} from '../../../users/RolesSelect';
 
 
 export function getComponent(col: FormConfig) {
@@ -71,6 +72,8 @@ export function getComponent(col: FormConfig) {
     InvoiceReplacementsTextEditor,
     LanguageSelect,
     EditInvoiceLines,
+    RolesSelect,
+    ClaimsSelect,
   };
 
 

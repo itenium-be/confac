@@ -60,6 +60,15 @@ export const features = {
       alias: 'Alias',
     },
   },
+  roles: {
+    title: 'Rollen',
+    listTitle: 'Rollen',
+    createNew: 'Nieuwe rol',
+    props: {
+      name: 'Naam',
+      claims: 'Claims',
+    },
+  },
 };
 
 
@@ -90,10 +99,12 @@ export const trans = {
     consultantList: 'Consultants',
     consultantEdit: '{name}',
     consultantNew: 'Nieuwe consultant',
-    usersList: 'Gebruikers',
+    usersList: 'Gebruikers & Rollen',
     userEdit: '{name}',
     userNew: 'Nieuwe gebruiker',
     admin: 'Beheer applicatie',
+    roleNew: 'Nieuwe rol',
+    roleEdit: 'Rollen',
   },
   search: 'Zoeken',
   edit: 'Aanpassen',
@@ -495,6 +506,16 @@ export const trans = {
       name: 'Naam',
       firstName: 'Voornaam',
       alias: 'Alias',
+      roles: 'Rollen',
+      active: 'Actief',
+    },
+  },
+  role: {
+    createNew: 'Nieuwe rol',
+    listTitle: 'Rollen',
+    props: {
+      name: 'Naam',
+      claims: 'Claims',
     },
   },
   admin: {
