@@ -185,8 +185,10 @@ export const emailInvoiceController = async (req: Request, res: Response) => {
 
   try {
     await sgMail.send(mailData, false).then(() => {
+      const tos = [mailData.to, mailData.cc, mailData.bcc].filter(x => !!x).join(', ');
+      const atts = mailData.attachments.map(x => x.filename);
       // eslint-disable-next-line
-      console.log(`Mail sent successfully to ${mailData.to}. Subject=${mailData.subject}`);
+      console.log(`Mail sent successfully to ${tos}. Subject=${mailData.subject}. Attachments=${atts}`);
     });
   } catch (error) {
     if (error.code === 401) {
