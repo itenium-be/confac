@@ -2,6 +2,7 @@ import InvoiceModel from '../../components/invoice/models/InvoiceModel';
 import {buildUrl} from './buildUrl';
 import {invoiceReplacements} from '../../components/invoice/invoice-replacements';
 import {FullProjectMonthModel} from '../../components/project/models/FullProjectMonthModel';
+import {authService} from '../../components/users/authService';
 
 export type DownloadAttachmentModelTypes = {
   invoice: string;
@@ -19,8 +20,8 @@ export function getDownloadUrl(
   fileName: string, downloadType?: 'preview' | 'download',
 ): string {
 
-  const query = downloadType === 'download' ? '?download=1' : '';
-  // TODO: need to set auth header for these guys
+  let query = `?token=${authService.getTokenString()}`;
+  query += downloadType === 'download' ? '&download=1' : '';
   return buildUrl(`/attachments/${modelType}/${_id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
 }
 

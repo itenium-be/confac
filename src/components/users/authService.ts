@@ -12,6 +12,7 @@ interface IAuthService {
   login: (res: any, dispatch: Dispatch<any>, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) => void;
   logout: () => void;
   getBearer: () => string;
+  getTokenString: () => string | null;
   getToken: () => JwtModel | null;
   getUser: () => UserModel | null;
   refresh: () => void;
@@ -37,6 +38,7 @@ export const authService: IAuthService = {
     localStorage.removeItem('jwt');
   },
   getBearer: (): string => `Bearer ${localStorage.getItem('jwt')}`,
+  getTokenString: (): string | null => localStorage.getItem('jwt'),
   getToken: (): JwtModel | null => {
     const token = localStorage.getItem('jwt');
     if (!token) {
