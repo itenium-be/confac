@@ -30,8 +30,12 @@ $cell-padding: 8px 8px;
       > * {
         margin-right: 8px;
 
-        &:nth-child(even):not(:last-child) {
+        &:not(:last-child) {
           margin-right: 24px;
+        }
+
+        > i:before {
+          padding-right: 8px;
         }
       }
     }

@@ -415,7 +415,7 @@ export const trans = {
       closeList: 'Verbergen',
       verifiedBadge: '{verified} / {total} facturen geverifiëerd',
       allVerifiedBadge: 'Alle facturen betaald',
-      timesheetPending: '{timesheetPending} Pending',
+      timesheetPending: '{timesheetPendingCount} Pending',
       timesheetOk: 'OK!',
       inboundAllPaid: 'Alle betaald',
     },
