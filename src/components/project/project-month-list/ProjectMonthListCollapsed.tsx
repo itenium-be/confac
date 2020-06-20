@@ -21,7 +21,7 @@ export const ProjectMonthListCollapsed = ({feature, onOpen}: ProjectMonthListCol
     return null;
   }
 
-  const data = feature.list.data;
+  const data = feature.list.data.filter(x => x.details.verified !== 'forced');
   const withInbound = data.filter(x => x.project.projectMonthConfig.inboundInvoice);
 
   const totals = {
