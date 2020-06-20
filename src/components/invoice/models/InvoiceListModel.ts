@@ -5,6 +5,7 @@ import {InvoiceFilters, InvoiceFiltersSearch} from '../../../models';
 import {searchClientFor} from '../../client/models/searchClientFor';
 import {t, searchinize, formatDate} from '../../utils';
 import {getMoney} from '../../controls/form-controls/inputs/BasicMathInput';
+import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 
 
 function transformFilters(search: InvoiceFiltersSearch[], freeText: string): TransformedInvoiceFilters {
@@ -38,10 +39,18 @@ export default class InvoiceListModel {
   hasFilters: boolean;
   fs: TransformedInvoiceFilters;
   isQuotation: boolean;
+  consultants: ConsultantModel[];
 
-  constructor(invoices: InvoiceModel[], clients: ClientModel[], filters: InvoiceFilters, isQuotation: boolean) {
+  constructor(
+    invoices: InvoiceModel[],
+    clients: ClientModel[],
+    consultants: ConsultantModel[],
+    filters: InvoiceFilters,
+    isQuotation: boolean,
+  ) {
     this.invoices = invoices;
     this.clients = clients;
+    this.consultants = consultants;
     this.hasFilters = !!filters.search.length || !!filters.freeInvoice;
     this.fs = transformFilters(filters.search, filters.freeInvoice);
     this.isQuotation = isQuotation || false;
@@ -66,6 +75,10 @@ export default class InvoiceListModel {
     const clientIds = this.invoices.map(i => i.client._id);
     const relevantClients = this.clients.filter(c => clientIds.includes(c._id));
     options = options.concat(relevantClients.map(client => ({value: client._id, label: client.name, type: 'client'})));
+
+    // Add options: consultants
+    const consultantNames: string[] = this.invoices.map(x => (x.projectMonth && x.projectMonth.consultantName) as string).filter(x => !!x);
+    options = options.concat(consultantNames.map(x => ({value: x, label: x, type: 'manual_input'})));
 
     return options;
   }
@@ -159,6 +172,10 @@ function searchInvoiceFor(invoice: InvoiceModel, input: string): boolean {
   }
 
   if (searchClientFor(invoice.client, text)) {
+    return true;
+  }
+
+  if (invoice.projectMonth && invoice.projectMonth.consultantName && invoice.projectMonth.consultantName.toLowerCase().includes(text)) {
     return true;
   }
 

@@ -124,6 +124,7 @@ export type InvoiceFiltersSearch = {
 /**
  * Filters used on InvoiceList
  * Used for: state.app.invoiceFilters
+ * Actual filtering is done in InvoiceListModel
  * TODO: This needs to go by using a ListPage for the InvoiceList
  */
 export type InvoiceFilters = {

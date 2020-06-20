@@ -14,12 +14,14 @@ import {t} from '../../utils';
 import {QuotationSearch} from './QuotationSearch';
 import {LinkToButton} from '../../controls/form-controls/button/LinkToButton';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
+import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 
 
 type QuotationListProps = {
   config: ConfigModel,
   invoices: InvoiceModel[],
   clients: ClientModel[],
+  consultants: ConsultantModel[],
   updateInvoiceFilters: any,
   filters: InvoiceFilters,
 }
@@ -32,7 +34,7 @@ export const QuotationList = (props: QuotationListProps) => {
     return null;
   }
 
-  const vm = new InvoiceListModel(props.invoices, props.clients, props.filters, true);
+  const vm = new InvoiceListModel(props.invoices, props.clients, props.consultants, props.filters, true);
 
   const TableComponent = props.filters.groupedByMonth ? GroupedInvoiceTable : NonGroupedInvoiceTable;
   return (
@@ -61,4 +63,5 @@ export default connect((state: ConfacState) => ({
   clients: state.clients,
   filters: state.app.invoiceFilters,
   config: state.config,
+  consultants: state.consultants,
 }), {updateInvoiceFilters})(QuotationList);

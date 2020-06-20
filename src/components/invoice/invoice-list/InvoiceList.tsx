@@ -14,12 +14,14 @@ import {InvoiceFilters} from '../../../models';
 import {t} from '../../utils';
 import {LinkToButton} from '../../controls/form-controls/button/LinkToButton';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
+import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 
 
 type InvoiceListProps = {
   config: ConfigModel,
   invoices: InvoiceModel[],
   clients: ClientModel[],
+  consultants: ConsultantModel[],
   updateInvoiceFilters: any,
   filters: InvoiceFilters,
 }
@@ -33,7 +35,7 @@ export const InvoiceList = (props: InvoiceListProps) => {
   }
 
   const isQuotation = window.location.pathname === '/quotations';
-  const vm = new InvoiceListModel(props.invoices, props.clients, props.filters, isQuotation);
+  const vm = new InvoiceListModel(props.invoices, props.clients, props.consultants, props.filters, isQuotation);
 
   const TableComponent = props.filters.groupedByMonth ? GroupedInvoiceTable : NonGroupedInvoiceTable;
   return (
@@ -66,4 +68,5 @@ export default connect((state: ConfacState) => ({
   clients: state.clients,
   filters: state.app.invoiceFilters,
   config: state.config,
+  consultants: state.consultants,
 }), {updateInvoiceFilters})(InvoiceList);
