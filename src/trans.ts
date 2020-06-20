@@ -466,7 +466,7 @@ export const trans = {
     clipboard: {
       success: 'Copied!',
       failure: 'Copy failed',
-    }
+    },
   },
   email: {
     title: 'Factuur emailen',
