@@ -39,7 +39,7 @@ export const EditInvoiceBadges = ({invoice}: InvoiceProps) => {
         {projectMonth.client.name}
         <small style={{paddingLeft: 10}}>{tariffFormat(markup.totalClient)}</small>
       </Badge>
-      {markup && (
+      {!!markup.amount && (
         <Badge style={defaultBadgeStyle} variant="danger">
           {t('projectMonth.markup')}
           <small style={{paddingLeft: 10}}>
