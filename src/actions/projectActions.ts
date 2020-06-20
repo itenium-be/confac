@@ -11,7 +11,7 @@ import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel'
 import {TimesheetCheckAttachmentType} from '../models';
 import {authService} from '../components/users/authService';
 
-export function saveProject(project: ProjectModel, history: any) {
+export function saveProject(project: ProjectModel, history: any, after: 'to-list' | 'to-details' = 'to-list') {
   return (dispatch: Dispatch) => {
     dispatch(busyToggle());
     return request
@@ -25,7 +25,15 @@ export function saveProject(project: ProjectModel, history: any) {
           project: response.body,
         });
         success(t('config.popupMessage'));
-        history.push('/projects');
+        if (after === 'to-list') {
+          history.push('/projects');
+        } else {
+          // First navigate away?
+          // Workaround for EditProject not reloading the form
+          // when the url _id changes. Need a hook for this :)
+          history.push('/projects');
+          history.push(`/projects/${response.body._id}`);
+        }
       })
       .catch(catchHandler)
       .then(() => dispatch(busyToggle.off()));

@@ -392,6 +392,12 @@ export const trans = {
       inboundInvoice: 'Heeft inkomende factuur',
       changingOrderNr: 'Het bestelbon nr wijzigt voor elke factuur',
     },
+    copy: {
+      buttonText: 'Verlenging',
+      modalTitle: 'Verlenging Project',
+      startDate: 'Start datum',
+      endDate: 'Eind datum',
+    },
   },
   projectMonth: {
     createProjectsTitle: 'Projectopvolging: maand toevoegen',

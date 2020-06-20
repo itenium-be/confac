@@ -16,6 +16,7 @@ import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {getNewClient} from '../client/models/getNewClient';
 import {getNewConsultant} from '../consultant/models/getNewConsultant';
 import {Audit} from '../admin/Audit';
+import {CopyProject} from './CopyProject';
 
 interface EditProjectProps {
   match: {
@@ -104,6 +105,7 @@ export const EditProject = (props: EditProjectProps) => {
         </Row>
       </Form>
       <StickyFooter>
+        {project.endDate && <CopyProject projectToCopy={project} />}
         <BusyButton onClick={() => dispatch(saveProject(project, history))} disabled={isButtonDisabled}>
           {t('save')}
         </BusyButton>
