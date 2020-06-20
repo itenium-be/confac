@@ -20,6 +20,7 @@ export enum CollectionNames {
   PROJECTS_MONTH = 'projects_month',
   CONFIG = 'config',
   USERS = 'users',
+  ROLES = 'roles',
 }
 
 export interface IAudit {

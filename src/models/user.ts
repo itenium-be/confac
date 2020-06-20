@@ -8,5 +8,14 @@ export interface IUser {
   firstName: string;
   alias: string;
   active: boolean;
+  roles: string[];
+  audit: IAudit;
+}
+
+
+export interface IRole {
+  _id: ObjectID;
+  name: string;
+  claims: string[];
   audit: IAudit;
 }

@@ -5,7 +5,7 @@ import {OAuth2Client, TokenPayload} from 'google-auth-library';
 import jwt from 'jsonwebtoken';
 import {CollectionNames, IAudit, createAudit, updateAudit} from '../models/common';
 import config from '../config';
-import {IUser} from '../models/user';
+import {IUser, IRole} from '../models/user';
 import {ConfacRequest} from '../models/technical';
 
 
@@ -106,6 +106,36 @@ export const saveUser = async (req: ConfacRequest, res: Response) => {
 
   user.audit = createAudit(req.user);
   const inserted = await collection.insertOne(user);
+  const [createdClient] = inserted.ops;
+  return res.send(createdClient);
+};
+
+
+
+
+
+
+export const getRoles = async (req: Request, res: Response) => {
+  const users = await req.db.collection<IRole>(CollectionNames.ROLES).find().toArray();
+  return res.send(users);
+};
+
+
+
+
+
+export const saveRole = async (req: ConfacRequest, res: Response) => {
+  const {_id, ...role}: IRole = req.body;
+  const collection = req.db.collection<IRole>(CollectionNames.ROLES);
+
+  if (_id) {
+    role.audit = updateAudit(role.audit, req.user);
+    const updated = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: role}, {returnOriginal: false});
+    return res.send(updated.value);
+  }
+
+  role.audit = createAudit(req.user);
+  const inserted = await collection.insertOne(role);
   const [createdClient] = inserted.ops;
   return res.send(createdClient);
 };
