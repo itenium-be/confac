@@ -5,9 +5,7 @@ import {catchHandler} from './utils/fetch';
 import {buildUrl} from './utils/buildUrl';
 import t from '../trans';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
-import {previewInvoice} from './downloadActions';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
-import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
 import {authService} from '../components/users/authService';
 
 
@@ -52,7 +50,7 @@ export function createInvoice(data: InvoiceModel, history?: any) {
   };
 }
 
-function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined, andGoHome: boolean, history?: any) {
+export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined, andGoHome: boolean, history?: any) {
   return dispatch => {
     dispatch(busyToggle());
     request.put(buildUrl('/invoices'))
@@ -77,24 +75,6 @@ function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined
   };
 }
 
-
-
-export function invoiceAction(
-  invoice: InvoiceModel,
-  type: 'create' | 'update' | 'preview',
-  history: any,
-  fullProjectMonth?: FullProjectMonthModel,
-) {
-  if (type === 'create') {
-    return createInvoice(invoice, history);
-  } if (type === 'preview') {
-    return previewInvoice(invoice, fullProjectMonth);
-  } if (type === 'update') {
-    return updateInvoiceRequest(invoice, undefined, false, history);
-  }
-  console.log('unknown invoiceAction', type, invoice); // eslint-disable-line
-  return null;
-}
 
 
 export function toggleInvoiceVerify(data: InvoiceModel) {

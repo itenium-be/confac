@@ -5,7 +5,7 @@ import {t} from '../../utils';
 import {EditInvoiceLines} from './invoice-lines/EditInvoiceLines';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
-import {invoiceAction} from '../../../actions/index';
+import {createInvoice, previewInvoice, updateInvoiceRequest} from '../../../actions/index';
 import {EditInvoiceClient} from './EditInvoiceClient';
 import InvoiceModel from '../models/InvoiceModel';
 import {ConfigModel} from '../../config/models/ConfigModel';
@@ -39,7 +39,9 @@ type EditInvoiceProps = {
   clients: ClientModel[],
   consultants: ConsultantModel[],
   fullProjectMonths: FullProjectMonthModel[],
-  invoiceAction: Function,
+  createInvoice: Function,
+  previewInvoice: Function,
+  updateInvoiceRequest: Function,
   match: {
     params: {
       id: string
@@ -226,7 +228,15 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
               </>
             )}
             <EditInvoiceSaveButtons
-              onClick={(type, history) => this.props.invoiceAction(invoice, type, history, fullProjectMonth)}
+              onClick={(type, history) => {
+                if (type === 'create') {
+                  this.props.createInvoice(invoice, history);
+                } if (type === 'preview') {
+                  this.props.previewInvoice(invoice.client.invoiceFileName || this.props.config.invoiceFileName, invoice, fullProjectMonth);
+                } if (type === 'update') {
+                  this.props.updateInvoiceRequest(invoice, undefined, false, history);
+                }
+              }}
               invoice={invoice}
             />
           </StickyFooter>
@@ -251,4 +261,4 @@ function mapStateToProps(state: ConfacState, props: any) {
   };
 }
 
-export default connect(mapStateToProps, {invoiceAction})(EditInvoice);
+export default connect(mapStateToProps, {createInvoice, previewInvoice, updateInvoiceRequest})(EditInvoice);

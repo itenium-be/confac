@@ -12,18 +12,21 @@ type InvoiceAttachmentsFormProps = {
 }
 
 export const InvoiceAttachmentsForm = ({model}: InvoiceAttachmentsFormProps) => {
+  const defaultInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
   const fullProjectMonth = useSelector((state: ConfacState) => state.projectsMonth
     .map(pm => projectMonthResolve(pm, state))
     .find(x => x.invoice && x.invoice._id === model._id));
 
-  const modelType = model.isQuotation ? 'quotation' : 'invoice';
 
-  if (!model._id) return null;
+  if (!model._id) {
+    return null;
+  }
 
   const createDownloadUrl = (
     downloadType: 'download' | 'preview', att: 'pdf' | Attachment,
-  ) => getInvoiceDownloadUrl(model, att, downloadType, fullProjectMonth);
+  ) => getInvoiceDownloadUrl(defaultInvoiceFileName, model, att, downloadType, fullProjectMonth);
 
+  const modelType = model.isQuotation ? 'quotation' : 'invoice';
   return (
     <AttachmentsForm
       model={model}

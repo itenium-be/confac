@@ -15,17 +15,19 @@ type DownloadInvoiceButtonProps = {
 
 /** Invoice Download and Preview icons */
 export const DownloadInvoiceButton = ({invoice}: DownloadInvoiceButtonProps) => {
+  const defaultInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
   const fullProjectMonth = useSelector((state: ConfacState) => state.projectsMonth
     .map(pm => projectMonthResolve(pm, state))
     .find(x => x.invoice && x.invoice._id === invoice._id));
 
-  const downloadUrl = getInvoiceDownloadUrl(invoice, 'pdf', 'download', fullProjectMonth);
+  const invoiceFileName = invoice.client.invoiceFileName || defaultInvoiceFileName;
+  const downloadUrl = getInvoiceDownloadUrl(invoiceFileName, invoice, 'pdf', 'download', fullProjectMonth);
   return (
     <>
       <Icon
         fa="fa fa-file-invoice"
         style={{color: '#0062cc', marginRight: 20}}
-        title={t('invoice.downloadInvoice', {fileName: invoiceReplacements(invoice.fileName, invoice, fullProjectMonth)})}
+        title={t('invoice.downloadInvoice', {fileName: invoiceReplacements(invoiceFileName, invoice, fullProjectMonth)})}
         href={downloadUrl}
         size={2}
       />

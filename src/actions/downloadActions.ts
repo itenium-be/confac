@@ -12,6 +12,7 @@ import {authService} from '../components/users/authService';
 
 
 export function getInvoiceDownloadUrl(
+  fileNameTemplate: string,
   invoice: InvoiceModel,
   attachment: 'pdf' | Attachment = 'pdf',
   downloadType?: 'preview' | 'download',
@@ -19,7 +20,9 @@ export function getInvoiceDownloadUrl(
 ): string {
 
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
-  const fileName = attachment === 'pdf' || attachment.type === 'pdf' ? getInvoiceFileName(invoice, fullProjectMonth) : attachment.fileName;
+  const fileName = attachment === 'pdf' || attachment.type === 'pdf'
+    ? getInvoiceFileName(fileNameTemplate, invoice, fullProjectMonth)
+    : attachment.fileName;
   const attachmentType = attachment === 'pdf' ? 'pdf' : attachment.type;
   // return buildUrl(`/attachments/${fileType}/${invoice._id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
 
@@ -46,7 +49,7 @@ export function getProjectMonthOverviewDownloadUrl(
 
 
 
-export function previewInvoice(data: InvoiceModel, fullProjectMonth?: FullProjectMonthModel) {
+export function previewInvoice(fileName: string, data: InvoiceModel, fullProjectMonth?: FullProjectMonthModel) {
   return dispatch => {
     request.post(buildUrl('/invoices/preview'))
       .set('Authorization', authService.getBearer())
@@ -54,7 +57,7 @@ export function previewInvoice(data: InvoiceModel, fullProjectMonth?: FullProjec
       .send(data)
       .then(res => {
         // console.log('previewInvoice response', res.body);
-        previewPdf(getInvoiceFileName(data, fullProjectMonth), res.body);
+        previewPdf(getInvoiceFileName(fileName, data, fullProjectMonth), res.body);
         return res.text;
       })
       .catch(catchHandler);

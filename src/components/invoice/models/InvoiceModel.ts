@@ -45,7 +45,6 @@ export default class InvoiceModel implements IAttachment {
   date: moment.Moment;
   orderNr: string;
   verified: boolean;
-  fileName: string;
   discount: string;
   attachments: Attachment[];
   isQuotation: boolean;
@@ -68,7 +67,6 @@ export default class InvoiceModel implements IAttachment {
     this.date = obj.date;
     this.orderNr = obj.orderNr || '';
     this.verified = obj.verified || false;
-    this.fileName = obj.fileName || config.invoiceFileName;
     this.discount = obj.discount;
     this.attachments = obj.attachments || [{type: 'pdf'}];
     this.isQuotation = obj.isQuotation || false;
@@ -102,7 +100,6 @@ export default class InvoiceModel implements IAttachment {
   /** Some weird stuff happening here that EditInvoice probably depends on */
   setClient(client: undefined | ClientModel): InvoiceModel {
     this.client = client as ClientModel;
-    this.fileName = client ? client.invoiceFileName : this.fileName;
     this.date = getInvoiceDate(client);
 
     if (client && client.defaultInvoiceLines.length) {

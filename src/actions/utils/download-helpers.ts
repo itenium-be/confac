@@ -35,8 +35,7 @@ export function downloadAttachment(fileName: string, content: Blob): void {
 
 
 
-export function getInvoiceFileName(invoice: InvoiceModel, fullProjectMonth?: FullProjectMonthModel): string {
-  const {fileName} = invoice;
+export function getInvoiceFileName(fileName: string, invoice: InvoiceModel, fullProjectMonth?: FullProjectMonthModel): string {
   return `${invoiceReplacements(fileName, invoice, fullProjectMonth)}.pdf`;
 }
 

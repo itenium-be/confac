@@ -21,7 +21,7 @@ export const EditInvoiceSaveButtons = withRouter(({match, location, history, sta
 type EditInvoiceSaveButtonsComponentProps = {
   history: any,
   invoice: InvoiceModel,
-  onClick: any,
+  onClick: (type: 'create' | 'update' | 'preview', history: any) => void,
 }
 
 export const EditInvoiceSaveButtonsComponent = ({history, invoice, onClick}: EditInvoiceSaveButtonsComponentProps) => {

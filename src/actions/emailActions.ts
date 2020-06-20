@@ -10,14 +10,14 @@ import {FullProjectMonthModel} from '../components/project/models/FullProjectMon
 import {authService} from '../components/users/authService';
 
 
-export function sendEmail(invoice: InvoiceModel, email: EmailModel, fullProjectMonth?: FullProjectMonthModel) {
+export function sendEmail(invoiceFileName: string, invoice: InvoiceModel, email: EmailModel, fullProjectMonth?: FullProjectMonthModel) {
   return dispatch => {
     // eslint-disable-next-line no-param-reassign
     email.attachments = email.attachments.map(attachmentType => {
       if (attachmentType === 'pdf') {
         return {
           type: 'pdf',
-          fileName: `${invoiceReplacements(invoice.fileName, invoice, fullProjectMonth)}.pdf`,
+          fileName: `${invoiceReplacements(invoiceFileName, invoice, fullProjectMonth)}.pdf`,
           fileType: 'application/pdf',
         };
       }
