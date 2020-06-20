@@ -17,7 +17,7 @@ describe('InvoiceListModel', () => {
       {date: today().subtract(2, 'days'), verified: true} as InvoiceModel,
       {date: today().subtract(3, 'days'), verified: true} as InvoiceModel,
     ];
-    const vm = new InvoiceListModel(invoices, [], filters, false);
+    const vm = new InvoiceListModel(invoices, [], [], filters, false);
 
     const result = vm.getFilteredInvoices();
 
@@ -33,7 +33,7 @@ describe('InvoiceListModel', () => {
     const invoices = [
       {date: moment().subtract(3, 'days'), verified: false} as InvoiceModel,
     ];
-    const vm = new InvoiceListModel(invoices, [], filters, true);
+    const vm = new InvoiceListModel(invoices, [], [], filters, true);
 
     const result = vm.getFilteredInvoices();
 
@@ -56,7 +56,7 @@ describe('InvoiceListModel', () => {
       {_id: '', lines: [{desc: 'Prestaties Koen'}], client: emptyClient, orderNr: '', number: 5, date: moment(), money: {}} as InvoiceModel,
       {_id: '', lines: [{desc: 'Prestaties Ilse'}], client: emptyClient, orderNr: '', number: 6, date: moment(), money: {}} as InvoiceModel,
     ];
-    const vm = new InvoiceListModel(invoices, [], filters, true);
+    const vm = new InvoiceListModel(invoices, [], [], filters, true);
 
     const result = vm.getFilteredInvoices();
 
