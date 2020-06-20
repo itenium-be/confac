@@ -12,6 +12,7 @@ import {ConsultantLinkWithModal} from '../../consultant/controls/ConsultantLink'
 import {ConsultantCountFooter, ProjectClientForecastFooter,
   ProjectForecastPartnerFooter} from '../project-month-list/ProjectMonthFooters';
 import {Ellipsis} from '../../controls/Tooltip';
+import {ToClipboardLabel} from '../../controls/other/ToClipboardLabel';
 
 
 export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel, ProjectListFilters>;
@@ -136,7 +137,11 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
   }, {
     key: 'clientRef',
     header: 'project.client.ref',
-    value: p => <Ellipsis title={p.details.client.ref} width={100}><small>{p.details.client.ref}</small></Ellipsis>,
+    value: p => p.details.client.ref && (
+      <Ellipsis title={p.details.client.ref} width={100}>
+        <ToClipboardLabel label={p.details.client.ref} />
+      </Ellipsis>
+    ),
   }, {
     key: 'buttons',
     header: {title: '', width: 110},
