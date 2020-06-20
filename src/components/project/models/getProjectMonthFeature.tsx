@@ -64,15 +64,13 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     key: 'inbound',
     value: p => <ProjectMonthInboundCell fullProjectMonth={p} />,
     className: p => {
-      if (!p.project.projectMonthConfig.inboundInvoice || p.details.verified) {
+      if (!p.project.projectMonthConfig.inboundInvoice || p.details.inbound.status === 'paid') {
         return 'validated';
       }
 
       switch (p.details.inbound.status) {
-        case 'paid':
-          return 'validated';
         case 'validated':
-          return undefined;
+          return 'table-warning';
         case 'new':
         default:
           return undefined;

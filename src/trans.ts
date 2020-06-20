@@ -456,6 +456,11 @@ export const trans = {
     selectPlaceholder: 'Maak een keuze',
 
     propertiesPlaceholder: 'Geef extra veldnamen in',
+
+    clipboard: {
+      success: 'Copied!',
+      failure: 'Copy failed',
+    }
   },
   email: {
     title: 'Factuur emailen',

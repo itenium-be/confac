@@ -6,7 +6,7 @@ import {ConfacState} from '../../reducers/app-state';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {saveConsultant} from '../../actions';
-import {StickyFooter} from '../controls/skeleton/StickyFooter';
+import {StickyFooter} from '../controls/other/StickyFooter';
 import {getNewConsultant} from './models/getNewConsultant';
 import {ConsultantModel} from './models/ConsultantModel';
 import {BusyButton} from '../controls/form-controls/BusyButton';

@@ -5,12 +5,14 @@ import t from '../trans';
 import {InvoiceFilters} from '../models';
 import {ListFilters} from '../components/controls/table/table-models';
 
-type ToastType = 'error' | 'success';
+type ToastType = 'error' | 'success' | 'info';
 
 function getIcon(type: ToastType): string {
   switch (type) {
     case 'error':
       return 'fa fa-times-circle';
+    case 'info':
+      return 'fa fa-info-circle';
     case 'success':
     default:
       return 'fa fa-check-circle';
@@ -52,6 +54,14 @@ export function failure(msg = '', title = '', timeout: number | false = 4000, po
       type="error"
     />,
     {autoClose: timeout, position: (position || toast.POSITION.TOP_CENTER as any)},
+  );
+}
+
+
+export function info(msg = ''): void {
+  toast.info(
+    msg,
+    {autoClose: 800, position: toast.POSITION.TOP_RIGHT, closeButton: false},
   );
 }
 

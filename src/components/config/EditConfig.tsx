@@ -6,7 +6,7 @@ import {configDefinition} from './models/ConfigConfig';
 import {updateConfig} from '../../actions/index';
 import {ConfigModel} from './models/ConfigModel';
 import {ConfacState} from '../../reducers/app-state';
-import {StickyFooter} from '../controls/skeleton/StickyFooter';
+import {StickyFooter} from '../controls/other/StickyFooter';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';

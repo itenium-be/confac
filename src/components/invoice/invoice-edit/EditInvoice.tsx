@@ -12,7 +12,7 @@ import {ConfigModel} from '../../config/models/ConfigModel';
 import {ClientModel} from '../../client/models/ClientModels';
 import {ConfacState} from '../../../reducers/app-state';
 import {EditInvoiceDetails} from './EditInvoiceDetails';
-import {StickyFooter} from '../../controls/skeleton/StickyFooter';
+import {StickyFooter} from '../../controls/other/StickyFooter';
 import {DownloadInvoiceButton} from './DownloadInvoiceButton';
 import {EmailModal, EmailTemplate} from '../../controls/email/EmailModal';
 import {EmailModel} from '../../controls/email/EmailModels';

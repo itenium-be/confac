@@ -5,7 +5,7 @@ import {useHistory} from 'react-router-dom';
 import {ConfacState} from '../../reducers/app-state';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
-import {StickyFooter} from '../controls/skeleton/StickyFooter';
+import {StickyFooter} from '../controls/other/StickyFooter';
 import {getNewUser} from './models/getNewUser';
 import {UserModel} from './models/UserModel';
 import {BusyButton} from '../controls/form-controls/BusyButton';

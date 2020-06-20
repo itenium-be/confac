@@ -5,7 +5,7 @@ import {useHistory} from 'react-router-dom';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {saveProject} from '../../actions';
-import {StickyFooter} from '../controls/skeleton/StickyFooter';
+import {StickyFooter} from '../controls/other/StickyFooter';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {ProjectModel} from './models/ProjectModel';
 import {projectFormConfig} from './models/ProjectFormConfig';

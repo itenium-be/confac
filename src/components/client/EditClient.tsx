@@ -8,7 +8,7 @@ import {getNewClient} from './models/getNewClient';
 import {ClientModel} from './models/ClientModels';
 import {ConfacState} from '../../reducers/app-state';
 import {ConfigModel} from '../config/models/ConfigModel';
-import {StickyFooter} from '../controls/skeleton/StickyFooter';
+import {StickyFooter} from '../controls/other/StickyFooter';
 import {NewClient} from './NewClient';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {BusyButton} from '../controls/form-controls/BusyButton';

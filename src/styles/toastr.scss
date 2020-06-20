@@ -15,6 +15,18 @@
   color: #a94442 !important;
 }
 
+.Toastify__toast-container.Toastify__toast-container--top-right {
+  width: unset !important;
+
+  .Toastify__toast--info.confac-toast {
+    background-color: #BEE5EB !important;
+    border: 1px solid #3293a2;
+    color: black !important;
+    min-height: 40px !important;
+    padding: 4px;
+  }
+}
+
 .confac-toast .reapop {
   display: table;
   width: 100%;

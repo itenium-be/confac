@@ -17,6 +17,7 @@ import {ConfacState} from '../../../reducers/app-state';
 import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPreviewButtons';
 import {InboundInvoiceAttachmentType} from '../../../models';
 import {getTariffs} from '../models/ProjectModel';
+import {ToClipboardLabel} from '../../controls/other/ToClipboardLabel';
 
 interface ProjectMonthInboundCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -38,7 +39,11 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
     return <div />;
   }
 
-  if (fullProjectMonth.details.verified) {
+  if (fullProjectMonth.details.verified === 'forced') {
+    return <div />;
+  }
+
+  if (inbound.status === 'paid') {
     return <div />;
   }
 
@@ -67,12 +72,15 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
 
   return (
     <div className={cn('inbound-cell')}>
-      <StringInput
-        value={inbound.nr}
-        onChange={nr => setInbound({...inbound, nr})}
-        placeholder={t('projectMonth.inboundInvoiceNr')}
-        display={canEdit}
-      />
+      {canEdit === 'label' ? (
+        <ToClipboardLabel label={inbound.nr} />
+      ) : (
+        <StringInput
+          value={inbound.nr}
+          onChange={nr => setInbound({...inbound, nr})}
+          placeholder={t('projectMonth.inboundInvoiceNr')}
+        />
+      )}
       <InboundAmountForecast fullProjectMonth={fullProjectMonth} />
       <DatePicker
         value={fullProjectMonth.details.inbound.dateReceived || inbound.dateReceived}
