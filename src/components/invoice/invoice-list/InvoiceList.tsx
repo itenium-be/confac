@@ -15,6 +15,7 @@ import {t} from '../../utils';
 import {LinkToButton} from '../../controls/form-controls/button/LinkToButton';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
+import {Claim} from '../../users/models/UserModel';
 
 
 type InvoiceListProps = {
@@ -46,7 +47,7 @@ export const InvoiceList = (props: InvoiceListProps) => {
             <h1>{t('title')}</h1>
           </Col>
           <Col xs={4} style={{textAlign: 'right'}}>
-            <LinkToButton to="/quotations" label="quotation.title" />
+            <LinkToButton claim={Claim.ViewQuotations} to="/quotations" label="quotation.title" />
           </Col>
         </Row>
       )}

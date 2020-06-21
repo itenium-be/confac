@@ -4,6 +4,7 @@ import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import {patchProjectsMonth} from '../../../actions';
 import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
 import {t} from '../../utils';
+import {Claim} from '../../users/models/UserModel';
 
 
 interface ProjectMonthNotesCellProps {
@@ -18,6 +19,7 @@ export const ProjectMonthNotesCell = ({fullProjectMonth}: ProjectMonthNotesCellP
   return (
     <div className="notes-cell">
       <NotesModalButton
+        claim={Claim.EditProjectMonth}
         value={fullProjectMonth.details.note}
         onChange={val => dispatch(patchProjectsMonth({...fullProjectMonth.details, note: val}))}
         title={t('projectMonth.note')}

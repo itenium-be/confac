@@ -7,6 +7,8 @@ import {createProjectsMonth} from '../../../actions';
 import {BaseModalProps, Modal, ModalState} from '../../controls/Modal';
 import {DatePicker} from '../../controls/form-controls/DatePicker';
 import {Button} from '../../controls/form-controls/Button';
+import {ClaimGuard} from '../../enhancers/EnhanceWithClaim';
+import {Claim} from '../../users/models/UserModel';
 
 type ProjectMonthModalProps = BaseModalProps & {};
 
@@ -47,7 +49,7 @@ export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
 export const CreateProjectsMonthModalButton = () => {
   const [modalProjectMonthId, setModalProjectMonthId] = useState<ModalState>(null);
   return (
-    <>
+    <ClaimGuard claim={Claim.CreateProjectMonth}>
       {modalProjectMonthId && (
         <CreateProjectsMonthModal show={!!modalProjectMonthId} onClose={() => setModalProjectMonthId(null)} />
       )}
@@ -59,6 +61,6 @@ export const CreateProjectsMonthModalButton = () => {
       >
         {t('project.newMonth')}
       </Button>
-    </>
+    </ClaimGuard>
   );
 };

@@ -7,7 +7,7 @@ import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {StickyFooter} from '../controls/other/StickyFooter';
 import {getNewRole} from './models/getNewUser';
-import {RoleModel} from './models/UserModel';
+import {RoleModel, Claim} from './models/UserModel';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {defaultRoleProperties} from './models/UserConfig';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
@@ -50,7 +50,7 @@ export const EditRole = (props: EditRoleProps) => {
           />
         </Row>
       </Form>
-      <StickyFooter>
+      <StickyFooter claim={Claim.ManageUsers}>
         <BusyButton onClick={() => dispatch(saveRole(role, undefined, history))}>
           {t('save')}
         </BusyButton>

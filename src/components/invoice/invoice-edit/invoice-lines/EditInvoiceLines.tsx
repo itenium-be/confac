@@ -8,16 +8,22 @@ import {AddIcon, DragAndDropIcon} from '../../../controls/Icon';
 import {BaseInputProps} from '../../../controls/form-controls/inputs/BaseInput';
 import {InvoiceLineActions, InvoiceLine} from '../../models/InvoiceLineModels';
 import InvoiceModel from '../../models/InvoiceModel';
+import {ClaimGuard} from '../../../enhancers/EnhanceWithClaim';
+import {Claim} from '../../../users/models/UserModel';
 
 
 type EditInvoiceLinesProps = BaseInputProps<InvoiceLine[]> & {
   translationPrefix?: 'quotation' | 'invoice';
   allowEmpty?: boolean;
   invoice?: InvoiceModel;
+  claim?: Claim;
 };
 
 
-export const EditInvoiceLines = ({value, onChange, invoice, translationPrefix = 'invoice', allowEmpty = false}: EditInvoiceLinesProps) => {
+
+export const EditInvoiceLines = (
+  {claim, value, onChange, invoice, translationPrefix = 'invoice', allowEmpty = false}: EditInvoiceLinesProps,
+) => {
   function onDragEnd(result: DropResult): void {
     // dropped outside the list or didn't actually move
     if (!result.destination || result.source.index === result.destination.index) {
@@ -54,9 +60,9 @@ export const EditInvoiceLines = ({value, onChange, invoice, translationPrefix = 
                     const EditInvoiceLine = createEditInvoiceLine(item);
                     return (
                       <tr ref={providedInner.innerRef} {...providedInner.draggableProps} {...providedInner.dragHandleProps}>
-                        <td><DragAndDropIcon /></td>
+                        <td><DragAndDropIcon claim={claim} /></td>
                         <EditInvoiceLine lines={value} index={index} onChange={onChange} line={item} invoice={invoice} />
-                        <EditInvoiceLineIcons lines={value} index={index} allowEmpty={allowEmpty} onChange={onChange} />
+                        <EditInvoiceLineIcons claim={claim} lines={value} index={index} allowEmpty={allowEmpty} onChange={onChange} />
                       </tr>
                     );
                   }}
@@ -67,13 +73,15 @@ export const EditInvoiceLines = ({value, onChange, invoice, translationPrefix = 
           )}
         </Droppable>
       </DragDropContext>
-      <tbody>
-        <tr>
-          <td colSpan={nrOfColumns}>
-            <AddIcon onClick={() => onChange(InvoiceLineActions.addEmptyLine(value))} label={tp('.addLine')} size={1} />
-          </td>
-        </tr>
-      </tbody>
+      <ClaimGuard claim={claim}>
+        <tbody>
+          <tr>
+            <td colSpan={nrOfColumns}>
+              <AddIcon onClick={() => onChange(InvoiceLineActions.addEmptyLine(value))} label={tp('.addLine')} size={1} />
+            </td>
+          </tr>
+        </tbody>
+      </ClaimGuard>
     </Table>
   );
 };

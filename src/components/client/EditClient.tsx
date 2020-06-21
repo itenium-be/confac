@@ -15,6 +15,7 @@ import {BusyButton} from '../controls/form-controls/BusyButton';
 import {getDocumentTitle} from '../hooks/useDocumentTitle';
 import {ClientAttachmentsForm} from './controls/ClientAttachmentsForm';
 import {Audit} from '../admin/Audit';
+import {Claim} from '../users/models/UserModel';
 
 
 type EditClientProps = {
@@ -123,7 +124,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
           <ClientAttachmentsForm model={client} />
 
         </Form>
-        <StickyFooter>
+        <StickyFooter claim={Claim.ManageClients}>
           <BusyButton
             onClick={() => this._onSave()}
             disabled={this.isClientDisabled(client)}

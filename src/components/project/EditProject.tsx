@@ -17,6 +17,7 @@ import {getNewClient} from '../client/models/getNewClient';
 import {getNewConsultant} from '../consultant/models/getNewConsultant';
 import {Audit} from '../admin/Audit';
 import {CopyProject} from './CopyProject';
+import {Claim} from '../users/models/UserModel';
 
 interface EditProjectProps {
   match: {
@@ -104,7 +105,7 @@ export const EditProject = (props: EditProjectProps) => {
           />
         </Row>
       </Form>
-      <StickyFooter>
+      <StickyFooter claim={Claim.ManageProjects}>
         {project.endDate && <CopyProject projectToCopy={project} />}
         <BusyButton onClick={() => dispatch(saveProject(project, history))} disabled={isButtonDisabled}>
           {t('save')}

@@ -4,6 +4,7 @@ import {AttachmentDownloadIcon, AttachmentPreviewIcon} from './AttachmentDownloa
 import {t} from '../../utils';
 import {AttachmentDropzone} from './AttachmentDropzone';
 import {ConfirmedDeleteIcon} from '../icons/DeleteIcon';
+import {Claim} from '../../users/models/UserModel';
 
 
 import './attachments.scss';
@@ -16,10 +17,11 @@ type AttachmentFormProps = {
   onUpload?: (file: File) => void;
   dropzonePlaceholderText?: string;
   viewFileTooltip?: string;
+  claim: Claim;
 }
 
 export const AdvancedAttachmentDropzone = (
-  {dropzonePlaceholderText, attachment, downloadUrl, onDelete, onUpload, viewFileTooltip}:AttachmentFormProps,
+  {claim, dropzonePlaceholderText, attachment, downloadUrl, onDelete, onUpload, viewFileTooltip}: AttachmentFormProps,
 ) => (
   <div style={{minWidth: '20%'}}>
     {
@@ -40,6 +42,7 @@ export const AdvancedAttachmentDropzone = (
           <div className="attachment-actions">
             {onDelete && (
               <ConfirmedDeleteIcon
+                claim={claim}
                 title={t('attachment.deleteTitle')}
                 onClick={() => onDelete(attachment)}
                 size={1}

@@ -5,12 +5,13 @@ import {t} from '../utils';
 import {authService} from '../users/authService';
 import {Button} from '../controls/form-controls/Button';
 import {Icon} from '../controls/Icon';
+import {Claim} from '../users/models/UserModel';
 
 
 export const UserPage = () => {
   return (
     <div className="container">
-      <Button onClick="/users" style={{float: 'right'}} variant="light">
+      <Button claim={Claim.ViewUsers} onClick="/users" style={{float: 'right'}} variant="light">
         {t('user.users')}
         <Icon fa="fa fa-arrow-right" size={1} style={{marginLeft: 8}} />
       </Button>

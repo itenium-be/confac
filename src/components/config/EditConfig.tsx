@@ -11,6 +11,7 @@ import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {Audit} from '../admin/Audit';
+import {Claim} from '../users/models/UserModel';
 
 
 type EditConfigProps = {
@@ -36,7 +37,7 @@ const EditConfig = (props: EditConfigProps) => {
         </Row>
         <Audit audit={props.config.audit} />
       </Form>
-      <StickyFooter>
+      <StickyFooter claim={Claim.ManageConfig}>
         <BusyButton onClick={() => props.updateConfig(state)}>{t('save')}</BusyButton>
       </StickyFooter>
     </Container>

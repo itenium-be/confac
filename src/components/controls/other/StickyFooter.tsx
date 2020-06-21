@@ -1,11 +1,12 @@
 import {Navbar, Nav} from 'react-bootstrap';
 import React from 'react';
+import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
 
 type StickyFooterProps = {
   children: any;
 }
 
-export const StickyFooter = ({children}: StickyFooterProps) => (
+export const StickyFooter = EnhanceWithClaim(({children}: StickyFooterProps) => (
   <Navbar fixed="bottom" className="edit-footer">
     <Nav.Item className="navbar-center button-row">
       <div className="footer-container">
@@ -13,4 +14,4 @@ export const StickyFooter = ({children}: StickyFooterProps) => (
       </div>
     </Nav.Item>
   </Navbar>
-);
+));

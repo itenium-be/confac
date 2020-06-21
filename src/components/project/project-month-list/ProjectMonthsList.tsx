@@ -13,6 +13,7 @@ import {t} from '../../utils';
 import {List} from '../../controls/table/List';
 import {ProjectMonthListCollapsed} from './ProjectMonthListCollapsed';
 import {Button} from '../../controls/form-controls/Button';
+import {Claim} from '../../users/models/UserModel';
 
 
 type CollapsibleProjectMonthsListProps = {
@@ -86,6 +87,7 @@ export const ProjectMonthsListToolbar = ({feature, onClose}: ProjectMonthsListTo
             downloadUrl={createDownloadUrl}
             dropzonePlaceholderText={t('projectMonth.sdWorxTimesheetUpload')}
             viewFileTooltip={t('projectMonth.timesheetCheckDownloadTooltip')}
+            claim={Claim.EditProjectMonth}
           />
         )}
       </div>

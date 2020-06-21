@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom';
 import cn from 'classnames';
 import {Tooltip} from './Tooltip';
 import t from '../../trans';
+import {EnhanceWithClaim, EnhanceWithClaimProps} from '../enhancers/EnhanceWithClaim';
 
 
 const EnhanceIconWithCenter = <P extends object>(EnhancedComponent: React.ComponentType<P>) => (
@@ -26,13 +27,13 @@ type RouterProps = {
   staticContext: any,
 }
 
-export const Icon = EnhanceIconWithCenter(
+export const Icon = EnhanceWithClaim(EnhanceIconWithCenter(
   withRouter(({match, location, history, staticContext, ...props}: IconProps & RouterProps) => (
     <IconComponent history={history} {...props as IconProps} />
   )),
-);
+));
 
-export type IconProps = {
+export type IconProps = EnhanceWithClaimProps & {
   /** Full fa. ex: "far fa-xxx" */
   fa?: string,
   color?: string,

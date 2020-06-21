@@ -9,6 +9,7 @@ import {ConfacState} from '../../../reducers/app-state';
 import {NotEmailedIcon} from '../../controls/Icon';
 import {BusyButton} from '../../controls/form-controls/BusyButton';
 import {getInvoiceDueDateVariant} from '../invoice-table/getInvoiceListRowClass';
+import {Claim} from '../../users/models/UserModel';
 
 
 type InvoiceNotVerifiedAlertProps = {
@@ -43,6 +44,7 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
           {!invoice.lastEmail && <NotEmailedIcon style={{marginRight: 10, fontSize: 13, marginTop: -6}} />}
 
           <BusyButton
+            claim={Claim.ValidateInvoices}
             variant={variant}
             onClick={() => toggleInvoiceVerify(invoice)}
             size="sm"

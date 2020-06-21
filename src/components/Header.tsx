@@ -1,29 +1,33 @@
 import React from 'react';
 import {Nav, Navbar, Dropdown, ButtonGroup} from 'react-bootstrap';
-import {Link, Route} from 'react-router-dom';
+import {Link as ReactLink, Route} from 'react-router-dom';
 import {t} from './utils';
 import {AddIcon, Icon} from './controls/Icon';
+import {Claim} from './users/models/UserModel';
+import {EnhanceWithClaim, EnhanceWithClaimProps} from './enhancers/EnhanceWithClaim';
 
-type OldSchoolMenuLinkProps = {
+
+export const Link = EnhanceWithClaim(ReactLink);
+
+
+type OldSchoolMenuLinkProps = EnhanceWithClaimProps & {
   label: string;
   to: string;
   activeOnlyWhenExact?: boolean;
 }
 
-const OldSchoolMenuLink = ({label, to, activeOnlyWhenExact = false}: OldSchoolMenuLinkProps) => (
+const OldSchoolMenuLink = EnhanceWithClaim(({label, to, activeOnlyWhenExact = false}: OldSchoolMenuLinkProps) => (
   <Route
     path={to}
     exact={activeOnlyWhenExact}
-    children={({match}) => (
-      <Link className={`nav-link header-link${match ? ' active' : ''}`} to={to}>
+    children={({location}) => (
+      <Link className={`nav-link header-link${location.pathname.startsWith(to) ? ' active' : ''}`} to={to}>
         {label}
       </Link>
     )}
   />
-);
+));
 
-// enhanceWithClaim()
-// claim: Claim
 
 
 
@@ -37,32 +41,44 @@ const Header = () => (
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="mr-auto">
-        <OldSchoolMenuLink to="/monthly-invoicing" label={t('nav.monthlyInvoicing')} />
-        <OldSchoolMenuLink to="/projects" label={t('nav.projects')} />
-        <OldSchoolMenuLink to="/clients" label={t('nav.clients')} />
-        <OldSchoolMenuLink to="/invoices" label={t('nav.invoices')} />
-        <OldSchoolMenuLink to="/config" label={t('nav.config')} />
-        <OldSchoolMenuLink to="/admin" label={t('nav.admin')} />
+        <OldSchoolMenuLink claim={Claim.ViewProjectMonth} to="/monthly-invoicing" label={t('nav.monthlyInvoicing')} />
+        <OldSchoolMenuLink claim={Claim.ViewProjects} to="/projects" label={t('nav.projects')} />
+        <OldSchoolMenuLink claim={Claim.ViewClients} to="/clients" label={t('nav.clients')} />
+        <OldSchoolMenuLink claim={Claim.ViewInvoices} to="/invoices" label={t('nav.invoices')} />
+        <OldSchoolMenuLink
+          claim={claims => claims.includes(Claim.ViewInvoices) && !claims.includes(Claim.ViewInvoices)}
+          to="/quotations"
+          label={t('nav.quotations')}
+        />
+        <OldSchoolMenuLink claim={Claim.ViewConfig} to="/config" label={t('nav.config')} />
       </Nav>
 
       <Dropdown as={ButtonGroup} style={{top: 8, position: 'absolute', right: 80}}>
-        <Link to="/invoices/create" className="btn btn-success">
+        <Link claim={Claim.ManageInvoices} to="/invoices/create" className="btn btn-success">
           <AddIcon size={1} style={{marginRight: 15}} />
           {t('invoice.createNew')}
+        </Link>
+        <Link
+          claim={claims => claims.includes(Claim.ManageProjects) && !claims.includes(Claim.ManageInvoices)}
+          to="/projects/create"
+          className="btn btn-success"
+        >
+          <AddIcon size={1} style={{marginRight: 15}} />
+          {t('project.createNew')}
         </Link>
 
         <Dropdown.Toggle split variant="success" id="header-create-split" />
         <Dropdown.Menu>
-          <Link to="/projects/create" className="dropdown-item">
+          <Link claim={Claim.ManageProjects} to="/projects/create" className="dropdown-item">
             {t('project.createNew')}
           </Link>
-          <Link to="/clients/create" className="dropdown-item">
+          <Link claim={Claim.ManageClients} to="/clients/create" className="dropdown-item">
             {t('client.createNew')}
           </Link>
-          <Link to="/consultants/create" className="dropdown-item">
+          <Link claim={Claim.ManageConsultants} to="/consultants/create" className="dropdown-item">
             {t('consultant.createNew')}
           </Link>
-          <Link to="/quotations/create" className="dropdown-item">
+          <Link claim={Claim.ManageQuotations} to="/quotations/create" className="dropdown-item">
             {t('quotation.createNew')}
           </Link>
         </Dropdown.Menu>

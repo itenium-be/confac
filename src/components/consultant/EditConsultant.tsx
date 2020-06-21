@@ -13,6 +13,7 @@ import {BusyButton} from '../controls/form-controls/BusyButton';
 import {defaultConsultantProperties} from './models/ConsultantConfig';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {Audit} from '../admin/Audit';
+import {Claim} from '../users/models/UserModel';
 
 interface EditConsultantProps {
   match: {
@@ -59,7 +60,7 @@ export const EditConsultant = (props: EditConsultantProps) => {
           />
         </Row>
       </Form>
-      <StickyFooter>
+      <StickyFooter claim={Claim.ManageConsultants}>
         <BusyButton
           onClick={() => dispatch(saveConsultant(consultant, undefined, history))}
           disabled={isButtonDisabled()}

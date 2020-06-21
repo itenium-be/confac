@@ -1,5 +1,5 @@
 import React from 'react';
-import {ButtonGroup} from 'react-bootstrap';
+import {ButtonGroup as ReactButtonGroup} from 'react-bootstrap';
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import cn from 'classnames';
@@ -18,6 +18,8 @@ import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPrevie
 import {InboundInvoiceAttachmentType} from '../../../models';
 import {getTariffs} from '../models/ProjectModel';
 import {ToClipboardLabel} from '../../controls/other/ToClipboardLabel';
+import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
+import {Claim} from '../../users/models/UserModel';
 
 interface ProjectMonthInboundCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -121,11 +123,15 @@ type InboundActionButtonsProps = {
 }
 
 
+
+const ButtonGroup = EnhanceWithClaim(ReactButtonGroup);
+
+
 /** Switch between statusses for the inbound invoice */
 const InboundActionButtons = ({fullProjectMonth, onChange}: InboundActionButtonsProps) => {
   const currentStatus = fullProjectMonth.details.inbound.status;
   return (
-    <ButtonGroup>
+    <ButtonGroup claim={Claim.ValidateProjectMonth}>
       <Button
         key="validated"
         variant={currentStatus === 'validated' ? 'success' : 'outline-dark'}

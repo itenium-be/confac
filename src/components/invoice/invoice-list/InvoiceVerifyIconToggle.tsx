@@ -5,14 +5,15 @@ import t from '../../../trans';
 import {toggleInvoiceVerify} from '../../../actions/index';
 import InvoiceModel from '../models/InvoiceModel';
 import {BusyVerifyIcon} from '../../controls/icons/VerifyIcon';
+import {EnhanceWithClaim, EnhanceWithClaimProps} from '../../enhancers/EnhanceWithClaim';
 
 
-type InvoiceVerifyIconToggleProps = {
+type InvoiceVerifyIconToggleProps = EnhanceWithClaimProps & {
   invoice: InvoiceModel,
   toggleValid?: (valid: boolean) => void;
 }
 
-export const InvoiceVerifyIconToggle = ({invoice, toggleValid, ...props}: InvoiceVerifyIconToggleProps) => {
+export const InvoiceVerifyIconToggle = EnhanceWithClaim(({invoice, toggleValid, ...props}: InvoiceVerifyIconToggleProps) => {
   const dispatch = useDispatch();
   if (invoice.isQuotation) {
     return null;
@@ -34,4 +35,4 @@ export const InvoiceVerifyIconToggle = ({invoice, toggleValid, ...props}: Invoic
       {...props}
     />
   );
-};
+});

@@ -8,6 +8,7 @@ import {ConsultantModal} from './ConsultantModal';
 import {ConfacState} from '../../../reducers/app-state';
 import {saveConsultant} from '../../../actions/consultantActions';
 import {SelectWithCreateButton, SelectWithCreateModalProps} from '../../controls/form-controls/select/SelectWithCreateButton';
+import {Claim} from '../../users/models/UserModel';
 
 
 export const ConsultantSelectWithCreateModal = ({value, onChange}: SelectWithCreateModalProps<ConsultantModel>) => {
@@ -25,7 +26,7 @@ export const ConsultantSelectWithCreateModal = ({value, onChange}: SelectWithCre
           onConfirm={(model: ConsultantModel) => dispatch(saveConsultant(model, savedModel => onChange(savedModel._id, savedModel)))}
         />
       )}
-      <SelectWithCreateButton createButtonText="add" setModalId={setModalId}>
+      <SelectWithCreateButton claim={Claim.ManageConsultants} createButtonText="add" setModalId={setModalId}>
         <ConsultantSelect
           label={t('project.consultant')}
           value={value || ''}

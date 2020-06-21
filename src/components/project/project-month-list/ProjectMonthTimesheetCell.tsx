@@ -15,6 +15,7 @@ import {getDownloadUrl} from '../../../actions/utils/download-helpers';
 import {TimesheetTimeConfig, getAmountInDays} from '../../invoice/controls/InvoiceLineTypeSelect';
 import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPreviewButtons';
 import {SignedTimesheetAttachmentType} from '../../../models';
+import {Claim} from '../../users/models/UserModel';
 
 interface ProjectMonthTimesheetCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -132,6 +133,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           }}
         />
         <NotesModalButton
+          claim={Claim.EditProjectMonth}
           value={timesheet.note}
           onChange={val => saveTimesheet({...timesheet, note: val})}
           title={t('projectMonth.timesheetNote', {name: `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`})}

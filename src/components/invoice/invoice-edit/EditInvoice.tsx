@@ -27,6 +27,7 @@ import {ProjectMonthSelect} from '../../project/controls/ProjectMonthSelect';
 import {EditInvoiceBadges} from './EditInvoiceBadges';
 import {Audit} from '../../admin/Audit';
 import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
+import {Claim} from '../../users/models/UserModel';
 
 
 import './EditInvoice.scss';
@@ -147,6 +148,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
               <div>
                 <div className={`invoice-top-buttonbar ${invoice._id ? 'invoice-edit' : 'invoice-new'}`}>
                   <NotesModalButton
+                    claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
                     value={invoice.note}
                     onChange={val => this.updateInvoice('note', val)}
                     title={t('projectMonth.note')}
@@ -202,6 +204,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
 
           <Row style={{marginTop: 8}}>
             <EditInvoiceLines
+              claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
               value={invoice.lines}
               onChange={m => this.setState({invoice: invoice.setLines(m)})}
               translationPrefix={invoice.getType()}
@@ -212,6 +215,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
             {!invoice.isNew && (
               <>
                 <Button
+                  claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
                   variant={invoice.verified || invoice.lastEmail ? 'outline-danger' : 'light'}
                   icon="far fa-envelope"
                   onClick={() => this.setState({showEmailModal: EmailTemplate.InitialEmail})}
@@ -219,6 +223,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
                   {t('email.prepareEmail')}
                 </Button>
                 <Button
+                  claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
                   variant={invoice.verified || !invoice.lastEmail ? 'outline-danger' : 'light'}
                   icon="far fa-envelope"
                   onClick={() => this.setState({showEmailModal: EmailTemplate.Reminder})}

@@ -7,6 +7,7 @@ import {ClientSelect} from './ClientSelect';
 import {t} from '../../utils';
 import {SelectWithCreateButton, SelectWithCreateModalProps} from '../../controls/form-controls/select/SelectWithCreateButton';
 import {ConfacState} from '../../../reducers/app-state';
+import {Claim} from '../../users/models/UserModel';
 
 
 type ClientSelectWithCreateModalProps = SelectWithCreateModalProps<ClientModel> & {
@@ -34,7 +35,7 @@ export const ClientSelectWithCreateModal = ({value, onChange, clientType = 'clie
           onConfirm={(model: ClientModel) => onChange(model._id, model)}
         />
       )}
-      <SelectWithCreateButton setModalId={setModalId} createButtonText={`invoice.${clientType}New`}>
+      <SelectWithCreateButton claim={Claim.ManageClients} setModalId={setModalId} createButtonText={`invoice.${clientType}New`}>
         <ClientSelect
           label={t(`invoice.${clientType}`)}
           value={value || ''}

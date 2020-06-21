@@ -6,7 +6,7 @@ import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-mo
 import {features} from '../../../trans';
 import {EditIcon} from '../../controls/Icon';
 import {DeleteIcon} from '../../controls/icons/DeleteIcon';
-import {UserModel} from './UserModel';
+import {UserModel, Claim} from './UserModel';
 
 
 export type UserFeatureBuilderConfig = IFeatureBuilderConfig<UserModel, UsersListFilters>;
@@ -58,6 +58,7 @@ const userListConfig = (config: UserFeatureBuilderConfig): IList<UserModel, User
       <>
         <EditIcon onClick={`/users/${m.alias}`} style={{marginRight: 15}} size={1} />
         <DeleteIcon
+          claim={Claim.ManageUsers}
           onClick={() => config.save({...m, active: !m.active})}
           title={m.active ? t('feature.deactivateTitle') : t('feature.activateTitle')}
           size={1}

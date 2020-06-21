@@ -79,10 +79,10 @@ export const trans = {
   nav: {
     monthlyInvoicing: 'Facturatie',
     invoices: 'Facturen',
+    quotations: 'Offertes',
     clients: 'Klanten',
     projects: 'Projecten',
     config: 'Config',
-    admin: 'Admin',
   },
   titles: {
     config: 'Configuratie',

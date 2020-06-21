@@ -2,7 +2,7 @@ import {ACTION_TYPES} from '../actions';
 import {UserState, RoleModel} from '../components/users/models/UserModel';
 
 
-function getRoles(): RoleModel[] {
+export function getRoles(): RoleModel[] {
   const roles = localStorage.getItem('roles');
   return roles ? JSON.parse(roles) : [];
 }

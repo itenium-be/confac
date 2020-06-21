@@ -7,6 +7,7 @@ import {InvoiceDownloadIcon, InvoicePreviewIcon} from '../../controls/attachment
 import {t} from '../../utils';
 import {deleteInvoice} from '../../../actions';
 import {ConfirmedDeleteIcon} from '../../controls/icons/DeleteIcon';
+import {Claim} from '../../users/models/UserModel';
 
 
 type InvoiceListRowActionsProps = {
@@ -28,11 +29,12 @@ export const InvoiceListRowActions = ({invoice, toggleValid, small = false}: Inv
           style={{marginRight: invoice.isQuotation ? undefined : -15}}
         />
       )}
-      <InvoiceVerifyIconToggle invoice={invoice} toggleValid={toggleValid} />
+      <InvoiceVerifyIconToggle claim={Claim.ValidateInvoices} invoice={invoice} toggleValid={toggleValid} />
       {!small && <InvoiceDownloadIcon invoice={invoice} />}
       <InvoicePreviewIcon invoice={invoice} />
       {!small && (
         <ConfirmedDeleteIcon
+          claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
           title={t(`${invoiceType}.deleteTitle`)}
           onClick={() => dispatch(deleteInvoice(invoice))}
         >

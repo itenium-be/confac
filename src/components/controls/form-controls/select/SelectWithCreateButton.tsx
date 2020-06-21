@@ -2,6 +2,7 @@ import React from 'react';
 import {ModalState} from '../../Modal';
 import {t} from '../../../utils';
 import {Button} from '../Button';
+import {Claim} from '../../../users/models/UserModel';
 
 
 /** Props to be used as FormConfig/ArrayInput */
@@ -16,16 +17,18 @@ type SelectWithCreateButtonProps = {
   children: any;
   setModalId: (id: ModalState) => void;
   createButtonText: string;
+  claim: Claim;
 }
 
 
-export const SelectWithCreateButton = ({children, setModalId, createButtonText}: SelectWithCreateButtonProps) => (
+export const SelectWithCreateButton = ({claim, children, setModalId, createButtonText}: SelectWithCreateButtonProps) => (
   <div className="unset-split">
     <div>
       {children}
     </div>
     <div style={{width: 120, position: 'relative'}}>
       <Button
+        claim={{claim, or: 'disabled'}}
         onClick={() => setModalId('create')}
         variant="light"
         size="sm"

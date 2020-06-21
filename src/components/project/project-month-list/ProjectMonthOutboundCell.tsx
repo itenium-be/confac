@@ -17,6 +17,8 @@ import {useDebouncedSave} from '../../hooks/useDebounce';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
 import {EmailModal, EmailTemplate} from '../../controls/email/EmailModal';
 import {InvoiceLine} from '../../invoice/models/InvoiceLineModels';
+import {Claim} from '../../users/models/UserModel';
+import {ClaimGuard} from '../../enhancers/EnhanceWithClaim';
 
 
 interface ProjectMonthOutboundCellProps {
@@ -111,7 +113,7 @@ const OutboundInvoice = ({fullProjectMonth, toggleValid}: OutboundInvoiceProps) 
   return (
     <div className="outbound-invoice-cell">
       <div>
-        <span>{moneyFormat(fullProjectMonth.invoice.money.total)}</span>
+        <span style={{whiteSpace: 'nowrap'}}>{moneyFormat(fullProjectMonth.invoice.money.total)}</span>
         <span>
           <InvoiceNumberCell invoice={fullProjectMonth.invoice} />
           &nbsp;({formatDate(fullProjectMonth.invoice.date, 'D/M')})
@@ -135,7 +137,7 @@ export const InvoiceEmail = ({invoice}: InvoiceEmailProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
-    <>
+    <ClaimGuard claim={Claim.EmailInvoices}>
       <Button onClick={() => setShowModal(true)} variant="link">
         {!invoice.lastEmail ? (
           <NotEmailedIcon style={{fontSize: 17}} />
@@ -150,7 +152,7 @@ export const InvoiceEmail = ({invoice}: InvoiceEmailProps) => {
           onClose={() => setShowModal(false)}
         />
       )}
-    </>
+    </ClaimGuard>
   );
 };
 
@@ -218,11 +220,11 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
   );
 
   return (
-    <>
+    <ClaimGuard claim={Claim.ManageInvoices}>
       <Button variant={valid ? 'success' : 'outline-danger'} onClick={() => buildAndCreateInvoice()}>
         <Icon fa="fa fa-file-invoice" size={1} style={{marginRight: 8}} />
         {t('projectMonth.outboundCreateInvoice')}
       </Button>
-    </>
+    </ClaimGuard>
   );
 };

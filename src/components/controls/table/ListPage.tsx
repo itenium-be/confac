@@ -7,12 +7,18 @@ import {Button} from '../form-controls/Button';
 import {SearchStringInput} from '../form-controls/inputs/SearchStringInput';
 import {Switch} from '../form-controls/Switch';
 import {ListFilters} from './table-models';
+import {GenericClaim} from '../../users/models/UserModel';
+import {ClaimGuard} from '../../enhancers/EnhanceWithClaim';
+
+
 
 type ListPageProps = {
   feature: IFeature<any, any>;
   /** Renders at the title level */
   topToolbar?: any;
 }
+
+
 
 export const ListPageHeader = ({feature, topToolbar}: ListPageProps) => (
   <Row>
@@ -25,11 +31,13 @@ export const ListPageHeader = ({feature, topToolbar}: ListPageProps) => (
       {topToolbar}
     </Col>
     {feature.trans.createNew && (
-      <Col lg={3} md={3}>
-        <Button variant="light" onClick={feature.nav('create')} icon="fa fa-plus">
-          {t(feature.trans.createNew)}
-        </Button>
-      </Col>
+      <ClaimGuard feature={{key: feature.key, claim: GenericClaim.Create}}>
+        <Col lg={3} md={3}>
+          <Button variant="light" onClick={feature.nav('create')} icon="fa fa-plus">
+            {t(feature.trans.createNew)}
+          </Button>
+        </Col>
+      </ClaimGuard>
     )}
     <ListPageFilters feature={feature} />
   </Row>

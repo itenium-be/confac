@@ -9,6 +9,7 @@ import {PopupButton, Popup} from '../Popup';
 import {SimpleCreatableSelect} from '../form-controls/select/SimpleCreatableSelect';
 import {AddIcon} from '../Icon';
 import {AttachmentDropzone} from './AttachmentDropzone';
+import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
 
 
 type AddAttachmentPopupProps = {
@@ -77,6 +78,6 @@ const AddAttachmentPopupComponent = (props: AddAttachmentPopupProps) => {
   );
 };
 
-export const AddAttachmentPopup = connect((state: ConfacState) => ({
+export const AddAttachmentPopup = EnhanceWithClaim(connect((state: ConfacState) => ({
   attachmentTypes: state.config.attachmentTypes,
-}), {})(AddAttachmentPopupComponent);
+}), {})(AddAttachmentPopupComponent));

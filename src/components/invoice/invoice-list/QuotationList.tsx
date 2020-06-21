@@ -15,6 +15,7 @@ import {QuotationSearch} from './QuotationSearch';
 import {LinkToButton} from '../../controls/form-controls/button/LinkToButton';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
+import {Claim} from '../../users/models/UserModel';
 
 
 type QuotationListProps = {
@@ -44,7 +45,7 @@ export const QuotationList = (props: QuotationListProps) => {
           <h1>{t('quotation.title')}</h1>
         </Col>
         <Col xs={4} style={{textAlign: 'right'}}>
-          <LinkToButton to="/invoices" label="title" />
+          <LinkToButton claim={Claim.ViewInvoices} to="/invoices" label="title" />
         </Col>
       </Row>
       <QuotationSearch

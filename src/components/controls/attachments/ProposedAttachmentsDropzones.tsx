@@ -5,6 +5,7 @@ import {ConfacState} from '../../../reducers/app-state';
 import {IAttachment} from '../../../models';
 import {updateAttachment} from '../../../actions/attachmentActions';
 import {AttachmentDropzone} from './AttachmentDropzone';
+import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
 
 type ProposedAttachmentsProps = {
   model: IAttachment,
@@ -15,7 +16,7 @@ type ProposedAttachmentsProps = {
  * Display easier upload capability for config.attachmentTypes
  * if these attachment types have not yet been uploaded
  */
-export const ProposedAttachmentsDropzones = ({model, modelType}: ProposedAttachmentsProps) => {
+export const ProposedAttachmentsDropzones = EnhanceWithClaim(({model, modelType}: ProposedAttachmentsProps) => {
   const proposedAttachmentTypes = useSelector((state: ConfacState) => state.config.attachmentTypes);
   const dispatch = useDispatch();
 
@@ -47,4 +48,4 @@ export const ProposedAttachmentsDropzones = ({model, modelType}: ProposedAttachm
       ))}
     </>
   );
-};
+});

@@ -5,6 +5,7 @@ import {ClientModal} from '../../client/controls/ClientModal';
 import {SelectWithCreateButton} from '../../controls/form-controls/select/SelectWithCreateButton';
 import {ClientSelect} from '../../client/controls/ClientSelect';
 import {t} from '../../utils';
+import {Claim} from '../../users/models/UserModel';
 
 type InvoiceClientSelectWithCreateModalProps = {
   client: ClientModel;
@@ -28,7 +29,7 @@ export const InvoiceClientSelectWithCreateModal = ({client, onChange, modalId, s
         onConfirm={(updatedClient: ClientModel) => onChange(updatedClient)}
       />
     )}
-    <SelectWithCreateButton setModalId={setModalId} createButtonText="invoice.clientNew">
+    <SelectWithCreateButton claim={Claim.ManageClients} setModalId={setModalId} createButtonText="invoice.clientNew">
       <ClientSelect
         label={t('invoice.client')}
         value={client && client._id}

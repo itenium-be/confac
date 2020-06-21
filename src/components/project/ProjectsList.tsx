@@ -8,6 +8,7 @@ import {ListPage} from '../controls/table/ListPage';
 import {projectFeature, ProjectFeatureBuilderConfig} from './models/getProjectFeature';
 import {LinkToButton} from '../controls/form-controls/button/LinkToButton';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
+import {Claim} from '../users/models/UserModel';
 
 
 import './ProjectsList.scss';
@@ -30,14 +31,10 @@ export const ProjectsList = () => {
   });
 
   const TopToolbar = (
-    <>
-      <LinkToButton to="/consultants" label="consultant.title" />
-    </>
+    <LinkToButton claim={Claim.ViewConsultants} to="/consultants" label="consultant.title" />
   );
 
 
   const feature = projectFeature(config);
-  return (
-    <ListPage feature={feature} topToolbar={TopToolbar} />
-  );
+  return <ListPage feature={feature} topToolbar={TopToolbar} />;
 };

@@ -7,7 +7,7 @@ import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {StickyFooter} from '../controls/other/StickyFooter';
 import {getNewUser} from './models/getNewUser';
-import {UserModel} from './models/UserModel';
+import {UserModel, Claim} from './models/UserModel';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {defaultUserProperties} from './models/UserConfig';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
@@ -59,7 +59,7 @@ export const EditUser = (props: EditUserProps) => {
           />
         </Row>
       </Form>
-      <StickyFooter>
+      <StickyFooter claim={Claim.ManageUsers}>
         <BusyButton
           onClick={() => dispatch(saveUser(user, undefined, history))}
           disabled={isButtonDisabled()}

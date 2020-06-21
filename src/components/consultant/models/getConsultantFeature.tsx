@@ -8,6 +8,7 @@ import {features} from '../../../trans';
 import {EditIcon} from '../../controls/Icon';
 import {DeleteIcon} from '../../controls/icons/DeleteIcon';
 import {ConsultantLinkWithModal} from '../controls/ConsultantLink';
+import {Claim} from '../../users/models/UserModel';
 
 
 export type ConsultantFeatureBuilderConfig = IFeatureBuilderConfig<ConsultantModel, ConsultantListFilters>;
@@ -62,6 +63,7 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
       <>
         <EditIcon onClick={`/consultants/${m.slug}`} style={{marginRight: 15}} size={1} />
         <DeleteIcon
+          claim={Claim.ManageConsultants}
           onClick={() => config.save({...m, active: !m.active})}
           title={m.active ? t('feature.deactivateTitle') : t('feature.activateTitle')}
           size={1}

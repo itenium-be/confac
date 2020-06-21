@@ -4,6 +4,7 @@ import {Button as ReactButton} from 'react-bootstrap';
 import {Icon} from '../Icon';
 import {BootstrapVariant} from '../../../models';
 import {Tooltip} from '../Tooltip';
+import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
 
 export type ButtonSize = 'lg' | 'sm' | 'md';
 
@@ -20,7 +21,7 @@ type ButtonProps = {
   title?: string;
 }
 
-export const Button = ({variant = 'primary', size = 'md', disabled, className, style, title, ...props}: ButtonProps) => {
+const ButtonComponent = ({variant = 'primary', size = 'md', disabled, className, style, title, ...props}: ButtonProps) => {
   const history = useHistory();
   const {children, icon, onClick, ...rest} = props;
 
@@ -80,3 +81,7 @@ export const Button = ({variant = 'primary', size = 'md', disabled, className, s
 
   return FinalButton;
 };
+
+
+
+export const Button = EnhanceWithClaim(ButtonComponent);

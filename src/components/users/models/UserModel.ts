@@ -28,6 +28,17 @@ export type UserState = {
 }
 
 
+
+export enum GenericClaim {
+  View = 'view',
+  Create = 'create',
+  Edit = 'edit',
+  Delete = 'delete',
+  Email = 'mail',
+  Validate = 'validate',
+}
+
+
 export enum Claim {
   ViewConfig = 'view-config',
   ManageConfig = 'manage-config',
@@ -47,4 +58,6 @@ export enum Claim {
   EditProjectMonth = 'edit-projectMonth',
   ViewUsers = 'view-users',
   ManageUsers = 'manage-users',
+  ViewConsultants = 'view-consultants',
+  ManageConsultants = 'manage-consultants',
 }

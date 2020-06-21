@@ -5,15 +5,18 @@ import {Modal} from '../../Modal';
 import {t} from '../../../utils';
 import {TextEditor} from '../inputs/TextEditor';
 import {BootstrapVariant} from '../../../../models';
+import {Claim} from '../../../users/models/UserModel';
+import {authService} from '../../../users/authService';
 
 
 type NotesModalButtonProps = MinimalInputProps<string> & {
   title: string;
   variant?: BootstrapVariant;
+  claim: Claim;
 };
 
 
-export const NotesModalButton = ({value, onChange, title, variant}: NotesModalButtonProps) => {
+export const NotesModalButton = ({claim, value, onChange, title, variant}: NotesModalButtonProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [text, setText] = useState<string>(value || '');
 
@@ -30,7 +33,7 @@ export const NotesModalButton = ({value, onChange, title, variant}: NotesModalBu
         <Modal
           show
           onClose={() => setOpen(false)}
-          onConfirm={() => onChange(text)}
+          onConfirm={authService.getClaims().includes(claim) ? () => onChange(text) : undefined}
           title={title}
         >
           <TextEditor

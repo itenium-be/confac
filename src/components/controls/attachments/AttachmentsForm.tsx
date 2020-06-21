@@ -10,6 +10,8 @@ import {ClientModel} from '../../client/models/ClientModels';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
 import {ProposedAttachmentsDropzones} from './ProposedAttachmentsDropzones';
 import {t} from '../../utils';
+import {Claim} from '../../users/models/UserModel';
+
 
 export type AttachmentModelTypes = {
   invoice: string;
@@ -32,6 +34,7 @@ export const _AttachmentsForm = (props: AttachmentsFormProps) => {
     <>
       <h2>{t('invoice.attachments')}</h2>
       <AddAttachmentPopup
+        claim={mapModelType(modelType)}
         attachments={model.attachments}
         onAdd={(att: { file: File; type: string; }) => props.updateAttachment(props.model, modelType, att)}
       />
@@ -44,6 +47,7 @@ export const _AttachmentsForm = (props: AttachmentsFormProps) => {
             style={{marginBottom: 15}}
           >
             <AdvancedAttachmentDropzone
+              claim={mapModelType(modelType)}
               attachment={att}
               downloadUrl={createDownloadUrl}
               onDelete={() => dispatch(deleteAttachment(props.model, modelType, att.type))}
@@ -52,10 +56,24 @@ export const _AttachmentsForm = (props: AttachmentsFormProps) => {
           </Col>
         ))}
 
-        <ProposedAttachmentsDropzones model={props.model} modelType={modelType} />
+        <ProposedAttachmentsDropzones claim={mapModelType(modelType)} model={props.model} modelType={modelType} />
       </Row>
     </>
   );
 };
 
 export const AttachmentsForm = connect(null, {updateAttachment, deleteAttachment})(_AttachmentsForm);
+
+
+function mapModelType(modelType: keyof AttachmentModelTypes): Claim {
+  switch (modelType) {
+    case 'client':
+      return Claim.ManageClients;
+    case 'invoice':
+      return Claim.ManageInvoices;
+    case 'quotation':
+      return Claim.ManageQuotations;
+    default:
+      throw new Error(`Attachment security for ${modelType} mapping not implemented`);
+  }
+}

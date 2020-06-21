@@ -13,6 +13,7 @@ import {searchClientForList} from './searchClientFor';
 import {getInvoiceYears} from '../../invoice/models/InvoiceListModel';
 import {YearsSelect} from '../../controls/form-controls/select/YearsSelect';
 import {ClientEditIcon} from '../controls/ClientEditIcon';
+import {Claim} from '../../users/models/UserModel';
 
 
 export type ClientFeatureBuilderConfig = IFeatureBuilderConfig<ClientModel, ClientListFilters> & {
@@ -73,6 +74,7 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
       <>
         <ClientEditIcon client={client} />
         <DeleteIcon
+          claim={Claim.ManageClients}
           onClick={() => config.save({...client, active: !client.active}, true)}
           title={client.active ? t('client.deactivateTitle') : t('client.activateTitle')}
         />

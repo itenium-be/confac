@@ -2,6 +2,7 @@ import React from 'react';
 import {MinimalInputProps} from '../inputs/BaseInput';
 import {Button} from '../Button';
 import {BootstrapVariant} from '../../../../models';
+import {Claim} from '../../../users/models/UserModel';
 
 
 type ValidityToggleButtonProps = MinimalInputProps<boolean> & {
@@ -35,6 +36,7 @@ export const ValidityToggleButton = ({value, onChange, outline, title, disabled,
 
   return (
     <Button
+      claim={{claim: Claim.ValidateProjectMonth, or: hiddenButton}}
       onClick={() => onChange(!value)}
       variant={variant}
       icon={icon}
@@ -44,3 +46,6 @@ export const ValidityToggleButton = ({value, onChange, outline, title, disabled,
     />
   );
 };
+
+
+const hiddenButton = <button type="button" className="btn" style={{visibility: 'hidden'}}>&nbsp;</button>;

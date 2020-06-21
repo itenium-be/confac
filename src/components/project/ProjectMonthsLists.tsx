@@ -17,6 +17,7 @@ import {ListFilters} from '../controls/table/table-models';
 import {t} from '../utils';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {CollapsibleProjectMonthsList} from './project-month-list/ProjectMonthsList';
+import {Claim} from '../users/models/UserModel';
 
 
 import './project-month-list/project-month-list.scss';
@@ -74,7 +75,7 @@ export const ProjectMonthsLists = () => {
   const topToolbar = (
     <>
       <CreateProjectsMonthModalButton />
-      <LinkToButton to="/invoices" label="title" size="lg" variant="light" />
+      <LinkToButton claim={Claim.ViewInvoices} to="/invoices" label="title" size="lg" variant="light" />
     </>
   );
 
