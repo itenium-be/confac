@@ -1,9 +1,16 @@
 import {ACTION_TYPES} from '../actions';
-import {UserState} from '../components/users/models/UserModel';
+import {UserState, RoleModel} from '../components/users/models/UserModel';
+
+
+function getRoles(): RoleModel[] {
+  const roles = localStorage.getItem('roles');
+  return roles ? JSON.parse(roles) : [];
+}
+
 
 const defaultUserState = {
   users: [],
-  roles: [],
+  roles: getRoles(),
 };
 
 
@@ -21,11 +28,13 @@ export const users = (state: UserState = defaultUserState, action) => {
 
 
     case ACTION_TYPES.ROLES_FETCHED:
+      localStorage.setItem('roles', JSON.stringify(action.roles));
       return {...state, roles: action.roles};
 
     case ACTION_TYPES.ROLE_UPDATE: {
       const newRoles = state.roles.filter(x => x._id !== action.role._id);
       newRoles.push(action.role);
+      localStorage.setItem('roles', JSON.stringify(newRoles));
       return {...state, roles: newRoles};
     }
 

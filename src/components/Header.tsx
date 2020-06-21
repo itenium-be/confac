@@ -22,6 +22,10 @@ const OldSchoolMenuLink = ({label, to, activeOnlyWhenExact = false}: OldSchoolMe
   />
 );
 
+// enhanceWithClaim()
+// claim: Claim
+
+
 
 const Header = () => (
   <Navbar bg="light" expand="lg" className="top-header">

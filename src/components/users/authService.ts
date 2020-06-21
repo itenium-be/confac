@@ -4,7 +4,7 @@ import request from 'superagent-bluebird-promise';
 import {Dispatch} from 'redux';
 import {buildUrl} from '../../actions/utils/buildUrl';
 import {initialLoad} from '../../actions/initialLoad';
-import {UserModel} from './models/UserModel';
+import {UserModel, Claim} from './models/UserModel';
 
 
 interface IAuthService {
@@ -15,6 +15,7 @@ interface IAuthService {
   getTokenString: () => string | null;
   getToken: () => JwtModel | null;
   getUser: () => UserModel | null;
+  // hasClaim: (claim: Claim) => boolean,
   refresh: () => void;
   /** In ms */
   refreshInterval: () => number;
@@ -53,6 +54,14 @@ export const authService: IAuthService = {
     }
     return token.data;
   },
+  // hasClaim: (claim: Claim): boolean => {
+  //   const user = authService.getUser();
+  //   if (!user) {
+  //     return false;
+  //   }
+  //   // const claims =
+  //   return user.roles.includes(claim);
+  // },
   refresh: (): void => {
     refreshToken();
   },

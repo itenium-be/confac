@@ -7,6 +7,7 @@ export type UserModel = {
   firstName: string;
   alias: string;
   active: boolean;
+  /** The role.name (not role._id!) */
   roles: string[];
   audit: IAudit;
 }
@@ -15,7 +16,7 @@ export type UserModel = {
 export type RoleModel = {
   _id: string;
   name: string;
-  claims: string[];
+  claims: Claim[];
   audit: IAudit;
 }
 
@@ -27,7 +28,7 @@ export type UserState = {
 }
 
 
-export enum Roles {
+export enum Claim {
   ViewConfig = 'view-config',
   ManageConfig = 'manage-config',
   ViewClients = 'view-clients',
