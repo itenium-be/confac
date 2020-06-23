@@ -9,6 +9,6 @@ userRouter.post('/refresh', refreshToken);
 userRouter.put('/', saveUser as any);
 
 userRouter.get('/roles', getRoles);
-userRouter.put('/roles', saveRole);
+userRouter.put('/roles', saveRole as any);
 
 export default userRouter;
