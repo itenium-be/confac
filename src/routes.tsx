@@ -55,7 +55,7 @@ const Routes = () => (
       <Route path="/roles/:id" render={props => <AppWithLayout Component={EditRole} {...props} />} />
       <Route path="/login" render={props => <UnauthicatedAppLayout Component={LoginPage} {...props} />} />
 
-      <Route path="/" render={props => <AppWithLayout Component={ProjectMonthsLists} {...props} />} />
+      <Route path="/" render={props => <AppWithLayout Component={InvoiceList} {...props} />} />
     </Switch>
   </BrowserRouter>
 );
