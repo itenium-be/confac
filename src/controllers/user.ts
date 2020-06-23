@@ -42,8 +42,9 @@ async function verify(token: string): Promise<string | IUser> {
     name: payload.family_name || '',
     alias: payload.given_name || '',
     firstName: payload.given_name || '',
-    active: false,
+    active: !!config.security.defaultRole,
     audit: createAudit(),
+    roles: config.security.defaultRole ? [config.security.defaultRole] : [],
   };
 }
 

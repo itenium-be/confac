@@ -4,6 +4,7 @@ const appConfig: IConfig = {
     db: process.env.MONGO_DB || 'confac-dev',
     otherDbs: 'confac-dev | confac-test | confac-acc | confac | confac-mi',
     port: +(process.env.MONGO_PORT || 32772),
+    // itenium mongo port: 27016
     user: process.env.MONGO_USERNAME || 'admin',
     pwd: process.env.MONGO_PASSWORD || 'pwd',
   },
@@ -18,7 +19,8 @@ const appConfig: IConfig = {
   security: {
     clientId: process.env.GOOGLE_CLIENT_ID || '783388290-8h2es2e18r938o7psm3ph1husigdcn19.apps.googleusercontent.com',
     secret: process.env.GOOGLE_SECRET || '',
-    domain: process.env.GOOGLE_DOMAIN || 'itenium.be',
+    domain: process.env.GOOGLE_DOMAIN,
+    defaultRole: process.env.DEFAULT_ROLE,
   },
   jwt: {
     secret: process.env.JWT_SECRET || 'SUPER DUPER SECRET',
@@ -37,8 +39,8 @@ interface IConfig {
     /* Not used: just for development copy/paste */
     otherDbs: string;
     port: number;
-    user: string;
-    pwd: string;
+    user: string | null;
+    pwd: string | null;
   };
   server: {
     host: string;
@@ -52,7 +54,9 @@ interface IConfig {
   security: {
     clientId: string;
     secret: string;
-    domain: string;
+    domain: string | undefined;
+    /** If a defaultRole is defined, new users are automatically activated upon login */
+    defaultRole: string | undefined;
   };
   /** Confac security */
   jwt: {
