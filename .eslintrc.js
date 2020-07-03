@@ -33,7 +33,7 @@ module.exports = {
     "no-shadow": [1],
     "no-multiple-empty-lines": ["error", { max: 7 }],
     "linebreak-style": [0],
-    "max-len": ["error", { "code": 140 }],
+    "max-len": ["error", { "code": 180 }],
     "dot-notation": [1],
     "padded-blocks": [0],
     "object-curly-newline": ["error", { "ImportDeclaration": "never" }],
