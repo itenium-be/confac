@@ -1,4 +1,4 @@
-import {UserModel, RoleModel} from './UserModel';
+import {UserModel, RoleModel, Claim} from './UserModel';
 import {IAudit} from '../../../models';
 
 export const getNewUser = (): UserModel => ({
@@ -13,9 +13,23 @@ export const getNewUser = (): UserModel => ({
 });
 
 
-export const getNewRole = (): RoleModel => ({
+export const getNewRole = (name = '', claims: Claim[] = []): RoleModel => ({
   _id: '',
-  name: '',
-  claims: [],
+  name,
+  claims,
   audit: {} as IAudit,
 });
+
+
+export const getAdminRole = (): RoleModel => {
+  return getNewRole('admin', [
+    Claim.ViewConfig, Claim.ManageConfig,
+    Claim.ViewClients, Claim.ManageClients,
+    Claim.ViewProjects, Claim.ManageProjects,
+    Claim.ViewQuotations, Claim.ManageQuotations,
+    Claim.ViewConsultants, Claim.ManageConsultants,
+    Claim.ViewUsers, Claim.ManageUsers,
+    Claim.ViewInvoices, Claim.EmailInvoices, Claim.ValidateInvoices, Claim.ManageInvoices,
+    Claim.ViewProjectMonth, Claim.EditProjectMonth, Claim.CreateProjectMonth, Claim.ValidateProjectMonth,
+  ]);
+};

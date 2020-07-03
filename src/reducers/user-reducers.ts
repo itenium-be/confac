@@ -1,10 +1,15 @@
 import {ACTION_TYPES} from '../actions';
 import {UserState, RoleModel} from '../components/users/models/UserModel';
+import {getAdminRole} from '../components/users/models/getNewUser';
 
 
 export function getRoles(): RoleModel[] {
   const roles = localStorage.getItem('roles');
-  return roles ? JSON.parse(roles) : [];
+  const parsedRoles = roles ? JSON.parse(roles) : [];
+  if (parsedRoles.length === 0) {
+    return [getAdminRole()];
+  }
+  return parsedRoles;
 }
 
 
