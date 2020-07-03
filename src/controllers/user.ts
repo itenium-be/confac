@@ -117,8 +117,8 @@ export const saveUser = async (req: ConfacRequest, res: Response) => {
 
 
 export const getRoles = async (req: Request, res: Response) => {
-  const users = await req.db.collection<IRole>(CollectionNames.ROLES).find().toArray();
-  return res.send(users);
+  const roles = await req.db.collection<IRole>(CollectionNames.ROLES).find().toArray();
+  return res.send(roles);
 };
 
 
