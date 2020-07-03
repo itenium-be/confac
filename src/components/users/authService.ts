@@ -61,7 +61,7 @@ export const authService: IAuthService = {
       return [];
     }
     const claims = getRoles()
-      .filter(x => user.roles.includes(x.name))
+      .filter(x => (user.roles || []).includes(x.name))
       .map(x => x.claims)
       .flat();
 
