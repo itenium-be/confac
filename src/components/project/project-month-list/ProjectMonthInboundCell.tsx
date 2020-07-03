@@ -105,7 +105,11 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
               if (!inbound.dateReceived) {
                 setInbound({...inbound, dateReceived: moment()});
               }
-              return dispatch(projectMonthUpload(f, InboundInvoiceAttachmentType, fullProjectMonth._id));
+              const inboundFileName = '{month}-{partner}-{consultant}-Invoice'
+                .replace('{partner}', (fullProjectMonth.partner && fullProjectMonth.partner.name) || '')
+                .replace('{consultant}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`)
+                .replace('{month}', fullProjectMonth.details.month.format('YYYY-MM'));
+              return dispatch(projectMonthUpload(f, InboundInvoiceAttachmentType, fullProjectMonth._id, inboundFileName));
             }}
             downloadUrl={getInboundInvoiceDownloadUrl()}
           />

@@ -107,15 +107,15 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
     .catch(catchHandler);
 }
 
+type ProjectMonthAttachmentTypes = 'Getekende timesheet' | 'Factuur freelancer';
 
-
-export function projectMonthUpload(file: File, type: 'Getekende timesheet' | 'Factuur freelancer', projectMonthId: string) {
+export function projectMonthUpload(file: File, type: ProjectMonthAttachmentTypes, projectMonthId: string, fileName: string) {
   return (dispatch: Dispatch) => {
     const req = request
       .put(buildUrl(`/attachments/project_month/${projectMonthId}/${type}`))
       .set('Authorization', authService.getBearer());
 
-    req.attach(file.name, file);
+    req.attach(fileName, file);
     req.then(response => {
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,

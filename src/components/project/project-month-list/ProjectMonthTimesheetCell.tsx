@@ -98,6 +98,9 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
     return getDownloadUrl('project_month', projectMonthId, SignedTimesheetAttachmentType, fileName, 'preview');
   };
 
+  const timesheetFileName = '{month}-{consultant}-Timesheet'
+    .replace('{consultant}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`)
+    .replace('{month}', fullProjectMonth.details.month.format('YYYY-MM'));
 
   return (
     <div className={cn('timesheet-cell')}>
@@ -143,7 +146,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           isPreviewDisabled={!hasTimesheetBeenUploaded}
           uploadTooltip={t('projectMonth.timesheetUpload')}
           previewTooltip={t('projectMonth.viewTimesheet', {fileName: timesheetDetails ? timesheetDetails.fileName : ''})}
-          onUpload={f => dispatch(projectMonthUpload(f, SignedTimesheetAttachmentType, fullProjectMonth._id))}
+          onUpload={f => dispatch(projectMonthUpload(f, SignedTimesheetAttachmentType, fullProjectMonth._id, timesheetFileName))}
           downloadUrl={getTimesheetDownloadUrl()}
         />
       </div>
