@@ -41,6 +41,9 @@ const userListConfig = (config: UserFeatureBuilderConfig): IList<UserModel, User
     key: 'name',
     value: m => `${m.firstName} ${m.name}`,
   }, {
+    key: 'alias',
+    value: m => m.alias,
+  }, {
     key: 'email',
     value: m => {
       if (m.email) {

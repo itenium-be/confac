@@ -58,6 +58,7 @@ export const features = {
       name: 'Naam',
       firstName: 'Voornaam',
       alias: 'Alias',
+      roles: 'Rollen',
     },
   },
   roles: {

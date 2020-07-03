@@ -58,6 +58,8 @@ export enum Claim {
   EditProjectMonth = 'edit-projectMonth',
   ViewUsers = 'view-users',
   ManageUsers = 'manage-users',
+  ViewRoles = 'view-roles',
+  ManageRoles = 'manage-roles',
   ViewConsultants = 'view-consultants',
   ManageConsultants = 'manage-consultants',
 }

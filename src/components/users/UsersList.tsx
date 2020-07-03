@@ -7,6 +7,8 @@ import {saveUser, saveRole} from '../../actions/userActions';
 import {updateAppFilters} from '../../actions';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {roleFeature, RoleFeatureBuilderConfig} from './models/getRoleFeature';
+import {Claim} from './models/UserModel';
+import {ClaimGuard} from '../enhancers/EnhanceWithClaim';
 
 
 export const UsersList = () => {
@@ -32,8 +34,13 @@ export const UsersList = () => {
 
   return (
     <>
-      <ListPage feature={userFeature(userConfig)} />
-      <ListPage feature={roleFeature(roleConfig)} />
+      <ClaimGuard claim={Claim.ViewUsers}>
+        <ListPage feature={userFeature(userConfig)} />
+      </ClaimGuard>
+
+      <ClaimGuard claim={Claim.ViewUsers}>
+        <ListPage feature={roleFeature(roleConfig)} />
+      </ClaimGuard>
     </>
   );
 };
