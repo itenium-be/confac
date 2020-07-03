@@ -40,7 +40,7 @@ export function sendEmail(invoiceFileName: string, invoice: InvoiceModel, email:
       .set('Authorization', authService.getBearer())
       .send(email)
       .then(res => {
-        console.log('res', res); // eslint-disable-line
+        console.log('Email response', res); // eslint-disable-line
         success(t('email.sent'));
         dispatch({
           type: ACTION_TYPES.INVOICE_EMAILED,
