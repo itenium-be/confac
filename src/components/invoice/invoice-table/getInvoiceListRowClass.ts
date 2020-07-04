@@ -28,7 +28,8 @@ export function getInvoiceDueDateVariant(
     return '';
   }
 
-  const payDate = moment(invoice.audit.createdOn).add(invoicePayDays, 'days');
+  const daysAgo = invoice.lastEmail || invoice.audit.createdOn;
+  const payDate = moment(daysAgo).add(invoicePayDays, 'days');
   if (moment().isAfter(moment(payDate).add(DangerDays, 'days'))) {
     return 'danger';
   }
