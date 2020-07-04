@@ -91,6 +91,39 @@ $cell-padding: 8px 8px;
 
 
 
+.createProjectsMonth.dl-box {
+  dd, dt {
+    line-height: 80%;
+  }
+
+  .project-duration {
+    display: inline-block;
+    width: 200px;
+
+    .fa {
+      font-size: 80%;
+    }
+
+    .fa-clock {
+      margin: 0 4px;
+    }
+
+    .fa-arrow-right {
+      margin: 0 6px;
+    }
+  }
+
+  .clientName {
+    display: inline-block;
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+
+
 
 
 .table-projectMonths {

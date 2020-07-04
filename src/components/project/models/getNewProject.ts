@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {ProjectModel, ProjectClientModel} from './ProjectModel';
+import {IProjectModel, ProjectClientModel} from './IProjectModel';
 import {ProjectMonthModel, getDefaultProjectMonthConfig, ProjectMonthInbound, ProjectMonthTimesheet} from './ProjectMonthModel';
 import {IAudit} from '../../../models';
 import {getNewInvoiceLine} from '../../invoice/models/InvoiceLineModels';
@@ -12,7 +12,7 @@ export const getNewProjectClient = (): ProjectClientModel => ({
 });
 
 
-export const getNewProject = (): ProjectModel => ({
+export const getNewProject = (): IProjectModel => ({
   _id: '',
   consultantId: '',
   startDate: null as unknown as moment.Moment,

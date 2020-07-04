@@ -40,19 +40,9 @@ $borderSeparator: 3px solid $table-border-color;
 
 
 table.table-projectMonths, table.table-projects {
-  dl {
-    display: flex;
-    flex-wrap: wrap;
-
-    dt {
-      width: 33%;
-    }
-
+  dl.dl-box {
     dd {
-      margin-left: auto;
-      width: 66%;
       text-align: right;
-      margin-bottom: .5rem;
     }
   }
 

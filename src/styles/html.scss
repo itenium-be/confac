@@ -15,3 +15,18 @@ label {
 tfoot td {
 	font-weight: bold;
 }
+
+dl.dl-box {
+  display: flex;
+  flex-wrap: wrap;
+
+  dt {
+    width: 33%;
+  }
+
+  dd {
+    margin-left: auto;
+    width: 66%;
+    margin-bottom: .5rem;
+  }
+}

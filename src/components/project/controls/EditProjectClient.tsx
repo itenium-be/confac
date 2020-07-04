@@ -1,6 +1,6 @@
 import React from 'react';
 import {MinimalInputProps} from '../../controls/form-controls/inputs/BaseInput';
-import {ProjectClientModel} from '../models/ProjectModel';
+import {ProjectClientModel} from '../models/IProjectModel';
 import {getNewProjectClient} from '../models/getNewProject';
 import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
 import {FullFormConfig} from '../../../models';

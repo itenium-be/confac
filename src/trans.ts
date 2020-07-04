@@ -412,8 +412,13 @@ export const trans = {
     },
   },
   projectMonth: {
-    createProjectsTitle: 'Projectopvolging: maand toevoegen',
-    createProjects: 'Selecteer de maand waarvoor de projecten aangemaakt moeten worden',
+    createProjects: {
+      title: 'Projectopvolging: maand toevoegen',
+      selectMonth: 'Selecteer de maand waarvoor de projecten aangemaakt moeten worden',
+      noNewRecordsTitle: 'Niets toe te voegen',
+      noNewRecordsLabel: 'Alle actieve projecten zijn reeds gelinkt aan deze maand',
+      newRecordsTitle: 'Facturatie voor volgende projecten wordt aangemaakt',
+    },
     consultant: 'Consultant',
     title: 'Projecten maand',
     listTitle: '{month} {year}',

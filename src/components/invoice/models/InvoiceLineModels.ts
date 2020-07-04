@@ -1,6 +1,6 @@
 import {EditClientRateType, EditProjectRateType} from '../../../models';
 import InvoiceModel from './InvoiceModel';
-import {ProjectClientInvoiceLine} from '../../project/models/ProjectModel';
+import {ProjectClientInvoiceLine} from '../../project/models/IProjectModel';
 
 
 const DefaultTax = 21;

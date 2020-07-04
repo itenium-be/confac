@@ -1,5 +1,5 @@
 import {ProjectMonthModel} from './ProjectMonthModel';
-import {ProjectModel} from './ProjectModel';
+import {IProjectModel} from './IProjectModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
@@ -9,7 +9,7 @@ export type FullProjectMonthModel = {
   /** The ProjectMonth._id */
   _id: string;
   details: ProjectMonthModel;
-  project: ProjectModel;
+  project: IProjectModel;
   consultant: ConsultantModel;
   client: ClientModel;
   partner?: ClientModel;

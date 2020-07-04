@@ -7,7 +7,7 @@ import {ListPageHeader} from '../controls/table/ListPage';
 import {projectMonthFeature, ProjectMonthFeatureBuilderConfig} from './models/getProjectMonthFeature';
 import {FullProjectMonthModel} from './models/FullProjectMonthModel';
 import {ProjectMonthModel} from './models/ProjectMonthModel';
-import {ProjectModel} from './models/ProjectModel';
+import {IProjectModel} from './models/IProjectModel';
 import {ConsultantModel} from '../consultant/models/ConsultantModel';
 import {ClientModel} from '../client/models/ClientModels';
 import {LinkToButton} from '../controls/form-controls/button/LinkToButton';
@@ -25,7 +25,7 @@ import './project-month-list/project-month-list.scss';
 
 /** Resolve ProjectModel _ids to their corresponding models */
 export function projectMonthResolve(projectMonth: ProjectMonthModel, state: ConfacState): FullProjectMonthModel {
-  const project = state.projects.find(p => p._id === projectMonth.projectId) as ProjectModel;
+  const project = state.projects.find(p => p._id === projectMonth.projectId) as IProjectModel;
   const consultant = state.consultants.find(c => c._id === project.consultantId) as ConsultantModel;
   const client = project.client && state.clients.find(c => c._id === project.client.clientId) as ClientModel;
   const partner = project.partner && state.clients.find(c => project.partner && c._id === project.partner.clientId);

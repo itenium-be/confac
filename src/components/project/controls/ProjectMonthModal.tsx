@@ -1,12 +1,11 @@
 /* eslint-disable react/jsx-one-expression-per-line, max-len */
 import React from 'react';
 import {useHistory} from 'react-router-dom';
-import moment from 'moment';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
-import {Icon} from '../../controls/Icon';
-import {formatDate, t} from '../../utils';
+import {t} from '../../utils';
 import {Modal} from '../../controls/Modal';
 import {ProjectClientTariff} from '../models/getProjectFeature';
+import {ProjectDuration} from './ProjectDuration';
 
 
 import './ProjectMonthModal.scss';
@@ -36,28 +35,7 @@ export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProp
       confirmText={t('projectMonth.linkToDetails')}
     >
       <div className="project-month-modal">
-        <div className="project-duration">
-          <Icon fa="fa fa-clock" />
-          <span>{formatDate(projectMonth.project.startDate)}</span>
-          {projectMonth.project.endDate ? (
-            <>
-              <Icon fa="fa fa-arrow-right" />
-              <span>{formatDate(projectMonth.project.endDate)}</span>
-              {projectMonth.project.endDate.isAfter(moment()) && (
-                <small>
-                  (
-                  {t('projectMonth.timesheetExpiration', {daysLeft: moment.duration(moment(projectMonth.project.endDate).diff(moment())).humanize(true)})}
-                  )
-                </small>
-              )}
-            </>
-          ) : (
-            <>
-              <Icon fa="fa fa-arrow-right" />
-              <Icon fa="fa fa-infinity" />
-            </>
-          )}
-        </div>
+        <ProjectDuration project={projectMonth.project} />
 
         <hr />
 

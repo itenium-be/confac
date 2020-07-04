@@ -6,12 +6,12 @@ import {buildUrl} from './utils/buildUrl';
 import t from '../trans';
 import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
-import {ProjectModel} from '../components/project/models/ProjectModel';
+import {IProjectModel} from '../components/project/models/IProjectModel';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
 import {TimesheetCheckAttachmentType} from '../models';
 import {authService} from '../components/users/authService';
 
-export function saveProject(project: ProjectModel, history: any, after: 'to-list' | 'to-details' = 'to-list') {
+export function saveProject(project: IProjectModel, history: any, after: 'to-list' | 'to-details' = 'to-list') {
   return (dispatch: Dispatch) => {
     dispatch(busyToggle());
     return request

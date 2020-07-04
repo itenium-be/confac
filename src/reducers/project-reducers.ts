@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
 import moment from 'moment';
 import {ACTION_TYPES} from '../actions';
-import {ProjectModel} from '../components/project/models/ProjectModel';
+import {IProjectModel} from '../components/project/models/IProjectModel';
 import {getNewProject} from '../components/project/models/getNewProject';
 
 
-function mapProject(prj: ProjectModel): ProjectModel {
+function mapProject(prj: IProjectModel): IProjectModel {
   prj.startDate = moment(prj.startDate);
   if (prj.endDate) {
     prj.endDate = moment(prj.endDate);
@@ -13,7 +13,7 @@ function mapProject(prj: ProjectModel): ProjectModel {
   return {...getNewProject(), ...prj};
 }
 
-export const projects = (state: ProjectModel[] = [], action): ProjectModel[] => {
+export const projects = (state: IProjectModel[] = [], action): IProjectModel[] => {
   switch (action.type) {
     case ACTION_TYPES.PROJECTS_FETCHED:
       return action.projects.map(mapProject);

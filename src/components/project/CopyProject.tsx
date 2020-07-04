@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import moment from 'moment';
-import {ProjectModel} from './models/ProjectModel';
+import {IProjectModel} from './models/IProjectModel';
 import {Button} from '../controls/form-controls/Button';
 import {t} from '../utils';
 import {Modal} from '../controls/Modal';
@@ -11,7 +11,7 @@ import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {FullFormConfig} from '../../models';
 
 type CopyProjectProps = {
-  projectToCopy: ProjectModel;
+  projectToCopy: IProjectModel;
 }
 
 
@@ -32,7 +32,7 @@ export const CopyProject = ({projectToCopy}: CopyProjectProps) => {
     startDate: moment(projectToCopy.endDate).add(1, 'day'),
     endDate: undefined,
   };
-  const [project, setProject] = useState<ProjectModel>(defaultProject);
+  const [project, setProject] = useState<IProjectModel>(defaultProject);
   const dispatch = useDispatch();
   const history = useHistory();
 

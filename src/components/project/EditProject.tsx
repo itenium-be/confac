@@ -7,7 +7,7 @@ import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {saveProject} from '../../actions';
 import {StickyFooter} from '../controls/other/StickyFooter';
 import {BusyButton} from '../controls/form-controls/BusyButton';
-import {ProjectModel} from './models/ProjectModel';
+import {IProjectModel} from './models/IProjectModel';
 import {projectFormConfig} from './models/ProjectFormConfig';
 import {getNewProject} from './models/getNewProject';
 import {ConfacState} from '../../reducers/app-state';
@@ -31,7 +31,7 @@ export const EditProject = (props: EditProjectProps) => {
   const history = useHistory();
   const model = useSelector((state: ConfacState) => state.projects.find(c => c._id === props.match.params.id));
   const consultants = useSelector((state: ConfacState) => state.consultants);
-  const [project, setProject] = useState<ProjectModel>(model || getNewProject());
+  const [project, setProject] = useState<IProjectModel>(model || getNewProject());
   const consultant = useSelector((state: ConfacState) => state.consultants.find(x => x._id === project.consultantId) || getNewConsultant());
   const clients = useSelector((state: ConfacState) => state.clients);
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === project.client.clientId) || getNewClient());
@@ -69,7 +69,7 @@ export const EditProject = (props: EditProjectProps) => {
 
 
 
-  const setProjectInterceptor = (value: ProjectModel) => {
+  const setProjectInterceptor = (value: IProjectModel) => {
     const newProject = {...project, ...value};
     setProject(newProject);
 
@@ -100,7 +100,7 @@ export const EditProject = (props: EditProjectProps) => {
           <ArrayInput
             config={projectFormConfig}
             model={project}
-            onChange={(value: ProjectModel) => setProjectInterceptor(value)}
+            onChange={(value: IProjectModel) => setProjectInterceptor(value)}
             tPrefix="project."
           />
         </Row>

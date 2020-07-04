@@ -16,7 +16,7 @@ import {getDownloadUrl} from '../../../actions/utils/download-helpers';
 import {ConfacState} from '../../../reducers/app-state';
 import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPreviewButtons';
 import {InboundInvoiceAttachmentType} from '../../../models';
-import {getTariffs} from '../models/ProjectModel';
+import {getTariffs} from '../utils/getTariffs';
 import {ToClipboardLabel} from '../../controls/other/ToClipboardLabel';
 import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
 import {Claim} from '../../users/models/UserModel';

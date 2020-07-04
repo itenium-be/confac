@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
-import moment from 'moment';
+import {useDispatch, useSelector} from 'react-redux';
+import moment, {Moment} from 'moment';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
 import {createProjectsMonth} from '../../../actions';
@@ -9,40 +9,114 @@ import {DatePicker} from '../../controls/form-controls/DatePicker';
 import {Button} from '../../controls/form-controls/Button';
 import {ClaimGuard} from '../../enhancers/EnhanceWithClaim';
 import {Claim} from '../../users/models/UserModel';
+import {ConfacState} from '../../../reducers/app-state';
+import {useProjects} from '../../hooks/useProjects';
+import {FullProjectModel} from '../models/FullProjectModel';
+import {ProjectDurationSmall} from './ProjectDuration';
+import {Link} from '../../controls/Link';
+
+
 
 type ProjectMonthModalProps = BaseModalProps & {};
+
+
+function useToBeCreatedProjects(month: Moment): FullProjectModel[] {
+  const existingProjectsMonth = useSelector((state: ConfacState) => state.projectsMonth.filter(x => x.month.isSame(month, 'month')));
+  const existingProjectIds = existingProjectsMonth.map(x => x.projectId);
+  const activeProjects = useProjects(month).filter(x => x.active);
+  const newProjects = activeProjects.filter(prj => !existingProjectIds.includes(prj._id));
+  return newProjects;
+}
+
+
+
+function useDefaultNewProjectMonth(): Moment {
+  const projectsMonth = useSelector((state: ConfacState) => state.projectsMonth);
+  if (!projectsMonth.length) {
+    return moment();
+  }
+
+  const lastProjectMonth = projectsMonth.map(x => x.month).sort((a, b) => b.valueOf() - a.valueOf())[0];
+  const lastMonth = moment().subtract(1, 'month');
+  if (lastProjectMonth.isBefore(lastMonth)) {
+    return lastMonth;
+  }
+
+  return moment();
+}
+
 
 
 /** Create projectMonths by selecting a project month */
 export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
   const dispatch = useDispatch();
-  const [date, setDate] = useState<moment.Moment>(moment());
-
-  const {show, onClose} = props;
+  const defaultNewMonth = useDefaultNewProjectMonth();
+  const [date, setDate] = useState<moment.Moment>(defaultNewMonth);
+  const newProjects = useToBeCreatedProjects(date);
 
   return (
     <Modal
-      show={show}
-      onClose={onClose}
-      title={t('projectMonth.createProjectsTitle')}
+      show={props.show}
+      onClose={props.onClose}
+      title={t('projectMonth.createProjects.title')}
       onConfirm={() => dispatch(createProjectsMonth(date.utc().startOf('month')))}
     >
       <Form>
         <Container>
           <Row>
             <DatePicker
-              label={t('projectMonth.createProjects')}
+              label={t('projectMonth.createProjects.selectMonth')}
               dateFormat="MMMM - yyyy"
               value={date}
               onChange={value => value && setDate(value)}
               showMonthYearPicker
             />
           </Row>
+          {newProjects && <ToBeCreated projects={newProjects} />}
         </Container>
       </Form>
     </Modal>
   );
 };
+
+
+
+const ToBeCreated = ({projects}: {projects: FullProjectModel[]}) => {
+  const sortedProjects = projects.sort((a, b) => a.consultantName.localeCompare(b.consultantName));
+  if (!sortedProjects.length) {
+    return (
+      <Row>
+        <h3>{t('projectMonth.createProjects.noNewRecordsTitle')}</h3>
+        {t('projectMonth.createProjects.noNewRecordsLabel')}
+      </Row>
+    );
+  }
+
+  return (
+    <Row>
+      <h5>{t('projectMonth.createProjects.newRecordsTitle')}</h5>
+      <div className="col-12">
+        <dl className="dl-box createProjectsMonth">
+          {sortedProjects.map(newProject => <ProjectRow key={newProject._id} project={newProject} />)}
+        </dl>
+      </div>
+    </Row>
+  );
+};
+
+
+const ProjectRow = ({project}: {project: FullProjectModel}) => {
+  return (
+    <>
+      <dt><Link claim={Claim.ViewProjects} to={`/projects/${project._id}`} label={project.consultantName} /></dt>
+      <dd>
+        <ProjectDurationSmall project={project.details} />
+        <div className="clientName">{project.client.name}</div>
+      </dd>
+    </>
+  );
+};
+
 
 
 

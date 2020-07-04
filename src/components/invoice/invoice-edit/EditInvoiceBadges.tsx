@@ -6,7 +6,7 @@ import InvoiceModel from '../models/InvoiceModel';
 import {ConfacState} from '../../../reducers/app-state';
 import {projectMonthResolve, displayMonthWithYear} from '../../project/ProjectMonthsLists';
 import {tariffFormat, t} from '../../utils';
-import {getProjectMarkup} from '../../project/models/ProjectModel';
+import {getProjectMarkup} from '../../project/utils/getProjectMarkup';
 
 
 type InvoiceProps = {

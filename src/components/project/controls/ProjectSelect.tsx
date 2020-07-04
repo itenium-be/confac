@@ -5,15 +5,15 @@ import {t} from '../../utils';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import {ConfacState} from '../../../reducers/app-state';
 import {SelectItem} from '../../../models';
-import {ProjectModel} from '../models/ProjectModel';
+import {IProjectModel} from '../models/IProjectModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
 
 
 type ProjectSelectProps = {
   /** The project _id */
-  value: string | ProjectModel,
-  onChange: (projectId: string, project: ProjectModel) => void,
+  value: string | IProjectModel,
+  onChange: (projectId: string, project: IProjectModel) => void,
 }
 
 const ProjectSelectComponent = (props: ProjectSelectProps) => {
@@ -22,7 +22,7 @@ const ProjectSelectComponent = (props: ProjectSelectProps) => {
   const clients = useSelector((state: ConfacState) => state.clients);
   const {value} = props;
 
-  const getProject = (projectId: string): ProjectModel => projects.find(p => p._id === projectId) as ProjectModel;
+  const getProject = (projectId: string): IProjectModel => projects.find(p => p._id === projectId) as IProjectModel;
   const getConsultantFullName = (consultantId: string) => {
     const consultant = consultants.find(c => c._id === consultantId) as ConsultantModel;
     return `${consultant.firstName} ${consultant.name}`;
@@ -32,7 +32,7 @@ const ProjectSelectComponent = (props: ProjectSelectProps) => {
     return client.name;
   };
 
-  const getProjectDesc = (p: ProjectModel) => `${getConsultantFullName(p.consultantId)} - ${getClientName(p.client.clientId)}`;
+  const getProjectDesc = (p: IProjectModel) => `${getConsultantFullName(p.consultantId)} - ${getClientName(p.client.clientId)}`;
 
   const selectedProjectId = value && typeof value === 'object' ? value._id : value;
   const options: SelectItem[] = projects

@@ -4,7 +4,7 @@ import {ConfigModel} from '../components/config/models/ConfigModel';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {ClientModel} from '../components/client/models/ClientModels';
 import {ConsultantModel} from '../components/consultant/models/ConsultantModel';
-import {ProjectModel} from '../components/project/models/ProjectModel';
+import {IProjectModel} from '../components/project/models/IProjectModel';
 import {ProjectMonthModel, ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
 import {ListFilters} from '../components/controls/table/table-models';
 import {UserState} from '../components/users/models/UserModel';
@@ -15,7 +15,7 @@ export type ConfacState = {
   invoices: InvoiceModel[];
   clients: ClientModel[];
   consultants: ConsultantModel[];
-  projects: ProjectModel[];
+  projects: IProjectModel[];
   projectsMonth: ProjectMonthModel[];
   /** Attachment details for a ProjectMonth (Timesheet check) */
   projectsMonthOverviews: ProjectMonthOverviewModel[];

@@ -4,7 +4,8 @@ import React from 'react';
 import {IList, IListCell, ProjectListFilters} from '../../controls/table/table-models';
 import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
-import {FullProjectModel, ProjectClientModel, getProjectMarkup, getTariffs, ProjectStatus} from './ProjectModel';
+import {ProjectClientModel, ProjectStatus} from './IProjectModel';
+import {FullProjectModel} from './FullProjectModel';
 import {t, formatDate, tariffFormat, searchinize} from '../../utils';
 import {EditIcon} from '../../controls/Icon';
 import {InvoiceClientCell} from '../../invoice/invoice-table/InvoiceClientCell';
@@ -13,6 +14,8 @@ import {ConsultantCountFooter, ProjectClientForecastFooter,
   ProjectForecastPartnerFooter} from '../project-month-list/ProjectMonthFooters';
 import {Ellipsis} from '../../controls/Tooltip';
 import {ToClipboardLabel} from '../../controls/other/ToClipboardLabel';
+import {getTariffs} from '../utils/getTariffs';
+import {getProjectMarkup} from '../utils/getProjectMarkup';
 
 
 export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel, ProjectListFilters>;
@@ -22,7 +25,7 @@ export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel
 const fullProjectSearch = (filters: ProjectListFilters, prj: FullProjectModel) => {
   const {consultant, partner, client, details} = prj;
 
-  if (!filters.showInactive && details.status === ProjectStatus.NotActiveAnymore) {
+  if (!filters.showInactive && prj.status === ProjectStatus.NotActiveAnymore) {
     return false;
   }
 
@@ -42,20 +45,19 @@ const fullProjectSearch = (filters: ProjectListFilters, prj: FullProjectModel) =
 
 
 const getRowBackgroundColor = (prj: FullProjectModel): undefined | string => {
-  const projectDetails = prj.details;
   const MONTHS_BEFORE_WARNING = 1;
   const MONTHS_BEFORE_INFO = 3;
 
-  if (projectDetails.status === ProjectStatus.NotYetActive) {
+  if (prj.status === ProjectStatus.NotYetActive) {
     return 'table-success';
   }
 
-  if (projectDetails.status === ProjectStatus.NotActiveAnymore || projectDetails.status === ProjectStatus.RecentlyInactive) {
+  if (prj.status === ProjectStatus.NotActiveAnymore || prj.status === ProjectStatus.RecentlyInactive) {
     return 'table-danger';
   }
 
-  if (projectDetails.endDate) {
-    const monthsLeft = moment(projectDetails.endDate).diff(moment(), 'months', true);
+  if (prj.details.endDate) {
+    const monthsLeft = moment(prj.details.endDate).diff(moment(), 'months', true);
 
     if (monthsLeft < MONTHS_BEFORE_WARNING) {
       return 'table-warning';
@@ -160,13 +162,11 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     data: config.data,
     sorter: (a, b) => {
       // Not active anymore -> complete bottom
-      const aStatus = a.details.status;
-      const bStatus = b.details.status;
-      if (aStatus !== bStatus) {
-        if (aStatus === ProjectStatus.NotActiveAnymore) {
+      if (a.status !== b.status) {
+        if (a.status === ProjectStatus.NotActiveAnymore) {
           return 1;
         }
-        if (bStatus === ProjectStatus.NotActiveAnymore) {
+        if (b.status === ProjectStatus.NotActiveAnymore) {
           return -1;
         }
       }

@@ -5,8 +5,9 @@ import {Badge} from 'react-bootstrap';
 import {t, moneyFormat} from '../../utils';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
-import {FullProjectModel, getTariffs} from '../models/ProjectModel';
+import {FullProjectModel} from '../models/FullProjectModel';
 import {getWorkDaysInMonth} from '../../invoice/models/InvoiceModel';
+import {getTariffs} from '../utils/getTariffs';
 
 
 const getConsultantTotals = (consultants: ConsultantModel[]) => {
