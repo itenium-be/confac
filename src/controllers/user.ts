@@ -8,6 +8,7 @@ import config from '../config';
 import {IUser, IRole} from '../models/user';
 import {ConfacRequest} from '../models/technical';
 
+const AdminRole = 'admin';
 
 const client = new OAuth2Client(config.security.clientId);
 
@@ -68,6 +69,7 @@ export const authUser = async (req: Request, res: Response) => {
   if (!user) {
     if (result.email === config.jwt.superUser) {
       result.active = true;
+      result.roles = result.roles.concat([AdminRole]);
       user = result;
     }
 
