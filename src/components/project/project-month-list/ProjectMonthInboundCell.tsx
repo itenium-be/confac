@@ -50,7 +50,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
   }
 
 
-  const canEdit = (fullProjectMonth.details.verified || inbound.status !== 'new') ? 'label' : undefined;
+  const canEdit = inbound.status !== 'new' ? 'label' : undefined;
 
 
   const attachments = fullProjectMonth.invoice ? fullProjectMonth.invoice.attachments : fullProjectMonth.details.attachments;
