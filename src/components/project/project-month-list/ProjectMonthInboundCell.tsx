@@ -45,7 +45,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
     return <div />;
   }
 
-  if (inbound.status === 'paid') {
+  if (inbound.status === 'paid' && fullProjectMonth.invoice && fullProjectMonth.invoice.verified) {
     return <div />;
   }
 
