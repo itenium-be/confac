@@ -159,7 +159,7 @@ function searchInvoiceFor(invoice: InvoiceModel, input: string): boolean {
     return true;
   }
 
-  if (invoice.number.toString().includes(text)) {
+  if (invoice.number.toString().toLowerCase().includes(text)) {
     return true;
   }
 
@@ -175,7 +175,7 @@ function searchInvoiceFor(invoice: InvoiceModel, input: string): boolean {
     return true;
   }
 
-  if (invoice.projectMonth && invoice.projectMonth.consultantName && invoice.projectMonth.consultantName.toLowerCase().includes(text)) {
+  if (invoice.projectMonth && invoice.projectMonth.consultantName && searchinize(invoice.projectMonth.consultantName).includes(text)) {
     return true;
   }
 
