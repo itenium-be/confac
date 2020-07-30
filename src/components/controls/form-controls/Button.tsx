@@ -8,7 +8,7 @@ import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
 
 export type ButtonSize = 'lg' | 'sm' | 'md';
 
-type ButtonProps = {
+export type ButtonProps = {
   onClick: Function | string,
   /** Full fa. ex: "far fa-xxx" */
   icon?: string,

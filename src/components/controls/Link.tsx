@@ -4,14 +4,15 @@ import {EnhanceWithClaim} from '../enhancers/EnhanceWithClaim';
 import {t} from '../utils';
 
 
-type LinkProps = {
+export type LinkProps = {
   to: string;
   label: string;
+  className?: string;
 }
 
 
-export const LinkComponent = ({to, label}: LinkProps) => (
-  <RouterLink to={to}>
+export const LinkComponent = ({to, label, ...props}: LinkProps) => (
+  <RouterLink to={to} {...props}>
     {t(label)}
   </RouterLink>
 );

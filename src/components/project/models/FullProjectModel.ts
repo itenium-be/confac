@@ -1,4 +1,4 @@
-import moment, { Moment } from 'moment';
+import moment, {Moment} from 'moment';
 import {getNewConsultant} from '../../consultant/models/getNewConsultant';
 import {IProjectModel, ProjectStatus} from './IProjectModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';

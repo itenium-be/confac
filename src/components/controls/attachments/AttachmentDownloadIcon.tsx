@@ -7,14 +7,12 @@ import {InvoiceModelProps} from '../../invoice/models/InvoiceModel';
 import {Attachment} from '../../../models';
 import {getAwesomeFileType} from '../../invoice/models/getAwesomeFileType';
 import {ConfacState} from '../../../reducers/app-state';
-import {projectMonthResolve} from '../../project/ProjectMonthsLists';
+import {useProjectMonthFromInvoice} from '../../hooks/useProjects';
 
 
 export const InvoiceDownloadIcon = ({invoice, ...props}: InvoiceModelProps) => {
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
-  const fullProjectMonth = useSelector((state: ConfacState) => state.projectsMonth
-    .map(pm => projectMonthResolve(pm, state))
-    .find(x => x.invoice && x.invoice._id === invoice._id));
+  const fullProjectMonth = useProjectMonthFromInvoice(invoice._id);
 
   const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
   return (
@@ -29,9 +27,7 @@ export const InvoiceDownloadIcon = ({invoice, ...props}: InvoiceModelProps) => {
 
 export const InvoicePreviewIcon = ({invoice, ...props}: InvoiceModelProps & IconProps) => {
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
-  const fullProjectMonth = useSelector((state: ConfacState) => state.projectsMonth
-    .map(pm => projectMonthResolve(pm, state))
-    .find(x => x.invoice && x.invoice._id === invoice._id));
+  const fullProjectMonth = useProjectMonthFromInvoice(invoice._id);
 
   const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';

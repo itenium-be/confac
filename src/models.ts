@@ -69,7 +69,7 @@ export type FormConfig = {
   reactKey?: string,
   label?: string,
   /** Full row title */
-  title?: string | {title: string, level: 2 | 4},
+  title?: string | {title: string, level: 2 | 3 | 4},
   /**
    * The property name of the model
    * Supports "dots" for deeper navigation

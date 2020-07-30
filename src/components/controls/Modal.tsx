@@ -1,14 +1,15 @@
-import React, {Component} from 'react';
-import {Button, Modal as ReactModal} from 'react-bootstrap';
+import React from 'react';
+import {Button as ReactButton, Modal as ReactModal} from 'react-bootstrap';
 import {t} from '../utils';
 import {BootstrapVariant} from '../../models';
+
 
 
 /**
  * string: open modal for _id
  * null: modal is closed
  * create: open modal for new entity creation
- *  */
+ */
 export type ModalState = string | null | 'create';
 
 
@@ -19,9 +20,7 @@ export type BaseModalProps = {
 
 
 type ModalProps = BaseModalProps & {
-  /**
-   * Optional confirm button
-   */
+  /** Optional confirm button */
   onConfirm?: () => void,
   /**
    * Confirm button text
@@ -30,35 +29,35 @@ type ModalProps = BaseModalProps & {
   confirmText?: string,
   confirmVariant?: BootstrapVariant,
   title: string | React.ReactNode,
+  extraButtons?: React.ReactNode,
   children: any,
 }
 
-export class Modal extends Component<ModalProps> {
-  onConfirm() {
-    if (this.props.onConfirm) {
-      this.props.onConfirm();
+export const Modal = (props: ModalProps) => {
+  const onConfirm = () => {
+    if (props.onConfirm) {
+      props.onConfirm();
     }
-    this.props.onClose();
-  }
+    props.onClose();
+  };
 
-  render() {
-    return (
-      <ReactModal show={this.props.show} onHide={this.props.onClose}>
-        <ReactModal.Header closeButton>
-          <ReactModal.Title>{this.props.title}</ReactModal.Title>
-        </ReactModal.Header>
-        <ReactModal.Body>
-          {this.props.children}
-        </ReactModal.Body>
-        <ReactModal.Footer>
-          <Button onClick={this.props.onClose} variant="light">{t('close')}</Button>
-          {this.props.onConfirm ? (
-            <Button onClick={() => this.onConfirm()} variant={this.props.confirmVariant || 'success'}>
-              {this.props.confirmText || t('save')}
-            </Button>
-          ) : null}
-        </ReactModal.Footer>
-      </ReactModal>
-    );
-  }
-}
+  return (
+    <ReactModal show={props.show} onHide={props.onClose}>
+      <ReactModal.Header closeButton>
+        <ReactModal.Title>{props.title}</ReactModal.Title>
+      </ReactModal.Header>
+      <ReactModal.Body>
+        {props.children}
+      </ReactModal.Body>
+      <ReactModal.Footer>
+        <ReactButton onClick={props.onClose} variant="light">{t('close')}</ReactButton>
+        {props.onConfirm ? (
+          <ReactButton onClick={onConfirm} variant={props.confirmVariant || 'success'}>
+            {props.confirmText || t('save')}
+          </ReactButton>
+        ) : null}
+        {props.extraButtons}
+      </ReactModal.Footer>
+    </ReactModal>
+  );
+};

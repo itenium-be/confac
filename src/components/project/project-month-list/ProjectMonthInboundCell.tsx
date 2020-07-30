@@ -1,15 +1,13 @@
 import React from 'react';
-import {ButtonGroup as ReactButtonGroup} from 'react-bootstrap';
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import cn from 'classnames';
-import {ProjectMonthInbound, ProjectMonthInboundStatus} from '../models/ProjectMonthModel';
+import {ProjectMonthInbound} from '../models/ProjectMonthModel';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {getNewProjectMonthInbound} from '../models/getNewProject';
 import {moneyFormat, t} from '../../utils';
 import {DatePicker} from '../../controls/form-controls/DatePicker';
-import {Button} from '../../controls/form-controls/Button';
 import {patchProjectsMonth, projectMonthUpload} from '../../../actions';
 import {useDebouncedSave} from '../../hooks/useDebounce';
 import {getDownloadUrl} from '../../../actions/utils/download-helpers';
@@ -18,8 +16,8 @@ import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPrevie
 import {InboundInvoiceAttachmentType} from '../../../models';
 import {getTariffs} from '../utils/getTariffs';
 import {ToClipboardLabel} from '../../controls/other/ToClipboardLabel';
-import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
-import {Claim} from '../../users/models/UserModel';
+import {ProjectMonthInboundStatusSelect} from '../controls/ProjectMonthInboundStatusSelect';
+
 
 interface ProjectMonthInboundCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -91,8 +89,8 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
         display={canEdit}
       />
       <div className="inbound-actions">
-        <InboundActionButtons
-          fullProjectMonth={fullProjectMonth}
+        <ProjectMonthInboundStatusSelect
+          value={fullProjectMonth.details.inbound.status}
           onChange={status => saveInbound({...inbound, status})}
         />
         <div className="inbound-attachment-actions">
@@ -116,48 +114,6 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
         </div>
       </div>
     </div>
-  );
-};
-
-
-
-type InboundActionButtonsProps = {
-  fullProjectMonth: FullProjectMonthModel;
-  onChange: (status: ProjectMonthInboundStatus) => void;
-}
-
-
-
-const ButtonGroup = EnhanceWithClaim(ReactButtonGroup);
-
-
-/** Switch between statusses for the inbound invoice */
-const InboundActionButtons = ({fullProjectMonth, onChange}: InboundActionButtonsProps) => {
-  const currentStatus = fullProjectMonth.details.inbound.status;
-  return (
-    <ButtonGroup claim={Claim.ValidateProjectMonth}>
-      <Button
-        key="validated"
-        variant={currentStatus === 'validated' ? 'success' : 'outline-dark'}
-        onClick={() => onChange('validated')}
-        title={t('projectMonth.inboundValidated')}
-        icon="fa fa-check"
-      />
-      <Button
-        key="paid"
-        variant={currentStatus === 'paid' ? 'success' : 'outline-dark'}
-        onClick={() => onChange('paid')}
-        title={t('projectMonth.inboundPaid')}
-        icon="fa fa-coins"
-      />
-      <Button
-        key="new"
-        variant={currentStatus === 'new' ? 'success' : 'outline-dark'}
-        onClick={() => onChange('new')}
-        title={t('projectMonth.inboundNew')}
-        icon="fa fa-inbox"
-      />
-    </ButtonGroup>
   );
 };
 

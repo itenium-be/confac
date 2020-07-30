@@ -7,9 +7,6 @@ import {ListPageHeader} from '../controls/table/ListPage';
 import {projectMonthFeature, ProjectMonthFeatureBuilderConfig} from './models/getProjectMonthFeature';
 import {FullProjectMonthModel} from './models/FullProjectMonthModel';
 import {ProjectMonthModel} from './models/ProjectMonthModel';
-import {IProjectModel} from './models/IProjectModel';
-import {ConsultantModel} from '../consultant/models/ConsultantModel';
-import {ClientModel} from '../client/models/ClientModels';
 import {LinkToButton} from '../controls/form-controls/button/LinkToButton';
 import {CreateProjectsMonthModalButton} from './controls/CreateProjectsMonthModal';
 import {IFeature} from '../controls/feature/feature-models';
@@ -18,29 +15,11 @@ import {t} from '../utils';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {CollapsibleProjectMonthsList} from './project-month-list/ProjectMonthsList';
 import {Claim} from '../users/models/UserModel';
+import {useProjectsMonths} from '../hooks/useProjects';
 
 
 import './project-month-list/project-month-list.scss';
 
-
-/** Resolve ProjectModel _ids to their corresponding models */
-export function projectMonthResolve(projectMonth: ProjectMonthModel, state: ConfacState): FullProjectMonthModel {
-  const project = state.projects.find(p => p._id === projectMonth.projectId) as IProjectModel;
-  const consultant = state.consultants.find(c => c._id === project.consultantId) as ConsultantModel;
-  const client = project.client && state.clients.find(c => c._id === project.client.clientId) as ClientModel;
-  const partner = project.partner && state.clients.find(c => project.partner && c._id === project.partner.clientId);
-  const invoice = state.invoices.find(i => i.projectMonth && i.projectMonth.projectMonthId === projectMonth._id);
-
-  return {
-    _id: projectMonth._id,
-    details: projectMonth,
-    project,
-    consultant,
-    client,
-    partner,
-    invoice,
-  };
-}
 
 export const displayMonthWithYear = (projectsMonthDetails: ProjectMonthModel) => {
   const {month: date} = projectsMonthDetails;
@@ -55,22 +34,15 @@ export const ProjectMonthsLists = () => {
   useDocumentTitle('projectMonthsList');
 
   const dispatch = useDispatch();
-  const config: ProjectMonthFeatureBuilderConfig = useSelector((state: ConfacState) => {
-    const projects = state.projectsMonth;
+  const configData = useProjectsMonths();
+  const filters = useSelector((state: ConfacState) => state.app.filters.projectMonths);
 
-    let data: FullProjectMonthModel[] = [];
-    if (state.projects.length && state.consultants.length && state.clients.length) {
-      data = projects.map(pm => projectMonthResolve(pm, state));
-    }
-
-    return {
-      data,
-      save: m => dispatch(patchProjectsMonth(m.details)),
-      filters: state.app.filters.projectMonths,
-      setFilters: f => dispatch(updateAppFilters('projectMonths', f)),
-    };
-  });
-
+  const config: ProjectMonthFeatureBuilderConfig = {
+    data: configData,
+    save: m => dispatch(patchProjectsMonth(m.details)),
+    filters,
+    setFilters: f => dispatch(updateAppFilters('projectMonths', f)),
+  };
 
   const topToolbar = (
     <>

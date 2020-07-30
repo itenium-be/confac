@@ -11,8 +11,8 @@ import {invoiceReplacements, getInvoiceReplacements} from '../../invoice/invoice
 import {ConfacState} from '../../../reducers/app-state';
 import {sendEmail} from '../../../actions/emailActions';
 import {ConfigModel} from '../../config/models/ConfigModel';
-import {projectMonthResolve} from '../../project/ProjectMonthsLists';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
+import {useProjectMonthFromInvoice} from '../../hooks/useProjects';
 
 
 export enum EmailTemplate {
@@ -73,8 +73,7 @@ type EmailModalProps = Omit<BaseModalProps, 'show'> & {
 export const EmailModal = ({invoice, onClose, template, ...props}: EmailModalProps) => {
   const dispatch = useDispatch();
   const config = useSelector((state: ConfacState) => state.config);
-  const fullProjectMonths = useSelector((state: ConfacState) => state.projectsMonth.map(pm => projectMonthResolve(pm, state)));
-  const fullProjectMonth = fullProjectMonths.find(x => x.invoice && x.invoice._id === invoice._id);
+  const fullProjectMonth = useProjectMonthFromInvoice(invoice._id);
   const [value, setValue] = useState(getDefaultEmailValue(invoice, template, config, fullProjectMonth));
 
   const attachmentsAvailable = invoice.attachments.map(a => a.type);

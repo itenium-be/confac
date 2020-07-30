@@ -2,6 +2,15 @@ import {Moment} from 'moment';
 import {ConsultantType} from '../../consultant/models/ConsultantModel';
 import {Attachment, IAudit} from '../../../models';
 
+/**
+ * false: The invoice has not yet been verified
+ * true: The invoice has been verified (=paid)
+ * forced: There is no invoice, just make the system happy
+ */
+export type ProjectMonthStatus = boolean | 'forced';
+
+
+
 export interface ProjectMonthModel {
   _id: string;
   month: Moment;
@@ -12,12 +21,7 @@ export interface ProjectMonthModel {
   /** The invoice orderNr when ProjectMonthConfig.changingOrderNr */
   orderNr: string;
   audit: IAudit;
-  /**
-   * false: The invoice has not yet been verified
-   * true: The invoice has been verified (=paid)
-   * forced: There is no invoice, just make the system happy
-   */
-  verified: boolean | 'forced';
+  verified: ProjectMonthStatus;
   attachments: Attachment[];
 }
 

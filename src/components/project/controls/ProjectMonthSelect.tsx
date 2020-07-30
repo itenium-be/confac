@@ -5,9 +5,9 @@ import {t} from '../../utils';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import {ConfacState} from '../../../reducers/app-state';
 import {SelectItem} from '../../../models';
-import {projectMonthResolve} from '../ProjectMonthsLists';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
+import {projectMonthResolve} from '../../hooks/useProjects';
 
 
 type ProjectMonthSelectProps = {
@@ -30,7 +30,7 @@ const getProjectMonthDesc = (fpm: FullProjectMonthModel): string => {
 
 
 const ProjectMonthSelectComponent = (props: ProjectMonthSelectProps) => {
-  const fullProjectMonths = useSelector((state: ConfacState) => state.projectsMonth.map(pm => projectMonthResolve(pm, state)));
+  const fullProjectMonths = useSelector((state: ConfacState) => projectMonthResolve(state));
 
   const getFullProjectMonth = (projectMonthId: string): FullProjectMonthModel => fullProjectMonths
     .find(fpm => fpm._id === projectMonthId) as FullProjectMonthModel;

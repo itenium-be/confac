@@ -17,7 +17,8 @@ import {features} from '../../../trans';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ProjectMonthModal} from '../../project/controls/ProjectMonthModal';
 import {ConfacState} from '../../../reducers/app-state';
-import {projectMonthResolve} from '../../project/ProjectMonthsLists';
+import {singleProjectMonthResolve} from '../../hooks/useProjects';
+
 
 
 export interface IInvoiceListData {
@@ -46,7 +47,7 @@ const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
       return null;
     }
 
-    return projectMonthResolve(projectMonth, state);
+    return singleProjectMonthResolve(state, projectMonth);
   });
 
   const consultants = useSelector((state: ConfacState) => state.consultants);

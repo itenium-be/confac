@@ -5,7 +5,6 @@ import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
 import {createProjectsMonth} from '../../../actions';
 import {BaseModalProps, Modal, ModalState} from '../../controls/Modal';
-import {DatePicker} from '../../controls/form-controls/DatePicker';
 import {Button} from '../../controls/form-controls/Button';
 import {ClaimGuard} from '../../enhancers/EnhanceWithClaim';
 import {Claim} from '../../users/models/UserModel';
@@ -14,6 +13,7 @@ import {useProjects} from '../../hooks/useProjects';
 import {FullProjectModel} from '../models/FullProjectModel';
 import {ProjectDurationSmall} from './ProjectDuration';
 import {Link} from '../../controls/Link';
+import {MonthPicker} from '../../controls/form-controls/MonthPicker';
 
 
 
@@ -64,12 +64,10 @@ export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
       <Form>
         <Container>
           <Row>
-            <DatePicker
+            <MonthPicker
               label={t('projectMonth.createProjects.selectMonth')}
-              dateFormat="MMMM - yyyy"
               value={date}
               onChange={value => value && setDate(value)}
-              showMonthYearPicker
             />
           </Row>
           {newProjects && <ToBeCreated projects={newProjects} />}

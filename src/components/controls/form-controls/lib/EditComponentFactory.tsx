@@ -30,6 +30,10 @@ import {ConsultantSelectWithCreateModal} from '../../../consultant/controls/Cons
 import {LanguageSelect} from '../../LanguageSelect';
 import {EditInvoiceLines} from '../../../invoice/invoice-edit/invoice-lines/EditInvoiceLines';
 import {RolesSelect, ClaimsSelect} from '../../../users/RolesSelect';
+import {MonthPicker} from '../MonthPicker';
+import {ProjectSelect} from '../../../project/controls/ProjectSelect';
+import {ProjectMonthInboundStatusSelect} from '../../../project/controls/ProjectMonthInboundStatusSelect';
+import {ProjectMonthStatusSelect} from '../../../project/controls/ProjectMonthStatusSelect';
 
 
 export function getComponent(col: FormConfig) {
@@ -43,6 +47,7 @@ export function getComponent(col: FormConfig) {
     float: FloatInput,
     bool: CheckboxInput,
     date: DatePicker,
+    month: MonthPicker,
 
     // Specialized
     'basic-math': BasicMathInput,
@@ -65,6 +70,7 @@ export function getComponent(col: FormConfig) {
     StringsSelect,
     AttachmentsTypeSelect,
     ConsultantTypeSelect,
+    ProjectSelect,
     EditProjectClient,
     EditProjectPartner,
     ConsultantSelectWithCreateModal,
@@ -74,6 +80,8 @@ export function getComponent(col: FormConfig) {
     EditInvoiceLines,
     RolesSelect,
     ClaimsSelect,
+    ProjectMonthInboundStatusSelect,
+    ProjectMonthStatusSelect,
   };
 
 

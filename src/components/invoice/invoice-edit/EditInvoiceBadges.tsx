@@ -1,12 +1,11 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
-import {useSelector} from 'react-redux';
 import {Badge} from 'react-bootstrap';
 import InvoiceModel from '../models/InvoiceModel';
-import {ConfacState} from '../../../reducers/app-state';
-import {projectMonthResolve, displayMonthWithYear} from '../../project/ProjectMonthsLists';
+import {displayMonthWithYear} from '../../project/ProjectMonthsLists';
 import {tariffFormat, t} from '../../utils';
 import {getProjectMarkup} from '../../project/utils/getProjectMarkup';
+import {useProjectsMonth} from '../../hooks/useProjects';
 
 
 type InvoiceProps = {
@@ -17,13 +16,13 @@ const defaultBadgeStyle = {marginLeft: 10, fontSize: '100%', fontWeight: 300};
 
 
 export const EditInvoiceBadges = ({invoice}: InvoiceProps) => {
-  const projectMonths = useSelector((state: ConfacState) => state.projectsMonth.map(pm => projectMonthResolve(pm, state)));
+  const projectMonthId = invoice.projectMonth && invoice.projectMonth.projectMonthId;
+  const projectMonth = useProjectsMonth(projectMonthId || '');
 
   if (!invoice._id || !invoice.projectMonth) {
     return null;
   }
 
-  const projectMonth = projectMonths.find(c => c._id === (invoice.projectMonth && invoice.projectMonth.projectMonthId));
   if (!projectMonth) {
     return null;
   }

@@ -8,7 +8,8 @@ import {BaseInputProps} from './BaseInput';
 import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
 
 type TextEditorProps = BaseInputProps<string> & {
-  getToolbarCustomButtons?: (editorState: EditorState) => JSX.Element[]
+  getToolbarCustomButtons?: (editorState: EditorState) => JSX.Element[];
+  height?: number;
 };
 
 type TextEditorState = {
@@ -55,7 +56,7 @@ class TextEditorComponent extends Component<TextEditorProps, TextEditorState> {
     const {editorState} = this.state;
     const toolbarCustomButtons = this.props.getToolbarCustomButtons && this.props.getToolbarCustomButtons(editorState);
     return (
-      <div style={{height: 300, overflowY: 'auto'}} className="form-control">
+      <div style={{height: this.props.height || 300, overflowY: 'auto'}} className="form-control">
         <Editor
           toolbarOnFocus={false}
           toolbarHidden={false}

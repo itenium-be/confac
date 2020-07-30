@@ -7,7 +7,8 @@ import {InvoicePreviewIcon} from '../../controls/attachments/AttachmentDownloadI
 import InvoiceModel from '../models/InvoiceModel';
 import {invoiceReplacements} from '../invoice-replacements';
 import {ConfacState} from '../../../reducers/app-state';
-import {projectMonthResolve} from '../../project/ProjectMonthsLists';
+import {useProjectMonthFromInvoice} from '../../hooks/useProjects';
+
 
 type DownloadInvoiceButtonProps = {
   invoice: InvoiceModel;
@@ -16,9 +17,7 @@ type DownloadInvoiceButtonProps = {
 /** Invoice Download and Preview icons */
 export const DownloadInvoiceButton = ({invoice}: DownloadInvoiceButtonProps) => {
   const defaultInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
-  const fullProjectMonth = useSelector((state: ConfacState) => state.projectsMonth
-    .map(pm => projectMonthResolve(pm, state))
-    .find(x => x.invoice && x.invoice._id === invoice._id));
+  const fullProjectMonth = useProjectMonthFromInvoice(invoice._id);
 
   const invoiceFileName = invoice.client.invoiceFileName || defaultInvoiceFileName;
   const downloadUrl = getInvoiceDownloadUrl(invoiceFileName, invoice, 'pdf', 'download', fullProjectMonth);

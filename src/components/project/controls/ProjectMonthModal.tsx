@@ -6,6 +6,7 @@ import {t} from '../../utils';
 import {Modal} from '../../controls/Modal';
 import {ProjectClientTariff} from '../models/getProjectFeature';
 import {ProjectDuration} from './ProjectDuration';
+import {ProjectMonthLink} from './ProjectMonthLink';
 
 
 import './ProjectMonthModal.scss';
@@ -33,6 +34,7 @@ export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProp
       )}
       onConfirm={() => history.push(`/projects/${projectMonth.project._id}`)}
       confirmText={t('projectMonth.linkToDetails')}
+      extraButtons={<ProjectMonthLink to={projectMonth.details} className="btn btn-success" />}
     >
       <div className="project-month-modal">
         <ProjectDuration project={projectMonth.project} />

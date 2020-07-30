@@ -19,6 +19,7 @@ import {UsersList} from './components/users/UsersList';
 import {EditUser} from './components/users/EditUser';
 import {EditRole} from './components/users/EditRole';
 import {EditAdmin} from './components/admin/EditAdmin';
+import {EditProjectMonths} from './components/project/EditProjectMonths';
 
 
 
@@ -42,6 +43,7 @@ const Routes = () => (
       <Route path="/consultants" render={props => <AppWithLayout Component={ConsultantsList} {...props} />} />
 
       <Route path="/monthly-invoicing" render={props => <AppWithLayout Component={ProjectMonthsLists} {...props} />} />
+      <Route path="/projects/:month/:projectMonthId" render={props => <AppWithLayout Component={EditProjectMonths} {...props} />} />
       <Route path="/projects/create" render={props => <AppWithLayout Component={EditProject} {...props} />} />
       <Route path="/projects/:id" render={props => <AppWithLayout Component={EditProject} {...props} />} />
       <Route path="/projects" render={props => <AppWithLayout Component={ProjectsList} {...props} />} />

@@ -21,13 +21,13 @@ import {getNewInvoice} from '../models/getNewInvoice';
 import {getDocumentTitle} from '../../hooks/useDocumentTitle';
 import {InvoiceAttachmentsForm} from '../controls/InvoiceAttachmentsForm';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
-import {projectMonthResolve} from '../../project/ProjectMonthsLists';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
 import {ProjectMonthSelect} from '../../project/controls/ProjectMonthSelect';
 import {EditInvoiceBadges} from './EditInvoiceBadges';
 import {Audit} from '../../admin/Audit';
 import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
 import {Claim} from '../../users/models/UserModel';
+import {projectMonthResolve} from '../../hooks/useProjects';
 
 
 import './EditInvoice.scss';
@@ -252,8 +252,7 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
 }
 
 function mapStateToProps(state: ConfacState, props: any) {
-  // TODO: need a selector for this stuff, this is going to be a performance issue
-  const fullProjectMonths = state.projectsMonth.map(pm => projectMonthResolve(pm, state));
+  const fullProjectMonths: FullProjectMonthModel[] = projectMonthResolve(state);
 
   return {
     config: state.config,

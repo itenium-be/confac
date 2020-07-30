@@ -30,6 +30,9 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
             if (typeof title === 'string' || title.level === 2) {
               return <Col key={sectionTitle} xs={12} style={{paddingTop: 25}}><h2>{t(sectionTitle)}</h2></Col>;
             }
+            if (title.level === 3) {
+              return <Col key={title.title} xs={12}><h3>{t(title.title)}</h3></Col>;
+            }
             return <Col key={title.title} xs={12}><h4>{t(title.title)}</h4></Col>;
           }
           return <Col key={index} {...colSizes} />;
