@@ -47,7 +47,7 @@ export const features = {
       timesheetCheck: 'SDWorx',
       inbound: 'Ontvangen factuur',
       outbound: 'Verstuurde factuur',
-    }
+    },
   },
   users: {
     title: 'Gebruikers',

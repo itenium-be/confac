@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
@@ -15,7 +16,6 @@ import {projectMonthFormProperties} from './models/ProjectFormConfig';
 import {useProjectsMonth} from '../hooks/useProjects';
 import {EnhanceWithConfirmation} from '../enhancers/EnhanceWithConfirmation';
 import {Button} from '../controls/form-controls/Button';
-import {useHistory} from 'react-router-dom';
 
 const ConfirmationButton = EnhanceWithConfirmation(Button);
 

@@ -30,7 +30,7 @@ export class FullProjectMonthModel {
     this.partner = json.partner;
     this.invoice = json.invoice;
   }
-};
+}
 
 
 export interface IFullProjectMonthModel {

@@ -9,7 +9,7 @@ import {t} from '../../utils';
 /** Click on Label to put text on clipboard */
 export const ToClipboardLabel = ({label}: {label: string}) => {
   const copyToClipBoard = async (copyMe: string) => {
-    console.log('To clipboard', copyMe);
+    console.log('To clipboard', copyMe); // eslint-disable
 
     if (!navigator.clipboard || document.location.protocol === 'http:') {
       const textArea = document.createElement('textarea');
@@ -28,7 +28,7 @@ export const ToClipboardLabel = ({label}: {label: string}) => {
         document.execCommand('copy');
         info(t('controls.clipboard.success', {text: copyMe}));
       } catch (err) {
-        console.error('Fallback: Oops, unable to copy', err);
+        console.error('Fallback: Oops, unable to copy', err); // eslint-disable
         info(t('controls.clipboard.failure'));
       }
 
@@ -41,7 +41,7 @@ export const ToClipboardLabel = ({label}: {label: string}) => {
         await navigator.clipboard.writeText(copyMe);
         info(t('controls.clipboard.success', {text: copyMe}));
       } catch (err) {
-        console.error('Clipboard err', err);
+        console.error('Clipboard err', err); // eslint-disable
         info(t('controls.clipboard.failure'));
       }
     }

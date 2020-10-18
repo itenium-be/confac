@@ -107,7 +107,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
                 .replace('{partner}', (fullProjectMonth.partner && fullProjectMonth.partner.name) || '')
                 .replace('{consultant}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`)
                 .replace('{month}', fullProjectMonth.details.month.format('YYYY-MM'))
-                + f.name.substring(f.name.lastIndexOf('.'));;
+                + f.name.substring(f.name.lastIndexOf('.'));
 
               return dispatch(projectMonthUpload(f, InboundInvoiceAttachmentType, fullProjectMonth, inboundFileName));
             }}
