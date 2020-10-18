@@ -25,9 +25,22 @@ const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMon
 
   const {details, consultant, client, partner} = prj;
 
+  const freeText = filters.freeText.trim().toLowerCase();
+  if (prj.project.client.ref && prj.project.client.ref.toLowerCase().includes(freeText)) {
+    return true;
+  }
+
+  if (prj.project.partner && prj.project.partner.ref && prj.project.partner.ref.toLowerCase().includes(freeText)) {
+    return true;
+  }
+
+  if (prj.details.orderNr && prj.details.orderNr.includes(freeText)) {
+    return true;
+  }
+
   return searchinize(
     `${details.month.format('MMMM YYYY')} ${consultant.firstName} ${consultant.name} ${client.name} ${partner && partner.name}`,
-  ).includes(filters.freeText.toLowerCase());
+  ).includes(freeText);
 };
 
 

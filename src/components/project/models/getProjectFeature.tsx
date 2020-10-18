@@ -33,13 +33,22 @@ const fullProjectSearch = (filters: ProjectListFilters, prj: FullProjectModel) =
     return true;
   }
 
+  const freeText = filters.freeText.trim().toLowerCase();
+  if (prj.details.client.ref && prj.details.client.ref.toLowerCase().includes(freeText)) {
+    return true;
+  }
+
+  if (prj.details.partner && prj.details.partner.ref && prj.details.partner.ref.toLowerCase().includes(freeText)) {
+    return true;
+  }
+
   const startDate = formatDate(details.startDate);
   const endDate = formatDate(details.endDate);
 
   return searchinize(
     `${consultant.name} ${consultant.firstName} ${consultant.type}
     ${startDate} ${endDate} ${partner && partner.name} ${client && client.name}`,
-  ).includes(filters.freeText.toLowerCase());
+  ).includes(freeText);
 };
 
 
