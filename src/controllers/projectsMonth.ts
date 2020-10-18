@@ -75,3 +75,12 @@ export const patchProjectsMonthController = async (req: ConfacRequest, res: Resp
 
   return res.send(createdProjectMonth);
 };
+
+
+
+export const deleteProjectsMonthController = async (req: ConfacRequest, res: Response) => {
+  const id = req.body.id;
+  await req.db.collection(CollectionNames.PROJECTS_MONTH).findOneAndDelete({ _id: new ObjectID(id) });
+  await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).findOneAndDelete({ _id: new ObjectID(id) });
+  return res.send(id);
+};
