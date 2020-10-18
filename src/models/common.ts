@@ -39,6 +39,12 @@ export function createAudit(user?: Jwt): IAudit {
 }
 
 export function updateAudit(audit: IAudit, user: Jwt): IAudit {
+  const doNotSetModifiedWhenCreatedAgo = 1000 * 60 * 10; // 10 minutes
+  const timePassedSinceCreation = new Date().valueOf() - new Date(audit.createdOn).valueOf();
+  if (audit.createdBy === user.data._id && timePassedSinceCreation < doNotSetModifiedWhenCreatedAgo) {
+    return audit;
+  }
+
   return {
     ...audit,
     modifiedOn: new Date().toISOString(),
