@@ -511,7 +511,7 @@ export const trans = {
     propertiesPlaceholder: 'Geef extra veldnamen in',
 
     clipboard: {
-      success: 'Copied!',
+      success: 'Copied {text}!',
       failure: 'Copy failed',
     },
   },

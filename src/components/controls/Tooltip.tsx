@@ -39,10 +39,10 @@ export const Ellipsis = ({children, title, width}: EllipsisProps) => {
   }
 
   return (
-    <div style={{width}} className="ellipsis">
-      <Tooltip title={title}>
+    <Tooltip title={title}>
+      <div style={{width}} className="ellipsis">
         {children}
-      </Tooltip>
-    </div>
+      </div>
+    </Tooltip>
   );
 };

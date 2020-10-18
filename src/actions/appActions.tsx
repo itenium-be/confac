@@ -61,7 +61,7 @@ export function failure(msg = '', title = '', timeout: number | false = 4000, po
 export function info(msg = ''): void {
   toast.info(
     msg,
-    {autoClose: 800, position: toast.POSITION.TOP_RIGHT, closeButton: false},
+    {autoClose: 2800, position: toast.POSITION.TOP_RIGHT, closeButton: false},
   );
 }
 

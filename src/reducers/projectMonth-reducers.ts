@@ -42,7 +42,6 @@ export const projectsMonth = (state: ProjectMonthModel[] = [], action): ProjectM
     }
 
     case ACTION_TYPES.PROJECTS_MONTH_DELETE: {
-      console.log('lookiung for', action);
       const newState = state.filter(pm => pm._id !== action.id);
       return newState;
     }

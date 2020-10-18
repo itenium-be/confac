@@ -10,13 +10,40 @@ import {t} from '../../utils';
 export const ToClipboardLabel = ({label}: {label: string}) => {
   const copyToClipBoard = async (copyMe: string) => {
     console.log('To clipboard', copyMe);
-    try {
-      await navigator.clipboard.writeText(copyMe);
-      info(t('controls.clipboard.success'));
-    } catch (err) {
+
+    if (!navigator.clipboard || document.location.protocol === 'http:') {
+      const textArea = document.createElement('textarea');
+      textArea.value = copyMe;
+
+      // Avoid scrolling to bottom
+      textArea.style.top = '0';
+      textArea.style.left = '0';
+      textArea.style.position = 'fixed';
+
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        document.execCommand('copy');
+        info(t('controls.clipboard.success', {text: copyMe}));
+      } catch (err) {
+        console.error('Fallback: Oops, unable to copy', err);
+        info(t('controls.clipboard.failure'));
+      }
+
+      document.body.removeChild(textArea);
+
+    } else {
       // TODO: Requires localhost or https
-      console.error('Clipboard err', err);
-      info(t('controls.clipboard.failure'));
+      // See: https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
+      try {
+        await navigator.clipboard.writeText(copyMe);
+        info(t('controls.clipboard.success', {text: copyMe}));
+      } catch (err) {
+        console.error('Clipboard err', err);
+        info(t('controls.clipboard.failure'));
+      }
     }
   };
 
