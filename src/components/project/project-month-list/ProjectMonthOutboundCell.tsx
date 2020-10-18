@@ -182,7 +182,7 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
   const dispatch = useDispatch();
   const state = useSelector((s: ConfacState) => s);
 
-  const buildAndCreateInvoice = () => {
+  const buildInvoice = () => {
     const invoiceLines = fullProjectMonth.project.client.defaultInvoiceLines.map((invoiceLine, index) => ({
       ...invoiceLine,
       amount: fullProjectMonth.details.timesheet.timesheet || 0,
@@ -203,11 +203,14 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
       note: fullProjectMonth.details.note,
     };
 
-    const invoice = getNewInvoice(state.config, state.invoices, state.clients, blueprint);
-    dispatch(createInvoice(invoice));
-    dispatch(deleteProjectMonthAttachmentDetails(fullProjectMonth.details));
+    return getNewInvoice(state.config, state.invoices, state.clients, blueprint);
   };
 
+
+  const createInvoiceFully = (inv: InvoiceModel) => {
+    dispatch(createInvoice(inv));
+    dispatch(deleteProjectMonthAttachmentDetails(fullProjectMonth.details));
+  };
 
 
   const valid = (
@@ -219,9 +222,15 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
     // )
   );
 
+  const invoice = buildInvoice();
+  const money = {
+    totalWithoutTax: moneyFormat(invoice.money.totalWithoutTax),
+    total: moneyFormat(invoice.money.total),
+  };
+
   return (
     <ClaimGuard claim={Claim.ManageInvoices}>
-      <Button variant={valid ? 'success' : 'outline-danger'} onClick={() => buildAndCreateInvoice()}>
+      <Button variant={valid ? 'success' : 'outline-danger'} onClick={() => createInvoiceFully(invoice)} title={t('projectMonth.outboundCreateInvoiceTitle', money)}>
         <Icon fa="fa fa-file-invoice" size={1} style={{marginRight: 8}} />
         {t('projectMonth.outboundCreateInvoice')}
       </Button>

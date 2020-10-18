@@ -480,6 +480,7 @@ export const trans = {
     inboundPaid: 'Betaald: Factuur is betaald',
     inboundValidated: 'Gevalideerd: Timesheet en bedrag zijn gecontroleerd',
     outboundCreateInvoice: 'Factuur maken',
+    outboundCreateInvoiceTitle: 'Totaal excl: {totalWithoutTax}. Totaal incl: {total}',
     note: 'Facturatie perikelen',
     addNote: 'Commentaar toevoegen',
     forceVerified: 'Forceer afgehandeld zonder een factuur op te maken',
