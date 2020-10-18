@@ -41,12 +41,12 @@ export function saveProject(project: IProjectModel, history: any, after: 'to-lis
 }
 
 /** Create projectMonths for all active projects in the month */
-export function createProjectsMonth(month: Moment) {
+export function createProjectsMonth(month: Moment, projectIds: string[]) {
   return (dispatch: Dispatch) => request
     .post(buildUrl('/projects/month'))
     .set('Content-Type', 'application/json')
     .set('Authorization', authService.getBearer())
-    .send({month})
+    .send({month, projectIds})
     .then(response => {
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
