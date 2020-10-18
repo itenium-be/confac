@@ -16,7 +16,8 @@ const saveAttachment = async (req: Request, attachmentModelConfig: IAttachmentMo
   const updatedAttachments = attachments.filter(a => a.type !== type);
   updatedAttachments.push({
     type,
-    fileName: file.originalname,
+    fileName: file.fieldname || file.originalname,
+    originalFileName: file.originalname,
     fileType: file.mimetype,
     lastModifiedDate: new Date().toISOString(),
   });
@@ -32,6 +33,8 @@ const saveAttachment = async (req: Request, attachmentModelConfig: IAttachmentMo
   return result;
 };
 
+
+
 const deleteAttachment = async (id: string, type: string, db: Db, attachmentModelConfig: IAttachmentModelConfig) => {
   const {standardCollectionName, attachmentCollectionName} = attachmentModelConfig;
 
@@ -46,6 +49,8 @@ const deleteAttachment = async (id: string, type: string, db: Db, attachmentMode
 
   return result;
 };
+
+
 
 export const getAttachmentController = async (req: Request, res: Response) => {
   const {
@@ -138,6 +143,8 @@ export const createZipWithInvoicesController = async (req: Request, res: Respons
   res.send(zipWithInvoices);
 };
 
+
+
 export const saveAttachmentController = async (req: Request, res: Response) => {
   const {model, id, type} = req.params;
   const [file] = req.files as Express.Multer.File[];
@@ -155,7 +162,8 @@ export const saveAttachmentController = async (req: Request, res: Response) => {
         [type]: file.buffer,
         fileDetails: {
           type,
-          fileName: file.originalname,
+          fileName: file.fieldname || file.originalname,
+          originalFileName: file.originalname,
           fileType: file.mimetype,
           lastModifiedDate: new Date().toISOString(),
         },
@@ -175,6 +183,8 @@ export const saveAttachmentController = async (req: Request, res: Response) => {
 
   return res.send(result);
 };
+
+
 
 export const deleteAttachmentController = async (req: Request, res: Response) => {
   const {id, model, type} = req.params;

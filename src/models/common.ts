@@ -3,6 +3,7 @@ import {Jwt} from './technical';
 export interface IAttachment {
   type: string;
   fileName: string;
+  originalFileName?: string;
   fileType: string;
   lastModifiedDate?: string;
 }
