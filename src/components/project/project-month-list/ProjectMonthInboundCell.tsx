@@ -24,6 +24,12 @@ interface ProjectMonthInboundCellProps {
 }
 
 
+/** Invoice transfer free text comment does not allow underscores */
+function sanitizeForInvoiceComment(text: string): string {
+  return text.replace(/_/g, '-');
+}
+
+
 /** Inbound form cell for the ProjectMonth list */
 export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundCellProps) => {
   const dispatch = useDispatch();
@@ -77,7 +83,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
       ) : (
         <StringInput
           value={inbound.nr}
-          onChange={nr => setInbound({...inbound, nr})}
+          onChange={nr => setInbound({...inbound, nr: sanitizeForInvoiceComment(nr)})}
           placeholder={t('projectMonth.inboundInvoiceNr')}
         />
       )}
