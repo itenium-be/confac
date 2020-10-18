@@ -49,14 +49,8 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
     return <div />;
   }
 
-  if (inbound.status === 'paid' && fullProjectMonth.invoice && fullProjectMonth.invoice.verified) {
-    return <div />;
-  }
-
 
   const canEdit = inbound.status !== 'new' ? 'label' : undefined;
-
-
   const attachments = fullProjectMonth.invoice ? fullProjectMonth.invoice.attachments : fullProjectMonth.details.attachments;
   const inboundInvoiceDetails = attachments.find(a => a.type === InboundInvoiceAttachmentType);
 

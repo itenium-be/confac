@@ -52,11 +52,6 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
   const [timesheet, setTimesheet, saveTimesheet] = useDebouncedSave<ProjectMonthTimesheet>(defaultValue, dispatcher);
 
 
-  if (fullProjectMonth.details.verified) {
-    return <div />;
-  }
-
-
   const projectConfig = fullProjectMonth.project.projectMonthConfig;
   const timesheetConfig: TimesheetTimeConfig = {
     rateType: fullProjectMonth.project.client.defaultInvoiceLines[0].type,
