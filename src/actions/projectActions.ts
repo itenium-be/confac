@@ -10,6 +10,7 @@ import {IProjectModel} from '../components/project/models/IProjectModel';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
 import {TimesheetCheckAttachmentType} from '../models';
 import {authService} from '../components/users/authService';
+import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
 
 export function saveProject(project: IProjectModel, history: any, after: 'to-list' | 'to-details' = 'to-list') {
   return (dispatch: Dispatch) => {
@@ -134,18 +135,27 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
 
 type ProjectMonthAttachmentTypes = 'Getekende timesheet' | 'Factuur freelancer';
 
-export function projectMonthUpload(file: File, type: ProjectMonthAttachmentTypes, projectMonthId: string, fileName: string) {
+export function projectMonthUpload(file: File, type: ProjectMonthAttachmentTypes, projectMonth: FullProjectMonthModel, fileName: string) {
   return (dispatch: Dispatch) => {
+    const modelType = projectMonth.invoice ? 'invoice' : 'project_month';
+    const modelId = projectMonth.invoice ? projectMonth.invoice._id : projectMonth._id;
     const req = request
-      .put(buildUrl(`/attachments/project_month/${projectMonthId}/${type}`))
+      .put(buildUrl(`/attachments/${modelType}/${modelId}/${type}`))
       .set('Authorization', authService.getBearer());
 
     req.attach(fileName, file);
     req.then(response => {
-      dispatch({
-        type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
-        projectMonth: response.body,
-      });
+      if (projectMonth.invoice) {
+        dispatch({
+          type: ACTION_TYPES.INVOICE_UPDATED,
+          invoice: response.body,
+        });
+      } else {
+        dispatch({
+          type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
+          projectMonth: response.body,
+        });
+      }
       success(t('config.popupMessage'));
       return true;
     })

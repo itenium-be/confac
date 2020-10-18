@@ -106,8 +106,10 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
               const inboundFileName = '{month}-{partner}-{consultant}-Invoice'
                 .replace('{partner}', (fullProjectMonth.partner && fullProjectMonth.partner.name) || '')
                 .replace('{consultant}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`)
-                .replace('{month}', fullProjectMonth.details.month.format('YYYY-MM'));
-              return dispatch(projectMonthUpload(f, InboundInvoiceAttachmentType, fullProjectMonth._id, inboundFileName));
+                .replace('{month}', fullProjectMonth.details.month.format('YYYY-MM'))
+                + f.name.substring(f.name.lastIndexOf('.'));;
+
+              return dispatch(projectMonthUpload(f, InboundInvoiceAttachmentType, fullProjectMonth, inboundFileName));
             }}
             downloadUrl={getInboundInvoiceDownloadUrl()}
           />

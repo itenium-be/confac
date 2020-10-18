@@ -79,7 +79,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
 
   const hasTimesheetBeenUploaded = !!timesheetDetails;
 
-  const getTimesheetDownloadUrl = () => {
+  const getTimesheetDownloadUrl = (): string => {
     const {invoice} = fullProjectMonth;
     const projectMonthId = fullProjectMonth._id;
 
@@ -141,7 +141,10 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           isPreviewDisabled={!hasTimesheetBeenUploaded}
           uploadTooltip={t('projectMonth.timesheetUpload')}
           previewTooltip={t('projectMonth.viewTimesheet', {fileName: timesheetDetails ? timesheetDetails.fileName : ''})}
-          onUpload={f => dispatch(projectMonthUpload(f, SignedTimesheetAttachmentType, fullProjectMonth._id, timesheetFileName))}
+          onUpload={f => {
+            const fileName = timesheetFileName + f.name.substring(f.name.lastIndexOf('.'));
+            return dispatch(projectMonthUpload(f, SignedTimesheetAttachmentType, fullProjectMonth, fileName));
+          }}
           downloadUrl={getTimesheetDownloadUrl()}
         />
       </div>
