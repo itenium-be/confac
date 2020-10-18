@@ -227,10 +227,11 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
     totalWithoutTax: moneyFormat(invoice.money.totalWithoutTax),
     total: moneyFormat(invoice.money.total),
   };
+  const title = invoice.money.total ? t('projectMonth.outboundCreateInvoiceTitle', money) : undefined;
 
   return (
     <ClaimGuard claim={Claim.ManageInvoices}>
-      <Button variant={valid ? 'success' : 'outline-danger'} onClick={() => createInvoiceFully(invoice)} title={t('projectMonth.outboundCreateInvoiceTitle', money)}>
+      <Button variant={valid ? 'success' : 'outline-danger'} onClick={() => createInvoiceFully(invoice)} title={title}>
         <Icon fa="fa fa-file-invoice" size={1} style={{marginRight: 8}} />
         {t('projectMonth.outboundCreateInvoice')}
       </Button>
