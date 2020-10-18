@@ -5,8 +5,12 @@ import {t} from '../utils';
 
 type EnhanceWithConfirmationProps = {
   onClick: Function,
+  /** Confirmation dialog title */
   title: string,
+  /** Confirmation dialog content */
   children?: any,
+  /** Button text */
+  componentChildren?: string,
 }
 
 type EnhanceWithConfirmationState = {
@@ -21,7 +25,7 @@ export const EnhanceWithConfirmation = <P extends object>(ComposedComponent: Rea
   }
 
   render() {
-    const {onClick, title, children, ...props} = this.props;
+    const {onClick, title, children, componentChildren, ...props} = this.props;
     const buttons: PopupButton[] = [{
       text: t('no'),
       onClick: () => this.setState({popupActive: false}),
@@ -37,7 +41,7 @@ export const EnhanceWithConfirmation = <P extends object>(ComposedComponent: Rea
       busy: true,
     }];
     return (
-      <div style={{display: 'inline'}}>
+      <div style={{display: 'inline'}} className="button">
         {this.state.popupActive ? (
           <div style={{display: 'inline'}}>
             <Popup
@@ -47,10 +51,14 @@ export const EnhanceWithConfirmation = <P extends object>(ComposedComponent: Rea
             >
               {children}
             </Popup>
-            <ComposedComponent {...props as P} onClick={() => this.setState({popupActive: false})} />
+            <ComposedComponent {...props as P} onClick={() => this.setState({popupActive: false})}>
+              {componentChildren}
+            </ComposedComponent>
           </div>
         ) : (
-          <ComposedComponent {...props as P} onClick={() => this.setState({popupActive: true})} />
+          <ComposedComponent {...props as P} onClick={() => this.setState({popupActive: true})}>
+            {componentChildren}
+          </ComposedComponent>
         )}
       </div>
     );

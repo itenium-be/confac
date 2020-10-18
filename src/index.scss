@@ -45,12 +45,16 @@ body {
 
 
 .button-row {
-	text-align: center;
+  text-align: center;
+
+  button, .button {
+    &:not(:last-child) {
+      margin-right: 46px;
+    }
+  }
 }
 
-.button-row button:not(:last-child) {
-	margin-right: 46px;
-}
+
 
 
 

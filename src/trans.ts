@@ -47,7 +47,7 @@ export const features = {
       timesheetCheck: 'SDWorx',
       inbound: 'Ontvangen factuur',
       outbound: 'Verstuurde factuur',
-    },
+    }
   },
   users: {
     title: 'Gebruikers',
@@ -429,8 +429,12 @@ export const trans = {
       projecten: '{projects} projecten',
       workDays: '{count} werkdagen in {month}',
     },
+    deleteConfirm: {
+      title: 'Verwijderen bevestigen',
+      content: 'Deze record wordt zondermeer hard gedelete. Ik hoop dat je weet wat je aan het doen bent!',
+      toastr: 'Project maand record verwijderd',
+    },
     props: {
-      title: 'Details',
       month: 'Maand',
       projectId: 'Project',
       verified: 'Geverifiëerd',
@@ -447,7 +451,7 @@ export const trans = {
         title: 'Ontvangen factuur van onderaannemer',
         nr: 'Hun factuur nr',
         dateReceived: 'Hun factuur ontvangen op',
-        status: 'Status ontvangen factuur',
+        status: 'Status',
       },
     },
     list: {

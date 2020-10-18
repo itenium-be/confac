@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
-import {patchProjectsMonth} from '../../actions';
+import {deleteProjectsMonth, patchProjectsMonth} from '../../actions';
 import {StickyFooter} from '../controls/other/StickyFooter';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
@@ -13,7 +13,11 @@ import {getNewProjectMonth} from './models/getNewProject';
 import {ProjectMonthModel} from './models/ProjectMonthModel';
 import {projectMonthFormProperties} from './models/ProjectFormConfig';
 import {useProjectsMonth} from '../hooks/useProjects';
+import {EnhanceWithConfirmation} from '../enhancers/EnhanceWithConfirmation';
+import {Button} from '../controls/form-controls/Button';
+import {useHistory} from 'react-router-dom';
 
+const ConfirmationButton = EnhanceWithConfirmation(Button);
 
 
 interface EditProjectMonthsProps {
@@ -37,6 +41,7 @@ export const EditProjectMonths = (props: EditProjectMonthsProps) => {
   const consultantName = (model && model.consultantName) || '';
   const clientName = (model && model.client.name) || '';
   useDocumentTitle(docTitle, {consultantName, clientName});
+  const history = useHistory();
 
   if (model && !projectMonth._id) {
     setProjectMonth(model.details);
@@ -60,10 +65,20 @@ export const EditProjectMonths = (props: EditProjectMonthsProps) => {
           />
         </Row>
       </Form>
-      <StickyFooter claim={Claim.ValidateProjectMonth}>
+      <StickyFooter>
+        <ConfirmationButton
+          onClick={() => dispatch(deleteProjectsMonth(projectMonth._id, history))}
+          variant="danger"
+          title={t('projectMonth.deleteConfirm.title')}
+          componentChildren={t('delete')}
+          claim={Claim.DeleteProjectMonth}
+        >
+          {t('projectMonth.deleteConfirm.content')}
+        </ConfirmationButton>
         <BusyButton
           onClick={() => dispatch(patchProjectsMonth(projectMonth))}
           disabled={isButtonDisabled()}
+          claim={Claim.ValidateProjectMonth}
         >
           {t('save')}
         </BusyButton>

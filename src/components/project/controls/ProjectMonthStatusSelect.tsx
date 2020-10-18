@@ -5,6 +5,7 @@ import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
 import {Claim} from '../../users/models/UserModel';
 import {t} from '../../utils';
 import {Button} from '../../controls/form-controls/Button';
+import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 
 type ProjectMonthStatusSelectProps = {
   value: ProjectMonthStatus;
@@ -17,7 +18,7 @@ const ButtonGroup = EnhanceWithClaim(ReactButtonGroup);
 
 
 
-export const ProjectMonthStatusSelect = ({value, onChange}: ProjectMonthStatusSelectProps) => {
+const ProjectMonthStatusSelectComponent = ({value, onChange}: ProjectMonthStatusSelectProps) => {
   const currentStatus = value;
   return (
     <ButtonGroup claim={Claim.ValidateProjectMonth}>
@@ -45,3 +46,5 @@ export const ProjectMonthStatusSelect = ({value, onChange}: ProjectMonthStatusSe
     </ButtonGroup>
   );
 };
+
+export const ProjectMonthStatusSelect = EnhanceInputWithLabel(ProjectMonthStatusSelectComponent);

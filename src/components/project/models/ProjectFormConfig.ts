@@ -21,11 +21,10 @@ export const projectFormConfig: FullFormConfig = [
 const HeaderSize = 3;
 
 export const projectMonthFormProperties: FullFormConfig = [
-  {title: {title: 'projectMonth.props.title', level: HeaderSize}},
-  {key: 'verified', component: 'ProjectMonthStatusSelect', cols: 12},
-  {key: 'month', component: 'month', cols: 3},
+  {key: 'verified', component: 'ProjectMonthStatusSelect', cols: 2},
+  {key: 'month', component: 'month', cols: 2},
   {key: 'projectId', component: 'ProjectSelect', cols: 6},
-  {key: 'orderNr', component: 'text', cols: 3},
+  {key: 'orderNr', component: 'text', cols: 2},
 
 
   {title: {title: 'projectMonth.props.timesheet.title', level: HeaderSize}},
@@ -35,7 +34,7 @@ export const projectMonthFormProperties: FullFormConfig = [
   {key: 'timesheet.note', component: 'textarea', cols: 6},
 
   {title: {title: 'projectMonth.props.inbound.title', level: HeaderSize}},
-  {key: 'inbound.status', component: 'ProjectMonthInboundStatusSelect', cols: 12},
+  {key: 'inbound.status', component: 'ProjectMonthInboundStatusSelect', cols: 2},
   {key: 'inbound.nr', component: 'text', cols: 4},
   {key: 'inbound.dateReceived', component: 'date', cols: 4},
 
