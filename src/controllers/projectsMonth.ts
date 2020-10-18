@@ -1,9 +1,7 @@
 import {Request, Response} from 'express';
 import {ObjectID} from 'mongodb';
-import {findActiveProjectsForSelectedMonth} from './projects';
 import {IProjectMonth, IProjectMonthOverview, TimesheetCheckAttachmentType} from '../models/projectsMonth';
 import {CollectionNames, createAudit, updateAudit} from '../models/common';
-import {IProject} from '../models/projects';
 import {ConfacRequest} from '../models/technical';
 
 
@@ -25,17 +23,16 @@ export const getProjectsPerMonthOverviewController = async (req: Request, res: R
 
 /** Create all projectMonths for the specified month */
 export const createProjectsMonthController = async (req: ConfacRequest, res: Response) => {
-  const {month}: {month: string;} = req.body;
+  const {projectIds, month}: {projectIds: string[]; month: string} = req.body;
 
-  const projects = await req.db.collection<IProject>(CollectionNames.PROJECTS).find()
-    .toArray();
-  const activeProjects = findActiveProjectsForSelectedMonth(month, projects);
+  // const projects = await req.db.collection<IProject>(CollectionNames.PROJECTS).find().toArray();
+  // const activeProjects = findActiveProjectsForSelectedMonth(month, projects);
 
-  const createdProjectsMonth = await Promise.all(activeProjects.map(async activeProject => {
+  const createdProjectsMonth = await Promise.all(projectIds.map(async projectId => {
     const projectMonth: IProjectMonth = {
       _id: new ObjectID(),
       month,
-      projectId: activeProject._id,
+      projectId: new ObjectID(projectId),
       audit: createAudit(req.user),
       verified: false,
       inbound: {

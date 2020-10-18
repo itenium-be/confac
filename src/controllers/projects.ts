@@ -5,6 +5,7 @@ import {IProject} from '../models/projects';
 import {CollectionNames, createAudit, updateAudit} from '../models/common';
 import {ConfacRequest} from '../models/technical';
 
+/** No longer in use: this is now done in the frontend */
 export const findActiveProjectsForSelectedMonth = (selectedMonth: string, projects: IProject[]) => projects.filter(project => {
   if (project.endDate) {
     const isStartDateInSameMonthOrBefore = moment(project.startDate).isSameOrBefore(selectedMonth, 'months');
