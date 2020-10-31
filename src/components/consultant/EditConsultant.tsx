@@ -25,7 +25,7 @@ interface EditConsultantProps {
 export const EditConsultant = (props: EditConsultantProps) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const model = useSelector((state: ConfacState) => state.consultants.find(c => c.slug === props.match.params.id));
+  const model = useSelector((state: ConfacState) => state.consultants.find(c => c.slug === props.match.params.id || c._id === props.match.params.id));
   const [consultant, setConsultant] = useState<ConsultantModel>(model || getNewConsultant());
 
   const docTitle = consultant._id ? 'consultantEdit' : 'consultantNew';

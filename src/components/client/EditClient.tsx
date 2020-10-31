@@ -62,7 +62,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
   copyClient(props: EditClientProps): ClientModel {
     if (props.match.params.id) {
       // Existing client
-      const client = props.clients.find(c => c.slug === props.match.params.id);
+      const client = props.clients.find(c => c.slug === props.match.params.id || c._id === props.match.params.id);
       if (client) {
         return JSON.parse(JSON.stringify(client));
       }
@@ -94,7 +94,7 @@ class EditClient extends Component<EditClientProps, EditClientState> {
       return null;
     }
 
-    if (!client._id && !client.btw) {
+    if (!client._id) {
       return (
         <NewClient
           client={client}

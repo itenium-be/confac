@@ -10,5 +10,5 @@ export const ClientEditIcon = ({client, ...props}: ClientEditIconProps) => {
   if (props.onClick) {
     return <EditIcon {...props} />;
   }
-  return <EditIcon onClick={`/clients/${client.slug}`} {...props} />;
+  return <EditIcon onClick={`/clients/${client.slug || client._id}`} {...props} />;
 };

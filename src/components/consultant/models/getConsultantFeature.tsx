@@ -61,7 +61,7 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
     header: {title: '', width: 110},
     value: m => (
       <>
-        <EditIcon onClick={`/consultants/${m.slug}`} style={{marginRight: 15}} size={1} />
+        <EditIcon onClick={`/consultants/${m.slug || m._id}`} style={{marginRight: 15}} size={1} />
         <DeleteIcon
           claim={Claim.ManageConsultants}
           onClick={() => config.save({...m, active: !m.active})}
