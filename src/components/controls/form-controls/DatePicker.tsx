@@ -26,12 +26,11 @@ type DatePickerProps = BaseInputProps<moment.Moment | null> & {
 export function utcFix(date: Date | null): moment.Moment | null {
   if (!date) {
     return null;
-
-  } else {
-    const localMoment = moment(date).startOf('day');
-    const utcMoment = localMoment.clone().utc().add(localMoment.utcOffset(), 'm');
-    return utcMoment;
   }
+
+  const localMoment = moment(date).startOf('day');
+  const utcMoment = localMoment.clone().utc().add(localMoment.utcOffset(), 'm');
+  return utcMoment;
 }
 
 

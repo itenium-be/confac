@@ -93,7 +93,7 @@ export function deleteProjectsMonth(id: string, history: any) {
           type: ACTION_TYPES.PROJECTS_MONTH_DELETE,
           id,
         });
-        success(t(`projectMonth.deleteConfirm.toastr`));
+        success(t('projectMonth.deleteConfirm.toastr'));
         history.push('/projects');
         return true;
       })
