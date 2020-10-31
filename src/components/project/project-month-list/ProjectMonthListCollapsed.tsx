@@ -120,7 +120,7 @@ type TimesheetBadgeProps = {
 const TimesheetBadge = ({pending, totals}: TimesheetBadgeProps) => {
   const title = totals.timesheetPending.map(x => `${x.consultant.firstName} ${x.consultant.name}`);
   return (
-    <Badge pill variant={pending ? 'warning' : 'success'} title={title}>
+    <Badge pill variant={pending ? 'warning' : 'success'} title={title.length ? title : undefined}>
       <Icon fa="fa fa-clock" size={1} style={{marginRight: 8}} />
       {t(`projectMonth.list.${pending ? 'timesheetPending' : 'timesheetOk'}`, totals)}
     </Badge>
@@ -145,16 +145,16 @@ const InboundBadge = ({pending, totals}: TimesheetBadgeProps) => {
   const paidTitle = totals.inboundPaid.map(x => `${x.consultant.firstName} ${x.consultant.name}`).join('<br>');
   return (
     <Badge pill variant="warning">
-      <Icon fa="fa fa-inbox" size={1} title={newTitle}>
+      <Icon fa="fa fa-inbox" size={1} title={newTitle && `<b>${t('projectMonth.inboundNew')}</b><br>` + newTitle}>
         {totals.inboundNew.length}
       </Icon>
 
-      <Icon fa="fa fa-check" size={1} title={validatedTitle}>
+      <Icon fa="fa fa-check" size={1} title={validatedTitle && `<b>${t('projectMonth.inboundValidated')}</b><br>` + validatedTitle}>
         {totals.inboundValidated.length}
       </Icon>
 
 
-      <Icon fa="fa fa-coins" size={1} title={paidTitle}>
+      <Icon fa="fa fa-coins" size={1} title={paidTitle && `<b>${t('projectMonth.inboundPaid')}</b><br>` + paidTitle}>
         {totals.inboundPaid.length}
       </Icon>
     </Badge>
