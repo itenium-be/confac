@@ -19,7 +19,7 @@ const toFirstDayOfMonth = (value: Moment): Moment => {
   const localMoment = moment(value).startOf('month').startOf('day');
   const utcMoment = localMoment.clone().utc().add(localMoment.utcOffset(), 'm');
   return utcMoment;
-}
+};
 
 type ProjectMonthModalProps = BaseModalProps & {};
 
