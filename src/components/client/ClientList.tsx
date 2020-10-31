@@ -5,6 +5,7 @@ import {ConfacState} from '../../reducers/app-state';
 import {clientFeature, ClientFeatureBuilderConfig} from './models/getClientFeature';
 import {ListPage} from '../controls/table/ListPage';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
+import {Features} from '../controls/feature/feature-models';
 
 export const ClientList = () => {
   useDocumentTitle('clientList');
@@ -20,7 +21,7 @@ export const ClientList = () => {
     data: models.data,
     save: (m, stayOnPage) => dispatch(saveClient(m, stayOnPage)),
     filters: models.filters,
-    setFilters: f => dispatch(updateAppFilters('clients', f)),
+    setFilters: f => dispatch(updateAppFilters(Features.clients, f)),
     invoices: models.invoices,
   };
 

@@ -4,6 +4,7 @@ import {ACTION_TYPES} from './utils/ActionTypes';
 import t from '../trans';
 import {InvoiceFilters} from '../models';
 import {ListFilters} from '../components/controls/table/table-models';
+import {Features} from '../components/controls/feature/feature-models';
 
 type ToastType = 'error' | 'success' | 'info';
 
@@ -81,7 +82,7 @@ export function updateInvoiceFilters(filters: InvoiceFilters) {
 }
 
 
-export function updateAppFilters(featureKey: string, filters: ListFilters) {
+export function updateAppFilters(featureKey: Features, filters: ListFilters) {
   return {
     type: ACTION_TYPES.APP_FILTERUPDATED,
     payload: {feature: featureKey, filters},

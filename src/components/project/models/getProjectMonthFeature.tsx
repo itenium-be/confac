@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import {IList, IListCell, ProjectMonthListFilters} from '../../controls/table/table-models';
-import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
+import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {FullProjectMonthModel} from './FullProjectMonthModel';
 import {t, searchinize} from '../../utils';
@@ -138,7 +138,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
 
 export const projectMonthFeature = (config: ProjectMonthFeatureBuilderConfig): IFeature<FullProjectMonthModel, ProjectMonthListFilters> => {
   const feature: IFeature<FullProjectMonthModel, ProjectMonthListFilters> = {
-    key: 'projectMonths',
+    key: Features.projectMonths,
     nav: m => `/projects/${m === 'create' ? m : m.details.month.format('YYYY/MM')}`,
     trans: features.projectMonth as any,
     list: projectListConfig(config),

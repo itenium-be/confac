@@ -5,6 +5,8 @@ import {authService} from '../components/users/authService';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {buildUrl} from './utils/buildUrl';
 import {failure} from './appActions';
+import {getProjectMonthsFilters} from '../reducers/app-state';
+import {Features} from '../components/controls/feature/feature-models';
 
 let counter: number;
 
@@ -142,6 +144,16 @@ function fetchProjectsMonth() {
       type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
       projectsMonth: data,
     });
+
+    if (data.length) {
+      dispatch({
+        type: ACTION_TYPES.APP_FILTERUPDATED,
+        payload: {
+          feature: Features.projectMonths,
+          filters: getProjectMonthsFilters(data),
+        },
+      });
+    }
   });
 }
 

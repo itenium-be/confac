@@ -9,6 +9,7 @@ import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {roleFeature, RoleFeatureBuilderConfig} from './models/getRoleFeature';
 import {Claim} from './models/UserModel';
 import {ClaimGuard} from '../enhancers/EnhanceWithClaim';
+import {Features} from '../controls/feature/feature-models';
 
 
 export const UsersList = () => {
@@ -22,14 +23,14 @@ export const UsersList = () => {
     data: users.data,
     save: m => dispatch(saveUser(m)),
     filters: users.filters,
-    setFilters: f => dispatch(updateAppFilters('users', f)),
+    setFilters: f => dispatch(updateAppFilters(Features.users, f)),
   };
 
   const roleConfig: RoleFeatureBuilderConfig = {
     data: roles.data,
     save: m => dispatch(saveRole(m)),
     filters: roles.filters,
-    setFilters: f => dispatch(updateAppFilters('roles', f)),
+    setFilters: f => dispatch(updateAppFilters(Features.roles, f)),
   };
 
   return (

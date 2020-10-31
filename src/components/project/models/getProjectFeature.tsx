@@ -2,7 +2,7 @@
 import moment from 'moment';
 import React from 'react';
 import {IList, IListCell, ProjectListFilters} from '../../controls/table/table-models';
-import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
+import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {ProjectClientModel, ProjectStatus} from './IProjectModel';
 import {FullProjectModel} from './FullProjectModel';
@@ -212,7 +212,7 @@ const startDateSort = (a: FullProjectModel, b: FullProjectModel): number => {
 
 export const projectFeature = (config: ProjectFeatureBuilderConfig): IFeature<FullProjectModel, ProjectListFilters> => {
   const feature: IFeature<FullProjectModel, ProjectListFilters> = {
-    key: 'projects',
+    key: Features.projects,
     nav: m => `/projects/${m === 'create' ? m : m.details._id}`,
     trans: features.project as any,
     list: projectListConfig(config),

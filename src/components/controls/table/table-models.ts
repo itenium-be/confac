@@ -27,7 +27,7 @@ export type ListFilters = {
 }
 
 export type ProjectListFilters = ListFilters;
-export type ProjectMonthListFilters = ListFilters;
+export type ProjectMonthListFilters = ListFilters & {openMonths: string[]};
 export type InvoiceListFilters = ListFilters;
 export type ConsultantListFilters = ListFilters;
 export type UsersListFilters = ListFilters;

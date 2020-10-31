@@ -6,6 +6,7 @@ import {consultantFeature, ConsultantFeatureBuilderConfig} from './models/getCon
 import {saveConsultant} from '../../actions/consultantActions';
 import {updateAppFilters} from '../../actions';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
+import {Features} from '../controls/feature/feature-models';
 
 
 export const ConsultantsList = () => {
@@ -18,7 +19,7 @@ export const ConsultantsList = () => {
     data: models.data,
     save: m => dispatch(saveConsultant(m)),
     filters: models.filters,
-    setFilters: f => dispatch(updateAppFilters('consultants', f)),
+    setFilters: f => dispatch(updateAppFilters(Features.consultants, f)),
   };
 
   const feature = consultantFeature(config);

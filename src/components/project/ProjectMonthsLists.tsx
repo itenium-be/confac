@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container} from 'react-bootstrap';
-import {ConfacState} from '../../reducers/app-state';
+import {ConfacState, ProjectMonthsListFilterOpenMonthsFormat} from '../../reducers/app-state';
 import {updateAppFilters, patchProjectsMonth} from '../../actions';
 import {ListPageHeader} from '../controls/table/ListPage';
 import {projectMonthFeature, ProjectMonthFeatureBuilderConfig} from './models/getProjectMonthFeature';
@@ -9,8 +9,8 @@ import {FullProjectMonthModel} from './models/FullProjectMonthModel';
 import {ProjectMonthModel} from './models/ProjectMonthModel';
 import {LinkToButton} from '../controls/form-controls/button/LinkToButton';
 import {CreateProjectsMonthModalButton} from './controls/CreateProjectsMonthModal';
-import {IFeature} from '../controls/feature/feature-models';
-import {ListFilters} from '../controls/table/table-models';
+import {Features, IFeature} from '../controls/feature/feature-models';
+import {ProjectMonthListFilters} from '../controls/table/table-models';
 import {t} from '../utils';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {CollapsibleProjectMonthsList} from './project-month-list/ProjectMonthsList';
@@ -41,7 +41,7 @@ export const ProjectMonthsLists = () => {
     data: configData,
     save: m => dispatch(patchProjectsMonth(m.details)),
     filters,
-    setFilters: f => dispatch(updateAppFilters('projectMonths', f)),
+    setFilters: f => dispatch(updateAppFilters(Features.projectMonths, f)),
   };
 
   const topToolbar = (
@@ -56,7 +56,7 @@ export const ProjectMonthsLists = () => {
   const feature = projectMonthFeature(config);
 
 
-  const getKey = (x: FullProjectMonthModel): string => x.details.month.format('YYYY-MM');
+  const getKey = (x: FullProjectMonthModel): string => x.details.month.format(ProjectMonthsListFilterOpenMonthsFormat);
   const uniqueMonths = feature.list.data
     .map(getKey)
     .filter((month, index, arr) => arr.indexOf(month) === index)
@@ -64,7 +64,7 @@ export const ProjectMonthsLists = () => {
 
 
   const features = uniqueMonths.map((month, index) => {
-    const f: IFeature<FullProjectMonthModel, ListFilters> = {
+    const f: IFeature<FullProjectMonthModel, ProjectMonthListFilters> = {
       ...feature,
       list: {
         ...feature.list,
@@ -74,7 +74,7 @@ export const ProjectMonthsLists = () => {
 
     return (
       <div key={month}>
-        <CollapsibleProjectMonthsList feature={f} defaultOpen={index === 0} />
+        <CollapsibleProjectMonthsList feature={f} month={month} />
       </div>
     );
   });

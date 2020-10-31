@@ -2,7 +2,7 @@
 import React from 'react';
 import {IList, IListCell, UsersListFilters} from '../../controls/table/table-models';
 import {t, searchinize} from '../../utils';
-import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
+import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {EditIcon} from '../../controls/Icon';
 import {DeleteIcon} from '../../controls/icons/DeleteIcon';
@@ -84,7 +84,7 @@ const userListConfig = (config: UserFeatureBuilderConfig): IList<UserModel, User
 
 export const userFeature = (config: UserFeatureBuilderConfig): IFeature<UserModel, UsersListFilters> => {
   const feature: IFeature<UserModel, UsersListFilters> = {
-    key: 'users',
+    key: Features.users,
     nav: m => `/users/${m === 'create' ? m : m.alias}`,
     trans: features.users as any,
     list: userListConfig(config),

@@ -12,7 +12,7 @@ import {InvoiceListRowActions} from '../invoice-table/InvoiceListRowActions';
 import {getInvoiceListRowClass} from '../invoice-table/getInvoiceListRowClass';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
-import {IFeature} from '../../controls/feature/feature-models';
+import {Features, IFeature} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ProjectMonthModal} from '../../project/controls/ProjectMonthModal';
@@ -105,7 +105,7 @@ export function createInvoiceList(config: IInvoiceListConfig): IFeature<InvoiceM
   };
 
   return {
-    key: 'invoices',
+    key: Features.invoices,
     nav: m => `/invoices/${m === 'create' ? m : m.number}`,
     trans: features.invoice as any,
     list: {

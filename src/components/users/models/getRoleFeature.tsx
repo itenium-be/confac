@@ -2,7 +2,7 @@
 import React from 'react';
 import {IList, IListCell, RolesListFilters} from '../../controls/table/table-models';
 import {searchinize} from '../../utils';
-import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
+import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {EditIcon} from '../../controls/Icon';
 import {RoleModel} from './UserModel';
@@ -53,7 +53,7 @@ const RoleListConfig = (config: RoleFeatureBuilderConfig): IList<RoleModel, Role
 
 export const roleFeature = (config: RoleFeatureBuilderConfig): IFeature<RoleModel, RolesListFilters> => {
   const feature: IFeature<RoleModel, RolesListFilters> = {
-    key: 'roles',
+    key: Features.roles,
     nav: m => `/roles/${m === 'create' ? m : m.name}`,
     trans: features.roles as any,
     list: RoleListConfig(config),

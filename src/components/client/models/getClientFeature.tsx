@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {IList, IListCell, ClientListFilters} from '../../controls/table/table-models';
-import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
+import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {ClientModel} from './ClientModels';
 import {InvoiceWorkedDays} from '../../invoice/invoice-list/InvoiceWorkedDays';
@@ -95,7 +95,7 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
 
 export const clientFeature = (config: ClientFeatureBuilderConfig): IFeature<ClientModel, ClientListFilters> => {
   const feature: IFeature<ClientModel, ClientListFilters> = {
-    key: 'clients',
+    key: Features.clients,
     nav: m => `/clients/${m === 'create' ? m : m.slug}`,
     trans: features.client as any,
     list: clientListConfig(config),

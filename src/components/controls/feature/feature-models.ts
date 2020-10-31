@@ -1,11 +1,21 @@
 import {IList, ListFilters} from '../table/table-models';
 
+export enum Features {
+  invoices = 'invoices',
+  clients = 'clients',
+  consultants = 'consultants',
+  projects = 'projects',
+  projectMonths = 'projectMonths',
+  users = 'users',
+  roles = 'roles',
+}
+
 
 export interface IFeature<TModel, TFilterModel extends ListFilters = {}> {
   /**
    * Unique key that matches the keys in the store
    * */
-  key: string;
+  key: Features;
   /**
    * Used for routing:
    * return /${key}/:slug

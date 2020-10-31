@@ -3,7 +3,7 @@ import React from 'react';
 import {ConsultantModel} from './ConsultantModel';
 import {IList, IListCell, ConsultantListFilters} from '../../controls/table/table-models';
 import {t, searchinize} from '../../utils';
-import {IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
+import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {EditIcon} from '../../controls/Icon';
 import {DeleteIcon} from '../../controls/icons/DeleteIcon';
@@ -86,7 +86,7 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
 
 export const consultantFeature = (config: ConsultantFeatureBuilderConfig): IFeature<ConsultantModel, ConsultantListFilters> => {
   const feature: IFeature<ConsultantModel, ConsultantListFilters> = {
-    key: 'consultants',
+    key: Features.consultants,
     nav: m => `/consultants/${m === 'create' ? m : m.slug}`,
     trans: features.consultant as any,
     list: consultantListConfig(config),

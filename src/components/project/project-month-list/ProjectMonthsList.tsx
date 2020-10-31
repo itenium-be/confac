@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
 import {IFeature} from '../../controls/feature/feature-models';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
-import {ListFilters} from '../../controls/table/table-models';
+import {ProjectMonthListFilters} from '../../controls/table/table-models';
 import {ConfacState} from '../../../reducers/app-state';
 import {getDownloadUrl} from '../../../actions/utils/download-helpers';
 import {displayMonthWithYear} from '../ProjectMonthsLists';
@@ -17,37 +17,36 @@ import {Claim} from '../../users/models/UserModel';
 
 
 type CollapsibleProjectMonthsListProps = {
-  feature: IFeature<FullProjectMonthModel, ListFilters>;
-  /** Should the List be open by default */
-  defaultOpen: boolean;
+  feature: IFeature<FullProjectMonthModel, ProjectMonthListFilters>;
+  month: string;
 }
 
 
-export const CollapsibleProjectMonthsList = ({feature, defaultOpen}: CollapsibleProjectMonthsListProps) => {
-  const [open, setOpen] = useState<boolean>(defaultOpen);
-
-  if (!feature.list.data.length) {
+export const CollapsibleProjectMonthsList = ({feature, month}: CollapsibleProjectMonthsListProps) => {
+  if (!feature.list.data.length || !feature.list.filter) {
     return null;
   }
 
-  if (open) {
+  const filter = feature.list.filter;
+  if (filter.state.openMonths.includes(month.toString())) {
+    const onClose = () => filter.updateFilter({...filter.state, openMonths: filter.state.openMonths.filter(open => open !== month)});
     return (
       <div>
-        <ProjectMonthsListToolbar feature={feature} onClose={() => setOpen(false)} />
+        <ProjectMonthsListToolbar feature={feature} onClose={onClose} />
         <List feature={feature} />
         <hr className="list-separator" />
       </div>
     );
   }
 
-  return <ProjectMonthListCollapsed feature={feature} onOpen={() => setOpen(true)} />;
+  return <ProjectMonthListCollapsed feature={feature} onOpen={() => filter.updateFilter({...filter.state, openMonths: filter.state.openMonths.concat([month])})} />;
 };
 
 
 
 
 type ProjectMonthsListToolbarProps = {
-  feature: IFeature<FullProjectMonthModel, ListFilters>;
+  feature: IFeature<FullProjectMonthModel, ProjectMonthListFilters>;
   onClose: () => void;
 }
 

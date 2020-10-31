@@ -6,7 +6,7 @@ import {ClientModel} from '../components/client/models/ClientModels';
 import {ConsultantModel} from '../components/consultant/models/ConsultantModel';
 import {IProjectModel} from '../components/project/models/IProjectModel';
 import {ProjectMonthModel, ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
-import {ListFilters} from '../components/controls/table/table-models';
+import {ListFilters, ProjectMonthListFilters} from '../components/controls/table/table-models';
 import {UserState} from '../components/users/models/UserModel';
 
 export type ConfacState = {
@@ -30,6 +30,27 @@ const getListFilters = (showInactive = false): ListFilters => ({
 });
 
 
+export const ProjectMonthsListFilterOpenMonthsFormat = 'YYYY-MM';
+
+
+export const getProjectMonthsFilters = (projectMonths?: ProjectMonthModel[]): ProjectMonthListFilters => {
+  let openMonths: string[] = [];
+  if (projectMonths && projectMonths.length) {
+    const lastExistingMonth = projectMonths
+      .slice()
+      .sort((a, b) => b.month.toISOString().localeCompare(a.month.toISOString()))[0]
+      .month
+      .format(ProjectMonthsListFilterOpenMonthsFormat);
+
+    openMonths = [lastExistingMonth];
+  }
+
+  return {
+    ...getListFilters(),
+    openMonths,
+  };
+};
+
 
 export const defaultAppState: AppState = {
   isLoaded: false,
@@ -46,7 +67,7 @@ export const defaultAppState: AppState = {
     clients: {...getListFilters(), years: [moment().year()]},
     invoices: getListFilters(),
     projects: getListFilters(),
-    projectMonths: getListFilters(),
+    projectMonths: getProjectMonthsFilters(),
     users: getListFilters(true),
     roles: getListFilters(),
   },

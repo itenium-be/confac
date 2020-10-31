@@ -4,7 +4,7 @@ import RcTooltip from 'rc-tooltip';
 import {displayMonthWithYear} from '../ProjectMonthsLists';
 import {IFeature} from '../../controls/feature/feature-models';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
-import {ListFilters} from '../../controls/table/table-models';
+import {ProjectMonthListFilters} from '../../controls/table/table-models';
 import {Button} from '../../controls/form-controls/Button';
 import {t} from '../../utils';
 import {Icon} from '../../controls/Icon';
@@ -36,7 +36,7 @@ const Badge = ({title, children, ...props}: BadgeProps) => {
 
 
 type ProjectMonthListCollapsedProps = {
-  feature: IFeature<FullProjectMonthModel, ListFilters>;
+  feature: IFeature<FullProjectMonthModel, ProjectMonthListFilters>;
   onOpen: () => void;
 }
 

@@ -9,6 +9,7 @@ import {LinkToButton} from '../controls/form-controls/button/LinkToButton';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {Claim} from '../users/models/UserModel';
 import {useProjects} from '../hooks/useProjects';
+import {Features} from '../controls/feature/feature-models';
 
 
 import './ProjectsList.scss';
@@ -26,7 +27,7 @@ export const ProjectsList = () => {
     data: projects,
     save: m => dispatch(saveProject(m.details, history)),
     filters: projectFilters,
-    setFilters: f => dispatch(updateAppFilters('projects', f)),
+    setFilters: f => dispatch(updateAppFilters(Features.projects, f)),
   };
 
   const TopToolbar = (
