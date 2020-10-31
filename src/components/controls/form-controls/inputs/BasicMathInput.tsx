@@ -3,7 +3,7 @@ import {BaseInput, BaseInputProps} from './BaseInput';
 import {parseIntOrFloat} from './input-util';
 
 
-type BasicMathInputProps = BaseInputProps<number> & {
+type BasicMathInputProps = BaseInputProps<number | undefined> & {
   /**
    * True: allow decimals
    */
@@ -20,15 +20,23 @@ type BasicMathInputProps = BaseInputProps<number> & {
  * ATTN: onChange returns a string (whatever the user has put in)
  * ATTN: onBlur it will call onChange with a resolved number
  */
-export const BasicMathInput = ({value, onChange, float = false, allowHours = false, ...props}: BasicMathInputProps) => (
-  <BaseInput
-    type="text"
-    value={value || ''}
-    onChange={e => onChange(e.target.value)}
-    onBlur={e => onChange(basicMath(e.target.value, float, allowHours))}
-    {...props}
-  />
-);
+export const BasicMathInput = ({value, onChange, float = false, allowHours = false, ...props}: BasicMathInputProps) => {
+  return (
+    <BaseInput
+      type="text"
+      value={(value === 0 || value) ? value : ''}
+      onChange={e => onChange(e.target.value)}
+      onBlur={e => {
+        if (!e.target.value) {
+          onChange(undefined);
+        } else {
+          onChange(basicMath(e.target.value, float, allowHours));
+        }
+      }}
+      {...props}
+    />
+  );
+};
 
 /**
  * Converts a currency string into a number

@@ -69,7 +69,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
 
   const timesheetAmount = getAmountInDays(timesheetConfig);
   const canToggleValid = !(
-    timesheet.timesheet
+    typeof timesheet.timesheet === 'number'
     && (timesheetAmount === timesheet.check || timesheet.note || !projectConfig.timesheetCheck)
   );
 
