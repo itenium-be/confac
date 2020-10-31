@@ -17,7 +17,7 @@ export const MonthPicker = (props: DatePickerProps) => {
     <DatePicker
       dateFormat="MMMM - yyyy"
       showMonthYearPicker
-      onChange={(date: moment.Moment | null) => props.onChange(date ? date.startOf('month') : null)}
+      onChange={(date: moment.Moment | null) => props.onChange(date)}
       {...rest}
     />
   );

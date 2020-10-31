@@ -71,12 +71,15 @@ export class FullProjectModel {
 
 
   isActiveInMonth(month: Moment): boolean {
+    const endOfMonth = month.clone().endOf('month').endOf('day');
+    const startOfMonth = month.clone().startOf('month').startOf('day');
+
     const prj = this.details;
-    if (moment(prj.startDate).isAfter(month.endOf('month').endOf('day'))) {
+    if (moment(prj.startDate).isAfter(endOfMonth)) {
       return false;
     }
 
-    if (moment(prj.endDate).isBefore(month.startOf('month').startOf('day'))) {
+    if (moment(prj.endDate).isBefore(startOfMonth)) {
       return false;
     }
 
