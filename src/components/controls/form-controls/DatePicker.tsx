@@ -19,6 +19,22 @@ type DatePickerProps = BaseInputProps<moment.Moment | null> & {
 };
 
 
+/**
+ * DatePicker returns a local time ISO Date.
+ * This function converts it to an UTC Moment.
+ */
+export function utcFix(date: Date | null): moment.Moment | null {
+  if (!date) {
+    return null;
+
+  } else {
+    const localMoment = moment(date).startOf('day');
+    const utcMoment = localMoment.clone().utc().add(localMoment.utcOffset(), 'm');
+    return utcMoment;
+  }
+}
+
+
 export const DatePicker = EnhanceInputWithDisplay(EnhanceInputWithLabel((props: DatePickerProps) => {
   const [open, setOpen] = useState(false);
 
@@ -37,8 +53,8 @@ export const DatePicker = EnhanceInputWithDisplay(EnhanceInputWithLabel((props: 
       <ReactDatePicker
         className="form-control"
         selected={props.value ? props.value.toDate() : undefined}
-        onChange={dateString => {
-          props.onChange(dateString ? moment(dateString) : null);
+        onChange={(date: Date | null) => {
+          props.onChange(utcFix(date));
           if (open) {
             setOpen(false);
           }

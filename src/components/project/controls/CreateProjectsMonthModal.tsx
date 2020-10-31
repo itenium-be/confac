@@ -15,7 +15,11 @@ import {ProjectDurationSmall} from './ProjectDuration';
 import {Link} from '../../controls/Link';
 import {MonthPicker} from '../../controls/form-controls/MonthPicker';
 
-
+const toFirstDayOfMonth = (value: Moment): Moment => {
+  const localMoment = moment(value).startOf('month').startOf('day');
+  const utcMoment = localMoment.clone().utc().add(localMoment.utcOffset(), 'm');
+  return utcMoment;
+}
 
 type ProjectMonthModalProps = BaseModalProps & {};
 
@@ -23,7 +27,7 @@ type ProjectMonthModalProps = BaseModalProps & {};
 function useToBeCreatedProjects(month: Moment): FullProjectModel[] {
   const existingProjectsMonth = useSelector((state: ConfacState) => state.projectsMonth.filter(x => x.month.isSame(month, 'month')));
   const existingProjectIds = existingProjectsMonth.map(x => x.projectId);
-  const activeProjects = useProjects(month).filter(x => x.active);
+  const activeProjects = useProjects(month).filter(x => x.isActiveInMonth(month));
   const newProjects = activeProjects.filter(prj => !existingProjectIds.includes(prj._id));
   return newProjects;
 }
@@ -50,7 +54,7 @@ function useDefaultNewProjectMonth(): Moment {
 /** Create projectMonths by selecting a project month */
 export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
   const dispatch = useDispatch();
-  const defaultNewMonth = useDefaultNewProjectMonth();
+  const defaultNewMonth = toFirstDayOfMonth(useDefaultNewProjectMonth());
   const [date, setDate] = useState<moment.Moment>(defaultNewMonth);
   const newProjects = useToBeCreatedProjects(date);
 
@@ -59,7 +63,7 @@ export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
       show={props.show}
       onClose={props.onClose}
       title={t('projectMonth.createProjects.title')}
-      onConfirm={() => dispatch(createProjectsMonth(date.utc().startOf('month'), newProjects.map(x => x._id)))}
+      onConfirm={() => dispatch(createProjectsMonth(date, newProjects.map(x => x._id)))}
     >
       <Form>
         <Container>

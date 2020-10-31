@@ -65,8 +65,21 @@ export class FullProjectModel {
     return ProjectStatus.Active;
   }
 
-
   get active(): boolean {
     return this.status === ProjectStatus.Active;
+  }
+
+
+  isActiveInMonth(month: Moment): boolean {
+    const prj = this.details;
+    if (moment(prj.startDate).isAfter(month.endOf('month').endOf('day'))) {
+      return false;
+    }
+
+    if (moment(prj.endDate).isBefore(month.startOf('month').startOf('day'))) {
+      return false;
+    }
+
+    return true;
   }
 }
