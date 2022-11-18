@@ -21,7 +21,7 @@
     "html-to-draftjs": "^1.5.0",
     "iban": "0.0.12",
     "latinize": "^0.4.0",
-    "moment": "^2.15.2",
+    "moment": "^2.29.4",
     "numeral": "^2.0.6",
     "prop-types": "^15.6.2",
     "rc-tooltip": "^3.7.3",
