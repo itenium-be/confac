@@ -1,10 +1,11 @@
 import {IProjectModel} from '../models/IProjectModel';
 
 
-/** Calculated: Markup between Client/Partner for ProjectModel */
+/** Calculated: Margin between Client/Partner for ProjectModel */
 type ProjectMarkup = {
   totalClient: number,
   amount: number,
+  /** Currently the calculation for "margin" is used */
   percentage: number,
 }
 
@@ -14,10 +15,14 @@ export function getProjectMarkup(project: IProjectModel): ProjectMarkup {
 
   if (project.partner) {
     const totalPartner = project.partner.defaultInvoiceLines.reduce((prev, cur) => prev + cur.price, 0);
+    const margin = totalClient - totalPartner;
     return {
       totalClient,
-      amount: totalClient - totalPartner,
-      percentage: ((totalClient / totalPartner) * 100) - 100,
+      amount: margin,
+      // Calculation "margin"
+      percentage: (margin / totalClient) * 100,
+      // Calculation "markup"
+      // percentage: (totalClient / totalPartner) * 100 - 100
     };
   }
 

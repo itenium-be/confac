@@ -492,7 +492,7 @@ export const trans = {
     linkToDetails: 'Ga naar project',
     sdWorxTimesheetUpload: 'SDWorx timesheet opladen',
     selectLabel: 'Project maand',
-    markup: 'Markup',
+    markup: 'Margin',
   },
   controls: {
     // browser
