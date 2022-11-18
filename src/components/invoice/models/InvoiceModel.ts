@@ -6,6 +6,7 @@ import {ClientModel} from '../../client/models/ClientModels';
 import {Attachment, IAttachment, IAudit} from '../../../models';
 import {InvoiceLine} from './InvoiceLineModels';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
+import Holidays from 'date-holidays';
 
 
 export type InvoiceMoney = {
@@ -251,13 +252,17 @@ export function groupInvoicesPerMonth(invoices: InvoiceModel[]): GroupedInvoices
 
 export function getWorkDaysInMonth(momentInst: moment.Moment): Date[] {
   const curMonth = momentInst.month();
+  const hd = new Holidays('BE');
 
   const date = new Date(momentInst.year(), curMonth, 1);
   const result: Date[] = [];
   while (date.getMonth() === curMonth) {
     // date.getDay = index of ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
     if (date.getDay() !== 0 && date.getDay() !== 6) {
-      result.push(date);
+      const isHoliday = hd.isHoliday(date);
+      if (!isHoliday) {
+        result.push(date);
+      }
     }
     date.setDate(date.getDate() + 1);
   }
