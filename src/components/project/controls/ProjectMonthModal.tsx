@@ -7,6 +7,8 @@ import {Modal} from '../../controls/Modal';
 import {ProjectClientTariff} from '../models/getProjectFeature';
 import {ProjectDuration} from './ProjectDuration';
 import {ProjectMonthLink} from './ProjectMonthLink';
+import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
+import {Claim} from '../../users/models/UserModel';
 
 
 import './ProjectMonthModal.scss';
@@ -34,7 +36,19 @@ export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProp
       )}
       onConfirm={() => history.push(`/projects/${projectMonth.project._id}`)}
       confirmText={t('projectMonth.linkToDetails')}
-      extraButtons={<ProjectMonthLink to={projectMonth.details} className="btn btn-success" />}
+      extraButtons={
+        <>
+          <ProjectMonthLink to={projectMonth.details} className="btn btn-success" />
+          <NotesModalButton
+            onChange={() => {}}
+            disabled={true}
+            value={projectMonth.project.notes}
+            claim={Claim.ManageProjects}
+            title={t('project.project') + ': ' + t('notes')}
+            variant="success"
+          />
+        </>
+      }
     >
       <div className="project-month-modal">
         <ProjectDuration project={projectMonth.project} />

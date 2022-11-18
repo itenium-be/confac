@@ -16,7 +16,7 @@ type NotesModalButtonProps = MinimalInputProps<string> & {
 };
 
 
-export const NotesModalButton = ({claim, value, onChange, title, variant}: NotesModalButtonProps) => {
+export const NotesModalButton = ({claim, value, onChange, title, variant, disabled}: NotesModalButtonProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [text, setText] = useState<string>(value || '');
 
@@ -33,7 +33,7 @@ export const NotesModalButton = ({claim, value, onChange, title, variant}: Notes
         <Modal
           show
           onClose={() => setOpen(false)}
-          onConfirm={authService.getClaims().includes(claim) ? () => onChange(text) : undefined}
+          onConfirm={!disabled && authService.getClaims().includes(claim) ? () => onChange(text) : undefined}
           title={title}
         >
           <TextEditor
