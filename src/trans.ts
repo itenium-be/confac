@@ -89,6 +89,7 @@ export const trans = {
     config: 'Configuratie',
     clientList: 'Klanten',
     clientNew: 'Nieuwe klant',
+    clientEdit: 'Klant {name}',
     projectList: 'Projecten',
     projectEdit: '{consultant} @ {client}',
     projectNew: 'Nieuw project',

@@ -31,15 +31,15 @@ export const EditInvoiceBadges = ({invoice}: InvoiceProps) => {
   const consultant = `${projectMonth.consultant.firstName} ${projectMonth.consultant.name}`;
   return (
     <>
-      <Badge style={defaultBadgeStyle} bg="primary">
+      <Badge style={defaultBadgeStyle} bg="primary" text="white">
         {displayMonthWithYear(projectMonth.details)}
       </Badge>
-      <Badge style={defaultBadgeStyle} bg="success">
+      <Badge style={defaultBadgeStyle} bg="success" text="white">
         {projectMonth.client.name}
         <small style={{paddingLeft: 10}}>{tariffFormat(markup.totalClient)}</small>
       </Badge>
       {!!markup.amount && (
-        <Badge style={defaultBadgeStyle} bg="danger">
+        <Badge style={defaultBadgeStyle} bg="danger" text="white">
           {t('projectMonth.markup')}
           <small style={{paddingLeft: 10}}>
             {tariffFormat(markup.amount)}
@@ -51,7 +51,7 @@ export const EditInvoiceBadges = ({invoice}: InvoiceProps) => {
 
       <br />
 
-      <Badge style={{...defaultBadgeStyle, marginTop: 8}} bg="info">
+      <Badge style={{...defaultBadgeStyle, marginTop: 8}} bg="info" text="white">
         {consultant}
         {projectMonth.partner && <small style={{paddingLeft: 8}}>({projectMonth.partner.name})</small>}
       </Badge>

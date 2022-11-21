@@ -1,27 +1,41 @@
 import React from 'react';
 import {Nav, Navbar, Dropdown, ButtonGroup} from 'react-bootstrap';
-import {Link as ReactLink, NavLink, Route} from 'react-router-dom';
+import {Link as ReactLink, NavLink} from 'react-router-dom';
 import {t} from './utils';
 import {AddIcon, Icon} from './controls/Icon';
 import {Claim} from './users/models/UserModel';
-import {EnhanceWithClaimProps} from './enhancers/EnhanceWithClaim';
-
-
-export const Link = ReactLink;
+import {EnhanceWithClaim, EnhanceWithClaimProps} from './enhancers/EnhanceWithClaim';
 
 
 type OldSchoolMenuLinkProps = EnhanceWithClaimProps & {
   label: string;
   to: string;
-  activeOnlyWhenExact?: boolean;
 }
 
-const OldSchoolMenuLink = ({label, to, activeOnlyWhenExact = false}: OldSchoolMenuLinkProps) => (
+const OldSchoolMenuLinkInner = ({label, to}: OldSchoolMenuLinkProps) => (
   <NavLink className={({isActive}) => `nav-link header-link${isActive ? ' active' : ''}`} to={to}>
     {label}
   </NavLink>
 );
 
+const OldSchoolMenuLink = EnhanceWithClaim(OldSchoolMenuLinkInner);
+
+
+
+type WrappedLinkProps = EnhanceWithClaimProps & {
+  to: string;
+  className: string;
+}
+
+
+const WrappedLinkInner = ({children, ...props}: WrappedLinkProps) => (
+  <ReactLink {...props}>
+    {children}
+  </ReactLink>
+);
+
+
+const Link = EnhanceWithClaim(WrappedLinkInner);
 
 
 
@@ -50,7 +64,7 @@ const Header = () => (
       <Dropdown as={ButtonGroup} style={{top: 8, position: 'absolute', right: 80}}>
         <Link claim={Claim.ManageInvoices} to="/invoices/create" className="btn btn-success">
           <AddIcon size={1} style={{marginRight: 15}} />
-          {t('invoice.createNew')}
+          <>{t('invoice.createNew')}</>
         </Link>
         <Link
           claim={claims => claims.includes(Claim.ManageProjects) && !claims.includes(Claim.ManageInvoices)}
@@ -58,10 +72,10 @@ const Header = () => (
           className="btn btn-success"
         >
           <AddIcon size={1} style={{marginRight: 15}} />
-          {t('project.createNew')}
+          <>{t('project.createNew')}</>
         </Link>
 
-        <Dropdown.Toggle split bg="success" id="header-create-split" />
+        <Dropdown.Toggle split variant="success" id="header-create-split" />
         <Dropdown.Menu>
           <Link claim={Claim.ManageProjects} to="/projects/create" className="dropdown-item">
             {t('project.createNew')}

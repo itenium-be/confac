@@ -51,3 +51,11 @@ button[disabled] {
 .placeholder-li:hover {
   background: #F1F1F1;
 }
+
+
+
+// Fix react-select zIndex issues
+// https: //github.com/JedWatson/react-select/issues/1085
+.react-select__menu {
+  z-index: 10 !important;
+}

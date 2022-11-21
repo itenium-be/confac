@@ -38,6 +38,7 @@ export const EditInvoiceLines = (
 
   const nrOfColumns = 6;
   return (
+    <div className="edit-invoice-lines">
     <Table size="sm">
       <thead>
         <tr>
@@ -83,5 +84,6 @@ export const EditInvoiceLines = (
         </tbody>
       </ClaimGuard>
     </Table>
+    </div>
   );
 };

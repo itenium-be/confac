@@ -26,15 +26,19 @@ export function useProjects(month?: Moment): FullProjectModel[] {
 
 
 /** Resolve a single ProjectModel _id */
-export function useProjectsMonth(projectMonthId: string): FullProjectMonthModel | null {
+export function useProjectsMonth(projectMonthId?: string): FullProjectMonthModel | undefined {
   const confacState = useSelector((state: ConfacState) => state);
+  if (!projectMonthId) {
+    return undefined;
+  }
+
   const projectMonth = confacState.projectsMonth.find(x => x._id === projectMonthId);
   if (!projectMonth) {
-    return null;
+    return undefined;
   }
 
   const result = mapToProjectMonth(confacState, projectMonth);
-  return result;
+  return result || undefined;
 }
 
 
@@ -67,7 +71,7 @@ export function projectMonthResolve(confacState: ConfacState): FullProjectMonthM
 }
 
 
-function mapToProjectMonth(confacState: ConfacState, projectMonth: ProjectMonthModel): null | FullProjectMonthModel {
+export function mapToProjectMonth(confacState: ConfacState, projectMonth: ProjectMonthModel): null | FullProjectMonthModel {
   const project = confacState.projects.find(p => p._id === projectMonth.projectId);
   if (!project) {
     return null;

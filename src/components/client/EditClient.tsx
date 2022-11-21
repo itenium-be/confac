@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../utils';
 import {saveClient} from '../../actions/index';
@@ -12,71 +12,33 @@ import {StickyFooter} from '../controls/other/StickyFooter';
 import {NewClient} from './NewClient';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {BusyButton} from '../controls/form-controls/BusyButton';
-import {getDocumentTitle} from '../hooks/useDocumentTitle';
+import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {ClientAttachmentsForm} from './controls/ClientAttachmentsForm';
 import {Audit} from '../admin/Audit';
 import {Claim} from '../users/models/UserModel';
+import {useParams} from 'react-router-dom';
 
 
-type EditClientProps = {
-  config: ConfigModel,
-  clients: ClientModel[],
-  isLoaded: boolean,
-  saveClient: (client: ClientModel) => void,
-  match: {
-    params: { id: string }
-  },
-  renavigationKey: string,
+function getClient(client: ClientModel | undefined, config: ConfigModel) {
+  if (client) {
+    return JSON.parse(JSON.stringify(client));
+  }
+  return getNewClient(config);
 }
 
-type EditClientState = {
-  client: ClientModel,
-  renavigationKey: string,
-}
 
-class EditClient extends Component<EditClientProps, EditClientState> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      client: this.copyClient(props),
-      renavigationKey: '',
-    };
-  }
+const EditClient = () => {
+  const params = useParams();
+  const config = useSelector((state: ConfacState) => state.config);
+  const storeClient = useSelector((state: ConfacState) => state.clients.find(x => x.slug === params.id));
+  const initClient = getClient(storeClient, config);
+  const [client, setClient] = useState<ClientModel>(initClient);
+  const dispatch = useDispatch();
+  useEffect(() => window.scrollTo(0, 0));
+  useDocumentTitle('clientEdit', {name: client.name});
 
-  componentDidMount() {
-    document.title = getDocumentTitle(this.state.client.name);
-    window.scrollTo(0, 0);
-  }
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps: EditClientProps) {
-    if (nextProps.isLoaded !== this.props.isLoaded
-      || nextProps.match.params.id !== this.props.match.params.id
-      || nextProps.clients !== this.props.clients // Changing this? Check confac-back::invoices.js
-      || nextProps.renavigationKey !== this.state.renavigationKey) {
-
-      this.setState({client: this.copyClient(nextProps)});
-    }
-  }
-
-  copyClient(props: EditClientProps): ClientModel {
-    if (props.match.params.id) {
-      // Existing client
-      const client = props.clients.find(c => c.slug === props.match.params.id || c._id === props.match.params.id);
-      if (client) {
-        return JSON.parse(JSON.stringify(client));
-      }
-      // return {};
-    }
-
-    return getNewClient(props.config);
-  }
-
-  _onSave() {
-    this.props.saveClient(this.state.client);
-  }
-
-  isClientDisabled(client: ClientModel): boolean {
+  const isClientDisabled = (client: ClientModel): boolean => {
     if (client.name.length === 0) {
       return true;
     }
@@ -88,57 +50,51 @@ class EditClient extends Component<EditClientProps, EditClientState> {
     return false;
   }
 
-  render() {
-    const {client} = this.state;
-    if (!client) {
-      return null;
-    }
 
-    if (!client._id) {
-      return (
-        <NewClient
-          client={client}
-          onChange={(value: ClientModel) => this.setState({client: {...client, ...value}})}
-        />
-      );
-    }
+  if (!client) {
+    return null;
+  }
 
+  if (!client._id) {
     return (
-      <Container className="edit-container">
-        <Form>
-          <Row>
-            <h1>
-              {client.name || (client._id ? '' : t('client.createNew'))}
-              <Audit audit={client.audit} />
-            </h1>
-          </Row>
-          <Row>
-            <ArrayInput
-              config={defaultClientProperties}
-              model={client}
-              onChange={value => this.setState({client: {...client, ...value}})}
-              tPrefix="client."
-            />
-          </Row>
-
-          <ClientAttachmentsForm model={client} />
-
-        </Form>
-        <StickyFooter claim={Claim.ManageClients}>
-          <BusyButton
-            onClick={() => this._onSave()}
-            disabled={this.isClientDisabled(client)}
-          >
-            {t('save')}
-          </BusyButton>
-        </StickyFooter>
-      </Container>
+      <NewClient
+        client={client}
+        onChange={(value: ClientModel) => setClient({...client, ...value})}
+      />
     );
   }
+
+  return (
+    <Container className="edit-container">
+      <Form>
+        <Row>
+          <h1>
+            {client.name || (client._id ? '' : t('client.createNew'))}
+            <Audit audit={client.audit} />
+          </h1>
+        </Row>
+        <Row>
+          <ArrayInput
+            config={defaultClientProperties}
+            model={client}
+            onChange={value => setClient({...client, ...value})}
+            tPrefix="client."
+          />
+        </Row>
+
+        <ClientAttachmentsForm model={client} />
+
+      </Form>
+      <StickyFooter claim={Claim.ManageClients}>
+        <BusyButton
+          onClick={() => dispatch(saveClient(client) as any)}
+          disabled={isClientDisabled(client)}
+        >
+          {t('save')}
+        </BusyButton>
+      </StickyFooter>
+    </Container>
+  );
 }
 
-export default connect((state: ConfacState) => ({
-  clients: state.clients,
-  isLoaded: state.app.isLoaded,
-  config: state.config,
-}), {saveClient})(EditClient);
+export default EditClient;

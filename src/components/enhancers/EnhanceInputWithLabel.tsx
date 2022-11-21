@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormGroup, Form, Col, Row} from 'react-bootstrap';
+import {Form, Col, Row} from 'react-bootstrap';
 
 export type EnhanceInputWithLabelProps = {
   label?: string,
@@ -19,20 +19,20 @@ export const EnhanceInputWithLabel = <P extends object>(ComposedComponent: React
   if (label !== undefined && label !== null) {
     if (inline) {
       return (
-        <FormGroup as={Row}>
+        <Form.Group as={Row}>
           <Form.Label column sm="2">{label}</Form.Label>
           <Col sm="10">
             <ComposedComponent {...props as P} placeholder={placeholder || label} />
           </Col>
-        </FormGroup>
+        </Form.Group>
       );
     }
 
     return (
-      <FormGroup>
+      <Form.Group className="form-group">
         <Form.Label>{label}</Form.Label>
         <ComposedComponent {...props as P} placeholder={placeholder || label} />
-      </FormGroup>
+      </Form.Group>
     );
   }
 

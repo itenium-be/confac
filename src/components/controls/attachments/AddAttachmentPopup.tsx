@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
-import {FormLabel, FormGroup, Alert} from 'react-bootstrap';
+import {Form, Alert} from 'react-bootstrap';
 
 import {t} from '../../utils';
 import {Attachment} from '../../../models';
@@ -54,14 +54,14 @@ const AddAttachmentPopupComponent = (props: AddAttachmentPopupProps) => {
 
       {isModalOpen && (
       <Popup title={t('invoice.attachmentsAdd')} buttons={buttons} onHide={() => setIsModalOpen(false)}>
-        <FormGroup>
-          <FormLabel>{t('attachment.type')}</FormLabel>
+        <Form.Group>
+          <Form.Label>{t('attachment.type')}</Form.Label>
           <SimpleCreatableSelect
             value={type}
             options={props.attachmentTypes}
             onChange={(text: string) => setType(text)}
           />
-        </FormGroup>
+        </Form.Group>
 
         {!canAddFile && type ? (
           <Alert variant="danger">{t('attachment.typeExists')}</Alert>

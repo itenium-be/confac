@@ -25,10 +25,8 @@ export const PropertiesSelect = EnhanceInputWithLabel(class extends Component<Pr
   }
 
   render() {
-    const {label} = this.props;
     return (
       <Creatable
-        label={label}
         value={this.props.value as any}
         onChange={this.onChange.bind(this) as any}
         isClearable

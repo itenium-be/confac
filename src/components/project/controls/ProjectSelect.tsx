@@ -48,6 +48,7 @@ const ProjectSelectComponent = (props: ProjectSelectProps) => {
       onChange={((item: SelectItem) => props.onChange(item && item.value as string, item && getProject(item.value as string))) as any}
       isClearable
       placeholder={t('controls.selectPlaceholder')}
+      classNamePrefix="react-select"
     />
   );
 };

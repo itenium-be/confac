@@ -92,7 +92,7 @@ export const ProjectMonthListCollapsed = ({feature, onOpen}: ProjectMonthListCol
         <span className="month">{displayMonthWithYear(projectsMonthDetails)}</span>
         <span className="separate">
           {results.verified ? (
-            <Badge pill bg="success">
+            <Badge pill bg="success" text="white">
               <Icon fa="fa fa-coins" size={1} />
               {t('projectMonth.list.allVerifiedBadge')}
             </Badge>
@@ -121,7 +121,11 @@ type TimesheetBadgeProps = {
 const TimesheetBadge = ({pending, totals}: TimesheetBadgeProps) => {
   const title = totals.timesheetPending.map(x => `${x.consultant.firstName} ${x.consultant.name}`);
   return (
-    <Badge pill bg={pending ? 'warning' : 'success'} title={title.length ? title : undefined}>
+    <Badge pill
+      bg={pending ? 'warning' : 'success'}
+      text={pending ? undefined : 'white'}
+      title={title.length ? title : undefined}
+    >
       <Icon fa="fa fa-clock" size={1} style={{marginRight: 8}} />
       {t(`projectMonth.list.${pending ? 'timesheetPending' : 'timesheetOk'}`, totals)}
     </Badge>
@@ -134,7 +138,7 @@ const TimesheetBadge = ({pending, totals}: TimesheetBadgeProps) => {
 const InboundBadge = ({pending, totals}: TimesheetBadgeProps) => {
   if (!pending) {
     return (
-      <Badge pill bg="success">
+      <Badge pill bg="success" text="white">
         <Icon fa="fa fa-inbox" size={1} />
         {t('projectMonth.list.inboundAllPaid')}
       </Badge>

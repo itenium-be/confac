@@ -1,41 +1,48 @@
 import React from 'react';
 import {Claim, GenericClaim} from '../users/models/UserModel';
 import {authService} from '../users/authService';
+import {ChildrenType} from '../../models';
 
 
 type CustomClaimFn = (claims: Claim[]) => boolean;
 
 type CustomClaim = {
   claim: Claim;
+  /** Fallback when claim is not present */
   or: null | React.ReactElement | 'disabled';
 }
 
 
 export type EnhanceWithClaimProps = {
   claim?: Claim | CustomClaimFn | CustomClaim;
+  children?: ChildrenType;
 }
 
-// eslint-disable-next-line max-len
-export const EnhanceWithClaim = <P extends object>(ComposedComponent: React.ComponentType<P>) => ({claim, ...props}: EnhanceWithClaimProps & P) => {
-  if (claim) {
-    const claims = authService.getClaims();
-    if (typeof claim === 'string' && !claims.includes(claim)) {
-      return null;
-    }
 
-    if (typeof claim === 'function' && !claim(claims)) {
-      return null;
-    }
+export const EnhanceWithClaim = <P extends object>(Component: React.ComponentType<P>) =>
+  class WithClaim extends React.Component<P & EnhanceWithClaimProps> {
+    render() {
+      const {claim, ...props} = this.props;
+      if (claim) {
+        const claims = authService.getClaims();
+        if (typeof claim === 'string' && !claims.includes(claim)) {
+          return null;
+        }
 
-    if (typeof claim === 'object' && !claims.includes(claim.claim)) {
-      if (claim.or === 'disabled') {
-        return <ComposedComponent {...props as P} disabled />;
+        if (typeof claim === 'function' && !claim(claims)) {
+          return null;
+        }
+
+        if (typeof claim === 'object' && !claims.includes(claim.claim)) {
+          if (claim.or === 'disabled') {
+            return <Component {...props as P} disabled />;
+          }
+          return claim.or;
+        }
       }
-      return claim.or;
+      return <Component {...props as P} />;
     }
-  }
-  return <ComposedComponent {...props as P} />;
-};
+  };
 
 
 

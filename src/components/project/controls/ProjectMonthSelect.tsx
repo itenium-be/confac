@@ -50,6 +50,7 @@ const ProjectMonthSelectComponent = (props: ProjectMonthSelectProps) => {
       onChange={((item: SelectItem) => item && props.onChange(getFullProjectMonth(item.value as string))) as any}
       isClearable
       placeholder={t('controls.selectPlaceholder')}
+      classNamePrefix="react-select"
     />
   );
 };
