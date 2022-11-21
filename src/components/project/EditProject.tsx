@@ -18,18 +18,14 @@ import {getNewConsultant} from '../consultant/models/getNewConsultant';
 import {Audit} from '../admin/Audit';
 import {CopyProject} from './CopyProject';
 import {Claim} from '../users/models/UserModel';
-
-interface EditProjectProps {
-  match: {
-    params: {id: string};
-  };
-}
+import {useParams} from 'react-router-dom';
 
 
-export const EditProject = (props: EditProjectProps) => {
+export const EditProject = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const model = useSelector((state: ConfacState) => state.projects.find(c => c._id === props.match.params.id));
+  const params = useParams();
+  const model = useSelector((state: ConfacState) => state.projects.find(c => c._id === params.id));
   const consultants = useSelector((state: ConfacState) => state.consultants);
   const [project, setProject] = useState<IProjectModel>(model || getNewProject());
   const consultant = useSelector((state: ConfacState) => state.consultants.find(x => x._id === project.consultantId) || getNewConsultant());

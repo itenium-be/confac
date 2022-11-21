@@ -66,10 +66,8 @@ export const DatePicker = EnhanceInputWithDisplay(EnhanceInputWithLabel((props: 
         open={open}
         placeholderText={props.placeholder}
       />
-      <div className="input-group-append" onClick={() => setOpen(!open)}>
-        <div className="input-group-text">
-          <i className="fa fa-calendar-alt" />
-        </div>
+      <div className="input-group-text" onClick={() => setOpen(!open)} style={{cursor: 'pointer'}}>
+        <i className="fa fa-calendar-alt" />
       </div>
     </div>
   );

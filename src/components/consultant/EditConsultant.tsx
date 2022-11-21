@@ -14,18 +14,14 @@ import {defaultConsultantProperties} from './models/ConsultantConfig';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {Audit} from '../admin/Audit';
 import {Claim} from '../users/models/UserModel';
-
-interface EditConsultantProps {
-  match: {
-    params: {id: string};
-  };
-}
+import {useParams} from 'react-router-dom';
 
 
-export const EditConsultant = (props: EditConsultantProps) => {
+export const EditConsultant = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
-  const model = useSelector((state: ConfacState) => state.consultants.find(c => c.slug === props.match.params.id || c._id === props.match.params.id));
+  const params = useParams();
+  const model = useSelector((state: ConfacState) => state.consultants.find(c => c.slug === params.id || c._id === params.id));
   const [consultant, setConsultant] = useState<ConsultantModel>(model || getNewConsultant());
 
   const docTitle = consultant._id ? 'consultantEdit' : 'consultantNew';

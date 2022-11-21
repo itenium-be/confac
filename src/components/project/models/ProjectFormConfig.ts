@@ -34,7 +34,7 @@ export const projectMonthFormProperties: FullFormConfig = [
   {key: 'timesheet.note', component: 'textarea', cols: 6},
 
   {title: {title: 'projectMonth.props.inbound.title', level: HeaderSize}},
-  {key: 'inbound.status', component: 'ProjectMonthInboundStatusSelect', cols: 2},
+  {key: 'inbound.status', component: 'ProjectMonthInboundStatusSelect', cols: 2, style: {display: 'block'}},
   {key: 'inbound.nr', component: 'text', cols: 4},
   {key: 'inbound.dateReceived', component: 'date', cols: 4},
 

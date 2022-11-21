@@ -16,25 +16,15 @@ import {projectMonthFormProperties} from './models/ProjectFormConfig';
 import {useProjectsMonth} from '../hooks/useProjects';
 import {EnhanceWithConfirmation} from '../enhancers/EnhanceWithConfirmation';
 import {Button} from '../controls/form-controls/Button';
+import {useParams} from 'react-router-dom';
 
 const ConfirmationButton = EnhanceWithConfirmation(Button);
 
 
-interface EditProjectMonthsProps {
-  match: {
-    params: {
-      month: string;
-      projectMonthId: string;
-    };
-  };
-}
-
-
-
-
-export const EditProjectMonths = (props: EditProjectMonthsProps) => {
+export const EditProjectMonths = () => {
   const dispatch = useDispatch();
-  const model = useProjectsMonth(props.match.params.projectMonthId);
+  const params = useParams();
+  const model = useProjectsMonth(params.projectMonthId);
   const [projectMonth, setProjectMonth] = useState<ProjectMonthModel>((model && model.details) || getNewProjectMonth());
 
   const docTitle = projectMonth._id ? 'projectMonthEdit' : 'projectMonthNew';

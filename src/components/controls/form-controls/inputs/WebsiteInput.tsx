@@ -1,6 +1,7 @@
 import React from 'react';
 import {BaseInput, BaseInputProps} from './BaseInput';
 import {Icon} from '../../Icon';
+import {InputGroup} from 'react-bootstrap';
 
 type WebsiteInputProps = BaseInputProps<string>;
 
@@ -19,10 +20,12 @@ export const WebsiteInput = ({value, onChange, ...props}: WebsiteInputProps) => 
     onChange={e => onChange(e.target.value as string)}
     {...props}
     suffix={(
-      <a href={addProtocol(value)} className="btn input-group-text" target="_blank" rel="noopener noreferrer">
-        <Icon fa="fa fa-globe" size={1} />
-      </a>
-      )}
+      <InputGroup.Text>
+        <a href={addProtocol(value)} target="_blank" rel="noopener noreferrer">
+          <Icon fa="fa fa-globe" size={1} />
+        </a>
+      </InputGroup.Text>
+    )}
     suffixOptions={{type: 'button'}}
   />
 );

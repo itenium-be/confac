@@ -13,18 +13,15 @@ import {defaultUserProperties} from './models/UserConfig';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {saveUser} from '../../actions/userActions';
 import {Audit} from '../admin/Audit';
-
-interface EditUserProps {
-  match: {
-    params: {id: string};
-  };
-}
+import {useParams} from 'react-router-dom';
 
 
-export const EditUser = (props: EditUserProps) => {
+
+export const EditUser = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const model = useSelector((state: ConfacState) => state.user.users.find(c => c.alias === props.match.params.id));
+  const params = useParams();
+  const model = useSelector((state: ConfacState) => state.user.users.find(c => c.alias === params.id));
   const [user, setUser] = useState<UserModel>(model || getNewUser());
 
   const docTitle = user._id ? 'userEdit' : 'userNew';

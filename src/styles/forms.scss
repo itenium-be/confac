@@ -21,10 +21,16 @@ button[disabled] {
   }
 }
 
-.input-group, .form-group {
-  // .form-label {
-  // }
+.edit-invoice-lines {
+  // form-group class is no longer added by Bootstrap
+  // Now added manually but it messed up EditInvoiceDefaultLine
+  .input-group, .form-group {
+    margin-bottom: 0;
+  }
+}
 
+.input-group, .form-group {
+  margin-bottom: 1rem;
 
   .input-group-text {
     background-color: unset;

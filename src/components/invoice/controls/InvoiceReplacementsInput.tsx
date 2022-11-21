@@ -1,5 +1,5 @@
 import React from 'react';
-import {OverlayTrigger, Popover} from 'react-bootstrap';
+import {OverlayTrigger, Popover, InputGroup} from 'react-bootstrap';
 import {BaseInput, BaseInputProps} from '../../controls/form-controls/inputs/BaseInput';
 import {Icon} from '../../controls/Icon';
 import {t} from '../../utils';
@@ -15,9 +15,9 @@ export const InvoiceReplacementsInput = ({value, onChange, ...props}: InvoiceRep
     {...props}
     suffix={(
       <OverlayTrigger trigger="click" placement="auto" overlay={InvoiceReplacementsPopover}>
-        <button className="btn input-group-text" type="button">
+        <InputGroup.Text style={{cursor: 'pointer'}}>
           <Icon fa="fa fa-file-invoice" size={1} />
-        </button>
+        </InputGroup.Text>
       </OverlayTrigger>
       )}
     suffixOptions={{type: 'button'}}

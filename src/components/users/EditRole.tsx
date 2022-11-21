@@ -13,18 +13,14 @@ import {defaultRoleProperties} from './models/UserConfig';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {saveRole} from '../../actions/userActions';
 import {Audit} from '../admin/Audit';
-
-interface EditRoleProps {
-  match: {
-    params: {id: string};
-  };
-}
+import {useParams} from 'react-router-dom';
 
 
-export const EditRole = (props: EditRoleProps) => {
+export const EditRole = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const model = useSelector((state: ConfacState) => state.user.roles.find(c => c.name === props.match.params.id));
+  const params = useParams();
+  const model = useSelector((state: ConfacState) => state.user.roles.find(c => c.name === params.id));
   const [role, setRole] = useState<RoleModel>(model || getNewRole());
 
   const docTitle = role._id ? 'roleEdit' : 'roleNew';

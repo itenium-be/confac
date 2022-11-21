@@ -13,7 +13,7 @@ type ConsultantProps = {
 }
 
 export const ConsultantLink = ({consultant}: ConsultantProps) => (
-  <Link to={`consultants/${consultant.slug}`}>
+  <Link to={`/consultants/${consultant.slug}`}>
     {`${consultant.firstName} ${consultant.name}`}
   </Link>
 );

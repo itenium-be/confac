@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import {ButtonGroup as ReactButtonGroup} from 'react-bootstrap';
 import {ProjectMonthInboundStatus} from '../models/ProjectMonthModel';
 import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
@@ -7,9 +7,11 @@ import {t} from '../../utils';
 import {Button} from '../../controls/form-controls/Button';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 
+
 type ProjectMonthInboundStatusSelectProps = {
   value: ProjectMonthInboundStatus;
   onChange: (status: ProjectMonthInboundStatus) => void;
+  style?: CSSProperties;
 }
 
 
@@ -18,9 +20,9 @@ const ButtonGroup = EnhanceWithClaim(ReactButtonGroup);
 
 
 /** Switch between statusses for the inbound invoice */
-const ProjectMonthInboundStatusSelectComponent = ({value, onChange}: ProjectMonthInboundStatusSelectProps) => {
+const ProjectMonthInboundStatusSelectComponent = ({value, onChange, style}: ProjectMonthInboundStatusSelectProps) => {
   const currentStatus = value;
-  return (
+  const btnGroup = (
     <ButtonGroup claim={Claim.ValidateProjectMonth}>
       <Button
         key="new"
@@ -45,6 +47,16 @@ const ProjectMonthInboundStatusSelectComponent = ({value, onChange}: ProjectMont
       />
     </ButtonGroup>
   );
+
+  if (style) {
+    return (
+      <div style={style}>
+        {btnGroup}
+      </div>
+    )
+  }
+
+  return btnGroup;
 };
 
 export const ProjectMonthInboundStatusSelect = EnhanceInputWithLabel(ProjectMonthInboundStatusSelectComponent);

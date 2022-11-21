@@ -42,7 +42,7 @@ const Link = EnhanceWithClaim(WrappedLinkInner);
 const Header = () => (
   <Navbar bg="light" expand="lg" className="top-header">
     <Navbar.Brand>
-      <a href="https://itenium.be" target="_blank" style={{marginTop: -4}} rel="noopener noreferrer">
+      <a href="https://itenium.be" target="_blank" style={{marginTop: -4, marginLeft: 12}} rel="noopener noreferrer">
         <img src="/img/itenium.png" role="presentation" alt="itenium logo" />
       </a>
     </Navbar.Brand>

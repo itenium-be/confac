@@ -1,10 +1,15 @@
 h4 {
-	margin-left: 13px;
+  margin-left: 13px;
 }
 
-a,
-a:hover {
-	color: black;
+a {
+  color: black;
+  text-decoration: none;
+
+  &:hover {
+    color: black;
+    text-decoration: underline;
+  }
 }
 
 
