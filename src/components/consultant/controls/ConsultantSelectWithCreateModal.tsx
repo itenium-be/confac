@@ -23,7 +23,7 @@ export const ConsultantSelectWithCreateModal = ({value, onChange}: SelectWithCre
           consultant={modalId !== 'create' ? consultant : null}
           show={!!modalId}
           onClose={() => setModalId(null)}
-          onConfirm={(model: ConsultantModel) => dispatch(saveConsultant(model, savedModel => onChange(savedModel._id, savedModel)))}
+          onConfirm={(model: ConsultantModel) => dispatch(saveConsultant(model, savedModel => onChange(savedModel._id, savedModel)) as any)}
         />
       )}
       <SelectWithCreateButton claim={Claim.ManageConsultants} createButtonText="add" setModalId={setModalId}>

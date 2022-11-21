@@ -5,7 +5,7 @@ import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
 import {SelectItem} from '../../../../models';
 
 
-type BaseSelect = {
+type BaseSelectProps = {
   value: SelectItem | SelectItem[],
   onChange: any,
   options: SelectItem[],
@@ -30,7 +30,7 @@ const selectStyles = {
 
 
 
-export const BaseSelect = EnhanceInputWithLabel((props: BaseSelect) => (
+export const BaseSelect = EnhanceInputWithLabel((props: BaseSelectProps) => (
   <Select
     noOptionsMessage={() => t('controls.noResultsText')}
     placeholder={t('controls.selectPlaceholder')}

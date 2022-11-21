@@ -561,7 +561,7 @@ export const trans = {
   },
 };
 
-export default function (key: string, params?: object): string {
+export default function Translate(key: string, params?: object): string {
   if (!key) {
     return 'UNDEFINED KEY';
   }

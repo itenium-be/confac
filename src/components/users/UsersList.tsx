@@ -21,14 +21,14 @@ export const UsersList = () => {
 
   const userConfig: UserFeatureBuilderConfig = {
     data: users.data,
-    save: m => dispatch(saveUser(m)),
+    save: m => dispatch(saveUser(m) as any),
     filters: users.filters,
     setFilters: f => dispatch(updateAppFilters(Features.users, f)),
   };
 
   const roleConfig: RoleFeatureBuilderConfig = {
     data: roles.data,
-    save: m => dispatch(saveRole(m)),
+    save: m => dispatch(saveRole(m) as any),
     filters: roles.filters,
     setFilters: f => dispatch(updateAppFilters(Features.roles, f)),
   };

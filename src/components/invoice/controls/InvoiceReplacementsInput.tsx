@@ -28,14 +28,14 @@ export const InvoiceReplacementsInput = ({value, onChange, ...props}: InvoiceRep
 
 const InvoiceReplacementsPopover = (
   <Popover id="invoice-replacements">
-    <Popover.Title as="h3">{t('config.invoiceReplacements.title')}</Popover.Title>
-    <Popover.Content>
+    <Popover.Header as="h3">{t('config.invoiceReplacements.title')}</Popover.Header>
+    <Popover.Body>
       {invoiceReplacementsPopoverConfig.map((replacement, index) => (
         <div key={index}>
           <strong>{replacement.code}</strong>
           <p>{t(replacement.desc)}</p>
         </div>
       ))}
-    </Popover.Content>
+    </Popover.Body>
   </Popover>
 );

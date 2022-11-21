@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {ConfacState} from '../../reducers/app-state';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
@@ -22,7 +22,7 @@ interface EditRoleProps {
 
 
 export const EditRole = (props: EditRoleProps) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const model = useSelector((state: ConfacState) => state.user.roles.find(c => c.name === props.match.params.id));
   const [role, setRole] = useState<RoleModel>(model || getNewRole());
@@ -51,7 +51,7 @@ export const EditRole = (props: EditRoleProps) => {
         </Row>
       </Form>
       <StickyFooter claim={Claim.ManageUsers}>
-        <BusyButton onClick={() => dispatch(saveRole(role, undefined, history))}>
+        <BusyButton onClick={() => dispatch(saveRole(role, undefined, navigate) as any)}>
           {t('save')}
         </BusyButton>
       </StickyFooter>

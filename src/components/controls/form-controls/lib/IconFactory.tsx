@@ -18,7 +18,7 @@ const iconMap = {
 };
 
 
-export function getIconOrText(str: InputIcons | string): string | React.ReactNode {
+export function getIconOrText(str: InputIcons | string): string | React.ReactElement {
   const iconClass = getIconClass(str);
   if (iconClass) {
     return <Icon fa={iconClass} size={1} />;

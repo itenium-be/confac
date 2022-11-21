@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
@@ -41,7 +41,7 @@ export const EditProjectMonths = (props: EditProjectMonthsProps) => {
   const consultantName = (model && model.consultantName) || '';
   const clientName = (model && model.client.name) || '';
   useDocumentTitle(docTitle, {consultantName, clientName});
-  const history = useHistory();
+  const navigate = useNavigate();
 
   if (model && !projectMonth._id) {
     setProjectMonth(model.details);
@@ -67,7 +67,7 @@ export const EditProjectMonths = (props: EditProjectMonthsProps) => {
       </Form>
       <StickyFooter>
         <ConfirmationButton
-          onClick={() => dispatch(deleteProjectsMonth(projectMonth._id, history))}
+          onClick={() => dispatch(deleteProjectsMonth(projectMonth._id, navigate) as any)}
           variant="danger"
           title={t('projectMonth.deleteConfirm.title')}
           componentChildren={t('delete')}
@@ -76,7 +76,7 @@ export const EditProjectMonths = (props: EditProjectMonthsProps) => {
           {t('projectMonth.deleteConfirm.content')}
         </ConfirmationButton>
         <BusyButton
-          onClick={() => dispatch(patchProjectsMonth(projectMonth))}
+          onClick={() => dispatch(patchProjectsMonth(projectMonth) as any)}
           disabled={isButtonDisabled()}
           claim={Claim.ValidateProjectMonth}
         >

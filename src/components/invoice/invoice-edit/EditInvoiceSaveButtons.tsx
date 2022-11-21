@@ -1,31 +1,17 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {t} from '../../utils';
 import InvoiceModel from '../models/InvoiceModel';
 import {BusyButton} from '../../controls/form-controls/BusyButton';
 import {Claim} from '../../users/models/UserModel';
 
-type RoutedProps = EditInvoiceSaveButtonsComponentProps & {
-  match: any,
-  location: any,
-  history: any,
-  staticContext: any,
-}
-
-export const EditInvoiceSaveButtons = withRouter(({match, location, history, staticContext, ...props}: RoutedProps) => (
-  <EditInvoiceSaveButtonsComponent history={history} {...props} />
-));
-
-
-
-
 type EditInvoiceSaveButtonsComponentProps = {
-  history: any,
   invoice: InvoiceModel,
-  onClick: (type: 'create' | 'update' | 'preview', history: any) => void,
+  onClick: (type: 'create' | 'update' | 'preview', navigate: any) => void,
 }
 
-export const EditInvoiceSaveButtonsComponent = ({history, invoice, onClick}: EditInvoiceSaveButtonsComponentProps) => {
+export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButtonsComponentProps) => {
+  const navigate = useNavigate();
   const isNewInvoice = invoice.isNew;
   const tp = (transKey: string): string => t(invoice.getType() + transKey);
   return (
@@ -33,14 +19,14 @@ export const EditInvoiceSaveButtonsComponent = ({history, invoice, onClick}: Edi
       <BusyButton
         claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
         variant="light"
-        onClick={() => onClick('preview', history)}
+        onClick={() => onClick('preview', navigate)}
         icon="far fa-eye"
       >
         {t('invoice.preview')}
       </BusyButton>
       <BusyButton
         claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
-        onClick={() => onClick(isNewInvoice ? 'create' : 'update', history)}
+        onClick={() => onClick(isNewInvoice ? 'create' : 'update', navigate)}
       >
         {isNewInvoice ? tp('.create') : t('save')}
       </BusyButton>

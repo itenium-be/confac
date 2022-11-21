@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-one-expression-per-line, max-len */
 import React from 'react';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import {t} from '../../utils';
 import {Modal} from '../../controls/Modal';
@@ -23,7 +23,7 @@ type ProjectMonthModalProps = {
 
 
 export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProps) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <Modal
       show
@@ -34,7 +34,7 @@ export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProp
           {projectMonth.consultant.firstName} {projectMonth.consultant.name}
         </>
       )}
-      onConfirm={() => history.push(`/projects/${projectMonth.project._id}`)}
+      onConfirm={() => navigate(`/projects/${projectMonth.project._id}`)}
       confirmText={t('projectMonth.linkToDetails')}
       extraButtons={
         <>

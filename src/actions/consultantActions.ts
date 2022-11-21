@@ -8,7 +8,7 @@ import {ACTION_TYPES} from './utils/ActionTypes';
 import {authService} from '../components/users/authService';
 
 
-export function saveConsultant(consultant: ConsultantModel, callback?: (savedConsultant: ConsultantModel) => void, history?: any) {
+export function saveConsultant(consultant: ConsultantModel, callback?: (savedConsultant: ConsultantModel) => void, navigate?: any) {
   return dispatch => {
     dispatch(busyToggle());
     return request
@@ -22,8 +22,8 @@ export function saveConsultant(consultant: ConsultantModel, callback?: (savedCon
           consultant: response.body,
         });
         success(t('config.popupMessage'));
-        if (history) {
-          history.push('/consultants');
+        if (navigate) {
+          navigate('/consultants');
         }
         if (callback) {
           callback(response.body);

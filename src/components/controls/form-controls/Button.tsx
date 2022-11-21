@@ -1,8 +1,8 @@
 import React from 'react';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {Button as ReactButton} from 'react-bootstrap';
 import {Icon} from '../Icon';
-import {BootstrapVariant} from '../../../models';
+import {BootstrapVariant, ChildrenType} from '../../../models';
 import {Tooltip} from '../Tooltip';
 import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
 
@@ -14,7 +14,7 @@ export type ButtonProps = {
   icon?: string,
   variant?: BootstrapVariant,
   size?: ButtonSize,
-  children?: any,
+  children?: ChildrenType,
   style?: React.CSSProperties,
   disabled?: boolean;
   className?: string;
@@ -22,13 +22,13 @@ export type ButtonProps = {
 }
 
 const ButtonComponent = ({variant = 'primary', size = 'md', disabled, className, style, title, ...props}: ButtonProps) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const {children, icon, onClick, ...rest} = props;
 
   let realClick: any = onClick;
   if (typeof onClick === 'string') {
     realClick = () => {
-      history.push(onClick);
+      navigate(onClick);
     };
   }
 

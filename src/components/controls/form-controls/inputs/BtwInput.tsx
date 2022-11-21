@@ -45,7 +45,7 @@ const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}:
     setInputValue(value || '');
   }
 
-  const [debouncedCallback] = useDebouncedCallback(async val => {
+  const debouncedCallback = useDebouncedCallback(async val => {
     const cleanBtw = parseBtw(val);
     if (val === BtwInRequest) {
       setValid(true);
@@ -85,7 +85,7 @@ const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}:
   const formattedBtw = formatBtw(parseBtw(inputValue));
   return (
     <StringInput
-      label={null}
+      label={undefined}
       value={inputValue}
       onChange={onInputChange}
       prefix={<Icon fa={cn('fa', (loading ? 'fa-spinner fa-spin' : 'fa-building'), (valid ? 'success' : 'danger'))} size={1} />}

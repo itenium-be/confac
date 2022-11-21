@@ -17,7 +17,7 @@ export const ConsultantsList = () => {
 
   const config: ConsultantFeatureBuilderConfig = {
     data: models.data,
-    save: m => dispatch(saveConsultant(m)),
+    save: m => dispatch(saveConsultant(m) as any),
     filters: models.filters,
     setFilters: f => dispatch(updateAppFilters(Features.consultants, f)),
   };

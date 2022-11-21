@@ -21,7 +21,7 @@ export const ProjectMonthNotesCell = ({fullProjectMonth}: ProjectMonthNotesCellP
       <NotesModalButton
         claim={Claim.EditProjectMonth}
         value={fullProjectMonth.details.note}
-        onChange={val => dispatch(patchProjectsMonth({...fullProjectMonth.details, note: val}))}
+        onChange={val => dispatch(patchProjectsMonth({...fullProjectMonth.details, note: val}) as any)}
         title={t('projectMonth.note')}
       />
     </div>

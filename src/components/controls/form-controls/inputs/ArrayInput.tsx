@@ -64,7 +64,7 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
           }
         };
 
-        const getAddix = (addix: string | React.ReactNode) => {
+        const getAddix = (addix?: string | React.ComponentType) => {
           if (!addix) {
             return undefined;
           }

@@ -26,7 +26,7 @@ export const InvoiceVerifyIconToggle = EnhanceWithClaim(({invoice, toggleValid, 
       model={invoice}
       style={{marginLeft: 8}}
       onClick={() => {
-        dispatch(toggleInvoiceVerify(invoice));
+        dispatch(toggleInvoiceVerify(invoice) as any);
         if (toggleValid) {
           toggleValid(!invoice.verified);
         }

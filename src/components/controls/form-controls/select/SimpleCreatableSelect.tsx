@@ -13,7 +13,7 @@ export type SimpleCreatableSelectProps = {
 
 
 export const SimpleCreatableSelect = ({options, value, onChange, isClearable = false, ...props}: SimpleCreatableSelectProps) => {
-  const opts: SelectItem[] = options.map((itm: string) => ({
+  const opts = options.map((itm: string) => ({
     label: itm,
     value: itm,
   }));
@@ -24,7 +24,7 @@ export const SimpleCreatableSelect = ({options, value, onChange, isClearable = f
       options={opts}
       onChange={itm => onChange(itm && (itm as SelectItem).value)}
       isClearable={isClearable}
-      multi={false}
+      isMulti={false}
       noOptionsMessage={() => t('controls.noResultsText')}
       formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
       placeholder={t('controls.selectPlaceholder')}

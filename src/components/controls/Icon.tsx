@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
+import React from 'react';
+import {useNavigate} from 'react-router-dom';
 import cn from 'classnames';
 import {Tooltip} from './Tooltip';
 import t from '../../trans';
@@ -20,17 +20,9 @@ const EnhanceIconWithCenter = <P extends object>(EnhancedComponent: React.Compon
 };
 
 
-type RouterProps = {
-  match: any,
-  location: any,
-  history: any,
-  staticContext: any,
-}
 
 export const Icon = EnhanceWithClaim(EnhanceIconWithCenter(
-  withRouter(({match, location, history, staticContext, ...props}: IconProps & RouterProps) => (
-    <IconComponent history={history} {...props as IconProps} />
-  )),
+  (props: IconProps) => <IconComponent {...props} />
 ));
 
 export type IconProps = EnhanceWithClaimProps & {
@@ -59,56 +51,50 @@ export type IconProps = EnhanceWithClaimProps & {
 }
 
 
-class IconComponent extends Component<IconProps> {
-  // static defaultProps = {
-  //   size: 2,
-  // }
-
-  render() {
-    const {fa, onClick, href, dispatch, className, label, labelStyle, title, size = 2, history, children, ...props} = this.props;
-    let realClick: any = onClick;
-    if (typeof onClick === 'string') {
-      realClick = () => {
-        history.push(onClick);
-      };
-    }
-
-    let FinalIcon = (
-      // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-      <i
-        {...props}
-        className={cn(fa, `fa-${size}x`, className, {clickable: !!onClick || !!href})}
-        onClick={realClick}
-        style={{color: this.props.color, ...this.props.style}}
-      >
-        {label ? <span style={{marginLeft: 6, ...labelStyle}}>{label}</span> : null}
-        {children}
-      </i>
-    );
-
-    if (href) {
-      FinalIcon = (
-        <a href={href} target="_blank" rel="noopener noreferrer">
-          {FinalIcon}
-        </a>
-      );
-    }
-
-    if (title) {
-      // TODO: inline doesn't seem to be always working (for example in EditInvoiceLines:Notes th)
-      // TODO: Not sure if the above still holds: changed tooltip from react-tooltip to rc-tooltip
-      //       --> Probably the inline div was added for the previous Tooltip to work?
-      return (
-        <div style={{display: 'inline'}}>
-          <Tooltip title={title}>
-            {FinalIcon}
-          </Tooltip>
-        </div>
-      );
-    }
-
-    return FinalIcon;
+const IconComponent = ({fa, onClick, href, dispatch, className, label, labelStyle, title, size = 2, children, ...props}: IconProps) => {
+  const navigate = useNavigate();
+  let realClick: any = onClick;
+  if (typeof onClick === 'string') {
+    realClick = () => {
+      navigate(onClick);
+    };
   }
+
+  let FinalIcon = (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+    <i
+      {...props}
+      className={cn(fa, `fa-${size}x`, className, {clickable: !!onClick || !!href})}
+      onClick={realClick}
+      style={{color: props.color, ...props.style}}
+    >
+      {label ? <span style={{marginLeft: 6, ...labelStyle}}>{label}</span> : null}
+      {children}
+    </i>
+  );
+
+  if (href) {
+    FinalIcon = (
+      <a href={href} target="_blank" rel="noopener noreferrer">
+        {FinalIcon}
+      </a>
+    );
+  }
+
+  if (title) {
+    // TODO: inline doesn't seem to be always working (for example in EditInvoiceLines:Notes th)
+    // TODO: Not sure if the above still holds: changed tooltip from react-tooltip to rc-tooltip
+    //       --> Probably the inline div was added for the previous Tooltip to work?
+    return (
+      <div style={{display: 'inline'}}>
+        <Tooltip title={title}>
+          {FinalIcon}
+        </Tooltip>
+      </div>
+    );
+  }
+
+  return FinalIcon;
 }
 
 

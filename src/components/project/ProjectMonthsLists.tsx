@@ -39,7 +39,7 @@ export const ProjectMonthsLists = () => {
 
   const config: ProjectMonthFeatureBuilderConfig = {
     data: configData,
-    save: m => dispatch(patchProjectsMonth(m.details)),
+    save: m => dispatch(patchProjectsMonth(m.details) as any),
     filters,
     setFilters: f => dispatch(updateAppFilters(Features.projectMonths, f)),
   };

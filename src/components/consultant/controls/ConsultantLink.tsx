@@ -65,7 +65,7 @@ export const ConsultantLinkWithModal = ({consultant, showType}: ConsultantLinkWi
             setModal(false);
             setHover(false);
           }}
-          onConfirm={(c: ConsultantModel) => dispatch(saveConsultant(c))}
+          onConfirm={(c: ConsultantModel) => dispatch(saveConsultant(c) as any)}
         />
       )}
     </div>

@@ -1,13 +1,13 @@
 import React from 'react';
 import {Nav, Navbar, Dropdown, ButtonGroup} from 'react-bootstrap';
-import {Link as ReactLink, Route} from 'react-router-dom';
+import {Link as ReactLink, NavLink, Route} from 'react-router-dom';
 import {t} from './utils';
 import {AddIcon, Icon} from './controls/Icon';
 import {Claim} from './users/models/UserModel';
-import {EnhanceWithClaim, EnhanceWithClaimProps} from './enhancers/EnhanceWithClaim';
+import {EnhanceWithClaimProps} from './enhancers/EnhanceWithClaim';
 
 
-export const Link = EnhanceWithClaim(ReactLink);
+export const Link = ReactLink;
 
 
 type OldSchoolMenuLinkProps = EnhanceWithClaimProps & {
@@ -16,17 +16,11 @@ type OldSchoolMenuLinkProps = EnhanceWithClaimProps & {
   activeOnlyWhenExact?: boolean;
 }
 
-const OldSchoolMenuLink = EnhanceWithClaim(({label, to, activeOnlyWhenExact = false}: OldSchoolMenuLinkProps) => (
-  <Route
-    path={to}
-    exact={activeOnlyWhenExact}
-    children={({location}) => (
-      <Link className={`nav-link header-link${location.pathname.startsWith(to) ? ' active' : ''}`} to={to}>
-        {label}
-      </Link>
-    )}
-  />
-));
+const OldSchoolMenuLink = ({label, to, activeOnlyWhenExact = false}: OldSchoolMenuLinkProps) => (
+  <NavLink className={({isActive}) => `nav-link header-link${isActive ? ' active' : ''}`} to={to}>
+    {label}
+  </NavLink>
+);
 
 
 
@@ -67,7 +61,7 @@ const Header = () => (
           {t('project.createNew')}
         </Link>
 
-        <Dropdown.Toggle split variant="success" id="header-create-split" />
+        <Dropdown.Toggle split bg="success" id="header-create-split" />
         <Dropdown.Menu>
           <Link claim={Claim.ManageProjects} to="/projects/create" className="dropdown-item">
             {t('project.createNew')}

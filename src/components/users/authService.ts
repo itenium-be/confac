@@ -124,7 +124,7 @@ function authenticateUser(loginResponse: any, setState: React.Dispatch<SetStateA
       .catch(err => {
         console.log('login error', err);
         authService.logout();
-        // window.location.reload(false);
+        // window.location.reload();
         setState((err.body && err.body.err) || 'Unknown error');
       });
   };

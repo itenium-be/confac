@@ -36,7 +36,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
 
   const defaultValue = fullProjectMonth.details.inbound || getNewProjectMonthInbound();
   const dispatcher = (val: ProjectMonthInbound) => {
-    dispatch(patchProjectsMonth({...fullProjectMonth.details, inbound: val}));
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, inbound: val}) as any);
   };
   const [inbound, setInbound, saveInbound] = useDebouncedSave<ProjectMonthInbound>(defaultValue, dispatcher);
 
@@ -109,7 +109,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
                 .replace('{month}', fullProjectMonth.details.month.format('YYYY-MM'))
                 + f.name.substring(f.name.lastIndexOf('.'));
 
-              return dispatch(projectMonthUpload(f, InboundInvoiceAttachmentType, fullProjectMonth, inboundFileName));
+              return dispatch(projectMonthUpload(f, InboundInvoiceAttachmentType, fullProjectMonth, inboundFileName) as any);
             }}
             downloadUrl={getInboundInvoiceDownloadUrl()}
           />

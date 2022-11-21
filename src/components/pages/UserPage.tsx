@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {Redirect} from 'react-router-dom';
-import {GoogleLogout} from 'react-google-login';
+import {Navigate} from 'react-router-dom';
+import {GoogleLogout} from '@leecheuk/react-google-login';
 import {t} from '../utils';
 import {authService} from '../users/authService';
 import {Button} from '../controls/form-controls/Button';
@@ -26,7 +26,7 @@ export const Logout = () => {
   const [loggedIn, setLoggedIn] = useState<boolean>(true);
 
   if (!loggedIn) {
-    return <Redirect to="/login" />;
+    return <Navigate to="/login" />;
   }
 
   const logout = () => {

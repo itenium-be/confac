@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {Redirect, Link} from 'react-router-dom';
+import {Navigate, Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
-import {GoogleLogin} from 'react-google-login';
+import {GoogleLogin} from '@leecheuk/react-google-login';
 import {Alert} from 'react-bootstrap';
 import {t} from '../utils';
 import {authService} from '../users/authService';
@@ -9,10 +9,10 @@ import {buildRequest} from '../../actions/initialLoad';
 
 const Redirecter = () => {
   if (authService.entryPathname === '/login') {
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
 
-  return <Redirect to={authService.entryPathname} />;
+  return <Navigate to={authService.entryPathname} />;
 };
 
 

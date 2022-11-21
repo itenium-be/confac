@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {Redirect} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import App from './App';
 import {ConfacState} from '../reducers/app-state';
 import {LoadingPage} from './pages/LoadingPage';
@@ -18,7 +18,7 @@ export const AppWithLayout = ({Component, ...props}: AppWithLayoutProps) => {
   }, authService.refreshInterval());
 
   if (!authService.loggedIn()) {
-    return <Redirect to="/login" />;
+    return <Navigate to="/login" />;
   }
 
   if (!isLoaded) {

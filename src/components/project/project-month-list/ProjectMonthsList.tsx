@@ -81,8 +81,8 @@ export const ProjectMonthsListToolbar = ({feature, onClose}: ProjectMonthsListTo
         {!allTimesheetsValidated && (
           <AdvancedAttachmentDropzone
             attachment={projectsMonthOverview && projectsMonthOverview.fileDetails}
-            onUpload={(f: File) => dispatch(projectsMonthOverviewUpload(f, projectsMonthDetails.month))}
-            onDelete={() => (projectsMonthOverview ? dispatch(deleteProjectsMonthOverview(projectsMonthOverview._id)) : null)}
+            onUpload={(f: File) => dispatch(projectsMonthOverviewUpload(f, projectsMonthDetails.month) as any)}
+            onDelete={() => (projectsMonthOverview ? dispatch(deleteProjectsMonthOverview(projectsMonthOverview._id) as any) : null)}
             downloadUrl={createDownloadUrl}
             dropzonePlaceholderText={t('projectMonth.sdWorxTimesheetUpload')}
             viewFileTooltip={t('projectMonth.timesheetCheckDownloadTooltip')}

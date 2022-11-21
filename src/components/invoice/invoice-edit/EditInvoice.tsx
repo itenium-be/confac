@@ -233,13 +233,13 @@ export class EditInvoice extends Component<EditInvoiceProps, EditInvoiceState> {
               </>
             )}
             <EditInvoiceSaveButtons
-              onClick={(type, history) => {
+              onClick={(type, navigate) => {
                 if (type === 'create') {
-                  this.props.createInvoice(invoice, history);
+                  this.props.createInvoice(invoice, navigate);
                 } if (type === 'preview') {
                   this.props.previewInvoice(invoice.client.invoiceFileName || this.props.config.invoiceFileName, invoice, fullProjectMonth);
                 } if (type === 'update') {
-                  this.props.updateInvoiceRequest(invoice, undefined, false, history);
+                  this.props.updateInvoiceRequest(invoice, undefined, false, navigate);
                 }
               }}
               invoice={invoice}

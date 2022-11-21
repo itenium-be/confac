@@ -32,7 +32,7 @@ export const ProposedAttachmentsDropzones = EnhanceWithClaim(({model, modelType}
   }
 
   const onDrop = (file: File, fileType: string): void => {
-    dispatch(updateAttachment(model, modelType, {file, type: fileType}));
+    dispatch(updateAttachment(model, modelType, {file, type: fileType}) as any);
   };
 
   return (

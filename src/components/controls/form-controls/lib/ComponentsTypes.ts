@@ -2,7 +2,8 @@ type CustomComponents = 'InvoiceLineTypeSelect' | 'ProjectLineTypeSelect' | 'Inv
   | 'ExtraFields' | 'StringsSelect' | 'ClientSelect' | 'ConsultantTypeSelect' | 'EditProjectClient' | 'ProjectSelect'
   | 'ConsultantSelectWithCreateModal' | 'InvoiceReplacementsInput' | 'InvoiceReplacementsTextEditor'
   | 'PartnerSelectWithCreateModal' | 'LanguageSelect' | 'EditInvoiceLines' | 'RolesSelect' | 'ClaimsSelect'
-  | 'ProjectMonthInboundStatusSelect' | 'ProjectMonthStatusSelect';
+  | 'ProjectMonthInboundStatusSelect' | 'ProjectMonthStatusSelect' | 'AttachmentsTypeSelect' | 'EditProjectPartner'
+  | 'ClientSelectWithCreateModal';
 
 export type StandardComponents = 'number' | 'text' | 'textarea' | 'basic-math' | 'switch' | 'month'
-  | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban' | 'textEditor' | 'bool' | 'date';
+  | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban' | 'TextEditor' | 'bool' | 'date';

@@ -3,7 +3,7 @@
 // import 'react-app-polyfill/ie11';
 // import 'react-app-polyfill/stable';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom/client";
 import {defaultLocale} from './components/utils';
 
 // TODO: need to fetch this from the backend
@@ -48,9 +48,11 @@ store.dispatch(initialLoad());
 // Create the AppRoot
 import Routes from './routes';
 
-ReactDOM.render(
-  <Provider store={store}>
-    <Routes />
-  </Provider>,
-  document.getElementById('root'),
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <Routes />
+    </Provider>
+  </React.StrictMode>
 );

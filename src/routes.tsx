@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Routes as Switch} from 'react-router-dom';
 
 import {AppWithLayout} from './components/AppWithLayout';
 import EditInvoice from './components/invoice/invoice-edit/EditInvoice';
@@ -26,38 +26,38 @@ import {EditProjectMonths} from './components/project/EditProjectMonths';
 const Routes = () => (
   <BrowserRouter>
     <Switch>
-      <Route path="/invoices/create" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
-      <Route path="/invoices/:id" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
-      <Route path="/invoices" render={props => <AppWithLayout Component={InvoiceList} {...props} />} />
+      <Route path="/invoices/create" element={<AppWithLayout Component={EditInvoice} />} />
+      <Route path="/invoices/:id" element={<AppWithLayout Component={EditInvoice} />} />
+      <Route path="/invoices" element={<AppWithLayout Component={InvoiceList} />} />
 
-      <Route path="/quotations/create" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
-      <Route path="/quotations/:id" render={props => <AppWithLayout Component={EditInvoice} {...props} />} />
-      <Route path="/quotations" render={props => <AppWithLayout Component={QuotationList} {...props} />} />
+      <Route path="/quotations/create" element={<AppWithLayout Component={EditInvoice} />} />
+      <Route path="/quotations/:id" element={<AppWithLayout Component={EditInvoice} />} />
+      <Route path="/quotations" element={<AppWithLayout Component={QuotationList} />} />
 
-      <Route path="/clients/create" render={props => <AppWithLayout Component={EditClient} {...props} />} />
-      <Route path="/clients/:id" render={props => <AppWithLayout Component={EditClient} {...props} />} />
-      <Route path="/clients" render={props => <AppWithLayout Component={ClientList} {...props} />} />
+      <Route path="/clients/create" element={<AppWithLayout Component={EditClient} />} />
+      <Route path="/clients/:id" element={<AppWithLayout Component={EditClient} />} />
+      <Route path="/clients" element={<AppWithLayout Component={ClientList} />} />
 
-      <Route path="/consultants/create" render={props => <AppWithLayout Component={EditConsultant} {...props} />} />
-      <Route path="/consultants/:id" render={props => <AppWithLayout Component={EditConsultant} {...props} />} />
-      <Route path="/consultants" render={props => <AppWithLayout Component={ConsultantsList} {...props} />} />
+      <Route path="/consultants/create" element={<AppWithLayout Component={EditConsultant} />} />
+      <Route path="/consultants/:id" element={<AppWithLayout Component={EditConsultant} />} />
+      <Route path="/consultants" element={<AppWithLayout Component={ConsultantsList} />} />
 
-      <Route path="/monthly-invoicing" render={props => <AppWithLayout Component={ProjectMonthsLists} {...props} />} />
-      <Route path="/projects/:month/:projectMonthId" render={props => <AppWithLayout Component={EditProjectMonths} {...props} />} />
-      <Route path="/projects/create" render={props => <AppWithLayout Component={EditProject} {...props} />} />
-      <Route path="/projects/:id" render={props => <AppWithLayout Component={EditProject} {...props} />} />
-      <Route path="/projects" render={props => <AppWithLayout Component={ProjectsList} {...props} />} />
+      <Route path="/monthly-invoicing" element={<AppWithLayout Component={ProjectMonthsLists} />} />
+      <Route path="/projects/:month/:projectMonthId" element={<AppWithLayout Component={EditProjectMonths} />} />
+      <Route path="/projects/create" element={<AppWithLayout Component={EditProject} />} />
+      <Route path="/projects/:id" element={<AppWithLayout Component={EditProject} />} />
+      <Route path="/projects" element={<AppWithLayout Component={ProjectsList} />} />
 
-      <Route path="/config" render={props => <AppWithLayout Component={EditConfig} {...props} />} />
-      <Route path="/admin" render={props => <AppWithLayout Component={EditAdmin} {...props} />} />
+      <Route path="/config" element={<AppWithLayout Component={EditConfig} />} />
+      <Route path="/admin" element={<AppWithLayout Component={EditAdmin} />} />
 
-      <Route path="/user" render={props => <AppWithLayout Component={UserPage} {...props} />} />
-      <Route path="/users/:id" render={props => <AppWithLayout Component={EditUser} {...props} />} />
-      <Route path="/users" render={props => <AppWithLayout Component={UsersList} {...props} />} />
-      <Route path="/roles/:id" render={props => <AppWithLayout Component={EditRole} {...props} />} />
-      <Route path="/login" render={props => <UnauthicatedAppLayout Component={LoginPage} {...props} />} />
+      <Route path="/user" element={<AppWithLayout Component={UserPage} />} />
+      <Route path="/users/:id" element={<AppWithLayout Component={EditUser} />} />
+      <Route path="/users" element={<AppWithLayout Component={UsersList} />} />
+      <Route path="/roles/:id" element={<AppWithLayout Component={EditRole} />} />
+      <Route path="/login" element={<UnauthicatedAppLayout Component={LoginPage} />} />
 
-      <Route path="/" render={props => <AppWithLayout Component={ProjectMonthsLists} {...props} />} />
+      <Route path="/" element={<AppWithLayout Component={ProjectMonthsLists} />} />
     </Switch>
   </BrowserRouter>
 );

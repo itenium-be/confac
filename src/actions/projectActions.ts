@@ -12,7 +12,7 @@ import {TimesheetCheckAttachmentType} from '../models';
 import {authService} from '../components/users/authService';
 import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
 
-export function saveProject(project: IProjectModel, history: any, after: 'to-list' | 'to-details' = 'to-list') {
+export function saveProject(project: IProjectModel, navigate: any, after: 'to-list' | 'to-details' = 'to-list') {
   return (dispatch: Dispatch) => {
     dispatch(busyToggle());
     return request
@@ -27,13 +27,13 @@ export function saveProject(project: IProjectModel, history: any, after: 'to-lis
         });
         success(t('config.popupMessage'));
         if (after === 'to-list') {
-          history.push('/projects');
+          navigate('/projects');
         } else {
           // First navigate away?
           // Workaround for EditProject not reloading the form
           // when the url _id changes. Need a hook for this :)
-          history.push('/projects');
-          history.push(`/projects/${response.body._id}`);
+          navigate('/projects');
+          navigate(`/projects/${response.body._id}`);
         }
       })
       .catch(catchHandler)
@@ -80,7 +80,7 @@ export function createProjectsMonthInvoice(project: ProjectMonthModel) {
 
 
 
-export function deleteProjectsMonth(id: string, history: any) {
+export function deleteProjectsMonth(id: string, navigate: any) {
   return dispatch => {
     dispatch(busyToggle());
     request.delete(buildUrl('/projects/month'))
@@ -94,7 +94,7 @@ export function deleteProjectsMonth(id: string, history: any) {
           id,
         });
         success(t('projectMonth.deleteConfirm.toastr'));
-        history.push('/projects');
+        navigate('/projects');
         return true;
       })
       .catch(catchHandler)
@@ -127,8 +127,8 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
         type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
         projectMonth: response.body,
       });
-      success(t('config.popupMessage'));
-      // history.push('/projects');
+      success(t("config.popupMessage"));
+      // navigate('/projects');
     })
     .catch(catchHandler);
 }

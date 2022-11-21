@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {saveProject} from '../../actions';
@@ -28,7 +28,7 @@ interface EditProjectProps {
 
 export const EditProject = (props: EditProjectProps) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const model = useSelector((state: ConfacState) => state.projects.find(c => c._id === props.match.params.id));
   const consultants = useSelector((state: ConfacState) => state.consultants);
   const [project, setProject] = useState<IProjectModel>(model || getNewProject());
@@ -107,7 +107,7 @@ export const EditProject = (props: EditProjectProps) => {
       </Form>
       <StickyFooter claim={Claim.ManageProjects}>
         {project.endDate && <CopyProject projectToCopy={project} />}
-        <BusyButton onClick={() => dispatch(saveProject(project, history))} disabled={isButtonDisabled}>
+        <BusyButton onClick={() => dispatch(saveProject(project, navigate) as any)} disabled={isButtonDisabled}>
           {t('save')}
         </BusyButton>
       </StickyFooter>

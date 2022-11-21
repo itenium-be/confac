@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import moment from 'moment';
 import {IProjectModel} from './models/IProjectModel';
@@ -34,7 +34,7 @@ export const CopyProject = ({projectToCopy}: CopyProjectProps) => {
   };
   const [project, setProject] = useState<IProjectModel>(defaultProject);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const history = useNavigate();
 
 
   return (
@@ -43,7 +43,7 @@ export const CopyProject = ({projectToCopy}: CopyProjectProps) => {
         <Modal
           show
           onClose={() => setOpen(false)}
-          onConfirm={() => dispatch(saveProject(project, history, 'to-details'))}
+          onConfirm={() => dispatch(saveProject(project, history, 'to-details') as any)}
           title={t('project.copy.modalTitle')}
         >
           <div className="container">

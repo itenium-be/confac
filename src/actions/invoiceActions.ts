@@ -18,7 +18,7 @@ function cleanViewModel(data: InvoiceModel): InvoiceModel {
 }
 
 
-export function createInvoice(data: InvoiceModel, history?: any) {
+export function createInvoice(data: InvoiceModel, navigate?: any) {
   return dispatch => {
     dispatch(busyToggle());
     request.post(buildUrl('/invoices'))
@@ -34,8 +34,8 @@ export function createInvoice(data: InvoiceModel, history?: any) {
 
         const invoiceType = data.isQuotation ? 'quotations' : 'invoices';
         success(t(data.isQuotation ? 'quotation.createConfirm' : 'invoice.createConfirm'));
-        if (history) {
-          history.push(`/${invoiceType}/${res.body.number}`);
+        if (navigate) {
+          navigate(`/${invoiceType}/${res.body.number}`);
         }
 
       }, err => {
@@ -50,7 +50,7 @@ export function createInvoice(data: InvoiceModel, history?: any) {
   };
 }
 
-export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined, andGoHome: boolean, history?: any) {
+export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined, andGoHome: boolean, navigate?: any) {
   return dispatch => {
     dispatch(busyToggle());
     request.put(buildUrl('/invoices'))
@@ -67,7 +67,7 @@ export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | un
         success(successMsg || t('toastrConfirm'));
         if (andGoHome) {
           const invoiceType = data.isQuotation ? 'quotations' : 'invoices';
-          history.push(`/${invoiceType}`);
+          navigate(`/${invoiceType}`);
         }
       })
       .catch(catchHandler)
@@ -80,7 +80,7 @@ export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | un
 export function toggleInvoiceVerify(data: InvoiceModel) {
   const successMsg = data.verified ? t('invoice.isNotVerifiedConfirm') : t('invoice.isVerifiedConfirm');
   const newData: InvoiceModel | any = {...data, verified: !data.verified};
-  return updateInvoiceRequest(newData, successMsg, false); // change andGoHome? also need 'history' from router
+  return updateInvoiceRequest(newData, successMsg, false); // change andGoHome? also need 'navigate' from router
 }
 
 

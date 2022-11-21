@@ -36,7 +36,7 @@ export const InvoiceListRowActions = ({invoice, toggleValid, small = false}: Inv
         <ConfirmedDeleteIcon
           claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
           title={t(`${invoiceType}.deleteTitle`)}
-          onClick={() => dispatch(deleteInvoice(invoice))}
+          onClick={() => dispatch(deleteInvoice(invoice) as any)}
         >
           {t(`${invoiceType}.deletePopup`, {number: invoice.number, client: invoice.client.name})}
         </ConfirmedDeleteIcon>

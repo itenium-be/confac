@@ -44,7 +44,7 @@ const httpGet = (url: string) => {
       return res.json().then(data => {
         if (res.status === 401 && data.message === 'invalid_token') {
           authService.logout();
-          window.location.reload(false);
+          window.location.reload();
         }
         return data;
       });

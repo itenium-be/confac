@@ -47,7 +47,7 @@ export function success(msg = '', title = '', timeout: number | false = 2000): v
 }
 
 
-export function failure(msg = '', title = '', timeout: number | false = 4000, position?: Position): void {
+export function failure(msg = '', title = '', timeout: number | false = 4000, position?: any): void {
   toast.error(
     <ToastMessage
       msg={msg || t('toastrFailure')}

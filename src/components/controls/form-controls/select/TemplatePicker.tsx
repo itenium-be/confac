@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {toast} from 'react-toastify';
 import {SimpleSelect} from './SimpleSelect';
 import {failure, buildRequest} from '../../../../actions';
@@ -16,7 +15,7 @@ type TemplatePickerState = {
 }
 
 
-class TemplatePickerComponent extends Component<TemplatePickerProps, TemplatePickerState> {
+export class TemplatePicker extends Component<TemplatePickerProps, TemplatePickerState> {
   constructor(props: any) {
     super(props);
     this.state = {templates: []};
@@ -55,5 +54,3 @@ class TemplatePickerComponent extends Component<TemplatePickerProps, TemplatePic
     );
   }
 }
-
-export const TemplatePicker = connect(() => ({}))(TemplatePickerComponent);

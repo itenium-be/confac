@@ -37,7 +37,7 @@ export function catchHandler(err) {
     failure(err.body.message);
     setTimeout(() => {
       authService.logout();
-      window.location.reload(false);
+      window.location.reload();
     }, 2000);
     return;
   }

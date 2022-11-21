@@ -68,12 +68,12 @@ const InvoiceSearchAdvanced = (props: InvoiceSearchAdvancedProps) => {
   const downloadExcel = () => {
     const invoices = props.vm.getFilteredInvoices();
     const invoiceIds = invoices.map(i => i._id);
-    dispatch(downloadInvoicesExcel(invoiceIds));
+    dispatch(downloadInvoicesExcel(invoiceIds) as any);
   };
   const downloadZip = () => {
     const invoices = props.vm.getFilteredInvoices();
     const invoiceIds = invoices.map(i => i._id);
-    dispatch(downloadInvoicesZip(invoiceIds));
+    dispatch(downloadInvoicesZip(invoiceIds) as any);
   };
 
   return (

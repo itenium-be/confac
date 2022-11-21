@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {useSelector} from 'react-redux';
+import moment from 'moment';
 import {InvoiceClientCell} from '../invoice-table/InvoiceClientCell';
 import {InvoiceNumberCell} from '../invoice-table/InvoiceNumberCell';
 import InvoiceModel from './InvoiceModel';

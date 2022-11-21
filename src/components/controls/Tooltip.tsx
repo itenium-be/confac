@@ -1,11 +1,10 @@
-/* eslint-disable react/no-danger */
-import React from 'react';
+import React, { ReactElement } from 'react';
 import RcTooltip from 'rc-tooltip';
 
 type TooltipProps = {
   title: string,
   placement?: 'left' | 'right' | 'top' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight',
-  children: React.ReactNode,
+  children: ReactElement,
   mouseEnterDelay?: number;
 }
 

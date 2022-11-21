@@ -25,7 +25,7 @@ const ViewportWidths = {showTimesheetDaysFrom: 1800};
 
 /** Display timesheet number in days */
 const TimesheetTimeDisplay = (props: TimesheetTimeConfig) => {
-  const [vpWidth] = useViewportSizes();
+  const [vpWidth] = useViewportSizes({ dimension: 'both' });
 
   if (typeof props.amount !== 'number') {
     return <span>&nbsp;</span>;
@@ -47,7 +47,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
 
   const defaultValue = fullProjectMonth.details.timesheet || getNewProjectMonthTimesheet();
   const dispatcher = (val: ProjectMonthTimesheet) => {
-    dispatch(patchProjectsMonth({...fullProjectMonth.details, timesheet: val}));
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, timesheet: val}) as any);
   };
   const [timesheet, setTimesheet, saveTimesheet] = useDebouncedSave<ProjectMonthTimesheet>(defaultValue, dispatcher);
 
@@ -143,7 +143,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           previewTooltip={t('projectMonth.viewTimesheet', {fileName: timesheetDetails ? timesheetDetails.fileName : ''})}
           onUpload={f => {
             const fileName = timesheetFileName + f.name.substring(f.name.lastIndexOf('.'));
-            return dispatch(projectMonthUpload(f, SignedTimesheetAttachmentType, fullProjectMonth, fileName));
+            return dispatch(projectMonthUpload(f, SignedTimesheetAttachmentType, fullProjectMonth, fileName) as any);
           }}
           downloadUrl={getTimesheetDownloadUrl()}
         />

@@ -1,5 +1,6 @@
 import React from 'react';
-import {Badge as ReactBadge, BadgeProps as ReactBadgeProps} from 'react-bootstrap';
+import {Badge as ReactBadge} from 'react-bootstrap';
+import {BadgeProps as ReactBadgeProps} from 'react-bootstrap/Badge'
 import RcTooltip from 'rc-tooltip';
 import {displayMonthWithYear} from '../ProjectMonthsLists';
 import {IFeature} from '../../controls/feature/feature-models';
@@ -10,7 +11,7 @@ import {t} from '../../utils';
 import {Icon} from '../../controls/Icon';
 
 
-type BadgeProps = ReactBadgeProps & {
+type BadgeProps = Omit<ReactBadgeProps, 'title'> & {
   title?: string | string[];
   children: any;
 }
@@ -91,7 +92,7 @@ export const ProjectMonthListCollapsed = ({feature, onOpen}: ProjectMonthListCol
         <span className="month">{displayMonthWithYear(projectsMonthDetails)}</span>
         <span className="separate">
           {results.verified ? (
-            <Badge pill variant="success">
+            <Badge pill bg="success">
               <Icon fa="fa fa-coins" size={1} />
               {t('projectMonth.list.allVerifiedBadge')}
             </Badge>
@@ -120,7 +121,7 @@ type TimesheetBadgeProps = {
 const TimesheetBadge = ({pending, totals}: TimesheetBadgeProps) => {
   const title = totals.timesheetPending.map(x => `${x.consultant.firstName} ${x.consultant.name}`);
   return (
-    <Badge pill variant={pending ? 'warning' : 'success'} title={title.length ? title : undefined}>
+    <Badge pill bg={pending ? 'warning' : 'success'} title={title.length ? title : undefined}>
       <Icon fa="fa fa-clock" size={1} style={{marginRight: 8}} />
       {t(`projectMonth.list.${pending ? 'timesheetPending' : 'timesheetOk'}`, totals)}
     </Badge>
@@ -133,7 +134,7 @@ const TimesheetBadge = ({pending, totals}: TimesheetBadgeProps) => {
 const InboundBadge = ({pending, totals}: TimesheetBadgeProps) => {
   if (!pending) {
     return (
-      <Badge pill variant="success">
+      <Badge pill bg="success">
         <Icon fa="fa fa-inbox" size={1} />
         {t('projectMonth.list.inboundAllPaid')}
       </Badge>
@@ -144,7 +145,7 @@ const InboundBadge = ({pending, totals}: TimesheetBadgeProps) => {
   const validatedTitle = totals.inboundValidated.map(x => `${x.consultant.firstName} ${x.consultant.name}`).join('<br>');
   const paidTitle = totals.inboundPaid.map(x => `${x.consultant.firstName} ${x.consultant.name}`).join('<br>');
   return (
-    <Badge pill variant="warning">
+    <Badge pill bg="warning">
       <Icon fa="fa fa-inbox" size={1} title={newTitle && `<b>${t('projectMonth.inboundNew')}</b><br>${newTitle}`}>
         {totals.inboundNew.length}
       </Icon>
@@ -167,7 +168,7 @@ const InboundBadge = ({pending, totals}: TimesheetBadgeProps) => {
 const OutboundBadge = ({totals}: {totals: Totals}) => {
   const title = totals.unverified.map(x => `${x.consultant.firstName} ${x.consultant.name} (${x.client.name})`);
   return (
-    <Badge pill variant="warning" title={title}>
+    <Badge pill bg="warning" title={title}>
       <Icon fa="fa fa-coins" size={1} />
       {t('projectMonth.list.verifiedBadge', totals)}
     </Badge>

@@ -63,7 +63,7 @@ export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
       show={props.show}
       onClose={props.onClose}
       title={t('projectMonth.createProjects.title')}
-      onConfirm={() => dispatch(createProjectsMonth(date, newProjects.map(x => x._id)))}
+      onConfirm={() => dispatch(createProjectsMonth(date, newProjects.map(x => x._id)) as any)}
     >
       <Form>
         <Container>

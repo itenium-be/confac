@@ -6,6 +6,8 @@ import {ConsultantListFilters, ClientListFilters, InvoiceListFilters,
 
 export type InvoiceDateStrategy = 'prev-month-last-day' | 'today';
 
+export type ChildrenType = React.ReactNode | JSX.Element[];
+
 
 /** Array defined as projectLineTypes */
 export type EditProjectRateType = 'hourly' | 'daily';
@@ -80,7 +82,7 @@ export type FormConfig = {
    * The React Component to use
    * Defaults to StringInput
    */
-  component?: React.ReactNode | StandardComponents,
+  component?: React.ComponentType | StandardComponents | React.FunctionComponent<any>,
   /**
    * True: Do not show when creating the record
    * (ex: "slug" which is calculated when saving)
@@ -91,8 +93,8 @@ export type FormConfig = {
    * false to not generate a Col
    */
   cols?: number | ColSize | ColSizes | false,
-  prefix?: InputIcons | React.ReactNode | string,
-  suffix?: InputIcons | React.ReactNode | string,
+  prefix?: InputIcons | React.ComponentType | string,
+  suffix?: InputIcons | React.ComponentType | string,
   style?: CSSProperties,
   /** Additional props passed to the component */
   props?: {[key: string]: any},

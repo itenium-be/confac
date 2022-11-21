@@ -5,7 +5,7 @@ import {connect, useDispatch} from 'react-redux';
 import {updateAttachment, deleteAttachment} from '../../../actions/index';
 import {AdvancedAttachmentDropzone} from './AdvancedAttachmentDropzone';
 import {IAttachment, Attachment} from '../../../models';
-import {AddAttachmentPopup} from './AddAttachmentPopup';
+import {AddAttachmentPopup, FileAttachment} from './AddAttachmentPopup';
 import {ClientModel} from '../../client/models/ClientModels';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
 import {ProposedAttachmentsDropzones} from './ProposedAttachmentsDropzones';
@@ -20,7 +20,7 @@ export type AttachmentModelTypes = {
 }
 
 type AttachmentsFormProps = {
-  updateAttachment: (model: IAttachment, modelType: keyof AttachmentModelTypes, {file: File, type: string}) => void;
+  updateAttachment: (model: IAttachment, modelType: keyof AttachmentModelTypes, file: FileAttachment) => void;
   model: ClientModel | InvoiceModel;
   modelType: keyof AttachmentModelTypes;
   createDownloadUrl: (downloadType: 'download' | 'preview', att: Attachment) => string;
@@ -50,7 +50,7 @@ export const _AttachmentsForm = (props: AttachmentsFormProps) => {
               claim={mapModelType(modelType)}
               attachment={att}
               downloadUrl={createDownloadUrl}
-              onDelete={() => dispatch(deleteAttachment(props.model, modelType, att.type))}
+              onDelete={() => dispatch(deleteAttachment(props.model, modelType, att.type) as any)}
               viewFileTooltip={t('invoice.attachmentViewTooltip', {type: att.type})}
             />
           </Col>

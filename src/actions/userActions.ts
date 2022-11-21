@@ -8,7 +8,7 @@ import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
 
 
-export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => void, history?: any) {
+export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => void, navigate?: any) {
   return dispatch => {
     dispatch(busyToggle());
     return request
@@ -22,8 +22,8 @@ export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => v
           user: response.body,
         });
         success(t('config.popupMessage'));
-        if (history) {
-          history.push('/users');
+        if (navigate) {
+          navigate('/users');
         }
         if (callback) {
           callback(response.body);
@@ -35,7 +35,7 @@ export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => v
 }
 
 
-export function saveRole(role: RoleModel, callback?: (savedRole: RoleModel) => void, history?: any) {
+export function saveRole(role: RoleModel, callback?: (savedRole: RoleModel) => void, navigate?: any) {
   return dispatch => {
     dispatch(busyToggle());
     return request
@@ -49,8 +49,8 @@ export function saveRole(role: RoleModel, callback?: (savedRole: RoleModel) => v
           role: response.body,
         });
         success(t('config.popupMessage'));
-        if (history) {
-          history.push('/users');
+        if (navigate) {
+          navigate('/users');
         }
         if (callback) {
           callback(response.body);

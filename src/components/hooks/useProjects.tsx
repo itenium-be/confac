@@ -7,7 +7,11 @@ import {ProjectMonthModel} from '../project/models/ProjectMonthModel';
 
 
 export function useProjects(month?: Moment): FullProjectModel[] {
-  const [projects, clients, consultants] = useSelector((state: ConfacState) => [state.projects, state.clients, state.consultants]);
+  const {projects, clients, consultants} = useSelector((state: ConfacState) => ({
+    projects: state.projects,
+    clients: state.clients,
+    consultants: state.consultants
+  }));
 
   return projects.map(project => {
     const consultant = consultants.find(x => x._id === project.consultantId);

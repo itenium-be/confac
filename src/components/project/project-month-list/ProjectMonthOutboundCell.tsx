@@ -31,13 +31,13 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
   const dispatch = useDispatch();
 
   const dispatcher = (orderNr: string) => {
-    dispatch(patchProjectsMonth({...fullProjectMonth.details, orderNr}));
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, orderNr}) as any);
   };
   const [orderNr, setOrderNr/* , saveOrderNr */] = useDebouncedSave<string>(fullProjectMonth.details.orderNr || '', dispatcher);
 
 
   const toggleValid = (verified: boolean | 'forced') => {
-    dispatch(patchProjectsMonth({...fullProjectMonth.details, verified}));
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, verified}) as any);
   };
 
 
@@ -208,8 +208,8 @@ const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
 
 
   const createInvoiceFully = (inv: InvoiceModel) => {
-    dispatch(createInvoice(inv));
-    dispatch(deleteProjectMonthAttachmentDetails(fullProjectMonth.details));
+    dispatch(createInvoice(inv) as any);
+    dispatch(deleteProjectMonthAttachmentDetails(fullProjectMonth.details) as any);
   };
 
 

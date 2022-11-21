@@ -77,14 +77,14 @@ export const EmailForm = ({value, onChange, attachmentsAvailable, textEditorRepl
   );
 };
 
-type EmailFormAttachments = {
+type EmailFormAttachmentsProps = {
   expectedAttachments: string[],
   attachmentsAvailable: string[],
 }
 
 
 
-const EmailFormAttachments = ({expectedAttachments, attachmentsAvailable}: EmailFormAttachments) => (
+const EmailFormAttachments = ({expectedAttachments, attachmentsAvailable}: EmailFormAttachmentsProps) => (
   <Row className="email-attachments">
     {expectedAttachments.map(attachment => {
       const isAvailable = attachmentsAvailable.some(a => a === attachment);

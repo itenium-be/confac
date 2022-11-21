@@ -11,10 +11,11 @@ import {AddIcon} from '../Icon';
 import {AttachmentDropzone} from './AttachmentDropzone';
 import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
 
+export type FileAttachment = {file: File, type: string}
 
 type AddAttachmentPopupProps = {
   attachments: Attachment[],
-  onAdd: ({file: File, type: string}) => void,
+  onAdd: (file: FileAttachment) => void,
   attachmentTypes: string[],
 }
 
@@ -24,7 +25,7 @@ const AddAttachmentPopupComponent = (props: AddAttachmentPopupProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const _onUpload = () => {
-    props.onAdd({type, file});
+    props.onAdd({file: file!, type});
     setIsModalOpen(false);
   };
 

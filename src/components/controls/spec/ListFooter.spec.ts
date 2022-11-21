@@ -13,6 +13,7 @@ function createListModel(cells: IListCell<any>[]): IList<any> {
       cells,
     },
     data: [],
+    sorter: (a, b) => 0,
   };
   return listModel;
 }

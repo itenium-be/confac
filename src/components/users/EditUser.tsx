@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {ConfacState} from '../../reducers/app-state';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
@@ -22,7 +22,7 @@ interface EditUserProps {
 
 
 export const EditUser = (props: EditUserProps) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const model = useSelector((state: ConfacState) => state.user.users.find(c => c.alias === props.match.params.id));
   const [user, setUser] = useState<UserModel>(model || getNewUser());
@@ -61,7 +61,7 @@ export const EditUser = (props: EditUserProps) => {
       </Form>
       <StickyFooter claim={Claim.ManageUsers}>
         <BusyButton
-          onClick={() => dispatch(saveUser(user, undefined, history))}
+          onClick={() => dispatch(saveUser(user, undefined, navigate) as any)}
           disabled={isButtonDisabled()}
         >
           {t('save')}

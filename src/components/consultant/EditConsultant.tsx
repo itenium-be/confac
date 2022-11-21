@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {ConfacState} from '../../reducers/app-state';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
@@ -23,7 +23,7 @@ interface EditConsultantProps {
 
 
 export const EditConsultant = (props: EditConsultantProps) => {
-  const history = useHistory();
+  const history = useNavigate();
   const dispatch = useDispatch();
   const model = useSelector((state: ConfacState) => state.consultants.find(c => c.slug === props.match.params.id || c._id === props.match.params.id));
   const [consultant, setConsultant] = useState<ConsultantModel>(model || getNewConsultant());
@@ -62,7 +62,7 @@ export const EditConsultant = (props: EditConsultantProps) => {
       </Form>
       <StickyFooter claim={Claim.ManageConsultants}>
         <BusyButton
-          onClick={() => dispatch(saveConsultant(consultant, undefined, history))}
+          onClick={() => dispatch(saveConsultant(consultant, undefined, history) as any)}
           disabled={isButtonDisabled()}
         >
           {t('save')}

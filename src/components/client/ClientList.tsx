@@ -19,7 +19,7 @@ export const ClientList = () => {
 
   const config: ClientFeatureBuilderConfig = {
     data: models.data,
-    save: (m, stayOnPage) => dispatch(saveClient(m, stayOnPage)),
+    save: (m, stayOnPage) => dispatch(saveClient(m, stayOnPage) as any),
     filters: models.filters,
     setFilters: f => dispatch(updateAppFilters(Features.clients, f)),
     invoices: models.invoices,

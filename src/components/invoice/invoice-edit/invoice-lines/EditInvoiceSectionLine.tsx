@@ -14,7 +14,7 @@ export const EditInvoiceSectionLine = ({lines, index, onChange, line, invoice}: 
     </td>,
     <td key="1">
       <InvoiceLineTypeSelect
-        label={null}
+        label={undefined}
         value={line.type}
         onChange={value => onChange(InvoiceLineActions.updateLine(lines, index, {type: value}, invoice))}
       />
