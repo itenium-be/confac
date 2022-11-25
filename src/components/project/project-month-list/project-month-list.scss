@@ -16,6 +16,11 @@ $cell-padding: 8px 8px;
 
     td {
       padding: $cell-padding;
+      vertical-align: top;
+    }
+
+    small {
+      font-weight: normal;
     }
   }
 
@@ -127,6 +132,10 @@ $cell-padding: 8px 8px;
 
 
 .table-projectMonths {
+  thead {
+    border-top: 1px solid $table-border-color;
+  }
+
   td {
     padding: 0;
   }
@@ -240,6 +249,10 @@ $cell-padding: 8px 8px;
           content: '#';
         }
       }
+    }
+
+    .input-group.date-group {
+      margin-bottom: 0;
     }
 
     .inbound-actions {

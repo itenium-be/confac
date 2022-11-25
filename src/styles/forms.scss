@@ -63,5 +63,5 @@ button[disabled] {
 // Fix react-select zIndex issues
 // https: //github.com/JedWatson/react-select/issues/1085
 .react-select__menu {
-  z-index: 10 !important;
+  z-index: 99 !important;
 }

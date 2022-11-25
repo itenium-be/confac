@@ -31,11 +31,11 @@ export const CollapsibleProjectMonthsList = ({feature, month}: CollapsibleProjec
   if (filter.state.openMonths.includes(month.toString())) {
     const onClose = () => filter.updateFilter({...filter.state, openMonths: filter.state.openMonths.filter(open => open !== month)});
     return (
-      <div>
+      <>
         <ProjectMonthsListToolbar feature={feature} onClose={onClose} />
         <List feature={feature} />
         <hr className="list-separator" />
-      </div>
+      </>
     );
   }
 
