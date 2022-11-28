@@ -16,7 +16,7 @@ export type EnhanceInputWithLabelProps = {
 
 // eslint-disable-next-line max-len
 export const EnhanceInputWithLabel = <P extends object>(ComposedComponent: React.ComponentType<P>) => ({label, placeholder, inline, ...props}: EnhanceInputWithLabelProps & P) => {
-  if (label !== undefined && label !== null) {
+  if (label) {
     if (inline) {
       return (
         <Form.Group as={Row}>

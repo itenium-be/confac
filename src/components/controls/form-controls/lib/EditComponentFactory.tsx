@@ -34,6 +34,8 @@ import {MonthPicker} from '../MonthPicker';
 import {ProjectSelect} from '../../../project/controls/ProjectSelect';
 import {ProjectMonthInboundStatusSelect} from '../../../project/controls/ProjectMonthInboundStatusSelect';
 import {ProjectMonthStatusSelect} from '../../../project/controls/ProjectMonthStatusSelect';
+import {ContractStatusWithNotes} from '../../../client/controls/ContractStatusWithNotes';
+import {ProjectClientContractStatus} from '../../../project/controls/ProjectClientContractStatus';
 
 
 export function getComponent(col: FormConfig) {
@@ -82,6 +84,8 @@ export function getComponent(col: FormConfig) {
     ClaimsSelect,
     ProjectMonthInboundStatusSelect,
     ProjectMonthStatusSelect,
+    ContractStatusWithNotes,
+    ProjectClientContractStatus,
   };
 
 

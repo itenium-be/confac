@@ -3,6 +3,7 @@ import {ConfigModel} from '../../config/models/ConfigModel';
 import {getNewEmail} from '../../controls/email/getNewEmail';
 import {defaultConfig, defaultCommunicationLanguage} from '../../config/models/getNewConfig';
 import {IAudit} from '../../../models';
+import {ContractStatus} from './ContractModels';
 
 export const DefaultHoursInDay = 8;
 
@@ -27,6 +28,10 @@ export function getNewClient(config?: ConfigModel): ClientModel {
     defaultChangingOrderNr: false,
     email: {...getNewEmail(), combineAttachments: false},
     language: config.language || defaultCommunicationLanguage,
+    frameworkAgreement: {
+      status: ContractStatus.NoContract,
+      notes: '',
+    },
     audit: {} as IAudit,
   };
 }

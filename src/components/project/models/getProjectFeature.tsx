@@ -11,10 +11,9 @@ import {EditIcon} from '../../controls/Icon';
 import {InvoiceClientCell} from '../../invoice/invoice-table/InvoiceClientCell';
 import {ConsultantLinkWithModal} from '../../consultant/controls/ConsultantLink';
 import {ConsultantCountFooter, ProjectClientForecastFooter, ProjectForecastPartnerFooter} from '../project-month-list/ProjectMonthFooters';
-import {Ellipsis} from '../../controls/Tooltip';
-import {ToClipboardLabel} from '../../controls/other/ToClipboardLabel';
 import {getTariffs} from '../utils/getTariffs';
 import {getProjectMarkup} from '../utils/getProjectMarkup';
+import {ContractIcons} from '../../client/controls/ContractIcon';
 
 
 export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel, ProjectListFilters>;
@@ -144,14 +143,18 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     key: 'markup',
     header: 'projectMonth.markup',
     value: p => <ProjectMarkup project={p} />,
+  // }, {
+  //   key: 'clientRef',
+  //   header: 'project.client.ref',
+  //   value: p => p.details.client.ref && (
+  //     <Ellipsis title={p.details.client.ref} width={100}>
+  //       <ToClipboardLabel label={p.details.client.ref} />
+  //     </Ellipsis>
+  //   ),
   }, {
-    key: 'clientRef',
-    header: 'project.client.ref',
-    value: p => p.details.client.ref && (
-      <Ellipsis title={p.details.client.ref} width={100}>
-        <ToClipboardLabel label={p.details.client.ref} />
-      </Ellipsis>
-    ),
+    key: 'contract',
+    header: 'project.contract.contracts',
+    value: p => <ContractIcons project={p.details} client={p.client} />,
   }, {
     key: 'buttons',
     header: {title: '', width: 110},

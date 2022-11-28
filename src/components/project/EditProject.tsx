@@ -19,6 +19,8 @@ import {Audit} from '../admin/Audit';
 import {CopyProject} from './CopyProject';
 import {Claim} from '../users/models/UserModel';
 import {useParams} from 'react-router-dom';
+import {Col} from 'react-bootstrap';
+import {SingleContractIcon} from '../client/controls/ContractIcon';
 
 
 export const EditProject = () => {
@@ -90,6 +92,14 @@ export const EditProject = () => {
       <Row className="page-title-container">
         <h1>{project._id ? t('project.project') : t('project.createNew')}</h1>
         <Audit audit={project.audit} />
+      </Row>
+      <Row>
+        <Col>
+          <h2>
+            <SingleContractIcon contracts={[project.contract, client?.frameworkAgreement]} style={{fontSize: 28}} />
+            {t('project.contract.title')}
+          </h2>
+        </Col>
       </Row>
       <Form>
         <Row>

@@ -27,7 +27,7 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
     header: 'client.name',
     value: client => (
       <>
-        <Link to={`clients/${client.slug}`}>
+        <Link to={`/clients/${client.slug}`}>
           <strong>{client.name}</strong>
         </Link>
         <br />

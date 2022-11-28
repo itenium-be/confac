@@ -2,6 +2,9 @@ import {FullFormConfig} from '../../../models';
 
 
 export const defaultClientProperties: FullFormConfig = [
+  {title: {title: 'client.frameworkAgreement.title', level: 3}, label: ''},
+  {key: 'frameworkAgreement', component: 'ContractStatusWithNotes', label: ''},
+
   {title: 'client.contact'},
   {key: 'name'},
   {key: 'btw', component: 'btw'},

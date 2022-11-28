@@ -3,6 +3,7 @@ import {IProjectModel, ProjectClientModel} from './IProjectModel';
 import {ProjectMonthModel, getDefaultProjectMonthConfig, ProjectMonthInbound, ProjectMonthTimesheet} from './ProjectMonthModel';
 import {IAudit} from '../../../models';
 import {getNewInvoiceLine} from '../../invoice/models/InvoiceLineModels';
+import {ContractStatus} from '../../client/models/ContractModels';
 
 
 export const getNewProjectClient = (): ProjectClientModel => ({
@@ -20,6 +21,10 @@ export const getNewProject = (): IProjectModel => ({
   projectMonthConfig: {
     changingOrderNr: false,
     ...getDefaultProjectMonthConfig(),
+  },
+  contract: {
+    status: ContractStatus.NoContract,
+    notes: '',
   },
   audit: {} as IAudit,
 });

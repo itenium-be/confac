@@ -315,6 +315,20 @@ export const trans = {
     upload: 'Voeg een bestand toe',
     noneUploaded: 'Er zijn nog geen bijlages toegevoegd.',
   },
+  contract: {
+    notes: 'Contract notitie',
+    ok: 'Contracten getekend',
+    nok: 'Contracten nog NIET getekend',
+    status: {
+      NoContract: 'Geen',
+      Sent: 'Verstuurd',
+      Verified: 'Geverifieerd',
+      WeSigned: 'Getekend (wij)',
+      TheySigned: 'Getekend (zij)',
+      BothSigned: 'Getekend (beide)',
+      NotNeeded: 'Niet nodig',
+    }
+  },
   client: {
     createNew: 'Nieuwe klant',
     btwPlaceholder: 'BTW nummer',
@@ -342,6 +356,11 @@ export const trans = {
     defaultInvoiceDateStrategy: 'Standaard factuurdatum',
     invoiceFileName: 'Standaard factuur bestandsnaam',
     viewDetails: 'Ga naar detail scherm',
+    frameworkAgreement: {
+      title: 'Raamcontract',
+      contract: 'Status raamcontract',
+      notes: 'Notitie',
+    },
     email: {
       to: 'Naar',
       toPlaceholder: 'Email adressen met ; scheiden',
@@ -378,6 +397,8 @@ export const trans = {
   },
   project: {
     project: 'Project',
+    detailsTitle: 'Project details',
+    goToClient: 'Ga naar klant',
     createNew: 'Nieuw project',
     newMonth: 'Maand toevoegen',
     month: 'Maand',
@@ -388,6 +409,13 @@ export const trans = {
     consultantType: 'Type',
     startDate: 'Start datum',
     endDate: 'Eind datum',
+    contract: {
+      title: 'Contracten',
+      projectTitle: 'Status contract werkopdracht',
+      frameworkAgreementTitle: 'Status contract raamcontract',
+      thisContract: 'Werkopdracht',
+      contracts: 'Contracten',
+    },
     partner: {
       clientId: 'Onderaannemer',
       tariff: 'Tarief',

@@ -1,6 +1,10 @@
 import {FullFormConfig} from '../../../models';
 
 export const projectFormConfig: FullFormConfig = [
+  {key: 'client.clientId', component: 'ProjectClientContractStatus', label: 'project.contract.frameworkAgreementTitle'},
+  {key: 'contract', component: 'ContractStatusWithNotes', label: 'project.contract.projectTitle'},
+
+  {title: {title: 'project.detailsTitle', level: 2}},
   {key: 'consultantId', component: 'ConsultantSelectWithCreateModal', cols: 5},
   {key: 'startDate', component: 'date', cols: 4},
   {key: 'endDate', component: 'date', cols: 3},

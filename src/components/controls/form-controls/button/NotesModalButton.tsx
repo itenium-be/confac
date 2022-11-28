@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {CSSProperties, useState} from 'react';
 import {MinimalInputProps} from '../inputs/BaseInput';
 import {Button} from '../Button';
 import {Modal} from '../../Modal';
@@ -12,15 +12,17 @@ import {authService} from '../../../users/authService';
 type NotesModalButtonProps = MinimalInputProps<string> & {
   title: string;
   variant?: BootstrapVariant;
-  claim: Claim;
+  claim?: Claim;
+  style?: CSSProperties;
 };
 
 
-export const NotesModalButton = ({claim, value, onChange, title, variant, disabled}: NotesModalButtonProps) => {
+export const NotesModalButton = ({claim, value, onChange, title, variant, disabled, style}: NotesModalButtonProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [text, setText] = useState<string>(value || '');
 
   const icon = !value ? 'far fa-comment' : 'far fa-comment-dots';
+  const showConfirm = !disabled && (!claim || (claim && authService.getClaims().includes(claim)));
   return (
     <>
       <Button
@@ -28,12 +30,13 @@ export const NotesModalButton = ({claim, value, onChange, title, variant, disabl
         variant={variant || 'outline-dark'}
         title={text || t('projectMonth.addNote')}
         icon={icon}
+        style={style}
       />
       {open && (
         <Modal
           show
           onClose={() => setOpen(false)}
-          onConfirm={!disabled && authService.getClaims().includes(claim) ? () => onChange(text) : undefined}
+          onConfirm={showConfirm ? () => onChange(text) : undefined}
           title={title}
         >
           <TextEditor
