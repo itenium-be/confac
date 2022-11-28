@@ -10,8 +10,7 @@ import {t, formatDate, tariffFormat, searchinize} from '../../utils';
 import {EditIcon} from '../../controls/Icon';
 import {InvoiceClientCell} from '../../invoice/invoice-table/InvoiceClientCell';
 import {ConsultantLinkWithModal} from '../../consultant/controls/ConsultantLink';
-import {ConsultantCountFooter, ProjectClientForecastFooter,
-  ProjectForecastPartnerFooter} from '../project-month-list/ProjectMonthFooters';
+import {ConsultantCountFooter, ProjectClientForecastFooter, ProjectForecastPartnerFooter} from '../project-month-list/ProjectMonthFooters';
 import {Ellipsis} from '../../controls/Tooltip';
 import {ToClipboardLabel} from '../../controls/other/ToClipboardLabel';
 import {getTariffs} from '../utils/getTariffs';

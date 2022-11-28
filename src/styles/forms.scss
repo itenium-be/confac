@@ -49,6 +49,10 @@ button[disabled] {
   }
 }
 
+.dropdown-item:hover {
+  text-decoration: none;
+}
+
 
 // For the TextEditor InvoiceReplacements dropdown
 .placeholder-ul {

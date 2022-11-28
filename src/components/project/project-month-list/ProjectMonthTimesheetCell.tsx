@@ -1,7 +1,6 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import cn from 'classnames';
-import useViewportSizes from 'use-viewport-sizes';
 import {ProjectMonthTimesheet} from '../models/ProjectMonthModel';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import {t} from '../../utils';
@@ -25,12 +24,11 @@ const ViewportWidths = {showTimesheetDaysFrom: 1800};
 
 /** Display timesheet number in days */
 const TimesheetTimeDisplay = (props: TimesheetTimeConfig) => {
-  const [vpWidth] = useViewportSizes({ dimension: 'both' });
-
   if (typeof props.amount !== 'number') {
     return <span>&nbsp;</span>;
   }
 
+  const vpWidth = window.innerWidth;
   if (vpWidth > ViewportWidths.showTimesheetDaysFrom) {
     return <span>{t('client.daysWorked', {days: getAmountInDays(props)})}</span>;
   }

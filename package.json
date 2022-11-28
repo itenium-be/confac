@@ -43,8 +43,7 @@
     "redux-thunk": "^2.4.2",
     "superagent": "^8.0.3",
     "superagent-bluebird-promise": "^4.2.0",
-    "use-debounce": "^8.0.4",
-    "use-viewport-sizes": "^0.4.0"
+    "use-debounce": "^8.0.4"
   },
   "devDependencies": {
     "@types/classnames": "^2.3.1",
