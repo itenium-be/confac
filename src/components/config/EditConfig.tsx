@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../utils';
 import {configDefinition} from './models/ConfigConfig';
@@ -14,15 +14,11 @@ import {Audit} from '../admin/Audit';
 import {Claim} from '../users/models/UserModel';
 
 
-type EditConfigProps = {
-  config: ConfigModel,
-  updateConfig: (config: ConfigModel) => void,
-}
-
-
-const EditConfig = (props: EditConfigProps) => {
+const EditConfig = () => {
   useDocumentTitle('config');
-  const [state, setState] = useState<ConfigModel>(JSON.parse(JSON.stringify(props.config)));
+  const dispatch = useDispatch();
+  const config = useSelector((state: ConfacState) => state.config);
+  const [state, setState] = useState<ConfigModel>(JSON.parse(JSON.stringify(config)));
 
   return (
     <Container className="edit-container">
@@ -35,14 +31,13 @@ const EditConfig = (props: EditConfigProps) => {
             tPrefix="config."
           />
         </Row>
-        <Audit audit={props.config.audit} />
+        <Audit audit={config?.audit} />
       </Form>
       <StickyFooter claim={Claim.ManageConfig}>
-        <BusyButton onClick={() => props.updateConfig(state)}>{t('save')}</BusyButton>
+        <BusyButton onClick={() => dispatch(updateConfig(state) as any)}>{t('save')}</BusyButton>
       </StickyFooter>
     </Container>
   );
 };
 
-
-export default connect((state: ConfacState) => ({config: state.config}), {updateConfig})(EditConfig);
+export default EditConfig;
