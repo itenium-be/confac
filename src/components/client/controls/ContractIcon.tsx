@@ -22,10 +22,10 @@ export const ContractIcons = ({project, client}: ContractBadgeProps) => {
   }
 
   return (
-    <>
-      {client && <SingleContractIcon contract={client?.frameworkAgreement} tooltip={frameworkAgreement} />}
-      {project && <SingleContractIcon contract={project?.contract} tooltip={contract} />}
-    </>
+    <div style={{textAlign: 'center'}}>
+      {client && <SingleContractIcon contract={client?.frameworkAgreement} tooltip={frameworkAgreement} style={{fontSize: 16}} />}
+      {project && <SingleContractIcon contract={project?.contract} tooltip={contract} style={{fontSize: 16}} />}
+    </div>
   );
 };
 
