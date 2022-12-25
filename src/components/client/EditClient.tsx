@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../utils';
@@ -55,7 +55,7 @@ const EditClient = () => {
     return null;
   }
 
-  if (!client._id) {
+  if (!client.btw && !initClient._id) {
     return (
       <NewClient
         client={client}
@@ -69,7 +69,7 @@ const EditClient = () => {
       <Form>
         <Row>
           <h1>
-            {client.name || (client._id ? '' : t('client.createNew'))}
+            {client.name || (initClient._id ? '' : t('client.createNew'))}
             <Audit audit={storeClient?.audit} />
           </h1>
         </Row>
@@ -82,7 +82,7 @@ const EditClient = () => {
           />
         </Row>
 
-        <ClientAttachmentsForm model={client} />
+        <ClientAttachmentsForm model={initClient} />
 
       </Form>
       <StickyFooter claim={Claim.ManageClients}>
