@@ -27,7 +27,7 @@ type InvoiceListProps = {
   filters: InvoiceFilters,
 }
 
-// eslint-disable-next-line react/prefer-stateless-function
+
 export const InvoiceList = (props: InvoiceListProps) => {
   useDocumentTitle('invoiceList');
 

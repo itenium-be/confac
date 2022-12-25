@@ -32,11 +32,11 @@ const fullProjectSearch = (filters: ProjectListFilters, prj: FullProjectModel) =
   }
 
   const freeText = filters.freeText.trim().toLowerCase();
-  if (prj.details.client.ref && prj.details.client.ref.toLowerCase().includes(freeText)) {
+  if (prj.details.client.ref?.toLowerCase().includes(freeText)) {
     return true;
   }
 
-  if (prj.details.partner && prj.details.partner.ref && prj.details.partner.ref.toLowerCase().includes(freeText)) {
+  if (prj.details.partner?.ref?.toLowerCase()?.includes(freeText)) {
     return true;
   }
 
@@ -44,8 +44,8 @@ const fullProjectSearch = (filters: ProjectListFilters, prj: FullProjectModel) =
   const endDate = formatDate(details.endDate);
 
   return searchinize(
-    `${consultant.name} ${consultant.firstName} ${consultant.type}
-    ${startDate} ${endDate} ${partner && partner.name} ${client && client.name}`,
+    `${consultant.name?.trim()} ${consultant.firstName?.trim()} ${consultant.name?.trim()} ${consultant.type}
+    ${startDate} ${endDate} ${partner?.name?.trim()} ${client?.name}`,
   ).includes(freeText);
 };
 

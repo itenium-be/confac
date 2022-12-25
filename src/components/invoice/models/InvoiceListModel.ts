@@ -77,7 +77,10 @@ export default class InvoiceListModel {
     options = options.concat(relevantClients.map(client => ({value: client._id, label: client.name, type: 'client'})));
 
     // Add options: consultants
-    const consultantNames: string[] = this.invoices.map(x => (x.projectMonth && x.projectMonth.consultantName) as string).filter(x => !!x);
+    const consultantNames: string[] = this.invoices
+      .map(x => x.projectMonth?.consultantName || '')
+      .filter(x => !!x)
+      .filter((val, index, arr) => arr.findIndex(x => x === val) === index);
     options = options.concat(consultantNames.map(x => ({value: x, label: x, type: 'manual_input'})));
 
     return options;
