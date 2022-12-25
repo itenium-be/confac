@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {getProjects, saveProject} from '../controllers/projects';
+import {deleteProject, getProjects, saveProject} from '../controllers/projects';
 import {
   getProjectsPerMonthController, createProjectsMonthController,
   patchProjectsMonthController, getProjectsPerMonthOverviewController,
@@ -10,6 +10,7 @@ const projectsRouter = Router();
 
 projectsRouter.get('/', getProjects);
 projectsRouter.post('/', saveProject as any);
+projectsRouter.delete("/", deleteProject as any);
 
 projectsRouter.get('/month', getProjectsPerMonthController);
 projectsRouter.get('/month/overview', getProjectsPerMonthOverviewController);

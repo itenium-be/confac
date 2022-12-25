@@ -49,3 +49,10 @@ export const saveProject = async (req: ConfacRequest, res: Response) => {
   const [createdProject] = inserted.ops;
   return res.send(createdProject);
 };
+
+
+export const deleteProject = async (req: ConfacRequest, res: Response) => {
+  const id = req.body.id;
+  await req.db.collection(CollectionNames.PROJECTS).findOneAndDelete({ _id: new ObjectID(id) });
+  return res.send(id);
+};
