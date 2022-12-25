@@ -5,7 +5,7 @@ import {IAudit} from '../../models';
 import {ConfacState} from '../../reducers/app-state';
 
 
-export const Audit = ({audit}: {audit: IAudit}) => {
+export const Audit = ({audit}: {audit?: IAudit}) => {
   const createdBy = useSelector((state: ConfacState) => state.user.users.find(x => x._id === (audit && audit.createdBy)));
   const modifiedBy = useSelector((state: ConfacState) => state.user.users.find(x => x._id === (audit && audit.modifiedBy)));
 

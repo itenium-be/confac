@@ -45,7 +45,7 @@ export const EditConsultant = () => {
       <Form>
         <Row className="page-title-container">
           <h1>{consultant._id ? `${consultant.firstName} ${consultant.name}` : t('consultant.createNew')}</h1>
-          <Audit audit={consultant.audit} />
+          <Audit audit={model?.audit} />
         </Row>
         <Row>
           <ArrayInput

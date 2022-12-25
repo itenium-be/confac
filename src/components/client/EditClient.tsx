@@ -70,7 +70,7 @@ const EditClient = () => {
         <Row>
           <h1>
             {client.name || (client._id ? '' : t('client.createNew'))}
-            <Audit audit={client.audit} />
+            <Audit audit={storeClient?.audit} />
           </h1>
         </Row>
         <Row>

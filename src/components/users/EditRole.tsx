@@ -35,7 +35,7 @@ export const EditRole = () => {
       <Form>
         <Row className="page-title-container">
           <h1>{role._id ? role.name : t('role.createNew')}</h1>
-          <Audit audit={role.audit} />
+          <Audit audit={model?.audit} />
         </Row>
         <Row>
           <ArrayInput
