@@ -34,7 +34,7 @@ const EditClient = () => {
   const initClient = getClient(storeClient, config);
   const [client, setClient] = useState<ClientModel>(initClient);
   const dispatch = useDispatch();
-  useEffect(() => window.scrollTo(0, 0));
+  // useEffect(() => window.scrollTo(0, 0)); // TODO: each keystroke made it scroll to top :(
   useDocumentTitle('clientEdit', {name: client.name});
 
 

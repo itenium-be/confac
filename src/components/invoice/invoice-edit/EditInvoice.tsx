@@ -46,7 +46,7 @@ const EditInvoice = () => {
   const [invoice, setInvoice] = useState<InvoiceModel>(initInvoice);
   const [, forceUpdate] = useReducer(x => x + 1, 0);
   const dispatch = useDispatch();
-  useEffect(() => window.scrollTo(0, 0));
+  // useEffect(() => window.scrollTo(0, 0)); // TODO: each keystroke made it scroll to top :(
   const [showEmailModal, setEmailModal] = useState<EmailTemplate>(EmailTemplate.None);
 
   let docTitle: string;
