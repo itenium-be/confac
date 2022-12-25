@@ -68,3 +68,7 @@ dl.dl-box {
     color: black;
   }
 }
+
+.edit-invoice-lines table:last-child td {
+  border-bottom-width: 0;
+}
