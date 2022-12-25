@@ -74,7 +74,7 @@ export default class InvoiceListModel {
     // Add options: clients
     const clientIds = this.invoices.map(i => i.client._id);
     const relevantClients = this.clients.filter(c => clientIds.includes(c._id));
-    options = options.concat(relevantClients.map(client => ({value: client._id, label: client.name, type: 'client'})));
+    options = options.concat(relevantClients.map(client => ({value: client.slug || client._id, label: client.name, type: 'client'})));
 
     // Add options: consultants
     const consultantNames: string[] = this.invoices
@@ -100,7 +100,7 @@ export default class InvoiceListModel {
       }
 
       if (fs.clients.length) {
-        invoices = invoices.filter(i => fs.clients.includes(i.client._id));
+        invoices = invoices.filter(i => fs.clients.includes(i.client.slug || i.client._id));
       }
 
       invoices = this.filterByDescription(invoices);
