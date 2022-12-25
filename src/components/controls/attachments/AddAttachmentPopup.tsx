@@ -54,7 +54,7 @@ const AddAttachmentPopupComponent = (props: AddAttachmentPopupProps) => {
 
       {isModalOpen && (
       <Popup title={t('invoice.attachmentsAdd')} buttons={buttons} onHide={() => setIsModalOpen(false)}>
-        <Form.Group>
+        <Form.Group style={{marginBottom: 12}}>
           <Form.Label>{t('attachment.type')}</Form.Label>
           <SimpleCreatableSelect
             value={type}
