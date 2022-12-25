@@ -60,3 +60,11 @@ dl.dl-box {
   height: 20px;
   background-color: rgb(247, 12, 12, 0.5);
 }
+
+.navbar a {
+  text-decoration: none;
+
+  &.nav-link:hover {
+    color: black;
+  }
+}
