@@ -35,6 +35,7 @@ const EditInvoice = () => {
   const params = useParams();
   const config = useSelector((state: ConfacState) => state.config);
   const storeInvoice = useSelector((state: ConfacState) => state.invoices
+    // eslint-disable-next-line
     .filter(x => x.isQuotation == isQuotation) // == the property is not present for some legacy data
     .find(x => x.number === parseInt(params.id, 10))
   );
@@ -43,7 +44,7 @@ const EditInvoice = () => {
   const initInvoice = storeInvoice ? new InvoiceModel(config, storeInvoice) : getNewInvoice(config, invoices, clients, {isQuotation});
   const fullProjectMonth = useProjectsMonth(storeInvoice?.projectMonth?.projectMonthId);
   const [invoice, setInvoice] = useState<InvoiceModel>(initInvoice);
-  const [_, forceUpdate] = useReducer(x => x + 1, 0);
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
   const dispatch = useDispatch();
   useEffect(() => window.scrollTo(0, 0));
   const [showEmailModal, setEmailModal] = useState<EmailTemplate>(EmailTemplate.None);
