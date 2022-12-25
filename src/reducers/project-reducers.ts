@@ -24,6 +24,11 @@ export const projects = (state: IProjectModel[] = [], action): IProjectModel[] =
       return newState;
     }
 
+    case ACTION_TYPES.PROJECT_DELETE: {
+      const newState = state.filter(x => x._id !== action.id);
+      return newState;
+    }
+
     default:
       return state;
   }

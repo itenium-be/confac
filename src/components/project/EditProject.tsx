@@ -4,7 +4,7 @@ import {Container, Row, Form} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
-import {saveProject} from '../../actions';
+import {deleteProject, saveProject} from '../../actions';
 import {StickyFooter} from '../controls/other/StickyFooter';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {IProjectModel} from './models/IProjectModel';
@@ -21,6 +21,11 @@ import {Claim} from '../users/models/UserModel';
 import {useParams} from 'react-router-dom';
 import {Col} from 'react-bootstrap';
 import {SingleContractIcon} from '../client/controls/ContractIcon';
+import {EnhanceWithConfirmation} from '../enhancers/EnhanceWithConfirmation';
+import {Button} from '../controls/form-controls/Button';
+
+
+const ConfirmationButton = EnhanceWithConfirmation(Button);
 
 
 export const EditProject = () => {
@@ -33,6 +38,7 @@ export const EditProject = () => {
   const consultant = useSelector((state: ConfacState) => state.consultants.find(x => x._id === project.consultantId) || getNewConsultant());
   const clients = useSelector((state: ConfacState) => state.clients);
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === project.client.clientId) || getNewClient());
+  const hasProjectMonths = useSelector((state: ConfacState) => state.projectsMonth.some(pm => pm.projectId === params.id));
   const [needsSync, setNeedsSync] = useState<{consultant: boolean, client: boolean}>({consultant: false, client: false});
 
   const docTitle = consultant._id ? 'projectEdit' : 'projectNew';
@@ -112,6 +118,15 @@ export const EditProject = () => {
         </Row>
       </Form>
       <StickyFooter claim={Claim.ManageProjects}>
+        <ConfirmationButton
+          onClick={() => dispatch(deleteProject(project._id, navigate) as any)}
+          variant="danger"
+          title={t('project.deleteConfirm.title')}
+          componentChildren={t('delete')}
+          claim={claims => !hasProjectMonths && claims.includes(Claim.DeleteProject)}
+        >
+          {t('project.deleteConfirm.content')}
+        </ConfirmationButton>
         {project.endDate && <CopyProject projectToCopy={project} />}
         <BusyButton onClick={() => dispatch(saveProject(project, navigate) as any)} disabled={isButtonDisabled}>
           {t('save')}

@@ -46,6 +46,7 @@ export enum Claim {
   ManageClients = 'manage-clients',
   ViewProjects = 'view-projects',
   ManageProjects = 'manage-projects',
+  DeleteProject = 'delete-project',
   ViewQuotations = 'view-quotations',
   ManageQuotations = 'manage-quotations',
   ViewInvoices = 'view-invoices',

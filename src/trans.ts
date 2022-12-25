@@ -409,6 +409,11 @@ export const trans = {
     consultantType: 'Type',
     startDate: 'Start datum',
     endDate: 'Eind datum',
+    deleteConfirm: {
+      title: 'Project verwijderen',
+      content: 'Project wordt definitief verwijderd.',
+      toastr: 'Project verwijderd',
+    },
     contract: {
       title: 'Contracten',
       projectTitle: 'Status contract werkopdracht',

@@ -104,6 +104,30 @@ export function deleteProjectsMonth(id: string, navigate: any) {
 
 
 
+export function deleteProject(id: string, navigate: any) {
+  return dispatch => {
+    dispatch(busyToggle());
+    request.delete(buildUrl('/projects'))
+      .set('Content-Type', 'application/json')
+      .set('Authorization', authService.getBearer())
+      .send({id})
+      .then(res => {
+        console.log('project deleted', id); // eslint-disable-line
+        dispatch({
+          type: ACTION_TYPES.PROJECT_DELETE,
+          id,
+        });
+        success(t('project.deleteConfirm.toastr'));
+        navigate('/projects');
+        return true;
+      })
+      .catch(catchHandler)
+      .then(() => dispatch(busyToggle.off()));
+  };
+}
+
+
+
 export function patchProjectsMonth(project: ProjectMonthModel) {
   // This is currently a put like all other saves
   // ATTN: ProjectMonthFeatureBuilderConfig.save would expect this to be a put, not a patch!
