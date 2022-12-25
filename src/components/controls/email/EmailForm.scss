@@ -37,3 +37,21 @@
   color: gray;
   opacity: 0.7;
 }
+
+.email-form {
+  .input-group {
+    margin-bottom: 0;
+
+    button {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  input {
+    margin-bottom: 0.5rem;
+  }
+
+  .email-attachments > * {
+    width: unset;
+  }
+}

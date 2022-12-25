@@ -34,7 +34,7 @@ export const EmailForm = ({value, onChange, attachmentsAvailable, textEditorRepl
   }
 
   return (
-    <Form>
+    <Form className="email-form">
       <StringInput
         inline
         value={value.to}
