@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer, useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Col, Form} from 'react-bootstrap';
 import {t} from '../../utils';
@@ -50,7 +50,7 @@ const EditInvoice = () => {
   const [showEmailModal, setEmailModal] = useState<EmailTemplate>(EmailTemplate.None);
 
   let docTitle: string;
-  if (invoice._id) {
+  if (storeInvoice?._id) {
     const name = t(isQuotation ? 'quotation.pdfName' : 'invoice.invoice');
     docTitle = `${name} #${invoice.number} for ${invoice.client?.name}`;
   } else {
@@ -69,6 +69,11 @@ const EditInvoice = () => {
     forceUpdate();
   }
 
+  // TODO: confusion with storeInvoice vs initInvoice vs invoice
+  // --> There should be a form variant and a model variant new'd for every render
+  // --> problem right now is that ex for a new invoice the invoice._id is not set after save
+  // --> the invoice.attachments are also not updated because they are separate from the form...
+
   return (
     <Container className="edit-container">
       <Form>
@@ -76,7 +81,7 @@ const EditInvoice = () => {
           <Col sm={12} style={{marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
             <div style={{display: 'inline-flex', alignItems: 'flex-start'}}>
               <h1 style={{width: 'unset'}}>
-                {invoice._id ? t(`${type}.editTitle`) : t(`${type}.createTitle`)}
+                {initInvoice._id ? t(`${type}.editTitle`) : t(`${type}.createTitle`)}
                 <Audit audit={storeInvoice?.audit} />
               </h1>
               <div>
@@ -84,7 +89,7 @@ const EditInvoice = () => {
               </div>
             </div>
             <div>
-              <div className={`invoice-top-buttonbar ${invoice._id ? 'invoice-edit' : 'invoice-new'}`}>
+              <div className={`invoice-top-buttonbar ${storeInvoice?._id ? 'invoice-edit' : 'invoice-new'}`}>
                 <NotesModalButton
                   claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
                   value={invoice.note}
@@ -92,12 +97,12 @@ const EditInvoice = () => {
                   title={t('projectMonth.note')}
                   variant="link"
                 />
-                {invoice._id && <DownloadInvoiceButton invoice={invoice} />}
+                {initInvoice._id && <DownloadInvoiceButton invoice={initInvoice} />}
               </div>
             </div>
           </Col>
           <Col sm={12}>
-            <InvoiceNotVerifiedAlert invoice={invoice} />
+            <InvoiceNotVerifiedAlert invoice={initInvoice} />
           </Col>
         </Row>
 
@@ -134,9 +139,9 @@ const EditInvoice = () => {
           </Col>
         </Row>
 
-        {!invoice.isNew && invoice.client && showEmailModal !== EmailTemplate.None && (
+        {!!initInvoice._id && invoice.client && showEmailModal !== EmailTemplate.None && (
           <EmailModal
-            invoice={invoice}
+            invoice={initInvoice}
             template={showEmailModal}
             onClose={() => setEmailModal(EmailTemplate.None)}
           />
@@ -153,13 +158,13 @@ const EditInvoice = () => {
             translationPrefix={invoice.getType()}
           />
         </Row>
-        <InvoiceAttachmentsForm model={invoice} />
+        <InvoiceAttachmentsForm model={initInvoice} />
         <StickyFooter>
-          {!invoice.isNew && (
+          {!initInvoice.isNew && (
             <>
               <Button
                 claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
-                variant={invoice.verified || invoice.lastEmail ? 'outline-danger' : 'light'}
+                variant={storeInvoice?.verified || storeInvoice?.lastEmail ? 'outline-danger' : 'light'}
                 icon="far fa-envelope"
                 onClick={() => setEmailModal(EmailTemplate.InitialEmail)}
               >
@@ -167,7 +172,7 @@ const EditInvoice = () => {
               </Button>
               <Button
                 claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
-                variant={invoice.verified || !invoice.lastEmail ? 'outline-danger' : 'light'}
+                variant={storeInvoice?.verified || !storeInvoice?.lastEmail ? 'outline-danger' : 'light'}
                 icon="far fa-envelope"
                 onClick={() => setEmailModal(EmailTemplate.Reminder)}
               >
@@ -185,7 +190,7 @@ const EditInvoice = () => {
                 dispatch(updateInvoiceRequest(invoice, undefined, false, navigate) as any);
               }
             }}
-            invoice={invoice}
+            invoice={initInvoice}
           />
         </StickyFooter>
       </Form>

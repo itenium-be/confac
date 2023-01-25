@@ -19,6 +19,9 @@ export const EditInvoiceBadges = ({invoice}: InvoiceProps) => {
   const projectMonthId = invoice.projectMonth && invoice.projectMonth.projectMonthId;
   const projectMonth = useProjectsMonth(projectMonthId || '');
 
+  // TODO: model vs form instances:
+  // The invoice passed right now is the form instance
+  // So for a new invoice, the _id is never set because it is not part of the form
   if (!invoice._id || !invoice.projectMonth) {
     return null;
   }
