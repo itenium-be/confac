@@ -20,6 +20,7 @@ import {EditUser} from './components/users/EditUser';
 import {EditRole} from './components/users/EditRole';
 import {EditAdmin} from './components/admin/EditAdmin';
 import {EditProjectMonths} from './components/project/EditProjectMonths';
+import {ConsultantProjectsList} from './components/consultant/ConsultantProjectsList';
 
 
 
@@ -39,6 +40,7 @@ const Routes = () => (
       <Route path="/clients" element={<AppWithLayout Component={ClientList} />} />
 
       <Route path="/consultants/create" element={<AppWithLayout Component={EditConsultant} />} />
+      <Route path="/consultants/projects" element={<AppWithLayout Component={ConsultantProjectsList} />} />
       <Route path="/consultants/:id" element={<AppWithLayout Component={EditConsultant} />} />
       <Route path="/consultants" element={<AppWithLayout Component={ConsultantsList} />} />
 

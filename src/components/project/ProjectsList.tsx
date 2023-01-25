@@ -31,7 +31,10 @@ export const ProjectsList = () => {
   };
 
   const TopToolbar = (
-    <LinkToButton claim={Claim.ViewConsultants} to="/consultants" label="consultant.title" />
+    <>
+      <LinkToButton claim={Claim.ViewConsultants} to="/consultants/projects" label="project.contractCheck" />
+      <LinkToButton claim={Claim.ViewConsultants} to="/consultants" label="consultant.title" />
+    </>
   );
 
 

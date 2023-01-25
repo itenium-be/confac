@@ -399,6 +399,7 @@ export const trans = {
   },
   project: {
     project: 'Project',
+    contractCheck: 'Contracten Consultants',
     detailsTitle: 'Project details',
     goToClient: 'Ga naar klant',
     createNew: 'Nieuw project',

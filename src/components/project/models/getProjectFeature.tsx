@@ -4,7 +4,7 @@ import React from 'react';
 import {IList, IListCell, ProjectListFilters} from '../../controls/table/table-models';
 import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
-import {ProjectClientModel, ProjectStatus} from './IProjectModel';
+import {IProjectModel, ProjectClientModel, ProjectStatus} from './IProjectModel';
 import {FullProjectModel} from './FullProjectModel';
 import {t, formatDate, tariffFormat, searchinize} from '../../utils';
 import {EditIcon} from '../../controls/Icon';
@@ -92,12 +92,12 @@ export const ProjectClientTariff = ({projectClient}: {projectClient: ProjectClie
   );
 };
 
-const ProjectMarkup = ({project}: {project: FullProjectModel}) => {
-  if (!project.details.partner) {
+export const ProjectMarkup = ({project}: {project: IProjectModel}) => {
+  if (!project.partner) {
     return null;
   }
 
-  const markup = getProjectMarkup(project.details);
+  const markup = getProjectMarkup(project);
   return (
     <div>
       <span>{tariffFormat(markup.amount)}</span>
@@ -142,7 +142,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
   }, {
     key: 'markup',
     header: 'projectMonth.markup',
-    value: p => <ProjectMarkup project={p} />,
+    value: p => <ProjectMarkup project={p.details} />,
   // }, {
   //   key: 'clientRef',
   //   header: 'project.client.ref',
