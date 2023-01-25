@@ -24,7 +24,7 @@ const searchConsultantFor = (filters: ConsultantListFilters, model: ConsultantMo
   }
 
   return searchinize(
-    `${model.name} ${model.firstName} ${model.type} ${model.email} ${model.telephone}`,
+    `${model.firstName} ${model.name} ${model.firstName} ${model.type} ${model.email} ${model.telephone}`,
   ).includes(filters.freeText.toLowerCase());
 };
 
