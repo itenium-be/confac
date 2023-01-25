@@ -33,6 +33,7 @@ export const StringsSelect = EnhanceInputWithLabel(({value = [], onChange, optio
     formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
     placeholder={t('controls.selectPlaceholder')}
     options={(options || []).map(o => ({label: o, value: o}))}
+    classNamePrefix="react-select"
     {...props}
   />
 ));
