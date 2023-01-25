@@ -91,7 +91,7 @@ const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
 
 
 export function createInvoiceList(config: IInvoiceListConfig): IFeature<InvoiceModel> {
-  const colsTillTotalAmount = config.isGroupedOnMonth ? ['date-month', 'number', 'client'] : ['number', 'client', 'date-full'];
+  const colsTillTotalAmount = config.isGroupedOnMonth ? ['date-month', 'number', 'client'] : ['number', 'client', 'date-full', 'period'];
   const transPrefix = config.isQuotation ? 'quotation' : 'invoice';
   const listRows: IListRow<InvoiceModel> = {
     className: invoice => getInvoiceListRowClass(invoice, config.invoicePayDays),
@@ -139,6 +139,10 @@ export function getInvoiceColumns(includeFields: string[], transPrefix: string):
     key: 'date-full',
     header: `${transPrefix}.date`,
     value: (i: InvoiceModel) => formatDate(i.date),
+  }, {
+    key: 'period',
+    header: `${transPrefix}.period`,
+    value: (i: InvoiceModel) => i.projectMonth && moment(i.projectMonth.month).format('M/YY'),
   }, {
     key: 'consultant',
     header: `${transPrefix}.consultant`,

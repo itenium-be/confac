@@ -264,6 +264,7 @@ export const trans = {
     },
     hours: 'Totaal uren',
     days: 'Dagen',
+    period: 'Periode',
     create: 'Maak factuur',
     preview: 'Preview',
     viewPdf: 'Pdf factuur bekijken',
