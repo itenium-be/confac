@@ -131,6 +131,8 @@ const EditInvoice = () => {
                   value={invoice.projectMonth ? invoice.projectMonth.projectMonthId : ''}
                   onChange={fpm => {
                     invoice.setProjectMonth(fpm);
+                    setInvoice(invoice);
+                    forceUpdate();
                   }}
                   invoice={invoice}
                 />
