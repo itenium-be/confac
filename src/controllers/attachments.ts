@@ -117,7 +117,9 @@ export const getAttachmentController = async (req: Request, res: Response) => {
     console.log('Downloading a file without knowing the filename', req.params);
   }
 
-  return res.type(responseType).set('Content-Disposition', `inline;filename=${fileName}`)
+  return res
+    .type(responseType)
+    .set('Content-Disposition', `inline;filename=${encodeURIComponent(fileName)}`)
     .send(attachmentBuffer);
 };
 
