@@ -119,20 +119,25 @@ type TimesheetBadgeProps = {
 }
 
 const TimesheetBadge = ({pending, totals}: TimesheetBadgeProps) => {
-  const title = totals.timesheetPending.map(x => `${x.consultant.firstName} ${x.consultant.name}`);
+  const title = totals.timesheetPending
+    .map(x => `${x.consultant.firstName} ${x.consultant.name}`)
+    .filter((val, index, arr) => arr.indexOf(val) === index)
+    .join('<br>');
+
   return (
-    <Badge pill
-      bg={pending ? 'warning' : 'success'}
-      text={pending ? undefined : 'white'}
-      title={title.length ? title : undefined}
-    >
-      <Icon fa="fa fa-clock" size={1} style={{marginRight: 8}} />
+    <Badge pill bg={pending ? 'warning' : 'success'} text={pending ? undefined : 'white'}>
+      <Icon fa="fa fa-clock" size={1} title={`<b>${t('projectMonth.timesheetValidated')}</b><br>` + title} />
       {t(`projectMonth.list.${pending ? 'timesheetPending' : 'timesheetOk'}`, totals)}
     </Badge>
   );
 };
 
-
+const inboundBadgeMap = (models: FullProjectMonthModel[]): string => {
+  return models
+    .map(x => `${x.consultant.firstName} ${x.consultant.name}`)
+    .filter((val, index, arr) => arr.indexOf(val) === index)
+    .join('<br>');
+}
 
 
 const InboundBadge = ({pending, totals}: TimesheetBadgeProps) => {
@@ -145,9 +150,9 @@ const InboundBadge = ({pending, totals}: TimesheetBadgeProps) => {
     );
   }
 
-  const newTitle = totals.inboundNew.map(x => `${x.consultant.firstName} ${x.consultant.name}`).join('<br>');
-  const validatedTitle = totals.inboundValidated.map(x => `${x.consultant.firstName} ${x.consultant.name}`).join('<br>');
-  const paidTitle = totals.inboundPaid.map(x => `${x.consultant.firstName} ${x.consultant.name}`).join('<br>');
+  const newTitle = inboundBadgeMap(totals.inboundNew);
+  const validatedTitle = inboundBadgeMap(totals.inboundValidated);
+  const paidTitle = inboundBadgeMap(totals.inboundPaid);
   return (
     <Badge pill bg="warning">
       <Icon fa="fa fa-inbox" size={1} title={newTitle && `<b>${t('projectMonth.inboundNew')}</b><br>${newTitle}`}>
@@ -170,10 +175,14 @@ const InboundBadge = ({pending, totals}: TimesheetBadgeProps) => {
 
 
 const OutboundBadge = ({totals}: {totals: Totals}) => {
-  const title = totals.unverified.map(x => `${x.consultant.firstName} ${x.consultant.name} (${x.client.name})`);
+  const title = totals.unverified
+    .map(x => `${x.consultant.firstName} ${x.consultant.name} (${x.client.name})`)
+    .filter((val, index, arr) => arr.indexOf(val) === index)
+    .join('<br>');
+
   return (
-    <Badge pill bg="warning" title={title}>
-      <Icon fa="fa fa-coins" size={1} />
+    <Badge pill bg="warning">
+      <Icon fa="fa fa-coins" size={1} title={`<b>${t('projectMonth.outboundPaid')}</b><br>` + title} />
       {t('projectMonth.list.verifiedBadge', totals)}
     </Badge>
   );

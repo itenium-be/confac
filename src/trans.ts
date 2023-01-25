@@ -515,6 +515,8 @@ export const trans = {
     inboundUpload: 'Binnenkomende factuur opladen',
     inboundNew: 'Nieuw: Factuur nog niet behandeld',
     inboundPaid: 'Betaald: Factuur is betaald',
+    outboundPaid: 'Nog niet geverifieerde facturen',
+    timesheetValidated: 'Nog niet gevalideerde timesheets',
     inboundValidated: 'Gevalideerd: Timesheet en bedrag zijn gecontroleerd',
     outboundCreateInvoice: 'Factuur maken',
     outboundCreateInvoiceTitle: 'Totaal excl: {totalWithoutTax}. Totaal incl: {total}',

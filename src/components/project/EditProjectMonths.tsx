@@ -37,8 +37,6 @@ export const EditProjectMonths = () => {
     setProjectMonth(model.details);
   }
 
-  const isButtonDisabled = (): boolean => false;
-
   return (
     <Container className="edit-container">
       <Form>
@@ -67,7 +65,6 @@ export const EditProjectMonths = () => {
         </ConfirmationButton>
         <BusyButton
           onClick={() => dispatch(patchProjectsMonth(projectMonth) as any)}
-          disabled={isButtonDisabled()}
           claim={Claim.ValidateProjectMonth}
         >
           {t('save')}

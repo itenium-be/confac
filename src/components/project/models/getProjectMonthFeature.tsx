@@ -58,7 +58,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     key: 'project',
     value: p => <ProjectMonthConsultantCell fullProjectMonth={p} />,
     className: p => {
-      if (p.details.verified) {
+      if (p.details.verified || p.invoice?.verified) {
         return 'validated';
       }
       return undefined;
@@ -74,7 +74,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     key: 'timesheet',
     value: p => <ProjectMonthTimesheetCell fullProjectMonth={p} />,
     className: p => {
-      if (p.details.timesheet.validated) {
+      if (p.details.timesheet.validated || p.details.verified === 'forced') {
         return 'validated';
       }
       return undefined;
@@ -123,7 +123,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     key: 'notes',
     value: p => <ProjectMonthNotesCell fullProjectMonth={p} />,
     className: p => {
-      if (p.details.verified) {
+      if (p.details.verified || p.invoice?.verified) {
         return 'validated';
       }
       return undefined;

@@ -81,7 +81,8 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
     const {invoice} = fullProjectMonth;
     const projectMonthId = fullProjectMonth._id;
 
-    if (!timesheetDetails) return '';
+    if (!timesheetDetails)
+      return '';
 
     const {fileName} = timesheetDetails;
 
@@ -91,6 +92,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
     return getDownloadUrl('project_month', projectMonthId, SignedTimesheetAttachmentType, fileName, 'preview');
   };
 
+  const timesheetValid = timesheet.validated || fullProjectMonth.details.verified === 'forced';
   const timesheetFileName = '{month}-{consultant}-Timesheet'
     .replace('{consultant}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`)
     .replace('{month}', fullProjectMonth.details.month.format('YYYY-MM'));
@@ -102,7 +104,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           value={timesheet.timesheet}
           onChange={val => setTimesheet({...timesheet, timesheet: val})}
           placeholder={t(`projectMonth.timesheet${timesheetConfig.rateType}`)}
-          display={timesheet.validated && (() => <TimesheetTimeDisplay {...timesheetConfig} />)}
+          display={timesheetValid && (() => <TimesheetTimeDisplay {...timesheetConfig} />)}
           float
         />
 
@@ -111,7 +113,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
             value={timesheet.check}
             onChange={val => setTimesheet({...timesheet, check: val})}
             placeholder={t('projectMonth.timesheetCheck')}
-            display={timesheet.validated && (() => <TimesheetTimeDisplay {...timesheetCheckConfig} />)}
+            display={timesheetValid && (() => <TimesheetTimeDisplay {...timesheetCheckConfig} />)}
             float
           />
         ) : <div />}
