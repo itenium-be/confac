@@ -12,6 +12,10 @@ a {
   }
 }
 
+a.btn:hover {
+  text-decoration: none;
+}
+
 :focus-visible {
   // Remove weird outline in forms append buttons
   // (ex: Email, Phone, ...) on focus
