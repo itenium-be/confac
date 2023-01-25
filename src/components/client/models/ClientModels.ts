@@ -10,6 +10,7 @@ export type ClientModel = IAttachment & {
   name: string;
   address: string;
   city: string;
+  country: string;
   telephone: string;
   btw: string;
   language: Language;

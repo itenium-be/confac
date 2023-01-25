@@ -48,7 +48,6 @@ export const requiredClientProperties: FullFormConfig = [
   {key: 'btw'},
   {key: 'address'},
   {key: 'city'},
-  {key: 'country', component: 'CountrySelect'},
   {key: 'telephone'},
   {forceRow: true},
   {key: 'contact', cols: 6},

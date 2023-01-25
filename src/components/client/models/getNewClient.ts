@@ -17,6 +17,7 @@ export function getNewClient(config?: ConfigModel): ClientModel {
     name: '',
     address: '',
     city: '',
+    country: '',
     telephone: '',
     btw: '',
     invoiceFileName: '',

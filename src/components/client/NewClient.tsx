@@ -17,6 +17,7 @@ export function btwResponseToModel(btw: BtwResponse): ClientModel {
     btw: formatBtw(`${btw.countryCode}${btw.vatNumber}`),
     address: `${btw.address.street} ${btw.address.number}`,
     city: `${btw.address.zip_code} ${btw.address.city}`,
+    country: btw.address.country,
   } as ClientModel;
 }
 
@@ -54,6 +55,7 @@ export const NewClient = (props: NewClientProps) => {
               <h3>{client.name}</h3>
               <div>{client.address}</div>
               <div>{client.city}</div>
+              <div>{client.country}</div>
             </Col>
           </Row>
         )}

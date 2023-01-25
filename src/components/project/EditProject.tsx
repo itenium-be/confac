@@ -7,7 +7,7 @@ import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {deleteProject, saveProject} from '../../actions';
 import {StickyFooter} from '../controls/other/StickyFooter';
 import {BusyButton} from '../controls/form-controls/BusyButton';
-import {IProjectModel} from './models/IProjectModel';
+import {IProjectModel, ProjectClientInvoiceLine} from './models/IProjectModel';
 import {projectFormConfig} from './models/ProjectFormConfig';
 import {getNewProject} from './models/getNewProject';
 import {ConfacState} from '../../reducers/app-state';
@@ -64,6 +64,14 @@ export const EditProject = () => {
       const selectedClient = clients.find(x => x._id === project.client.clientId);
       if (selectedClient) {
         newProject.projectMonthConfig.changingOrderNr = selectedClient.defaultChangingOrderNr;
+
+        if (selectedClient.defaultInvoiceLines?.length > 1) {
+          newProject.client = {
+            ...newProject.client,
+            advancedInvoicing: true,
+            defaultInvoiceLines: selectedClient.defaultInvoiceLines as ProjectClientInvoiceLine[]
+          };
+        }
       }
     }
 

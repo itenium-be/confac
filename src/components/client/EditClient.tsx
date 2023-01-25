@@ -17,6 +17,7 @@ import {ClientAttachmentsForm} from './controls/ClientAttachmentsForm';
 import {Audit} from '../admin/Audit';
 import {Claim} from '../users/models/UserModel';
 import {useParams} from 'react-router-dom';
+import {InvoiceLine} from '../invoice/models/InvoiceLineModels';
 
 
 function getClient(client: ClientModel | undefined, config: ConfigModel) {
@@ -55,11 +56,30 @@ const EditClient = () => {
     return null;
   }
 
+  const setClientIntercept = (newClient: ClientModel): void => {
+    const belgiums = ['België', 'Belgium', 'Belgie'];
+    if (newClient.country && client.country !== newClient.country && !client.defaultInvoiceLines.length && !belgiums.includes(newClient.country)) {
+      let btwRemark: string;
+      switch (newClient.country) {
+        case 'UK':
+          btwRemark = 'Belgian VAT not applicable - Article 44 EU Directive 2006/112/EC';
+          break;
+        default:
+          btwRemark = 'Vrijgesteld van BTW overeenkomstig art. 39bis W. BTW';
+      }
+
+      const invoiceLines = config.defaultInvoiceLines.map(x => ({...x, tax: 0}));
+      invoiceLines.push({type: 'section', desc: btwRemark, sort: invoiceLines.length} as InvoiceLine);
+      newClient.defaultInvoiceLines = invoiceLines;
+    }
+    setClient(newClient);
+  };
+
   if (!client.btw && !initClient._id) {
     return (
       <NewClient
         client={client}
-        onChange={(value: ClientModel) => setClient({...client, ...value})}
+        onChange={(value: ClientModel) => setClientIntercept({...client, ...value})}
       />
     );
   }
@@ -77,7 +97,7 @@ const EditClient = () => {
           <ArrayInput
             config={defaultClientProperties}
             model={client}
-            onChange={value => setClient({...client, ...value})}
+            onChange={value => setClientIntercept({...client, ...value})}
             tPrefix="client."
           />
         </Row>
