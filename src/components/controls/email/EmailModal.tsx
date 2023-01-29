@@ -42,6 +42,10 @@ const getDefaultEmailValue = (
     return acc;
   }, {} as EmailModel);
 
+  if (!emailValues.attachments.length) {
+    emailValues.attachments = defaultEmail.attachments;
+  }
+
   const finalValues = {...defaultEmail, ...emailValues};
   finalValues.subject = invoiceReplacements(finalValues.subject, invoice, fullProjectMonth);
   if (template === EmailTemplate.Reminder) {
