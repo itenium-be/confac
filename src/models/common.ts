@@ -20,6 +20,7 @@ export enum CollectionNames {
   ATTACHMENTS_PROJECT_MONTH_OVERVIEW = 'attachments_project_month_overview',
   PROJECTS_MONTH = 'projects_month',
   CONFIG = 'config',
+  ATTACHMENTS_CONFIG = 'attachments_config',
   USERS = 'users',
   ROLES = 'roles',
 }

@@ -57,4 +57,9 @@ export const attachmentModelsConfig: IAttachmentModelConfig[] = [
     standardCollectionName: CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW,
     attachmentCollectionName: CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW,
   },
+  {
+    name: 'config',
+    standardCollectionName: CollectionNames.CONFIG,
+    attachmentCollectionName: CollectionNames.ATTACHMENTS_CONFIG,
+  }
 ];

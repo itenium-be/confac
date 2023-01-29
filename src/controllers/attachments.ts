@@ -7,12 +7,15 @@ import {CollectionNames} from '../models/common';
 import {IInvoice} from '../models/invoices';
 import {IProjectMonthOverview, TimesheetCheckAttachmentType} from '../models/projectsMonth';
 
+
+
+
 const saveAttachment = async (req: Request, attachmentModelConfig: IAttachmentModelConfig, file: Express.Multer.File) => {
   const {id, type} = req.params;
   const {standardCollectionName, attachmentCollectionName} = attachmentModelConfig;
 
   const data = await req.db.collection<IAttachments>(standardCollectionName).findOne({_id: new ObjectID(id)});
-  const {_id, attachments} = data!;
+  const {_id, attachments = []} = data!;
   const updatedAttachments = attachments.filter(a => a.type !== type);
   updatedAttachments.push({
     type,
@@ -35,6 +38,55 @@ const saveAttachment = async (req: Request, attachmentModelConfig: IAttachmentMo
 
 
 
+
+export const saveAttachmentController = async (req: Request, res: Response) => {
+  const {model, id, type} = req.params;
+  const [file] = req.files as Express.Multer.File[];
+
+  const attachmentModelConfig: IAttachmentModelConfig | undefined = attachmentModelsConfig.find(m => m.name === model);
+
+  if (!attachmentModelConfig) {
+    return res.status(501).send('Model not supported');
+  }
+
+  if (attachmentModelConfig.standardCollectionName === CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW) {
+    const month = id;
+    const inserted = await req.db.collection<IProjectMonthOverview>(CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW).findOneAndUpdate({month}, {
+      $set: {
+        [type]: file.buffer,
+        fileDetails: {
+          type,
+          fileName: file.fieldname || file.originalname,
+          originalFileName: file.originalname,
+          fileType: file.mimetype,
+          lastModifiedDate: new Date().toISOString(),
+        },
+        month,
+      },
+    }, {
+      projection: {[TimesheetCheckAttachmentType]: false},
+      upsert: true,
+      returnOriginal: false,
+    });
+
+    const updatedProjectsMonthOverview = inserted.value;
+    return res.send(updatedProjectsMonthOverview);
+  }
+
+  const result = await saveAttachment(req, attachmentModelConfig, file);
+
+  return res.send(result);
+};
+
+
+
+
+
+
+
+
+
+
 const deleteAttachment = async (id: string, type: string, db: Db, attachmentModelConfig: IAttachmentModelConfig) => {
   const {standardCollectionName, attachmentCollectionName} = attachmentModelConfig;
 
@@ -52,18 +104,53 @@ const deleteAttachment = async (id: string, type: string, db: Db, attachmentMode
 
 
 
-export const getAttachmentController = async (req: Request, res: Response) => {
-  const {
-    id, model, type, fileName,
-  } = req.params;
+export const deleteAttachmentController = async (req: Request, res: Response) => {
+  const {id, model, type} = req.params;
 
+  const attachmentModelConfig: IAttachmentModelConfig | undefined = attachmentModelsConfig.find(m => m.name === model);
+
+  if (!attachmentModelConfig) {
+    return res.status(501).send('Model not supported');
+  }
+
+  if (type === 'pdf' && model === 'invoice') {
+    return res.status(500).send('The invoice itself cannot be deleted.');
+  }
+
+  if (attachmentModelConfig.standardCollectionName === CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW) {
+    const {attachmentCollectionName} = attachmentModelConfig;
+    await req.db.collection(attachmentCollectionName).findOneAndDelete({_id: new ObjectID(id)});
+    return res.send(id);
+  }
+
+  const result = await deleteAttachment(id, type, req.db, attachmentModelConfig);
+
+  return res.send(result);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+export const getAttachmentController = async (req: Request, res: Response) => {
+  const { id, model, type, fileName } = req.params;
   const attachmentModelConfig: IAttachmentModelConfig | undefined = attachmentModelsConfig.find(m => m.name === model);
 
   if (!attachmentModelConfig) {
     return res.status(501).send('Model type not supported');
   }
 
-  const attachment = await req.db.collection(attachmentModelConfig.attachmentCollectionName).findOne({_id: new ObjectID(id)});
+  const attachment = await req.db
+    .collection(attachmentModelConfig.attachmentCollectionName)
+    .findOne({_id: new ObjectID(id)});
 
   if (!attachment) {
     return res.status(500).send('Could not get the requested file.');
@@ -123,6 +210,20 @@ export const getAttachmentController = async (req: Request, res: Response) => {
     .send(attachmentBuffer);
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const createZipWithInvoicesController = async (req: Request, res: Response) => {
   const invoiceIds: ObjectID[] = req.body.map((invoiceId: string) => new ObjectID(invoiceId));
 
@@ -143,71 +244,4 @@ export const createZipWithInvoicesController = async (req: Request, res: Respons
   const zipWithInvoices = await zip.generateAsync({type: 'nodebuffer'});
 
   res.send(zipWithInvoices);
-};
-
-
-
-export const saveAttachmentController = async (req: Request, res: Response) => {
-  const {model, id, type} = req.params;
-  const [file] = req.files as Express.Multer.File[];
-
-  const attachmentModelConfig: IAttachmentModelConfig | undefined = attachmentModelsConfig.find(m => m.name === model);
-
-  if (!attachmentModelConfig) {
-    return res.status(501).send('Model not supported');
-  }
-
-  if (attachmentModelConfig.standardCollectionName === CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW) {
-    const month = id;
-    const inserted = await req.db.collection<IProjectMonthOverview>(CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW).findOneAndUpdate({month}, {
-      $set: {
-        [type]: file.buffer,
-        fileDetails: {
-          type,
-          fileName: file.fieldname || file.originalname,
-          originalFileName: file.originalname,
-          fileType: file.mimetype,
-          lastModifiedDate: new Date().toISOString(),
-        },
-        month,
-      },
-    }, {
-      projection: {[TimesheetCheckAttachmentType]: false},
-      upsert: true,
-      returnOriginal: false,
-    });
-
-    const updatedProjectsMonthOverview = inserted.value;
-    return res.send(updatedProjectsMonthOverview);
-  }
-
-  const result = await saveAttachment(req, attachmentModelConfig, file);
-
-  return res.send(result);
-};
-
-
-
-export const deleteAttachmentController = async (req: Request, res: Response) => {
-  const {id, model, type} = req.params;
-
-  const attachmentModelConfig: IAttachmentModelConfig | undefined = attachmentModelsConfig.find(m => m.name === model);
-
-  if (!attachmentModelConfig) {
-    return res.status(501).send('Model not supported');
-  }
-
-  if (type === 'pdf' && model === 'invoice') {
-    return res.status(500).send('The invoice itself cannot be deleted.');
-  }
-
-  if (attachmentModelConfig.standardCollectionName === CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW) {
-    const {attachmentCollectionName} = attachmentModelConfig;
-    await req.db.collection(attachmentCollectionName).findOneAndDelete({_id: new ObjectID(id)});
-    return res.send(id);
-  }
-
-  const result = await deleteAttachment(id, type, req.db, attachmentModelConfig);
-
-  return res.send(result);
 };
