@@ -1,14 +1,9 @@
 import moment from 'moment';
 import {Request, Response} from 'express';
-import PDFMerge from 'pdf-merge';
-import sgMail from '@sendgrid/mail';
-import fs from 'fs';
-import tmp from 'tmp';
 import {ObjectID, Db} from 'mongodb';
 import {IInvoice, INVOICE_EXCEL_HEADERS} from '../models/invoices';
-import {IAttachmentCollection, ISendGridAttachment} from '../models/attachments';
+import {IAttachmentCollection} from '../models/attachments';
 import {createPdf} from './utils';
-import {IEmail} from '../models/clients';
 import {CollectionNames, IAttachment, createAudit, updateAudit} from '../models/common';
 import {IProjectMonth} from '../models/projectsMonth';
 import {ConfacRequest, Jwt} from '../models/technical';
@@ -116,101 +111,6 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
 
 
 
-export const emailInvoiceController = async (req: Request, res: Response) => {
-  const invoiceId = req.params.id;
-  const {attachments, combineAttachments, ...email}: IEmail = req.body;
-
-  const attachmentTypes = attachments.map(a => a.type).reduce((acc: { [key: string]: number; }, cur) => {
-    acc[cur] = 1;
-    return acc;
-  }, {});
-  const attachmentBuffers: IAttachmentCollection | null = await req.db.collection(CollectionNames.ATTACHMENTS)
-    .findOne({_id: new ObjectID(invoiceId)}, attachmentTypes);
-
-  let sendGridAttachments: ISendGridAttachment[] = [];
-
-  if (attachmentBuffers) {
-    if (combineAttachments) {
-      const areAttachmentsMergeable = attachments.every(attachment => attachment.fileType === 'application/pdf');
-
-      if (!areAttachmentsMergeable) {
-        return res.status(400).send({message: 'Emailing with combineAttachments=true: Can only merge pdfs'});
-      }
-
-      // Make sure the invoice is the first document in the merged pdf
-      // eslint-disable-next-line no-nested-ternary
-      const sortedAttachments = attachments.sort((a, b) => (a.type === 'pdf' ? -1 : b.type === 'pdf' ? 1 : 0));
-
-      const files: tmp.FileResult[] = [];
-      sortedAttachments.forEach(attachment => {
-        const tmpFile = tmp.fileSync();
-        fs.writeSync(tmpFile.fd, attachmentBuffers[attachment.type as keyof IAttachment].buffer);
-        files.push(tmpFile);
-      });
-
-      const buffer: Buffer = await PDFMerge(files.map(f => f.name));
-
-      const invoiceAttachment = sortedAttachments.find(attachment => attachment.type === 'pdf');
-
-      if (invoiceAttachment) {
-        sendGridAttachments = [{
-          content: buffer.toString('base64'),
-          filename: invoiceAttachment.fileName,
-          type: invoiceAttachment.fileType as string,
-          disposition: 'attachment',
-        }];
-      }
-      files.forEach(file => file.removeCallback());
-
-    } else {
-      sendGridAttachments = attachments.map(attachment => ({
-        content: attachmentBuffers[attachment.type].toString('base64'),
-        filename: attachment.fileName,
-        type: attachment.fileType,
-        disposition: 'attachment',
-      }));
-    }
-  }
-
-  const mailData = {
-    to: email.to.split(';'),
-    cc: email.cc?.split(';'),
-    bcc: email.bcc?.split(';'),
-    from: email.from as string,
-    subject: email.subject,
-    // text: '', // TODO: Send body stripped from html?
-    html: email.body,
-    attachments: sendGridAttachments,
-  };
-
-  try {
-    await sgMail.send(mailData, false).then(() => {
-      const tos = [mailData.to, mailData.cc, mailData.bcc].filter(x => !!x).join(', ');
-      const atts = mailData.attachments.map(x => x.filename);
-      // eslint-disable-next-line
-      console.log(`Mail sent successfully to ${tos}. Subject=${mailData.subject}. Attachments=${atts}`);
-    });
-  } catch (error) {
-    if (error.code === 401) {
-      // eslint-disable-next-line
-      console.log('SendGrid returned 401. API key not set?');
-      return res.status(400).send({message: 'Has the SendGrid API Key been set?'});
-    }
-
-    // eslint-disable-next-line
-    console.log('SendGrid returned an error', error.response.body);
-    return res.status(400).send(error.response.body.errors[0]);
-  }
-
-  const lastEmailSent = new Date().toISOString();
-  await req.db.collection(CollectionNames.INVOICES)
-    .findOneAndUpdate({_id: new ObjectID(invoiceId)}, {$set: {lastEmail: lastEmailSent}});
-
-  return res.status(200).send(lastEmailSent);
-};
-
-
-
 /** Update an existing invoice */
 export const updateInvoiceController = async (req: ConfacRequest, res: Response) => {
   const {_id, ...invoice}: IInvoice = req.body;
@@ -231,9 +131,9 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
       .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {pdf: updatedPdfBuffer}});
   }
 
-  const inserted = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
+  const updateResult = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
     .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: invoice}, {returnOriginal: false});
-  const updatedInvoice = inserted.value;
+  const updatedInvoice = updateResult.value;
 
   let projectMonth;
   if (updatedInvoice?.projectMonth) {

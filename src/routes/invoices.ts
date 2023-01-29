@@ -1,7 +1,8 @@
 import {Router} from 'express';
-
+import { emailInvoiceController } from '../controllers/emailInvoices';
 import {
-  getInvoicesController, createInvoiceController, previewPdfInvoiceController, deleteInvoiceController, updateInvoiceController, emailInvoiceController, generateExcelForInvoicesController,
+  getInvoicesController, createInvoiceController, previewPdfInvoiceController, deleteInvoiceController,
+  updateInvoiceController, generateExcelForInvoicesController,
 } from '../controllers/invoices';
 
 const invoicesRouter = Router();
