@@ -40,7 +40,6 @@ export const ProposedAttachmentsDropzones = EnhanceWithClaim(({model, modelType}
       {extraAttachments.map((fileType: string) => (
         <Col key={fileType} lg={4} md={6} style={{marginBottom: 15}}>
           <AttachmentDropzone
-            className="attachment"
             onUpload={(file: File) => onDrop(file, fileType)}
             fileType={fileType}
           />

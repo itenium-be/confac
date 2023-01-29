@@ -8,13 +8,20 @@ import {t} from '../../utils';
 export type AttachmentDropzoneProps = {
   onUpload: (file: File) => void,
   children?: React.ReactNode;
-  className?: string;
+  className?: string | null;
   disabled?: boolean;
   fileType?: string;
   disableOpacityMode?: boolean;
   dropzonePlaceholderText?: string;
 }
 
+/**
+ * DO NOT USE:
+ * A low level component that should not be used directly
+ * It is for example not possible to delete the document.
+ *
+ * See: GenericAttachmentDropzone
+ **/
 export const AttachmentDropzone = (props: AttachmentDropzoneProps) => {
   const {onUpload, children, className, disabled, fileType, disableOpacityMode = false, dropzonePlaceholderText} = props;
 
@@ -34,7 +41,7 @@ export const AttachmentDropzone = (props: AttachmentDropzoneProps) => {
   };
 
   return (
-    <div {...getRootProps()} style={styles} className={className}>
+    <div {...getRootProps()} style={styles} className={className === undefined ? 'attachment' : ''}>
       <input {...getInputProps()} multiple={false} className="tst-dropzone" disabled={disabled} />
       {children || (
         <>

@@ -212,6 +212,9 @@ export const trans = {
     emailReminderCc: 'Herinnering CC',
     emailReminderBcc: 'Herinnering BCC',
     emailInvoiceOnly: 'Email adres waarnaar enkel de factuur pdf gestuurd wordt',
+    emailTermsAndConditions: "'Algemene Voorwaarden' opladen",
+    termsAndConditions: 'Algemene Voorwaarden',
+    audit: 'Audit',
   },
   quotation: {
     title: 'Offertes',

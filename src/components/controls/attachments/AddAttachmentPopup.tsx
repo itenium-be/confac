@@ -70,7 +70,7 @@ const AddAttachmentPopupComponent = (props: AddAttachmentPopupProps) => {
         {canAddFile && type
         && (
         <div style={{maxWidth: '50%'}}>
-          <AttachmentDropzone className="attachment" onUpload={(f: File) => setFile(f)} fileType={type} />
+          <AttachmentDropzone onUpload={(f: File) => setFile(f)} fileType={type} />
         </div>
         )}
       </Popup>

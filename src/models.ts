@@ -22,12 +22,14 @@ export enum Language {
 }
 
 
+/** The model saved as client.attachments[], invoice.attachments[] etc */
 export type Attachment = {
   /** 'pdf' is the invoice pdf (for invoice/quotation) */
-  type: 'pdf' | string,
+  type: 'pdf' | 'TermsAndConditions' | string,
   fileName: string,
+  originalFileName?: string,
   fileType: string,
-  lastModifiedDate: string,
+  lastModifiedDate?: string,
 }
 
 

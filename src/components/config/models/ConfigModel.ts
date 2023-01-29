@@ -1,9 +1,10 @@
-import {InvoiceDateStrategy, Language, IAudit} from '../../../models';
+import {InvoiceDateStrategy, Language, IAudit, Attachment} from '../../../models';
 import {EmailModel} from '../../controls/email/EmailModels';
 import {InvoiceLine} from '../../invoice/models/InvoiceLineModels';
 
 
 export type ConfigModel = {
+  _id?: string,
   key: 'conf',
   company: ConfigCompanyModel,
   defaultClient: string | null,
@@ -27,6 +28,8 @@ export type ConfigModel = {
   /** Email address to email the invoice pdf (without timesheet) */
   emailInvoiceOnly: string,
   language: Language,
+  /** ConditionsAndTerms */
+  attachments: Attachment[];
   audit: IAudit;
 }
 

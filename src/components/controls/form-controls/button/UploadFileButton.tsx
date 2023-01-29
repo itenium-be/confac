@@ -14,7 +14,7 @@ type UploadFileButtonProps = {
 
 
 export const UploadFileButton = ({onUpload, title, buttonText, disabled, hasFile}: UploadFileButtonProps) => (
-  <AttachmentDropzone onUpload={onUpload} disabled={disabled} disableOpacityMode>
+  <AttachmentDropzone className={null} onUpload={onUpload} disabled={disabled} disableOpacityMode>
     <Button
       onClick={() => {}}
       variant="outline-dark"

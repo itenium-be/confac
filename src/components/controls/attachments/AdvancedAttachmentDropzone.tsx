@@ -20,6 +20,12 @@ type AttachmentFormProps = {
   claim: Claim;
 }
 
+/**
+ * DO NOT USE:
+ * Overly complex...
+ *
+ * See: GenericAttachmentDropzone
+ */
 export const AdvancedAttachmentDropzone = (
   {claim, dropzonePlaceholderText, attachment, downloadUrl, onDelete, onUpload, viewFileTooltip}: AttachmentFormProps,
 ) => (
@@ -60,7 +66,7 @@ export const AdvancedAttachmentDropzone = (
       )
     }
     {!attachment && onUpload && (
-      <AttachmentDropzone onUpload={onUpload} className="attachment" dropzonePlaceholderText={dropzonePlaceholderText} />
+      <AttachmentDropzone onUpload={onUpload} dropzonePlaceholderText={dropzonePlaceholderText} />
     )}
   </div>
 );
