@@ -24,6 +24,8 @@ export type ConfigModel = {
   emailReminder: string,
   emailReminderCc: string,
   emailReminderBcc: string,
+  /** Email address to email the invoice pdf (without timesheet) */
+  emailInvoiceOnly: string,
   language: Language,
   audit: IAudit;
 }

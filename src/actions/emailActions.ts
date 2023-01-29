@@ -10,7 +10,14 @@ import {FullProjectMonthModel} from '../components/project/models/FullProjectMon
 import {authService} from '../components/users/authService';
 
 
-export function sendEmail(invoiceFileName: string, invoice: InvoiceModel, email: EmailModel, fullProjectMonth?: FullProjectMonthModel) {
+export function sendEmail(
+  invoiceFileName: string,
+  invoice: InvoiceModel,
+  email: EmailModel,
+  fullProjectMonth?: FullProjectMonthModel,
+  emailInvoiceOnly?: string,
+) {
+
   return dispatch => {
     // eslint-disable-next-line no-param-reassign
     email.attachments = email.attachments.map(attachmentType => {
@@ -36,7 +43,11 @@ export function sendEmail(invoiceFileName: string, invoice: InvoiceModel, email:
     })
       .filter(att => att);
 
-    request.post(buildUrl(`/invoices/email/${invoice._id}`))
+    let url = buildUrl(`/invoices/email/${invoice._id}`);
+    if (emailInvoiceOnly && !invoice.lastEmail) {
+      url += '?emailInvoiceOnly=' + encodeURIComponent(emailInvoiceOnly);
+    }
+    request.post(url)
       .set('Authorization', authService.getBearer())
       .send(email)
       .then(res => {
@@ -52,7 +63,7 @@ export function sendEmail(invoiceFileName: string, invoice: InvoiceModel, email:
       })
       .catch(err => {
         console.error('res ERROR', err); // eslint-disable-line
-        failure(err.body.message, 'Email failure', 8000);
+        failure(err.body?.message, 'Email failure', 8000);
       });
   };
 }

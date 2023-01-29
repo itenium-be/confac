@@ -211,6 +211,7 @@ export const trans = {
     emailReminder: 'Email factuur herinnering',
     emailReminderCc: 'Herinnering CC',
     emailReminderBcc: 'Herinnering BCC',
+    emailInvoiceOnly: 'Email adres waarnaar enkel de factuur pdf gestuurd wordt',
   },
   quotation: {
     title: 'Offertes',

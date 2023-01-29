@@ -32,6 +32,7 @@ export const defaultConfig: ConfigModel = {
   emailReminder: '',
   emailReminderCc: '',
   emailReminderBcc: '',
+  emailInvoiceOnly: '',
   language: defaultCommunicationLanguage,
   audit: {} as IAudit,
 };
