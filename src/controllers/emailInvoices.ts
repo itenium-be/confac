@@ -5,7 +5,7 @@ import {MailData} from '@sendgrid/helpers/classes/mail';
 import fs from 'fs';
 import tmp from 'tmp';
 import {ObjectID} from 'mongodb';
-import {IAttachmentCollection, ISendGridAttachment} from '../models/attachments';
+import {IAttachmentCollection, IAttachments, ISendGridAttachment} from '../models/attachments';
 import {IEmail} from '../models/clients';
 import {CollectionNames, IAttachment} from '../models/common';
 
@@ -36,7 +36,11 @@ export const emailInvoiceController = async (req: Request, res: Response) => {
   if (email.combineAttachments && email.attachments.some(attachment => attachment.fileType !== 'application/pdf'))
     return res.status(400).send({message: 'Emailing with combineAttachments=true: Can only merge pdfs'});
 
-  const mailData = await buildInvoiceEmailData(email, attachmentBuffers);
+
+  const data = await req.db.collection('attachments_config').findOne({});
+  const termsAndConditions: Buffer = data['TermsAndConditions']?.buffer;
+
+  const mailData = await buildInvoiceEmailData(email, attachmentBuffers, termsAndConditions);
   const emailRes = await sendEmail(res, mailData);
   if (emailRes)
     return emailRes;
@@ -55,27 +59,32 @@ export const emailInvoiceController = async (req: Request, res: Response) => {
 
 
 
-async function buildInvoiceEmailData(email: EmailRequest, attachmentBuffers: IAttachmentCollection): Promise<MailData> {
-  let sendGridAttachments: ISendGridAttachment[] = [];
-  if (email.combineAttachments) {
-    // Make sure the invoice is the first document in the merged pdf
-    // eslint-disable-next-line no-nested-ternary
-    const sortedAttachments = email.attachments.sort((a, b) => (a.type === 'pdf' ? -1 : b.type === 'pdf' ? 1 : 0));
+async function buildInvoiceEmailData(
+  email: EmailRequest,
+  attachmentBuffers: IAttachmentCollection,
+  termsAndConditions: Buffer
+): Promise<MailData> {
 
+  // Make sure the invoice is the first document in the array
+  // eslint-disable-next-line no-nested-ternary
+  const attachments = email.attachments.sort((a, b) => (a.type === 'pdf' ? -1 : b.type === 'pdf' ? 1 : 0));
+
+  // Combine Invoice PDF & Timesheet?
+  let sendGridAttachments: (Omit<ISendGridAttachment, 'content'> & {content: Buffer})[] = [];
+  if (email.combineAttachments) {
     const files: tmp.FileResult[] = [];
-    sortedAttachments.forEach(attachment => {
+    attachments.forEach(attachment => {
       const tmpFile = tmp.fileSync();
       fs.writeSync(tmpFile.fd, attachmentBuffers[attachment.type as keyof IAttachment].buffer);
       files.push(tmpFile);
     });
 
-    const buffer: Buffer = await PDFMerge(files.map(f => f.name));
+    const mergedPdfs: Buffer = await PDFMerge(files.map(f => f.name));
 
-    const invoiceAttachment = sortedAttachments.find(attachment => attachment.type === 'pdf');
-
+    const invoiceAttachment = attachments.find(attachment => attachment.type === 'pdf');
     if (invoiceAttachment) {
       sendGridAttachments = [{
-        content: buffer.toString('base64'),
+        content: mergedPdfs,
         filename: invoiceAttachment.fileName,
         type: invoiceAttachment.fileType,
         disposition: 'attachment',
@@ -84,12 +93,30 @@ async function buildInvoiceEmailData(email: EmailRequest, attachmentBuffers: IAt
     files.forEach(file => file.removeCallback());
 
   } else {
-    sendGridAttachments = email.attachments.map(attachment => ({
-      content: attachmentBuffers[attachment.type].toString('base64'),
+    sendGridAttachments = attachments.map(attachment => ({
+      content: attachmentBuffers[attachment.type],
       filename: attachment.fileName,
       type: attachment.fileType,
       disposition: 'attachment',
     }));
+  }
+
+
+  // Merge Terms & Conditions with the invoice pdf
+  if (termsAndConditions) {
+    const invoiceBuffer = sendGridAttachments[0].content.buffer;
+
+    const invoiceFile = tmp.fileSync();
+    fs.writeSync(invoiceFile.fd, invoiceBuffer);
+
+    const termsCondFile = tmp.fileSync();
+    fs.writeSync(termsCondFile.fd, termsAndConditions);
+
+    const mergedInvoicePdf: Buffer = await PDFMerge([invoiceFile, termsCondFile].map(f => f.name));
+    sendGridAttachments = sendGridAttachments.map((att, idx) => idx === 0 ? {...att, content: mergedInvoicePdf} : att);
+
+    invoiceFile.removeCallback();
+    termsCondFile.removeCallback();
   }
 
   return {
@@ -100,7 +127,7 @@ async function buildInvoiceEmailData(email: EmailRequest, attachmentBuffers: IAt
     subject: email.subject,
     // text: '',
     html: email.body,
-    attachments: sendGridAttachments,
+    attachments: sendGridAttachments.map(att => ({...att, content: att.content.toString('base64')})),
   };
 }
 
@@ -118,7 +145,7 @@ async function sendEmail(res: Response, mailData: MailData): Promise<Response | 
       console.log(`Mail sent successfully to ${tos}. Subject=${mailData.subject}. Attachments=${atts}`);
     });
 
-  } catch (error: any) {
+  } catch (error) {
     if (error.code === 401) {
       // eslint-disable-next-line
       console.log('SendGrid returned 401. API key not set?');
@@ -135,6 +162,10 @@ async function sendEmail(res: Response, mailData: MailData): Promise<Response | 
 
 
 
+/**
+ * Send email with only the invoice, not the timesheet etc
+ * This email is sent only once
+ **/
 async function sendInvoiceOnlyEmail(email: EmailRequest, attachmentBuffers: IAttachmentCollection, emailInvoiceOnly: string): Promise<void> {
   const attachment = email.attachments.find(x => x.type === 'pdf')!;
   const invoiceOnlyAttachments = [{
