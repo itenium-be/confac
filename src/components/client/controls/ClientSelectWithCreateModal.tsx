@@ -8,6 +8,8 @@ import {t} from '../../utils';
 import {SelectWithCreateButton, SelectWithCreateModalProps} from '../../controls/form-controls/select/SelectWithCreateButton';
 import {ConfacState} from '../../../reducers/app-state';
 import {Claim} from '../../users/models/UserModel';
+import {Form} from 'react-bootstrap';
+import {ClientIconLinks} from './ClientIconLinks';
 
 
 type ClientSelectWithCreateModalProps = SelectWithCreateModalProps<ClientModel> & {
@@ -36,11 +38,13 @@ export const ClientSelectWithCreateModal = ({value, onChange, clientType = 'clie
         />
       )}
       <SelectWithCreateButton claim={Claim.ManageClients} setModalId={setModalId} createButtonText={`invoice.${clientType}New`}>
-        <ClientSelect
-          label={t(`invoice.${clientType}`)}
-          value={value || ''}
-          onChange={(id, model) => onChange(id, model)}
-        />
+        <Form.Group className="form-group">
+          <Form.Label>
+            <span style={{marginRight: 8}}>{t(`invoice.${clientType}`)}</span>
+            {client && <ClientIconLinks client={client} />}
+          </Form.Label>
+          <ClientSelect value={value || ''} onChange={(id, model) => onChange(id, model)} />
+        </Form.Group>
       </SelectWithCreateButton>
     </>
   );

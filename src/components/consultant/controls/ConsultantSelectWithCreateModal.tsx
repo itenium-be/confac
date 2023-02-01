@@ -9,6 +9,8 @@ import {ConfacState} from '../../../reducers/app-state';
 import {saveConsultant} from '../../../actions/consultantActions';
 import {SelectWithCreateButton, SelectWithCreateModalProps} from '../../controls/form-controls/select/SelectWithCreateButton';
 import {Claim} from '../../users/models/UserModel';
+import {Form} from 'react-bootstrap';
+import {ConsultantIconLinks} from './ConsultantLink';
 
 
 export const ConsultantSelectWithCreateModal = ({value, onChange}: SelectWithCreateModalProps<ConsultantModel>) => {
@@ -27,11 +29,13 @@ export const ConsultantSelectWithCreateModal = ({value, onChange}: SelectWithCre
         />
       )}
       <SelectWithCreateButton claim={Claim.ManageConsultants} createButtonText="add" setModalId={setModalId}>
-        <ConsultantSelect
-          label={t('project.consultant')}
-          value={value || ''}
-          onChange={(id, model) => onChange(id, model)}
-        />
+        <Form.Group className="form-group">
+          <Form.Label>
+            <span style={{marginRight: 8}}>{t('project.consultant')}</span>
+            {consultant && <ConsultantIconLinks consultant={consultant} />}
+          </Form.Label>
+          <ConsultantSelect value={value || ''} onChange={(id, model) => onChange(id, model)} />
+        </Form.Group>
       </SelectWithCreateButton>
     </>
   );

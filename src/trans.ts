@@ -383,6 +383,7 @@ export const trans = {
     managers: 'Managers',
     createNew: 'Nieuwe consultant',
     openEditModal: 'Open details in modal',
+    viewDetails: 'Ga naar detail scherm',
     types: {
       manager: 'Manager',
       consultant: 'Consultant',
