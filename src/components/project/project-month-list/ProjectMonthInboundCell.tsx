@@ -17,6 +17,7 @@ import {InboundInvoiceAttachmentType} from '../../../models';
 import {getTariffs} from '../utils/getTariffs';
 import {ToClipboardLabel} from '../../controls/other/ToClipboardLabel';
 import {ProjectMonthInboundStatusSelect} from '../controls/ProjectMonthInboundStatusSelect';
+import {belgiums} from '../../client/EditClient';
 
 
 interface ProjectMonthInboundCellProps {
@@ -153,9 +154,14 @@ const InboundAmountForecast = ({fullProjectMonth}: InboundAmountForecastProps) =
     }
   }
 
+  let amount = timesheetConfig.amount;
+  if (!fullProjectMonth.partner || !fullProjectMonth.partner.country?.trim() || belgiums.includes(fullProjectMonth.partner.country)) {
+    amount *= (1 + tax / 100);
+  }
+
   return (
     <span>
-      {moneyFormat(timesheetConfig.amount * (1 + tax / 100) * partnerTariffs.tariff)}
+      {moneyFormat(amount * partnerTariffs.tariff)}
     </span>
   );
 };

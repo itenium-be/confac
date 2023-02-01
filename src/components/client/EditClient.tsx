@@ -20,6 +20,10 @@ import {useParams} from 'react-router-dom';
 import {InvoiceLine} from '../invoice/models/InvoiceLineModels';
 
 
+/** Different spellings of "Belgium" */
+export const belgiums = ['België', 'Belgium', 'Belgie'];
+
+
 function getClient(client: ClientModel | undefined, config: ConfigModel) {
   if (client) {
     return JSON.parse(JSON.stringify(client));
@@ -57,7 +61,6 @@ const EditClient = () => {
   }
 
   const setClientIntercept = (newClient: ClientModel): void => {
-    const belgiums = ['België', 'Belgium', 'Belgie'];
     if (newClient.country && client.country !== newClient.country && !client.defaultInvoiceLines.length && !belgiums.includes(newClient.country)) {
       let btwRemark: string;
       switch (newClient.country) {
