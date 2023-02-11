@@ -64,6 +64,7 @@ export const authUser = async (req: Request, res: Response) => {
     return res.send({err: result || 'Unknown error'});
   }
 
+  const usersLogCollection = req.db.collection('logs_logins');
   const usersCollection = req.db.collection<IUser>(CollectionNames.USERS);
   let user = await usersCollection.findOne({email: result.email});
   if (!user) {
@@ -71,18 +72,22 @@ export const authUser = async (req: Request, res: Response) => {
       result.active = true;
       result.roles = result.roles.concat([AdminRole]);
       user = result;
+      await usersLogCollection.insertOne({user, login: 'success', msg: 'Superuser activated'});
     }
 
     await usersCollection.insert(result);
 
     if (!result.active) {
+      await usersLogCollection.insertOne({user: result, login: 'failure', msg: 'First login, user created but not yet activated'});
       return res.send({err: 'New user: not yet activated'});
     }
 
   } else if (!user.active) {
+    await usersLogCollection.insertOne({user, login: 'failure', msg: 'User has been de-activated in confac'});
     return res.send({err: 'User no longer active'});
   }
 
+  await usersLogCollection.insertOne({user, login: 'success', msg: 'User logged in'});
   const ourToken = jwt.sign({data: user}, config.jwt.secret, {expiresIn: config.jwt.expiresIn});
   return res.status(200).send({jwt: ourToken});
 };
