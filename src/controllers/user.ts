@@ -7,6 +7,7 @@ import {CollectionNames, IAudit, createAudit, updateAudit} from '../models/commo
 import config from '../config';
 import {IUser, IRole} from '../models/user';
 import {ConfacRequest} from '../models/technical';
+import {saveAudit} from './utils/audit-logs';
 
 const AdminRole = 'admin';
 
@@ -64,6 +65,7 @@ export const authUser = async (req: Request, res: Response) => {
     return res.send({err: result || 'Unknown error'});
   }
 
+  const logDate = new Date().toISOString();
   const usersLogCollection = req.db.collection('logs_logins');
   const usersCollection = req.db.collection<IUser>(CollectionNames.USERS);
   let user = await usersCollection.findOne({email: result.email});
@@ -72,22 +74,22 @@ export const authUser = async (req: Request, res: Response) => {
       result.active = true;
       result.roles = result.roles.concat([AdminRole]);
       user = result;
-      await usersLogCollection.insertOne({user, login: 'success', msg: 'Superuser activated'});
+      await usersLogCollection.insertOne({user, login: 'success', msg: 'Superuser activated', date: logDate});
     }
 
     await usersCollection.insert(result);
 
     if (!result.active) {
-      await usersLogCollection.insertOne({user: result, login: 'failure', msg: 'First login, user created but not yet activated'});
+      await usersLogCollection.insertOne({user: result, login: 'failure', msg: 'First login, user created but not yet activated', date: logDate});
       return res.send({err: 'New user: not yet activated'});
     }
 
   } else if (!user.active) {
-    await usersLogCollection.insertOne({user, login: 'failure', msg: 'User has been de-activated in confac'});
+    await usersLogCollection.insertOne({user, login: 'failure', msg: 'User has been de-activated in confac', date: logDate});
     return res.send({err: 'User no longer active'});
   }
 
-  await usersLogCollection.insertOne({user, login: 'success', msg: 'User logged in'});
+  await usersLogCollection.insertOne({user, login: 'success', msg: 'User logged in', date: logDate});
   const ourToken = jwt.sign({data: user}, config.jwt.secret, {expiresIn: config.jwt.expiresIn});
   return res.status(200).send({jwt: ourToken});
 };
@@ -108,8 +110,9 @@ export const saveUser = async (req: ConfacRequest, res: Response) => {
 
   if (_id) {
     user.audit = updateAudit(user.audit, req.user);
-    const updated = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: user}, {returnOriginal: false});
-    return res.send(updated.value);
+    const {value: originalUser} = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: user}, {returnOriginal: true});
+    await saveAudit(req, 'user', originalUser, user);
+    return res.send({_id, ...user});
   }
 
   user.audit = createAudit(req.user);
@@ -138,8 +141,9 @@ export const saveRole = async (req: ConfacRequest, res: Response) => {
 
   if (_id) {
     role.audit = updateAudit(role.audit, req.user);
-    const updated = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: role}, {returnOriginal: false});
-    return res.send(updated.value);
+    const {value: originalRole} = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: role}, {returnOriginal: true});
+    await saveAudit(req, 'user', originalRole, role);
+    return res.send({_id, ...role});
   }
 
   role.audit = createAudit(req.user);

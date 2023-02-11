@@ -5,6 +5,7 @@ import {ObjectID} from 'mongodb';
 import {IClient} from '../models/clients';
 import {CollectionNames, updateAudit, createAudit} from '../models/common';
 import {ConfacRequest} from '../models/technical';
+import {saveAudit} from './utils/audit-logs';
 
 
 export const getClients = async (req: Request, res: Response) => {
@@ -27,9 +28,10 @@ export const saveClient = async (req: ConfacRequest, res: Response) => {
   if (_id) {
     client.audit = updateAudit(client.audit, req.user);
     const clientsCollection = req.db.collection<IClient>(CollectionNames.CLIENTS);
-    const inserted = await clientsCollection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: client}, {returnOriginal: false});
-    const updatedClient = inserted.value;
-    return res.send(updatedClient);
+    const {value: originalClient} = await clientsCollection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: client}, {returnOriginal: true});
+
+    await saveAudit(req, 'client', originalClient, client);
+    return res.send({_id, ...client});
   }
 
 

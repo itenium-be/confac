@@ -4,6 +4,7 @@ import {ObjectID} from 'mongodb';
 import {IConsultant} from '../models/consultants';
 import {CollectionNames, createAudit, updateAudit} from '../models/common';
 import {ConfacRequest} from '../models/technical';
+import {saveAudit} from './utils/audit-logs';
 
 export const getConsultants = async (req: Request, res: Response) => {
   const consultants = await req.db.collection<IConsultant>(CollectionNames.CONSULTANTS).find().toArray();
@@ -15,11 +16,11 @@ export const saveConsultant = async (req: ConfacRequest, res: Response) => {
 
   if (_id) {
     consultant.audit = updateAudit(consultant.audit, req.user);
-    const inserted = await req.db.collection<IConsultant>(CollectionNames.CONSULTANTS)
-      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: consultant}, {returnOriginal: false});
+    const {value: originalConsultant} = await req.db.collection<IConsultant>(CollectionNames.CONSULTANTS)
+      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: consultant}, {returnOriginal: true});
 
-    const updatedConsultant = inserted.value;
-    return res.send(updatedConsultant);
+    await saveAudit(req, 'consultant', originalConsultant, consultant);
+    return res.send({_id, ...consultant});
   }
 
   const slug = slugify(`${consultant.firstName}-${consultant.name}`).toLowerCase();

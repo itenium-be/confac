@@ -3,6 +3,7 @@ import {ObjectID} from 'mongodb';
 import {IProjectMonth, IProjectMonthOverview, TimesheetCheckAttachmentType} from '../models/projectsMonth';
 import {CollectionNames, createAudit, updateAudit} from '../models/common';
 import {ConfacRequest} from '../models/technical';
+import {saveAudit} from './utils/audit-logs';
 
 
 export const getProjectsPerMonthController = async (req: Request, res: Response) => {
@@ -59,9 +60,9 @@ export const patchProjectsMonthController = async (req: ConfacRequest, res: Resp
   if (_id) {
     projectMonth.audit = updateAudit(projectMonth.audit, req.user);
     const projMonthCollection = req.db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH);
-    const inserted = await projMonthCollection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: projectMonth}, {returnOriginal: false});
-    const updatedProjectMonth = inserted.value;
-    return res.send(updatedProjectMonth);
+    const {value: originalProjectMonth} = await projMonthCollection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: projectMonth}, {returnOriginal: true});
+    await saveAudit(req, 'projectMonth', originalProjectMonth, projectMonth);
+    return res.send({_id, ...projectMonth});
   }
 
   const inserted = await req.db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).insertOne({

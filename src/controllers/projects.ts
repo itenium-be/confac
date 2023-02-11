@@ -4,6 +4,7 @@ import {ObjectID} from 'mongodb';
 import {IProject} from '../models/projects';
 import {CollectionNames, createAudit, updateAudit} from '../models/common';
 import {ConfacRequest} from '../models/technical';
+import {saveAudit} from './utils/audit-logs';
 
 /** No longer in use: this is now done in the frontend */
 export const findActiveProjectsForSelectedMonth = (selectedMonth: string, projects: IProject[]) => projects.filter(project => {
@@ -36,10 +37,10 @@ export const saveProject = async (req: ConfacRequest, res: Response) => {
 
   if (_id) {
     project.audit = updateAudit(project.audit, req.user);
-    const projectsCollection = req.db.collection<IProject>(CollectionNames.PROJECTS);
-    const inserted = await projectsCollection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: project}, {returnOriginal: false});
-    const updatedProject = inserted.value;
-    return res.send(updatedProject);
+    const projectsColl = req.db.collection<IProject>(CollectionNames.PROJECTS);
+    const {value: originalProject} = await projectsColl.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: project}, {returnOriginal: true});
+    await saveAudit(req, 'project', originalProject, project);
+    return res.send({_id, ...project});
   }
 
   const inserted = await req.db.collection<Omit<IProject, '_id'>>(CollectionNames.PROJECTS).insertOne({

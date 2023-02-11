@@ -7,6 +7,7 @@ import {createPdf} from './utils';
 import {CollectionNames, IAttachment, createAudit, updateAudit} from '../models/common';
 import {IProjectMonth} from '../models/projectsMonth';
 import {ConfacRequest, Jwt} from '../models/technical';
+import {saveAudit} from './utils/audit-logs';
 
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
@@ -116,11 +117,7 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
   const {_id, ...invoice}: IInvoice = req.body;
 
   invoice.audit = updateAudit(invoice.audit, req.user);
-
-  const updatedPdfBuffer = await createPdf({
-    _id,
-    ...invoice,
-  });
+  const updatedPdfBuffer = await createPdf({_id, ...invoice});
 
   if (!Buffer.isBuffer(updatedPdfBuffer) && updatedPdfBuffer.error) {
     return res.status(500).send(updatedPdfBuffer.error);
@@ -131,21 +128,23 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
       .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {pdf: updatedPdfBuffer}});
   }
 
-  const updateResult = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
-    .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: invoice}, {returnOriginal: false});
-  const updatedInvoice = updateResult.value;
+  const {value: originalInvoice} = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
+    .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: invoice}, {returnOriginal: true});
+
+  await saveAudit(req, 'invoice', originalInvoice, invoice);
 
   let projectMonth;
-  if (updatedInvoice?.projectMonth) {
+  if (invoice?.projectMonth) {
     // TODO: This should be a separate route once security is implemented
     // Right now it is always updating the projectMonth.verified but this only changes when the invoice.verified changes
+    // This is now 'fixed' on the frontend.
     projectMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
-      .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth?.projectMonthId)}, {$set: {verified: updatedInvoice.verified}});
+      .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth?.projectMonthId)}, {$set: {verified: invoice.verified}});
   }
 
   const result: Array<any> = [{
     type: 'invoice',
-    model: updatedInvoice,
+    model: {_id, ...invoice},
   }];
   if (projectMonth && projectMonth.ok) {
     result.push({

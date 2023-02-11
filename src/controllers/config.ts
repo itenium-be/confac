@@ -6,10 +6,10 @@ import {ICompanyConfig} from '../models/config';
 import {getTemplatesPath} from './utils';
 import {CollectionNames, updateAudit} from '../models/common';
 import {ConfacRequest} from '../models/technical';
+import {saveAudit} from './utils/audit-logs';
 
 export const getCompanyConfig = async (req: Request, res: Response) => {
   const companyConfig: ICompanyConfig | null = await req.db.collection(CollectionNames.CONFIG).findOne({key: 'conf'});
-
   if (companyConfig) {
     return res.send(companyConfig);
   }
@@ -30,25 +30,25 @@ export const getSecurityConfig = async (req: Request, res: Response) => {
 
 
 export const saveCompanyConfig = async (req: ConfacRequest, res: Response) => {
-  const {_id, ...companyConfig}: ICompanyConfig = req.body;
+  const {_id, ...config}: ICompanyConfig = req.body;
 
   if (_id) {
-    companyConfig.audit = updateAudit(companyConfig.audit, req.user);
+    config.audit = updateAudit(config.audit, req.user);
 
-    const inserted = await req.db.collection<ICompanyConfig>(CollectionNames.CONFIG)
-      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: companyConfig}, {returnOriginal: false});
+    const {value: originalConfig} = await req.db.collection<ICompanyConfig>(CollectionNames.CONFIG)
+      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: config}, {returnOriginal: true});
 
-    const updatedCompanyConfig = inserted.value;
-    return res.send(updatedCompanyConfig);
+    await saveAudit(req, 'config', originalConfig, config);
+    return res.send({_id, ...config});
   }
 
-  const inserted = await req.db.collection<ICompanyConfig>(CollectionNames.CONFIG).insertOne(companyConfig);
-  const [createdCompanyConfig] = inserted.ops;
-  return res.send(createdCompanyConfig);
+  const inserted = await req.db.collection<ICompanyConfig>(CollectionNames.CONFIG).insertOne(config);
+  return res.send(inserted.ops[0]);
 };
 
+
+/** Get all pug invoice template filenames */
 export const getTemplates = (req: Request, res: Response) => {
   const templates = fs.readdirSync(getTemplatesPath()).filter(fileName => fileName.endsWith('.pug'));
-
   return res.send(templates);
 };
