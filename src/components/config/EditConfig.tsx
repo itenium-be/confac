@@ -48,7 +48,7 @@ const EditConfig = () => {
         </ClaimGuard>
         <Row>
           <h4>{t('config.audit')}</h4>
-          <Audit audit={config?.audit} />
+          <Audit model={config} modelType="config" />
         </Row>
       </Form>
       <StickyFooter claim={Claim.ManageConfig}>

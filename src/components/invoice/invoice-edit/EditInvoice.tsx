@@ -82,7 +82,7 @@ const EditInvoice = () => {
             <div style={{display: 'inline-flex', alignItems: 'flex-start'}}>
               <h1 style={{width: 'unset'}}>
                 {initInvoice._id ? t(`${type}.editTitle`) : t(`${type}.createTitle`)}
-                <Audit audit={storeInvoice?.audit} />
+                <Audit model={storeInvoice} modelType="invoice" />
               </h1>
               <div>
                 <EditInvoiceBadges invoice={invoice} />

@@ -216,6 +216,17 @@ export const trans = {
     termsAndConditions: 'Algemene Voorwaarden',
     audit: 'Audit',
   },
+  audit: {
+    openFullAuditModel: 'Volledige audit openen',
+    fullAudit: 'Volledige audit',
+    noLogs: 'Geen audit beschikbaar',
+    modifiedOn: 'Op {date} om {hour}',
+    change: {
+      field: 'Veld',
+      old: 'Vorige waarde',
+      new: 'Nieuwe waarde',
+    },
+  },
   quotation: {
     title: 'Offertes',
     pdfName: 'Offerte',

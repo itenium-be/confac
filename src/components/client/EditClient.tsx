@@ -94,7 +94,7 @@ const EditClient = () => {
         <Row>
           <h1 style={{marginBottom: 10}}>
             {client.name || (initClient._id ? '' : t('client.createNew'))}
-            <Audit audit={storeClient?.audit} />
+            <Audit model={storeClient} modelType="client" />
           </h1>
           {clientAlreadyExists && <Alert variant="danger">{t('client.alreadyExists', {btw: client.btw})}</Alert>}
         </Row>

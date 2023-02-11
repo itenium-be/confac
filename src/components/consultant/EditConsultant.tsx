@@ -40,7 +40,7 @@ export const EditConsultant = () => {
       <Form>
         <Row className="page-title-container">
           <h1>{consultant._id ? `${consultant.firstName} ${consultant.name}` : t('consultant.createNew')}</h1>
-          <Audit audit={model?.audit} />
+          <Audit model={model} modelType="consultant" />
           {consultantDuplicate && <Alert variant="warning">{t('consultant.alreadyExists')}</Alert>}
         </Row>
         <Row>

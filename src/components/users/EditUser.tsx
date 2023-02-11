@@ -45,7 +45,7 @@ export const EditUser = () => {
       <Form>
         <Row className="page-title-container">
           <h1>{user._id ? `${user.firstName} ${user.name}` : t('user.createNew')}</h1>
-          <Audit audit={model?.audit} />
+          <Audit model={model} modelType="user" />
         </Row>
         <Row>
           <ArrayInput

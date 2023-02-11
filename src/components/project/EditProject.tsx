@@ -105,7 +105,7 @@ export const EditProject = () => {
     <Container className="edit-container">
       <Row className="page-title-container">
         <h1>{project._id ? t('project.project') : t('project.createNew')}</h1>
-        <Audit audit={model?.audit} />
+        <Audit model={model} modelType="project" />
       </Row>
       <Row>
         <Col>

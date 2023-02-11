@@ -42,7 +42,7 @@ export const EditProjectMonths = () => {
       <Form>
         <Row className="page-title-container">
           <h1>{model ? `${model.consultantName} @ ${clientName}` : t('titles.projectMonthNew')}</h1>
-          <Audit audit={model?.details?.audit} />
+          <Audit model={model?.details} modelType="projectMonth" />
         </Row>
         <Row>
           <ArrayInput
