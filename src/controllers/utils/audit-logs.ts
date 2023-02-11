@@ -19,7 +19,7 @@ export async function saveAudit(req: ConfacRequest, model: string, originalValue
       date: new Date().toISOString(),
       diff: leDiff,
     };
-    await  req.db.collection('logs_audit').insertOne(log);
+    await req.db.collection('logs_audit').insertOne(log);
   }
 }
 

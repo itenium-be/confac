@@ -52,3 +52,14 @@ export const getTemplates = (req: Request, res: Response) => {
   const templates = fs.readdirSync(getTemplatesPath()).filter(fileName => fileName.endsWith('.pug'));
   return res.send(templates);
 };
+
+
+
+/** Get logs_audit for an entity */
+export const getAudit = async (req: Request, res: Response) => {
+  const logs = await req.db.collection('logs_audit')
+    .find({model: req.query.model, modelId: new ObjectID(req.query.modelId)})
+    .toArray();
+
+  return res.send(logs);
+};

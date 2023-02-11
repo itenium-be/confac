@@ -142,7 +142,7 @@ export const saveRole = async (req: ConfacRequest, res: Response) => {
   if (_id) {
     role.audit = updateAudit(role.audit, req.user);
     const {value: originalRole} = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: role}, {returnOriginal: true});
-    await saveAudit(req, 'user', originalRole, role);
+    await saveAudit(req, 'role', originalRole, role);
     return res.send({_id, ...role});
   }
 
