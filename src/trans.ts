@@ -339,6 +339,7 @@ export const trans = {
     btwPlaceholder: 'BTW nummer',
     createNewBtwPlaceholder: 'BTW nummer nieuwe klant',
     createNewButton: 'Klant aanmaken',
+    alreadyExists: 'Klant met btw {btw} bestaat reeds',
     name: 'Klant',
     btw: 'BTW',
     address: 'Straat & Nr',

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Container, Row, Form} from 'react-bootstrap';
+import {Container, Row, Form, Alert} from 'react-bootstrap';
 import {t} from '../utils';
 import {saveClient} from '../../actions/index';
 import {defaultClientProperties} from './models/ClientConfig';
@@ -38,13 +38,14 @@ const EditClient = () => {
   const storeClient = useSelector((state: ConfacState) => state.clients.find(x => x.slug === params.id));
   const initClient = getClient(storeClient, config);
   const [client, setClient] = useState<ClientModel>(initClient);
+  const clientWithSameKbo = useSelector((state: ConfacState) => state.clients.filter(x => x.btw === client.btw).find(x => x.slug !== params.id));
   const dispatch = useDispatch();
   // useEffect(() => window.scrollTo(0, 0)); // TODO: each keystroke made it scroll to top :(
   useDocumentTitle('clientEdit', {name: client.name});
 
-
+  const clientAlreadyExists = !!clientWithSameKbo && client.btw !== t('taxRequest');
   const isClientDisabled = (client: ClientModel): boolean => {
-    if (client.name.length === 0) {
+    if (clientAlreadyExists || client.name.length === 0) {
       return true;
     }
     if (client.slug && client.slug.length === 0) {
@@ -91,10 +92,11 @@ const EditClient = () => {
     <Container className="edit-container">
       <Form>
         <Row>
-          <h1>
+          <h1 style={{marginBottom: 10}}>
             {client.name || (initClient._id ? '' : t('client.createNew'))}
             <Audit audit={storeClient?.audit} />
           </h1>
+          {clientAlreadyExists && <Alert variant="danger">{t('client.alreadyExists', {btw: client.btw})}</Alert>}
         </Row>
         <Row>
           <ArrayInput
