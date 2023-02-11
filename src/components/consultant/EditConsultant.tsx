@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Container, Row, Form} from 'react-bootstrap';
+import {Container, Row, Form, Alert} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import {ConfacState} from '../../reducers/app-state';
 import {t} from '../utils';
@@ -21,8 +21,11 @@ export const EditConsultant = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
-  const model = useSelector((state: ConfacState) => state.consultants.find(c => c.slug === params.id || c._id === params.id));
+  const model = useSelector((state: ConfacState) => state.consultants.find(x => x.slug === params.id || x._id === params.id));
   const [consultant, setConsultant] = useState<ConsultantModel>(model || getNewConsultant());
+  const consultantDuplicate = useSelector((state: ConfacState) => state.consultants
+    .filter(x => x.email === consultant.email)
+    .find(x => x.slug !== params.id && x._id !== params.id));
 
   const docTitle = consultant._id ? 'consultantEdit' : 'consultantNew';
   useDocumentTitle(docTitle, {name: `${consultant.firstName} ${consultant.name}`});
@@ -31,21 +34,14 @@ export const EditConsultant = () => {
     setConsultant(model);
   }
 
-  const isButtonDisabled = (): boolean => {
-    const {name, firstName} = consultant;
-
-    if (!name || !firstName) {
-      return true;
-    }
-    return false;
-  };
-
+  const buttonDisabled = !consultant.name || !consultant.firstName;
   return (
     <Container className="edit-container">
       <Form>
         <Row className="page-title-container">
           <h1>{consultant._id ? `${consultant.firstName} ${consultant.name}` : t('consultant.createNew')}</h1>
           <Audit audit={model?.audit} />
+          {consultantDuplicate && <Alert variant="warning">{t('consultant.alreadyExists')}</Alert>}
         </Row>
         <Row>
           <ArrayInput
@@ -59,7 +55,7 @@ export const EditConsultant = () => {
       <StickyFooter claim={Claim.ManageConsultants}>
         <BusyButton
           onClick={() => dispatch(saveConsultant(consultant, undefined, history) as any)}
-          disabled={isButtonDisabled()}
+          disabled={buttonDisabled}
         >
           {t('save')}
         </BusyButton>

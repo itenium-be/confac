@@ -383,6 +383,7 @@ export const trans = {
     externals: 'Externen',
     managers: 'Managers',
     createNew: 'Nieuwe consultant',
+    alreadyExists: 'Consultant met dit email bestaat reeds',
     openEditModal: 'Open details in modal',
     viewDetails: 'Ga naar detail scherm',
     types: {
