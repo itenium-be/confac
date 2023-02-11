@@ -159,9 +159,8 @@ const InboundAmountForecast = ({fullProjectMonth}: InboundAmountForecastProps) =
     amount *= (1 + tax / 100);
   }
 
+  const totalAmount = amount * partnerTariffs.tariff;
   return (
-    <span>
-      {moneyFormat(amount * partnerTariffs.tariff)}
-    </span>
+    <ToClipboardLabel label={moneyFormat(totalAmount)} copyValue={totalAmount.toFixed(2)} />
   );
 };
