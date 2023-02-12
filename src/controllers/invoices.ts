@@ -75,7 +75,6 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
               nr: invoice.number,
               lastNr: lastInvoice.number,
             },
-            reload: false,
           });
       }
 
