@@ -38,10 +38,6 @@ import './index.scss';
 // Fetch data from the db
 import {Provider} from 'react-redux';
 import {store} from './store';
-import {initialLoad} from './actions/index';
-
-store.dispatch(initialLoad());
-
 
 
 

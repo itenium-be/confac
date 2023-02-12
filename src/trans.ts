@@ -77,6 +77,11 @@ export const trans = {
   title: 'Facturen',
   taxRequest: 'btw in aanvraag',
   loadingApp: 'Bezig met laden applicatie...',
+  dataLoad: {
+    monthsLoaded: '{months} maanden in actief werkgeheugen',
+    loadMore: 'Meer data laden',
+    loadNextMonths: 'Volgende {months} maanden laden',
+  },
   nav: {
     monthlyInvoicing: 'Facturatie',
     invoices: 'Facturen',
@@ -215,6 +220,8 @@ export const trans = {
     emailTermsAndConditions: "'Algemene Voorwaarden' opladen",
     termsAndConditions: 'Algemene Voorwaarden',
     audit: 'Audit',
+    otherTitle: 'Andere instellingen',
+    initialMonthLoad: 'Aantal maanden die worden geladen bij startup',
   },
   audit: {
     openFullAuditModel: 'Volledige audit openen',

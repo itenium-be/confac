@@ -27,6 +27,8 @@ export type ConfigModel = {
   emailReminderBcc: string,
   /** Email address to email the invoice pdf (without timesheet) */
   emailInvoiceOnly: string,
+  /** How many months to load at initialLoad */
+  initialMonthLoad: number | null,
   language: Language,
   /** ConditionsAndTerms */
   attachments: Attachment[];

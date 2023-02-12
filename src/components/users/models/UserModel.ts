@@ -64,4 +64,5 @@ export enum Claim {
   ManageRoles = 'manage-roles',
   ViewConsultants = 'view-consultants',
   ManageConsultants = 'manage-consultants',
+  LoadHistoricalData = 'load-historical',
 }

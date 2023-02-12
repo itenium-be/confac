@@ -5,6 +5,7 @@ import {t} from './utils';
 import {AddIcon, Icon} from './controls/Icon';
 import {Claim} from './users/models/UserModel';
 import {EnhanceWithClaim, EnhanceWithClaimProps} from './enhancers/EnhanceWithClaim';
+import {DataLoaded} from './admin/DataLoaded';
 
 
 type OldSchoolMenuLinkProps = EnhanceWithClaimProps & {
@@ -62,6 +63,8 @@ const Header = () => (
       </Nav>
 
       <Dropdown as={ButtonGroup} style={{top: 8, position: 'absolute', right: 80}}>
+        <DataLoaded claim={Claim.LoadHistoricalData} />
+
         <Link claim={Claim.ManageInvoices} to="/invoices/create" className="btn btn-success">
           <AddIcon size={1} style={{marginRight: 15}} />
           <>{t('invoice.createNew')}</>

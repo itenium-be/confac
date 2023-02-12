@@ -33,6 +33,10 @@ export const configDefinition: FullFormConfig = [
   {key: 'defaultInvoiceLines', component: 'EditInvoiceLines', cols: 12},
 
 
+  {title: 'config.otherTitle'},
+  {key: 'initialMonthLoad', component: 'number'},
+
+
   {title: 'config.email.title'},
   {key: 'email.from', cols: 6, component: 'email'},
   {key: 'email.attachments', component: 'AttachmentsTypeSelect', cols: 6},
@@ -45,4 +49,5 @@ export const configDefinition: FullFormConfig = [
   {key: 'emailReminderCc', component: 'email', cols: 6},
   {key: 'emailReminderBcc', component: 'email', cols: 6},
   {key: 'emailInvoiceOnly', cols: 12, component: 'email'},
+  // ATTN: TermsAndConditions added here in ConfigEdit
 ];

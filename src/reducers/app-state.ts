@@ -57,6 +57,10 @@ export const defaultAppState: AppState = {
   isLoaded: false,
   isBusy: false,
   busyCount: 0,
+  settings: {
+    listSize: 100,
+  },
+  lastMonthsDownloaded: null,
   invoiceFilters: {
     // search: [{value: moment().year(), label: moment().year(), type: 'year'}],
     search: [{value: 'last 3 months', label: 'last 3 months', type: 'manual_input'}], // See InvoiceListModel

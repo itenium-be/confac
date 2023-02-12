@@ -4,9 +4,8 @@ import {ListHeader} from './ListHeader';
 import {ListRow} from './ListRow';
 import {ListFooter} from './ListFooter';
 import {IFeature} from '../feature/feature-models';
-
-
-const PageSize = 100;
+import {useSelector} from 'react-redux';
+import {ConfacState} from '../../../reducers/app-state';
 
 
 type ListProps = {
@@ -14,6 +13,7 @@ type ListProps = {
 }
 
 export const List = ({feature}: ListProps) => {
+  const listSize = useSelector((state: ConfacState) => state.app.settings.listSize);
   const [page, setPage] = useState(0);
 
   const config = feature.list;
@@ -34,7 +34,7 @@ export const List = ({feature}: ListProps) => {
     <Table size="sm" className={`table-${feature.key}`}>
       <ListHeader feature={feature} />
       <tbody>
-        {data.slice(page * PageSize, page * PageSize + PageSize).map(model => (
+        {data.slice(page * listSize, page * listSize + listSize).map(model => (
           <ListRow config={config} model={model} key={model._id} />
         ))}
       </tbody>
@@ -54,7 +54,8 @@ type PaginationProps = {
 
 
 const Pagination = (props: PaginationProps) => {
-  const pageCount = Math.ceil(props.total / PageSize);
+  const listSize = useSelector((state: ConfacState) => state.app.settings.listSize);
+  const pageCount = Math.ceil(props.total / listSize);
   if (pageCount === 1) {
     return null;
   }

@@ -93,8 +93,9 @@ function fetchConsultants() {
   });
 }
 
-function fetchProjects() {
-  return dispatch => httpGet('/projects').then(data => {
+function fetchProjects(initialMonthsLoad: number) {
+  const url = '/projects?months=' + initialMonthsLoad;
+  return dispatch => httpGet(url).then(data => {
     dispatch({
       type: ACTION_TYPES.PROJECTS_FETCHED,
       projects: data,
@@ -102,17 +103,10 @@ function fetchProjects() {
   });
 }
 
-function fetchConfig() {
-  return dispatch => httpGet('/config').then(data => {
-    dispatch({
-      type: ACTION_TYPES.CONFIG_FETCHED,
-      config: data,
-    });
-  });
-}
 
-function fetchInvoices() {
-  return dispatch => httpGet('/invoices').then(data => {
+function fetchInvoices(initialMonthsLoad: number) {
+  const url = '/invoices?months=' + initialMonthsLoad;
+  return dispatch => httpGet(url).then(data => {
     dispatch({
       type: ACTION_TYPES.INVOICES_FETCHED,
       invoices: data,
@@ -138,8 +132,9 @@ function fetchRoles() {
   });
 }
 
-function fetchProjectsMonth() {
-  return dispatch => httpGet('/projects/month').then(data => {
+function fetchProjectsMonth(initialMonthsLoad: number) {
+  const url = '/projects/month?months=' + initialMonthsLoad;
+  return dispatch => httpGet(url).then(data => {
     dispatch({
       type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
       projectsMonth: data,
@@ -157,8 +152,9 @@ function fetchProjectsMonth() {
   });
 }
 
-function fetchProjectsMonthOverviews() {
-  return (dispatch: Dispatch) => httpGet('/projects/month/overview').then(data => {
+function fetchProjectsMonthOverviews(initialMonthsLoad: number) {
+  const url = '/projects/month/overview?months=' + initialMonthsLoad;
+  return (dispatch: Dispatch) => httpGet(url).then(data => {
     dispatch({
       type: ACTION_TYPES.PROJECTS_MONTH_OVERVIEWS_FETCHED,
       projectsMonthOverviews: data,
@@ -166,23 +162,37 @@ function fetchProjectsMonthOverviews() {
   });
 }
 
-export function initialLoad(): any {
+export function initialLoad(loadNextMonth?: number): any {
   if (!authService.loggedIn()) {
     return {type: 'NONE'};
   }
 
-  counter = 0;
-  return dispatch => Promise.all([
-    dispatch(fetchClients()),
-    dispatch(fetchConfig()),
-    dispatch(fetchInvoices()),
-    dispatch(fetchConsultants()),
-    dispatch(fetchProjects()),
-    dispatch(fetchProjectsMonth()),
-    dispatch(fetchProjectsMonthOverviews()),
-    dispatch(fetchUsers()),
-    dispatch(fetchRoles()),
-  ]).then(() => {
-    dispatch({type: ACTION_TYPES.INITIAL_LOAD});
-  });
+  return dispatch => {
+    counter = 0;
+
+    let monthsToLoad: number = loadNextMonth!;
+    let promise: any = httpGet('/config').then(data => {
+      dispatch({
+        type: ACTION_TYPES.CONFIG_FETCHED,
+        config: data,
+      });
+      if (!loadNextMonth) {
+        monthsToLoad = data.initialMonthLoad;
+      }
+    });
+
+    promise = promise.then(() => [
+      dispatch(fetchClients()),
+      dispatch(fetchConsultants()),
+      dispatch(fetchUsers()),
+      dispatch(fetchRoles()),
+      dispatch(fetchInvoices(monthsToLoad)),
+      dispatch(fetchProjects(monthsToLoad)),
+      dispatch(fetchProjectsMonth(monthsToLoad)),
+      dispatch(fetchProjectsMonthOverviews(monthsToLoad)),
+    ]);
+
+    return promise
+      .then(() => dispatch({type: ACTION_TYPES.INITIAL_LOAD, lastMonthsDownloaded: monthsToLoad}));
+  }
 }

@@ -52,6 +52,12 @@ export type AppState = {
   isLoaded: boolean,
   isBusy: boolean,
   busyCount: number,
+  settings: {
+    /** Default pagination size for ListRow */
+    listSize: number,
+  },
+  /** Last x months of data has been loaded */
+  lastMonthsDownloaded: number | null,
   invoiceFilters: InvoiceFilters,
   filters: {
     consultants: ConsultantListFilters,
