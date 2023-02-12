@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 import {Row, Col, ButtonGroup} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
 import {t} from '../../utils';
@@ -20,39 +20,36 @@ type InvoiceSearchProps = {
 }
 
 
-export class InvoiceSearch extends Component<InvoiceSearchProps> {
-  onFilterChange(updateObj: InvoiceFilters | {}) {
-    const newFilter: InvoiceFilters = {...this.props.filters, ...updateObj};
-    this.props.onChange(newFilter);
+
+export const InvoiceSearch = (props: InvoiceSearchProps) => {
+  const onFilterChange = (updateObj: Partial<InvoiceFilters>) => {
+    const newFilter: InvoiceFilters = {...props.filters, ...updateObj};
+    props.onChange(newFilter);
   }
 
-  render() {
-    const {search, freeInvoice} = this.props.filters;
-    return (
-      <Row>
-        <Col xl={4} md={4} className="list">
-          <SearchStringInput
-            value={freeInvoice}
-            onChange={str => this.onFilterChange({freeInvoice: str})}
-          />
-        </Col>
-        <Col xl={6} md={6}>
-          <InvoiceSearchSelect
-            onChange={(value: InvoiceFiltersSearch[]) => this.onFilterChange({search: value})}
-            value={search}
-            options={this.props.filterOptions}
-          />
-        </Col>
-
-        <InvoiceSearchAdvanced
-          groupedByMonth={this.props.filters.groupedByMonth}
-          onGroupedByMonthCange={(checked: boolean) => this.onFilterChange({groupedByMonth: checked})}
-          vm={this.props.vm}
+  return (
+    <Row>
+      <Col xl={4} md={4} className="list">
+        <SearchStringInput
+          value={props.filters.freeInvoice}
+          onChange={str => onFilterChange({freeInvoice: str})}
         />
+      </Col>
+      <Col xl={6} md={6}>
+        <InvoiceSearchSelect
+          onChange={(value: InvoiceFiltersSearch[]) => onFilterChange({search: value})}
+          value={props.filters.search}
+          options={props.filterOptions}
+        />
+      </Col>
 
-      </Row>
-    );
-  }
+      <InvoiceSearchAdvanced
+        groupedByMonth={props.filters.groupedByMonth}
+        onGroupedByMonthCange={(checked: boolean) => onFilterChange({groupedByMonth: checked})}
+        vm={props.vm}
+      />
+    </Row>
+  );
 }
 
 type InvoiceSearchAdvancedProps = {
@@ -61,6 +58,8 @@ type InvoiceSearchAdvancedProps = {
   vm: InvoiceListModel,
 }
 
+
+/** Download zip/excel, toggle GroupedTable */
 const InvoiceSearchAdvanced = (props: InvoiceSearchAdvancedProps) => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
