@@ -27,7 +27,7 @@ export type ListFilters = {
 }
 
 export type ProjectListFilters = ListFilters;
-export type ProjectMonthListFilters = ListFilters & {openMonths: string[]};
+export type ProjectMonthListFilters = ListFilters & {openMonths: string[], unverifiedOnly: boolean};
 export type InvoiceListFilters = ListFilters;
 export type ConsultantListFilters = ListFilters;
 export type UsersListFilters = ListFilters;
@@ -43,6 +43,7 @@ export interface IListFilter<TFilterModel extends ListFilters, TModel> {
   updateFilter: (m: TFilterModel) => void,
   fullTextSearch?: (filters: TFilterModel, m: TModel) => boolean;
   softDelete?: boolean;
+  /** Custom filter components */
   extras?: () => React.ReactNode;
 }
 

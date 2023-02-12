@@ -480,6 +480,7 @@ export const trans = {
     consultant: 'Consultant',
     title: 'Projecten maand',
     listTitle: '{month} {year}',
+    filterUnverified: 'Enkel niet gevalideerde',
     footer: {
       forecast: 'Forecast excl. btw',
       projecten: '{projects} projecten',

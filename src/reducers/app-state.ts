@@ -48,6 +48,7 @@ export const getProjectMonthsFilters = (projectMonths?: ProjectMonthModel[]): Pr
   return {
     ...getListFilters(),
     openMonths,
+    unverifiedOnly: false,
   };
 };
 

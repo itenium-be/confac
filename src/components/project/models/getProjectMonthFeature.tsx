@@ -12,6 +12,7 @@ import {ProjectMonthOutboundCell} from '../project-month-list/ProjectMonthOutbou
 import {getInvoiceDueDateVariant} from '../../invoice/invoice-table/getInvoiceListRowClass';
 import {ProjectMonthNotesCell} from '../project-month-list/ProjectMonthNotesCell';
 import {ConsultantCountFooter, ProjectForecastPartnerFooter, ProjectClientForecastFooter} from '../project-month-list/ProjectMonthFooters';
+import {Switch} from '../../controls/form-controls/Switch';
 
 
 export type ProjectMonthFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectMonthModel, ProjectMonthListFilters>;
@@ -19,6 +20,14 @@ export type ProjectMonthFeatureBuilderConfig = IFeatureBuilderConfig<FullProject
 
 
 const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMonthModel) => {
+  if (filters.unverifiedOnly) {
+    if (prj.details.verified)
+      return false;
+
+    if (prj.invoice?.verified && (!prj.project.projectMonthConfig.inboundInvoice || prj.details.inbound.status === 'paid'))
+      return false;
+  }
+
   if (!filters.freeText) {
     return true;
   }
@@ -155,6 +164,13 @@ export const projectMonthFeature = (config: ProjectMonthFeatureBuilderConfig): I
     updateFilter: config.setFilters,
     fullTextSearch: fullProjectSearch,
     softDelete: false,
+    extras: () => (
+      <Switch
+        value={config.filters.unverifiedOnly}
+        onChange={value => config.setFilters({...config.filters, unverifiedOnly: value})}
+        label={t('projectMonth.filterUnverified')}
+      />
+    ),
   };
 
   return feature;
