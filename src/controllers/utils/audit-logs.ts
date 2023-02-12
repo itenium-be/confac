@@ -2,14 +2,22 @@ import diff, {Diff} from 'deep-diff';
 import {ConfacRequest} from '../../models/technical';
 
 
-export async function saveAudit(req: ConfacRequest, model: string, originalValue: any, newValue: any) {
+export async function saveAudit(
+  req: ConfacRequest,
+  model: string,
+  originalValue: any,
+  newValue: any,
+  extraExcludes?: string[],
+) {
   const leDiff = (diff(originalValue, newValue) as Diff<any, any>[])
-  .filter(x => !x.path || !['_id', 'audit'].includes(x.path[0]))
-  .filter(x => x.kind !== 'N' || x.rhs)
-  .map(x => ({
-    ...x,
-    path: x.path?.join('.'),
-  }));
+    .filter(x => !x.path || !['_id', 'audit'].includes(x.path[0]))
+    .map(x => ({
+      ...x,
+      path: x.path?.join('.'),
+      kind: x.kind === 'E' && x.rhs === null ? 'D' : x.kind,
+    }))
+    .filter(x => !x.path || !(extraExcludes || []).includes(x.path))
+    .filter(x => x.kind !== 'N' || x.rhs);
 
   if (leDiff.length) {
     const log = {

@@ -128,25 +128,37 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
       .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {pdf: updatedPdfBuffer}});
   }
 
+  if (!invoice.projectMonth) {
+    // Makes sure projectMonth is overwritten in the db if already present there
+    invoice.projectMonth = undefined;
+  }
+
   const {value: originalInvoice} = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
     .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: invoice}, {returnOriginal: true});
 
-  await saveAudit(req, 'invoice', originalInvoice, invoice);
+  // Fix diff
+  if (!invoice.projectMonth) {
+    delete invoice.projectMonth;
+  }
+  if (originalInvoice && !originalInvoice?.projectMonth) {
+    delete originalInvoice.projectMonth;
+  }
+  await saveAudit(req, 'invoice', originalInvoice, invoice, ['projectMonth.consultantId']);
 
   let projectMonth;
-  if (invoice?.projectMonth) {
+  if (invoice?.projectMonth?.projectMonthId) {
     // TODO: This should be a separate route once security is implemented
     // Right now it is always updating the projectMonth.verified but this only changes when the invoice.verified changes
     // This is now 'fixed' on the frontend.
     projectMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
-      .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth?.projectMonthId)}, {$set: {verified: invoice.verified}});
+      .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth.projectMonthId)}, {$set: {verified: invoice.verified}});
   }
 
   const result: Array<any> = [{
     type: 'invoice',
     model: {_id, ...invoice},
   }];
-  if (projectMonth && projectMonth.ok) {
+  if (projectMonth && projectMonth.ok && projectMonth.value) {
     result.push({
       type: 'projectMonth',
       model: projectMonth.value,
