@@ -19,7 +19,10 @@ export const findActiveProjectsForSelectedMonth = (selectedMonth: string, projec
 
 
 export const getProjects = async (req: Request, res: Response) => {
-  const projects = await req.db.collection<IProject>(CollectionNames.PROJECTS).find().toArray();
+  // const getFrom = moment().subtract(req.query.months, 'months').startOf('month').format('YYYY-MM-DD');
+  const projects = await req.db.collection<IProject>(CollectionNames.PROJECTS)
+    .find()
+    .toArray();
   return res.send(projects);
 };
 

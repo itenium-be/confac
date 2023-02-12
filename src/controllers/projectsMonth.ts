@@ -1,5 +1,6 @@
 import {Request, Response} from 'express';
 import {ObjectID} from 'mongodb';
+import moment from 'moment';
 import {IProjectMonth, IProjectMonthOverview, TimesheetCheckAttachmentType} from '../models/projectsMonth';
 import {CollectionNames, createAudit, updateAudit} from '../models/common';
 import {ConfacRequest} from '../models/technical';
@@ -7,15 +8,18 @@ import {saveAudit} from './utils/audit-logs';
 
 
 export const getProjectsPerMonthController = async (req: Request, res: Response) => {
-  const projectsPerMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH).find()
+  const getFrom = moment().subtract(req.query.months, 'months').startOf('month').format('YYYY-MM-DD');
+  const projectsPerMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
+    .find({month: {$gte: getFrom}})
     .toArray();
   return res.send(projectsPerMonth);
 };
 
 /** Returns only file details of a projects month attachment overview (all timesheets combined in one file) */
 export const getProjectsPerMonthOverviewController = async (req: Request, res: Response) => {
+  const getFrom = moment().subtract(req.query.months, 'months').startOf('month').format('YYYY-MM-DD');
   const projectsPerMonthOverview = await req.db.collection<IProjectMonthOverview>(CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW)
-    .find({}, {projection: {[TimesheetCheckAttachmentType]: false}})
+    .find({month: {$gte: getFrom}}, {projection: {[TimesheetCheckAttachmentType]: false}})
     .toArray();
   return res.send(projectsPerMonthOverview);
 };
