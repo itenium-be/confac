@@ -165,7 +165,7 @@ export function getInvoiceColumns(includeFields: string[], transPrefix: string):
     key: 'total-amount',
     header: {
       title: 'invoice.totalTitle',
-      width: '10%',
+      width: 140,
     },
     style: {textAlign: 'right', whiteSpace: 'nowrap'},
     value: (invoice: InvoiceModel) => (
