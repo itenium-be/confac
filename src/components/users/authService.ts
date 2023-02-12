@@ -31,48 +31,89 @@ type JwtModel = {
 }
 
 
-export const authService: IAuthService = {
-  loggedIn: () => !!localStorage.getItem('jwt'),
-  login: (res: any, dispatch: Dispatch<any>, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) => {
-    dispatch(authenticateUser(res, setState));
-  },
-  logout: () => {
-    localStorage.removeItem('jwt');
-  },
-  getBearer: (): string => `Bearer ${localStorage.getItem('jwt')}`,
-  getTokenString: (): string | null => localStorage.getItem('jwt'),
-  getToken: (): JwtModel | null => {
-    const token = localStorage.getItem('jwt');
-    if (!token) {
-      return null;
-    }
-    return parseJwt(token);
-  },
-  getUser: (): UserModel | null => {
-    const token = authService.getToken();
-    if (!token) {
-      return null;
-    }
-    return token.data;
-  },
-  getClaims: (): Claim[] => {
-    const user = authService.getUser();
-    if (!user) {
-      return [];
-    }
-    const claims = getRoles()
-      .filter(x => (user.roles || []).includes(x.name))
-      .map(x => x.claims)
-      .flat();
 
-    return claims;
-  },
-  refresh: (): void => {
+class AuthService implements IAuthService {
+  _jwt = '';
+  _token: JwtModel | null = null;
+  _claims: Claim[] = [];
+
+  constructor() {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      this.authenticated(jwt)
+    }
+  }
+
+  loggedIn(): boolean {
+    return !!this._jwt;
+  }
+
+  /**
+   * @res: Google response
+   * @setState: Uhoh, LoginPage.useState...
+   */
+  login(res: any, dispatch: Dispatch<any>, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) {
+    dispatch(authenticateUser(res, setState));
+  }
+
+  authenticated(jwt: string): void {
+    localStorage.setItem('jwt', jwt);
+    this._jwt = jwt;
+    this._token = jwt ? parseJwt(jwt) : null;
+    const user = this._token?.data;
+    if (user) {
+      this._claims = getRoles()
+        .filter(x => (user.roles || []).includes(x.name))
+        .map(x => x.claims)
+        .flat();
+
+    } else {
+      this._claims = [];
+    }
+  }
+
+  logout(): void {
+    localStorage.removeItem('jwt');
+    this._jwt = '';
+    this._token = null;
+    this._claims = [];
+  }
+
+  getBearer(): string {
+    return `Bearer ${this._jwt}`;
+  }
+
+  getTokenString(): string | null {
+    return this._jwt || null;
+  }
+
+  getToken(): JwtModel | null {
+    return this._token;
+  }
+
+  getUser(): UserModel | null {
+    return this._token?.data || null;
+  }
+
+  getClaims(): Claim[] {
+    return this._claims;
+  }
+
+  refresh(): void {
     refreshToken();
-  },
-  refreshInterval: () => (+(localStorage.getItem('jwtInterval') || (60 * 60)) * 1000),
-  entryPathname: document.location.pathname,
+  }
+
+  refreshInterval(): number {
+    return +(localStorage.getItem('jwtInterval') || (60 * 60)) * 1000;
+  }
+
+  entryPathname = document.location.pathname;
 };
+
+
+export const authService = new AuthService();
+
+
 
 function parseJwt(token: string): JwtModel {
   const base64Url = token.split('.')[1];
@@ -95,7 +136,7 @@ function refreshToken(): void {
     .set('Accept', 'application/json')
     .then(res => {
       console.log('refresh result', res.body);
-      localStorage.setItem('jwt', res.body.jwt);
+      authService.authenticated(res.body.jwt);
     })
     .catch(err => {
       console.log('refresh error', err);
@@ -108,8 +149,7 @@ function authenticateUser(loginResponse: any, setState: React.Dispatch<SetStateA
   setState('');
 
   console.log('loginResponse', loginResponse);
-  const idToken = loginResponse.tokenId; // TODO: Answer on laptop looked like this
-  // const idToken = loginResponse.tc.id_token; // But on desktop it looked like this. wtf?
+  const idToken = loginResponse.tokenId;
   return dispatch => {
     request.post(buildUrl('/user/login'))
       .set('Content-Type', 'application/json')
@@ -117,7 +157,7 @@ function authenticateUser(loginResponse: any, setState: React.Dispatch<SetStateA
       .send({idToken})
       .then(res => {
         console.log('login result', res.body);
-        localStorage.setItem('jwt', res.body.jwt);
+        authService.authenticated(res.body.jwt);
         dispatch(initialLoad());
         setState('loggedIn');
       })
