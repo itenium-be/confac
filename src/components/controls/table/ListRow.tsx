@@ -8,13 +8,11 @@ type ListRowProps<TModel> = {
 }
 
 
-// eslint-disable-next-line arrow-body-style
 export const ListRow = ({model, config}: ListRowProps<any>) => {
   // console.log('START LIST_ROW', config.rows.cells.map(c => c.key));
   return (
     <tr className={config.rows.className && config.rows.className(model)}>
       {config.rows.cells.map((col: IListCell<any>) => {
-        // console.log('td', col);
         const className = typeof col.className === 'function' ? col.className(model) : col.className;
         return (
           <td key={col.key} style={col.style} className={className}>
