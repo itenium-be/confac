@@ -17,13 +17,13 @@ import {Button} from '../../controls/form-controls/Button';
 import {getNewInvoice} from '../models/getNewInvoice';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import {InvoiceAttachmentsForm} from '../controls/InvoiceAttachmentsForm';
-import {ProjectMonthSelect} from '../../project/controls/ProjectMonthSelect';
 import {EditInvoiceBadges} from './EditInvoiceBadges';
 import {Audit} from '../../admin/Audit';
 import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
 import {Claim} from '../../users/models/UserModel';
 import {useProjectsMonth} from '../../hooks/useProjects';
 import {useParams} from 'react-router-dom';
+import {ProjectMonthOrManualSelect} from '../../project/controls/ProjectMonthOrManualSelect';
 
 
 import './EditInvoice.scss';
@@ -125,18 +125,20 @@ const EditInvoice = () => {
               />
             </Row>
             <Row>
-              <Col sm={12}>
-                <ProjectMonthSelect
-                  label={t('projectMonth.selectLabel')}
-                  value={invoice.projectMonth ? invoice.projectMonth.projectMonthId : ''}
-                  onChange={fpm => {
-                    invoice.setProjectMonth(fpm);
-                    setInvoice(invoice);
-                    forceUpdate();
-                  }}
-                  invoice={invoice}
-                />
-              </Col>
+              <ProjectMonthOrManualSelect
+                value={invoice.projectMonth}
+                onProjectMonthChange={fpm => {
+                  invoice.setProjectMonth(fpm);
+                  setInvoice(invoice);
+                  forceUpdate();
+                }}
+                onManualChange={(consultant, month) => {
+                  invoice.setManualProjectMonth(consultant, month || undefined);
+                  setInvoice(invoice);
+                  forceUpdate();
+                }}
+                invoice={invoice}
+              />
             </Row>
           </Col>
         </Row>

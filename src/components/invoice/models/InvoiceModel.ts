@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment, {Moment} from 'moment';
 import {DefaultHoursInDay} from '../../client/models/getNewClient';
 import {ConfigModel, ConfigCompanyModel} from '../../config/models/ConfigModel';
 import {getInvoiceDate} from './invoice-date-strategy';
@@ -7,6 +7,7 @@ import {Attachment, IAttachment, IAudit} from '../../../models';
 import {InvoiceLine} from './InvoiceLineModels';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
 import Holidays from 'date-holidays';
+import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 
 
 export type InvoiceMoney = {
@@ -24,11 +25,11 @@ export type InvoiceMoney = {
 
 
 export interface InvoiceProjectMonth {
-  projectMonthId: string;
-  month: moment.Moment;
+  projectMonthId?: string;
+  month?: moment.Moment;
 
-  consultantId: string;
-  consultantName: string;
+  consultantId?: string;
+  consultantName?: string;
 }
 
 
@@ -130,6 +131,20 @@ export default class InvoiceModel implements IAttachment {
       month: fpm.details.month,
       consultantId: fpm.consultant._id,
       consultantName: `${fpm.consultant.firstName} ${fpm.consultant.name}`,
+    };
+  }
+
+  setManualProjectMonth(consultant?: ConsultantModel, month?: Moment): void {
+    if (!consultant && !month) {
+      this.projectMonth = undefined;
+      return;
+    }
+
+    this.projectMonth = {
+      projectMonthId: undefined,
+      month: month,
+      consultantId: consultant?._id,
+      consultantName: consultant ? `${consultant.firstName} ${consultant.name}` : undefined,
     };
   }
 

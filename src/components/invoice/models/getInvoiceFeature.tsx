@@ -142,7 +142,7 @@ export function getInvoiceColumns(includeFields: string[], transPrefix: string):
   }, {
     key: 'period',
     header: `${transPrefix}.period`,
-    value: (i: InvoiceModel) => i.projectMonth && moment(i.projectMonth.month).format('M/YY'),
+    value: (i: InvoiceModel) => i.projectMonth?.month && moment(i.projectMonth.month).format('M/YY'),
   }, {
     key: 'consultant',
     header: `${transPrefix}.consultant`,

@@ -15,15 +15,13 @@ type ConsultantSelectProps = {
 }
 
 const ConsultantSelectComponent = ({value, onChange}: ConsultantSelectProps) => {
-  const models = useSelector((state: ConfacState) => state.consultants.filter(x => x.active));
-  const getModel = (consultantId: string): ConsultantModel => models.find(c => c._id === consultantId) as ConsultantModel;
-  const getModelDesc = (c: ConsultantModel) => `${c.firstName} ${c.name} (${t(`consultant.types.${c.type}`)})`;
-
   const selectedModelId = value && typeof value === 'object' ? value._id : value;
+  const models = useSelector((state: ConfacState) => state.consultants.filter(x => x.active || x._id === selectedModelId));
+  const getModel = (consultantId: string): ConsultantModel => models.find(c => c._id === consultantId) as ConsultantModel;
+
   const options: SelectItem[] = models
-    .filter(x => x.active || x._id === selectedModelId)
-    .sort((a, b) => getModelDesc(a).localeCompare(getModelDesc(b)))
-    .map(item => ({value: item._id, label: getModelDesc(item)} as SelectItem));
+    .map(x => ({value: x._id, label: `${x.firstName} ${x.name} (${t(`consultant.types.${x.type}`)})`} as SelectItem))
+    .sort((a, b) => (a.label as string).localeCompare(b.label as string));
 
   const selectedOption = options.find(o => o.value === selectedModelId);
 
