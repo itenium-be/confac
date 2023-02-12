@@ -22,10 +22,6 @@ export function catchHandler(err) {
       console.error('BadRequest', msg);
       failure(msg, 'BadRequest', false);
 
-      if (err.body.reload) {
-        store.dispatch(initialLoad());
-      }
-
     } else {
       console.error('BadRequest', err.res.error);
       failure('Unknown Erreur', 'BadRequest', 5000);
