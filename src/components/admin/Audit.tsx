@@ -166,8 +166,12 @@ function displayVal(value: any): string {
   if (typeof value === 'boolean')
     return value.toString();
 
-  if (typeof value === 'number')
+  if (typeof value === 'number') {
+    if (Number.isInteger(value))
+      return value.toString();
+
     return value.toFixed(2);
+  }
 
   if (typeof value === 'object')
     return JSON.stringify(value, undefined, 2);
