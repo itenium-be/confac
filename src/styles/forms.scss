@@ -6,7 +6,7 @@ button[disabled] {
 
 
 
-::placeholder {
+::placeholder, .react-select__placeholder {
   color: $placeholder-color !important;
 }
 
