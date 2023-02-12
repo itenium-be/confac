@@ -25,3 +25,17 @@
 .icons-cell > i:not(:last-child) {
   margin-right: 12px;
 }
+
+.pagination {
+  font-weight: normal;
+  margin: auto;
+  justify-content: center;
+
+  li {
+    margin-right: 16px;
+
+    &.clickable {
+      font-weight: bold;
+    }
+  }
+}
