@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
-import {useSelector} from 'react-redux';
 import moment from 'moment';
 import {InvoiceClientCell} from '../invoice-table/InvoiceClientCell';
 import {InvoiceNumberCell} from '../invoice-table/InvoiceNumberCell';
@@ -17,8 +16,6 @@ import {Features, IFeature} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ProjectMonthModal} from '../../project/controls/ProjectMonthModal';
-import {ConfacState} from '../../../reducers/app-state';
-import {singleProjectMonthResolve} from '../../hooks/useProjects';
 
 
 
@@ -39,22 +36,7 @@ const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
   const [hover, setHover] = useState<boolean>(false);
 
   const invoiceProjectMonth = invoice.projectMonth;
-  const fullProjectMonth = useSelector((state: ConfacState) => {
-    if (!invoiceProjectMonth) {
-      return null;
-    }
-    const projectMonth = state.projectsMonth.find(pm => pm._id === invoiceProjectMonth.projectMonthId);
-    if (!projectMonth) {
-      return null;
-    }
-
-    return singleProjectMonthResolve(state, projectMonth);
-  });
-
-  const consultants = useSelector((state: ConfacState) => state.consultants);
-  const consultant = consultants.find(c => c._id === (invoiceProjectMonth && invoiceProjectMonth.consultantId));
-
-  if (!invoiceProjectMonth || !consultant) {
+  if (!invoiceProjectMonth || !invoiceProjectMonth.consultantId) {
     return null;
   }
 
@@ -63,10 +45,10 @@ const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <Link to={fullProjectMonth ? `/projects/${fullProjectMonth.project._id}` : `/consultants/${consultant.slug}`}>
-        {`${consultant.firstName} ${consultant.name}`}
+      <Link to={invoiceProjectMonth.projectMonthId ? `/projects/${invoiceProjectMonth.projectMonthId}` : `/consultants/${invoiceProjectMonth.consultantId}`}>
+        {invoiceProjectMonth.consultantName}
       </Link>
-      {fullProjectMonth && (
+      {invoiceProjectMonth.projectMonthId && (
         <>
           <Icon
             style={{visibility: hover ? 'unset' : 'hidden', marginLeft: 8, color: 'grey'}}
@@ -80,7 +62,7 @@ const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
                 setModal(false);
                 setHover(false);
               }}
-              projectMonth={fullProjectMonth}
+              projectMonth={invoiceProjectMonth.projectMonthId}
             />
           )}
         </>
