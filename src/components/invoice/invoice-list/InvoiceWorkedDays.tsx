@@ -1,6 +1,6 @@
 import React from 'react';
 import {t} from '../../utils';
-import InvoiceModel, {calculateDaysWorked, DaysWorked} from '../models/InvoiceModel';
+import InvoiceModel, {calculateDaysWorked, DaysWorked, getWorkDaysInMonths} from '../models/InvoiceModel';
 
 type InvoiceWorkedDaysProps = {
   invoices: InvoiceModel[],
@@ -8,19 +8,8 @@ type InvoiceWorkedDaysProps = {
 }
 
 
-export const InvoiceWorkedDays = ({invoices = [], ...props}: InvoiceWorkedDaysProps) => {
+export const InvoiceWorkedDays = ({invoices = [], display}: InvoiceWorkedDaysProps) => {
   const days = calculateDaysWorked(invoices);
-  return <WorkedDays days={days} {...props} />;
-};
-
-
-type WorkedDaysProps = {
-  days: DaysWorked & {workDaysInMonth: number},
-  display?: 'month' | 'client' | 'invoice',
-}
-
-
-export const WorkedDays = ({days, display = 'month'}: WorkedDaysProps) => {
   if (days.daysWorked === 0) {
     return null;
   }
@@ -30,13 +19,14 @@ export const WorkedDays = ({days, display = 'month'}: WorkedDaysProps) => {
   }
 
   if (display === 'month') {
+    const workDaysInMonth = getWorkDaysInMonths(invoices);
     return (
       <span>
         <span>{days.daysWorked.toFixed(1).replace('.', ',')}</span>
         &nbsp;/&nbsp;
-        <span>{days.workDaysInMonth}</span>
+        <span>{workDaysInMonth}</span>
         &nbsp;(
-        <span>{calcPer(days)}</span>
+        <span>{calcPer(days, workDaysInMonth)}</span>
         )
       </span>
     );
@@ -51,9 +41,7 @@ export const WorkedDays = ({days, display = 'month'}: WorkedDaysProps) => {
 
 
 
-/**
- * Print % days worked in month
- */
-function calcPer(days: DaysWorked & { workDaysInMonth: number }): string {
-  return `${Math.round((days.daysWorked / days.workDaysInMonth) * 100)}%`;
+/** Print % days worked in month */
+function calcPer(days: DaysWorked, workDaysInMonth: number): string {
+  return `${Math.round((days.daysWorked / workDaysInMonth) * 100)}%`;
 }

@@ -284,7 +284,8 @@ export function getWorkDaysInMonth(momentInst: moment.Moment): Date[] {
   return result;
 }
 
-function getWorkDaysInMonths(invoices: InvoiceModel[]): number {
+
+export function getWorkDaysInMonths(invoices: InvoiceModel[]): number {
   const invoicesPerMonth = groupInvoicesPerMonth(invoices);
   const result = invoicesPerMonth.map(({invoiceList}) => getWorkDaysInMonth(invoiceList[0].date).length);
   return result.reduce((prev, cur) => prev + cur, 0);
@@ -292,15 +293,12 @@ function getWorkDaysInMonths(invoices: InvoiceModel[]): number {
 
 
 
-export function calculateDaysWorked(invoices: InvoiceModel[]): DaysWorked & {workDaysInMonth: number} {
+export function calculateDaysWorked(invoices: InvoiceModel[]): DaysWorked {
   const invoiceDays = invoices.map(daysCalc);
   const invoiceDayTotals = invoiceDays.reduce((a, b) => ({
     daysWorked: a.daysWorked + b.daysWorked,
     hoursWorked: a.hoursWorked + b.hoursWorked,
   }), {daysWorked: 0, hoursWorked: 0});
 
-
-  const workDaysInMonth = getWorkDaysInMonths(invoices);
-  const result = Object.assign(invoiceDayTotals, {workDaysInMonth});
-  return result;
+  return invoiceDayTotals;
 }
