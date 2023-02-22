@@ -4,7 +4,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!astronomia)/\"",
     "eject": "react-scripts eject",
     "lint": "eslint --fix --ext js,ts,tsx src",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
