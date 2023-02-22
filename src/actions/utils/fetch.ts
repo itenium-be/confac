@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
 import {failure} from '../appActions';
-import {store} from '../../store';
-import {initialLoad} from '../initialLoad';
 import t from '../../trans';
 import {authService} from '../../components/users/authService';
 

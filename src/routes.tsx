@@ -30,7 +30,7 @@ const Routes = () => {
   useEffect(() => {
     console.log('initial load STARTED!!');
     dispatch(initialLoad());
-  }, []);
+  }, []); // eslint-disable-line
 
   return (
     <BrowserRouter>
