@@ -1,6 +1,9 @@
 confac-front
 ============
 
+Node v16.10.0
+
+
 Some issues at:  
 https://github.com/be-pongit/confac-front/issues
 
