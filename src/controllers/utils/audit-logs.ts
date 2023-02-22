@@ -17,12 +17,12 @@ export async function saveAudit(
       kind: x.kind === 'E' && x.rhs === null ? 'D' : x.kind,
     }))
     .filter(x => !x.path || !(extraExcludes || []).includes(x.path))
-    .filter(x => x.kind !== 'N' || x.rhs);
+    .filter(x => x.kind !== 'N' || (x as any).rhs);
 
   if (leDiff.length) {
     const log = {
       user: req.user.data.email,
-      model: model,
+      model,
       modelId: originalValue._id,
       date: new Date().toISOString(),
       diff: leDiff,
