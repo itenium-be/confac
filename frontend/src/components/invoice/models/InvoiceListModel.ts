@@ -138,6 +138,13 @@ export default class InvoiceListModel {
         const start = moment(between[1], 'D/M/YYYY');
         const end = moment(between[2], 'D/M/YYYY');
         invoices = invoices.filter(i => i.date.isBetween(start, end));
+
+        // TODO: dd a filter "pay period M/YY format"
+        // invoices = invoices.filter(i => {
+        //   if (i.projectMonth?.month && moment(i.projectMonth.month).isBetween(start, end))
+        //     return true;
+        //   return i.date.isBetween(start, end);
+        // });
         return;
       }
 
