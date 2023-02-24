@@ -1,0 +1,132 @@
+body {
+	font-family: 'Roboto', sans-serif;
+	padding-top: 25px;
+	padding-left: 25px;
+	font-size: 12px;
+}
+
+dl {
+	width: 100%;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
+dt {
+	float: left;
+	width: 25%;
+	padding: 0;
+	margin: 0;
+
+	margin-right: 10px;
+}
+dd {
+	float: left;
+	width: 70%;
+	padding: 0;
+	margin: 0;
+}
+
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #ccc;
+	margin: 1em 0;
+	padding: 0;
+}
+
+.your-company {
+	border-top: 1px solid rgba(0, 0, 0, 0.137255);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.137255);
+	position: absolute;
+	top: 25px;
+	right: 25px;
+	width: 250px;
+	color: rgba(0, 0, 0, 0.54);
+}
+.your-company dl {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.your-company dt {
+	text-align: right;
+}
+
+
+.their-company {
+	position: absolute;
+	left: 250px;
+	top: 220px;
+}
+
+
+.invoice-details {
+	width: 450px;
+}
+
+
+.container {
+	position: absolute;
+	top: 330px;
+	left: 50px;
+	right: 50px;
+}
+
+table {
+	border-collapse: collapse;
+	margin-top: 20px;
+	border: 0;
+}
+
+table td {
+	padding: 5px;
+}
+
+th {
+	padding: 5px;
+	color: #128AF0;
+	text-transform: uppercase;
+}
+
+tbody tr {
+	height: 400px;
+	vertical-align: top
+}
+
+tfoot td {
+	border-bottom: 0;
+	border-top: 0;
+}
+
+tfoot tr:last-child td:last-child {
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+}
+
+tfoot tr td:first-child, tfoot tr {
+	border-left: 0;
+}
+
+tfoot tr:last-child td:last-child {
+	border-top: 1px solid black;
+}
+
+tfoot tr td:first-child {
+	text-align: right;
+	text-transform: uppercase;
+}
+
+tfoot tr td:last-child {
+	text-align: center;
+}
+
+
+#pageFooter {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 1rem;
+	font-size: 12px;
+	text-align: center;
+}

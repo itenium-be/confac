@@ -1,0 +1,128 @@
+doctype html
+html
+	head
+		title Factuur
+		link(href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet")
+		style
+			include example-1.css
+
+	body
+		img(src=origin + "/example-1-logo.png")
+
+		.your-company
+			dl
+				dt Adres:
+				dd
+					div
+						strong #{your.name}
+					div #{your.address}
+					div #{your.city}
+
+
+			dl
+				dt BTW nr:
+				dd #{your.btw}
+
+			dl
+				dt Bank:
+				dd #{your.bank}
+
+				dt IBAN:
+				dd #{your.iban}
+
+				dt BIC:
+				dd #{your.bic}
+
+			dl
+				dt Tel:
+				dd #{your.telephone}
+
+				dt Email:
+				dd #{your.email}
+
+				dt Website:
+				dd #{your.website}
+
+		.their-company
+			strong #{client.name}
+
+			div #{client.address}
+			div #{client.city}
+			div #{client.telephone}
+			div #{client.btw}
+
+
+		.container
+			h1 Factuur
+
+			hr
+
+			dl.invoice-details
+				dt Factuurdatum:
+				dd #{formatDate(date)}
+
+				if orderNr
+					dt Uw referentie
+					dd #{orderNr}
+
+				dt Factuurnummer:
+				dd #{number}
+
+			table(width="100%" border="1" cellpadding="0" cellspacing="0")
+				thead
+					tr
+						th(width="60%" align="left") Omschrijving
+						th(width="10%" align="center") Eenheid
+						th(width="10%" align="center") Aantal
+						th(width="10%" align="center") Eenheidsprijs
+						th(width="10%" align="center") Bedrag
+
+				tbody
+					tr
+						td
+							each line in lines
+								span #{line.desc}
+								br
+
+						td(align="center")
+							each line in lines
+								span #{line.type}
+								br
+
+						td(align="center")
+							each line in lines
+								span #{line.amount}
+								br
+
+						td(align="center")
+							each line in lines
+								span € #{numberFormat(line.price)}
+								br
+
+						td(align="center")
+							each line in lines
+								span € #{numberFormat(line.price * line.amount)}
+								br
+
+				tfoot
+					tr
+						td(colspan="4") Subtotaal
+						td € #{numberFormat(money.totalWithoutTax)}
+
+					tr
+						td(colspan="4") BTW 21 %
+						td € #{numberFormat(money.totalTax)}
+
+					tr
+						td(colspan="4")
+							strong Totaal te voldoen
+						td
+							strong € #{numberFormat(money.total)}
+
+
+		#pageFooter
+			div We verzoeken u vriendelijk het verschuldigde bedrag binnen 30 dagen over te maken onder vermelding van het factuurnummer.
+
+			br
+
+			div Op alle diensten zijn onze algemene voorwaarden van toepassing. Deze kunt u downloaden van onze website.
