@@ -20,7 +20,7 @@ export const UserPage = () => {
         {t('user.users')}
         <Icon fa="fa fa-arrow-right" size={1} style={{marginLeft: 8}} />
       </Button>
-      <Logout />
+      {localStorage.getItem('googleClientId') && <Logout />}
 
       <UserSettings />
 
