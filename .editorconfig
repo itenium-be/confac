@@ -13,3 +13,6 @@ trim_trailing_whitespace = false
 
 [*.pug]
 indent_style = tab
+
+[*.sh]
+end_of_line = lf

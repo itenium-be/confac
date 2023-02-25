@@ -1,0 +1,46 @@
+version: '3'
+
+
+# /volume1/Personal/sync/dropbox/Personal/Programming/UnixCode/projects/confac/back/templates/FONT
+# MONGO_HOST: 192.168.1.2
+
+services:
+  mongo:
+    container_name: confac-${ENVIRONMENT}-mongo
+    image: "mongo:3.6.3"
+    volumes:
+      # - "/volume1/docker/mongo-data:/data/db"
+      - "./mongo-data:/data/db"
+    ports:
+      - "32772:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: pwd
+
+  web:
+    container_name: "confac-${ENVIRONMENT}-express"
+    build: .
+    volumes:
+      # - "/volume1/Personal/confac-templates:/templates"
+      # - "/volume1/Personal/confac-templates/FONT:/usr/share/fonts"
+      - "../backend/templates-example:/templates"
+      - "../backend/templates-example/FONT:/usr/share/fonts"
+    ports:
+      - "7000:9000"
+    environment:
+      ENABLE_ROOT_TEMPLATES: 1
+      SERVER_HOST: localhost
+      SERVER_BASEPATH: ""
+      PORT: 7000
+      MONGO_HOST: "confac-${ENVIRONMENT}-mongo"
+      MONGO_DB: "confac"
+      MONGO_PORT: 32772
+      MONGO_USERNAME: admin
+      MONGO_PASSWORD: pwd
+      SENDGRID_API_KEY: ""
+      GOOGLE_CLIENT_ID: ""
+      GOOGLE_SECRET: ""
+      GOOGLE_DOMAIN: "itenium.be"
+      JWT_SECRET: ""
+      JWT_EXPIRES: 18000
+      SUPERUSER: ""
