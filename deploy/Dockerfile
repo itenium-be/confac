@@ -7,7 +7,7 @@ RUN apt-get update && \
 	# Pdf Toolkit for pdf merging
 	apt-get install -y pdftk
 
-EXPOSE 9000
+EXPOSE 7000
 
 COPY dist /home
 VOLUME /templates

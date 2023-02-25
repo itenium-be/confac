@@ -82,5 +82,5 @@ app.use((req: Request, res: Response) => res.sendFile('/home/public/index.html')
 
 app.listen(appConfig.server.port, () => {
   console.log(`Server connected to port ${appConfig.server.port}, running in a ${appConfig.ENVIRONMENT} environment.`);
-  // console.log(JSON.stringify(config))
+  console.log(JSON.stringify(appConfig))
 });
