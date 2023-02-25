@@ -33,16 +33,18 @@ export const Audit = (props: AuditProps) => {
     return null;
   }
 
+  const createdByAlias = createdBy?.alias || audit.createdBy;
+  const modifiedByAlias = modifiedBy?.alias || audit.modifiedBy;
   return (
     <small className="created-on">
       {audit.createdOn && t('createdOn', {date: formatDate(audit.createdOn, 'DD/MM/YYYY'), hour: formatDate(audit.createdOn, 'H:mm')})}
-      {createdBy && t('createdBy', {name: createdBy.alias})}
+      {createdByAlias && t('createdBy', {name: createdByAlias})}
 
       {audit.modifiedOn && (
         <>
           {audit.createdOn && <br />}
           {t('modifiedOn', {date: formatDate(audit.modifiedOn), hour: formatDate(audit.modifiedOn, 'H:mm')})}
-          {modifiedBy && t('modifiedBy', {name: modifiedBy.alias})}
+          {modifiedByAlias && t('modifiedBy', {name: modifiedByAlias})}
           <FullAudit {...props} />
         </>
       )}
