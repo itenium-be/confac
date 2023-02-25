@@ -174,12 +174,20 @@ export function initialLoad(loadNextMonth?: number): any {
 
     let monthsToLoad: number = loadNextMonth!;
     let promise: any = httpGet('/config').then(data => {
-      dispatch({
-        type: ACTION_TYPES.CONFIG_FETCHED,
-        config: data,
-      });
-      if (!loadNextMonth) {
-        monthsToLoad = data.initialMonthLoad;
+      if (data === null) {
+        console.log('First login, starting with defaultConfig');
+        if (!loadNextMonth) {
+          monthsToLoad = 18;
+        }
+
+      } else {
+        dispatch({
+          type: ACTION_TYPES.CONFIG_FETCHED,
+          config: data,
+        });
+        if (!loadNextMonth) {
+          monthsToLoad = data.initialMonthLoad;
+        }
       }
     });
 
