@@ -37,6 +37,7 @@ class AuthService implements IAuthService {
   _jwt = '';
   _token: JwtModel | null = null;
   _claims: Claim[] = [];
+  _fake = false;
 
   constructor() {
     const jwt = localStorage.getItem('jwt');
@@ -58,7 +59,8 @@ class AuthService implements IAuthService {
   }
 
   anonymousLogin(name: string): void {
-    this._jwt = 'fake';
+    this._fake = true;
+    this._jwt = name;
     this._token = {
       iat: 0,
       exp: 0,
@@ -70,7 +72,10 @@ class AuthService implements IAuthService {
         alias: name,
         active: true,
         roles: ['admin'],
-        audit: {} as IAudit,
+        audit: {
+          createdOn: new Date().toISOString(),
+          createdBy: name,
+        },
       }
     };
 
@@ -121,7 +126,7 @@ class AuthService implements IAuthService {
   }
 
   refresh(): void {
-    if (this._jwt !== 'fake') {
+    if (!this._fake) {
       refreshToken();
     }
   }

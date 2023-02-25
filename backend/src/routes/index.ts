@@ -27,6 +27,26 @@ const jwtMiddleware = () => jwt({
 });
 
 
+const fakeUserMiddleware = function (req: any, res: any, next: any) {
+  if (!req.user?.data) {
+    let name = req.header('Authorization') || 'Jane Doe';
+    name = name.replace(/^Bearer /, '');
+
+    req.user = {
+      iat: 0,
+      exp: 0,
+      data: {
+        _id: name,
+        email: name + '@itenium.be',
+        name: 'X',
+        firstName: name,
+        alias: name,
+        active: true,
+      }
+    }
+  }
+  next();
+}
 
 const withSecurity = !!config.security.clientId;
 if (withSecurity) {
@@ -39,6 +59,8 @@ if (withSecurity) {
   appRouter.use('/config', jwtMiddleware().unless({path: ['/api/config/security']}), configRouter);
   appRouter.use('/attachments', jwtMiddleware(), attachmentsRouter);
 } else {
+  appRouter.use(fakeUserMiddleware);
+
   console.log('Starting WITHOUT security');
   appRouter.use('/user', [], userRouter);
   appRouter.use('/clients', [], clientsRouter);
