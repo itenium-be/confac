@@ -8,14 +8,12 @@ RUN apt-get update && \
 	apt-get install -y pdftk
 
 EXPOSE 7000
-
-COPY dist /home
 VOLUME /templates
 
 # Need to copy fonts used in templates locally or
 # the text inside the pdf will not be selectable.
 VOLUME /usr/share/fonts
 
-
+COPY dist /home
 WORKDIR /home
 CMD ["node", "./server.js"]
