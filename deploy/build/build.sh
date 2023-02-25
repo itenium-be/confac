@@ -44,4 +44,4 @@ mv ../frontend/build/** ./dist/public
 
 
 
-echo "All done!"
+echo "Build done!"

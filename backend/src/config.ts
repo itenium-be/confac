@@ -1,23 +1,21 @@
 const appConfig: IConfig = {
   db: {
-    host: process.env.MONGO_HOST || 'localhost',
-    db: process.env.MONGO_DB || 'confac-dev',
-    otherDbs: 'confac-dev | confac-test | confac-acc | confac | confac-mi',
-    port: +(process.env.MONGO_PORT || 32772),
-    // itenium mongo port: 27016
-    user: process.env.MONGO_USERNAME || 'admin',
-    pwd: process.env.MONGO_PASSWORD || 'pwd',
+    host: process.env.MONGO_HOST,
+    db: process.env.MONGO_DB,
+    port: +(process.env.MONGO_PORT),
+    user: process.env.MONGO_USERNAME,
+    pwd: process.env.MONGO_PASSWORD,
   },
   server: {
     host: process.env.SERVER_HOST || 'localhost',
-    port: +(process.env.PORT || 9000),
+    port: +(process.env.PORT || 7000),
     basePath: process.env.SERVER_BASE_PATH || '',
   },
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY || '',
   ENVIRONMENT: process.env.NODE_ENV || 'development',
   ENABLE_ROOT_TEMPLATES: process.env.ENABLE_ROOT_TEMPLATES || false,
   security: {
-    clientId: process.env.GOOGLE_CLIENT_ID || '783388290-8h2es2e18r938o7psm3ph1husigdcn19.apps.googleusercontent.com',
+    clientId: process.env.GOOGLE_CLIENT_ID || '',
     secret: process.env.GOOGLE_SECRET || '',
     domain: process.env.GOOGLE_DOMAIN,
     defaultRole: process.env.DEFAULT_ROLE,
@@ -55,7 +53,7 @@ interface IConfig {
     clientId: string;
     secret: string;
     domain: string | undefined;
-    /** If a defaultRole is defined, new users are automatically activated upon login */
+    /** If a defaultRole is defined, new users are automatically activated upon first login */
     defaultRole: string | undefined;
   };
   /** Confac security */

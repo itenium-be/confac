@@ -47,6 +47,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRES: ${JWT_EXPIRES}
       SUPERUSER: ${SUPERUSER}
+      DEFAULT_ROLE: ${DEFAULT_ROLE}
     depends_on:
       - mongo
 
