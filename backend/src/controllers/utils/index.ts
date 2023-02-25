@@ -5,8 +5,18 @@ import appConfig from '../../config';
 import locals from '../../pug-helpers';
 import {IInvoice} from '../../models/invoices';
 
+// See: https://github.com/marcbachmann/node-html-pdf/issues/531
+const pdfOptions = {
+  childProcessOptions: {
+    env: {
+      OPENSSL_CONF: '/dev/null',
+    },
+  }
+};
+
+
 export const convertHtmlToBuffer = (html: string): Promise<Buffer> => new Promise((resolve, reject) => {
-  pdf.create(html).toBuffer((err, buffer) => {
+  pdf.create(html, pdfOptions).toBuffer((err, buffer) => {
     if (err) {
       console.log('convertHtmlToBuffer error', err); // eslint-disable-line
       reject();
