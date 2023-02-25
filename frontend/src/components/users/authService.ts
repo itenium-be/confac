@@ -121,7 +121,9 @@ class AuthService implements IAuthService {
   }
 
   refresh(): void {
-    refreshToken();
+    if (this._jwt !== 'fake') {
+      refreshToken();
+    }
   }
 
   refreshInterval(): number {
