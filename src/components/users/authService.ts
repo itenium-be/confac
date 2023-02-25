@@ -7,10 +7,10 @@ import {initialLoad} from '../../actions/initialLoad';
 import {UserModel, Claim} from './models/UserModel';
 import {getRoles} from '../../reducers/user-reducers';
 
-
 interface IAuthService {
   loggedIn: () => boolean;
   login: (res: any, dispatch: Dispatch<any>, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) => void;
+  anonymousLogin: (name: string) => void;
   logout: () => void;
   getBearer: () => string;
   getTokenString: () => string | null;
@@ -72,6 +72,9 @@ export const authService: IAuthService = {
   },
   refreshInterval: () => (+(localStorage.getItem('jwtInterval') || (60 * 60)) * 1000),
   entryPathname: document.location.pathname,
+  anonymousLogin(name: string): void {
+    localStorage.setItem('jwt', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IjYzZmJkMTFiZjgxMGM1MThlOWMxZDBkZSIsImVtYWlsIjoid291dGVyLnZhbi5zY2hhbmRldmlqbEBpdGVuaXVtLmJlIiwibmFtZSI6IlZhbiBTY2hhbmRldmlqbCIsImFsaWFzIjoiV291dGVyIiwiZmlyc3ROYW1lIjoiV291dGVyIiwiYWN0aXZlIjp0cnVlLCJhdWRpdCI6eyJjcmVhdGVkT24iOiIyMDIzLTAyLTI2VDIxOjM3OjMxLjYyM1oiLCJjcmVhdGVkQnkiOiIiLCJtb2RpZmllZE9uIjoiMjAyMy0wMi0yNlQyMTo0MToxNC42NDFaIiwibW9kaWZpZWRCeSI6IjYzZmJkMTFiZjgxMGM1MThlOWMxZDBkZSJ9LCJyb2xlcyI6WyJhZG1pbiJdfSwiaWF0IjoxNjc4MDQ5MjM1LCJleHAiOjE2NzgwNjcyMzV9.pnm8jg-psMvM9IduScoclJmuNN8bl8hPNP3yTeIGLDM');
+  }
 };
 
 function parseJwt(token: string): JwtModel {

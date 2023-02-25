@@ -5,7 +5,9 @@ import {GoogleLogin} from '@leecheuk/react-google-login';
 import {Alert} from 'react-bootstrap';
 import {t} from '../utils';
 import {authService} from '../users/authService';
-import {buildRequest} from '../../actions/initialLoad';
+import {buildRequest, initialLoad} from '../../actions/initialLoad';
+import {StringInput} from '../controls/form-controls/inputs/StringInput';
+import {Button} from '../controls/form-controls/Button';
 
 const Redirecter = () => {
   if (authService.entryPathname === '/login') {
@@ -57,14 +59,20 @@ export const LoginPage = (props: any) => {
         localStorage.setItem('googleClientId', data.googleClientId);
         localStorage.setItem('jwtInterval', data.jwtInterval);
       });
-  }, []);
+  }, [dispatch]);
+
+  const anonymousLogin = (name: string) => {
+    authService.anonymousLogin(name);
+    setState('loggedIn');
+    dispatch(initialLoad());
+  }
 
   if (state === 'loggedIn') {
     return <Redirecter />;
   }
 
   if (!googleClientId) {
-    return <div />;
+    return <AnonymousLogin onLogin={userName => anonymousLogin(userName)} />;
   }
 
   console.log('googleClientId', googleClientId); // eslint-disable-line
@@ -94,3 +102,20 @@ export const LoginPage = (props: any) => {
     </div>
   );
 };
+
+type AnonymousLoginProps = {
+  onLogin: (userName: string) => void;
+}
+
+const AnonymousLogin = ({onLogin}: AnonymousLoginProps) => {
+  const [name, setName] = useState(localStorage.getItem('anonUser') || '');
+  return (
+    <>
+      <h1>Zonder Login</h1>
+      <StringInput label={'Jouw naam'} value={name} onChange={setName} />
+      <Button className="btn btn-success" onClick={() => {localStorage.setItem('anonUser', name); onLogin(name);}}>
+        {'Confac Starten'}
+      </Button>
+    </>
+  );
+}
