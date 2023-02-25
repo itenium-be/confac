@@ -55,6 +55,11 @@ cinst -y pdftk-server
 ```
 
 
+## Deployment
+
+See `deploy/deploy.sh`
+
+
 
 ## Template testing
 
