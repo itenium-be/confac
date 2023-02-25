@@ -13,12 +13,12 @@ docker build --quiet . | tail -n1 | xargs -I{} docker run --rm -v $(pwd)/../../:
 
 ```sh
 cd deploy
-docker-compose up -d --build 
+docker-compose up -d --build
 ```
 
 
 ## Versioning
 
 ```sh
-docker-compose up -d --build --env-file ./.env.pongit.prod
+docker-compose up -d --build --env-file ./.env.itenium.prod
 ```
