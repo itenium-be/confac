@@ -1,10 +1,10 @@
 const appConfig: IConfig = {
   db: {
-    host: process.env.MONGO_HOST,
-    db: process.env.MONGO_DB,
-    port: +(process.env.MONGO_PORT),
-    user: process.env.MONGO_USERNAME,
-    pwd: process.env.MONGO_PASSWORD,
+    host: process.env.MONGO_HOST || '',
+    db: process.env.MONGO_DB || '',
+    port: +(process.env.MONGO_PORT || 27017),
+    user: process.env.MONGO_USERNAME || '',
+    pwd: process.env.MONGO_PASSWORD || '',
   },
   server: {
     host: process.env.SERVER_HOST || 'localhost',
@@ -23,7 +23,7 @@ const appConfig: IConfig = {
   jwt: {
     secret: process.env.JWT_SECRET || 'SUPER DUPER SECRET',
     expiresIn: +(process.env.JWT_EXPIRES || 0) || (5 * 60 * 60), // 5 hours
-    superUser: process.env.SUPERUSER || 'wouter.van.schandevijl@itenium.be',
+    superUser: process.env.SUPERUSER || 'user@email.com',
   },
 };
 
@@ -34,8 +34,6 @@ interface IConfig {
   db: {
     host: string;
     db: string;
-    /* Not used: just for development copy/paste */
-    otherDbs: string;
     port: number;
     user: string | null;
     pwd: string | null;
