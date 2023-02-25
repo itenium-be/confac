@@ -6,11 +6,12 @@ import {buildUrl} from '../../actions/utils/buildUrl';
 import {initialLoad} from '../../actions/initialLoad';
 import {UserModel, Claim} from './models/UserModel';
 import {getRoles} from '../../reducers/user-reducers';
-
+import { IAudit } from '../../models';
 
 interface IAuthService {
   loggedIn: () => boolean;
   login: (res: any, dispatch: Dispatch<any>, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) => void;
+  anonymousLogin: (name: string) => void;
   logout: () => void;
   getBearer: () => string;
   getTokenString: () => string | null;
@@ -54,6 +55,26 @@ class AuthService implements IAuthService {
    */
   login(res: any, dispatch: Dispatch<any>, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) {
     dispatch(authenticateUser(res, setState));
+  }
+
+  anonymousLogin(name: string): void {
+    this._jwt = 'fake';
+    this._token = {
+      iat: 0,
+      exp: 0,
+      data: {
+        _id: name,
+        email: name + '@itenium.be',
+        name: 'X',
+        firstName: name,
+        alias: name,
+        active: true,
+        roles: ['admin'],
+        audit: {} as IAudit,
+      }
+    };
+
+    this._claims = Object.keys(Claim).filter(key => Number.isNaN(Number(key))).map(key => Claim[key]);
   }
 
   authenticated(jwt: string): void {

@@ -168,6 +168,8 @@ export function initialLoad(loadNextMonth?: number): any {
   }
 
   return dispatch => {
+    console.log('initial load STARTED!!');
+
     counter = 0;
 
     let monthsToLoad: number = loadNextMonth!;

@@ -28,7 +28,6 @@ import {initialLoad} from './actions';
 const Routes = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('initial load STARTED!!');
     dispatch(initialLoad());
   }, []); // eslint-disable-line
 
