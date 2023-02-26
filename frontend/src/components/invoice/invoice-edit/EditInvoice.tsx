@@ -58,6 +58,10 @@ const EditInvoice = () => {
   }
   useDocumentTitle(docTitle, 'already-translated');
 
+  if (storeInvoice && !invoice._id) {
+    setInvoice(new InvoiceModel(config, storeInvoice));
+  }
+
   const type: 'quotation' | 'invoice' = isQuotation ? 'quotation' : 'invoice';
 
   const updateInvoice = (key: string, value: any, calcMoneys = false) => {
