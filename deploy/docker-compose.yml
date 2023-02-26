@@ -50,6 +50,7 @@ services:
       DEFAULT_ROLE: ${DEFAULT_ROLE}
       ENVIRONMENT: ${ENVIRONMENT}
       TAG: ${TAG}
+      REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     depends_on:
       - mongo
 
