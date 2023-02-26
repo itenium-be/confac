@@ -25,13 +25,17 @@ read -n1 -s -r -p $'Press f or d to continue\n' key
 
 if [ "$key" = 'f' ]; then
     echo "full build it is"
+
+    # Assembling deploy/dist running in a temp node container
     cd build
     docker build --quiet . | tail -n1 | xargs -I{} docker run --rm -v $(pwd)/../../:/confac {}
 
+    # Spin up mongo & app containers
     cd ..
     docker-compose up -d --build
 
 elif [ "$key" = 'd' ]; then
+    # Fast startup when there are no code changes
     echo "just deploying then?"
     docker-compose up -d
 fi
