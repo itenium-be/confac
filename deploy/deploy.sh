@@ -17,6 +17,13 @@ then
 fi
 cp $1 .env
 
+if [ -f build/.env ]
+then
+  rm build/.env
+fi
+cp $1 build/.env
+
+
 # Add tag to confac-app image
 echo "TAG=$(date +%Y-%m-%d)" >> .env
 

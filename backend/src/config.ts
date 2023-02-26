@@ -13,7 +13,7 @@ const appConfig: IConfig = {
   },
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY || '',
   ENVIRONMENT: process.env.ENVIRONMENT || 'debug',
-  tag: process.env.tag || 'latest',
+  tag: process.env.BUILD_VERSION || 'latest',
   ENABLE_ROOT_TEMPLATES: process.env.ENABLE_ROOT_TEMPLATES || false,
   security: {
     clientId: process.env.GOOGLE_CLIENT_ID || '',
