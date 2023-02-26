@@ -1,23 +1,21 @@
 import React from 'react';
 import moment from 'moment';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import cn from 'classnames';
-import {ProjectMonthInbound} from '../models/ProjectMonthModel';
-import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
-import {StringInput} from '../../controls/form-controls/inputs/StringInput';
-import {getNewProjectMonthInbound} from '../models/getNewProject';
-import {moneyFormat, t} from '../../utils';
-import {DatePicker} from '../../controls/form-controls/DatePicker';
-import {patchProjectsMonth, projectMonthUpload} from '../../../actions';
-import {useDebouncedSave} from '../../hooks/useDebounce';
-import {getDownloadUrl} from '../../../actions/utils/download-helpers';
-import {ConfacState} from '../../../reducers/app-state';
-import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPreviewButtons';
-import {InboundInvoiceAttachmentType} from '../../../models';
-import {getTariffs} from '../utils/getTariffs';
-import {ToClipboardLabel} from '../../controls/other/ToClipboardLabel';
-import {ProjectMonthInboundStatusSelect} from '../controls/ProjectMonthInboundStatusSelect';
-import {belgiums} from '../../client/EditClient';
+import {ProjectMonthInbound} from '../../../models/ProjectMonthModel';
+import {FullProjectMonthModel} from '../../../models/FullProjectMonthModel';
+import {StringInput} from '../../../../controls/form-controls/inputs/StringInput';
+import {getNewProjectMonthInbound} from '../../../models/getNewProject';
+import {t} from '../../../../utils';
+import {DatePicker} from '../../../../controls/form-controls/DatePicker';
+import {patchProjectsMonth, projectMonthUpload} from '../../../../../actions';
+import {useDebouncedSave} from '../../../../hooks/useDebounce';
+import {getDownloadUrl} from '../../../../../actions/utils/download-helpers';
+import {AttachmentUploadPreviewButtons} from '../../../controls/AttachmentUploadPreviewButtons';
+import {InboundInvoiceAttachmentType} from '../../../../../models';
+import {ToClipboardLabel} from '../../../../controls/other/ToClipboardLabel';
+import {ProjectMonthInboundStatusSelect} from '../../../controls/ProjectMonthInboundStatusSelect';
+import { InboundAmountForecast } from './InboundAmountForecast';
 
 
 interface ProjectMonthInboundCellProps {
@@ -117,50 +115,5 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
         </div>
       </div>
     </div>
-  );
-};
-
-
-
-
-type InboundAmountForecastProps = {
-  fullProjectMonth: FullProjectMonthModel;
-}
-
-/** Expected inbound total invoice amount */
-const InboundAmountForecast = ({fullProjectMonth}: InboundAmountForecastProps) => {
-  const tax = useSelector((state: ConfacState) => state.config.defaultInvoiceLines[0].tax);
-  const {timesheet} = fullProjectMonth.details;
-  if (!timesheet.timesheet || !fullProjectMonth.project.partner) {
-    return <div />;
-  }
-
-  const timesheetConfig = {
-    amount: timesheet.timesheet,
-    hoursInDay: fullProjectMonth.client.hoursInDay,
-  };
-
-  const clientTariffs = getTariffs(fullProjectMonth.project.client);
-  const partnerTariffs = getTariffs(fullProjectMonth.project.partner);
-  if (clientTariffs.rateType !== partnerTariffs.rateType) {
-    switch (clientTariffs.rateType) {
-      case 'hourly':
-        timesheetConfig.amount /= timesheetConfig.hoursInDay;
-        break;
-
-      case 'daily':
-      default:
-        timesheetConfig.amount *= timesheetConfig.hoursInDay;
-    }
-  }
-
-  let amount = timesheetConfig.amount;
-  if (!fullProjectMonth.partner || !fullProjectMonth.partner.country?.trim() || belgiums.includes(fullProjectMonth.partner.country)) {
-    amount *= (1 + tax / 100);
-  }
-
-  const totalAmount = amount * partnerTariffs.tariff;
-  return (
-    <ToClipboardLabel label={moneyFormat(totalAmount)} copyValue={totalAmount.toFixed(2)} />
   );
 };

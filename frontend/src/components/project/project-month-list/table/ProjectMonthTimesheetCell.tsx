@@ -1,20 +1,20 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import cn from 'classnames';
-import {ProjectMonthTimesheet} from '../models/ProjectMonthModel';
-import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
-import {t} from '../../utils';
-import {ValidityToggleButton} from '../../controls/form-controls/button/ValidityToggleButton';
-import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
-import {projectMonthUpload, patchProjectsMonth} from '../../../actions/projectActions';
-import {getNewProjectMonthTimesheet} from '../models/getNewProject';
-import {useDebouncedSave} from '../../hooks/useDebounce';
-import {BasicMathInput} from '../../controls/form-controls/inputs/BasicMathInput';
-import {getDownloadUrl} from '../../../actions/utils/download-helpers';
-import {TimesheetTimeConfig, getAmountInDays} from '../../invoice/controls/InvoiceLineTypeSelect';
-import {AttachmentUploadPreviewButtons} from '../controls/AttachmentUploadPreviewButtons';
-import {SignedTimesheetAttachmentType} from '../../../models';
-import {Claim} from '../../users/models/UserModel';
+import {ProjectMonthTimesheet} from '../../models/ProjectMonthModel';
+import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
+import {t} from '../../../utils';
+import {ValidityToggleButton} from '../../../controls/form-controls/button/ValidityToggleButton';
+import {NotesModalButton} from '../../../controls/form-controls/button/NotesModalButton';
+import {projectMonthUpload, patchProjectsMonth} from '../../../../actions/projectActions';
+import {getNewProjectMonthTimesheet} from '../../models/getNewProject';
+import {useDebouncedSave} from '../../../hooks/useDebounce';
+import {BasicMathInput} from '../../../controls/form-controls/inputs/BasicMathInput';
+import {getDownloadUrl} from '../../../../actions/utils/download-helpers';
+import {TimesheetTimeConfig, getAmountInDays} from '../../../invoice/controls/InvoiceLineTypeSelect';
+import {AttachmentUploadPreviewButtons} from '../../controls/AttachmentUploadPreviewButtons';
+import {SignedTimesheetAttachmentType} from '../../../../models';
+import {Claim} from '../../../users/models/UserModel';
 
 interface ProjectMonthTimesheetCellProps {
   fullProjectMonth: FullProjectMonthModel;

@@ -13,7 +13,7 @@ import {Features, IFeature} from '../controls/feature/feature-models';
 import {ProjectMonthListFilters} from '../controls/table/table-models';
 import {t} from '../utils';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
-import {CollapsibleProjectMonthsList} from './project-month-list/ProjectMonthsList';
+import {OpenedProjectMonthsList} from './project-month-list/OpenedProjectMonthsList';
 import {Claim} from '../users/models/UserModel';
 import {useProjectsMonths} from '../hooks/useProjects';
 
@@ -74,7 +74,7 @@ export const ProjectMonthsLists = () => {
 
     return (
       <div key={month}>
-        <CollapsibleProjectMonthsList feature={f} month={month} />
+        <OpenedProjectMonthsList feature={f} month={month} />
       </div>
     );
   });

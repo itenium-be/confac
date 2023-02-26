@@ -15,12 +15,12 @@ import {getDefaultProjectMonthConfig} from './models/ProjectMonthModel';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {getNewClient} from '../client/models/getNewClient';
 import {getNewConsultant} from '../consultant/models/getNewConsultant';
-import {Audit} from '../admin/Audit';
+import {Audit} from '../admin/audit/Audit';
 import {CopyProject} from './CopyProject';
 import {Claim} from '../users/models/UserModel';
 import {useParams} from 'react-router-dom';
 import {Col} from 'react-bootstrap';
-import {SingleContractIcon} from '../client/controls/ContractIcon';
+import { SingleContractIcon } from "../client/contract/SingleContractIcon";
 import {EnhanceWithConfirmation} from '../enhancers/EnhanceWithConfirmation';
 import {Button} from '../controls/form-controls/Button';
 

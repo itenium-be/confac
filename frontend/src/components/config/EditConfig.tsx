@@ -10,7 +10,7 @@ import {StickyFooter} from '../controls/other/StickyFooter';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
-import {Audit} from '../admin/Audit';
+import {Audit} from '../admin/audit/Audit';
 import {Claim} from '../users/models/UserModel';
 import {GenericAttachmentDropzone} from '../controls/attachments/GenericAttachmentDropzone';
 import {ClaimGuard} from '../enhancers/EnhanceWithClaim';

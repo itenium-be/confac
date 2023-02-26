@@ -1,40 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {Navigate, Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {GoogleLogin} from '@leecheuk/react-google-login';
 import {Alert} from 'react-bootstrap';
-import {t} from '../utils';
-import {authService} from '../users/authService';
-import {buildRequest, initialLoad} from '../../actions/initialLoad';
-import {StringInput} from '../controls/form-controls/inputs/StringInput';
-import {Button} from '../controls/form-controls/Button';
-
-const Redirecter = () => {
-  if (authService.entryPathname === '/login') {
-    return <Navigate to="/" />;
-  }
-
-  return <Navigate to={authService.entryPathname} />;
-};
-
-
-export const UnauthicatedAppLayout = ({Component, props}: any) => {
-  if (authService.loggedIn()) {
-    return <Redirecter />;
-  }
-
-  return (
-    <div className="container unauthicated">
-      <Link to="/">
-        <img src="/img/itenium.png" role="presentation" alt="itenium logo" />
-      </Link>
-      <hr />
-      <Component {...props} />
-    </div>
-  );
-};
-
-
+import {t} from '../../utils';
+import {authService} from '../../users/authService';
+import {buildRequest, initialLoad} from '../../../actions/initialLoad';
+import { Redirecter } from './Redirecter';
+import { AnonymousLogin } from './AnonymousLogin';
 
 
 const requiredAccess = [
@@ -113,20 +85,3 @@ export const LoginPage = (props: any) => {
     </div>
   );
 };
-
-type AnonymousLoginProps = {
-  onLogin: (userName: string) => void;
-}
-
-const AnonymousLogin = ({onLogin}: AnonymousLoginProps) => {
-  const [name, setName] = useState(localStorage.getItem('anonUser') || '');
-  return (
-    <>
-      <h1>Zonder Login</h1>
-      <StringInput label={'Jouw naam'} value={name} onChange={setName} />
-      <Button className="btn btn-success" onClick={() => {localStorage.setItem('anonUser', name); onLogin(name);}}>
-        {'Confac Starten'}
-      </Button>
-    </>
-  );
-}

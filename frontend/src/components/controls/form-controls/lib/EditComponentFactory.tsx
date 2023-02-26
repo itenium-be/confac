@@ -29,12 +29,13 @@ import {EditProjectClient, EditProjectPartner} from '../../../project/controls/E
 import {ConsultantSelectWithCreateModal} from '../../../consultant/controls/ConsultantSelectWithCreateModal';
 import {LanguageSelect} from '../../LanguageSelect';
 import {EditInvoiceLines} from '../../../invoice/invoice-edit/invoice-lines/EditInvoiceLines';
-import {RolesSelect, ClaimsSelect} from '../../../users/RolesSelect';
+import {RolesSelect} from '../../../users/RolesSelect';
+import {ClaimsSelect} from "../../../users/ClaimsSelect";
 import {MonthPicker} from '../MonthPicker';
 import {ProjectSelect} from '../../../project/controls/ProjectSelect';
 import {ProjectMonthInboundStatusSelect} from '../../../project/controls/ProjectMonthInboundStatusSelect';
 import {ProjectMonthStatusSelect} from '../../../project/controls/ProjectMonthStatusSelect';
-import {ContractStatusWithNotes} from '../../../client/controls/ContractStatusWithNotes';
+import {ContractStatusWithNotes} from '../../../client/contract/ContractStatusWithNotes';
 import {ProjectClientContractStatus} from '../../../project/controls/ProjectClientContractStatus';
 import {CountrySelect} from '../../other/CountrySelect';
 

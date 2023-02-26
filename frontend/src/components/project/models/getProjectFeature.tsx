@@ -9,11 +9,13 @@ import {FullProjectModel} from './FullProjectModel';
 import {t, formatDate, tariffFormat, searchinize} from '../../utils';
 import {EditIcon} from '../../controls/Icon';
 import {InvoiceClientCell} from '../../invoice/invoice-table/InvoiceClientCell';
-import {ConsultantLinkWithModal} from '../../consultant/controls/ConsultantLink';
-import {ConsultantCountFooter, ProjectClientForecastFooter, ProjectForecastPartnerFooter} from '../project-month-list/ProjectMonthFooters';
+import { ConsultantLinkWithModal } from "../../consultant/controls/ConsultantLinkWithModal";
+import {ConsultantCountFooter} from '../project-month-list/table/footers/ConsultantCountFooter';
+import { ProjectClientForecastFooter } from "../project-month-list/table/footers/ProjectClientForecastFooter";
+import {ProjectForecastPartnerFooter} from "../project-month-list/table/footers/ProjectForecastPartnerFooter";
 import {getTariffs} from '../utils/getTariffs';
 import {getProjectMarkup} from '../utils/getProjectMarkup';
-import {ContractIcons} from '../../client/controls/ContractIcon';
+import {ContractIcons} from '../../client/contract/ContractIcons';
 
 
 export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel, ProjectListFilters>;

@@ -22,6 +22,11 @@ export function btwResponseToModel(btw: BtwResponse): ClientModel {
 }
 
 
+/**
+ * Enter a btw nr with lookup company details with external API
+ * and display those details.
+ * Allow creation with "btw in aanvraag"
+ **/
 export const NewClient = (props: NewClientProps) => {
   useDocumentTitle('clientNew');
   const [client, setClient] = useState<ClientModel | null>(null);

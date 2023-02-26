@@ -12,7 +12,7 @@ import {ConsultantModel} from './models/ConsultantModel';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {defaultConsultantProperties} from './models/ConsultantConfig';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
-import {Audit} from '../admin/Audit';
+import {Audit} from '../admin/audit/Audit';
 import {Claim} from '../users/models/UserModel';
 import {useParams} from 'react-router-dom';
 

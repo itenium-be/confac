@@ -10,7 +10,7 @@ import {saveConsultant} from '../../../actions/consultantActions';
 import {SelectWithCreateButton, SelectWithCreateModalProps} from '../../controls/form-controls/select/SelectWithCreateButton';
 import {Claim} from '../../users/models/UserModel';
 import {Form} from 'react-bootstrap';
-import {ConsultantIconLinks} from './ConsultantLink';
+import { ConsultantIconLinks } from "./ConsultantIconLinks";
 
 
 export const ConsultantSelectWithCreateModal = ({value, onChange}: SelectWithCreateModalProps<ConsultantModel>) => {

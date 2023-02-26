@@ -12,7 +12,7 @@ import {BusyButton} from '../controls/form-controls/BusyButton';
 import {defaultRoleProperties} from './models/UserConfig';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {saveRole} from '../../actions/userActions';
-import {Audit} from '../admin/Audit';
+import {Audit} from '../admin/audit/Audit';
 import {useParams} from 'react-router-dom';
 
 

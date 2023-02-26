@@ -6,6 +6,7 @@ import {ListFooter} from './ListFooter';
 import {IFeature} from '../feature/feature-models';
 import {useSelector} from 'react-redux';
 import {ConfacState} from '../../../reducers/app-state';
+import { Pagination } from './Pagination';
 
 
 type ListProps = {
@@ -41,45 +42,5 @@ export const List = ({feature}: ListProps) => {
       <Pagination current={page} total={data.length} onChange={setPage} />
       <ListFooter config={config} data={data} />
     </Table>
-  );
-};
-
-
-
-type PaginationProps = {
-  current: number;
-  total: number;
-  onChange: (page: number) => void;
-}
-
-
-const Pagination = (props: PaginationProps) => {
-  const listSize = useSelector((state: ConfacState) => state.app.settings.listSize);
-  const pageCount = Math.ceil(props.total / listSize);
-  if (pageCount === 1) {
-    return null;
-  }
-
-  return (
-    <tfoot>
-      <tr>
-        <td colSpan={9}>
-          <ul className="pagination">
-            {Array(pageCount).fill(1).map((_, pageIndex) => {
-              const humanIndex = pageIndex + 1;
-              if (pageIndex === props.current) {
-                return <li key={humanIndex}>{humanIndex}</li>;
-              }
-
-              return (
-                <li key={humanIndex} onClick={() => props.onChange(pageIndex)} className="clickable">
-                  {humanIndex}
-                </li>
-              );
-            })}
-          </ul>
-        </td>
-      </tr>
-    </tfoot>
   );
 };

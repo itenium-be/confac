@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
-import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
-import {ProjectMonthModal} from '../controls/ProjectMonthModal';
-import {ConsultantLink} from '../../consultant/controls/ConsultantLink';
+import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
+import {ProjectMonthModal} from '../../controls/ProjectMonthModal';
+import {ConsultantLink} from '../../../consultant/controls/ConsultantLink';
 
 
 interface ProjectMonthConsultantCellProps {

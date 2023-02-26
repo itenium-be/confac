@@ -5,13 +5,15 @@ import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/
 import {features} from '../../../trans';
 import {FullProjectMonthModel} from './FullProjectMonthModel';
 import {t, searchinize} from '../../utils';
-import {ProjectMonthTimesheetCell} from '../project-month-list/ProjectMonthTimesheetCell';
-import {ProjectMonthConsultantCell} from '../project-month-list/ProjectMonthConsultantCell';
-import {ProjectMonthInboundCell} from '../project-month-list/ProjectMonthInboundCell';
-import {ProjectMonthOutboundCell} from '../project-month-list/ProjectMonthOutboundCell';
+import {ProjectMonthTimesheetCell} from '../project-month-list/table/ProjectMonthTimesheetCell';
+import {ProjectMonthConsultantCell} from '../project-month-list/table/ProjectMonthConsultantCell';
+import {ProjectMonthInboundCell} from '../project-month-list/table/inbound/ProjectMonthInboundCell';
+import {ProjectMonthOutboundCell} from '../project-month-list/table/outbound/ProjectMonthOutboundCell';
 import {getInvoiceDueDateVariant} from '../../invoice/invoice-table/getInvoiceListRowClass';
-import {ProjectMonthNotesCell} from '../project-month-list/ProjectMonthNotesCell';
-import {ConsultantCountFooter, ProjectForecastPartnerFooter, ProjectClientForecastFooter} from '../project-month-list/ProjectMonthFooters';
+import {ProjectMonthNotesCell} from '../project-month-list/table/ProjectMonthNotesCell';
+import {ConsultantCountFooter} from '../project-month-list/table/footers/ConsultantCountFooter';
+import { ProjectClientForecastFooter } from "../project-month-list/table/footers/ProjectClientForecastFooter";
+import {ProjectForecastPartnerFooter} from "../project-month-list/table/footers/ProjectForecastPartnerFooter";
 import {Switch} from '../../controls/form-controls/Switch';
 
 

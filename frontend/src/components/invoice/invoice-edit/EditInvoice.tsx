@@ -18,7 +18,7 @@ import {getNewInvoice} from '../models/getNewInvoice';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import {InvoiceAttachmentsForm} from '../controls/InvoiceAttachmentsForm';
 import {EditInvoiceBadges} from './EditInvoiceBadges';
-import {Audit} from '../../admin/Audit';
+import {Audit} from '../../admin/audit/Audit';
 import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
 import {Claim} from '../../users/models/UserModel';
 import {useProjectsMonth} from '../../hooks/useProjects';

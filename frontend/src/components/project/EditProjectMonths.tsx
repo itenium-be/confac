@@ -8,7 +8,7 @@ import {deleteProjectsMonth, patchProjectsMonth} from '../../actions';
 import {StickyFooter} from '../controls/other/StickyFooter';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
-import {Audit} from '../admin/Audit';
+import {Audit} from '../admin/audit/Audit';
 import {Claim} from '../users/models/UserModel';
 import {getNewProjectMonth} from './models/getNewProject';
 import {ProjectMonthModel} from './models/ProjectMonthModel';
