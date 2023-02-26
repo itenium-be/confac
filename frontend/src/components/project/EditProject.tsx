@@ -44,6 +44,10 @@ export const EditProject = () => {
   const docTitle = consultant._id ? 'projectEdit' : 'projectNew';
   useDocumentTitle(docTitle, {consultant: consultant.firstName, client: client.name});
 
+  if (model && !project._id) {
+    setProject(model);
+  }
+
   if (needsSync.consultant || needsSync.client) {
     let newProject = {...project};
 
