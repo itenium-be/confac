@@ -17,15 +17,14 @@ then
 fi
 cp $1 .env
 
-if [ -f build/.env ]
-then
-  rm build/.env
-fi
-cp $1 build/.env
-
-
 # Add tag to confac-app image
 echo "TAG=$(date +%Y-%m-%d)" >> .env
+
+# if [ -f build/.env ]
+# then
+#   rm build/.env
+# fi
+# cp .env build/.env
 
 
 echo "What to do?"
@@ -38,7 +37,7 @@ if [ "$key" = 'f' ]; then
 
     # Assembling deploy/dist running in a temp node container
     cd build
-    docker build --quiet . | tail -n1 | xargs -I{} docker run --rm -v $(pwd)/../../:/confac {}
+    docker build --quiet --build-arg REACT_APP_GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID . | tail -n1 | xargs -I{} docker run --rm -v $(pwd)/../../:/confac {}
 
     # Spin up mongo & app containers
     cd ..
