@@ -58,6 +58,12 @@ export const LoginPage = (props: any) => {
         setGoogleClientId(data.googleClientId);
         localStorage.setItem('googleClientId', data.googleClientId);
         localStorage.setItem('jwtInterval', data.jwtInterval);
+
+        // Display & Save env & tag:
+        console.log('/config/security', data);
+        delete data.googleClientId;
+        delete data.jwtInterval;
+        localStorage.setItem('version', JSON.stringify(data));
       });
   }, [dispatch]);
 

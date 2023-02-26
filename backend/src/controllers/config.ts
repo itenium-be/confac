@@ -24,6 +24,8 @@ export const getSecurityConfig = async (req: Request, res: Response) => {
   return res.send({
     googleClientId: appConfig.security.clientId,
     jwtInterval: Math.floor(appConfig.jwt.expiresIn / 2),
+    env: appConfig.ENVIRONMENT,
+    tag: appConfig.tag,
   });
 };
 

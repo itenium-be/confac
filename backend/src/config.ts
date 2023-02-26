@@ -12,7 +12,8 @@ const appConfig: IConfig = {
     basePath: process.env.SERVER_BASE_PATH || '',
   },
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY || '',
-  ENVIRONMENT: process.env.NODE_ENV || 'development',
+  ENVIRONMENT: process.env.ENVIRONMENT || 'debug',
+  tag: process.env.tag || 'latest',
   ENABLE_ROOT_TEMPLATES: process.env.ENABLE_ROOT_TEMPLATES || false,
   security: {
     clientId: process.env.GOOGLE_CLIENT_ID || '',
@@ -45,6 +46,8 @@ interface IConfig {
   };
   SENDGRID_API_KEY: string;
   ENVIRONMENT: 'development' | string;
+  /** Version in format YYYY-MM-DD */
+  tag: string;
   ENABLE_ROOT_TEMPLATES: string | boolean;
   /** GSuite authentication */
   security: {
