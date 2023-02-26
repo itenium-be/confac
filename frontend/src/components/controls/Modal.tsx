@@ -31,6 +31,8 @@ type ModalProps = BaseModalProps & {
   title: string | React.ReactNode,
   extraButtons?: React.ReactNode,
   children: any,
+  /** For custom sizing of the Modal etc */
+  dialogClassName?: string,
 }
 
 export const Modal = (props: ModalProps) => {
@@ -42,7 +44,7 @@ export const Modal = (props: ModalProps) => {
   };
 
   return (
-    <ReactModal show={props.show} onHide={props.onClose}>
+    <ReactModal show={props.show} onHide={props.onClose} dialogClassName={props.dialogClassName}>
       <ReactModal.Header closeButton>
         <ReactModal.Title>{props.title}</ReactModal.Title>
       </ReactModal.Header>

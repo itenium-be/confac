@@ -38,6 +38,7 @@ export const NotesModalButton = ({claim, value, onChange, title, variant, disabl
           onClose={() => setOpen(false)}
           onConfirm={showConfirm ? () => onChange(text) : undefined}
           title={title}
+          dialogClassName="notes-modal"
         >
           <TextEditor
             value={text}

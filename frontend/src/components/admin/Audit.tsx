@@ -147,6 +147,7 @@ export const FullAuditModal = (props: FullAuditModalProps) => {
       show={true}
       onClose={props.onClose}
       title={t('audit.fullAudit')}
+      dialogClassName="audit-modal"
     >
       <SearchStringInput value={needle} onChange={setNeedle} />
       <Table size="sm" bordered>

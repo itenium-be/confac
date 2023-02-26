@@ -94,6 +94,7 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
         onClose={this.props.onClose}
         title={client._id ? client.name : t('client.createNew')}
         onConfirm={() => this.onSave()}
+        dialogClassName="client-modal"
       >
         {NewClientForm || (
           <Form>
