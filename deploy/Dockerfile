@@ -1,7 +1,5 @@
 FROM node:16.10.0
 
-# gnupg ?
-
 RUN apt-get update && \
   apt-get install -y build-essential libfontconfig && \
 	# Pdf Toolkit for pdf merging
