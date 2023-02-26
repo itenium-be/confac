@@ -92,7 +92,7 @@
     "jest-cli": "^26.0.1",
     "lint-staged": "^10.0.1",
     "nodemon": "^1.11.0",
-    "ts-jest": "^25.0.0",
+    "ts-jest": "^26.0.0",
     "typescript": "^3.7.5"
   }
 }
