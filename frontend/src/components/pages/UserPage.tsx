@@ -20,7 +20,7 @@ export const UserPage = () => {
         {t('user.users')}
         <Icon fa="fa fa-arrow-right" size={1} style={{marginLeft: 8}} />
       </Button>
-      {localStorage.getItem('googleClientId') && <Logout />}
+      {localStorage.getItem('googleClientId') ? <Logout /> : <AnonymousLogout />}
 
       <UserSettings />
 
@@ -55,7 +55,7 @@ const UserSettings = () => {
 
 
 
-export const Logout = () => {
+const Logout = () => {
   const [loggedIn, setLoggedIn] = useState<boolean>(true);
 
   if (!loggedIn) {
@@ -75,4 +75,25 @@ export const Logout = () => {
       onFailure={logout}
     />
   );
+};
+
+
+const AnonymousLogout = () => {
+  const [loggedIn, setLoggedIn] = useState<boolean>(true);
+
+  const logout = () => {
+    localStorage.removeItem('anonUser');
+    authService.logout();
+    setLoggedIn(false);
+  };
+
+  if (!loggedIn) {
+    return <Navigate to="/login" />;
+  }
+
+  return (
+    <Button variant="outline-secondary" onClick={logout}>
+      Logout
+    </Button>
+  )
 };
