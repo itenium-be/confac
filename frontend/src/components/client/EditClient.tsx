@@ -43,7 +43,7 @@ const EditClient = () => {
   // useEffect(() => window.scrollTo(0, 0)); // TODO: each keystroke made it scroll to top :(
   useDocumentTitle('clientEdit', {name: client.name});
 
-  const clientAlreadyExists = !!clientWithSameKbo && client.btw !== t('taxRequest');
+  const clientAlreadyExists = !!clientWithSameKbo && client.btw && client.btw !== t('taxRequest');
   const isClientDisabled = (client: ClientModel): boolean => {
     if (clientAlreadyExists || client.name.length === 0) {
       return true;
