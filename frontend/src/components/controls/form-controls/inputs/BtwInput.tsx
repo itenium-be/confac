@@ -75,6 +75,11 @@ const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}:
     debouncedCallback(val);
     onChange(val);
 
+    if (val === BtwInRequest) {
+      setValid(true);
+      return;
+    }
+
     const cleanBtw = parseBtw(val);
     if (cleanBtw.length > SmallestPossibleBtwLength) {
       setLoading(true);
@@ -143,6 +148,10 @@ async function fetchBtwInfo(btw: string): Promise<BtwResponse> {
 export function parseBtw(str: string): string {
   if (!str) {
     return '';
+  }
+
+  if (str === BtwInRequest) {
+    return str;
   }
 
   let btw = str.toUpperCase().replace(/[^0-9A-Z]/g, '');

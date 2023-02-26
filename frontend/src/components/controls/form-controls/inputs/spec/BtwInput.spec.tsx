@@ -1,4 +1,6 @@
+import { t } from '../../../../utils';
 import {parseBtw, formatBtw} from '../BtwInput';
+
 
 // BE0123456789
 // NL0001234567
@@ -9,6 +11,11 @@ describe('BtWInput', () => {
     expect(result).toBe('BE 0123.456.789');
   });
 
+  it('does not touch BTW in aanvraag', () => {
+    const taxRequested = t('taxRequest');
+    const result = parseBtw(taxRequested);
+    expect(result).toBe(taxRequested);
+  });
 
   it('should add BE if not specified', () => {
     const result = parseBtw('0123456789');
