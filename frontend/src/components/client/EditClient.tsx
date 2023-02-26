@@ -57,6 +57,9 @@ const EditClient = () => {
       // (it's set on the backend create)
       return true;
     }
+    if (!client.btw)
+      return true;
+
     return false;
   }
 
