@@ -85,7 +85,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-jest": "^23.6.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-plumber": "^1.1.0",
     "gulp-pug": "^3.2.0",
     "jest": "^26.0.1",
