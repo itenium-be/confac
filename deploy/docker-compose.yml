@@ -21,6 +21,7 @@ services:
   app:
     container_name: "confac-${ENVIRONMENT}-app"
     build: .
+    image: confac-app:${TAG}
     restart: always
     volumes:
       - "${TEMPLATE_PATH}:/templates"
@@ -29,7 +30,6 @@ services:
       - "${APP_PORT}:7000"
     networks:
       - confacnet
-    # env_file: .env.local
     environment:
       ENABLE_ROOT_TEMPLATES: 1
       SERVER_HOST: localhost
