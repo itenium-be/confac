@@ -41,7 +41,7 @@ export const EditConsultant = () => {
         <Row className="page-title-container">
           <h1>{consultant._id ? `${consultant.firstName} ${consultant.name}` : t('consultant.createNew')}</h1>
           <Audit model={model} modelType="consultant" />
-          {consultantDuplicate && <Alert variant="warning">{t('consultant.alreadyExists')}</Alert>}
+          {consultantDuplicate && consultant.email && <Alert variant="warning">{t('consultant.alreadyExists')}</Alert>}
         </Row>
         <Row>
           <ArrayInput
