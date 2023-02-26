@@ -6,7 +6,6 @@ import {buildUrl} from '../../actions/utils/buildUrl';
 import {initialLoad} from '../../actions/initialLoad';
 import {UserModel, Claim} from './models/UserModel';
 import {getRoles} from '../../reducers/user-reducers';
-import { IAudit } from '../../models';
 
 interface IAuthService {
   loggedIn: () => boolean;
