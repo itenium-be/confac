@@ -72,6 +72,11 @@ export const LoginPage = (props: any) => {
   }
 
   if (!googleClientId) {
+    const anonUserName = localStorage.getItem('anonUser');
+    if (anonUserName) {
+      anonymousLogin(anonUserName);
+      return <Redirecter />;
+    }
     return <AnonymousLogin onLogin={userName => anonymousLogin(userName)} />;
   }
 
