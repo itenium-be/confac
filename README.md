@@ -60,6 +60,17 @@ cinst -y pdftk-server
 See `deploy/deploy.sh`
 
 
+### Seeding random data
+
+Configure amounts in `backend/src/faker/insertStuff.ts`
+and the mongo creds in `backend/src/faker/index.ts`.
+
+```sh
+cd backend
+npm run faker
+```
+
+
 
 ## Template testing
 
