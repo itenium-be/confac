@@ -18,7 +18,7 @@ fi
 cp $1 .env
 
 # Add tag to confac-app image
-echo "\nTAG=$(date +%Y-%m-%d)" >> .env
+echo "TAG=$(date +%Y-%m-%d)" >> .env
 
 
 echo "What to do?"
