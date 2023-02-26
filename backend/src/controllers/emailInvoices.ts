@@ -38,7 +38,7 @@ export const emailInvoiceController = async (req: Request, res: Response) => {
 
 
   const data = await req.db.collection('attachments_config').findOne({});
-  const termsAndConditions: Buffer = data['TermsAndConditions']?.buffer;
+  const termsAndConditions: Buffer = data?.TermsAndConditions?.buffer;
 
   const mailData = await buildInvoiceEmailData(email, attachmentBuffers, termsAndConditions);
   const emailRes = await sendEmail(res, mailData);
