@@ -65,15 +65,19 @@ export function invoiceReplacements(input: string, invoice: InvoiceModel, fullPr
     const nrSize = Math.max(parseInt(nrMatch[1], 10), invoice.number.toString().length);
     str = str.replace(nrRegex, (`000000${invoice.number}`).slice(-nrSize));
   }
-
   str = str.replace(/\{nr\}/g, invoice.number.toString());
 
-  const dateRegex = /\{date:([^}]+)\}/;
-  const dateMatch = str.match(dateRegex);
-  if (dateMatch && invoice.date) {
+
+  const dateRegex = /\{date:([^}]+)\}/g;
+  const datesToReplace: {needle: string, format: string}[] = [];
+  let dateMatch = dateRegex.exec(str);
+  while (dateMatch) {
     const dateFormat = dateMatch[1];
-    str = str.replace(dateRegex, clientFormat(invoice.date, dateFormat));
+    datesToReplace.push({needle: dateMatch[0], format: dateFormat});
+    dateMatch = dateRegex.exec(str);
   }
+  datesToReplace.forEach(replace => str = str.replace(replace.needle, clientFormat(invoice.date, replace.format)));
+
 
   const projectMonthRegex = /\{projectMonth:([^}]+)\}/;
   const projectMonthMatch = str.match(projectMonthRegex);
