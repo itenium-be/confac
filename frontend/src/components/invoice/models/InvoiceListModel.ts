@@ -62,6 +62,7 @@ export default class InvoiceListModel {
       {value: 'unverifiedOnly', label: t('invoice.notVerifiedOnly'), type: 'manual_input'},
       {value: 'from d/m/yyyy', label: 'from d/m/yyyy', type: 'manual_input'},
       {value: 'between d/m/yyyy and d/m/yyyy', label: 'between d/m/yyyy and d/m/yyyy', type: 'manual_input'},
+      {value: 'period m/yyyy to m/yyyy', label: 'period m/yyyy to m/yyyy', type: 'manual_input'},
       {value: 'last x days|months|years', label: 'last x days|months|years', type: 'manual_input'},
     ];
 
@@ -133,18 +134,26 @@ export default class InvoiceListModel {
       }
 
 
+      const period = otherFilter.match(/period (\d+\/\d{2,4}) to (\d+\/\d{2,4})/);
+      if (period) {
+        const start = moment(period[1], ['M/YYYY', 'M/YY']).startOf('month');
+        const end = moment(period[2], ['M/YYYY', 'M/YY']).endOf('month');
+
+        invoices = invoices.filter(i => {
+          if (i.projectMonth?.month && moment(i.projectMonth.month).isBetween(start, end))
+            return true;
+
+          return false;
+        });
+        return;
+      }
+
+
       const between = otherFilter.match(/between (\d+\/\d+\/\d{4}) and (\d+\/\d+\/\d{4})/);
       if (between) {
         const start = moment(between[1], 'D/M/YYYY');
         const end = moment(between[2], 'D/M/YYYY');
         invoices = invoices.filter(i => i.date.isBetween(start, end));
-
-        // TODO: dd a filter "pay period M/YY format"
-        // invoices = invoices.filter(i => {
-        //   if (i.projectMonth?.month && moment(i.projectMonth.month).isBetween(start, end))
-        //     return true;
-        //   return i.date.isBetween(start, end);
-        // });
         return;
       }
 
