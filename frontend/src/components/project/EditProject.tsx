@@ -135,11 +135,11 @@ export const EditProject = () => {
           variant="danger"
           title={t('project.deleteConfirm.title')}
           componentChildren={t('delete')}
-          claim={claims => !hasProjectMonths && claims.includes(Claim.DeleteProject)}
+          claim={claims => !hasProjectMonths && !!project._id && claims.includes(Claim.DeleteProject)}
         >
           {t('project.deleteConfirm.content')}
         </ConfirmationButton>
-        {project.endDate && <CopyProject projectToCopy={project} />}
+        {project.endDate && project._id && <CopyProject projectToCopy={project} />}
         <BusyButton onClick={() => dispatch(saveProject(project, navigate) as any)} disabled={isButtonDisabled}>
           {t('save')}
         </BusyButton>
