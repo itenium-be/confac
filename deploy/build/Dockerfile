@@ -7,7 +7,4 @@ FROM node:16.10.0
 VOLUME /confac
 WORKDIR /confac
 
-ARG GOOGLE_CLIENT_ID
-ENV REACT_APP_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
-
 CMD ["sh", "/confac/deploy/build/build.sh"]

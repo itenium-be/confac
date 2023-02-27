@@ -37,9 +37,7 @@ if [ "$key" = 'f' ]; then
 
     # Assembling deploy/dist running in a temp node container
     cd build
-    echo "GoogleClientId:"
-    echo $GOOGLE_CLIENT_ID
-    docker build --quiet --build-arg GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID . | tail -n1 | xargs -I{} docker run --rm -v $(pwd)/../../:/confac {}
+    docker build --quiet . | tail -n1 | xargs -I{} docker run -e  --rm -v $(pwd)/../../:/confac {}
 
     # Spin up mongo & app containers
     cd ..
