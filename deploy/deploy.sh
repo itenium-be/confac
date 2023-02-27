@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Run ./deploy.sh to display instructions
+
+# Workings:
+# Uses build/Dockerfile to run build/build.sh with correct Node version
+# ./Dockerfile creates the image containing confac backend+frontend
+# ./docker-compose.yml spins up mongo & confac app containers
+
 echo -e "\033[0;32m================="
 echo "= CONFAC DEPLOY ="
 printf "=================\033[0m\n"
@@ -40,11 +47,6 @@ cp $1 .env
 # Add tag to confac-app image
 echo "TAG=$(date +%Y-%m-%d)" >> .env
 
-# if [ -f build/.env ]
-# then
-#   rm build/.env
-# fi
-# cp .env build/.env
 
 
 echo "What to do?"
@@ -53,20 +55,20 @@ echo "d) just deploy"
 read -n1 -s -r -p $'Press f or d to continue\n' key
 
 if [ "$key" = 'f' ]; then
-    echo "full build it is"
+  echo "full build it is"
 
-    # Assembling deploy/dist running in a temp node container
-    cd build
-    docker build --quiet . | tail -n1 | xargs -I{} docker run -e  --rm -v $(pwd)/../../:/confac {}
+  # Assembling deploy/dist running in a temp node container
+  cd build
+  docker build --quiet . | tail -n1 | xargs -I{} docker run -e  --rm -v $(pwd)/../../:/confac {}
 
-    # Spin up mongo & app containers
-    cd ..
-    docker-compose up -d --build
+  # Spin up mongo & app containers
+  cd ..
+  docker-compose up -d --build
 
 elif [ "$key" = 'd' ]; then
-    # Fast startup when there are no code changes
-    echo "just deploying then?"
-    docker-compose up -d
+  # Fast startup when there are no code changes
+  echo "just deploying then?"
+  docker-compose up -d
 fi
 
 

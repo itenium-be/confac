@@ -1,8 +1,6 @@
 FROM node:16.10.0
 
-# Build the project:
-# docker build --quiet . | tail -n1 | xargs -I{} docker run --rm -v $(pwd)/../../:/confac {}
-# Result in /deploy/dist
+# Build the project, results are placed in: /deploy/dist
 
 VOLUME /confac
 WORKDIR /confac
