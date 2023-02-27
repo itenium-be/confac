@@ -1,34 +1,19 @@
-import React, {useState, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
-import {Alert} from 'react-bootstrap';
-import {t} from '../../utils';
-import {authService} from '../../users/authService';
-import {buildRequest, initialLoad} from '../../../actions/initialLoad';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Alert } from 'react-bootstrap';
+import { t } from '../../utils';
+import { authService } from '../../users/authService';
+import { initialLoad } from '../../../actions/initialLoad';
 import { Redirecter } from './Redirecter';
 import { AnonymousLogin } from './AnonymousLogin';
 import { GoogleLogin } from '@react-oauth/google';
+import { ConfacState } from '../../../reducers/app-state';
 
-
+/** Google or anonymous login */
 export const LoginPage = () => {
   const dispatch = useDispatch();
   const [state, setState] = useState<string | 'loggedIn'>('');
-  const [googleClientId, setGoogleClientId] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetch(buildRequest('/config/security'))
-      .then(res => res.json())
-      .then(data => {
-        setGoogleClientId(data.googleClientId);
-        localStorage.setItem('googleClientId', data.googleClientId);
-        localStorage.setItem('jwtInterval', data.jwtInterval);
-
-        // Display & Save env & tag:
-        console.log('/config/security', data);
-        delete data.googleClientId;
-        delete data.jwtInterval;
-        localStorage.setItem('version', JSON.stringify(data));
-      });
-  }, [dispatch]);
+  const googleClientId = useSelector((state: ConfacState) => state.app.securityConfig.googleClientId);
 
   const anonymousLogin = (name: string) => {
     authService.anonymousLogin(name);
@@ -50,13 +35,8 @@ export const LoginPage = () => {
   }
 
   return (
-    <div>
-      {state && (
-        <Alert variant="danger">
-          {t(state)}
-        </Alert>
-      )}
-
+    <>
+      {state && (<Alert variant="danger">{t(state)}</Alert>)}
       <GoogleLogin
         useOneTap
         auto_select
@@ -67,14 +47,9 @@ export const LoginPage = () => {
         theme="outline"
         ux_mode="popup"
         context="use"
-        onSuccess={credentialResponse => {
-          console.log('googleSuccess', credentialResponse);
-          authService.login(credentialResponse, dispatch, setState);
-        }}
-        onError={() => {
-          setState('user.loginError');
-        }}
+        onSuccess={credentialResponse => authService.login(credentialResponse, dispatch, setState)}
+        onError={() => setState('user.loginError')}
       />
-    </div>
+    </>
   );
 };

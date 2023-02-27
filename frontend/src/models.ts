@@ -68,6 +68,19 @@ export type AppState = {
     users: UsersListFilters,
     roles: RolesListFilters,
   },
+  securityConfig: SecurityConfigModel;
+}
+
+/** Return type for /config/security */
+export type SecurityConfigModel = {
+  /** empty when running without security */
+  googleClientId: string;
+  /** in seconds */
+  jwtInterval: number;
+  /** Ex: test/prod */
+  env: string;
+  /** Format: YYYY-MM-DD */
+  tag: string;
 }
 
 export type NewRowFormConfig = {forceRow: boolean}

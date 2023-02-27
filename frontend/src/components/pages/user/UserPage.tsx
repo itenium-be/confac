@@ -7,16 +7,19 @@ import {Claim} from '../../users/models/UserModel';
 import { AnonymousLogoutButton } from './AnonymousLogoutButton';
 import { LogoutButton } from './LogoutButton';
 import { UserSettings } from './UserSettings';
+import { useSelector } from 'react-redux';
+import { ConfacState } from '../../../reducers/app-state';
 
 /** Full user profile page */
 export const UserPage = () => {
+  const googleClientId = useSelector((state: ConfacState) => state.app.securityConfig.googleClientId);
   return (
     <div className="container">
       <Button claim={Claim.ViewUsers} onClick="/users" style={{float: 'right'}} variant="light">
         {t('user.users')}
         <Icon fa="fa fa-arrow-right" size={1} style={{marginLeft: 8}} />
       </Button>
-      {localStorage.getItem('googleClientId') ? <LogoutButton /> : <AnonymousLogoutButton />}
+      {googleClientId ? <LogoutButton /> : <AnonymousLogoutButton />}
 
       <UserSettings />
 

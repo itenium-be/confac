@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {BrowserRouter, Route, Routes as Switch} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
 
 import {AppWithLayout} from './components/AppWithLayout';
 import EditInvoice from './components/invoice/invoice-edit/EditInvoice';
@@ -23,7 +22,8 @@ import {EditRole} from './components/users/EditRole';
 import {EditAdmin} from './components/admin/EditAdmin';
 import {EditProjectMonths} from './components/project/EditProjectMonths';
 import {ConsultantProjectsList} from './components/consultant/ConsultantProjectsList';
-import {initialLoad} from './actions';
+import { useDispatch } from 'react-redux';
+import { initialLoad } from './actions';
 
 
 const Routes = () => {

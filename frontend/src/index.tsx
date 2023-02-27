@@ -4,8 +4,8 @@
 // import 'react-app-polyfill/stable';
 import React from 'react';
 import ReactDOM from "react-dom/client";
-import {defaultLocale} from './components/utils';
-import {GoogleOAuthProvider} from '@react-oauth/google';
+import { defaultLocale } from './components/utils';
+import { GoogleOAuthProviderWrapper } from './components/pages/login/GoogleOAuthProviderWrapper';
 
 import moment from 'moment';
 import 'moment/locale/nl';
@@ -30,8 +30,8 @@ import './index.scss';
 
 
 // Fetch data from the db
-import {Provider} from 'react-redux';
-import {store} from './store';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 
 
@@ -44,9 +44,9 @@ import Routes from './routes';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <GoogleOAuthProvider clientId="">
-    <Provider store={store}>
+  <Provider store={store}>
+    <GoogleOAuthProviderWrapper>
       <Routes />
-    </Provider>
-  </GoogleOAuthProvider>
+    </GoogleOAuthProviderWrapper>
+  </Provider>
 );
