@@ -5,13 +5,7 @@
 import React from 'react';
 import ReactDOM from "react-dom/client";
 import {defaultLocale} from './components/utils';
-
-// TODO: need to fetch this from the backend
-if (process.env.NODE_ENV !== 'production') {
-  document.title += ` - ${process.env.NODE_ENV || '???'}`;
-}
-
-
+import {GoogleOAuthProvider} from '@react-oauth/google';
 
 import moment from 'moment';
 import 'moment/locale/nl';
@@ -50,7 +44,9 @@ import Routes from './routes';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <Provider store={store}>
-    <Routes />
-  </Provider>
+  <GoogleOAuthProvider clientId="">
+    <Provider store={store}>
+      <Routes />
+    </Provider>
+  </GoogleOAuthProvider>
 );
