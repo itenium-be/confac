@@ -16,7 +16,7 @@ const pdfOptions = {
 
 
 export const convertHtmlToBuffer = (html: string): Promise<Buffer> => new Promise((resolve, reject) => {
-  pdf.create(html, pdfOptions).toBuffer((err, buffer) => {
+  pdf.create(html, pdfOptions as any).toBuffer((err, buffer) => {
     if (err) {
       console.log('convertHtmlToBuffer error', err); // eslint-disable-line
       reject();
