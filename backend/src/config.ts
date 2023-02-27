@@ -1,20 +1,27 @@
+import * as dotenv from 'dotenv';
+
+if (process.env.NODE_ENV === 'development') {
+  console.log('Starting with NODE_ENV=development');
+  dotenv.config();
+}
+
 const appConfig: IConfig = {
   db: {
-    host: process.env.MONGO_HOST || '',
-    db: process.env.MONGO_DB || '',
+    host: process.env.MONGO_HOST || 'localhost',
+    db: process.env.MONGO_DB || 'confac',
     port: +(process.env.MONGO_PORT || 27017),
     user: process.env.MONGO_USERNAME || '',
     pwd: process.env.MONGO_PASSWORD || '',
   },
   server: {
     host: process.env.SERVER_HOST || 'localhost',
-    port: +(process.env.PORT || 7000),
+    port: +(process.env.PORT || 9000),
     basePath: process.env.SERVER_BASE_PATH || '',
   },
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY || '',
-  ENVIRONMENT: process.env.ENVIRONMENT || 'debug',
-  tag: process.env.BUILD_VERSION || 'latest',
-  ENABLE_ROOT_TEMPLATES: process.env.ENABLE_ROOT_TEMPLATES || false,
+  ENVIRONMENT: process.env.ENVIRONMENT || 'unset',
+  tag: process.env.BUILD_VERSION || 'unset',
+  ENABLE_ROOT_TEMPLATES: +(process.env.ENABLE_ROOT_TEMPLATES || 0),
   security: {
     clientId: process.env.GOOGLE_CLIENT_ID || '',
     secret: process.env.GOOGLE_SECRET || '',
@@ -24,7 +31,7 @@ const appConfig: IConfig = {
   jwt: {
     secret: process.env.JWT_SECRET || 'SUPER DUPER SECRET',
     expiresIn: +(process.env.JWT_EXPIRES || 0) || (5 * 60 * 60), // 5 hours
-    superUser: process.env.SUPERUSER || 'user@email.com',
+    superUser: process.env.SUPERUSER || '',
   },
 };
 
@@ -48,7 +55,7 @@ interface IConfig {
   ENVIRONMENT: 'development' | string;
   /** Version in format YYYY-MM-DD */
   tag: string;
-  ENABLE_ROOT_TEMPLATES: string | boolean;
+  ENABLE_ROOT_TEMPLATES: number;
   /** GSuite authentication */
   security: {
     clientId: string;

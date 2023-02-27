@@ -17,10 +17,12 @@ front/back: `npm install` followed by `npm start`
 ### Backend
 
 Expects running mongo with `backend/src/config.ts` settings.  
-
+Create a development `.env` file to change the default config.
 
 ```bash
 # Start dev server
+cd backend
+cp .env.sample .env
 npm start
 
 # Build project

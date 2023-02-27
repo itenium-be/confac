@@ -4,3 +4,5 @@ dist
 public
 build
 templates/
+.env*
+!.env.sample
