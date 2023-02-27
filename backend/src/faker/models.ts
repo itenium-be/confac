@@ -8,7 +8,7 @@ faker.seed(new Date().valueOf());
 
 const defaultInvoiceLine = (clientPrice?: number) => ({
   desc: 'Consultancy diensten',
-  price: faker.datatype.number({min: 100, max: clientPrice || 1000}),
+  price: faker.datatype.number({min: 100, max: clientPrice || 300}),
   amount: 0,
   tax: 21,
   type: 'daily',
