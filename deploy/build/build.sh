@@ -45,3 +45,4 @@ mv ../frontend/build/** ./dist/public
 
 
 echo "Build done!"
+echo "Files placed in deploy/dist"
