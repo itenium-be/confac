@@ -43,6 +43,7 @@ export const getProjectMonthsFilters = (projectMonths?: ProjectMonthModel[]): Pr
       .format(ProjectMonthsListFilterOpenMonthsFormat);
 
     openMonths = [lastExistingMonth];
+    openMonths = ['2023-01', '2021-08', '2021-09', '2021-10', '2021-11', '2021-12', '2022-01', '2022-02', '2022-03', '2022-04', '2022-05', '2022-06', '2022-07', '2022-08', '2022-09', '2022-10', '2022-11', '2022-12'];
   }
 
   return {
@@ -72,7 +73,11 @@ export const defaultAppState: AppState = {
     clients: {...getListFilters(), years: [moment().year()]},
     invoices: getListFilters(),
     projects: getListFilters(),
-    projectMonths: getProjectMonthsFilters(),
+    projectMonths: {
+      ...getListFilters(),
+      openMonths: [],
+      unverifiedOnly: false,
+    },
     users: getListFilters(true),
     roles: getListFilters(),
   },
