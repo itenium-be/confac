@@ -24,7 +24,7 @@ export const GoogleOAuthProviderWrapper = (props) => {
     fetch(buildUrl('/config/security'))
       .then(res => res.json())
       .then((data: SecurityConfigModel) => {
-        const versionInfo = {env: data.env, tag: data.tag};
+        const versionInfo = {env: data.env, tag: data.tag, googleClientId: data.googleClientId};
         console.log('version', versionInfo);
         localStorage.setItem('version', JSON.stringify(versionInfo));
 
