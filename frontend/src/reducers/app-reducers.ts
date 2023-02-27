@@ -6,6 +6,9 @@ import {defaultAppState} from './app-state';
 
 export const app = (state: AppState = defaultAppState, action): AppState => {
   switch (action.type) {
+    case ACTION_TYPES.SECURITY_CONFIG_FETCHED:
+      return {...state, securityConfig: action.payload};
+
     case ACTION_TYPES.INITIAL_LOAD:
       return {...state, isLoaded: true, lastMonthsDownloaded: action.lastMonthsDownloaded};
 

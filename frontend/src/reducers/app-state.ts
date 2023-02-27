@@ -76,4 +76,10 @@ export const defaultAppState: AppState = {
     users: getListFilters(true),
     roles: getListFilters(),
   },
+  securityConfig: {
+    googleClientId: '',
+    jwtInterval: 0,
+    env: '',
+    tag: ''
+  }
 };

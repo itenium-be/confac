@@ -19,8 +19,6 @@ interface IAuthService {
   getUser: () => UserModel | null;
   getClaims: () => Claim[],
   refresh: () => void;
-  /** In ms */
-  refreshInterval: () => number;
   /** For redirecting to after login */
   entryPathname: string;
 }
@@ -131,10 +129,6 @@ class AuthService implements IAuthService {
     }
   }
 
-  refreshInterval(): number {
-    return +(localStorage.getItem('jwtInterval') || (60 * 60)) * 1000;
-  }
-
   entryPathname = document.location.pathname;
 };
 
@@ -176,7 +170,6 @@ function refreshToken(): void {
 function authenticateUser(loginResponse: CredentialResponse, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) {
   setState('');
 
-  console.log('loginResponse', loginResponse);
   return dispatch => {
     request.post(buildUrl('/user/login'))
       .set('Content-Type', 'application/json')
