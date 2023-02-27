@@ -1,26 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {GoogleLogin} from '@leecheuk/react-google-login';
 import {Alert} from 'react-bootstrap';
 import {t} from '../../utils';
 import {authService} from '../../users/authService';
 import {buildRequest, initialLoad} from '../../../actions/initialLoad';
 import { Redirecter } from './Redirecter';
 import { AnonymousLogin } from './AnonymousLogin';
+import { GoogleLogin } from '@react-oauth/google';
 
 
-const requiredAccess = [
-  'profile',
-  'email',
-  // 'https://www.googleapis.com/auth/profile.language.read',
-  // 'https://www.googleapis.com/auth/admin.directory.group.readonly',
-];
-
-
-export const LoginPage = (props: any) => {
+export const LoginPage = () => {
   const dispatch = useDispatch();
   const [state, setState] = useState<string | 'loggedIn'>('');
-  const [errDetails, setErrDetails] = useState<string>('');
   const [googleClientId, setGoogleClientId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -58,7 +49,6 @@ export const LoginPage = (props: any) => {
     return <AnonymousLogin onLogin={userName => anonymousLogin(userName)} />;
   }
 
-  console.log('googleClientId', googleClientId); // eslint-disable-line
   return (
     <div>
       {state && (
@@ -68,20 +58,23 @@ export const LoginPage = (props: any) => {
       )}
 
       <GoogleLogin
-        clientId={googleClientId}
-        buttonText={t('user.login')}
-        onSuccess={res => authService.login(res, dispatch, setState)}
-        onFailure={err => {
-          setState('user.loginError');
-          if (err && err.details) {
-            setErrDetails(err.details);
-          }
-          console.log('google-login-failure', err); // eslint-disable-line
+        useOneTap
+        auto_select
+        size="large"
+        logo_alignment="left"
+        shape="circle"
+        type="standard"
+        theme="outline"
+        ux_mode="popup"
+        context="use"
+        onSuccess={credentialResponse => {
+          console.log('googleSuccess', credentialResponse);
+          authService.login(credentialResponse, dispatch, setState);
         }}
-        cookiePolicy="single_host_origin"
-        scope={requiredAccess.join(' ')}
+        onError={() => {
+          setState('user.loginError');
+        }}
       />
-      {errDetails && (<div className="err-details">{errDetails}</div>)}
     </div>
   );
 };

@@ -599,7 +599,6 @@ export const trans = {
     notMailed: 'Mail nog niet verstuurd',
   },
   user: {
-    login: 'Sign in with Google',
     logout: 'Logout of Google',
     loginError: 'Inloggen mislukt',
     users: 'Gebruikers',

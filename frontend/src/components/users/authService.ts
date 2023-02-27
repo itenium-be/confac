@@ -2,6 +2,7 @@
 import {SetStateAction} from 'react';
 import request from 'superagent-bluebird-promise';
 import {Dispatch} from 'redux';
+import {CredentialResponse} from '@react-oauth/google';
 import {buildUrl} from '../../actions/utils/buildUrl';
 import {initialLoad} from '../../actions/initialLoad';
 import {UserModel, Claim} from './models/UserModel';
@@ -53,7 +54,7 @@ class AuthService implements IAuthService {
    * @res: Google response
    * @setState: Uhoh, LoginPage.useState...
    */
-  login(res: any, dispatch: Dispatch<any>, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) {
+  login(res: CredentialResponse, dispatch: Dispatch<any>, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) {
     dispatch(authenticateUser(res, setState));
   }
 
@@ -172,16 +173,15 @@ function refreshToken(): void {
 
 
 
-function authenticateUser(loginResponse: any, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) {
+function authenticateUser(loginResponse: CredentialResponse, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) {
   setState('');
 
   console.log('loginResponse', loginResponse);
-  const idToken = loginResponse.tokenId;
   return dispatch => {
     request.post(buildUrl('/user/login'))
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .send({idToken})
+      .send({idToken: loginResponse.credential})
       .then(res => {
         console.log('login result', res.body);
         authService.authenticated(res.body.jwt);
