@@ -1,11 +1,31 @@
 #!/bin/bash
 
-# Build the app & start mongo & app containers
+echo -e "\033[0;32m================="
+echo "= CONFAC DEPLOY ="
+printf "=================\033[0m\n"
+echo -e "\033[1;37mBuild the app & start mongo & app containers\033[0m"
 
-# Usage:
-# cp .env.sample .env.pongit.prod
-# sh ./deploy.sh .env.pongit.prod
-# sh ./deploy.sh .env.pongit.test
+if [ "$1" = "" ]
+then
+  echo ""
+  echo "Setup new environment:"
+  echo "cp .env.sample .env.prod"
+  echo ""
+
+  echo -e "\033[1;34mCurrent posibilities:\033[1;37m"
+  envs=$(ls -a .env* | sed '/\.env\(\.sample\)\?$/d')
+
+  if [ "$envs" = "" ]
+  then
+    echo "./deploy.sh .env.sample"
+  else
+    echo "$envs" | sed 's/\(.*\)/.\/deploy.sh \1/g'
+  fi
+  echo -e "\033[0m"
+
+  exit 0
+fi
+
 
 echo "Using env: $1"
 
