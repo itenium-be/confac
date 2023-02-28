@@ -6,15 +6,13 @@ import {updateAppFilters, patchProjectsMonth} from '../../actions';
 import {ListPageHeader} from '../controls/table/ListPage';
 import {projectMonthFeature, ProjectMonthFeatureBuilderConfig} from './models/getProjectMonthFeature';
 import {FullProjectMonthModel} from './models/FullProjectMonthModel';
-import {ProjectMonthModel} from './models/ProjectMonthModel';
 import {LinkToButton} from '../controls/form-controls/button/LinkToButton';
 import {CreateProjectsMonthModalButton} from './controls/CreateProjectsMonthModal';
-import {Features, IFeature} from '../controls/feature/feature-models';
-import {ProjectMonthListFilters} from '../controls/table/table-models';
+import {Features} from '../controls/feature/feature-models';
 import {t} from '../utils';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {Claim} from '../users/models/UserModel';
-import {mapToProjectMonth, useProjectsMonths} from '../hooks/useProjects';
+import {mapToProjectMonth} from '../hooks/useProjects';
 
 
 import './project-month-list/project-month-list.scss';
@@ -92,8 +90,6 @@ type OpenedProjectMonthsListProps = {
 /** A full open ProjectMonth with toolbar + table */
 export const OpenedProjectMonthsList = ({month, showToolbar}: OpenedProjectMonthsListProps) => {
   const dispatch = useDispatch();
-  // const configData = useProjectsMonths();
-
   const projectMonths = useSelector((state: ConfacState) => state.projectsMonth
     .filter(x => x.month.isSame(moment(month), 'month'))
     .map(x => mapToProjectMonth(state, x))
@@ -101,18 +97,15 @@ export const OpenedProjectMonthsList = ({month, showToolbar}: OpenedProjectMonth
   ) as FullProjectMonthModel[];
 
 
-  const filters2 = useSelector((state: ConfacState) => state.app.filters.projectMonths);
-
+  const filters = useSelector((state: ConfacState) => state.app.filters.projectMonths);
   const config: ProjectMonthFeatureBuilderConfig = {
     data: projectMonths,
     save: m => dispatch(patchProjectsMonth(m.details) as any),
-    filters: filters2,
+    filters,
     setFilters: f => dispatch(updateAppFilters(Features.projectMonths, f)),
   };
 
   const feature = projectMonthFeature(config);
-
-
   if (!feature.list.data.length || !feature.list.filter) {
     return null;
   }
