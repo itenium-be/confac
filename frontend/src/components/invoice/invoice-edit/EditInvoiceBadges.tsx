@@ -35,7 +35,7 @@ export const EditInvoiceBadges = ({invoice}: InvoiceProps) => {
   return (
     <>
       <Badge style={defaultBadgeStyle} bg="primary" text="white">
-        {displayMonthWithYear(projectMonth.details)}
+        {displayMonthWithYear(projectMonth.details.month)}
       </Badge>
       <Badge style={defaultBadgeStyle} bg="success" text="white">
         {projectMonth.client.name}
