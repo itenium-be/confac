@@ -1,8 +1,12 @@
 import {Moment} from 'moment';
 import {useSelector} from 'react-redux';
 import {ConfacState} from '../../reducers/app-state';
+import { ClientModel } from '../client/models/ClientModels';
+import { ConsultantModel } from '../consultant/models/ConsultantModel';
+import InvoiceModel from '../invoice/models/InvoiceModel';
 import {FullProjectModel} from '../project/models/FullProjectModel';
 import {FullProjectMonthModel, IFullProjectMonthModel} from '../project/models/FullProjectMonthModel';
+import { IProjectModel } from '../project/models/IProjectModel';
 import {ProjectMonthModel} from '../project/models/ProjectMonthModel';
 
 
@@ -27,6 +31,7 @@ export function useProjects(month?: Moment): FullProjectModel[] {
 
 /** Resolve a single ProjectModel _id */
 export function useProjectsMonth(projectMonthId?: string): FullProjectMonthModel | undefined {
+  // TODO: here also:
   const confacState = useSelector((state: ConfacState) => state);
   if (!projectMonthId) {
     return undefined;
@@ -43,9 +48,24 @@ export function useProjectsMonth(projectMonthId?: string): FullProjectMonthModel
 
 
 
+type ProjectMonthResolverState = {
+  projectsMonth: ProjectMonthModel[];
+  invoices: InvoiceModel[];
+  projects: IProjectModel[];
+  clients: ClientModel[];
+  consultants: ConsultantModel[];
+}
+
+
 /** Resolve ProjectModel _ids to their corresponding models */
 export function useProjectsMonths(): FullProjectMonthModel[] {
-  const confacState = useSelector((state: ConfacState) => state);
+  const confacState: ProjectMonthResolverState = useSelector((state: ConfacState) => ({
+    projectsMonth: state.projectsMonth,
+    invoices: state.invoices,
+    projects: state.projects,
+    clients: state.clients,
+    consultants: state.consultants,
+  }));
   const result = confacState.projectsMonth.map(projectMonth => mapToProjectMonth(confacState, projectMonth));
   return result.filter(x => x !== null) as FullProjectMonthModel[];
 }
@@ -59,19 +79,19 @@ export function useProjectMonthFromInvoice(invoiceId: string): FullProjectMonthM
 }
 
 /** Can be used to do the resolving in legacy Component classes */
-export function singleProjectMonthResolve(confacState: ConfacState, projectMonthToSelect: ProjectMonthModel): FullProjectMonthModel | null {
-  return mapToProjectMonth(confacState, projectMonthToSelect);
+export function singleProjectMonthResolve(state: ProjectMonthResolverState, projectMonthToSelect: ProjectMonthModel): FullProjectMonthModel | null {
+  return mapToProjectMonth(state, projectMonthToSelect);
 }
 
 /** Can be used to do the resolving in legacy Component classes */
-export function projectMonthResolve(confacState: ConfacState): FullProjectMonthModel[] {
+export function projectMonthResolve(confacState: ProjectMonthResolverState): FullProjectMonthModel[] {
   return confacState.projectsMonth
     .map(pm => mapToProjectMonth(confacState, pm))
     .filter(pm => !!pm) as FullProjectMonthModel[];
 }
 
 
-export function mapToProjectMonth(confacState: ConfacState, projectMonth: ProjectMonthModel): null | FullProjectMonthModel {
+export function mapToProjectMonth(confacState: ProjectMonthResolverState, projectMonth: ProjectMonthModel): null | FullProjectMonthModel {
   const project = confacState.projects.find(p => p._id === projectMonth.projectId);
   if (!project) {
     return null;
