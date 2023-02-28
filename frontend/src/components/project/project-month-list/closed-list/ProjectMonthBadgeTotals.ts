@@ -3,7 +3,8 @@
  * type number: amount of
  * type string: concat of the consultant names
  **/
-export type ProjectMonthTotals = {
+export type ProjectMonthBadgeTotals = {
+  /** Total amount of invoices */
   total: number;
   verified: number;
   unverified: string;

@@ -12,7 +12,7 @@ import {EditConsultant} from './components/consultant/EditConsultant';
 import {EditProject} from './components/project/EditProject';
 import {ProjectsList} from './components/project/ProjectsList';
 import {ConsultantsList} from './components/consultant/ConsultantsList';
-import {ProjectMonthsLists} from './components/project/ProjectMonthsLists';
+import {ProjectMonthsLists} from './components/project/project-month-list/ProjectMonthsLists';
 import {LoginPage} from './components/pages/login/LoginPage';
 import {UnauthicatedAppLayout} from "./components/pages/login/UnauthicatedAppLayout";
 import {UserPage} from './components/pages/user/UserPage';

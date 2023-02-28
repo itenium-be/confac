@@ -1,23 +1,23 @@
 import React from 'react';
-import { t } from '../../../utils';
-import { Icon } from '../../../controls/Icon';
+import { Badge } from 'react-bootstrap';
+import { t } from '../../../../utils';
+import { Icon } from '../../../../controls/Icon';
 import { TimesheetBadgeProps } from './TimesheetBadge';
-import { ProjectMonthBadge } from "./ProjectMonthBadge";
 
 
 /** ProjectMonth closed month Inbound badge */
 export const InboundBadge = ({ pending, totals }: TimesheetBadgeProps) => {
   if (!pending) {
     return (
-      <ProjectMonthBadge pill bg="success" text="white">
+      <Badge pill bg="success" text="white">
         <Icon fa="fa fa-inbox" size={1} />
         {t('projectMonth.list.inboundAllPaid')}
-      </ProjectMonthBadge>
+      </Badge>
     );
   }
 
   return (
-    <ProjectMonthBadge pill bg="warning">
+    <Badge pill bg="warning">
       <Icon fa="fa fa-inbox" size={1} title={totals.inboundNew && `<b>${t('projectMonth.inboundNew')}</b><br>${totals.inboundNew}`}>
         {totals.inboundNewCount}
       </Icon>
@@ -30,6 +30,6 @@ export const InboundBadge = ({ pending, totals }: TimesheetBadgeProps) => {
       <Icon fa="fa fa-coins" size={1} title={totals.inboundPaid && `<b>${t('projectMonth.inboundPaid')}</b><br>${totals.inboundPaid}`}>
         {totals.inboundPaidCount}
       </Icon>
-    </ProjectMonthBadge>
+    </Badge>
   );
 };
