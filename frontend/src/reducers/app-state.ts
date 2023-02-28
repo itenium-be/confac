@@ -34,7 +34,7 @@ export const ProjectMonthsListFilterOpenMonthsFormat = 'YYYY-MM';
 
 
 export const getProjectMonthsFilters = (projectMonths?: ProjectMonthModel[]): ProjectMonthListFilters => {
-  let openMonths: string[] = [];
+  let openMonths: {[key: string]: true} = {};
   if (projectMonths && projectMonths.length) {
     const lastExistingMonth = projectMonths
       .slice()
@@ -42,8 +42,10 @@ export const getProjectMonthsFilters = (projectMonths?: ProjectMonthModel[]): Pr
       .month
       .format(ProjectMonthsListFilterOpenMonthsFormat);
 
-    openMonths = [lastExistingMonth];
-    openMonths = ['2023-01', '2021-08', '2021-09', '2021-10', '2021-11', '2021-12', '2022-01', '2022-02', '2022-03', '2022-04', '2022-05', '2022-06', '2022-07', '2022-08', '2022-09', '2022-10', '2022-11', '2022-12'];
+    openMonths = {[lastExistingMonth]: true};
+    // let leMonths = ['2023-01', '2022-12', '2022-11', '2022-10', '2022-09', '2022-08']; // 6 months open
+    // leMonths = ['2023-01', '2021-08', '2021-09', '2021-10', '2021-11', '2021-12', '2022-01', '2022-02', '2022-03', '2022-04', '2022-05', '2022-06', '2022-07', '2022-08', '2022-09', '2022-10', '2022-11', '2022-12'];
+    // openMonths = leMonths.reduce((acc, cur) => ({...acc, [cur]: true}), {});
   }
 
   return {
@@ -75,7 +77,7 @@ export const defaultAppState: AppState = {
     projects: getListFilters(),
     projectMonths: {
       ...getListFilters(),
-      openMonths: [],
+      openMonths: {},
       unverifiedOnly: false,
     },
     users: getListFilters(true),

@@ -28,8 +28,8 @@ export type ListFilters = {
 
 export type ProjectListFilters = ListFilters;
 export type ProjectMonthListFilters = ListFilters & {
-  /** Format: YYYY-MM */
-  openMonths: string[],
+  /** Format: {YYYY-MM: true} */
+  openMonths: {[key: string]: boolean},
   unverifiedOnly: boolean
 };
 export type InvoiceListFilters = ListFilters;
