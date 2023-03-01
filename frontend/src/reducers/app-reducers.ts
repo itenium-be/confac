@@ -23,6 +23,21 @@ export const app = (state: AppState = defaultAppState, action): AppState => {
     case ACTION_TYPES.APP_FILTERUPDATED:
       return {...state, filters: {...state.filters, [action.payload.feature]: action.payload.filters}};
 
+    case ACTION_TYPES.APP_FILTER_OPEN_MONTHS_UPDATED:
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          projectMonths: {
+            ...state.filters.projectMonths,
+            openMonths: {
+              ...state.filters.projectMonths.openMonths,
+              [action.payload.month]: action.payload.opened,
+            }
+          }
+        }
+      };
+
     default:
       return state;
   }

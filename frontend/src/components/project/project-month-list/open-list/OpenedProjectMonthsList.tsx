@@ -1,40 +1,41 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
-import { ConfacState } from '../../../../reducers/app-state';
 import { updateAppFilters, patchProjectsMonth } from '../../../../actions';
 import { ListPageHeader } from '../../../controls/table/ListPage';
 import { projectMonthFeature, ProjectMonthFeatureBuilderConfig } from '../../models/getProjectMonthFeature';
-import { FullProjectMonthModel } from '../../models/FullProjectMonthModel';
 import { LinkToButton } from '../../../controls/form-controls/button/LinkToButton';
 import { CreateProjectsMonthModalButton } from '../../controls/CreateProjectsMonthModal';
 import { Features } from '../../../controls/feature/feature-models';
 import { Claim } from '../../../users/models/UserModel';
-import { mapToProjectMonth } from '../../../hooks/useProjects';
 import { OpenedProjectsMonthsListToolbar } from './OpenedProjectsMonthsListToolbar';
 import { List } from '../../../controls/table/List';
+import { createFullProjectMonthsSelector } from '../createFullProjectMonthsSelector';
+
 
 type OpenedProjectMonthsListProps = {
   month: string;
   showToolbar: boolean;
 };
 
+const dumyFilters = {
+  freeText: '',
+  showInactive: false,
+  openMonths: {},
+  unverifiedOnly: false,
+}
 
-/** A full open ProjectMonth with toolbar + table */
+
+/** A full open ProjectMonth with header + table */
 export const OpenedProjectMonthsList = ({ month, showToolbar }: OpenedProjectMonthsListProps) => {
   const dispatch = useDispatch();
-  const projectMonths = useSelector((state: ConfacState) => state.projectsMonth
-    .filter(x => x.month.isSame(moment(month), 'month'))
-    .map(x => mapToProjectMonth(state, x))
-    .filter(x => x !== null)
-  ) as FullProjectMonthModel[];
+  const selectProjectMonths = useMemo(createFullProjectMonthsSelector, []);
+  const projectMonths = useSelector((state) => selectProjectMonths(state, month));
 
-
-  const filters = useSelector((state: ConfacState) => state.app.filters.projectMonths);
+  // const filters = useSelector((state: ConfacState) => state.app.filters.projectMonths.openMonths[month]);
   const config: ProjectMonthFeatureBuilderConfig = {
     data: projectMonths,
     save: m => dispatch(patchProjectsMonth(m.details) as any),
-    filters,
+    filters: dumyFilters, // TODO: do need the non-openMonths filters here!
     setFilters: f => dispatch(updateAppFilters(Features.projectMonths, f)),
   };
 
@@ -50,18 +51,11 @@ export const OpenedProjectMonthsList = ({ month, showToolbar }: OpenedProjectMon
     </>
   );
 
-
-  const filter = feature.list.filter;
-  const onClose = () => filter.updateFilter({
-    ...filter.state,
-    openMonths: { ...filter.state.openMonths, [month]: false },
-  });
-
   // TODO: bug: ListPageHeader now only displays when the first month is open
   return (
     <>
       {showToolbar && <ListPageHeader feature={feature} topToolbar={topToolbar} />}
-      <OpenedProjectsMonthsListToolbar feature={feature} onClose={onClose} />
+      <OpenedProjectsMonthsListToolbar feature={feature} />
       <List feature={feature} />
       <hr className="list-separator" />
     </>

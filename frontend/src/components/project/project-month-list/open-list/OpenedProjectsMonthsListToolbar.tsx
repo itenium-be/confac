@@ -10,12 +10,11 @@ import { displayMonthWithYear } from "../project-month-utils";
 import { AdvancedAttachmentDropzone } from '../../../controls/attachments/AdvancedAttachmentDropzone';
 import { projectsMonthOverviewUpload, deleteProjectsMonthOverview } from '../../../../actions';
 import { t } from '../../../utils';
-import { Button } from '../../../controls/form-controls/Button';
 import { Claim } from '../../../users/models/UserModel';
+import { ToggleProjectMonthButton } from '../ToggleProjectMonthButton';
 
 type OpenedProjectsMonthsListToolbarProps = {
   feature: IFeature<FullProjectMonthModel, ProjectMonthListFilters>;
-  onClose: () => void;
 };
 
 
@@ -24,7 +23,7 @@ type OpenedProjectsMonthsListToolbarProps = {
  * - Button to close it
  * - Timesheet check dropzone
  **/
-export const OpenedProjectsMonthsListToolbar = ({ feature, onClose }: OpenedProjectsMonthsListToolbarProps) => {
+export const OpenedProjectsMonthsListToolbar = ({ feature }: OpenedProjectsMonthsListToolbarProps) => {
   const projectsMonthOverviews = useSelector((state: ConfacState) => state.projectsMonthOverviews);
   const dispatch = useDispatch();
 
@@ -48,9 +47,7 @@ export const OpenedProjectsMonthsListToolbar = ({ feature, onClose }: OpenedProj
   return (
     <>
       <div className="projectMonths-toolbar">
-        <Button onClick={onClose} icon="fa fa-toggle-on" variant="outline-info">
-          {t('projectMonth.list.closeList')}
-        </Button>
+        <ToggleProjectMonthButton month={projectsMonthDetails.month.format('YYYY-MM')} toggleOpen={false} />
         <h2>{displayMonthWithYear(projectsMonthDetails.month)}</h2>
         {!allTimesheetsValidated && (
           <AdvancedAttachmentDropzone
