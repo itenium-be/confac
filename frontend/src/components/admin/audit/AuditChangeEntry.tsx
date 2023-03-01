@@ -30,8 +30,8 @@ export const AuditChangeEntry = ({ change, modelType }: { change: AuditLog; mode
             <td colSpan={2}><pre>{displayVal(diff.item || diff.lhs || diff.rhs)}</pre></td>
           ) : (
             <>
-              <td>{displayVal(diff.lhs)}</td>
               <td>{displayVal(diff.rhs)}</td>
+              <td>{displayVal(diff.lhs)}</td>
             </>
           )}
         </tr>

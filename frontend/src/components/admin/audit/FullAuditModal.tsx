@@ -55,8 +55,8 @@ export const FullAuditModal = (props: FullAuditModalProps) => {
         <thead>
           <tr>
             <th style={{ width: '25%' }}>{t('audit.change.field')}</th>
-            <th>{t('audit.change.old')}</th>
             <th>{t('audit.change.new')}</th>
+            <th>{t('audit.change.old')}</th>
           </tr>
         </thead>
         {filteredAudit.map(change => <AuditChangeEntry key={change._id} change={change} modelType={props.modelType} />)}
