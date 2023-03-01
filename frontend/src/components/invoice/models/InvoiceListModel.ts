@@ -64,6 +64,8 @@ export default class InvoiceListModel {
       {value: 'between d/m/yyyy and d/m/yyyy', label: 'between d/m/yyyy and d/m/yyyy', type: 'manual_input'},
       {value: 'period m/yyyy to m/yyyy', label: 'period m/yyyy to m/yyyy', type: 'manual_input'},
       {value: 'last x days|months|years', label: 'last x days|months|years', type: 'manual_input'},
+      {value: 'withoutPayPeriod', label: t('invoice.search.withoutPayPeriod'), type: 'manual_input'},
+      {value: 'withoutConsultant', label: t('invoice.search.withoutConsultant'), type: 'manual_input'},
     ];
 
     const manualFilteredInvoices = this.filterByDescription(this.invoices);
@@ -160,6 +162,16 @@ export default class InvoiceListModel {
 
       if (otherFilter === 'unverifiedOnly') {
         invoices = invoices.filter(i => !i.verified);
+        return;
+      }
+
+      if (otherFilter === 'withoutPayPeriod') {
+        invoices = invoices.filter(i => !i.projectMonth?.month);
+        return;
+      }
+
+      if (otherFilter === 'withoutConsultant') {
+        invoices = invoices.filter(i => !i.projectMonth?.consultantId);
         return;
       }
 

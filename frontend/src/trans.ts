@@ -320,6 +320,8 @@ export const trans = {
     pdfTemplateNotFound: 'De pdf template was niet gevonden (check Config)',
     search: {
       placeholder: 'Lijst filteren',
+      withoutPayPeriod: 'Zonder periode',
+      withoutConsultant: 'Zonder consultant',
     },
     badRequest: {
       nrExists: 'Nr {nr} kan niet gemaakt worden omdat nr {lastNr} reeds bestaat',
