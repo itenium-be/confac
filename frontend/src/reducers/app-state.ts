@@ -76,7 +76,8 @@ export const defaultAppState: AppState = {
     invoices: getListFilters(),
     projects: getListFilters(),
     projectMonths: {
-      ...getListFilters(),
+      freeText: '',
+      showInactive: false,
       openMonths: {},
       unverifiedOnly: false,
     },
