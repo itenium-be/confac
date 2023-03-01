@@ -156,6 +156,20 @@ export const getNewProjects = async (db: Db, config: ProjectConfig) => {
   return newProjects;
 }
 
+export async function insertAdminRole(db: Db) {
+  const adminRoles = await db.collection('roles').find({name: {$eq: 'admin'}}).toArray();
+  if (adminRoles.length) {
+    console.log('Admin role already exists, skipping');
+  } else {
+    const adminRole = {
+      name: 'admin',
+      claims: ['view-config', 'manage-config', 'view-users', 'manage-users', 'view-roles', 'manage-roles'],
+      audit: {}
+    };
+    await db.collection('roles').insertOne(adminRole);
+    console.log('Admin role inserted');
+  }
+}
 
 
 export const defaultConfig = {

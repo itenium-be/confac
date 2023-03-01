@@ -11,6 +11,8 @@ const appConfig = {
   },
 };
 
+console.log('Going to insert data @', appConfig.db);
+
 
 let connectionString: string;
 if (appConfig.db.user && appConfig.db.pwd) {
