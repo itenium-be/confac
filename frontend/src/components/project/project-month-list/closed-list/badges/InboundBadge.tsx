@@ -18,17 +18,29 @@ export const InboundBadge = ({ pending, totals }: TimesheetBadgeProps) => {
 
   return (
     <Badge pill bg="warning">
-      <Icon fa="fa fa-inbox" size={1} title={totals.inboundNew && `<b>${t('projectMonth.inboundNew')}</b><br>${totals.inboundNew}`}>
+      <Icon
+        fa="fa fa-inbox"
+        size={1}
+        title={totals.inboundNew && `<b>${t('projectMonth.inboundNew')}</b><br>${totals.inboundNew}`}
+      >
         {totals.inboundNewCount}
       </Icon>
 
-      <Icon fa="fa fa-check" size={1} title={totals.inboundValidated && `<b>${t('projectMonth.inboundValidated')}</b><br>${totals.inboundValidated}`}>
-        {totals.inboundValidatedCount}
+      <Icon
+        fa="fa fa-check"
+        size={1}
+        title={totals.inboundValidated && `<b>${t('projectMonth.inboundValidated')}</b><br>${totals.inboundValidated}`}
+      >
+        <div style={{marginLeft: 8, display: 'inline-block'}}>{totals.inboundValidatedCount}</div>
       </Icon>
 
 
-      <Icon fa="fa fa-coins" size={1} title={totals.inboundPaid && `<b>${t('projectMonth.inboundPaid')}</b><br>${totals.inboundPaid}`}>
-        {totals.inboundPaidCount}
+      <Icon
+        fa="fa fa-coins"
+        size={1}
+        title={totals.inboundPaid && `<b>${t('projectMonth.inboundPaid')}</b><br>${totals.inboundPaid}`}
+      >
+        <div style={{marginLeft: 12, display: 'inline-block'}}>{totals.inboundPaidCount}</div>
       </Icon>
     </Badge>
   );
