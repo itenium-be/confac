@@ -8,7 +8,11 @@ import { ProjectMonthBadgeTotals } from "../ProjectMonthBadgeTotals";
 export const OutboundBadge = ({ totals }: { totals: ProjectMonthBadgeTotals; }) => {
   return (
     <Badge pill bg="warning">
-      <Icon fa="fa fa-coins" size={1} title={`<b>${t('projectMonth.outboundPaid')}</b><br>` + totals.unverified} />
+      <Icon
+        fa="fa fa-coins"
+        size={1}
+        title={`<b>${t('projectMonth.outboundPaid')}</b><br>` + totals.unverified}
+      />
       {t('projectMonth.list.verifiedBadge', {verified: totals.verified, total: totals.total})}
     </Badge>
   );
