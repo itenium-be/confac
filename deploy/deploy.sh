@@ -45,8 +45,8 @@ fi
 cp $1 .env
 
 # Add tag to confac-app image
-echo "TAG=$(date +%Y-%m-%d)" >> .env
-
+TAG=$(date +%Y-%m-%d)
+echo "TAG=$TAG" >> .env
 
 
 echo "What to do?"
@@ -64,6 +64,9 @@ if [ "$key" = 'f' ]; then
   # Spin up mongo & app containers
   cd ..
   docker-compose up -d --build
+
+  # Max one version per day
+  git tag -f v$TAG
 
 elif [ "$key" = 'd' ]; then
   # Fast startup when there are no code changes
