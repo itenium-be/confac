@@ -19,17 +19,19 @@ export const OpenedProjectMonthsList = ({ month }: OpenedProjectMonthsListProps)
   const dispatch = useDispatch();
   const selectProjectMonths = useMemo(createFullProjectMonthsSelector, []);
   const projectMonths = useSelector((state) => selectProjectMonths(state, month));
-  // const filters = useSelector((state: ConfacState) => state.app.filters.projectMonths);
+  const filters = useSelector((state: ConfacState) => state.app.filters.projectMonths);
+
+  const otherFilter = {
+    freeText: '',
+    showInactive: false,
+    openMonths: {},
+    unverifiedOnly: false,
+  };
 
   const config: ProjectMonthFeatureBuilderConfig = {
     data: projectMonths,
     save: m => dispatch(patchProjectsMonth(m.details) as any),
-    filters: {
-      freeText: '',
-      showInactive: false,
-      openMonths: {},
-      unverifiedOnly: false,
-    },
+    filters: filters,
     setFilters: f => dispatch(updateAppFilters(Features.projectMonths, f)),
   };
 
