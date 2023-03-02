@@ -5,6 +5,7 @@ import {ConfacState, ProjectMonthsListFilterOpenMonthsFormat} from '../../../red
 import {Features} from '../../controls/feature/feature-models';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import { OpenOrClosedProjectMonthsList } from './OpenOrClosedProjectMonthsList';
+import { ProjectMonthsListToolbar } from './ProjectMonthsListToolbar';
 
 
 import './project-month-list.scss';
@@ -22,7 +23,10 @@ export const ProjectMonthsLists = () => {
 
   return (
     <Container className={`list list-${Features.projectMonths}`}>
-      {uniqueMonths.map((month, index) => <OpenOrClosedProjectMonthsList key={month} month={month} showToolbar={index === 0} />)}
+      <ProjectMonthsListToolbar />
+      {uniqueMonths.map(month => (
+        <OpenOrClosedProjectMonthsList key={month} month={month} />
+      ))}
     </Container>
   );
 };
