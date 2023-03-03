@@ -15,7 +15,7 @@ export function calcLastMonths(months) {
         month: month.format('YYYY-MM'),
       };
 
-      if (i === 0) {
+      if (i === 0 || i === 1) {
         postMessage({workDays: [workDays]});
         return acc;
       }
