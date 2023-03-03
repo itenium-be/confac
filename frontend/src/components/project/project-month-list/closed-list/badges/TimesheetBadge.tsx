@@ -1,7 +1,5 @@
 import React from 'react';
-import { Badge } from 'react-bootstrap';
 import { t } from '../../../../utils';
-import { Icon } from '../../../../controls/Icon';
 import { ProjectMonthBadgeTotals } from "../ProjectMonthBadgeTotals";
 
 export type TimesheetBadgeProps = {
@@ -9,12 +7,24 @@ export type TimesheetBadgeProps = {
   totals: ProjectMonthBadgeTotals;
 };
 
+
+const TimeSheetOkBadge = (
+  <span className="badge rounded-pill text-white bg-success">
+    <i className="fa fa-clock fa-1x" />
+    {t('projectMonth.list.timesheetOk')}
+  </span>
+)
+
 /** ProjectMonth closed month Timesheet badge */
 export const TimesheetBadge = ({ pending, totals }: TimesheetBadgeProps) => {
+  if (!pending) {
+    return TimeSheetOkBadge;
+  }
+
   return (
-    <Badge pill bg={pending ? 'warning' : 'success'} text={pending ? undefined : 'white'}>
-      <Icon fa="fa fa-clock" size={1} title={`<b>${t('projectMonth.timesheetValidated')}</b><br>` + totals.timesheetPending} />
-      {t(`projectMonth.list.${pending ? 'timesheetPending' : 'timesheetOk'}`, {timesheetPendingCount: totals.timesheetPendingCount})}
-    </Badge>
+    <span className="badge rounded-pill bg-warning">
+      <i className="fa fa-clock fa-1x" title={`<b>${t('projectMonth.timesheetValidated')}</b><br>` + totals.timesheetPending} />
+      {t('projectMonth.list.timesheetPending', {timesheetPendingCount: totals.timesheetPendingCount})}
+    </span>
   );
 };

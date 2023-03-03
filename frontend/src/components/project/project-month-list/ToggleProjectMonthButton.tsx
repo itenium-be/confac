@@ -1,12 +1,16 @@
 import React, { useCallback } from 'react';
-import { Button } from '../../controls/form-controls/Button';
 import { t } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { updateAppProjectMonthsFilter } from '../../../actions';
 
+const style = {marginRight: 6};
+
 /** Opens/closes a projectMonth */
 export const ToggleProjectMonthButton = ({ month, toggleOpen }: { month: string; toggleOpen: boolean }) => {
   const dispatch = useDispatch();
+  // const onToggle = useCallback(() => {
+  //   dispatch(updateAppProjectMonthsFilter(month, toggleOpen));
+  // }, [dispatch, month, toggleOpen]);
 
   const onToggle = () => {
     dispatch(updateAppProjectMonthsFilter(month, toggleOpen));
@@ -14,15 +18,17 @@ export const ToggleProjectMonthButton = ({ month, toggleOpen }: { month: string;
 
   if (!toggleOpen) {
     return (
-      <Button onClick={onToggle} icon="fa fa-toggle-on" variant="outline-info">
+      <button type="button" onClick={onToggle} className="btn btn-outline-info">
+        <i className="fa fa-toggle-on fa-1x" style={style} />
         {t('projectMonth.list.closeList')}
-      </Button>
+      </button>
     );
   }
 
   return (
-    <Button onClick={onToggle} icon="fa fa-toggle-off" variant="outline-info">
+    <button type="button" onClick={onToggle} className="btn btn-outline-info">
+      <i className="fa fa-toggle-off fa-1x" style={style} />
       {t('projectMonth.list.openList')}
-    </Button>
+    </button>
   );
 };
