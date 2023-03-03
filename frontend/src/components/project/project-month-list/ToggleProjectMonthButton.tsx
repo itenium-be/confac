@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { t } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { updateAppProjectMonthsFilter } from '../../../actions';
@@ -8,6 +8,7 @@ const style = {marginRight: 6};
 /** Opens/closes a projectMonth */
 export const ToggleProjectMonthButton = ({ month, toggleOpen }: { month: string; toggleOpen: boolean }) => {
   const dispatch = useDispatch();
+  // This was actually slower in a test?
   // const onToggle = useCallback(() => {
   //   dispatch(updateAppProjectMonthsFilter(month, toggleOpen));
   // }, [dispatch, month, toggleOpen]);
