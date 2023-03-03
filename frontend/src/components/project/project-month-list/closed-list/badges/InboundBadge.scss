@@ -1,0 +1,16 @@
+// There is actually already SCSS for this
+// See: projectMonthLists.scss
+.inbound-badges {
+  .fa-inbox {
+    margin-left: 8px;
+  }
+
+  .fa-coins {
+    margin-left: 12px;
+  }
+
+  .fa span {
+    display: inline-block;
+    margin-left: 12px;
+  }
+}

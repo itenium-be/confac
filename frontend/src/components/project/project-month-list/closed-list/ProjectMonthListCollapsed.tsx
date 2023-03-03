@@ -1,15 +1,29 @@
 import React, { Profiler, useMemo } from 'react';
 import moment from 'moment';
-import { Badge } from 'react-bootstrap';
 import { displayMonthWithYear } from "../project-month-utils";
 import {t} from '../../../utils';
-import {Icon} from '../../../controls/Icon';
 import { TimesheetBadge } from './badges/TimesheetBadge';
 import { InboundBadge } from './badges/InboundBadge';
 import { OutboundBadge } from './badges/OutboundBadge';
 import { createProjectMonthBadgesSelector } from './createProjectMonthBadgesSelector';
 import { useSelector } from 'react-redux';
 import { ToggleProjectMonthButton } from '../ToggleProjectMonthButton';
+
+type ITiming = {
+  renders: number;
+  totalTime: number;
+  averageTime?: number;
+}
+
+let timings: {[key: string]: ITiming} = {}
+
+
+const VerifiedBadge = (
+  <span className="badge rounded-pill text-white bg-success">
+    <i className="fa fa-coins fa-1x" />
+    {t('projectMonth.list.allVerifiedBadge')}
+  </span>
+);
 
 
 /** ProjectMonth when the list is not visible, displaying badges */
@@ -31,8 +45,23 @@ export const ProjectMonthListCollapsed = ({month}: {month: string}) => {
     commitTime, // when React committed this update
     interactions // the Set of interactions belonging to this update
   ) {
-    console.log(`${id}: ${phase} in ${actualDuration}`);
+    // console.log(`${id}: ${phase} in ${actualDuration}`);
+    if (id.startsWith('Badge')) {
+      id = 'NotVerifiedBadges'
+    }
+
+    if (!timings[id]) {
+      timings[id] = {renders: 1, totalTime: actualDuration};
+    } else {
+      const oldTimings = timings[id];
+      timings[id] = {renders: oldTimings.renders + 1, totalTime: oldTimings.totalTime + actualDuration};
+    }
+
+    timings[id].averageTime = timings[id].totalTime / timings[id].renders;
   }
+
+
+  console.log(timings);
 
   return (
     <>
@@ -43,33 +72,28 @@ export const ProjectMonthListCollapsed = ({month}: {month: string}) => {
           </Profiler>
 
 
-          <Profiler id="displayMonthWithYear" onRender={callback}>
-            <span className="month">{displayMonthWithYear(moment(month))}</span>
-          </Profiler>
+          <span className="month">{displayMonthWithYear(moment(month))}</span>
 
 
-          <Profiler id="Badges" onRender={callback}>
-            <span className="separate">
-              {allVerified ? (
-                <Badge pill bg="success" text="white">
-                  <Icon fa="fa fa-coins" size={1} />
-                  {t('projectMonth.list.allVerifiedBadge')}
-                </Badge>
-              ) : (
-                <>
-                  <Profiler id="TimesheetBadge" onRender={callback}>
-                    <TimesheetBadge totals={totals} pending={hasTimesheetPending} />
-                  </Profiler>
-                  <Profiler id="InboundBadge" onRender={callback}>
-                    <InboundBadge totals={totals} pending={hasInboundPending} />
-                  </Profiler>
-                  <Profiler id="OutboundBadge" onRender={callback}>
-                    <OutboundBadge totals={totals} />
-                  </Profiler>
-                </>
-              )}
-            </span>
-          </Profiler>
+          <span className="separate">
+            {allVerified ? (
+              <Profiler id="VerifiedBadge" onRender={callback}>
+                {VerifiedBadge}
+              </Profiler>
+            ) : (
+              <>
+                <Profiler id="BadgeTimesheet" onRender={callback}>
+                  <TimesheetBadge totals={totals} pending={hasTimesheetPending} />
+                </Profiler>
+                <Profiler id="BadgeInbound" onRender={callback}>
+                  <InboundBadge totals={totals} pending={hasInboundPending} />
+                </Profiler>
+                <Profiler id="BadgeOutbound" onRender={callback}>
+                  <OutboundBadge totals={totals} />
+                </Profiler>
+              </>
+            )}
+          </span>
         </Profiler>
       </h2>
     </>
