@@ -31,7 +31,7 @@ export const ProjectMonthListCollapsed = ({month}: {month: string}) => {
     commitTime, // when React committed this update
     interactions // the Set of interactions belonging to this update
   ) {
-    console.log(`${id}: ${phase} in ${actualDuration}`);
+    // console.log(`${id}: ${phase} in ${actualDuration}`);
   }
 
   return (

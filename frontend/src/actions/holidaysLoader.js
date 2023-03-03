@@ -6,13 +6,23 @@ export function calcLastMonths(months) {
   postMessage('Starting holidays calculation');
   console.time(`last${months}Months`);
 
-  Array(months)
+  const result = Array(months)
     .fill('x')
     .map((_, i) => moment().subtract(i, 'months').startOf('month'))
-    .forEach(month => postMessage({
-      count: getWorkDaysInMonth(month),
-      month: month.format('YYYY-MM'),
-    }));
+    .reduce((acc, month, i) => {
+      const workDays = {
+        count: getWorkDaysInMonth(month),
+        month: month.format('YYYY-MM'),
+      };
 
+      if (i === 0) {
+        postMessage({workDays: [workDays]});
+        return acc;
+      }
+      return acc.concat([workDays]);
+
+    }, []);
+
+  postMessage({workDays: result});
   console.timeEnd(`last${months}Months`);
 }

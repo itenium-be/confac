@@ -23,13 +23,12 @@ export const holidaysService = new HolidaysService();
 // Start work
 const workerInstance = worker();
 workerInstance.addEventListener('message', (message: any) => {
-  if (!message.data?.count) {
+  if (!message.data?.workDays) {
     return;
   }
 
-  const msg: WorkDaysMonth = message.data;
-  holidaysService.cache[msg.month] = msg.count;
-  // console.log('Cached holidays', message.data);
+  message.data.workDays.forEach((msg: WorkDaysMonth) => holidaysService.cache[msg.month] = msg.count);
+  console.log('Cached holidays', message.data);
 });
 workerInstance.calcLastMonths(18);
 
