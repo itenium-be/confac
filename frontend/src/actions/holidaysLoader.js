@@ -4,7 +4,7 @@ import { getWorkDaysInMonth } from "../components/invoice/models/InvoiceModel";
 
 export function calcLastMonths(months) {
   postMessage('Starting holidays calculation');
-  console.time(`last${months}Months`);
+  // console.time(`last${months}Months`);
 
   const result = Array(months)
     .fill('x')
@@ -24,5 +24,5 @@ export function calcLastMonths(months) {
     }, []);
 
   postMessage({workDays: result});
-  console.timeEnd(`last${months}Months`);
+  // console.timeEnd(`last${months}Months`);
 }

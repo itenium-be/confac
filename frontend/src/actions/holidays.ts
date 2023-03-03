@@ -28,7 +28,7 @@ workerInstance.addEventListener('message', (message: any) => {
   }
 
   message.data.workDays.forEach((msg: WorkDaysMonth) => holidaysService.cache[msg.month] = msg.count);
-  console.log('Cached holidays', message.data);
+  // console.log('Cached holidays', message.data);
 });
 workerInstance.calcLastMonths(18);
 
