@@ -30,7 +30,7 @@ const Routes = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(initialLoad());
-  }, []); // eslint-disable-line
+  }, [dispatch]);
 
   return (
     <BrowserRouter>
