@@ -1,6 +1,6 @@
 import { Db } from 'mongodb';
 import { config } from './faker-config';
-import { getNewClient, getNewConsultant, getNewProjects, getNewProjectMonths, insertAdminRole } from './models';
+import { getNewClient, getNewConsultant, getNewProjects, getNewProjectMonths, insertAdminRole, getNewInvoices } from './models';
 
 export async function insertStuff(db: Db) {
   if (config.clients) {
@@ -19,6 +19,12 @@ export async function insertStuff(db: Db) {
     console.log(`Inserting ${config.projects.amount} projects`);
     const newProjects = await getNewProjects(db, config.projects);
     await db.collection('projects').insertMany(newProjects);
+  }
+
+  if (config.invoices.amount) {
+    console.log(`Inserting ${config.invoices.amount} invoices`);
+    const newInvoices = await getNewInvoices(db, config.invoices);
+    await db.collection('invoices').insertMany(newInvoices);
   }
 
   if (config.projectMonths.amount) {

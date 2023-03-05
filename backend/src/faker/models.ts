@@ -6,9 +6,11 @@ import slugify from 'slugify';
 // https://fakerjs.dev/api/
 faker.seed(new Date().valueOf());
 
+const getPrice = (maxPrice?: number) => faker.datatype.number({min: 100, max: maxPrice || 300});
+
 const defaultInvoiceLine = (clientPrice?: number) => ({
   desc: 'Consultancy diensten',
-  price: faker.datatype.number({min: 100, max: clientPrice || 300}),
+  price: getPrice(clientPrice),
   amount: 0,
   tax: 21,
   type: 'daily',
@@ -155,6 +157,129 @@ export const getNewProjects = async (db: Db, config: ProjectConfig) => {
 
   return newProjects;
 }
+
+
+
+export const getNewInvoices = async (db: Db, config: any) => {
+  const consultants = await db.collection('consultants').find().toArray();
+  const projectMonths = await db.collection('projects_month').find().toArray();
+  const projects = await db.collection('projects').find().toArray();
+  const clients = await db.collection('clients').find().toArray();
+
+  const newInvoices = Array(config.amount).fill(0).map((_, index) => {
+    const client = clients[Math.floor(Math.random() * clients.length)];
+    const projectMonth = projectMonths[Math.floor(Math.random() * projectMonths.length)];
+    const consultant = consultants[Math.floor(Math.random() * consultants.length)];
+    const price = getPrice();
+    const days = faker.datatype.number({min: 15, max: 22});
+    const total = price * days;
+
+    const invoice: any = {
+      number: index + 1, // TODO: need to watch out for doubles here
+      projectMonth: {
+        projectMonthId: projectMonth._id,
+        month: projectMonth.month,
+        consultantId: consultant._id,
+        consultantName: consultant.firstName,
+    },
+      client: {
+        _id: client._id,
+        slug: client.slug,
+        active: true,
+        name: client.name,
+        address: client.address,
+        city: client.city,
+        country: client.country,
+        telephone: client.telephone,
+        btw: client.btw,
+        invoiceFileName: client.invoiceFileName,
+        hoursInDay: client.hoursInDay,
+        defaultInvoiceLines: [{
+          desc: "Consultancy diensten",
+          price: price,
+          amount: 0,
+          tax: 21,
+          type: "daily",
+          sort: 0
+        }],
+        attachments: [],
+        defaultInvoiceDateStrategy: "prev-month-last-day",
+        defaultChangingOrderNr: false,
+        email: {
+          to: "AnkundingandSons_Rolfson@yahoo.com",
+          subject: "New Invoice",
+          body: "Your invoice attached!",
+          attachments: [
+              "pdf",
+              "Getekende timesheet"
+          ],
+          combineAttachments: false
+        },
+        language: "en",
+        frameworkAgreement: {
+          status: "NoContract",
+          notes: ""
+        },
+        audit: {
+          createdOn: "2007-1228::44.695Z",
+          createdBy: "Isobel",
+        },
+        contact: "",
+        contactEmail: ""
+      },
+      your: {
+        name: "itenium",
+        address: "",
+        city: "",
+        btw: "",
+        rpr: "",
+        bank: "",
+        iban: "",
+        bic: "",
+        telephone: "",
+        email: "",
+        website: "https://itenium.be",
+        template: "example-1.pug",
+        templateQuotation: "example-1.pug"
+      },
+      date: faker.datatype.datetime({min: new Date('2018').valueOf(), max: new Date().valueOf()}).toISOString(),
+      orderNr: faker.helpers.maybe(() => faker.datatype.string(faker.datatype.number({min: 3, max: 7})), {probability: 0.35}),
+      verified: faker.datatype.boolean(),
+      attachments: [ { type: "pdf" } ],
+      isQuotation: false,
+      lines: [{
+        desc: "Consultancy diensten",
+        price: price,
+        amount: days,
+        tax: 21,
+        type: "daily",
+        sort: 0
+      }],
+      money: {
+        totalWithoutTax: 0,
+        totalTax: 0,
+        discount: 0,
+        total: total,
+        totals: {
+          daily: total
+        }
+      },
+      note: "",
+      audit: {
+        createdOn: '2023-03-05T22:25:57.860Z',
+        createdBy: 'Bearer PerfUser'
+      },
+      lastEmail: faker.helpers.maybe(() => faker.datatype.datetime(), {probability: 0.7})
+    };
+
+    return invoice;
+  });
+
+  return newInvoices;
+}
+
+
+
 
 export async function insertAdminRole(db: Db) {
   const adminRoles = await db.collection('roles').find({name: {$eq: 'admin'}}).toArray();

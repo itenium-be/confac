@@ -13,14 +13,20 @@ const projectConfig: ProjectConfig = {
 
 
 const projectMonthsConfig = {
-  amount: 1,
+  amount: 0,
 };
+
+
+const invoicesConfig = {
+  amount: 0,
+}
 
 
 export const config = {
   clients: 0, // amount of clients to insert
   consultants: 0, // amount of consultants to insert
   projects: projectConfig,
+  invoices: invoicesConfig,
   projectMonths: projectMonthsConfig,
   roles: false, // insert basic admin role if it doesn't yet exist
 };
