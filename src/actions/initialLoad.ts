@@ -94,7 +94,7 @@ function fetchConsultants() {
 }
 
 function fetchProjects() {
-  return dispatch => httpGet('/projects').then(data => {
+  return dispatch => httpGet('/projects?months=100').then(data => {
     dispatch({
       type: ACTION_TYPES.PROJECTS_FETCHED,
       projects: data,
@@ -112,7 +112,7 @@ function fetchConfig() {
 }
 
 function fetchInvoices() {
-  return dispatch => httpGet('/invoices').then(data => {
+  return dispatch => httpGet('/invoices?months=100').then(data => {
     dispatch({
       type: ACTION_TYPES.INVOICES_FETCHED,
       invoices: data,
@@ -139,7 +139,7 @@ function fetchRoles() {
 }
 
 function fetchProjectsMonth() {
-  return dispatch => httpGet('/projects/month').then(data => {
+  return dispatch => httpGet('/projects/month?months=100').then(data => {
     dispatch({
       type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
       projectsMonth: data,
