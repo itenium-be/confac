@@ -24,7 +24,7 @@
       "eslint --fix --ext js,ts src"
     ]
   },
-  "author": "Wouter Van Schandevijl <wouter@pongit.be>",
+  "author": "itenium",
   "license": "MIT",
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",

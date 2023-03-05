@@ -59,18 +59,18 @@ function getSomeInvoice() {
     },
     your: {
       template: 'example-1.pug',
-      name: 'pongit BVBA',
-      address: 'Doolhofstraat 37',
-      city: '9300 Aalst',
-      btw: '0662.755.072',
-      bank: 'Belfius',
-      iban: 'BE04 0689 0602 8931',
-      bic: 'GKCCBEBB',
-      telephone: '0476 / 40 35 02',
-      email: 'woutervs@hotmail.com',
-      website: 'www.pongit.be'
+      name: 'itenium BVBA',
+      address: '',
+      city: '',
+      btw: '',
+      bank: '',
+      iban: '',
+      bic: '',
+      telephone: '',
+      email: '',
+      website: ''
     },
-    date: '2016-12-31T22:59:59.999Z',
+    date: '',
     orderNr: 'ytjtyj',
     verified: true,
     lines: [
@@ -81,7 +81,7 @@ function getSomeInvoice() {
         price: 100
       }, {
         type: 'daily',
-        desc: 'yuplaa',
+        desc: 'kubernetes',
         amount: 1,
         price: 50
       }
