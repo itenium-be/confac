@@ -1,24 +1,6 @@
 import { Db } from 'mongodb';
-import { getNewClient, getNewConsultant, getNewProjects, ProjectConfig, insertAdminRole } from './models';
-
-const projectConfig: ProjectConfig = {
-  amount: 0, // amount of projects to insert
-
-  // endDate: undefined,
-  // endDate: new Date('2022-12-31'),
-  startDate: new Date('2023-01-01'),
-
-  partnerProbability: 0.5,
-  noEndDateProbability: 0.2,
-}
-
-const config = {
-  clients: 0, // amount of clients to insert
-  consultants: 0, // amount of consultants to insert
-  projects: projectConfig,
-  roles: true, // insert basic admin role if it doesn't yet exist
-}
-
+import { config } from './faker-config';
+import { getNewClient, getNewConsultant, getNewProjects, getNewProjectMonths, insertAdminRole } from './models';
 
 export async function insertStuff(db: Db) {
   if (config.clients) {
@@ -37,6 +19,12 @@ export async function insertStuff(db: Db) {
     console.log(`Inserting ${config.projects.amount} projects`);
     const newProjects = await getNewProjects(db, config.projects);
     await db.collection('projects').insertMany(newProjects);
+  }
+
+  if (config.projectMonths.amount) {
+    console.log(`Inserting ${config.projectMonths.amount} projectMonths`);
+    const newProjects = await getNewProjectMonths(db, config.projects);
+    await db.collection('projects_month').insertMany(newProjects);
   }
 
   if (config.roles) {

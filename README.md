@@ -4,10 +4,6 @@ confac
 Node v16.10.0
 
 
-Issues at:  
-https://github.com/be-pongit/confac/issues
-
-
 ## Starting DEV
 
 front/back: `npm install` followed by `npm start`

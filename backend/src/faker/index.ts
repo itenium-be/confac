@@ -1,17 +1,21 @@
 import { MongoClient } from 'mongodb';
 import { insertStuff } from './insertStuff';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const appConfig = {
   db: {
-    host: process.env.MONGO_HOST || 'pongit',
-    db: process.env.MONGO_DB || 'confac-test',
-    port: +(process.env.MONGO_PORT || 27010),
+    host: process.env.MONGO_HOST || '',
+    db: process.env.MONGO_DB || '',
+    port: +(process.env.MONGO_PORT || 27017),
     user: process.env.MONGO_USERNAME || '',
     pwd: process.env.MONGO_PASSWORD || '',
   },
 };
 
-console.log('Going to insert data @', appConfig.db);
+const dbString = `${appConfig.db.host}:${appConfig.db.port} (${appConfig.db.db})`;
+console.log('Going to insert data @ ' + dbString);
 
 
 let connectionString: string;

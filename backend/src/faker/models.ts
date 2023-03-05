@@ -172,6 +172,43 @@ export async function insertAdminRole(db: Db) {
 }
 
 
+export const getNewProjectMonths = async (db: Db, config: ProjectConfig) => {
+  const clients = await db.collection('clients').find().toArray();
+  const clientIds = clients.map(x => x._id);
+
+  // TODO: insert projectMonths here...
+
+  return [];
+};
+
+
+// {
+//   "_id" : ObjectId("5ec168842bd8cc7fa5f5fcf5"),
+//   "month" : "2020-04-01T00:00:00.000Z",
+//   "projectId" : "5ea495efc54b41241081ca03",
+//   "verified" : true,
+//   "inbound" : {
+//       "nr" : "20200004",
+//       "status" : "paid",
+//       "dateReceived" : "2020-05-17T16:53:13.706Z"
+//   },
+//   "timesheet" : {
+//       "validated" : true,
+//       "timesheet" : 12
+//   },
+//   "attachments" : [],
+//   "note" : "",
+//   "orderNr" : "",
+//   "audit" : {
+//       "createdOn" : "2020-05-17T16:38:28.230Z",
+//       "modifiedOn" : "2020-07-04T13:33:00.226Z",
+//       "modifiedBy" : "5ed0f53cf06c3bd4675078d6"
+//   }
+// }
+
+
+
+
 export const defaultConfig = {
   key: 'conf',
   company: {
