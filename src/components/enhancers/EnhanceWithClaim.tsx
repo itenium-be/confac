@@ -20,6 +20,7 @@ export type EnhanceWithClaimProps = {
 
 
 export const EnhanceWithClaim = <P extends object>(Component: React.ComponentType<P>) =>
+  // PERF: I have to say, also quite unexpected
   class WithClaim extends React.Component<P & EnhanceWithClaimProps> {
     render() {
       const {claim, ...props} = this.props;

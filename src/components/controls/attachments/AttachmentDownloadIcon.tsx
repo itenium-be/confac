@@ -10,7 +10,6 @@ import {ConfacState} from '../../../reducers/app-state';
 
 
 export const InvoiceDownloadIcon = ({invoice, ...props}: InvoiceModelProps) => {
-  // PERF: Now it's these guys
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
 
   const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
@@ -26,7 +25,6 @@ export const InvoiceDownloadIcon = ({invoice, ...props}: InvoiceModelProps) => {
 
 
 export const InvoicePreviewIcon = ({invoice, ...props}: InvoiceModelProps & IconProps) => {
-  // PERF: Now it's these guys
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
   const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
