@@ -52,7 +52,6 @@ export function useProjectsMonths(): FullProjectMonthModel[] {
 
 
 export function useProjectMonthFromInvoice(invoiceId: string): FullProjectMonthModel | undefined {
-  // PERF: projectMonthResolve for ALL invoices BEFORE filtering on invoiceId...
   const fullProjectMonth = useSelector((state: ConfacState) => projectMonthResolve(state)
     .find(x => x.invoice && x.invoice._id === invoiceId));
 
