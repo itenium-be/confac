@@ -9,14 +9,12 @@ type InvoiceWorkedDaysProps = {
 
 
 export const InvoiceWorkedDays = ({invoices = [], display}: InvoiceWorkedDaysProps) => {
-  // PERF: InvoiceWorkedDays :: getWorkDaysInMonths
   const days = calculateDaysWorked(invoices);
   if (days.daysWorked === 0) {
     return null;
   }
 
   if (display === 'invoice') {
-    // PERF: But we're actually rendering this on the InvoiceList:
     return <span>{days.daysWorked.toFixed(1).replace('.', ',')}</span>;
   }
 
