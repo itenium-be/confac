@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-one-expression-per-line, max-len */
 import React from 'react';
+import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import {t} from '../../utils';
@@ -9,6 +10,8 @@ import {ProjectDuration} from './ProjectDuration';
 import {ProjectMonthLink} from './ProjectMonthLink';
 import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
 import {Claim} from '../../users/models/UserModel';
+import {ConfacState} from '../../../reducers/app-state';
+import {singleProjectMonthResolve} from '../../hooks/useProjects';
 
 
 import './ProjectMonthModal.scss';
@@ -16,7 +19,7 @@ import './ProjectMonthModal.scss';
 
 type ProjectMonthModalProps = {
   onClose: () => void;
-  projectMonth: FullProjectMonthModel;
+  projectMonth: FullProjectMonthModel | string;
 }
 
 
@@ -24,25 +27,41 @@ type ProjectMonthModalProps = {
 
 export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProps) => {
   const navigate = useNavigate();
+
+  const fullProjectMonth = useSelector((state: ConfacState) => {
+    if (typeof projectMonth === 'string') {
+      const prjMonth = state.projectsMonth.find(pm => pm._id === projectMonth);
+      if (prjMonth) {
+        return singleProjectMonthResolve(state, prjMonth);
+      }
+    } else {
+      return projectMonth;
+    }
+    return null;
+  });
+
+  if (!fullProjectMonth)
+    return null;
+
   return (
     <Modal
       show
       onClose={onClose}
       title={(
         <>
-          <span style={{marginRight: 12}}>{t(`consultant.types.${projectMonth.consultant.type}`)}:</span>
-          {projectMonth.consultant.firstName} {projectMonth.consultant.name}
+          <span style={{marginRight: 12}}>{t(`consultant.types.${fullProjectMonth.consultant.type}`)}:</span>
+          {fullProjectMonth.consultant.firstName} {fullProjectMonth.consultant.name}
         </>
       )}
-      onConfirm={() => navigate(`/projects/${projectMonth.project._id}`)}
+      onConfirm={() => navigate(`/projects/${fullProjectMonth.project._id}`)}
       confirmText={t('projectMonth.linkToDetails')}
       extraButtons={
         <>
-          <ProjectMonthLink to={projectMonth.details} className="btn btn-success" />
+          <ProjectMonthLink to={fullProjectMonth.details} className="btn btn-success" />
           <NotesModalButton
             onChange={() => {}}
             disabled={true}
-            value={projectMonth.project.notes}
+            value={fullProjectMonth.project.notes}
             claim={Claim.ManageProjects}
             title={t('project.project') + ': ' + t('notes')}
             variant="success"
@@ -51,18 +70,18 @@ export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProp
       }
     >
       <div className="project-month-modal">
-        <ProjectDuration project={projectMonth.project} />
+        <ProjectDuration project={fullProjectMonth.project} />
 
         <hr />
 
         <div className="project-client">
-          {projectMonth.client.name}
-          <small><ProjectClientTariff projectClient={projectMonth.project.client} /></small>
-          {projectMonth.project.partner && projectMonth.partner && (
+          {fullProjectMonth.client.name}
+          <small><ProjectClientTariff projectClient={fullProjectMonth.project.client} /></small>
+          {fullProjectMonth.project.partner && fullProjectMonth.partner && (
             <h5>
               {t('project.partner.clientId')}:
-              <small>{projectMonth.partner.name}</small>
-              <small><ProjectClientTariff projectClient={projectMonth.project.partner} /></small>
+              <small>{fullProjectMonth.partner.name}</small>
+              <small><ProjectClientTariff projectClient={fullProjectMonth.project.partner} /></small>
             </h5>
           )}
         </div>

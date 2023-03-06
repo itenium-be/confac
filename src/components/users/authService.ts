@@ -33,7 +33,6 @@ type JwtModel = {
 
 
 class AuthService implements IAuthService {
-  // PERF: cache stuff for easy access
   _jwt = '';
   _token: JwtModel | null = null;
   _claims: Claim[] = [];
