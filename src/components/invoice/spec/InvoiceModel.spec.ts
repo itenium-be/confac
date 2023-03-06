@@ -1,6 +1,6 @@
 import moment from 'moment';
 import {getNewClient} from '../../client/models/getNewClient';
-import InvoiceModel, {calculateDaysWorked} from '../models/InvoiceModel';
+import InvoiceModel, {calculateDaysWorked, getWorkDaysInMonths} from '../models/InvoiceModel';
 import {defaultConfig} from '../../config/models/getNewConfig';
 import {ConfigModel} from '../../config/models/ConfigModel';
 import {ClientModel} from '../../client/models/ClientModels';
@@ -166,10 +166,10 @@ describe('calculating days worked', () => {
     vm3.setLines([{type: 'daily', amount: 1, tax: 21, price: 500, desc: '', sort: 0}]);
 
 
-    const result = calculateDaysWorked([vm, vm2, vm3]);
+    const workDaysInMonth = getWorkDaysInMonths([vm, vm2, vm3]);
 
 
-    expect(result.workDaysInMonth).toBe(20 + 22);
+    expect(workDaysInMonth).toBe(20 + 22);
   });
 });
 
