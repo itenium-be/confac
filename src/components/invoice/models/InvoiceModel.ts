@@ -266,7 +266,6 @@ export function groupInvoicesPerMonth(invoices: InvoiceModel[]): GroupedInvoices
 
 
 export function getWorkDaysInMonth(momentInst: moment.Moment): Date[] {
-  // PERF: This is eating 1s for 100 renders
   const curMonth = momentInst.month();
   const hd = new Holidays('BE');
 

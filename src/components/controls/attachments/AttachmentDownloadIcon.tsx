@@ -11,6 +11,7 @@ import {useProjectMonthFromInvoice} from '../../hooks/useProjects';
 
 
 export const InvoiceDownloadIcon = ({invoice, ...props}: InvoiceModelProps) => {
+  // PERF: Now it's these guys
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
   const fullProjectMonth = useProjectMonthFromInvoice(invoice._id);
 
@@ -26,6 +27,7 @@ export const InvoiceDownloadIcon = ({invoice, ...props}: InvoiceModelProps) => {
 
 
 export const InvoicePreviewIcon = ({invoice, ...props}: InvoiceModelProps & IconProps) => {
+  // PERF: Now it's these guys
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
   const fullProjectMonth = useProjectMonthFromInvoice(invoice._id);
 
