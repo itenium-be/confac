@@ -9,6 +9,7 @@ type InvoiceWorkedDaysProps = {
 
 
 export const InvoiceWorkedDays = ({invoices = [], ...props}: InvoiceWorkedDaysProps) => {
+  // PERF: This is eating 1s for 100 renders
   const days = calculateDaysWorked(invoices);
   return <WorkedDays days={days} {...props} />;
 };
