@@ -28,6 +28,7 @@ type ConsultantsProps = {
 }
 
 export const ConsultantCountFooter = ({consultants, month}: ConsultantsProps) => {
+  // PERF: This takes a long time
   const result = getConsultantTotals(consultants);
   const totalWorkDays = {
     count: getWorkDaysInMonth(month || moment()).length,
@@ -129,6 +130,7 @@ type FullProjectMonthsProps = {
 }
 
 export const ProjectForecastPartnerFooter = ({models, month}: FullProjectMonthsProps) => {
+  // PERF: This takes a long time
   if (!models.length) {
     return null;
   }
@@ -156,6 +158,7 @@ type ProjectMarkupFooterProps = {
 }
 
 export const ProjectClientForecastFooter = ({models, month}: ProjectMarkupFooterProps) => {
+  // PERF: This takes a long time
   if (!models.length) {
     return null;
   }
