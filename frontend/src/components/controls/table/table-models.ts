@@ -27,7 +27,11 @@ export type ListFilters = {
 }
 
 export type ProjectListFilters = ListFilters;
-export type ProjectMonthListFilters = ListFilters & {openMonths: string[], unverifiedOnly: boolean};
+export type ProjectMonthListFilters = ListFilters & {
+  /** Format: {YYYY-MM: true} */
+  openMonths: {[key: string]: boolean},
+  unverifiedOnly: boolean
+};
 export type InvoiceListFilters = ListFilters;
 export type ConsultantListFilters = ListFilters;
 export type UsersListFilters = ListFilters;

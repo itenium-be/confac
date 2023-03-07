@@ -51,7 +51,7 @@ export const OpenedProjectsMonthsListToolbar = ({ feature, onClose }: OpenedProj
         <Button onClick={onClose} icon="fa fa-toggle-on" variant="outline-info">
           {t('projectMonth.list.closeList')}
         </Button>
-        <h2>{displayMonthWithYear(projectsMonthDetails)}</h2>
+        <h2>{displayMonthWithYear(projectsMonthDetails.month)}</h2>
         {!allTimesheetsValidated && (
           <AdvancedAttachmentDropzone
             attachment={projectsMonthOverview && projectsMonthOverview.fileDetails}
