@@ -12,18 +12,22 @@ type OpenedProjectMonthsListProps = {
   month: string;
 }
 
-/** A full open ProjectMonth with toolbar + table */
+// PERF: File 3: Unlike you'd expect, the OpenedProjectMonthsList can be Opened OR Closed 😃
 export const OpenedProjectMonthsList = ({feature, month}: OpenedProjectMonthsListProps) => {
+  // --> The first commit is reworking the way the openMonths work: Array-->Object
   if (!feature.list.data.length || !feature.list.filter) {
     return null;
   }
 
   const filter = feature.list.filter;
+  // PERF: The openMonths (string[]) filter is used here and the data is in the `feature` variable
+  // PERF: We are rerendering everything whenever the filters change
   if (filter.state.openMonths.includes(month.toString())) {
     const onClose = () => filter.updateFilter({...filter.state, openMonths: filter.state.openMonths.filter(open => open !== month)});
     return (
       <>
         <OpenedProjectsMonthsListToolbar feature={feature} onClose={onClose} />
+        {/* // PERF: Rendering the list with the feature */}
         <List feature={feature} />
         <hr className="list-separator" />
       </>

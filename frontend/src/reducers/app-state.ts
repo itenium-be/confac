@@ -9,6 +9,7 @@ import {ProjectMonthModel, ProjectMonthOverviewModel} from '../components/projec
 import {ListFilters, ProjectMonthListFilters} from '../components/controls/table/table-models';
 import {UserState} from '../components/users/models/UserModel';
 
+// PERF: File 2: The redux store structure
 export type ConfacState = {
   app: AppState;
   config: ConfigModel;
@@ -33,6 +34,7 @@ const getListFilters = (showInactive = false): ListFilters => ({
 export const ProjectMonthsListFilterOpenMonthsFormat = 'YYYY-MM';
 
 
+// PERF: Building the projectMonth (default) filters
 export const getProjectMonthsFilters = (projectMonths?: ProjectMonthModel[]): ProjectMonthListFilters => {
   let openMonths: string[] = [];
   if (projectMonths && projectMonths.length) {
@@ -46,7 +48,8 @@ export const getProjectMonthsFilters = (projectMonths?: ProjectMonthModel[]): Pr
   }
 
   return {
-    ...getListFilters(),
+    freeText: '',
+    showInactive: false,
     openMonths,
     unverifiedOnly: false,
   };
@@ -67,6 +70,8 @@ export const defaultAppState: AppState = {
     groupedByMonth: false,
     freeInvoice: '',
   },
+  // PERF: Location filters in the store
+  // PERF: See why this is a problem --> OpenedProjectMonthsList.tsx
   filters: {
     consultants: getListFilters(),
     clients: {...getListFilters(), years: [moment().year()]},
