@@ -265,10 +265,18 @@ export function groupInvoicesPerMonth(invoices: InvoiceModel[]): GroupedInvoices
 }
 
 
-export function getWorkDaysInMonth(momentInst: moment.Moment): Date[] {
-  const curMonth = momentInst.month();
-  const hd = new Holidays('BE');
+// PERF: It's the getWorkDaysInMonth again!
+// Let's cache results...
+const hd = new Holidays('BE');
+const workDaysInMonthCache: {[key: string]: number} = {};
 
+export function getWorkDaysInMonth(momentInst: moment.Moment): number {
+  const key = momentInst.format('YYYY-MM');
+  if (workDaysInMonthCache[key]) {
+    return workDaysInMonthCache[key];
+  }
+
+  const curMonth = momentInst.month();
   const date = new Date(momentInst.year(), curMonth, 1);
   const result: Date[] = [];
   while (date.getMonth() === curMonth) {
@@ -281,13 +289,14 @@ export function getWorkDaysInMonth(momentInst: moment.Moment): Date[] {
     }
     date.setDate(date.getDate() + 1);
   }
-  return result;
+  workDaysInMonthCache[key] = result.length;
+  return result.length;
 }
 
 
 export function getWorkDaysInMonths(invoices: InvoiceModel[]): number {
   const invoicesPerMonth = groupInvoicesPerMonth(invoices);
-  const result = invoicesPerMonth.map(({invoiceList}) => getWorkDaysInMonth(invoiceList[0].date).length);
+  const result = invoicesPerMonth.map(({invoiceList}) => getWorkDaysInMonth(invoiceList[0].date));
   return result.reduce((prev, cur) => prev + cur, 0);
 }
 
