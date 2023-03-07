@@ -21,7 +21,6 @@ type ProjectMonthListCollapsedProps = {
 
 
 export const ProjectMonthListCollapsed = ({month, onOpen}: ProjectMonthListCollapsedProps) => {
-  // PERF: Do not use the mapToProjectMonth but only map exactly what is needed for the badges
   const projectMonths = useSelector((state: ConfacState) => state.projectsMonth
     .filter(x => x.month.isSame(moment(month), 'month') && x.verified !== 'forced')
     .map(projectMonth => {
