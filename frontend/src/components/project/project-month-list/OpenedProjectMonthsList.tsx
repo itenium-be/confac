@@ -14,6 +14,7 @@ type OpenedProjectMonthsListProps = {
 
 /** A full open ProjectMonth with toolbar + table */
 export const OpenedProjectMonthsList = ({feature, month}: OpenedProjectMonthsListProps) => {
+  // PERF: This is the problem
   if (!feature.list.data.length || !feature.list.filter) {
     return null;
   }
