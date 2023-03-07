@@ -2,7 +2,7 @@
 import React from 'react';
 import {Badge} from 'react-bootstrap';
 import InvoiceModel from '../models/InvoiceModel';
-import {displayMonthWithYear} from '../../project/ProjectMonthsLists';
+import { displayMonthWithYear } from "../../project/project-month-list/project-month-utils";
 import {tariffFormat, t} from '../../utils';
 import {getProjectMarkup} from '../../project/utils/getProjectMarkup';
 import {useProjectsMonth} from '../../hooks/useProjects';
