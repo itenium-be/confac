@@ -63,7 +63,7 @@ const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMon
 
 
 
-// PERF: File 1: This configures an opened project month table
+
 const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<FullProjectMonthModel, ProjectMonthListFilters> => {
   const list: IListCell<FullProjectMonthModel>[] = [{
     key: 'project',
@@ -82,7 +82,6 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
       return <ConsultantCountFooter consultants={consultants} month={models[0].details.month} />;
     },
   }, {
-    // PERF: Each object configures how a cell is rendered
     key: 'timesheet',
     value: p => <ProjectMonthTimesheetCell fullProjectMonth={p} />,
     className: p => {
@@ -147,8 +146,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
       cells: list,
     },
     listTitle: () => t('project.projectMonthConfig.titleConfig'),
-    data: config.data,  // PERF: A first problem with the IFeatures
-                        // PERF: The rendering is combined with the data in a single object
+    data: config.data,
     sorter: (a, b) => `${a.client.name} ${a.consultant.firstName} ${a.consultant.name} ${a._id}`
       .localeCompare(`${b.client.name} ${b.consultant.firstName} ${b.consultant.name} ${b._id}`),
   };
@@ -156,8 +154,6 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
 
 
 export const projectMonthFeature = (config: ProjectMonthFeatureBuilderConfig): IFeature<FullProjectMonthModel, ProjectMonthListFilters> => {
-  // PERF: Or a rather big problem with the IFeatures
-  // Pardon my French but 'wtf is this shit'
   const feature: IFeature<FullProjectMonthModel, ProjectMonthListFilters> = {
     key: Features.projectMonths,
     nav: m => `/projects/${m === 'create' ? m : m.details.month.format('YYYY/MM')}`,
@@ -166,7 +162,6 @@ export const projectMonthFeature = (config: ProjectMonthFeatureBuilderConfig): I
   };
 
   feature.list.filter = {
-    // PERF: Here is the problem, the filters --> see app-state.ts
     state: config.filters,
     updateFilter: config.setFilters,
     fullTextSearch: fullProjectSearch,
