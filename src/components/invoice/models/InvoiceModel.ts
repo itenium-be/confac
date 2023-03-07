@@ -265,8 +265,6 @@ export function groupInvoicesPerMonth(invoices: InvoiceModel[]): GroupedInvoices
 }
 
 
-// PERF: It's the getWorkDaysInMonth again!
-// Let's cache results...
 const hd = new Holidays('BE');
 const workDaysInMonthCache: {[key: string]: number} = {};
 
