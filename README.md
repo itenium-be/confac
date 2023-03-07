@@ -17,11 +17,9 @@ Create a development `.env` file to change the default config.
 # Start dev server
 cd backend
 cp .env.sample .env
+cp templates-example templates
+npm install
 npm start
-
-# Build project
-npm run build
-npm run start:build
 ```
 
 ## MongoDb
