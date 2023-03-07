@@ -3,7 +3,7 @@ import { insertStuff } from './insertStuff';
 
 const appConfig = {
   db: {
-    host: process.env.MONGO_HOST || 'pongit',
+    host: process.env.MONGO_HOST || '',
     db: process.env.MONGO_DB || 'confac-test',
     port: +(process.env.MONGO_PORT || 27010),
     user: process.env.MONGO_USERNAME || '',

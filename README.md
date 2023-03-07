@@ -4,12 +4,6 @@ confac
 Node v16.10.0
 
 
-Some issues at:  
-https://github.com/be-pongit/confac/issues
-
-[Try it out live][demo] (without backend:)
-
-
 ## Starting DEV
 
 front/back: `npm install` followed by `npm start`
@@ -100,6 +94,3 @@ Parsing error: Unexpected token:
 React.FC<P & ButtonWithClickOnceProps>
            ^
 ```
-
-
-[demo]: https://pongit.be/assets/confac-demo/index.html
