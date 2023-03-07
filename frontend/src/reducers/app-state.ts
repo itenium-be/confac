@@ -34,7 +34,7 @@ export const ProjectMonthsListFilterOpenMonthsFormat = 'YYYY-MM';
 
 
 export const getProjectMonthsFilters = (projectMonths?: ProjectMonthModel[]): ProjectMonthListFilters => {
-  let openMonths: {[key: string]: true} = {};
+  let openMonths: string[] = [];
   if (projectMonths && projectMonths.length) {
     const lastExistingMonth = projectMonths
       .slice()
@@ -42,7 +42,7 @@ export const getProjectMonthsFilters = (projectMonths?: ProjectMonthModel[]): Pr
       .month
       .format(ProjectMonthsListFilterOpenMonthsFormat);
 
-    openMonths = {[lastExistingMonth]: true};
+    openMonths = [lastExistingMonth];
   }
 
   return {
@@ -72,11 +72,7 @@ export const defaultAppState: AppState = {
     clients: {...getListFilters(), years: [moment().year()]},
     invoices: getListFilters(),
     projects: getListFilters(),
-    projectMonths: {
-      ...getListFilters(),
-      openMonths: {},
-      unverifiedOnly: false,
-    },
+    projectMonths: getProjectMonthsFilters(),
     users: getListFilters(true),
     roles: getListFilters(),
   },

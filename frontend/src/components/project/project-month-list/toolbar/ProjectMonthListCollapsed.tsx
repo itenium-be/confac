@@ -1,6 +1,8 @@
 import React from 'react';
 import {displayMonthWithYear} from '../../ProjectMonthsLists';
+import {IFeature} from '../../../controls/feature/feature-models';
 import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
+import {ProjectMonthListFilters} from '../../../controls/table/table-models';
 import {Button} from '../../../controls/form-controls/Button';
 import {t} from '../../../utils';
 import {Icon} from '../../../controls/Icon';
@@ -9,33 +11,20 @@ import { InboundBadge } from './InboundBadge';
 import { OutboundBadge } from './OutboundBadge';
 import { ProjectMonthBadge } from './ProjectMonthBadge';
 import { ProjectMonthTotals } from './ProjectMonthTotals';
-import { mapToProjectMonth } from '../../../hooks/useProjects';
-import { ConfacState } from '../../../../reducers/app-state';
-import { useSelector } from 'react-redux';
-import moment from 'moment';
 
 
 type ProjectMonthListCollapsedProps = {
-  /** Format YYYY-MM */
-  month: string;
+  feature: IFeature<FullProjectMonthModel, ProjectMonthListFilters>;
   onOpen: () => void;
 }
 
 
-// PERF: File 2: For the collapsed projectMonths, we now select just the data from the store
-// PERF: Avoiding the dependency on the projectMonths openMonths filter
-export const ProjectMonthListCollapsed = ({month, onOpen}: ProjectMonthListCollapsedProps) => {
-  const projectMonths = useSelector((state: ConfacState) => state.projectsMonth
-    .filter(x => x.month.isSame(moment(month), 'month'))
-    .map(x => mapToProjectMonth(state, x))
-    .filter(x => x !== null)
-  ) as FullProjectMonthModel[];
-
-  if (!projectMonths.length) {
+export const ProjectMonthListCollapsed = ({feature, onOpen}: ProjectMonthListCollapsedProps) => {
+  if (!feature.list.data.length) {
     return null;
   }
 
-  const data = projectMonths.filter(x => x.details.verified !== 'forced');
+  const data = feature.list.data.filter(x => x.details.verified !== 'forced');
   const withInbound = data.filter(x => x.project.projectMonthConfig.inboundInvoice);
 
   const totals: ProjectMonthTotals = {
@@ -56,14 +45,14 @@ export const ProjectMonthListCollapsed = ({month, onOpen}: ProjectMonthListColla
     inboundPending: totals.inboundPending.length !== 0,
   };
 
-  const projectsMonthDetails = projectMonths[0].details;
+  const projectsMonthDetails = feature.list.data[0].details;
   return (
     <>
       <h2 className="list-projectMonths-collapsed">
         <Button onClick={onOpen} icon="fa fa-toggle-off" variant="outline-info">
           {t('projectMonth.list.openList')}
         </Button>
-        <span className="month">{displayMonthWithYear(projectsMonthDetails.month)}</span>
+        <span className="month">{displayMonthWithYear(projectsMonthDetails)}</span>
         <span className="separate">
           {results.verified ? (
             <ProjectMonthBadge pill bg="success" text="white">
