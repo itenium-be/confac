@@ -28,10 +28,9 @@ type ConsultantsProps = {
 }
 
 export const ConsultantCountFooter = ({consultants, month}: ConsultantsProps) => {
-  // PERF: This takes a long time
   const result = getConsultantTotals(consultants);
   const totalWorkDays = {
-    count: getWorkDaysInMonth(month || moment()).length,
+    count: getWorkDaysInMonth(month || moment()),
     month: (month || moment()).format('MMMM YYYY'),
   };
 
@@ -99,7 +98,7 @@ function getProjectForecast(models: Array<FullProjectModel | FullProjectMonthMod
 
   // TODO: Should take begin/end date into account to give more precise forecast
   // TODO: Also doesn't take hourly/daily rates into account
-  const workDaysInMonth = getWorkDaysInMonth(month).length;
+  const workDaysInMonth = getWorkDaysInMonth(month);
   const getTotalsProject = (projects: FullProjectModel[]) => {
     if (getFor === 'partner') {
       return projects
@@ -130,7 +129,6 @@ type FullProjectMonthsProps = {
 }
 
 export const ProjectForecastPartnerFooter = ({models, month}: FullProjectMonthsProps) => {
-  // PERF: This takes a long time
   if (!models.length) {
     return null;
   }
@@ -158,7 +156,6 @@ type ProjectMarkupFooterProps = {
 }
 
 export const ProjectClientForecastFooter = ({models, month}: ProjectMarkupFooterProps) => {
-  // PERF: This takes a long time
   if (!models.length) {
     return null;
   }
