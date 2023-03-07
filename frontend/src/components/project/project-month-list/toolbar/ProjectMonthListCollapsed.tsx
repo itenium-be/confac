@@ -1,6 +1,6 @@
 import React from 'react';
+import moment from 'moment';
 import {displayMonthWithYear} from '../../ProjectMonthsLists';
-import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
 import {Button} from '../../../controls/form-controls/Button';
 import {t} from '../../../utils';
 import {Icon} from '../../../controls/Icon';
@@ -9,10 +9,8 @@ import { InboundBadge } from './InboundBadge';
 import { OutboundBadge } from './OutboundBadge';
 import { ProjectMonthBadge } from './ProjectMonthBadge';
 import { ProjectMonthTotals } from './ProjectMonthTotals';
-import { mapToProjectMonth } from '../../../hooks/useProjects';
 import { ConfacState } from '../../../../reducers/app-state';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
 
 
 type ProjectMonthListCollapsedProps = {
@@ -23,40 +21,56 @@ type ProjectMonthListCollapsedProps = {
 
 
 export const ProjectMonthListCollapsed = ({month, onOpen}: ProjectMonthListCollapsedProps) => {
+  // PERF: Do not use the mapToProjectMonth but only map exactly what is needed for the badges
   const projectMonths = useSelector((state: ConfacState) => state.projectsMonth
-    .filter(x => x.month.isSame(moment(month), 'month'))
-    .map(x => mapToProjectMonth(state, x))
-    .filter(x => x !== null)
-  ) as FullProjectMonthModel[];
+    .filter(x => x.month.isSame(moment(month), 'month') && x.verified !== 'forced')
+    .map(projectMonth => {
+      const project = state.projects.find(x => x._id === projectMonth.projectId);
+      const consultant = project?.consultantId && state.consultants.find(x => x._id === project?.consultantId);
+      const client = state.clients.find(x => x._id === project?.client?.clientId);
+      const clientName = client ? ` (${client.name})` : '';
+      const result = {
+        verified: projectMonth.verified,
+        timesheet: projectMonth.timesheet,
+        inbound: projectMonth.inbound,
+        hasInboundInvoice: project?.projectMonthConfig?.inboundInvoice || false,
+        consultant: consultant && `${consultant.firstName} ${consultant.name}${clientName}`
+      };
 
-  // const projectMonths2 = useSelector((state: ConfacState) => state.projectsMonth
-  //   .filter(x => x.month.isSame(moment(month), 'month'))
-  //   .map(projectMonth => {
-  //     const result = {
-  //       details: {}
-  //     };
-  //     return result;
-  //   })
-  //   .filter(x => x !== null)
-  // ) as FullProjectMonthModel[];
+      return result;
+    })
+    .filter(x => x !== null)
+  );
 
   if (!projectMonths.length) {
     return null;
   }
 
-  const data = projectMonths.filter(x => x.details.verified !== 'forced');
-  const withInbound = data.filter(x => x.project.projectMonthConfig.inboundInvoice);
+
+  const mapToConsultantNames = (arr: any[]) => arr
+  .map(x => x.consultant)
+  .filter((val, index, arr) => arr.indexOf(val) === index)
+  .join('<br>');
+
+  const timesheetPending = projectMonths.filter(x => !x.timesheet.validated);
+  const withInbound = projectMonths.filter(x => x.hasInboundInvoice);
+  const inboundNew = withInbound.filter(x => x.inbound.status === 'new');
+  const inboundValidated = withInbound.filter(x => x.inbound.status === 'validated');
+  const inboundPaid = withInbound.filter(x => x.inbound.status === 'paid');
 
   const totals: ProjectMonthTotals = {
-    total: data.length,
-    verified: data.filter(x => x.details.verified).length,
-    unverified: data.filter(x => !x.details.verified),
-    timesheetPending: data.filter(x => !x.details.timesheet.validated),
-    timesheetPendingCount: data.filter(x => !x.details.timesheet.validated).length,
-    inboundPending: withInbound.filter(x => x.details.inbound.status !== 'paid'),
-    inboundNew: withInbound.filter(x => x.details.inbound.status === 'new'),
-    inboundValidated: withInbound.filter(x => x.details.inbound.status === 'validated'),
-    inboundPaid: withInbound.filter(x => x.details.inbound.status === 'paid'),
+    total: projectMonths.length,
+    verified: projectMonths.filter(x => x.verified).length,
+    unverified: mapToConsultantNames(projectMonths.filter(x => !x.verified)),
+    timesheetPending: mapToConsultantNames(timesheetPending),
+    timesheetPendingCount: timesheetPending.length,
+    inboundPending: mapToConsultantNames(withInbound.filter(x => x.inbound.status !== 'paid')),
+    inboundNew: mapToConsultantNames(inboundNew),
+    inboundNewCount: inboundNew.length,
+    inboundValidated: mapToConsultantNames(inboundValidated),
+    inboundValidatedCount: inboundValidated.length,
+    inboundPaid: mapToConsultantNames(inboundPaid),
+    inboundPaidCount: inboundPaid.length,
   };
 
   const results = {
@@ -65,14 +79,13 @@ export const ProjectMonthListCollapsed = ({month, onOpen}: ProjectMonthListColla
     inboundPending: totals.inboundPending.length !== 0,
   };
 
-  const projectsMonthDetails = projectMonths[0].details;
   return (
     <>
       <h2 className="list-projectMonths-collapsed">
         <Button onClick={onOpen} icon="fa fa-toggle-off" variant="outline-info">
           {t('projectMonth.list.openList')}
         </Button>
-        <span className="month">{displayMonthWithYear(projectsMonthDetails.month)}</span>
+        <span className="month">{displayMonthWithYear(moment(month))}</span>
         <span className="separate">
           {results.verified ? (
             <ProjectMonthBadge pill bg="success" text="white">

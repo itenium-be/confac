@@ -1,14 +1,19 @@
-import { FullProjectMonthModel } from '../../models/FullProjectMonthModel';
-
-
+/**
+ * Totals for the ProjectMonthList badges
+ * type number: amount of
+ * type string: concat of the consultant names
+ **/
 export type ProjectMonthTotals = {
   total: number;
   verified: number;
-  unverified: FullProjectMonthModel[];
-  timesheetPending: FullProjectMonthModel[];
+  unverified: string;
+  timesheetPending: string;
   timesheetPendingCount: number;
-  inboundPending: FullProjectMonthModel[];
-  inboundNew: FullProjectMonthModel[];
-  inboundValidated: FullProjectMonthModel[];
-  inboundPaid: FullProjectMonthModel[];
+  inboundPending: string;
+  inboundNew: string;
+  inboundNewCount: number;
+  inboundValidated: string;
+  inboundValidatedCount: number;
+  inboundPaid: string;
+  inboundPaidCount: number;
 };
