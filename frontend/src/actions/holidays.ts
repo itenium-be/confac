@@ -18,7 +18,6 @@ export const holidaysService = new HolidaysService();
 
 
 
-// PERF: File 2: Web Worker to delegate this "expensive" work
 
 // Start work
 const workerInstance = worker();
@@ -27,13 +26,11 @@ workerInstance.addEventListener('message', (message: any) => {
     return;
   }
 
-  // PERF: Listening to postMessage from our WebWorker to populate the local cache
   const msg: WorkDaysMonth = message.data;
   holidaysService.cache[msg.month] = msg.count;
   // console.log('Cached holidays', message.data);
 });
 
-// PERF: Start calculating the holidays for the last 18 months
 workerInstance.calcLastMonths(18);
 
 

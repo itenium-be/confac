@@ -26,7 +26,6 @@ type ConsultantsProps = {
 
 export const ConsultantCountFooter = ({consultants, month}: ConsultantsProps) => {
   const result = getConsultantTotals(consultants);
-  // PERF: File 1: We have created a Service!
   const totalWorkDays = {
     count: holidaysService.get(month || moment()),
     month: (month || moment()).format('MMMM YYYY')
