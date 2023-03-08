@@ -15,6 +15,8 @@ export const ProjectForecastPartnerFooter = ({ models, month }: ProjectForecastP
     return null;
   }
 
+  // PERF: the last hurdle, caching this will result in
+  // sub 100ms render for opening/closing projectMonths
   const result = getProjectForecast(models, 'partner', month);
   return (
     <dl className="dl-box">
