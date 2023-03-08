@@ -12,6 +12,15 @@ import { useSelector } from 'react-redux';
 import { ToggleProjectMonthButton } from '../ToggleProjectMonthButton';
 
 
+type ITiming = {
+  renders: number;
+  totalTime: number;
+  averageTime?: number;
+}
+
+let timings: {[key: string]: ITiming} = {}
+
+
 /** ProjectMonth when the list is not visible, displaying badges */
 export const ProjectMonthListCollapsed = ({month}: {month: string}) => {
   const selectProjectMonthBadges = useMemo(createProjectMonthBadgesSelector, []);
@@ -30,8 +39,24 @@ export const ProjectMonthListCollapsed = ({month}: {month: string}) => {
     commitTime, // when React committed this update
     interactions // the Set of interactions belonging to this update
   ) {
-    console.log(`${id}: ${phase} in ${actualDuration}`);
+    // PERF: Aggregating the results:
+    // console.log(`${id}: ${phase} in ${actualDuration}`);
+    if (id.startsWith('Badge')) {
+      id = 'NotVerifiedBadges'
+    }
+
+    if (!timings[id]) {
+      timings[id] = {renders: 1, totalTime: actualDuration};
+    } else {
+      const oldTimings = timings[id];
+      timings[id] = {renders: oldTimings.renders + 1, totalTime: oldTimings.totalTime + actualDuration};
+    }
+
+    timings[id].averageTime = timings[id].totalTime / timings[id].renders;
   }
+
+
+  console.log(timings);
 
   return (
     <>

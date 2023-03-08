@@ -30,7 +30,7 @@ workerInstance.addEventListener('message', (message: any) => {
   // console.log('Cached holidays', message.data);
 });
 
-workerInstance.calcLastMonths(18);
+// workerInstance.calcLastMonths(18);
 
 
 
