@@ -88,3 +88,11 @@ export function updateAppFilters(featureKey: Features, filters: ListFilters) {
     payload: {feature: featureKey, filters},
   };
 }
+
+
+export function updateAppProjectMonthsFilter(month: string, opened: boolean) {
+  return {
+    type: ACTION_TYPES.APP_FILTER_OPEN_MONTHS_UPDATED,
+    payload: {month, opened},
+  };
+}

@@ -1,29 +1,22 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import moment from 'moment';
 import { Badge } from 'react-bootstrap';
 import { displayMonthWithYear } from "../project-month-utils";
-import {Button} from '../../../controls/form-controls/Button';
 import {t} from '../../../utils';
 import {Icon} from '../../../controls/Icon';
 import { TimesheetBadge } from './badges/TimesheetBadge';
 import { InboundBadge } from './badges/InboundBadge';
 import { OutboundBadge } from './badges/OutboundBadge';
-import { useProjectMonthBadgeTotals } from './useProjectMonthBadgeTotals';
-
-
-type ProjectMonthListCollapsedProps = {
-  /** Format YYYY-MM */
-  month: string;
-  onOpen: () => void;
-}
+import { createProjectMonthBadgesSelector } from './createProjectMonthBadgesSelector';
+import { useSelector } from 'react-redux';
+import { ToggleProjectMonthButton } from '../ToggleProjectMonthButton';
 
 
 /** ProjectMonth when the list is not visible, displaying badges */
-export const ProjectMonthListCollapsed = ({month, onOpen}: ProjectMonthListCollapsedProps) => {
-  const totals = useProjectMonthBadgeTotals(moment(month));
-  if (!totals) {
-    return null;
-  }
+export const ProjectMonthListCollapsed = ({month}: {month: string}) => {
+  // PERF: File 3: useMemo on our createSelector:
+  const selectProjectMonthBadges = useMemo(createProjectMonthBadgesSelector, []);
+  const totals = useSelector((state) => selectProjectMonthBadges(state, month));
 
   const allVerified = totals.verified === totals.total;
   const hasTimesheetPending = totals.timesheetPending.length !== 0;
@@ -31,9 +24,7 @@ export const ProjectMonthListCollapsed = ({month, onOpen}: ProjectMonthListColla
   return (
     <>
       <h2 className="list-projectMonths-collapsed">
-        <Button onClick={onOpen} icon="fa fa-toggle-off" variant="outline-info">
-          {t('projectMonth.list.openList')}
-        </Button>
+        <ToggleProjectMonthButton month={month} toggleOpen={true} />
         <span className="month">{displayMonthWithYear(moment(month))}</span>
         <span className="separate">
           {allVerified ? (
