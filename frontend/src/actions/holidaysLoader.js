@@ -6,7 +6,7 @@ export function calcLastMonths(months) {
   const curMonth = getWorkDaysInMonth(moment());
   postMessage({workDays: [curMonth]});
 
-  console.time(`last${months}Months`);
+  // console.time(`last${months}Months`);
 
   const result = Array(months)
     .fill('x')
@@ -27,5 +27,5 @@ export function calcLastMonths(months) {
 
   postMessage({workDays: result});
 
-  console.timeEnd(`last${months}Months`);
+  // console.timeEnd(`last${months}Months`);
 }

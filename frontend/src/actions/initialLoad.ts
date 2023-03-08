@@ -168,7 +168,7 @@ export function initialLoad(loadNextMonth?: number): any {
   }
 
   return dispatch => {
-    console.log('initial load STARTED!!');
+    // console.log('initial load STARTED!!');
 
     counter = 0;
 
@@ -204,6 +204,6 @@ export function initialLoad(loadNextMonth?: number): any {
 
     return promise
       .then(() => dispatch({type: ACTION_TYPES.INITIAL_LOAD, lastMonthsDownloaded: monthsToLoad}))
-      .then(() => console.log('Initial load complete'));
+      // .then(() => console.log('Initial load complete'));
   }
 }
