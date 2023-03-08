@@ -14,7 +14,6 @@ import { ToggleProjectMonthButton } from '../ToggleProjectMonthButton';
 
 /** ProjectMonth when the list is not visible, displaying badges */
 export const ProjectMonthListCollapsed = ({month}: {month: string}) => {
-  // PERF: File 3: useMemo on our createSelector:
   const selectProjectMonthBadges = useMemo(createProjectMonthBadgesSelector, []);
   const totals = useSelector((state) => selectProjectMonthBadges(state, month));
 

@@ -25,14 +25,12 @@ const selectClients = (state: ConfacState) => state.clients;
 const selectInvoices = (state: ConfacState) => state.invoices;
 
 
-// PERF: File 1: Using 'createSelector' from reselect library
 export const createFullProjectMonthsSelector = () => createSelector(
   selectProjectMonths,
   selectProjects,
   selectConsultants,
   selectClients,
   selectInvoices,
-  // PERF: Reselect way to add a parameter to a selector
   (_, month: string) => month,
   (projectsMonth, projects, consultants, clients, invoices, month) => {
     const context: ProjectMonthResolverState = {

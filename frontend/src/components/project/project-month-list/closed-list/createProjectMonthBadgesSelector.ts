@@ -10,14 +10,11 @@ const selectConsultants = (state: ConfacState) => state.consultants;
 const selectClients = (state: ConfacState) => state.clients;
 
 
-// PERF: File 2: Select the data required to calculate the Badge totals
 const selectAllData = createSelector(
   [selectProjectsMonth, selectProjects, selectConsultants, selectClients],
   (projectsMonth, projects, consultants, clients) => ({
     projectsMonth, projects, consultants, clients
   }), {
-    // PERF: createSelector only checks for reference equality
-    // PERF: Unless overriden like here:
     memoizeOptions: {resultEqualityCheck: shallowEqual }
   }
 );
@@ -26,10 +23,8 @@ const selectAllData = createSelector(
 /** Calculates the totals needed for rendering the timesheet/inbound/outbound badges for one projectMonth */
 export const createProjectMonthBadgesSelector = () => createSelector(
   selectAllData,
-  // PERF: Add a month parameter to the selectAllData selector
   (_, month: string) => month,
   ({projectsMonth, projects, consultants, clients}, month) => {
-    // PERF: Do the whole "Badges Totals" calculation
     const projectMonths = projectsMonth
       .filter(x => x.month.isSame(month, 'month') && x.verified !== 'forced')
       .map(projectMonth => {
