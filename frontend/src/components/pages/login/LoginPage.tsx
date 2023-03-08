@@ -32,7 +32,7 @@ export const LoginPage = (props: any) => {
         localStorage.setItem('jwtInterval', data.jwtInterval);
 
         // Display & Save env & tag:
-        console.log('/config/security', data);
+        // console.log('/config/security', data);
         delete data.googleClientId;
         delete data.jwtInterval;
         localStorage.setItem('version', JSON.stringify(data));

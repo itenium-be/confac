@@ -1,10 +1,11 @@
 /* eslint-disable import/order */
 /* eslint-disable import/first */
-// import 'react-app-polyfill/ie11';
-// import 'react-app-polyfill/stable';
 import React from 'react';
 import ReactDOM from "react-dom/client";
 import {defaultLocale} from './components/utils';
+
+import './actions/holidays';
+
 
 // TODO: need to fetch this from the backend
 if (process.env.NODE_ENV !== 'production') {

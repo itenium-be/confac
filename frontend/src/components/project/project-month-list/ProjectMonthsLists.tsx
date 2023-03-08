@@ -15,6 +15,8 @@ import './project-month-list.scss';
 export const ProjectMonthsLists = () => {
   useDocumentTitle('projectMonthsList');
 
+  console.log('ProjectMonthsLists render');
+
   const projectMonths = useSelector((state: ConfacState) => state.projectsMonth);
   const uniqueMonths = projectMonths
     .map(projectMonth => projectMonth.month.format(ProjectMonthsListFilterOpenMonthsFormat))

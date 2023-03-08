@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React, { useMemo } from 'react';
+import React from 'react';
 import moment from 'moment';
 import {t} from '../../../../utils';
 import {ConsultantModel} from '../../../../consultant/models/ConsultantModel';
-import {getWorkDaysInMonth} from '../../../../invoice/models/InvoiceModel';
+import { holidaysService } from '../../../../../actions/holidays';
 
 
 const getConsultantTotals = (consultants: ConsultantModel[]) => {
@@ -24,35 +24,13 @@ type ConsultantsProps = {
 }
 
 
-type WorkDaysMonth = {
-  count: number;
-  month: string;
-}
-
-
-const workDaysCache: {[key: string]: WorkDaysMonth} = {};
-
-
 export const ConsultantCountFooter = ({consultants, month}: ConsultantsProps) => {
   const result = getConsultantTotals(consultants);
-  const totalWorkDays = useMemo(
-    () => {
-      const cacheMonth = (month || moment()).format('MMMM YYYY');
-      if (workDaysCache[cacheMonth]) {
-        console.log(`CACHED getWorkDaysInMonth ${cacheMonth}`);
-        return workDaysCache[cacheMonth];
-      }
-
-      console.log(`CALC getWorkDaysInMonth ${cacheMonth}`);
-      const calced: WorkDaysMonth = {
-        count: getWorkDaysInMonth(month || moment()),
-        month: cacheMonth,
-      };
-      workDaysCache[cacheMonth] = calced;
-      return calced;
-    },
-    [month]
-  );
+  // PERF: File 1: We have created a Service!
+  const totalWorkDays = {
+    count: holidaysService.get(month || moment()),
+    month: (month || moment()).format('MMMM YYYY')
+  };
 
   const isCurrentMonthForecast = !month;
   return (

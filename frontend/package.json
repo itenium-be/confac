@@ -43,7 +43,8 @@
     "reselect": "^4.1.7",
     "superagent": "^8.0.3",
     "superagent-bluebird-promise": "^4.2.0",
-    "use-debounce": "^8.0.4"
+    "use-debounce": "^8.0.4",
+    "workerize-loader": "^2.0.2"
   },
   "devDependencies": {
     "@types/classnames": "^2.3.1",

@@ -203,6 +203,7 @@ export function initialLoad(loadNextMonth?: number): any {
     ]);
 
     return promise
-      .then(() => dispatch({type: ACTION_TYPES.INITIAL_LOAD, lastMonthsDownloaded: monthsToLoad}));
+      .then(() => dispatch({type: ACTION_TYPES.INITIAL_LOAD, lastMonthsDownloaded: monthsToLoad}))
+      .then(() => console.log('Initial load complete'));
   }
 }
