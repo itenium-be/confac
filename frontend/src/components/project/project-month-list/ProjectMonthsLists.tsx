@@ -23,6 +23,8 @@ export const ProjectMonthsLists = () => {
     .filter((month, index, arr) => arr.indexOf(month) === index)
     .sort((a, b) => b.localeCompare(a));
 
+  console.log('ProjectMonthsLists render');
+
   return (
     <Container className={`list list-${Features.projectMonths}`}>
       <ProjectMonthsListToolbar />

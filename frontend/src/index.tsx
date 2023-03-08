@@ -1,10 +1,10 @@
 /* eslint-disable import/order */
 /* eslint-disable import/first */
+import './actions/holidays';
 import React from 'react';
 import ReactDOM from "react-dom/client";
 import {defaultLocale} from './components/utils';
 
-import './actions/holidays';
 
 
 // TODO: need to fetch this from the backend
