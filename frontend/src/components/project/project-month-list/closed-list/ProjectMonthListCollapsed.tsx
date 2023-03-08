@@ -39,7 +39,6 @@ export const ProjectMonthListCollapsed = ({month}: {month: string}) => {
     commitTime, // when React committed this update
     interactions // the Set of interactions belonging to this update
   ) {
-    // PERF: Aggregating the results:
     // console.log(`${id}: ${phase} in ${actualDuration}`);
     if (id.startsWith('Badge')) {
       id = 'NotVerifiedBadges'
