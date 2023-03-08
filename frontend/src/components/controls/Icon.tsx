@@ -51,6 +51,7 @@ export type IconProps = EnhanceWithClaimProps & {
 }
 
 
+// PERF: All kinds of different kinds of functionality is supported
 const IconComponent = ({fa, onClick, href, dispatch, className, label, labelStyle, title, size = 2, children, ...props}: IconProps) => {
   const navigate = useNavigate();
   let realClick: any = onClick;
@@ -85,7 +86,7 @@ const IconComponent = ({fa, onClick, href, dispatch, className, label, labelStyl
     // TODO: inline doesn't seem to be always working (for example in EditInvoiceLines:Notes th)
     // TODO: Not sure if the above still holds: changed tooltip from react-tooltip to rc-tooltip
     //       --> Probably the inline div was added for the previous Tooltip to work?
-    // Peformance: The tooltips take quite some rendering time: 500ms for 5k+ icons
+    // PERF: The tooltips take quite some rendering time: 500ms for 5k+ icons
     return (
       <div style={{display: 'inline'}}>
         <Tooltip title={title}>

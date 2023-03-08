@@ -9,15 +9,10 @@ import { createProjectMonthBadgesSelector } from './createProjectMonthBadgesSele
 import { useSelector } from 'react-redux';
 import { ToggleProjectMonthButton } from '../ToggleProjectMonthButton';
 
-type ITiming = {
-  renders: number;
-  totalTime: number;
-  averageTime?: number;
-}
 
-let timings: {[key: string]: ITiming} = {}
-
-
+// PERF: This is a bit 'cheating', we cannot cache the badge COMPLETELY like this
+// PERF: If the language changes, the label should also change!
+// PERF: Thank god confac only has one language!
 const VerifiedBadge = (
   <span className="badge rounded-pill text-white bg-success">
     <i className="fa fa-coins fa-1x" />
@@ -69,8 +64,10 @@ export const ProjectMonthListCollapsed = ({month}: {month: string}) => {
   }
 
 
-  console.log(timings);
+  console.log(timings); // TODO: useDebugValue?
 
+  // PERF: the badges below are now reduced to their absolute minimum
+  // PERF: See for example Icon.tsx why this takes so long to render.
   return (
     <>
       <h2 className="list-projectMonths-collapsed">
