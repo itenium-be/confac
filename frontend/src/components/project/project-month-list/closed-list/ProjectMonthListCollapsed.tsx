@@ -21,7 +21,6 @@ export const ProjectMonthListCollapsed = ({month}: {month: string}) => {
   const hasTimesheetPending = totals.timesheetPending.length !== 0;
   const hasInboundPending = totals.inboundPending.length !== 0;
 
-  // PERF: File 1: The callback for our <Profiler /> components
   function callback(
     id, // the "id" prop of the Profiler tree that has just committed
     phase, // either "mount" (if the tree just mounted) or "update" (if it re-rendered)
@@ -34,10 +33,6 @@ export const ProjectMonthListCollapsed = ({month}: {month: string}) => {
     console.log(`${id}: ${phase} in ${actualDuration}`);
   }
 
-  // PERF: This is a pattern that is handy sometimes
-  // PERF: A component that does not really render anything
-  // PERF: But does something useful, like here profiling
-  // PERF: Could also be for Themes, Contexts, CSS, ...
   return (
     <>
       <h2 className="list-projectMonths-collapsed">
