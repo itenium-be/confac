@@ -10,8 +10,6 @@ type OpenOrClosedProjectMonthsListProps = {
 };
 
 
-// PERF: File 2: Using react.memo to cache the collapsed projectMonth badges
-// PERF: Again using a month parameter to cache for all months
 const ProjectMonthListCollapsedMemo = memo(({ month }: {month: string}) => {
   // console.log(`memo rendered ${month}`, new Date().toLocaleTimeString());
   return <ProjectMonthListCollapsed month={month} />;

@@ -21,7 +21,6 @@ const selectProjectMonthsFilters = (state: ConfacState) => state.app.filters.pro
 type FiltersModel = Omit<ProjectMonthListFilters, 'projectMonths'>;
 
 
-// PERF: File 1: The last createSelector, this time for the active filters
 const createFiltersSelector = () => createSelector(
   selectProjectMonthsFilters,
   (filters) => {
@@ -31,7 +30,6 @@ const createFiltersSelector = () => createSelector(
     }
     return safeFilters;
   }, {
-    // PERF: Some additional options, see snippets/reselect.ts for more info
     // New in 4.1: Pass options through to the built-in `defaultMemoize` function
     memoizeOptions: {
       // TODO: need to update for new filters here! use deep-equal instead.
@@ -50,8 +48,6 @@ export const OpenedProjectMonthsList = ({ month }: OpenedProjectMonthsListProps)
   const dispatch = useDispatch();
 
 
-  // PERF: We were able to retain the functionality of the IFeature (for better or worse)
-  // PERF: by separating the caching of the filters, the openMonths and the data:
   const selectProjectMonths = useMemo(createFullProjectMonthsSelector, []);
   const projectMonths = useSelector((state) => selectProjectMonths(state, month));
   const selectFilters = useMemo(createFiltersSelector, []);
