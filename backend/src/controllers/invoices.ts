@@ -186,11 +186,17 @@ export const deleteInvoiceController = async (req: Request, res: Response) => {
           pdf: false,
         },
       });
-
-    await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).insertOne({
-      _id: new ObjectID(invoice.projectMonth.projectMonthId),
-      ...invoiceAttachments,
-    });
+      
+    if (invoiceAttachments) {
+      if (await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).find({ _id: new ObjectID(invoice.projectMonth.projectMonthId) }).count() === 1) {
+        await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).findOneAndUpdate({ _id: new ObjectID(invoice.projectMonth.projectMonthId) }, { $set: { attachments: invoiceAttachments } });
+      } else {
+        await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).insertOne({
+          _id: new ObjectID(invoice.projectMonth.projectMonthId),
+          attachments: invoiceAttachments
+        });
+      }
+    }    
 
     const projectMonthCollection = req.db.collection(CollectionNames.PROJECTS_MONTH);
     const attachments = invoice.attachments.filter(a => a.type !== 'pdf');
