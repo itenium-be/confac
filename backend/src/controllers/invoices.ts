@@ -187,7 +187,7 @@ export const deleteInvoiceController = async (req: Request, res: Response) => {
         },
       });
 
-    if (invoiceAttachments) {
+    if (invoiceAttachments !== null && Object.keys(invoiceAttachments).length > 0) {
       await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).updateOne({ _id: new ObjectID(invoice.projectMonth.projectMonthId) }, {
         $set: { ...invoiceAttachments }
       }, {
