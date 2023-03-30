@@ -9,18 +9,9 @@ import { AnonymousLogin } from './AnonymousLogin';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 
-const requiredAccess = [
-  'profile',
-  'email',
-  // 'https://www.googleapis.com/auth/profile.language.read',
-  // 'https://www.googleapis.com/auth/admin.directory.group.readonly',
-];
-
-
 export const LoginPage = (props: any) => {
   const dispatch = useDispatch();
   const [state, setState] = useState<string | 'loggedIn'>('');
-  const [errDetails, setErrDetails] = useState<string>('');
   const [googleClientId, setGoogleClientId] = useState<string | null>(null);
 
   useEffect(() => {
