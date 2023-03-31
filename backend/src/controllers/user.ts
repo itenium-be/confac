@@ -11,10 +11,9 @@ import {saveAudit} from './utils/audit-logs';
 
 const AdminRole = 'admin';
 
-const client = new OAuth2Client(config.security.clientId);
 
-
-async function verify(token: string): Promise<string | IUser> {
+export async function verify(token: string): Promise<string | IUser> {
+  const client = new OAuth2Client(config.security.clientId);
   const ticket = await client.verifyIdToken({
     idToken: token,
     audience: config.security.clientId,

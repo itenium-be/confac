@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import {ObjectID} from 'mongodb';
 import {findActiveProjectsForSelectedMonth} from '../projects';
 import {IAudit} from '../../models/common';
@@ -21,6 +20,7 @@ const createProject = (start: string, end?: string): IProject => ({
   },
   audit: {} as IAudit,
 });
+
 
 describe('Feature: determine whether project is active or not', () => {
   it('should return true for a project with NO end date and a start date that comes BEFORE the selectedDate', () => {
@@ -65,11 +65,6 @@ describe('Feature: determine whether project is active or not', () => {
 
     expect(result.length).toBe(0);
   });
-
-
-
-
-
 
 
   it('should return true for a project with a start date equal to the selectedDate and an end date that comes AFTER the selectedDate but has the SAME month as the selectedDate', () => {
