@@ -1,3 +1,7 @@
+// Exercises 1:
+// Test an async (req, res) Express function
+// With manual Express mocks
+
 import { Request, Response } from 'express';
 import { ConfacRequest } from '../../models/technical';
 import { IAudit } from '../../models/common';
@@ -27,7 +31,6 @@ const fakeClient: Partial<IClient> = {
 }
 
 
-// https://github.com/shelfio/jest-mongodb
 const fakeDb = {
   collection: (colName: string) => ({
     insertOne: (client: any) => Promise.resolve({ops: [client]})
@@ -71,5 +74,6 @@ describe.skip('clients controller :: saveClient updating', () => {
 
   it('should insert full audit of the changes', () => {
     // TODO: Maybe this whole mongodb thing is a bit too much for our fakeDb...?
+    // TODO: Or could test just the saveAudit function.
   })
 })
