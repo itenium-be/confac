@@ -8,7 +8,8 @@ import {saveAudit} from './utils/audit-logs';
 
 
 export const getProjectsPerMonthController = async (req: Request, res: Response) => {
-  const getFrom = moment().subtract(req.query.months, 'months').startOf('month').format('YYYY-MM-DD');
+  const query = req.query as any;
+  const getFrom = moment().subtract(query.months, 'months').startOf('month').format('YYYY-MM-DD');
   const projectsPerMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
     .find({month: {$gte: getFrom}})
     .toArray();
@@ -17,7 +18,8 @@ export const getProjectsPerMonthController = async (req: Request, res: Response)
 
 /** Returns only file details of a projects month attachment overview (all timesheets combined in one file) */
 export const getProjectsPerMonthOverviewController = async (req: Request, res: Response) => {
-  const getFrom = moment().subtract(req.query.months, 'months').startOf('month').format('YYYY-MM-DD');
+  const query = req.query as any;
+  const getFrom = moment().subtract(query.months, 'months').startOf('month').format('YYYY-MM-DD');
   const projectsPerMonthOverview = await req.db.collection<IProjectMonthOverview>(CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW)
     .find({month: {$gte: getFrom}}, {projection: {[TimesheetCheckAttachmentType]: false}})
     .toArray();
