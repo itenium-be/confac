@@ -6,3 +6,4 @@ build
 templates/
 .env*
 !.env.sample
+globalConfig.json
