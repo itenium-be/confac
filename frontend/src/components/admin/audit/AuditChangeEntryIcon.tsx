@@ -1,4 +1,3 @@
-import React from 'react';
 import { AuditChange } from "./audit-models";
 
 /** Display an icon for the audit diff type */
