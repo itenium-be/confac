@@ -1,26 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {GoogleLogin} from '@leecheuk/react-google-login';
 import {Alert} from 'react-bootstrap';
 import {t} from '../../utils';
 import {authService} from '../../users/authService';
 import {buildRequest, initialLoad} from '../../../actions/initialLoad';
 import { Redirecter } from './Redirecter';
 import { AnonymousLogin } from './AnonymousLogin';
-
-
-const requiredAccess = [
-  'profile',
-  'email',
-  // 'https://www.googleapis.com/auth/profile.language.read',
-  // 'https://www.googleapis.com/auth/admin.directory.group.readonly',
-];
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 
 export const LoginPage = (props: any) => {
   const dispatch = useDispatch();
   const [state, setState] = useState<string | 'loggedIn'>('');
-  const [errDetails, setErrDetails] = useState<string>('');
   const [googleClientId, setGoogleClientId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -60,28 +51,18 @@ export const LoginPage = (props: any) => {
 
   console.log('googleClientId', googleClientId); // eslint-disable-line
   return (
-    <div>
-      {state && (
-        <Alert variant="danger">
-          {t(state)}
-        </Alert>
-      )}
+    <GoogleOAuthProvider clientId={googleClientId}>
+      <div>
+        {state && <Alert variant="danger">{t(state)}</Alert>}
 
-      <GoogleLogin
-        clientId={googleClientId}
-        buttonText={t('user.login')}
-        onSuccess={res => authService.login(res, dispatch, setState)}
-        onFailure={err => {
-          setState('user.loginError');
-          if (err && err.details) {
-            setErrDetails(err.details);
-          }
-          console.log('google-login-failure', err); // eslint-disable-line
-        }}
-        cookiePolicy="single_host_origin"
-        scope={requiredAccess.join(' ')}
-      />
-      {errDetails && (<div className="err-details">{errDetails}</div>)}
-    </div>
+        <GoogleLogin
+          onSuccess={(res) => authService.login(res, dispatch, setState)}
+          onError={() => {
+            setState("user.loginError");
+            console.log("google-login-failure"); // eslint-disable-line
+          }}
+        />
+      </div>
+    </GoogleOAuthProvider>
   );
 };

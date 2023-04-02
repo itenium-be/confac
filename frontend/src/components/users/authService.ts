@@ -176,7 +176,7 @@ function authenticateUser(loginResponse: any, setState: React.Dispatch<SetStateA
   setState('');
 
   console.log('loginResponse', loginResponse);
-  const idToken = loginResponse.tokenId;
+  const idToken = loginResponse.credential;
   return dispatch => {
     request.post(buildUrl('/user/login'))
       .set('Content-Type', 'application/json')
