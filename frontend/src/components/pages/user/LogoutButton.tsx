@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { GoogleLogout } from '@leecheuk/react-google-login';
 import { t } from '../../utils';
 import { authService } from '../../users/authService';
+import { googleLogout } from '@react-oauth/google';
+import { Button } from 'react-bootstrap';
+import { Icon } from '../../controls/Icon';
 
 /** Google logout button */
 export const LogoutButton = () => {
@@ -13,15 +15,17 @@ export const LogoutButton = () => {
   }
 
   const logout = () => {
+    googleLogout();
     authService.logout();
     setLoggedIn(false);
   };
 
   return (
-    <GoogleLogout
-      clientId={localStorage.getItem('googleClientId') || ''}
-      buttonText={t('user.logout')}
-      onLogoutSuccess={logout}
-      onFailure={logout} />
+    <Button
+      variant="danger"
+      onClick={logout}>
+        <Icon fa="fab fa-google" size={1} style={{paddingRight: 8}} />
+        {t('user.logout')}
+    </Button>
   );
 };
