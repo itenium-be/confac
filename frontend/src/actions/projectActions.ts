@@ -12,7 +12,7 @@ import {TimesheetCheckAttachmentType} from '../models';
 import {authService} from '../components/users/authService';
 import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
 
-export function saveProject(project: IProjectModel, navigate: any, after: 'to-list' | 'to-details' = 'to-list') {
+export function saveProject(project: IProjectModel, navigate?: any, after: 'to-list' | 'to-details' = 'to-list') {
   return (dispatch: Dispatch) => {
     dispatch(busyToggle());
     return request
@@ -26,14 +26,16 @@ export function saveProject(project: IProjectModel, navigate: any, after: 'to-li
           project: response.body,
         });
         success(t('config.popupMessage'));
-        if (after === 'to-list') {
-          navigate('/projects');
-        } else {
-          // First navigate away?
-          // Workaround for EditProject not reloading the form
-          // when the url _id changes. Need a hook for this :)
-          navigate('/projects');
-          navigate(`/projects/${response.body._id}`);
+        if (navigate) {
+          if (after === 'to-list') {
+            navigate('/projects');
+          } else {
+            // First navigate away?
+            // Workaround for EditProject not reloading the form
+            // when the url _id changes. Need a hook for this :)
+            navigate('/projects');
+            navigate(`/projects/${response.body._id}`);
+          }
         }
       })
       .catch(catchHandler)
