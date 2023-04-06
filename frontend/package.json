@@ -47,6 +47,9 @@
     "workerize-loader": "^2.0.2"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
     "@types/classnames": "^2.3.1",
     "@types/draft-js": "^0.11.9",
     "@types/iban": "0.0.32",
@@ -56,10 +59,11 @@
     "@types/react": "18.0.25",
     "@types/react-beautiful-dnd": "13.1.2",
     "@types/react-datepicker": "4.8.0",
-    "@types/react-dom": "18.0.9",
+    "@types/react-dom": "^18.0.9",
     "@types/react-redux": "7.1.24",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-router-redux": "5.0.21",
+    "@types/react-test-renderer": "^18.0.0",
     "@types/superagent": "4.1.15",
     "@typescript-eslint/eslint-plugin": "5.43.0",
     "@typescript-eslint/parser": "5.43.0",
@@ -70,6 +74,7 @@
     "eslint-plugin-react": "^7.31.11",
     "lint-staged": "^13.0.3",
     "react-scripts": "^5.0.1",
+    "react-test-renderer": "^18.2.0",
     "sass": "^1.56.1",
     "source-map-explorer": "^2.5.3",
     "typescript": "4.9.3"
