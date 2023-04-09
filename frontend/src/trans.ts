@@ -275,7 +275,7 @@ export const trans = {
     discount: 'Korting',
     consultant: 'Consultant',
     toggleProjectMonth: 'Switchen tussen "Project maand kiezen" en "Manueel datum en consultant kiezen"',
-    discountPlaceholder: 'Geef een vaste korting (vb 250) of een percentage (vb 10%)',
+    discountPlaceholder: 'Vaste korting (vb 250)/een percentage (vb 10%)',
     deleteTitle: 'Factuur verwijderen',
     deletePopup: 'Factuur {number} ({client}) permanent verwijderen?',
     deleteConfirm: 'Factuur verwijderd',
