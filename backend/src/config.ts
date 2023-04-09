@@ -38,7 +38,7 @@ const appConfig: IConfig = {
 export default appConfig;
 
 
-interface IConfig {
+export interface IConfig {
   db: {
     host: string;
     db: string;

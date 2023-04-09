@@ -3,8 +3,19 @@
 
 import { verify } from '../user'
 import { OAuth2Client } from 'google-auth-library';
+import config, { IConfig } from './../../config';
 
 let payload: any = null;
+
+jest.mock('../../config', () => ({
+  security: {
+    clientId: 'string',
+    secret: 'string',
+    domain: 'string',
+    defaultRole: 'string',
+  }
+}));
+const mockedConfig: jest.Mocked<IConfig> = jest.mocked(config);
 
 jest.mock('google-auth-library', () => {
   class FakeOAuth2Client {
@@ -43,10 +54,14 @@ describe('user controller :: verify', () => {
 
   it('checks the audiance & domain corresponds to ../config', async () => {
     payload = {email_verified: true, email: 'email', aud: '', hd: 'itenium.be'}
+    jest.replaceProperty(config, 'security', {
+      clientId: 'string',
+      secret: 'string',
+      domain: 'string',
+      defaultRole: 'string',
+    });
     const result = await verify('token');
 
-    // TODO: It seems that the test is always green
-    // TODO: it doesn't really take config into account?
     expect(result).toBeInstanceOf(Object)
   })
 
