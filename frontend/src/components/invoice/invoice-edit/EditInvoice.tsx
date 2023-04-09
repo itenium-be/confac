@@ -190,6 +190,12 @@ const EditInvoice = () => {
           )}
           <EditInvoiceSaveButtons
             onClick={(type, navigate) => {
+              // When the InvoiceNotVerifiedAlert component updates the verified flag to true on initInvoice,
+              // it doesn't update on the edited object invoice. So the verified flag is overridden when you save
+              // the edited object invoice. This if check fixes that
+              if (initInvoice.verified !== invoice.verified) {
+                invoice.verified = initInvoice.verified;
+              }
               if (type === 'create') {
                 dispatch(createInvoice(invoice, navigate) as any);
               } if (type === 'preview') {
