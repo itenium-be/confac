@@ -4,13 +4,23 @@ import {ProjectClientModel} from '../models/IProjectModel';
 import {getNewProjectClient} from '../models/getNewProject';
 import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
 import {FullFormConfig} from '../../../models';
-import {InvoiceLine, getNewInvoiceLine} from '../../invoice/models/InvoiceLineModels';
-
+import {getNewInvoiceLine, InvoiceLine} from '../../invoice/models/InvoiceLineModels';
+import {DefaultHoursInDay} from "../../client/models/getNewClient";
 
 /** Map Tariff & RateType to the client/partner.defaultInvoiceLines[0].price/type */
 const Bridge = ({value = [getNewInvoiceLine()], onChange}: MinimalInputProps<InvoiceLine[]>) => {
   const realOnChange = (firstLine: InvoiceLine) => {
     const newArr = value.filter((v, i) => i !== 0);
+    const originalLine = value.find((v, i) => i === 0)!;
+
+    if (firstLine.price && originalLine.type !== firstLine.type) {
+      if (firstLine.type === 'daily') {
+        firstLine.price *= DefaultHoursInDay;
+      } else {
+        firstLine.price /= DefaultHoursInDay;
+      }
+    }
+
     onChange([firstLine, ...newArr]);
   };
 
@@ -27,7 +37,7 @@ const Bridge = ({value = [getNewInvoiceLine()], onChange}: MinimalInputProps<Inv
 
 
 const defaultInvoiceLinesConfig: FullFormConfig = [
-  {key: 'price', label: 'project.client.tariff', component: 'money', prefix: '€', cols: 2},
+  {key: 'price', label: 'project.client.tariff', component: 'basic-math', prefix: '€', cols: 2},
   {key: 'type', label: 'project.client.rateType', component: 'ProjectLineTypeSelect', cols: 2},
 ];
 
