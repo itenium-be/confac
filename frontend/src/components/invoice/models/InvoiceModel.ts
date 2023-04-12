@@ -264,7 +264,7 @@ export function groupInvoicesPerMonth(invoices: InvoiceModel[]): GroupedInvoices
   }, []);
 }
 
-
+//TODO swap with date-holidays-be 
 const hd = new Holidays('BE');
 const workDaysInMonthCache: {[key: string]: number} = {};
 
@@ -279,11 +279,8 @@ export function getWorkDaysInMonth(momentInst: moment.Moment): number {
   const result: Date[] = [];
   while (date.getMonth() === curMonth) {
     // date.getDay = index of ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-    if (date.getDay() !== 0 && date.getDay() !== 6) {
-      const isHoliday = hd.isHoliday(date);
-      if (!isHoliday) {
-        result.push(date);
-      }
+    if (date.getDay() !== 0 && date.getDay() !== 6 && !hd.isHoliday(date)) {
+      result.push(date);
     }
     date.setDate(date.getDate() + 1);
   }
