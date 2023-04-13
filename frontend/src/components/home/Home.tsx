@@ -1,4 +1,4 @@
-import MeasurementAccordion from "./components/MeasurementAccordion"
+import MeasurementAccordion from "./measurements/MeasurementAccordion"
 
 const Home = () => {
   return (
