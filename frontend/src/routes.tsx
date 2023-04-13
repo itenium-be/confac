@@ -24,6 +24,7 @@ import {EditAdmin} from './components/admin/EditAdmin';
 import {EditProjectMonths} from './components/project/EditProjectMonths';
 import {ConsultantProjectsList} from './components/consultant/ConsultantProjectsList';
 import {initialLoad} from './actions';
+import Home from './components/home/Home';
 
 
 const Routes = () => {
@@ -67,7 +68,8 @@ const Routes = () => {
         <Route path="/roles/:id" element={<AppWithLayout Component={EditRole} />} />
         <Route path="/login" element={<UnauthicatedAppLayout Component={LoginPage} />} />
 
-        <Route path="/" element={<AppWithLayout Component={ProjectMonthsLists} />} />
+        <Route path="/" element={<AppWithLayout Component={Home} />} />
+        <Route path="/home" element={<AppWithLayout Component={Home} />} />
       </Switch>
     </BrowserRouter>
   );

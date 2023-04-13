@@ -89,6 +89,7 @@ export const trans = {
     clients: 'Klanten',
     projects: 'Projecten',
     config: 'Config',
+    home: 'Home'
   },
   titles: {
     config: 'Configuratie',
