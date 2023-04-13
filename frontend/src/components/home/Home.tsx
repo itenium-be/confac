@@ -1,8 +1,10 @@
-
+import MeasurementAccordion from "./components/MeasurementAccordion"
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <>
+    <MeasurementAccordion />
+    </>
   )
 }
 
