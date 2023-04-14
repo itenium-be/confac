@@ -18,7 +18,7 @@ const MeasurementAccordionItem = ({children, header, isCollapsed = true}: Props)
         data-bs-toggle="collapse"
         onClick={() => setCollapsed(!collapsed)}
       >
-        {header}
+        <h2>{header}</h2>
       </button>
     </h2>
     <div
