@@ -28,6 +28,7 @@
   "license": "MIT",
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
+    "@types/express-unless": "^2.0.1",
     "body-parser": "^1.19.0",
     "concurrently": "^5.0.2",
     "cors": "^2.8.5",
