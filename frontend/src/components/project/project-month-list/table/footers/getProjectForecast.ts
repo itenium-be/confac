@@ -1,8 +1,8 @@
 import moment from 'moment';
 import { FullProjectMonthModel } from '../../../models/FullProjectMonthModel';
 import { FullProjectModel } from '../../../models/FullProjectModel';
-import { getWorkDaysInMonth } from '../../../../invoice/models/InvoiceModel';
 import { getTariffs } from '../../../utils/getTariffs';
+import { holidaysService } from '../../../../../actions/holidays';
 
 
 export function getProjectForecast(models: Array<FullProjectModel | FullProjectMonthModel>, getFor: 'client' | 'partner', month?: moment.Moment) {
@@ -42,7 +42,7 @@ export function getProjectForecast(models: Array<FullProjectModel | FullProjectM
 
   // TODO: Should take begin/end date into account to give more precise forecast
   // TODO: Also doesn't take hourly/daily rates into account
-  const workDaysInMonth = getWorkDaysInMonth(month);
+  const workDaysInMonth = holidaysService.get(month);
   const getTotalsProject = (projects: FullProjectModel[]) => {
     if (getFor === 'partner') {
       return projects

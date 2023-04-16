@@ -1,4 +1,3 @@
-import React from 'react';
 import {t} from '../../utils';
 import InvoiceModel, {calculateDaysWorked, DaysWorked, getWorkDaysInMonths} from '../models/InvoiceModel';
 
