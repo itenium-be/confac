@@ -1,6 +1,7 @@
 import React from 'react';
 import { t } from '../../../../utils';
 import { ProjectMonthBadgeTotals } from "../ProjectMonthBadgeTotals";
+import {Tooltip} from "../../../../controls/Tooltip";
 
 export type TimesheetBadgeProps = {
   pending: boolean;
@@ -22,9 +23,11 @@ export const TimesheetBadge = ({ pending, totals }: TimesheetBadgeProps) => {
   }
 
   return (
-    <span className="badge rounded-pill bg-warning">
-      <i className="fa fa-clock fa-1x" title={`<b>${t('projectMonth.timesheetValidated')}</b><br>` + totals.timesheetPending} />
-      {t('projectMonth.list.timesheetPending', {timesheetPendingCount: totals.timesheetPendingCount})}
-    </span>
+    <Tooltip title={`<b>${t('projectMonth.timesheetValidated')}</b><br>` + totals.timesheetPending}>
+      <span className="badge rounded-pill bg-warning">
+        <i className="fa fa-clock fa-1x"  />
+            {t('projectMonth.list.timesheetPending', {timesheetPendingCount: totals.timesheetPendingCount})}
+      </span>
+    </Tooltip>
   );
 };
