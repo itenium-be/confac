@@ -1,13 +1,13 @@
-import { t } from "../utils"
-import MeasurementAccordion from "./measurements/MeasurementAccordion"
+import { t } from "../utils";
+import MeasurementsAccordion from "./MeasurementsAccordion";
 
 const Home = () => {
   return (
     <>
-    <h1>{t("nav.home")}</h1>
-    <MeasurementAccordion />
+      <h1>{t("nav.home")}</h1>
+      <MeasurementsAccordion />
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

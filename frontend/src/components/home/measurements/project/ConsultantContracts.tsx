@@ -1,38 +1,51 @@
-import { Table } from "react-bootstrap";
-import { ContractStatus } from "../../../client/models/ContractModels";
+import React from "react";
 import { useProjects } from "../../../hooks/useProjects";
+import { ContractStatus } from "../../../client/models/ContractModels";
+import { Table } from "react-bootstrap";
+import { t } from "../../../utils";
 
-const ProjectSection = () => {
-  let projects = useProjects();
+const ConsultantContracts = () => {
+  const projects = useProjects();
 
-  console.log(projects);
-
-  let projectsWithoutContract = projects.filter(
+  const projectsWithoutContract = projects.filter(
     (project) =>
       (project.details.contract.status !== ContractStatus.BothSigned &&
         project.details.contract.status !== ContractStatus.NotNeeded) ||
       (project.client.frameworkAgreement.status !== ContractStatus.BothSigned &&
         project.client.frameworkAgreement.status !== ContractStatus.NotNeeded)
   ).length;
-  let projectsWithoutWorkContract = projects.filter(
+  const projectsWithoutWorkContract = projects.filter(
     (project) =>
       project.details.contract.status !== ContractStatus.BothSigned &&
       project.details.contract.status !== ContractStatus.NotNeeded
   ).length;
-  let projectsWithoutFrameworkAgreements = projects.filter(
+  const projectsWithoutFrameworkAgreements = projects.filter(
     (project) =>
       project.client.frameworkAgreement.status !== ContractStatus.BothSigned &&
       project.client.frameworkAgreement.status !== ContractStatus.NotNeeded
   ).length;
+
   return (
     <>
-      <h3>Consultant contracts</h3>
+      <h5>{t("measurements.projectSection.consultantContracts.title")}</h5>
       <Table>
         <thead>
           <tr>
-            <th scope="col">Projecten zonder contract</th>
-            <th scope="col">Geen werkcontract</th>
-            <th scope="col">Geen raamcontract</th>
+            <th scope="col">
+              {t(
+                "measurements.projectSection.consultantContracts.list.projectsWithoutContract"
+              )}
+            </th>
+            <th scope="col">
+              {t(
+                "measurements.projectSection.consultantContracts.list.projectsWithoutWorkContract"
+              )}
+            </th>
+            <th scope="col">
+              {t(
+                "measurements.projectSection.consultantContracts.list.projectsWithoutFrameworkAgreements"
+              )}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -47,5 +60,5 @@ const ProjectSection = () => {
   );
 };
 
-export default ProjectSection;
+export default ConsultantContracts;
 

@@ -628,6 +628,28 @@ export const trans = {
     title: 'Administrator Configuratie',
     users: 'Beheer gebruikers',
   },
+  measurements: {
+    projectSection: {
+      consultantContracts: {
+        title: 'Consultant contracts',
+        list: {
+          projectsWithoutContract: 'Projecten zonder contract',
+          projectsWithoutWorkContract: 'Geen werkcontract',
+          projectsWithoutFrameworkAgreements: 'Geen raamcontract',
+        },
+      }
+    },
+    clientSection: {
+      clientsAndProjectsEvolution: {
+        title: 'Klanten- en projectenevolutie',
+        list: {
+          period: 'Periode',
+          clients: 'Klanten',
+          clientsWithProjects: 'Klanten met projecten',
+        }
+      }
+    }
+  }
 };
 
 export default function Translate(key: string, params?: object): string {

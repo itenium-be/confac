@@ -68,7 +68,7 @@ const Routes = () => {
         <Route path="/roles/:id" element={<AppWithLayout Component={EditRole} />} />
         <Route path="/login" element={<UnauthicatedAppLayout Component={LoginPage} />} />
 
-        <Route path="/" element={<AppWithLayout Component={Home} />} />
+        <Route path="/" element={<AppWithLayout Component={ProjectMonthsLists} />} />
         <Route path="/home" element={<AppWithLayout Component={Home} />} />
       </Switch>
     </BrowserRouter>
