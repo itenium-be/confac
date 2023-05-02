@@ -1,4 +1,3 @@
-import { PureComponent } from "react";
 import { Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import { clientChartData } from "./ClientsAndProjectsEvolution";
 import { t } from "../../../utils";
