@@ -18,7 +18,7 @@ export interface clientChartData {
 }
 const ClientsAndProjectsEvolution = () => {
   const [from, setFrom] = useState<moment.Moment>(moment());
-  const [to, setTo] = useState<moment.Moment>(moment().add(11, "month"));
+  const [to, setTo] = useState<moment.Moment>(from.clone().add(11, "month"));
   const models = useSelector((state: ConfacState) => ({
     clients: state.clients,
     projects: state.projects,
@@ -27,7 +27,7 @@ const ClientsAndProjectsEvolution = () => {
   let interim = from.clone();
   let timeValues: Moment[] = [];
 
-  while (interim.startOf('month').isSameOrBefore(to.clone().endOf("month")) ) {
+  while (interim.startOf("month").isSameOrBefore(to.endOf("month"))) {
     timeValues.push(interim.clone());
     interim.add(1, "month");
   }
@@ -39,7 +39,7 @@ const ClientsAndProjectsEvolution = () => {
       month: date.format("MM"),
       clients: null,
       clientsWithProjects: null,
-    }
+    };
   });
 
   const clientsWithProject = models.clients.map((client) => {
@@ -101,7 +101,7 @@ const ClientsAndProjectsEvolution = () => {
       <ClientsAndProjectsEvolutionList
         from={from}
         to={to}
-        clients={dataSet.pop()?.clients || 0}
+        clients={dataSet[-1]?.clients || 0}
         clientsWithProject={allClientsWithProjects}
       />
       <Container>
