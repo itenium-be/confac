@@ -23,6 +23,7 @@ const ClientsAndProjectsEvolution = () => {
     clients: state.clients,
     projects: state.projects,
   }));
+  console.log(models)
 
   let interim = from.clone();
   let timeValues: Moment[] = [];
@@ -101,7 +102,7 @@ const ClientsAndProjectsEvolution = () => {
       <ClientsAndProjectsEvolutionList
         from={from}
         to={to}
-        clients={dataSet[-1]?.clients || 0}
+        clients={dataSet[dataSet.length - 1].clients || 0}
         clientsWithProject={allClientsWithProjects}
       />
       <Container>
