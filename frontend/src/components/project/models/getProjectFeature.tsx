@@ -33,12 +33,12 @@ const fullProjectSearch = (filters: ProjectListFilters, prj: FullProjectModel) =
     return true;
   }
 
-  const freeText = filters.freeText.trim().toLowerCase();
-  if (prj.details.client.ref?.toLowerCase().includes(freeText)) {
+  const freeText = searchinize(filters.freeText);
+  if (searchinize(prj.details.client.ref || '').includes(freeText)) {
     return true;
   }
 
-  if (prj.details.partner?.ref?.toLowerCase()?.includes(freeText)) {
+  if (searchinize(prj.details.partner?.ref || '').includes(freeText)) {
     return true;
   }
 

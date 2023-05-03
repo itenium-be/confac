@@ -80,7 +80,7 @@ const searchConsultantFor = (filters: ListFilters, model: ConsultantProject): bo
   return searchinize(
     `${model.consultant.name} ${model.consultant.firstName} ${model.consultant.name}
      ${model.consultant.email} ${model.client?.name}`,
-  ).includes(filters.freeText.toLowerCase());
+  ).includes(searchinize(filters.freeText));
 };
 
 
