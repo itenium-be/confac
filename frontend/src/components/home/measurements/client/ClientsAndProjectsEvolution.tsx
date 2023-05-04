@@ -8,6 +8,7 @@ import { useState } from "react";
 import moment, { Moment } from "moment";
 import { useSelector } from "react-redux";
 import { ConfacState } from "../../../../reducers/app-state";
+import { t } from "../../../utils";
 
 export interface clientChartData {
   year: number;
@@ -37,7 +38,7 @@ const ClientsAndProjectsEvolution = () => {
     return {
       year: date.year(),
       monthIndex: date.month(),
-      month: date.format("MM"),
+      month: date.format("MMM"),
       clients: null,
       clientsWithProjects: null,
     };
@@ -109,7 +110,7 @@ const ClientsAndProjectsEvolution = () => {
         <Row>
           <Col>
             <MonthPicker
-              label="from"
+              label={t('measurements.from')}
               value={from}
               onChange={(value) => {
                 value && value < to && setFrom(value);
@@ -118,7 +119,7 @@ const ClientsAndProjectsEvolution = () => {
           </Col>
           <Col>
             <MonthPicker
-              label="to"
+              label={t('measurements.to')}
               value={to}
               onChange={(value) => {
                 value && value > from && setTo(value);

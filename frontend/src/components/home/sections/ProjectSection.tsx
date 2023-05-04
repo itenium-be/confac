@@ -1,10 +1,10 @@
-import ConsultantContracts from "../measurements/project/ConsultantContracts";
+import ConsultantContractsList from "../measurements/project/ConsultantContractsList";
 
 const ProjectSection = () => {
 
   return (
     <>
-    <ConsultantContracts />
+    <ConsultantContractsList />
     </>
   );
 };

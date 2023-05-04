@@ -4,7 +4,7 @@ import { ContractStatus } from "../../../client/models/ContractModels";
 import { Table } from "react-bootstrap";
 import { t } from "../../../utils";
 
-const ConsultantContracts = () => {
+const ConsultantContractsList = () => {
   const projects = useProjects();
 
   const projectsWithoutContract = projects.filter(
@@ -60,5 +60,5 @@ const ConsultantContracts = () => {
   );
 };
 
-export default ConsultantContracts;
+export default ConsultantContractsList;
 

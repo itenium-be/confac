@@ -20,7 +20,7 @@ const ClientsAndProjectsEvolutionChart = ({ data }: Props) => {
         }}
         data={data}
       >
-        <XAxis dataKey="month" interval={0} />
+        <XAxis dataKey="month" />
         <YAxis allowDecimals={false} />
         <Tooltip />
         <Legend />
