@@ -629,6 +629,8 @@ export const trans = {
     users: 'Beheer gebruikers',
   },
   measurements: {
+    from: 'Van',
+    to: 'Tot',
     projectSection: {
       consultantContracts: {
         title: 'Consultant contracts',
@@ -646,6 +648,17 @@ export const trans = {
           period: 'Periode',
           clients: 'Klanten',
           clientsWithProjects: 'Klanten met projecten',
+        }
+      }
+    }
+    ,
+    invoiceSection: {
+      dueInvoicesList: {
+        title: 'Openstaande facturen',
+        list: {
+          ok: 'Factuur < 16 dagen open',
+          warning: 'Factuur 16 <= x <= 30 dagen open',
+          danger: 'Factuur > 30 dagen open'
         }
       }
     }
