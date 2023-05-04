@@ -3,27 +3,20 @@ import { useProjects } from "../../../hooks/useProjects";
 import { ContractStatus } from "../../../client/models/ContractModels";
 import { Table } from "react-bootstrap";
 import { t } from "../../../utils";
+import { FullProjectModel } from "../../../project/models/FullProjectModel";
+
+export enum ContractType {
+  All,
+  Work,
+  Framework
+}
 
 const ConsultantContractsList = () => {
   const projects = useProjects();
 
-  const projectsWithoutContract = projects.filter(
-    (project) =>
-      (project.details.contract.status !== ContractStatus.BothSigned &&
-        project.details.contract.status !== ContractStatus.NotNeeded) ||
-      (project.client.frameworkAgreement.status !== ContractStatus.BothSigned &&
-        project.client.frameworkAgreement.status !== ContractStatus.NotNeeded)
-  ).length;
-  const projectsWithoutWorkContract = projects.filter(
-    (project) =>
-      project.details.contract.status !== ContractStatus.BothSigned &&
-      project.details.contract.status !== ContractStatus.NotNeeded
-  ).length;
-  const projectsWithoutFrameworkAgreements = projects.filter(
-    (project) =>
-      project.client.frameworkAgreement.status !== ContractStatus.BothSigned &&
-      project.client.frameworkAgreement.status !== ContractStatus.NotNeeded
-  ).length;
+  const projectsWithoutContract = filterConsultantContractProjects(projects, ContractType.All).length;
+  const projectsWithoutWorkContract = filterConsultantContractProjects(projects, ContractType.Work).length;
+  const projectsWithoutFrameworkAgreements = filterConsultantContractProjects(projects, ContractType.Framework).length;
 
   return (
     <>
@@ -62,3 +55,15 @@ const ConsultantContractsList = () => {
 
 export default ConsultantContractsList;
 
+export function filterConsultantContractProjects(projects: FullProjectModel[], contractType: ContractType): FullProjectModel[] {
+  if (contractType === ContractType.All) {
+    return projects.filter(project => project.isWithoutContract());
+  }
+  if (contractType === ContractType.Work) {
+    return projects.filter(project => project.isWithoutWorkContract());
+  }
+  if (contractType === ContractType.Framework) {
+    return projects.filter(project => project.isWithoutFrameworkAgreement());
+  }
+  return [];
+}
