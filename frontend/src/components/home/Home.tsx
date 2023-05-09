@@ -1,6 +1,8 @@
 import { t } from "../utils";
 import MeasurementsAccordion from "./MeasurementsAccordion";
 
+import './Home.scss';
+
 const Home = () => {
   return (
     <>

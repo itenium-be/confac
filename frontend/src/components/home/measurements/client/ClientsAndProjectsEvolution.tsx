@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { ConfacState } from "../../../../reducers/app-state";
 import { t } from "../../../utils";
 import { Link } from "react-router-dom";
+import PeriodPicker from "../PeriodPicker";
 
 export interface clientChartData {
   year: number;
@@ -101,32 +102,32 @@ const ClientsAndProjectsEvolution = () => {
 
   return (
     <>
-      <Link to={`/clients`}>
-        <h5>{t("measurements.clientSection.clientsAndProjectsEvolution.title")}</h5>
-      </Link>
-      <ClientsAndProjectsEvolutionList
-        from={from}
-        to={to}
-        clients={dataSet[dataSet.length - 1].clients || 0}
-        clientsWithProject={allClientsWithProjects}
-      />
       <Container>
         <Row>
-          <Col>
-            <MonthPicker
-              label={t("measurements.from")}
-              value={from}
-              onChange={(value) => {
+          <Link to={`/clients`}>
+            <h5>
+              {t(
+                "measurements.clientSection.clientsAndProjectsEvolution.title"
+              )}
+            </h5>
+          </Link>
+          <ClientsAndProjectsEvolutionList
+            from={from}
+            to={to}
+            clients={dataSet[dataSet.length - 1].clients || 0}
+            clientsWithProject={allClientsWithProjects}
+          />
+        </Row>
+        <Row>
+          <Col className='align-items-bottom'>
+            <PeriodPicker
+              from={from}
+              to={to}
+              fromChange={(value) => {
                 value && value < to && setFrom(value);
               }}
-            />
-          </Col>
-          <Col>
-            <MonthPicker
-              label={t("measurements.to")}
-              value={to}
-              onChange={(value) => {
-                value && value > from && setTo(value);
+              toChange={(value) => {
+                value && value < to && setTo(value);
               }}
             />
           </Col>
