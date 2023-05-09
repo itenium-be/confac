@@ -1,5 +1,4 @@
 import { Row } from "react-bootstrap";
-import { MonthPicker } from "../../../controls/form-controls/MonthPicker";
 import ClientsAndProjectsEvolutionChart from "./ClientsAndProjectsEvolutionChart";
 import ClientsAndProjectsEvolutionList from "./ClientsAndProjectsEvolutionList";
 import { Container } from "react-bootstrap";
@@ -26,7 +25,6 @@ const ClientsAndProjectsEvolution = () => {
     clients: state.clients,
     projects: state.projects,
   }));
-  console.log(models);
 
   let interim = from.clone();
   let timeValues: Moment[] = [];
