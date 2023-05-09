@@ -16,7 +16,6 @@ const ClientsAndProjectsEvolutionList = ({
 }: Props) => {
   return (
     <>
-      <h5>{t('measurements.clientSection.clientsAndProjectsEvolution.title')}</h5>
       <Table>
         <thead>
           <tr>
