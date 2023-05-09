@@ -1,6 +1,5 @@
 import React from "react";
 import { useProjects } from "../../../hooks/useProjects";
-import { ContractStatus } from "../../../client/models/ContractModels";
 import { Table } from "react-bootstrap";
 import { t } from "../../../utils";
 import { FullProjectModel } from "../../../project/models/FullProjectModel";
