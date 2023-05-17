@@ -9,6 +9,7 @@ import {Modal} from '../controls/Modal';
 import {saveProject} from '../../actions/projectActions';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {FullFormConfig} from '../../models';
+import { ContractStatus } from '../client/models/ContractModels';
 
 type CopyProjectProps = {
   projectToCopy: IProjectModel;
@@ -31,6 +32,7 @@ export const CopyProject = ({projectToCopy}: CopyProjectProps) => {
     _id: '',
     startDate: moment(projectToCopy.endDate).add(1, 'day'),
     endDate: undefined,
+    contract: {...projectToCopy.contract, status: ContractStatus.NoContract}
   };
   const [project, setProject] = useState<IProjectModel>(defaultProject);
   const dispatch = useDispatch();
