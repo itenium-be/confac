@@ -36,20 +36,20 @@ const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMon
 
   const {details, consultant, client, partner} = prj;
 
-  const freeText = filters.freeText.trim().toLowerCase();
-  if (prj.invoice?.number?.toString() === freeText) {
+  const freeText = searchinize(filters.freeText);
+  if (searchinize(prj.invoice?.number?.toString() || '') === freeText) {
     return true;
   }
 
-  if (prj.project.client.ref?.toLowerCase()?.includes(freeText)) {
+  if (searchinize(prj.project.client.ref || '').includes(freeText)) {
     return true;
   }
 
-  if (prj.project.partner?.ref?.toLowerCase()?.includes(freeText)) {
+  if (searchinize(prj.project.partner?.ref || '').includes(freeText)) {
     return true;
   }
 
-  if (prj.details.orderNr?.includes(freeText)) {
+  if (searchinize(prj.details.orderNr).includes(freeText)) {
     return true;
   }
 

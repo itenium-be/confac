@@ -18,7 +18,7 @@ const searchRoleFor = (filters: RolesListFilters, model: RoleModel): boolean => 
 
   return searchinize(
     `${model.name} ${model.claims.join(' ')}`,
-  ).includes(filters.freeText.toLowerCase());
+  ).includes(searchinize(filters.freeText));
 };
 
 
