@@ -1,13 +1,9 @@
 /* eslint-disable import/order */
 /* eslint-disable import/first */
-import React from 'react';
 import ReactDOM from "react-dom/client";
 import {defaultLocale} from './components/utils';
 
-import './actions/holidays';
 
-
-// TODO: need to fetch this from the backend
 if (process.env.NODE_ENV !== 'production') {
   document.title += ` - ${process.env.NODE_ENV || '???'}`;
 }

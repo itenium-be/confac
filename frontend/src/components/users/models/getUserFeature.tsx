@@ -23,7 +23,7 @@ const searchUserFor = (filters: UsersListFilters, model: UserModel): boolean => 
 
   return searchinize(
     `${model.name} ${model.firstName} ${model.name} ${model.alias} ${model.email}`,
-  ).includes(filters.freeText.toLowerCase());
+  ).includes(searchinize(filters.freeText));
 };
 
 

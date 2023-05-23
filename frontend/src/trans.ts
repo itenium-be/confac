@@ -300,7 +300,7 @@ export const trans = {
     total: 'Totaal',
     orderNr: 'Bestelbon referentie',
     orderNrShort: 'Bestelbon ref',
-    verifyAction: 'Factuur nu verifiëren',
+    verifyAction: 'Verifieren ongedaan maken',
     verifyActionTooltip: 'Factuur verifiëren<br>Openstaand voor {days} dagen',
     notVerifiedOnly: 'Enkel niet geverifiëerde?',
     groupByMonth: 'Groepeer per maand',

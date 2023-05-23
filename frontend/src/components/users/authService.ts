@@ -167,6 +167,8 @@ function refreshToken(): void {
     })
     .catch(err => {
       console.log('refresh error', err);
+      authService.logout();
+      window.open('/login');
     });
 }
 

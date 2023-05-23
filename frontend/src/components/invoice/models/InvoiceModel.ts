@@ -6,8 +6,8 @@ import {ClientModel} from '../../client/models/ClientModels';
 import {Attachment, IAttachment, IAudit} from '../../../models';
 import {InvoiceLine} from './InvoiceLineModels';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
-import Holidays from 'date-holidays';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
+import { holidaysService } from '../../../actions/holidays';
 
 
 export type InvoiceMoney = {
@@ -265,36 +265,10 @@ export function groupInvoicesPerMonth(invoices: InvoiceModel[]): GroupedInvoices
 }
 
 
-const hd = new Holidays('BE');
-const workDaysInMonthCache: {[key: string]: number} = {};
-
-export function getWorkDaysInMonth(momentInst: moment.Moment): number {
-  const key = momentInst.format('YYYY-MM');
-  if (workDaysInMonthCache[key]) {
-    return workDaysInMonthCache[key];
-  }
-
-  const curMonth = momentInst.month();
-  const date = new Date(momentInst.year(), curMonth, 1);
-  const result: Date[] = [];
-  while (date.getMonth() === curMonth) {
-    // date.getDay = index of ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-    if (date.getDay() !== 0 && date.getDay() !== 6) {
-      const isHoliday = hd.isHoliday(date);
-      if (!isHoliday) {
-        result.push(date);
-      }
-    }
-    date.setDate(date.getDate() + 1);
-  }
-  workDaysInMonthCache[key] = result.length;
-  return result.length;
-}
-
 
 export function getWorkDaysInMonths(invoices: InvoiceModel[]): number {
   const invoicesPerMonth = groupInvoicesPerMonth(invoices);
-  const result = invoicesPerMonth.map(({invoiceList}) => getWorkDaysInMonth(invoiceList[0].date));
+  const result = invoicesPerMonth.map(({invoiceList}) => holidaysService.get(invoiceList[0].date));
   return result.reduce((prev, cur) => prev + cur, 0);
 }
 
