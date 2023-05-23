@@ -24,7 +24,7 @@ import {EditAdmin} from './components/admin/EditAdmin';
 import {EditProjectMonths} from './components/project/EditProjectMonths';
 import {ConsultantProjectsList} from './components/consultant/ConsultantProjectsList';
 import {initialLoad} from './actions';
-import Home from './components/home/Home';
+import {Home} from './components/home/Home';
 
 
 const Routes = () => {

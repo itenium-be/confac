@@ -1,32 +1,34 @@
-import React from "react";
 import { MonthPicker } from "../../controls/form-controls/MonthPicker";
-import { Moment } from "moment";
 import { t } from "../../utils";
+import { DateRange } from "./client/ClientsAndProjectsEvolution";
 
-interface Props {
-  from: Moment;
-  to: Moment;
-  fromChange: (value: any) => void;
-  toChange: (value: any) => void;
+interface PeriodPickerProps {
+  dateRange: DateRange;
+  setDateRange: (value: DateRange) => void;
 }
 
-const PeriodPicker = ({from, to, fromChange, toChange}: Props) => {
+export const PeriodPicker = ({ dateRange, setDateRange }: PeriodPickerProps) => {
   return (
     <>
       <MonthPicker
         label={t("measurements.from")}
-        value={from}
-        onChange={fromChange}
+        value={dateRange.from}
+        onChange={(value) => {
+          if (value && value < dateRange.to) {
+            setDateRange({...dateRange, from: value});
+          }
+        }}
       />
 
       <MonthPicker
         label={t("measurements.to")}
-        value={to}
-        onChange={toChange}
+        value={dateRange.to}
+        onChange={(value) => {
+          if (value && value > dateRange.from) {
+            setDateRange({...dateRange, to: value});
+          }
+        }}
       />
     </>
   );
 };
-
-export default PeriodPicker;
-

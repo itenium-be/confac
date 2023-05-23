@@ -1,10 +1,10 @@
 import { t } from "../utils";
 import { Accordion } from "react-bootstrap";
-import ProjectSection from "./sections/ProjectSection";
-import ClientSection from "./sections/ClientSection";
-import InvoiceSection from "./sections/InvoiceSection";
+import { ProjectSection } from "./sections/ProjectSection";
+import { ClientSection } from "./sections/ClientSection";
+import { InvoiceSection } from "./sections/InvoiceSection";
 
-const MeasurementsAccordion = () => {
+export const MeasurementsAccordion = () => {
   return (
     <Accordion defaultActiveKey="0">
       <Accordion.Item eventKey="0">
@@ -34,6 +34,3 @@ const MeasurementsAccordion = () => {
     </Accordion>
   );
 };
-
-export default MeasurementsAccordion;
-

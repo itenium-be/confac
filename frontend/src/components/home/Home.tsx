@@ -1,9 +1,9 @@
 import { t } from "../utils";
-import MeasurementsAccordion from "./MeasurementsAccordion";
+import { MeasurementsAccordion } from "./MeasurementsAccordion";
 
-import './Home.scss';
+import "./Home.scss";
 
-const Home = () => {
+export const Home = () => {
   return (
     <>
       <h1>{t("nav.home")}</h1>
@@ -11,5 +11,3 @@ const Home = () => {
     </>
   );
 };
-
-export default Home;

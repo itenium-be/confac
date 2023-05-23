@@ -1,19 +1,13 @@
 import { Table } from "react-bootstrap";
-import { Moment } from "moment";
 import { t } from "../../../utils";
+import { DateRange } from "./ClientsAndProjectsEvolution";
 
-interface Props {
-  from: Moment;
-  to: Moment;
+interface ClientsAndProjectsEvolutionListProps {
+  dateRange: DateRange;
   clients: number;
   clientsWithProject: number;
 }
-const ClientsAndProjectsEvolutionList = ({
-  from,
-  to,
-  clients,
-  clientsWithProject,
-}: Props) => {
+export const ClientsAndProjectsEvolutionList = ({ dateRange, clients, clientsWithProject }: ClientsAndProjectsEvolutionListProps) => {
   return (
     <>
       <Table>
@@ -26,7 +20,7 @@ const ClientsAndProjectsEvolutionList = ({
         </thead>
         <tbody>
           <tr>
-            <td>{`${from.format("MM/YYYY")} - ${to.format("MM/YYYY")}`}</td>
+            <td>{`${dateRange.from.format("MM/YYYY")} - ${dateRange.to.format("MM/YYYY")}`}</td>
             <td>{clients}</td>
             <td>{clientsWithProject}</td>
           </tr>
@@ -35,6 +29,4 @@ const ClientsAndProjectsEvolutionList = ({
     </>
   );
 };
-
-export default ClientsAndProjectsEvolutionList;
 

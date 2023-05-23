@@ -1,12 +1,10 @@
-import ClientsAndProjectsEvolution from "../measurements/client/ClientsAndProjectsEvolution";
+import { ClientsAndProjectsEvolution } from "../measurements/client/ClientsAndProjectsEvolution";
 
-const ClientSection = () => {
+export const ClientSection = () => {
   return (
     <>
       <ClientsAndProjectsEvolution />
     </>
   );
 };
-
-export default ClientSection;
 

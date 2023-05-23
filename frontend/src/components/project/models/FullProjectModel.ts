@@ -5,6 +5,7 @@ import { ConsultantModel } from '../../consultant/models/ConsultantModel';
 import { ClientModel } from '../../client/models/ClientModels';
 import { getNewClient } from '../../client/models/getNewClient';
 import { ContractStatus } from '../../client/models/ContractModels';
+import { ContractType } from '../../home/measurements/project/ConsultantContractsList';
 
 
 
@@ -99,7 +100,16 @@ export class FullProjectModel {
       this.client.frameworkAgreement.status !== ContractStatus.NotNeeded
   }
 
-  isWithoutContract(): boolean {
-    return this.isWithoutWorkContract() || this.isWithoutFrameworkAgreement();
+  isWithoutContract(contractType: ContractType): boolean {
+    if (contractType === ContractType.All) {
+      return this.isWithoutWorkContract() || this.isWithoutFrameworkAgreement();
+    }
+    if (contractType === ContractType.Work) {
+      return this.isWithoutWorkContract();
+    }
+    if (contractType === ContractType.Framework) {
+      return this.isWithoutFrameworkAgreement()
+    }
+    return false;
   }
 }

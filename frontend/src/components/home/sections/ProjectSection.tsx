@@ -1,13 +1,10 @@
-import ConsultantContractsList from "../measurements/project/ConsultantContractsList";
+import { ConsultantContractsList } from "../measurements/project/ConsultantContractsList";
 
-const ProjectSection = () => {
-
+export const ProjectSection = () => {
   return (
     <>
     <ConsultantContractsList />
     </>
   );
 };
-
-export default ProjectSection;
 
