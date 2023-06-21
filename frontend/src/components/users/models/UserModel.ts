@@ -65,4 +65,5 @@ export enum Claim {
   ViewConsultants = 'view-consultants',
   ManageConsultants = 'manage-consultants',
   LoadHistoricalData = 'load-historical',
+  ViewHome = 'view-home'
 }

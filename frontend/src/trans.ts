@@ -89,6 +89,7 @@ export const trans = {
     clients: 'Klanten',
     projects: 'Projecten',
     config: 'Config',
+    home: 'Home'
   },
   titles: {
     config: 'Configuratie',
@@ -627,6 +628,41 @@ export const trans = {
     title: 'Administrator Configuratie',
     users: 'Beheer gebruikers',
   },
+  measurements: {
+    from: 'Van',
+    to: 'Tot',
+    projectSection: {
+      consultantContracts: {
+        title: 'Consultant contracts',
+        list: {
+          projectsWithoutContract: 'Projecten zonder contract',
+          projectsWithoutWorkContract: 'Geen werkcontract',
+          projectsWithoutFrameworkAgreements: 'Geen raamcontract',
+        },
+      }
+    },
+    clientSection: {
+      clientsAndProjectsEvolution: {
+        title: 'Klanten- en projectenevolutie',
+        list: {
+          period: 'Periode',
+          clients: 'Klanten',
+          clientsWithProjects: 'Klanten met projecten',
+        }
+      }
+    }
+    ,
+    invoiceSection: {
+      dueInvoicesList: {
+        title: 'Openstaande facturen',
+        list: {
+          ok: 'Factuur < {min} dagen open',
+          warning: 'Factuur {min} <= x <= {max} dagen open',
+          danger: 'Factuur {max} dagen open'
+        }
+      }
+    }
+  }
 };
 
 export default function Translate(key: string, params?: object): string {

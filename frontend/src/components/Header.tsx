@@ -50,6 +50,7 @@ const Header = () => (
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="mr-auto">
+        <OldSchoolMenuLink claim={Claim.ViewHome} to="/home" label={t('nav.home')} />
         <OldSchoolMenuLink claim={Claim.ViewProjectMonth} to="/monthly-invoicing" label={t('nav.monthlyInvoicing')} />
         <OldSchoolMenuLink claim={Claim.ViewProjects} to="/projects" label={t('nav.projects')} />
         <OldSchoolMenuLink claim={Claim.ViewClients} to="/clients" label={t('nav.clients')} />

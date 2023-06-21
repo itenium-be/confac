@@ -1,9 +1,11 @@
-import moment, {Moment} from 'moment';
-import {getNewConsultant} from '../../consultant/models/getNewConsultant';
-import {IProjectModel, ProjectStatus} from './IProjectModel';
-import {ConsultantModel} from '../../consultant/models/ConsultantModel';
-import {ClientModel} from '../../client/models/ClientModels';
-import {getNewClient} from '../../client/models/getNewClient';
+import moment, { Moment } from 'moment';
+import { getNewConsultant } from '../../consultant/models/getNewConsultant';
+import { IProjectModel, ProjectStatus } from './IProjectModel';
+import { ConsultantModel } from '../../consultant/models/ConsultantModel';
+import { ClientModel } from '../../client/models/ClientModels';
+import { getNewClient } from '../../client/models/getNewClient';
+import { ContractStatus } from '../../client/models/ContractModels';
+import { ContractType } from '../../home/measurements/project/ConsultantContractsList';
 
 
 
@@ -86,5 +88,28 @@ export class FullProjectModel {
     }
 
     return true;
+  }
+
+  isWithoutWorkContract(): boolean {
+    return this.details.contract.status !== ContractStatus.BothSigned &&
+      this.details.contract.status !== ContractStatus.NotNeeded
+  }
+
+  isWithoutFrameworkAgreement(): boolean {
+    return this.client.frameworkAgreement.status !== ContractStatus.BothSigned &&
+      this.client.frameworkAgreement.status !== ContractStatus.NotNeeded
+  }
+
+  isWithoutContract(contractType: ContractType): boolean {
+    if (contractType === ContractType.All) {
+      return this.isWithoutWorkContract() || this.isWithoutFrameworkAgreement();
+    }
+    if (contractType === ContractType.Work) {
+      return this.isWithoutWorkContract();
+    }
+    if (contractType === ContractType.Framework) {
+      return this.isWithoutFrameworkAgreement()
+    }
+    return false;
   }
 }
