@@ -1,13 +1,15 @@
 import moment from 'moment';
-import {Request, Response} from 'express';
-import {ObjectID, Db} from 'mongodb';
-import {IInvoice, INVOICE_EXCEL_HEADERS} from '../models/invoices';
-import {IAttachmentCollection} from '../models/attachments';
-import {createPdf} from './utils';
-import {CollectionNames, IAttachment, createAudit, updateAudit} from '../models/common';
-import {IProjectMonth} from '../models/projectsMonth';
-import {ConfacRequest, Jwt} from '../models/technical';
-import {saveAudit} from './utils/audit-logs';
+import { Request, Response } from 'express';
+import { ObjectID, Db } from 'mongodb';
+import { IInvoice, INVOICE_EXCEL_HEADERS } from '../models/invoices';
+import { IAttachmentCollection } from '../models/attachments';
+import { createPdf, createXml } from './utils';
+import { CollectionNames, IAttachment, createAudit, updateAudit } from '../models/common';
+import { IProjectMonth } from '../models/projectsMonth';
+import { ConfacRequest, Jwt } from '../models/technical';
+import { saveAudit } from './utils/audit-logs';
+import { ICompanyConfig } from '../models/config';
+
 
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
@@ -18,9 +20,16 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user:
 
   const [createdInvoice] = inserted.ops;
 
-  await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf' >>(CollectionNames.ATTACHMENTS).insertOne({
+  let xml;
+  if (!invoice.isQuotation) {
+    const companyConfig: ICompanyConfig = await db.collection(CollectionNames.CONFIG).findOne({ key: 'conf' });
+    xml = createXml(invoice, companyConfig);
+  }
+
+  await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf'>>(CollectionNames.ATTACHMENTS).insertOne({
     _id: new ObjectID(createdInvoice._id),
-    pdf: pdfBuffer,
+    pdf: pdfBuffer
+    //TODO: aad field to Attachment to save xml?
   });
 
   return createdInvoice;
@@ -30,21 +39,21 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user:
 
 const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMonthId: ObjectID, db: Db) => {
   const projectMonthAttachments: IAttachmentCollection | null = await db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH)
-    .findOne({_id: projectMonthId}, {projection: {_id: false}});
+    .findOne({ _id: projectMonthId }, { projection: { _id: false } });
 
   if (projectMonthAttachments) {
-    await db.collection(CollectionNames.ATTACHMENTS).findOneAndUpdate({_id: invoice._id}, {$set: {...projectMonthAttachments}});
+    await db.collection(CollectionNames.ATTACHMENTS).findOneAndUpdate({ _id: invoice._id }, { $set: { ...projectMonthAttachments } });
   }
 
-  const projectMonth = await db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).findOne({_id: projectMonthId});
+  const projectMonth = await db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).findOne({ _id: projectMonthId });
   const updatedAttachmentDetails = projectMonth ? [...invoice.attachments, ...projectMonth?.attachments] : invoice.attachments;
 
   const inserted = await db.collection<IInvoice>(CollectionNames.INVOICES)
-    .findOneAndUpdate({_id: new ObjectID(invoice._id)}, {$set: {attachments: updatedAttachmentDetails}}, {returnOriginal: false});
+    .findOneAndUpdate({ _id: new ObjectID(invoice._id) }, { $set: { attachments: updatedAttachmentDetails } }, { returnOriginal: false });
   const updatedInvoice = inserted.value;
 
-  await db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).findOneAndUpdate({_id: projectMonthId}, {$set: {attachments: []}});
-  await db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).findOneAndDelete({_id: projectMonthId});
+  await db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).findOneAndUpdate({ _id: projectMonthId }, { $set: { attachments: [] } });
+  await db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).findOneAndDelete({ _id: projectMonthId });
 
   return updatedInvoice;
 };
@@ -53,7 +62,7 @@ const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMo
 export const getInvoicesController = async (req: Request, res: Response) => {
   const getFrom = moment().subtract(req.query.months, 'months').startOf('month').format('YYYY-MM-DD');
   const invoices = await req.db.collection(CollectionNames.INVOICES)
-    .find({date: {$gte: getFrom}})
+    .find({ date: { $gte: getFrom } })
     .toArray();
   return res.send(invoices);
 };
@@ -64,8 +73,8 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
   const invoice: IInvoice = req.body;
 
   if (!invoice.isQuotation) {
-    const [lastInvoice] = await req.db.collection<IInvoice>(CollectionNames.INVOICES).find({isQuotation: false})
-      .sort({number: -1})
+    const [lastInvoice] = await req.db.collection<IInvoice>(CollectionNames.INVOICES).find({ isQuotation: false })
+      .sort({ number: -1 })
       .limit(1)
       .toArray();
 
@@ -116,10 +125,10 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
 
 /** Update an existing invoice */
 export const updateInvoiceController = async (req: ConfacRequest, res: Response) => {
-  const {_id, ...invoice}: IInvoice = req.body;
+  const { _id, ...invoice }: IInvoice = req.body;
 
   invoice.audit = updateAudit(invoice.audit, req.user);
-  const updatedPdfBuffer = await createPdf({_id, ...invoice});
+  const updatedPdfBuffer = await createPdf({ _id, ...invoice });
 
   if (!Buffer.isBuffer(updatedPdfBuffer) && updatedPdfBuffer.error) {
     return res.status(500).send(updatedPdfBuffer.error);
@@ -127,7 +136,7 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
 
   if (Buffer.isBuffer(updatedPdfBuffer)) {
     await req.db.collection<IAttachment>(CollectionNames.ATTACHMENTS)
-      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {pdf: updatedPdfBuffer}});
+      .findOneAndUpdate({ _id: new ObjectID(_id) }, { $set: { pdf: updatedPdfBuffer } });
   }
 
   if (!invoice.projectMonth) {
@@ -135,8 +144,8 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
     invoice.projectMonth = undefined;
   }
 
-  const {value: originalInvoice} = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
-    .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: invoice}, {returnOriginal: true});
+  const { value: originalInvoice } = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
+    .findOneAndUpdate({ _id: new ObjectID(_id) }, { $set: invoice }, { returnOriginal: true });
 
   // Fix diff
   if (!invoice.projectMonth) {
@@ -153,12 +162,12 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
     // Right now it is always updating the projectMonth.verified but this only changes when the invoice.verified changes
     // This is now 'fixed' on the frontend.
     projectMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
-      .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth.projectMonthId)}, {$set: {verified: invoice.verified}});
+      .findOneAndUpdate({ _id: new ObjectID(invoice.projectMonth.projectMonthId) }, { $set: { verified: invoice.verified } });
   }
 
   const result: Array<any> = [{
     type: 'invoice',
-    model: {_id, ...invoice},
+    model: { _id, ...invoice },
   }];
   if (projectMonth && projectMonth.ok && projectMonth.value) {
     result.push({
@@ -227,7 +236,7 @@ export const previewPdfInvoiceController = async (req: Request, res: Response) =
 export const generateExcelForInvoicesController = async (req: Request, res: Response) => {
   const invoiceIds: ObjectID[] = req.body.map((invoiceId: string) => new ObjectID(invoiceId));
 
-  const invoices = await req.db.collection<IInvoice>(CollectionNames.INVOICES).find({_id: {$in: invoiceIds}})
+  const invoices = await req.db.collection<IInvoice>(CollectionNames.INVOICES).find({ _id: { $in: invoiceIds } })
     .toArray();
 
   const separator = ';';
@@ -252,3 +261,14 @@ export const generateExcelForInvoicesController = async (req: Request, res: Resp
 
   return res.send(excel);
 };
+
+
+export const getInvoiceXmlController = async (req: Request, res: Response) => {
+  //this will become endpoint to retrieve xml from db
+  const { id: invoiceId }: { id: string; } = req.body;
+  const attachment = await req.db.collection<IAttachment>(CollectionNames.ATTACHMENTS)
+    .findOne({ _id: new ObjectID(invoiceId) });
+  //TODO: retrieve xml
+  console.log(attachment);
+};
+
