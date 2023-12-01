@@ -75,3 +75,27 @@ export const INVOICE_EXCEL_HEADERS = [
   'Without Tax', 'Tax', 'Total', 'Verified', 'Discount',
   'First line desc', 'Id',
 ];
+
+export const COUNTRY_CODES = [
+  { code: 'BE', country: 'België' },
+  { code: 'NL', country: 'Nederland' },
+  { code: 'FR', country: 'Frankrijk' },
+  { code: 'DE', country: 'Duitsland' },
+  { code: 'GB', country: 'UK' }
+]
+
+export const ENDPOINT_SCHEMES = [
+  { country: 'BE', schemeID: '9925' },
+  { country: 'NL', schemeID: '9944' },
+  { country: 'FR', schemeID: '9957' },
+  { country: 'DE', schemeID: '9930' },
+  { country: 'GB', schemeID: '9932' }
+];
+
+export const UNIT_CODES = [
+  { unit: 'daily', code: 'DAY' },
+  { unit: 'hourly', code: 'HUR' },
+  { unit: 'km', code: 'KMT' },
+  { unit: 'items', code: 'NAR' },
+  { unit: 'other', code: 'C64' }
+];

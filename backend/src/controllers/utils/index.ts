@@ -3,7 +3,7 @@ import pug from 'pug';
 
 import appConfig from '../../config';
 import locals from '../../pug-helpers';
-import { IInvoice } from '../../models/invoices';
+import { COUNTRY_CODES, ENDPOINT_SCHEMES, IInvoice, UNIT_CODES } from '../../models/invoices';
 import { ICompanyConfig } from '../../models/config';
 import moment from 'moment';
 import { Invoice } from 'ubl-builder';
@@ -12,6 +12,7 @@ import { FinancialInstitutionBranch } from 'ubl-builder/lib/ubl21/CommonAggregat
 import { PayeeFinancialAccount } from 'ubl-builder/lib/ubl21/CommonAggregateComponents/PayeeFinancialAccount';
 import { UdtIdentifier, UdtAmount, UdtPercent, UdtQuantity } from 'ubl-builder/lib/ubl21/types/UnqualifiedDataTypes';
 import { SellersItemIdentification } from 'ubl-builder/lib/ubl21/CommonAggregateComponents/SellersItemIdentification';
+import { DEFAULT_COUNTRY_CODE, DEFAULT_CURRENCY } from '../config';
 
 // See: https://github.com/marcbachmann/node-html-pdf/issues/531
 const pdfOptions = {
@@ -81,31 +82,9 @@ export const getTemplatesPath = (): string => {
   return './templates/';
 };
 
+
 export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig): string => {
-  const currency = 'EUR';
-  const currencyID = { currencyID: currency };
-  const endpointSchemes = [
-    { country: 'BE', schemeID: '9925' },
-    { country: 'NL', schemeID: '9944' },
-    { country: 'FR', schemeID: '9957' },
-    { country: 'DE', schemeID: '9930' },
-    { country: 'GB', schemeID: '9932' }
-  ];
-  const taxSchemeIDVAT = new TaxScheme({ id: 'VAT' });
-  const unitCodes = [
-    { unit: 'daily', code: 'DAY' },
-    { unit: 'hourly', code: 'HUR' },
-    { unit: 'km', code: 'KMT' },
-    { unit: 'items', code: 'NAR' },
-    { unit: 'other', code: 'C64' }
-  ];
-  const countryCodes = [
-    { code: 'BE', country: 'België' },
-    { code: 'NL', country: 'Nederland' },
-    { code: 'FR', country: 'Frankrijk' },
-    { code: 'DE', country: 'Duitsland' },
-    { code: 'GB', country: 'UK' }
-  ];
+
 
   const invoiceXml = new Invoice(savedInvoice.number.toString(), {
     //This empty object is created to keep TypeScript from complaining, it has no influence on the generated xml
@@ -126,14 +105,15 @@ export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig)
   });
 
   if (savedInvoice && companyConfig) {
-
-    const countryAndCode = countryCodes.find(codes => codes.country === savedInvoice.client.country || codes.code === savedInvoice.client.country);
+    const currencyID = { currencyID: DEFAULT_CURRENCY };
+    const taxSchemeIDVAT = new TaxScheme({ id: 'VAT' });
+    const countryAndCode = COUNTRY_CODES.find(codes => codes.country === savedInvoice.client.country || codes.code === savedInvoice.client.country);
 
     let cityRef = savedInvoice.client.city.trim();
     const customerPostalAddress = new PostalAddress({
       streetName: savedInvoice.client.address,
       cityName: cityRef,
-      country: new Country({ identificationCode: countryAndCode ? countryAndCode.code : 'BE' })
+      country: new Country({ identificationCode: countryAndCode ? countryAndCode.code : DEFAULT_COUNTRY_CODE })
     });
 
     cityRef = companyConfig.company.city.trim();
@@ -147,7 +127,7 @@ export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig)
       companyID: companyConfig.company.btw
     });
 
-    const supplierEndpointScheme = endpointSchemes.find(scheme => scheme.country === 'BE');
+    const supplierEndpointScheme = ENDPOINT_SCHEMES.find(scheme => scheme.country === DEFAULT_COUNTRY_CODE);
     const supplierEndpointID = new UdtIdentifier(companyConfig.company.btw, {
       schemeID: supplierEndpointScheme ? supplierEndpointScheme.schemeID : '9925'
     });
@@ -174,7 +154,7 @@ export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig)
       registrationName: savedInvoice.client.name,
       companyID: savedInvoice.client.btw
     });
-    const customerEndpointScheme = endpointSchemes.find(scheme => scheme.country === savedInvoice.client.country);
+    const customerEndpointScheme = ENDPOINT_SCHEMES.find(scheme => scheme.country === savedInvoice.client.country);
     const customerEndpointID = new UdtIdentifier(savedInvoice.client.btw, {
       schemeID: customerEndpointScheme ? customerEndpointScheme.schemeID : ''
     });
@@ -201,7 +181,7 @@ export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig)
 
     let taxObject: { id: string | UdtIdentifier; percent: string | UdtPercent; taxScheme: TaxScheme | undefined; taxExemptionReasonCode?: string | undefined };
     let classifiedTaxObject: { id: string | UdtIdentifier; percent: string | UdtPercent; taxScheme: TaxScheme | undefined };
-    if (savedInvoice.client.country !== 'BE') {
+    if (savedInvoice.client.country !== DEFAULT_COUNTRY_CODE) {
       taxObject = {
         id: 'AE',
         percent: '0',
@@ -252,7 +232,7 @@ export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig)
     invoiceXml.setIssueDate(moment(savedInvoice.date).format('YYYY-MM-DD'));
     invoiceXml.setDueDate(moment(savedInvoice.date).add(30, 'days').format('YYYY-MM-DD'));
     invoiceXml.setInvoiceTypeCode('380');
-    invoiceXml.setDocumentCurrencyCode(currency);
+    invoiceXml.setDocumentCurrencyCode(DEFAULT_CURRENCY);
     invoiceXml.setAccountingSupplierParty(accountingSupplierParty);
     invoiceXml.setAccountingCustomerParty(accountingCustomerParty);
     invoiceXml.setLegalMonetaryTotal(legalMonetaryTotal);
@@ -262,7 +242,7 @@ export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig)
     invoiceXml.addPaymentMeans(paymentMeans);
 
     savedInvoice.lines.forEach((line, index) => {
-      const unitCode = unitCodes.find(unitCode => unitCode.unit === line.type);
+      const unitCode = UNIT_CODES.find(unitCode => unitCode.unit === line.type);
       const invoiceLine = new InvoiceLine({
         id: (index + 1).toString(),
         invoicedQuantity: new UdtQuantity(line.amount.toString(), { unitCode: unitCode ? unitCode.code : 'C64' }),
