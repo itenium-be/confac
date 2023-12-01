@@ -279,20 +279,4 @@ export const getInvoiceXmlController = async (req: Request, res: Response) => {
   }
 };
 
-export const testXMlController = async (req: Request, res: Response) => {
-  const { id: invoiceId }: { id: string; } = req.body;
-
-  const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOne({ _id: new ObjectID(invoiceId) });
-
-  let xml;
-  if (invoice && !invoice.isQuotation) {
-    const companyConfig: ICompanyConfig = await req.db.collection(CollectionNames.CONFIG).findOne({ key: 'conf' });
-    xml = Buffer.from(btoa(createXml(invoice, companyConfig)));
-  }
-
-  await req.db.collection<IAttachment>(CollectionNames.ATTACHMENTS)
-    .findOneAndUpdate({ _id: new ObjectID(invoiceId) }, { $set: { xml: xml } });
-
-  return res.send(invoiceId);
-}
 
