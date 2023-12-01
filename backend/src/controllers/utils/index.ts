@@ -84,8 +84,6 @@ export const getTemplatesPath = (): string => {
 
 
 export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig): string => {
-
-
   const invoiceXml = new Invoice(savedInvoice.number.toString(), {
     //This empty object is created to keep TypeScript from complaining, it has no influence on the generated xml
     issuer: {
@@ -107,20 +105,20 @@ export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig)
   if (savedInvoice && companyConfig) {
     const currencyID = { currencyID: DEFAULT_CURRENCY };
     const taxSchemeIDVAT = new TaxScheme({ id: 'VAT' });
-    const countryAndCode = COUNTRY_CODES.find(codes => codes.country === savedInvoice.client.country || codes.code === savedInvoice.client.country);
+    const customerCountryAndCode = COUNTRY_CODES.find(codes => codes.country === savedInvoice.client.country || codes.code === savedInvoice.client.country);
 
     let cityRef = savedInvoice.client.city.trim();
     const customerPostalAddress = new PostalAddress({
       streetName: savedInvoice.client.address,
       cityName: cityRef,
-      country: new Country({ identificationCode: countryAndCode ? countryAndCode.code : DEFAULT_COUNTRY_CODE })
+      country: new Country({ identificationCode: customerCountryAndCode ? customerCountryAndCode.code : DEFAULT_COUNTRY_CODE })
     });
 
     cityRef = companyConfig.company.city.trim();
     const supplierPostalAddress = new PostalAddress({
       streetName: companyConfig.company.address,
       cityName: cityRef,
-      country: new Country({ identificationCode: 'BE' })
+      country: new Country({ identificationCode: DEFAULT_COUNTRY_CODE })
     });
     const supplierLegalEntity = new PartyLegalEntity({
       registrationName: companyConfig.company.name,
