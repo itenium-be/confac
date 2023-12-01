@@ -220,7 +220,7 @@ export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig)
       })
     });
 
-    const orderRef = savedInvoice.orderNr ? savedInvoice.orderNr : savedInvoice._id;
+    const orderRef = savedInvoice.orderNr && savedInvoice.orderNr.trim().length !== 0 ? savedInvoice.orderNr : savedInvoice._id;
 
     invoiceXml.addProperty('xmlns', 'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2');
     invoiceXml.addProperty('xmlns:cac', 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');

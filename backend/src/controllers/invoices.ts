@@ -20,17 +20,22 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user:
 
   const [createdInvoice] = inserted.ops;
 
-  let xml;
+  let xmlBuffer;
   if (!invoice.isQuotation) {
     const companyConfig: ICompanyConfig = await db.collection(CollectionNames.CONFIG).findOne({ key: 'conf' });
-    xml = createXml(invoice, companyConfig);
-  }
+    xmlBuffer = Buffer.from(btoa(createXml(invoice, companyConfig)));
+    await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf' | 'xml'>>(CollectionNames.ATTACHMENTS).insertOne({
+      _id: new ObjectID(createdInvoice._id),
+      pdf: pdfBuffer,
+      xml: xmlBuffer
+    });
 
-  await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf'>>(CollectionNames.ATTACHMENTS).insertOne({
-    _id: new ObjectID(createdInvoice._id),
-    pdf: pdfBuffer
-    //TODO: aad field to Attachment to save xml?
-  });
+  } else {
+    await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf'>>(CollectionNames.ATTACHMENTS).insertOne({
+      _id: new ObjectID(createdInvoice._id),
+      pdf: pdfBuffer
+    });
+  }
 
   return createdInvoice;
 };
@@ -264,11 +269,30 @@ export const generateExcelForInvoicesController = async (req: Request, res: Resp
 
 
 export const getInvoiceXmlController = async (req: Request, res: Response) => {
-  //this will become endpoint to retrieve xml from db
   const { id: invoiceId }: { id: string; } = req.body;
-  const attachment = await req.db.collection<IAttachment>(CollectionNames.ATTACHMENTS)
-    .findOne({ _id: new ObjectID(invoiceId) });
-  //TODO: retrieve xml
-  console.log(attachment);
+  const invoiceAttachments: IAttachmentCollection | null = await req.db.collection(CollectionNames.ATTACHMENTS)
+    .findOne({ _id: new ObjectID(invoiceId) as ObjectID });
+  if (invoiceAttachments && invoiceAttachments.xml) {
+    return res.type('application/xml').send(atob(invoiceAttachments.xml.toString()));
+  } else {
+    return res.status(500).send('No xml found');
+  }
 };
+
+export const testXMlController = async (req: Request, res: Response) => {
+  const { id: invoiceId }: { id: string; } = req.body;
+
+  const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOne({ _id: new ObjectID(invoiceId) });
+
+  let xml;
+  if (invoice && !invoice.isQuotation) {
+    const companyConfig: ICompanyConfig = await req.db.collection(CollectionNames.CONFIG).findOne({ key: 'conf' });
+    xml = Buffer.from(btoa(createXml(invoice, companyConfig)));
+  }
+
+  await req.db.collection<IAttachment>(CollectionNames.ATTACHMENTS)
+    .findOneAndUpdate({ _id: new ObjectID(invoiceId) }, { $set: { xml: xml } });
+
+  return res.send(invoiceId);
+}
 
