@@ -23,7 +23,7 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user:
   let xmlBuffer;
   if (!invoice.isQuotation) {
     const companyConfig: ICompanyConfig = await db.collection(CollectionNames.CONFIG).findOne({ key: 'conf' });
-    xmlBuffer = Buffer.from(btoa(createXml(invoice, companyConfig)));
+    xmlBuffer = Buffer.from(createXml(invoice, companyConfig));
     await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf' | 'xml'>>(CollectionNames.ATTACHMENTS).insertOne({
       _id: new ObjectID(createdInvoice._id),
       pdf: pdfBuffer,
@@ -269,9 +269,9 @@ export const generateExcelForInvoicesController = async (req: Request, res: Resp
 
 
 export const getInvoiceXmlController = async (req: Request, res: Response) => {
-  const { id: invoiceId }: { id: string; } = req.body;
+  const { id } = req.params;
   const invoiceAttachments: IAttachmentCollection | null = await req.db.collection(CollectionNames.ATTACHMENTS)
-    .findOne({ _id: new ObjectID(invoiceId) as ObjectID });
+    .findOne({ _id: new ObjectID(id) as ObjectID });
   if (invoiceAttachments && invoiceAttachments.xml) {
     return res.type('application/xml').send(atob(invoiceAttachments.xml.toString()));
   } else {

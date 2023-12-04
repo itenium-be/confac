@@ -17,6 +17,6 @@ invoicesRouter.post('/excel', generateExcelForInvoicesController);
 invoicesRouter.put('/', updateInvoiceController as any);
 
 invoicesRouter.delete('/', deleteInvoiceController);
-invoicesRouter.post('/xml', getInvoiceXmlController);
+invoicesRouter.get('/xml/:id', getInvoiceXmlController);
 
 export default invoicesRouter;
