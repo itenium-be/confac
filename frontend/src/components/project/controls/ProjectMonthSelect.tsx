@@ -51,6 +51,7 @@ const ProjectMonthSelectComponent = (props: ProjectMonthSelectProps) => {
       isClearable
       placeholder={t('controls.selectPlaceholder')}
       classNamePrefix="react-select"
+      className="react-select-month"
     />
   );
 };

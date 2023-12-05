@@ -25,6 +25,7 @@ const ClientDetails = ({client, onOpenDetails, onOpenDetailsTitle}: ClientDetail
         client={client}
         title={t(onOpenDetailsTitle || 'edit')}
         style={{marginLeft: 6, marginRight: 12, fontSize: 14}}
+        className="tst-icon-link"
         fa="fa fa-external-link-alt"
       />
       <Link to={`/clients/${client.slug}`} className="icon-link">

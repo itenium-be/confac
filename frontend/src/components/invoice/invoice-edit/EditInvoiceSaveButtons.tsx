@@ -21,10 +21,12 @@ export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButton
         variant="light"
         onClick={() => onClick('preview', navigate)}
         icon="far fa-eye"
+        className="tst-btn-view"
       >
         {t('invoice.preview')}
       </BusyButton>
       <BusyButton
+      className="tst-btn-create"
         claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
         onClick={() => onClick(isNewInvoice ? 'create' : 'update', navigate)}
       >

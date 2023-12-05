@@ -32,6 +32,7 @@ const ConsultantSelectComponent = ({value, onChange}: ConsultantSelectProps) => 
       onChange={((item: SelectItem) => onChange(item && item.value as string, item && getModel(item.value as string))) as any}
       isClearable
       placeholder={t('controls.selectPlaceholder')}
+      className="react-select-control"
       classNamePrefix="react-select"
     />
   );

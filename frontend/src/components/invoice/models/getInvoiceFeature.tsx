@@ -55,6 +55,7 @@ const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
             fa="fa fa-external-link-alt"
             size={1}
             onClick={() => setModal(true)}
+            className="tst-icon-link"
           />
           {modal && (
             <ProjectMonthModal

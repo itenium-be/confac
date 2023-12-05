@@ -45,6 +45,7 @@ export const InvoiceClientCell = ({client, ...props}: InvoiceClientCellProps) =>
         style={{marginLeft: 8, color: 'grey', visibility: hover ? 'unset' : 'hidden'}}
         onClick={() => setModal(true)}
         fa="fa fa-external-link-alt"
+        className="tst-icon-modal"
       />
 
       {modal && (

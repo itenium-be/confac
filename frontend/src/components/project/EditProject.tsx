@@ -131,6 +131,7 @@ export const EditProject = () => {
       </Form>
       <StickyFooter claim={Claim.ManageProjects}>
         <ConfirmationButton
+        className="tst-btn-confirm"
           onClick={() => dispatch(deleteProject(project._id, navigate) as any)}
           variant="danger"
           title={t('project.deleteConfirm.title')}
@@ -140,7 +141,7 @@ export const EditProject = () => {
           {t('project.deleteConfirm.content')}
         </ConfirmationButton>
         {project.endDate && project._id && <CopyProject projectToCopy={project} />}
-        <BusyButton onClick={() => dispatch(saveProject(project, navigate) as any)} disabled={isButtonDisabled}>
+        <BusyButton className="tst-btn-save" onClick={() => dispatch(saveProject(project, navigate) as any)} disabled={isButtonDisabled}>
           {t('save')}
         </BusyButton>
       </StickyFooter>

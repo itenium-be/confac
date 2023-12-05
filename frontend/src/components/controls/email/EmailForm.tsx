@@ -42,7 +42,7 @@ export const EmailForm = ({value, onChange, attachmentsAvailable, textEditorRepl
         label={t('email.to')}
         placeholder={t('email.toPlaceholder')}
         suffix={(
-          <Button variant="outline-secondary" onClick={() => setShowAllTos(!showAllTos)} icon="fa fa-ellipsis-v" />
+          <Button variant="outline-secondary" className="tst-btn-toggle" onClick={() => setShowAllTos(!showAllTos)} icon="fa fa-ellipsis-v" />
         )}
         suffixOptions={{type: 'button'}}
       />
@@ -90,7 +90,7 @@ const EmailFormAttachments = ({expectedAttachments, attachmentsAvailable}: Email
       const isAvailable = attachmentsAvailable.some(a => a === attachment);
       return (
         <div key={attachment} className={isAvailable ? 'success' : 'danger'}>
-          <i className={isAvailable ? 'fa fa-check-circle' : 'fa fa-exclamation-circle'} />
+          <i className={isAvailable ? 'fa fa-check-circle tst-icon-check' : 'fa fa-exclamation-circle tst-icon-warning'} />
           <span>{attachment}</span>
         </div>
       );

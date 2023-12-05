@@ -120,6 +120,7 @@ const EditClient = () => {
       <StickyFooter claim={Claim.ManageClients}>
         <BusyButton
           onClick={() => dispatch(saveClient(client) as any)}
+          className="tst-btn-save"
           disabled={isClientDisabled(client)}
         >
           {t('save')}

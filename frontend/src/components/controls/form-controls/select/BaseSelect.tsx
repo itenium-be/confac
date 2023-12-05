@@ -19,6 +19,7 @@ export const BaseSelect = EnhanceInputWithLabel((props: BaseSelectProps) => (
     noOptionsMessage={() => t('controls.noResultsText')}
     placeholder={t('controls.selectPlaceholder')}
     classNamePrefix="react-select"
+    className="react-select-base"
     {...props}
   />
 ));

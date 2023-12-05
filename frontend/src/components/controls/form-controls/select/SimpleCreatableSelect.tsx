@@ -29,6 +29,7 @@ export const SimpleCreatableSelect = ({options, value, onChange, isClearable = f
       formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
       placeholder={t('controls.selectPlaceholder')}
       classNamePrefix="react-select"
+      className="react-select-simple"
     />
   );
 };

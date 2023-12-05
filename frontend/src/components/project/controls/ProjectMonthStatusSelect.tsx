@@ -28,6 +28,7 @@ const ProjectMonthStatusSelectComponent = ({value, onChange}: ProjectMonthStatus
         onClick={() => onChange(false)}
         title={t('projectMonth.statusFalse')}
         icon="fa fa-ban"
+        className="tst-btn-fail"
       />
       <Button
         key="true"
@@ -35,6 +36,7 @@ const ProjectMonthStatusSelectComponent = ({value, onChange}: ProjectMonthStatus
         onClick={() => onChange(true)}
         title={t('projectMonth.statusTrue')}
         icon="fa fa-check"
+        className="tst-btn-success"
       />
       <Button
         key="forced"
@@ -42,6 +44,7 @@ const ProjectMonthStatusSelectComponent = ({value, onChange}: ProjectMonthStatus
         onClick={() => onChange('forced')}
         title={t('projectMonth.forceVerified')}
         icon="fa fa-exclamation-triangle"
+        className="tst-btn-warning"
       />
     </ButtonGroup>
   );

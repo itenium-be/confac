@@ -55,6 +55,7 @@ export const EditConsultant = () => {
       <StickyFooter claim={Claim.ManageConsultants}>
         <BusyButton
           onClick={() => dispatch(saveConsultant(consultant, undefined, history) as any)}
+          className="tst-btn-save"
           disabled={buttonDisabled}
         >
           {t('save')}

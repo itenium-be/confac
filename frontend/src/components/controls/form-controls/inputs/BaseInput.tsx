@@ -19,14 +19,14 @@ export type BaseInputProps<T, TReturn = T> =
   & EnhanceInputWithLabelProps
   & EnhanceInputWithDisplayProps
   & {
-  type?: 'textarea' | 'text' | 'number',
-  onBlur?: (e: any) => void,
-  placeholder?: string,
-  style?: React.CSSProperties,
-  autoFocus?: boolean,
-  /** ATTN: Technical debt: leakage of the FormConfig */
-  updateOnly?: boolean,
-}
+    type?: 'textarea' | 'text' | 'number',
+    onBlur?: (e: any) => void,
+    placeholder?: string,
+    style?: React.CSSProperties,
+    autoFocus?: boolean,
+    /** ATTN: Technical debt: leakage of the FormConfig */
+    updateOnly?: boolean,
+  }
 
 // eslint-disable-next-line react/prefer-stateless-function
 export const BaseInput = EnhanceInputWithDisplay(EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Component<BaseInputProps<any>> {
@@ -36,9 +36,11 @@ export const BaseInput = EnhanceInputWithDisplay(EnhanceInputWithLabel(EnhanceIn
       <FormControl
         type={type === 'textarea' ? 'text' : type}
         as={type === 'textarea' ? 'textarea' : undefined}
-        className={type === 'textarea' ? 'textarea' : undefined}
+        className={type === 'textarea' ? 'textarea' :'tst-input-base'}
         {...props}
       />
     );
   }
 })));
+
+

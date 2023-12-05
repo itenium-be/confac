@@ -30,6 +30,7 @@ const ProjectMonthInboundStatusSelectComponent = ({value, onChange, style}: Proj
         onClick={() => onChange('new')}
         title={t('projectMonth.inboundNew')}
         icon="fa fa-inbox"
+        className="tst-icon-new"
       />
       <Button
         key="validated"
@@ -37,6 +38,7 @@ const ProjectMonthInboundStatusSelectComponent = ({value, onChange, style}: Proj
         onClick={() => onChange('validated')}
         title={t('projectMonth.inboundValidated')}
         icon="fa fa-check"
+        className="tst-icon-check"
       />
       <Button
         key="paid"
@@ -44,6 +46,7 @@ const ProjectMonthInboundStatusSelectComponent = ({value, onChange, style}: Proj
         onClick={() => onChange('paid')}
         title={t('projectMonth.inboundPaid')}
         icon="fa fa-coins"
+        className="tst-icon-money"
       />
     </ButtonGroup>
   );

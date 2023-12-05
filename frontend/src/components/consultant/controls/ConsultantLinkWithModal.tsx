@@ -39,6 +39,7 @@ export const ConsultantLinkWithModal = ({ consultant, showType }: ConsultantLink
       )}
 
       <Icon
+        className="tst-icon-link"
         title={t('consultant.openEditModal')}
         size={1}
         style={{ marginLeft: 8, color: 'grey', visibility: hover ? 'unset' : 'hidden' }}

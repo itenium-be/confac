@@ -163,6 +163,7 @@ export const CreateProjectsMonthModalButton = () => {
         size="lg"
         variant="light"
         icon="fa fa-plus"
+        className="tst-btn-add"
       >
         {t('project.newMonth')}
       </Button>

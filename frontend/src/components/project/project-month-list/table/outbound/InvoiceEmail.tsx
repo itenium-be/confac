@@ -17,7 +17,7 @@ export const InvoiceEmail = ({ invoice }: InvoiceEmailProps) => {
 
   return (
     <ClaimGuard claim={Claim.EmailInvoices}>
-      <Button onClick={() => setShowModal(true)} variant="link">
+      <Button className="tst-btn-email" onClick={() => setShowModal(true)} variant="link">
         {!invoice.lastEmail ? (
           <NotEmailedIcon style={{ fontSize: 17 }} />
         ) : (

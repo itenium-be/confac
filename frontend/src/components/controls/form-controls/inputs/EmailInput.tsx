@@ -14,7 +14,7 @@ export const EmailInput = ({value, onChange, ...props}: EmailInputProps) => (
     suffix={(
       <InputGroup.Text>
         <a href={`mailto:${value}`} target="_blank" rel="noopener noreferrer">
-          <Icon fa="fa fa-envelope" size={1} />
+          <Icon className="tst-icon-mail" fa="fa fa-envelope" size={1} />
         </a>
       </InputGroup.Text>
     )}

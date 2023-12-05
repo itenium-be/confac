@@ -100,27 +100,27 @@ const IconComponent = ({fa, onClick, href, dispatch, className, label, labelStyl
 
 
 export const SpinnerIcon = ({...props}: IconProps) => (
-  <Icon fa="fa fa-spinner fa-pulse fa-fw" {...props} />
+  <Icon className="tst-icon-spinner" fa="fa fa-spinner fa-pulse fa-fw" {...props} />
 );
 
-export const AddIcon = ({...props}: IconProps) => <Icon fa="fa fa-plus" {...props} />;
+export const AddIcon = ({...props}: IconProps) => <Icon className="tst-icon-add" fa="fa fa-plus" {...props} />;
 
-export const DragAndDropIcon = ({...props}: IconProps) => <Icon fa="fa fa-arrows-alt" color="#EEE9E9" {...props} />;
+export const DragAndDropIcon = ({...props}: IconProps) => <Icon className="tst-icon-drag" fa="fa fa-arrows-alt" color="#EEE9E9" {...props} />;
 
-export const EditIcon = ({...props}: IconProps) => <Icon fa="far fa-edit" title={t('edit')} {...props} />;
+export const EditIcon = ({...props}: IconProps) => <Icon className="tst-icon-edit" fa="far fa-edit" title={t('edit')} {...props} />;
 
-export const ExpandIcon = ({...props}: IconProps) => <Icon fa="fa fa-expand-arrows-alt" {...props} />;
+export const ExpandIcon = ({...props}: IconProps) => <Icon className="tst-icon-expand" fa="fa fa-expand-arrows-alt" {...props} />;
 
 export const NotEmailedIcon = ({...props}) => (
   <span className="fa-stack fa-2x" {...props}>
-    <i className="fas fa-envelope fa-stack-1x" />
-    <Icon fa="fas fa-ban fa-stack-2x" size={1} title={t('email.notMailed')} color="#CC1100" />
+    <i className="fas fa-envelope fa-stack-1x tst-icon-not-emailed" />
+    <Icon className="tst-icon-fail" fa="fas fa-ban fa-stack-2x" size={1} title={t('email.notMailed')} color="#CC1100" />
   </span>
 );
 
 export const EmailedIcon = ({...props}) => (
   <Icon fa="fa-stack fa-2x" {...props}>
-    <i className="fas fa-envelope fa-stack-1x" />
-    <Icon fa="fas fa-check fa-stack-2x" size={1} color="green" />
+    <i className="fas fa-envelope fa-stack-1x tst-icon-emailed" />
+    <Icon className="tst-icon-check" fa="fas fa-check fa-stack-2x" size={1} color="green" />
   </Icon>
 );

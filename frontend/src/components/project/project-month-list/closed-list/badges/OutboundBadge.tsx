@@ -8,7 +8,7 @@ export const OutboundBadge = ({ totals }: { totals: ProjectMonthBadgeTotals; }) 
   return (
     <Tooltip title={`<b>${t('projectMonth.outboundPaid')}</b><br>` + totals.unverified}>
       <span className="badge rounded-pill bg-warning">
-        <i className="fa fa-coins fa-1x" />
+        <i className="fa fa-coins fa-1x tst-icon-paid-out" />
         {t('projectMonth.list.verifiedBadge', {verified: totals.verified, total: totals.total})}
       </span>
     </Tooltip>

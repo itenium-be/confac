@@ -16,7 +16,7 @@ export const IbanInput = ({value, onChange, ...props}: IbanInputProps) => {
       onBlur={() => onChange(Iban.printFormat(value || '', ' '))}
       {...props}
       suffix={(
-        <Icon fa="fa fa-piggy-bank" size={1} className={(isValid ? 'success' : 'danger')} />
+        <Icon fa="fa fa-piggy-bank" size={1} className={(isValid ? 'success' : 'danger') + ' tst-icon-validation'} />
       )}
       suffixOptions={{type: 'text'}}
     />

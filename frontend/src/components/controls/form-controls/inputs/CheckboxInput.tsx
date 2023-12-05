@@ -12,6 +12,7 @@ export const CheckboxInput = ({value, label, onChange, ...props}: CheckboxInputP
       <input
         type="checkbox"
         checked={value || false}
+        className="tst-input-check"
         onChange={evt => onChange(evt.target.checked)}
         {...props}
       />

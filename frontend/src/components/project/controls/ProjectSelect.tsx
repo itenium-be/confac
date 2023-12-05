@@ -49,6 +49,7 @@ const ProjectSelectComponent = (props: ProjectSelectProps) => {
       isClearable
       placeholder={t('controls.selectPlaceholder')}
       classNamePrefix="react-select"
+      className="react-select-project"
     />
   );
 };

@@ -95,6 +95,7 @@ const Header = () => (
           </Link>
         </Dropdown.Menu>
         <Icon
+          className="tst-icon-user"
           fa="fa fa-user-circle"
           color="#668014"
           onClick="/user"

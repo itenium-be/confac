@@ -14,7 +14,7 @@ export const PhoneInput = ({value, onChange, ...props}: PhoneInputProps) => (
     suffix={(
       <InputGroup.Text>
         <a href={`tel:${(value || '').replace(/[^0-9]/g, '')}`}>
-          <Icon fa="fa fa-phone" size={1} />
+          <Icon className="tst-icon-phone" fa="fa fa-phone" size={1} />
         </a>
       </InputGroup.Text>
       )}

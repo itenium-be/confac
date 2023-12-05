@@ -18,7 +18,7 @@ export const AnonymousLogoutButton = () => {
   }
 
   return (
-    <Button variant="outline-secondary" onClick={logout}>
+    <Button variant="outline-secondary" onClick={logout} className="tst-btn-logout">
       Logout
     </Button>
   );

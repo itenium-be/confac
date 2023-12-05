@@ -31,6 +31,7 @@ export const NotesModalButton = ({claim, value, onChange, title, variant, disabl
         title={text || t('projectMonth.addNote')}
         icon={icon}
         style={style}
+        className="tst-btn-note"
       />
       {open && (
         <Modal

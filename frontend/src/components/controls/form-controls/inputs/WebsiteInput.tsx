@@ -22,7 +22,7 @@ export const WebsiteInput = ({value, onChange, ...props}: WebsiteInputProps) => 
     suffix={(
       <InputGroup.Text>
         <a href={addProtocol(value)} target="_blank" rel="noopener noreferrer">
-          <Icon fa="fa fa-globe" size={1} />
+          <Icon className="tst-icon-website" fa="fa fa-globe" size={1} />
         </a>
       </InputGroup.Text>
     )}

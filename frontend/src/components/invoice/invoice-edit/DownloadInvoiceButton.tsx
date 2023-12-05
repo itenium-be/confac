@@ -29,6 +29,7 @@ export const DownloadInvoiceButton = ({invoice}: DownloadInvoiceButtonProps) => 
         title={t('invoice.downloadInvoice', {fileName: invoiceReplacements(invoiceFileName, invoice, fullProjectMonth)})}
         href={downloadUrl}
         size={2}
+        className="tst-icon-invoice"
       />
       <InvoicePreviewIcon invoice={invoice} size={2} color="#EEB4B4" />
     </>

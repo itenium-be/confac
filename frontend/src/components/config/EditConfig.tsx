@@ -52,7 +52,7 @@ const EditConfig = () => {
         </Row>
       </Form>
       <StickyFooter claim={Claim.ManageConfig}>
-        <BusyButton onClick={() => dispatch(updateConfig(state) as any)}>{t('save')}</BusyButton>
+        <BusyButton className="tst-btn-save" onClick={() => dispatch(updateConfig(state) as any)}>{t('save')}</BusyButton>
       </StickyFooter>
     </Container>
   );
