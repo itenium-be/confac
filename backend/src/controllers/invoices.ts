@@ -10,7 +10,6 @@ import {ConfacRequest, Jwt} from '../models/technical';
 import {saveAudit} from './utils/audit-logs';
 
 
-
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
   const inserted = await db.collection<IInvoice>(CollectionNames.INVOICES).insertOne({
     ...invoice,
@@ -65,7 +64,7 @@ const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMo
 export const getInvoicesController = async (req: Request, res: Response) => {
   const getFrom = moment().subtract(req.query.months, 'months').startOf('month').format('YYYY-MM-DD');
   const invoices = await req.db.collection(CollectionNames.INVOICES)
-    .find({ date: {$gte: getFrom} })
+    .find({date: {$gte: getFrom}})
     .toArray();
   return res.send(invoices);
 };
@@ -139,7 +138,7 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
 
   if (Buffer.isBuffer(updatedPdfBuffer)) {
     await req.db.collection<IAttachment>(CollectionNames.ATTACHMENTS)
-      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: { pdf: updatedPdfBuffer }});
+      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {pdf: updatedPdfBuffer}});
   }
 
   if (!invoice.projectMonth) {
@@ -165,7 +164,7 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
     // Right now it is always updating the projectMonth.verified but this only changes when the invoice.verified changes
     // This is now 'fixed' on the frontend.
     projectMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
-      .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth.projectMonthId)}, {$set: { verified: invoice.verified }});
+      .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth.projectMonthId)}, {$set: {verified: invoice.verified}});
   }
 
   const result: Array<any> = [{
@@ -186,13 +185,13 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
 
 /** Hard invoice delete: There is no coming back from this one */
 export const deleteInvoiceController = async (req: Request, res: Response) => {
-  const {id: invoiceId}: {id: string;} = req.body;
+  const { id: invoiceId }: { id: string; } = req.body;
 
-  const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOne({_id: new ObjectID(invoiceId)});
+  const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOne({ _id: new ObjectID(invoiceId) });
 
   if (invoice?.projectMonth) {
     const invoiceAttachments: IAttachmentCollection | null = await req.db.collection(CollectionNames.ATTACHMENTS)
-      .findOne({_id: new ObjectID(invoiceId) as ObjectID}, {
+      .findOne({ _id: new ObjectID(invoiceId) as ObjectID }, {
         projection: {
           _id: false,
           pdf: false,
@@ -200,8 +199,8 @@ export const deleteInvoiceController = async (req: Request, res: Response) => {
       });
 
     if (invoiceAttachments !== null && Object.keys(invoiceAttachments).length > 0) {
-      await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).updateOne({_id: new ObjectID(invoice.projectMonth.projectMonthId)}, {
-      $set: { ...invoiceAttachments }
+      await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).updateOne({ _id: new ObjectID(invoice.projectMonth.projectMonthId) }, {
+       $set: { ...invoiceAttachments }
       }, {
         upsert: true
       });
@@ -209,11 +208,11 @@ export const deleteInvoiceController = async (req: Request, res: Response) => {
 
     const projectMonthCollection = req.db.collection(CollectionNames.PROJECTS_MONTH);
     const attachments = invoice.attachments.filter(a => a.type !== 'pdf');
-    await projectMonthCollection.findOneAndUpdate({_id: new ObjectID(invoice.projectMonth.projectMonthId)}, {$set: {attachments}});
+    await projectMonthCollection.findOneAndUpdate({ _id: new ObjectID(invoice.projectMonth.projectMonthId) }, { $set: { attachments } });
   }
 
-  await req.db.collection(CollectionNames.INVOICES).findOneAndDelete({_id: new ObjectID(invoiceId)});
-  await req.db.collection(CollectionNames.ATTACHMENTS).findOneAndDelete({_id: new ObjectID(invoiceId)});
+  await req.db.collection(CollectionNames.INVOICES).findOneAndDelete({ _id: new ObjectID(invoiceId) });
+  await req.db.collection(CollectionNames.ATTACHMENTS).findOneAndDelete({ _id: new ObjectID(invoiceId) });
 
   return res.send(invoiceId);
 };
