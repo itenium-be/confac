@@ -3,16 +3,15 @@ import pug from 'pug';
 
 import appConfig from '../../config';
 import locals from '../../pug-helpers';
-import { COUNTRY_CODES, ENDPOINT_SCHEMES, IInvoice, UNIT_CODES } from '../../models/invoices';
-import { ICompanyConfig } from '../../models/config';
+import {COUNTRY_CODES, ENDPOINT_SCHEMES, IInvoice, UNIT_CODES} from '../../models/invoices';
 import moment from 'moment';
-import { Invoice } from 'ubl-builder';
-import { TaxScheme, PostalAddress, Country, PartyLegalEntity, Party, Contact, PartyTaxScheme, AccountingSupplierParty, AccountingCustomerParty, LegalMonetaryTotal, TaxTotal, TaxSubtotal, TaxCategory, PaymentMeans, OrderReference, InvoiceLine, Item, ClassifiedTaxCategory, Price } from 'ubl-builder/lib/ubl21/CommonAggregateComponents';
-import { FinancialInstitutionBranch } from 'ubl-builder/lib/ubl21/CommonAggregateComponents/FinancialInstitutionBranch';
-import { PayeeFinancialAccount } from 'ubl-builder/lib/ubl21/CommonAggregateComponents/PayeeFinancialAccount';
-import { UdtIdentifier, UdtAmount, UdtPercent, UdtQuantity } from 'ubl-builder/lib/ubl21/types/UnqualifiedDataTypes';
-import { SellersItemIdentification } from 'ubl-builder/lib/ubl21/CommonAggregateComponents/SellersItemIdentification';
-import { DEFAULT_COUNTRY_CODE, DEFAULT_CURRENCY } from '../config';
+import {Invoice} from 'ubl-builder';
+import {TaxScheme, PostalAddress, Country, PartyLegalEntity, Party, Contact, PartyTaxScheme, AccountingSupplierParty, AccountingCustomerParty, LegalMonetaryTotal, TaxTotal, TaxSubtotal, TaxCategory, PaymentMeans, OrderReference, InvoiceLine, Item, ClassifiedTaxCategory, Price} from 'ubl-builder/lib/ubl21/CommonAggregateComponents';
+import {FinancialInstitutionBranch} from 'ubl-builder/lib/ubl21/CommonAggregateComponents/FinancialInstitutionBranch';
+import {PayeeFinancialAccount} from 'ubl-builder/lib/ubl21/CommonAggregateComponents/PayeeFinancialAccount';
+import {UdtIdentifier, UdtAmount, UdtPercent, UdtQuantity} from 'ubl-builder/lib/ubl21/types/UnqualifiedDataTypes';
+import {SellersItemIdentification} from 'ubl-builder/lib/ubl21/CommonAggregateComponents/SellersItemIdentification';
+import {DEFAULT_COUNTRY_CODE, DEFAULT_CURRENCY} from '../config';
 
 // See: https://github.com/marcbachmann/node-html-pdf/issues/531
 const pdfOptions = {
@@ -34,7 +33,7 @@ export const convertHtmlToBuffer = (html: string): Promise<Buffer> => new Promis
   });
 });
 
-export const createHtml = (invoice: IInvoice): string | { error: string; } => {
+export const createHtml = (invoice: IInvoice): string | {error: string;} => {
   /* eslint-disable no-param-reassign */
   invoice = JSON.parse(JSON.stringify(invoice));
   // if (Array.isArray(invoice.extraFields)) {
@@ -82,8 +81,11 @@ export const getTemplatesPath = (): string => {
   return './templates/';
 };
 
-
-export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig): string => {
+/**
+ *This method creates an invoice xml following UBL 2.1 standard, required for Peppol protocol. 
+  Check https://docs.peppol.eu/poacc/billing/3.0/ for full documentation.
+ */
+export const createXml = (savedInvoice: IInvoice): string => {
   const invoiceXml = new Invoice(savedInvoice.number.toString(), {
     //This empty object is created to keep TypeScript from complaining, it has no influence on the generated xml
     issuer: {
@@ -101,33 +103,31 @@ export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig)
       providerNit: ''
     }
   });
-
-  if (savedInvoice && companyConfig) {
-    const currencyID = { currencyID: DEFAULT_CURRENCY };
-    const taxSchemeIDVAT = new TaxScheme({ id: 'VAT' });
+  if (savedInvoice) {
+    const currencyID = {currencyID: DEFAULT_CURRENCY};
+    const taxSchemeIDVAT = new TaxScheme({id: 'VAT'});
     const customerCountryAndCode = COUNTRY_CODES.find(codes => codes.country === savedInvoice.client.country || codes.code === savedInvoice.client.country);
 
-    let cityRef = savedInvoice.client.city.trim();
     const customerPostalAddress = new PostalAddress({
-      streetName: savedInvoice.client.address,
-      cityName: cityRef,
-      country: new Country({ identificationCode: customerCountryAndCode ? customerCountryAndCode.code : DEFAULT_COUNTRY_CODE })
+      streetName: savedInvoice.client.address.trim(),
+      cityName: savedInvoice.client.city.trim(),
+      country: new Country({identificationCode: customerCountryAndCode ? customerCountryAndCode.code : DEFAULT_COUNTRY_CODE})
     });
 
-    cityRef = companyConfig.company.city.trim();
     const supplierPostalAddress = new PostalAddress({
-      streetName: companyConfig.company.address,
-      cityName: cityRef,
-      country: new Country({ identificationCode: DEFAULT_COUNTRY_CODE })
+      streetName: savedInvoice.your.address.trim(),
+      cityName: savedInvoice.your.city.trim(),
+      country: new Country({identificationCode: DEFAULT_COUNTRY_CODE})
     });
     const supplierLegalEntity = new PartyLegalEntity({
-      registrationName: companyConfig.company.name,
-      companyID: companyConfig.company.btw
+      registrationName: savedInvoice.your.name,
+      companyID: savedInvoice.your.btw
     });
 
+    const belgianVATEndpointScheme = '9925';
     const supplierEndpointScheme = ENDPOINT_SCHEMES.find(scheme => scheme.country === DEFAULT_COUNTRY_CODE);
-    const supplierEndpointID = new UdtIdentifier(companyConfig.company.btw, {
-      schemeID: supplierEndpointScheme ? supplierEndpointScheme.schemeID : '9925'
+    const supplierEndpointID = new UdtIdentifier(savedInvoice.your.btw, {
+      schemeID: supplierEndpointScheme ? supplierEndpointScheme.schemeID : belgianVATEndpointScheme
     });
 
     const supplierParty = new Party({
@@ -135,12 +135,12 @@ export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig)
       partyLegalEntities: [supplierLegalEntity],
       postalAddress: supplierPostalAddress,
       contact: new Contact({
-        name: companyConfig.company.website,
-        electronicMail: companyConfig.company.email,
-        telephone: companyConfig.company.telephone
+        name: savedInvoice.your.website,
+        electronicMail: savedInvoice.your.email,
+        telephone: savedInvoice.your.telephone
       }),
       partyTaxSchemes: [new PartyTaxScheme({
-        companyID: companyConfig.company.btw,
+        companyID: savedInvoice.your.btw,
         taxScheme: taxSchemeIDVAT
       })]
     });
@@ -177,23 +177,29 @@ export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig)
     });
 
 
-    let taxObject: { id: string | UdtIdentifier; percent: string | UdtPercent; taxScheme: TaxScheme | undefined; taxExemptionReasonCode?: string | undefined };
-    let classifiedTaxObject: { id: string | UdtIdentifier; percent: string | UdtPercent; taxScheme: TaxScheme | undefined };
+    /** More info on the tax codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNCL5305/ 
+     * and on the reason codes: https://docs.peppol.eu/poacc/billing/3.0/syntax/ubl-invoice/cac-TaxTotal/cac-TaxSubtotal/cac-TaxCategory/cbc-TaxExemptionReasonCode/
+     */
+    let taxObject: {id: string | UdtIdentifier; percent: string | UdtPercent; taxScheme: TaxScheme | undefined; taxExemptionReasonCode?: string | undefined};
+    let classifiedTaxObject: {id: string | UdtIdentifier; percent: string | UdtPercent; taxScheme: TaxScheme | undefined};
+    const reversedTaxChargeCode = 'AE';
+    const standardTaxChargeCode = 'S';
+    const reversedTaxChargeReasonCode = 'VATEX-EU-AE';
     if (savedInvoice.client.country !== DEFAULT_COUNTRY_CODE) {
       taxObject = {
-        id: 'AE',
+        id: reversedTaxChargeCode,
         percent: '0',
-        taxExemptionReasonCode: 'VATEX-EU-AE',
+        taxExemptionReasonCode: reversedTaxChargeReasonCode,
         taxScheme: taxSchemeIDVAT
       }
       classifiedTaxObject = {
-        id: 'AE',
+        id: reversedTaxChargeCode,
         percent: '0',
         taxScheme: taxSchemeIDVAT
       }
     } else {
       taxObject = {
-        id: 'S',
+        id: standardTaxChargeCode,
         percent: '21',
         taxScheme: taxSchemeIDVAT
       }
@@ -210,17 +216,24 @@ export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig)
       })]
     });
 
+    /** more info on PaymentMeans codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNCL4461/ */
+    const debitPaymentMeansCode = '31';
     const paymentMeans = new PaymentMeans({
-      paymentMeansCode: '31',
+      paymentMeansCode: debitPaymentMeansCode,
       payeeFinancialAccount: new PayeeFinancialAccount({
-        id: companyConfig.company.iban,
+        id: savedInvoice.your.iban,
         financialInstitutioBranch: new FinancialInstitutionBranch({
-          id: companyConfig.company.bic
+          id: savedInvoice.your.bic
         })
       })
     });
 
     const orderRef = savedInvoice.orderNr && savedInvoice.orderNr.trim().length !== 0 ? savedInvoice.orderNr : savedInvoice._id;
+    
+    /** More info on invoice type codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNCL1001-inv/ 
+     *  Code 380 signals a commercial invoice. 
+    */
+    const commercialInvoiceTypeCode = '380';
 
     invoiceXml.addProperty('xmlns', 'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2');
     invoiceXml.addProperty('xmlns:cac', 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
@@ -229,21 +242,25 @@ export const createXml = (savedInvoice: IInvoice, companyConfig: ICompanyConfig)
     invoiceXml.setProfileID('urn:fdc:peppol.eu:2017:poacc:billing:01:1.0');
     invoiceXml.setIssueDate(moment(savedInvoice.date).format('YYYY-MM-DD'));
     invoiceXml.setDueDate(moment(savedInvoice.date).add(30, 'days').format('YYYY-MM-DD'));
-    invoiceXml.setInvoiceTypeCode('380');
+    invoiceXml.setInvoiceTypeCode(commercialInvoiceTypeCode);
     invoiceXml.setDocumentCurrencyCode(DEFAULT_CURRENCY);
     invoiceXml.setAccountingSupplierParty(accountingSupplierParty);
     invoiceXml.setAccountingCustomerParty(accountingCustomerParty);
     invoiceXml.setLegalMonetaryTotal(legalMonetaryTotal);
     invoiceXml.setID(savedInvoice.number.toString());
-    invoiceXml.setOrderReference(new OrderReference({ id: orderRef }));
+    invoiceXml.setOrderReference(new OrderReference({id: orderRef}));
     invoiceXml.addTaxTotal(taxTotal);
     invoiceXml.addPaymentMeans(paymentMeans);
 
+    /** more info on unit codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNECERec20/ 
+     * code C62 is a general code meaning 'one' or 'unit'
+    */
+    const defaultUnitCode = 'C62';
     savedInvoice.lines.forEach((line, index) => {
       const unitCode = UNIT_CODES.find(unitCode => unitCode.unit === line.type);
       const invoiceLine = new InvoiceLine({
         id: (index + 1).toString(),
-        invoicedQuantity: new UdtQuantity(line.amount.toString(), { unitCode: unitCode ? unitCode.code : 'C64' }),
+        invoicedQuantity: new UdtQuantity(line.amount.toString(), {unitCode: unitCode ? unitCode.code : defaultUnitCode}),
         lineExtensionAmount: new UdtAmount((line.price * line.amount).toFixed(2), currencyID),
         item: new Item({
           name: line.desc,
