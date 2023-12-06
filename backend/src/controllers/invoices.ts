@@ -18,9 +18,8 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user:
 
   const [createdInvoice] = inserted.ops;
 
-  let xmlBuffer;
   if (!invoice.isQuotation) {
-    xmlBuffer = Buffer.from(createXml(invoice));
+    const xmlBuffer = Buffer.from(createXml(invoice));
     await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf' | 'xml'>>(CollectionNames.ATTACHMENTS).insertOne({
       _id: new ObjectID(createdInvoice._id),
       pdf: pdfBuffer,
@@ -200,7 +199,7 @@ export const deleteInvoiceController = async (req: Request, res: Response) => {
 
     if (invoiceAttachments !== null && Object.keys(invoiceAttachments).length > 0) {
       await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).updateOne({ _id: new ObjectID(invoice.projectMonth.projectMonthId) }, {
-       $set: { ...invoiceAttachments }
+        $set: { ...invoiceAttachments }
       }, {
         upsert: true
       });
@@ -268,9 +267,9 @@ export const generateExcelForInvoicesController = async (req: Request, res: Resp
 export const getInvoiceXmlController = async (req: Request, res: Response) => {
   const {id} = req.params;
   const invoiceAttachments: IAttachmentCollection | null = await req.db.collection(CollectionNames.ATTACHMENTS)
-    .findOne({_id: new ObjectID(id) as ObjectID});
+    .findOne({_id: new ObjectID(id)});
   if (invoiceAttachments && invoiceAttachments.xml) {
-    return res.type('application/xml').send(atob(invoiceAttachments.xml.toString()));
+    return res.type('application/xml').send(invoiceAttachments.xml.toString());
   } else {
     return res.status(500).send('No xml found');
   }

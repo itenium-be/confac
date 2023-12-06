@@ -70,7 +70,7 @@ export default class InvoiceModel implements IAttachment {
     this.orderNr = obj.orderNr || '';
     this.verified = obj.verified || false;
     this.discount = obj.discount;
-    this.attachments = obj.attachments || [{type: 'pdf'}];
+    this.attachments = obj.attachments || [{type: 'pdf'}, {type:'xml'}];
     this.isQuotation = obj.isQuotation || false;
     this.lastEmail = obj.lastEmail;
     this.note = obj.note || '';

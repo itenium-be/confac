@@ -1,14 +1,14 @@
 import request from 'superagent-bluebird-promise';
 import moment from 'moment';
-import { catchHandler } from './utils/fetch';
-import { buildUrl } from './utils/buildUrl';
+import {catchHandler} from './utils/fetch';
+import {buildUrl} from './utils/buildUrl';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
-import { Attachment } from '../models';
-import { ClientModel } from '../components/client/models/ClientModels';
-import { getInvoiceFileName, getDownloadUrl, previewPdf, downloadAttachment, getMyInvoiceFileName } from './utils/download-helpers';
-import { ProjectMonthOverviewModel } from '../components/project/models/ProjectMonthModel';
-import { FullProjectMonthModel } from '../components/project/models/FullProjectMonthModel';
-import { authService } from '../components/users/authService';
+import {Attachment} from '../models';
+import {ClientModel} from '../components/client/models/ClientModels';
+import {getInvoiceFileName, getDownloadUrl, previewPdf, downloadAttachment} from './utils/download-helpers';
+import {ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
+import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
+import {authService} from '../components/users/authService';
 
 
 export function getInvoiceDownloadUrl(
@@ -18,35 +18,12 @@ export function getInvoiceDownloadUrl(
   downloadType?: 'preview' | 'download',
   fullProjectMonth?: FullProjectMonthModel,
 ): string {
-
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
-/*   const fileName = typeof attachment === 'string' || attachment.type === 'pdf'
-    ? getMyInvoiceFileName(fileNameTemplate, invoice, 'pdf', fullProjectMonth)
-    : attachment.fileName; */
-
-  const filename = () => {
-    if (typeof attachment === 'string') {
-      return getMyInvoiceFileName(fileNameTemplate, invoice, attachment, fullProjectMonth);
-    }
-    if (attachment.type === 'pdf') {
-      return getMyInvoiceFileName(fileNameTemplate, invoice, 'pdf', fullProjectMonth);
-    }
-    return attachment.fileName;
-  }
-
   const attachmentType = typeof attachment === 'string' ? attachment : attachment.type;
-  // return buildUrl(`/attachments/${fileType}/${invoice._id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
-/*   const myType = () => {
-    if (attachment === 'xml') {
-      return 'xml';
-    }
-    if (typeof attachment !== 'string') {
-      return attachment.type;
-    }
-    return 'pdf';
-  } */
+  const filename = attachmentType === 'pdf' || attachmentType === 'xml' ?
+    getInvoiceFileName(fileNameTemplate, invoice, attachmentType, fullProjectMonth) : attachment.fileName;
 
-  return getDownloadUrl(fileType, invoice._id, attachmentType, filename(), downloadType);
+  return getDownloadUrl(fileType, invoice._id, attachmentType, filename, downloadType);
 }
 
 
@@ -76,8 +53,7 @@ export function previewInvoice(fileName: string, data: InvoiceModel, fullProject
       .responseType('blob')
       .send(data)
       .then(res => {
-        // console.log('previewInvoice response', res.body);
-        previewPdf(getInvoiceFileName(fileName, data, fullProjectMonth), res.body);
+        previewPdf(getInvoiceFileName(fileName, data, 'pdf', fullProjectMonth), res.body);
         return res.text;
       })
       .catch(catchHandler);

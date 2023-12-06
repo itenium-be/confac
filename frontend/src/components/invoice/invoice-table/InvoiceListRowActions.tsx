@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import InvoiceModel from '../models/InvoiceModel';
 import {EditIcon} from '../../controls/Icon';
 import {InvoiceVerifyIconToggle} from '../invoice-list/InvoiceVerifyIconToggle';
-import { InvoiceDownloadPdfIcon, InvoiceDownloadXmlIcon, InvoicePreviewIcon} from '../../controls/attachments/AttachmentDownloadIcon';
+import {InvoiceDownloadIcon, InvoicePreviewIcon} from '../../controls/attachments/AttachmentDownloadIcon';
 import {t} from '../../utils';
 import {deleteInvoice} from '../../../actions';
 import {ConfirmedDeleteIcon} from '../../controls/icons/DeleteIcon';
@@ -30,8 +30,8 @@ export const InvoiceListRowActions = ({invoice, toggleValid, small = false}: Inv
         />
       )}
       <InvoiceVerifyIconToggle claim={Claim.ValidateInvoices} invoice={invoice} toggleValid={toggleValid} />
-      {!small && <InvoiceDownloadPdfIcon invoice={invoice} />}
-      {!small && <InvoiceDownloadXmlIcon invoice={invoice} />}
+      {!small && <InvoiceDownloadIcon invoice={invoice} fileType='pdf'/>}
+      {!small && <InvoiceDownloadIcon invoice={invoice} fileType='xml' />}
       <InvoicePreviewIcon invoice={invoice} />
       {!small && (
         <ConfirmedDeleteIcon

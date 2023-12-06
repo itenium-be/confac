@@ -1,39 +1,26 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Icon, IconProps } from '../Icon';
-import { getInvoiceDownloadUrl } from '../../../actions/index';
+import {useSelector} from 'react-redux';
+import {Icon, IconProps} from '../Icon';
+import {getInvoiceDownloadUrl} from '../../../actions/index';
 import t from '../../../trans';
-import { InvoiceModelProps } from '../../invoice/models/InvoiceModel';
-import { Attachment } from '../../../models';
-import { getAwesomeFileType } from '../../invoice/models/getAwesomeFileType';
-import { ConfacState } from '../../../reducers/app-state';
+import {InvoiceModelProps} from '../../invoice/models/InvoiceModel';
+import {Attachment} from '../../../models';
+import {getAwesomeFileType} from '../../invoice/models/getAwesomeFileType';
+import {ConfacState} from '../../../reducers/app-state';
 
+type InvoiceDownloadIconProps = InvoiceModelProps & {
+  fileType: string
+}
 
-export const InvoiceDownloadPdfIcon = ({ invoice, ...props }: InvoiceModelProps) => {
+export const InvoiceDownloadIcon = ({invoice, fileType, ...props}: InvoiceDownloadIconProps) => {
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
 
   const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
-  const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, 'pdf', 'download')
+  const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, fileType, 'download');
   return (
     <AttachmentDownloadIcon
       downloadUrl={url}
-      attachment={invoice.attachments.find(a => a.type === 'pdf')}
-      {...props}
-    />
-  );
-};
-
-export const InvoiceDownloadXmlIcon = ({ invoice, ...props }: InvoiceModelProps) => {
-  const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
-
-  const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
-  const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, 'xml', 'download');
-  console.log('url: ' + url);
-  console.log('filename: ' + defaultInvoiceFileName);
-  return (
-    <AttachmentDownloadIcon
-      downloadUrl={url}
-      attachment={invoice.attachments.find(a => a.type === 'xml')}
+      attachment={invoice.attachments.find(a => a.type === fileType)}
       {...props}
     />
   );

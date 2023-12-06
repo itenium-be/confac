@@ -1,7 +1,6 @@
-import { Attachment } from '../../../models';
+import {Attachment} from '../../../models';
 
 export function getAwesomeFileType(att: Attachment | undefined): string {
-  console.log(att);
   if (!att) {
     return 'fa fa-file-upload';
   }
@@ -12,7 +11,7 @@ export function getAwesomeFileType(att: Attachment | undefined): string {
     // return 'fa fa-file-invoice-dollar';
   }
   if (att.type === 'xml') {
-    return 'far fa-file-invoice';
+    return 'far fa-file-code';
   }
   if (att.fileType === 'application/pdf') {
     return 'far fa-file-pdf';
@@ -49,9 +48,6 @@ export function getAwesomeFileType(att: Attachment | undefined): string {
     case 'application/zip':
     case 'application/x-zip-compressed':
       return 'far fa-file-archive';
-
-    case 'application/xml':
-      return 'far fa-file-invoice';
 
     default:
   }
