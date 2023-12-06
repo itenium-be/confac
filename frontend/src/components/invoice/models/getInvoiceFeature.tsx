@@ -160,7 +160,7 @@ export function getInvoiceColumns(includeFields: string[], transPrefix: string):
   }, {
     key: 'buttons',
     header: '',
-    style: {width: 270},
+    style: {width: 240},
     className: 'icons-cell',
     value: (i: InvoiceModel) => <InvoiceListRowActions invoice={i} />,
   }];

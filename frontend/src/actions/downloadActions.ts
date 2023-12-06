@@ -1,52 +1,32 @@
 import request from 'superagent-bluebird-promise';
 import moment from 'moment';
-import { catchHandler } from './utils/fetch';
-import { buildUrl } from './utils/buildUrl';
+import {catchHandler} from './utils/fetch';
+import {buildUrl} from './utils/buildUrl';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
-import { Attachment } from '../models';
-import { ClientModel } from '../components/client/models/ClientModels';
-import { getInvoiceFileName, getDownloadUrl, previewPdf, downloadAttachment, getMyInvoiceFileName } from './utils/download-helpers';
-import { ProjectMonthOverviewModel } from '../components/project/models/ProjectMonthModel';
-import { FullProjectMonthModel } from '../components/project/models/FullProjectMonthModel';
-import { authService } from '../components/users/authService';
+import {Attachment} from '../models';
+import {ClientModel} from '../components/client/models/ClientModels';
+import {getInvoiceFileName, getDownloadUrl, previewPdf, downloadAttachment} from './utils/download-helpers';
+import {ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
+import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
+import {authService} from '../components/users/authService';
 
 
 export function getInvoiceDownloadUrl(
   fileNameTemplate: string,
   invoice: InvoiceModel,
-  attachment: string | Attachment = 'pdf',
+  attachment: 'pdf' | Attachment = 'pdf',
   downloadType?: 'preview' | 'download',
   fullProjectMonth?: FullProjectMonthModel,
 ): string {
 
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
-/*   const fileName = typeof attachment === 'string' || attachment.type === 'pdf'
-    ? getMyInvoiceFileName(fileNameTemplate, invoice, 'pdf', fullProjectMonth)
-    : attachment.fileName; */
-
-  const filename = () => {
-    if (typeof attachment === 'string') {
-      return getMyInvoiceFileName(fileNameTemplate, invoice, attachment, fullProjectMonth);
-    }
-    if (attachment.type === 'pdf') {
-      return getMyInvoiceFileName(fileNameTemplate, invoice, 'pdf', fullProjectMonth);
-    }
-    return attachment.fileName;
-  }
-
-  const attachmentType = typeof attachment === 'string' ? attachment : attachment.type;
+  const fileName = attachment === 'pdf' || attachment.type === 'pdf'
+    ? getInvoiceFileName(fileNameTemplate, invoice, fullProjectMonth)
+    : attachment.fileName;
+  const attachmentType = attachment === 'pdf' ? 'pdf' : attachment.type;
   // return buildUrl(`/attachments/${fileType}/${invoice._id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
-/*   const myType = () => {
-    if (attachment === 'xml') {
-      return 'xml';
-    }
-    if (typeof attachment !== 'string') {
-      return attachment.type;
-    }
-    return 'pdf';
-  } */
 
-  return getDownloadUrl(fileType, invoice._id, attachmentType, filename(), downloadType);
+  return getDownloadUrl(fileType, invoice._id, attachmentType, fileName, downloadType);
 }
 
 
