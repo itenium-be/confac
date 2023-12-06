@@ -20,7 +20,7 @@ export function getInvoiceDownloadUrl(
 ): string {
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
   const attachmentType = typeof attachment === 'string' ? attachment : attachment.type;
-  const filename = attachmentType === 'pdf' || attachmentType === 'xml' ?
+  const filename = typeof attachment === 'string' || attachment.type === 'pdf' || attachment.type === 'xml' ?
     getInvoiceFileName(fileNameTemplate, invoice, attachmentType, fullProjectMonth) : attachment.fileName;
 
   return getDownloadUrl(fileType, invoice._id, attachmentType, filename, downloadType);
