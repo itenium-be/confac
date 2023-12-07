@@ -24,7 +24,7 @@ export const ProjectDuration = ({project}: {project: IProjectModel}) => (
     ) : (
       <>
         <Icon fa="fa fa-arrow-right" />
-        <Icon fa="fa fa-infinity"/>
+        <Icon fa="fa fa-infinity" />
       </>
     )}
   </div>
@@ -45,7 +45,7 @@ export const ProjectDurationSmall = ({project}: {project: IProjectModel}) => (
         </>
       ) : (
         <>
-          <Icon fa="fa fa-arrow-right" size={1}/>
+          <Icon fa="fa fa-arrow-right" size={1} />
           <Icon fa="fa fa-infinity" size={1} />
         </>
       )}

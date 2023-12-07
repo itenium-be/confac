@@ -11,7 +11,7 @@ export type TimesheetBadgeProps = {
 
 const TimeSheetOkBadge = (
   <span className="badge rounded-pill text-white bg-success">
-    <i className="fa fa-clock fa-1x tst-icon-date" />
+    <i className="fa fa-clock fa-1x" />
     {t('projectMonth.list.timesheetOk')}
   </span>
 )
