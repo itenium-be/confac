@@ -47,7 +47,7 @@ export const EditRole = () => {
         </Row>
       </Form>
       <StickyFooter claim={Claim.ManageUsers}>
-        <BusyButton className="tst-btn-save-role" onClick={() => dispatch(saveRole(role, undefined, navigate) as any)}>
+        <BusyButton className="tst-save-role" onClick={() => dispatch(saveRole(role, undefined, navigate) as any)}>
           {t('save')}
         </BusyButton>
       </StickyFooter>

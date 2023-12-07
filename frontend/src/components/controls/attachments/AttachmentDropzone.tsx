@@ -46,7 +46,7 @@ export const AttachmentDropzone = (props: AttachmentDropzoneProps) => {
       {children || (
         <>
           <div className="icon">
-            <Icon fa="fa fa-file-upload" className="tst-icon-dropzone" style={{marginRight: 8}} />
+            <Icon fa="fa fa-file-upload" style={{marginRight: 8}} />
           </div>
           {file ? (
             <div className="info">

@@ -14,7 +14,7 @@ export const AnonymousLogin = ({ onLogin }: AnonymousLoginProps) => {
     <>
       <h1>Zonder Login</h1>
       <StringInput label={'Jouw naam'} value={name} onChange={setName} />
-      <Button className="btn btn-success tst-btn-login" onClick={() => { localStorage.setItem('anonUser', name); onLogin(name); }}>
+      <Button className="btn btn-success tst-login-anonymous" onClick={() => { localStorage.setItem('anonUser', name); onLogin(name); }}>
         {'Confac Starten'}
       </Button>
     </>

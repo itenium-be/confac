@@ -7,11 +7,11 @@ import {formatDate, t} from '../../utils';
 
 export const ProjectDuration = ({project}: {project: IProjectModel}) => (
   <div className="project-duration">
-    <Icon fa="fa fa-clock" className="tst-icon-date" />
+    <Icon fa="fa fa-clock" />
     <span>{formatDate(project.startDate)}</span>
     {project.endDate ? (
       <>
-        <Icon fa="fa fa-arrow-right" className="tst-icon-pick" />
+        <Icon fa="fa fa-arrow-right" />
         <span>{formatDate(project.endDate)}</span>
         {project.endDate.isAfter(moment()) && (
           <small>
@@ -23,8 +23,8 @@ export const ProjectDuration = ({project}: {project: IProjectModel}) => (
       </>
     ) : (
       <>
-        <Icon fa="fa fa-arrow-right" className="tst-icon-pick" />
-        <Icon fa="fa fa-infinity" className="tst-icon-infinity" />
+        <Icon fa="fa fa-arrow-right" />
+        <Icon fa="fa fa-infinity"/>
       </>
     )}
   </div>
@@ -36,17 +36,17 @@ export const ProjectDuration = ({project}: {project: IProjectModel}) => (
 export const ProjectDurationSmall = ({project}: {project: IProjectModel}) => (
   <div className="project-duration">
     <div>
-      <Icon className="tst-icon-date" fa="fa fa-clock" size={1} />
+      <Icon fa="fa fa-clock" size={1} />
       <span>{project.startDate.format('MMM YYYY')}</span>
       {project.endDate ? (
         <>
-          <Icon fa="fa fa-arrow-right" size={1} className="tst-icon-pick" />
+          <Icon fa="fa fa-arrow-right" size={1} />
           <span>{project.endDate.format('MMM YYYY')}</span>
         </>
       ) : (
         <>
-          <Icon fa="fa fa-arrow-right" size={1} className="tst-icon-pick"/>
-          <Icon fa="fa fa-infinity" size={1} className="tst-icon-infinity" />
+          <Icon fa="fa fa-arrow-right" size={1}/>
+          <Icon fa="fa fa-infinity" size={1} />
         </>
       )}
     </div>

@@ -22,7 +22,7 @@ export const UploadFileButton = ({onUpload, title, buttonText, disabled, hasFile
       title={disabled ? undefined : title}
       icon="fa fa-upload"
       style={hasFile ? {borderTopRightRadius: 0, borderBottomRightRadius: 0} : undefined}
-      className="tst-btn-upload"
+      className="tst-upload-file"
     >
       {buttonText && <span style={{marginLeft: 10}}>{buttonText}</span>}
     </Button>

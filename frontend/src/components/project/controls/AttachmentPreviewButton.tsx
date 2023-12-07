@@ -18,7 +18,7 @@ export const AttachmentPreviewButton = ({downloadUrl, tooltip, disabled, style}:
   return (
     <Button
       onClick={() => viewAttachment()}
-      className="tst-btn-view"
+      className="tst-view-attachment"
       variant="outline-dark"
       disabled={disabled}
       style={style}

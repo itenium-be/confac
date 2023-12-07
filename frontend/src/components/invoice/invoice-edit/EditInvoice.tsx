@@ -175,7 +175,7 @@ const EditInvoice = () => {
                 variant={storeInvoice?.verified || storeInvoice?.lastEmail ? 'outline-danger' : 'light'}
                 icon="far fa-envelope"
                 onClick={() => setEmailModal(EmailTemplate.InitialEmail)}
-                className="tst-btn-email"
+                className="tst-open-email-initial"
               >
                 {t('email.prepareEmail')}
               </Button>
@@ -184,7 +184,7 @@ const EditInvoice = () => {
                 variant={storeInvoice?.verified || !storeInvoice?.lastEmail ? 'outline-danger' : 'light'}
                 icon="far fa-envelope"
                 onClick={() => setEmailModal(EmailTemplate.Reminder)}
-                className="tst-btn-email"
+                className="tst-open-email-reminder"
               >
                 {t('email.prepareEmailReminder')}
               </Button>

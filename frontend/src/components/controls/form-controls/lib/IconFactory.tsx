@@ -6,15 +6,15 @@ export type InputIcons = 'phone' | 'email' | 'website' | 'bank' | 'building'
 
 
 const iconMap = {
-  phone: 'fa fa-phone tst-icon-phone',
-  email: 'fa fa-envelope tst-icon-mail',
-  website: 'fa fa-globe tst-icon-website',
-  bank: 'fa fa-piggy-bank tst-icon-money',
-  building: 'fa fa-building tst-icon-building',
-  user: 'fa fa-user tst-icon-user',
-  wrench: 'fa fa-wrench tst-icon-wrench',
-  hours: 'fa fa-hourglass-half tst-icon-hourglass',
-  invoice: 'fa fa-file-invoice tst-icon-invoice',
+  phone: 'fa fa-phone',
+  email: 'fa fa-envelope',
+  website: 'fa fa-globe',
+  bank: 'fa fa-piggy-bank',
+  building: 'fa fa-building',
+  user: 'fa fa-user',
+  wrench: 'fa fa-wrench',
+  hours: 'fa fa-hourglass-half',
+  invoice: 'fa fa-file-invoice',
 };
 
 

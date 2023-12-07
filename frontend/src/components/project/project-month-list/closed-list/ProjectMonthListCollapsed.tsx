@@ -12,7 +12,7 @@ import { ToggleProjectMonthButton } from '../ToggleProjectMonthButton';
 
 const VerifiedBadge = (
   <span className="badge rounded-pill text-white bg-success">
-    <i className="fa fa-coins fa-1x tst-icon-paid-valid" />
+    <i className="fa fa-coins fa-1x" />
     {t('projectMonth.list.allVerifiedBadge')}
   </span>
 );

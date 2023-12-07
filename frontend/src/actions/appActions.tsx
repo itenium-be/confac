@@ -11,12 +11,12 @@ type ToastType = 'error' | 'success' | 'info';
 function getIcon(type: ToastType): string {
   switch (type) {
     case 'error':
-      return 'fa fa-times-circle tst-icon-error';
+      return 'fa fa-times-circle';
     case 'info':
-      return 'fa fa-info-circle tst-icon-info';
+      return 'fa fa-info-circle';
     case 'success':
     default:
-      return 'fa fa-check-circle tst-icon-success';
+      return 'fa fa-check-circle';
   }
 }
 

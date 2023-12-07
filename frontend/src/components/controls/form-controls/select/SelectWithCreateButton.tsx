@@ -28,7 +28,7 @@ export const SelectWithCreateButton = ({claim, children, setModalId, createButto
     </div>
     <div style={{width: 120, position: 'relative'}}>
       <Button
-        className='tst-btn-create'
+        className='tst-create'
         claim={{claim, or: 'disabled'}}
         onClick={() => setModalId('create')}
         variant="light"

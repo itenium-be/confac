@@ -31,7 +31,7 @@ const ProjectClientContractStatusComponent = ({value, ...props}: BaseInputProps<
         />
       )}
 
-      <Button className="tst-btn-client" claim={Claim.ViewClients} variant="outline-dark" onClick={`/clients/${client.slug}`} style={{marginTop: -8}}>
+      <Button className="tst-open-client" claim={Claim.ViewClients} variant="outline-dark" onClick={`/clients/${client.slug}`} style={{marginTop: -8}}>
         {t('project.goToClient')}
       </Button>
     </div>

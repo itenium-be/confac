@@ -34,7 +34,7 @@ export const InvoicePreviewIcon = ({invoice, ...props}: InvoiceModelProps & Icon
       title={t(`${fileType}.viewPdf`)}
       href={url}
       fa="far fa-eye"
-      className="tst-icon-view"
+      className="tst-view-invoice-pdf"
       {...props}
     />
   );
@@ -64,6 +64,6 @@ export const AttachmentDownloadIcon = ({downloadUrl, attachment, ...props}: Atta
     {...props}
     href={downloadUrl}
     labelStyle={{fontSize: 16}}
-    className="tst-icon-file"
+    className="tst-download-attachment"
   />
 );

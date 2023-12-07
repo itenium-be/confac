@@ -26,7 +26,7 @@ const DataLoadedComponent = () => {
   return (
     <div className="data-loader">
       <Button
-        className="btn btn-info tst-btn-info"
+        className="btn btn-info tst-open-extra-data-loader"
         title={t('dataLoad.monthsLoaded', {months: currentLastMonths})}
         onClick={() => setOpen(true)}
         icon="fa fa-database"
@@ -38,11 +38,11 @@ const DataLoadedComponent = () => {
           title={t('dataLoad.loadMore')}
         >
           <p>
-            <i className="fa fa-database text-info tst-icon-db" style={{marginRight: 8}} />
+            <i className="fa fa-database text-info" style={{marginRight: 8}} />
             {t('dataLoad.monthsLoaded', {months: currentLastMonths})}
           </p>
           <Button
-            className="btn btn-success tst-btn-success"
+            className="btn btn-success tst-load-next-months"
             title={t('dataLoad.monthsLoaded', {months: currentLastMonths})}
             onClick={() => {
               dispatch(initialLoad(nextLoadMonths));
