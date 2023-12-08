@@ -100,26 +100,26 @@ const IconComponent = ({fa, onClick, href, dispatch, className, label, labelStyl
 
 
 export const SpinnerIcon = ({...props}: IconProps) => (
-  <Icon fa="fa fa-spinner fa-pulse fa-fw" {...props} />
+  <Icon className="tst-icon-spinner" fa="fa fa-spinner fa-pulse fa-fw" {...props} />
 );
 
-export const AddIcon = ({...props}: IconProps) => <Icon fa="fa fa-plus" {...props} />;
+export const AddIcon = ({...props}: IconProps) => <Icon className="tst-add" fa="fa fa-plus" {...props} />;
 
-export const DragAndDropIcon = ({...props}: IconProps) => <Icon fa="fa fa-arrows-alt" color="#EEE9E9" {...props} />;
+export const DragAndDropIcon = ({...props}: IconProps) => <Icon className="tst-drag" fa="fa fa-arrows-alt" color="#EEE9E9" {...props} />;
 
-export const EditIcon = ({...props}: IconProps) => <Icon fa="far fa-edit" title={t('edit')} {...props} />;
+export const EditIcon = ({...props}: IconProps) => <Icon className="tst-edit" fa="far fa-edit" title={t('edit')} {...props} />;
 
-export const ExpandIcon = ({...props}: IconProps) => <Icon fa="fa fa-expand-arrows-alt" {...props} />;
+export const ExpandIcon = ({...props}: IconProps) => <Icon className="tst-expand" fa="fa fa-expand-arrows-alt" {...props} />;
 
 export const NotEmailedIcon = ({...props}) => (
-  <span className="fa-stack fa-2x" {...props}>
+  <span className="fa-stack fa-2x tst-not-mailed"  {...props}>
     <i className="fas fa-envelope fa-stack-1x" />
-    <Icon fa="fas fa-ban fa-stack-2x" size={1} title={t('email.notMailed')} color="#CC1100" />
+    <Icon  fa="fas fa-ban fa-stack-2x" size={1} title={t('email.notMailed')} color="#CC1100" />
   </span>
 );
 
 export const EmailedIcon = ({...props}) => (
-  <Icon fa="fa-stack fa-2x" {...props}>
+  <Icon fa="fa-stack fa-2x tst-mailed-success" {...props}>
     <i className="fas fa-envelope fa-stack-1x" />
     <Icon fa="fas fa-check fa-stack-2x" size={1} color="green" />
   </Icon>

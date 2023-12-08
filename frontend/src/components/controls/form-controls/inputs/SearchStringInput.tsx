@@ -10,7 +10,7 @@ export const SearchStringInput = ({value, onChange, ...props}: SearchStringInput
   <StringInput
     value={value}
     onChange={(e: string) => onChange(e)}
-    suffix={<Icon fa="fa fa-search" size={1} />}
+    suffix={<Icon className="tst-search" fa="fa fa-search" size={1} />}
     placeholder={t('search')}
     autoFocus
     {...props}

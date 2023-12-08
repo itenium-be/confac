@@ -14,6 +14,7 @@ export const FullAudit = (props: AuditProps) => {
   return (
     <>
       <Icon
+        className="tst-open-audit-modal"
         title={t('audit.openFullAuditModel')}
         size={1}
         style={{ color: 'grey', marginLeft: 8, fontSize: 14 }}

@@ -84,18 +84,21 @@ const InvoiceSearchAdvanced = (props: InvoiceSearchAdvancedProps) => {
             onClick={downloadZip}
             title={t('invoice.listDownloadZip')}
             icon="fa fa-download"
+            className="tst-download-zip"
           />
           <Button
             variant="outline-secondary"
             onClick={downloadExcel}
             title={t('invoice.listDownloadExcel')}
             icon="fa fa-file-excel"
+            className="tst-download-excel"
           />
           <Button
             variant="outline-secondary"
             onClick={() => setOpen(!open)}
             title={t('invoice.listAdvancedFilters')}
             icon="fa fa-ellipsis-v"
+            className="tst-toggle-filter"
           />
         </ButtonGroup>
       </Col>

@@ -35,6 +35,7 @@ export const SingleContractIcon = ({ contract, contracts, style, tooltip, ...pro
 
   return (
     <Icon
+      className={ok ? "tst-contract-ok" : "tst-contract-nok"}
       fa={fa}
       style={{ marginRight: 8, ...ownStyle, ...style }}
       title={tooltip || t(globalTooltip)}

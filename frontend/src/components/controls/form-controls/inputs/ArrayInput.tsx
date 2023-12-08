@@ -84,6 +84,7 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
             onChange={(val: any) => realOnChange(val)}
             prefix={getAddix(prefix)}
             suffix={getAddix(suffix)}
+            className="tst-input-array"
             {...props}
             {...restProps}
           />

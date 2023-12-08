@@ -55,6 +55,7 @@ export const EditProjectMonths = () => {
       </Form>
       <StickyFooter>
         <ConfirmationButton
+          className="tst-confirm-delete-project-month"
           onClick={() => dispatch(deleteProjectsMonth(projectMonth._id, navigate) as any)}
           variant="danger"
           title={t('projectMonth.deleteConfirm.title')}
@@ -64,6 +65,7 @@ export const EditProjectMonths = () => {
           {t('projectMonth.deleteConfirm.content')}
         </ConfirmationButton>
         <BusyButton
+        className="tst-validate-project-month"
           onClick={() => dispatch(patchProjectsMonth(projectMonth) as any)}
           claim={Claim.ValidateProjectMonth}
         >

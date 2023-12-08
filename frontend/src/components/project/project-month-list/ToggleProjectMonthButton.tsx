@@ -19,16 +19,16 @@ export const ToggleProjectMonthButton = ({ month, toggleOpen }: { month: string;
 
   if (!toggleOpen) {
     return (
-      <button type="button" onClick={onToggle} className="btn btn-outline-info">
-        <i className="fa fa-toggle-on fa-1x" style={style} />
+      <button type="button" onClick={onToggle} className="btn btn-outline-info tst-toggle-close-project">
+        <i className="fa fa-toggle-on fa-1x tst-icon-toggle-on" style={style} />
         {t('projectMonth.list.closeList')}
       </button>
     );
   }
 
   return (
-    <button type="button" onClick={onToggle} className="btn btn-outline-info">
-      <i className="fa fa-toggle-off fa-1x" style={style} />
+    <button type="button" onClick={onToggle} className="btn btn-outline-info tst-toggle-open-project">
+      <i className="fa fa-toggle-off fa-1x tst-icon-toggle-off" style={style} />
       {t('projectMonth.list.openList')}
     </button>
   );

@@ -35,6 +35,7 @@ export const PropertiesSelect = EnhanceInputWithLabel(class extends Component<Pr
         formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
         placeholder={t('controls.propertiesPlaceholder')}
         classNamePrefix="react-select"
+        className="react-select-properties"
       />
     );
   }

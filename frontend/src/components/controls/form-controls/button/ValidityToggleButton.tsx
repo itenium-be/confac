@@ -42,6 +42,7 @@ export const ValidityToggleButton = ({value, onChange, outline, title, disabled,
       icon={icon}
       title={tooltip}
       disabled={disabled}
+      className="tst-validate-project"
       {...props}
     />
   );

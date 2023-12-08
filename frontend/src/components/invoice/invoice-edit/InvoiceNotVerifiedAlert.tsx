@@ -49,6 +49,7 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
             onClick={() => toggleInvoiceVerify(invoice)}
             size="sm"
             style={{marginTop: -5, marginRight: 10, textTransform: 'uppercase'}}
+            className="tst-verify-invoice"
           >
             {t('invoice.verifyAction')}
           </BusyButton>

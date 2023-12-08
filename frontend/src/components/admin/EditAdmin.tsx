@@ -12,7 +12,7 @@ export const EditAdmin = () => {
   return (
     <Container className="edit-container">
       <h1>{t('admin.title')}</h1>
-      <Button claim={Claim.ViewUsers} variant="light" onClick="/users">{t('admin.users')}</Button>
+      <Button className="tst-view-users-admin" claim={Claim.ViewUsers} variant="light" onClick="/users">{t('admin.users')}</Button>
     </Container>
   );
 };

@@ -39,7 +39,7 @@ export const ProjectMonthOrManualSelect = (props: ProjectMonthOrManualSelectProp
     <>
       <Icon
         title={t('invoice.toggleProjectMonth')}
-        className={'fa fa-toggle-' + (toggle ? 'on' : 'off')}
+        className={'fa fa-toggle-' + (toggle ? 'on' : 'off') + ' tst-toggle-month'}
         style={{marginRight: 8, cursor: 'pointer', fontSize: 18}}
         onClick={() => {
           setToggle(toggle === 'projectMonth' ? 'manual' : 'projectMonth');

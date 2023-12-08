@@ -38,6 +38,7 @@ export class Popup extends Component<PopupProps> {
             const UsedButton = button.busy ? BusyButton : Button;
             return (
               <UsedButton
+                className="tst-popup-footer"
                 key={i}
                 variant={button.variant}
                 onClick={button.onClick}

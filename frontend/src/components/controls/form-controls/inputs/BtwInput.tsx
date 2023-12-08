@@ -93,11 +93,11 @@ const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}:
       label={undefined}
       value={inputValue}
       onChange={onInputChange}
-      prefix={<Icon fa={cn('fa', (loading ? 'fa-spinner fa-spin' : 'fa-building'), (valid ? 'success' : 'danger'))} size={1} />}
+      prefix={<Icon fa={cn('fa', (loading ? 'fa-spinner fa-spin tst-btw-loading' : 'fa-building tst-btw-loaded'), (valid ? 'success' : 'danger'))} size={1} />}
       suffix={onFinalize && (
         <>
-          <Button variant="outline-secondary" onClick={() => onFinalize(BtwInRequest, btwRes)}>{BtwInRequest}</Button>
-          <Button variant="success" onClick={() => onFinalize(formattedBtw, btwRes)}>{t('client.createNewButton')}</Button>
+          <Button className="tst-btw-submitted" variant="outline-secondary" onClick={() => onFinalize(BtwInRequest, btwRes)}>{BtwInRequest}</Button>
+          <Button className="tst-btw-add" variant="success" onClick={() => onFinalize(formattedBtw, btwRes)}>{t('client.createNewButton')}</Button>
         </>
       )}
       suffixOptions={{type: 'button'}}

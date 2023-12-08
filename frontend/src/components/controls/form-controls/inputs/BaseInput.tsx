@@ -36,9 +36,11 @@ export const BaseInput = EnhanceInputWithDisplay(EnhanceInputWithLabel(EnhanceIn
       <FormControl
         type={type === 'textarea' ? 'text' : type}
         as={type === 'textarea' ? 'textarea' : undefined}
-        className={type === 'textarea' ? 'textarea' : undefined}
+        className={type === 'textarea' ? 'textarea' :'tst-input-base'}
         {...props}
       />
     );
   }
 })));
+
+

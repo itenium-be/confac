@@ -49,6 +49,7 @@ export const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component
         formatCreateLabel={value => t('controls.addFilterText', {value})}
         placeholder={t('invoice.search.placeholder')}
         classNamePrefix="react-select"
+        className="react-select-invoice"
       />
     );
   }
