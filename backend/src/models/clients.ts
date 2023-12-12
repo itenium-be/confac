@@ -31,6 +31,7 @@ export interface IClient {
   name: string;
   address: string;
   city: string;
+  country: string;
   telephone: string;
   btw: string;
   invoiceFileName: string;

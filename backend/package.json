@@ -52,7 +52,8 @@
     "pug": "^2.0.4",
     "regenerator-runtime": "^0.13.3",
     "slugify": "^1.1.0",
-    "tmp": "^0.2.1"
+    "tmp": "^0.2.1",
+    "ubl-builder": "github:pipesanta/ubl-builder"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",

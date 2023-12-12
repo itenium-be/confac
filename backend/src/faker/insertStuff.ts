@@ -21,16 +21,16 @@ export async function insertStuff(db: Db) {
     await db.collection('projects').insertMany(newProjects);
   }
 
-  if (config.invoices.amount) {
-    console.log(`Inserting ${config.invoices.amount} invoices`);
-    const newInvoices = await getNewInvoices(db, config.invoices);
-    await db.collection('invoices').insertMany(newInvoices);
-  }
-
   if (config.projectMonths.amount) {
     console.log(`Inserting ${config.projectMonths.amount} projectMonths`);
     const newProjects = await getNewProjectMonths(db, config.projects);
     await db.collection('projects_month').insertMany(newProjects);
+  }
+  
+  if (config.invoices.amount) {
+    console.log(`Inserting ${config.invoices.amount} invoices`);
+    const newInvoices = await getNewInvoices(db, config.invoices);
+    await db.collection('invoices').insertMany(newInvoices);
   }
 
   if (config.roles) {
