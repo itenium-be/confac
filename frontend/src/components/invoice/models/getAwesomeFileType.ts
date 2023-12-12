@@ -10,6 +10,9 @@ export function getAwesomeFileType(att: Attachment | undefined): string {
     // --> Looks too busy in the InvoiceList
     // return 'fa fa-file-invoice-dollar';
   }
+  if (att.type === 'xml') {
+    return 'far fa-file-code';
+  }
   if (att.fileType === 'application/pdf') {
     return 'far fa-file-pdf';
   }
