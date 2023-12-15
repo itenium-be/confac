@@ -9,11 +9,12 @@ import {getAwesomeFileType} from '../../invoice/models/getAwesomeFileType';
 import {ConfacState} from '../../../reducers/app-state';
 
 type InvoiceDownloadIconProps = InvoiceModelProps & {
-  fileType: string
+  fileType: string,
+  styleOption?: {}
 }
 
 
-export const InvoiceDownloadIcon = ({invoice, fileType, ...props}: InvoiceDownloadIconProps) => {
+export const InvoiceDownloadIcon = ({invoice, fileType, styleOption, ...props}: InvoiceDownloadIconProps) => {
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
 
   const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
@@ -22,6 +23,7 @@ export const InvoiceDownloadIcon = ({invoice, fileType, ...props}: InvoiceDownlo
     <AttachmentDownloadIcon
       downloadUrl={url}
       attachment={invoice.attachments.find(a => a.type === fileType)}
+      style={styleOption}
       {...props}
     />
   );
@@ -63,7 +65,7 @@ type AttachmentDownloadIconProps = IconProps & {
 export const AttachmentDownloadIcon = ({downloadUrl, attachment, ...props}: AttachmentDownloadIconProps) => (
   <Icon
     fa={`${getAwesomeFileType(attachment)} fa-2x`}
-    title={t('invoice.downloadAttachment', attachment && {type: attachment.fileName || attachment.type})}
+    title={t('invoice.downloadAttachment', attachment && {type: attachment.desc || attachment.fileName || attachment.type})}
     {...props}
     href={downloadUrl}
     labelStyle={{fontSize: 16}}

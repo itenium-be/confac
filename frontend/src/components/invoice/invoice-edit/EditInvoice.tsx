@@ -24,6 +24,7 @@ import {Claim} from '../../users/models/UserModel';
 import {useProjectsMonth} from '../../hooks/useProjects';
 import {useParams} from 'react-router-dom';
 import {ProjectMonthOrManualSelect} from '../../project/controls/ProjectMonthOrManualSelect';
+import {InvoiceDownloadIcon} from '../../controls/attachments/AttachmentDownloadIcon';
 
 
 import './EditInvoice.scss';
@@ -48,7 +49,7 @@ const EditInvoice = () => {
   const dispatch = useDispatch();
   // useEffect(() => window.scrollTo(0, 0)); // TODO: each keystroke made it scroll to top :(
   const [showEmailModal, setEmailModal] = useState<EmailTemplate>(EmailTemplate.None);
-
+  
   let docTitle: string;
   if (storeInvoice?._id) {
     const name = t(isQuotation ? 'quotation.pdfName' : 'invoice.invoice');
@@ -102,6 +103,7 @@ const EditInvoice = () => {
                   variant="link"
                 />
                 {initInvoice._id && <DownloadInvoiceButton invoice={initInvoice} />}
+                  {storeInvoice?._id && !storeInvoice?.isQuotation && <InvoiceDownloadIcon invoice={invoice} fileType='xml' styleOption={{color: '#0062cc', marginLeft: 20}} />}
               </div>
             </div>
           </Col>

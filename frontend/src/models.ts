@@ -30,6 +30,7 @@ export type Attachment = {
   originalFileName?: string,
   fileType: string,
   lastModifiedDate?: string,
+  desc?: string
 }
 
 
