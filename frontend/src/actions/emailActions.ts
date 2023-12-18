@@ -27,6 +27,12 @@ export function sendEmail(
           fileName: `${invoiceReplacements(invoiceFileName, invoice, fullProjectMonth)}.pdf`,
           fileType: 'application/pdf',
         };
+      } else if (attachmentType === 'xml'){
+        return {
+          type: 'xml',
+          fileName: `${invoiceReplacements(invoiceFileName, invoice, fullProjectMonth)}.xml`,
+          fileType: 'application/xml',
+        };
       }
 
       const details = invoice.attachments.find(a => a.type === attachmentType);

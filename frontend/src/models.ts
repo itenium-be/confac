@@ -30,7 +30,10 @@ export type Attachment = {
   originalFileName?: string,
   fileType: string,
   lastModifiedDate?: string,
+  desc?: string
 }
+
+export type CoreInvoiceAttachments = 'pdf' | 'xml';
 
 
 /** Duplicated on backend */

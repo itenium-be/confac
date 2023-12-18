@@ -4,27 +4,33 @@ import {Icon, IconProps} from '../Icon';
 import {getInvoiceDownloadUrl} from '../../../actions/index';
 import t from '../../../trans';
 import {InvoiceModelProps} from '../../invoice/models/InvoiceModel';
-import {Attachment} from '../../../models';
+import {Attachment, CoreInvoiceAttachments} from '../../../models';
 import {getAwesomeFileType} from '../../invoice/models/getAwesomeFileType';
 import {ConfacState} from '../../../reducers/app-state';
 
+type InvoiceDownloadIconProps = InvoiceModelProps & {
+  fileType: CoreInvoiceAttachments,
+  style?: {}
+}
 
-export const InvoiceDownloadIcon = ({invoice, ...props}: InvoiceModelProps) => {
+
+export const InvoiceDownloadIcon = ({invoice, fileType, style, ...props}: InvoiceDownloadIconProps) => {
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
 
   const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
-  const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, 'pdf', 'download')
+  const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, fileType, 'download');
   return (
     <AttachmentDownloadIcon
       downloadUrl={url}
-      attachment={invoice.attachments.find(a => a.type === 'pdf')}
+      attachment={invoice.attachments.find(a => a.type === fileType)}
+      style={style}
       {...props}
     />
   );
 };
 
 
-export const InvoicePreviewIcon = ({invoice, ...props}: InvoiceModelProps & IconProps) => {
+export const InvoicePreviewIcon = ({ invoice, ...props }: InvoiceModelProps & IconProps) => {
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
   const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
@@ -60,7 +66,7 @@ type AttachmentDownloadIconProps = IconProps & {
 export const AttachmentDownloadIcon = ({downloadUrl, attachment, ...props}: AttachmentDownloadIconProps) => (
   <Icon
     fa={`${getAwesomeFileType(attachment)} fa-2x`}
-    title={t('invoice.downloadAttachment', attachment && {type: attachment.fileName || attachment.type})}
+    title={t('invoice.downloadAttachment', attachment && {type: attachment.desc || attachment.fileName || attachment.type})}
     {...props}
     href={downloadUrl}
     labelStyle={{fontSize: 16}}

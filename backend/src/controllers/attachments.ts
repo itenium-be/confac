@@ -152,7 +152,7 @@ export const getAttachmentController = async (req: Request, res: Response) => {
     .collection(attachmentModelConfig.attachmentCollectionName)
     .findOne({_id: new ObjectID(id)});
 
-  if (!attachment) {
+  if (!attachment || !attachment[type]) {
     return res.status(500).send('Could not get the requested file.');
   }
 

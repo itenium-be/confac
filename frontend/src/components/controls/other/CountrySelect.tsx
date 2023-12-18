@@ -1,15 +1,20 @@
 import React from 'react';
-import { EnhanceInputWithLabel } from '../../enhancers/EnhanceInputWithLabel';
-import { BaseInputProps } from '../form-controls/inputs/BaseInput';
-import { SimpleCreatableSelect } from '../form-controls/select/SimpleCreatableSelect';
+import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
+import {BaseInputProps} from '../form-controls/inputs/BaseInput';
+import {Option, SimpleCreatableSelectWithOptions} from '../form-controls/select/SimpleCreatableSelectWithOptions';
 
 export type CountrySelectProps = BaseInputProps<string>
 
-const countries: string[] = ['België', 'Nederland', 'UK', 'Duitsland', 'Frankrijk'];
+const countries: Option[] = [
+  {label: 'België', value: 'BE'},
+  {label: 'Nederland', value: 'NL'},
+  {label: 'UK', value: 'GB'},
+  {label: 'Duitsland', value: 'DE'},
+  {label: 'Frankrijk', value: 'FR'}];
 
 const CountrySelectComponent = ({value, onChange, ...props}: CountrySelectProps) => {
   return (
-    <SimpleCreatableSelect
+    <SimpleCreatableSelectWithOptions
       value={value}
       onChange={onChange}
       options={countries}

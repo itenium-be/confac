@@ -3,7 +3,7 @@ import moment from 'moment';
 import {catchHandler} from './utils/fetch';
 import {buildUrl} from './utils/buildUrl';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
-import {Attachment} from '../models';
+import {Attachment, CoreInvoiceAttachments} from '../models';
 import {ClientModel} from '../components/client/models/ClientModels';
 import {getInvoiceFileName, getDownloadUrl, previewPdf, downloadAttachment} from './utils/download-helpers';
 import {ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
@@ -14,19 +14,16 @@ import {authService} from '../components/users/authService';
 export function getInvoiceDownloadUrl(
   fileNameTemplate: string,
   invoice: InvoiceModel,
-  attachment: 'pdf' | Attachment = 'pdf',
+  attachment: CoreInvoiceAttachments | Attachment = 'pdf',
   downloadType?: 'preview' | 'download',
   fullProjectMonth?: FullProjectMonthModel,
 ): string {
-
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
-  const fileName = attachment === 'pdf' || attachment.type === 'pdf'
-    ? getInvoiceFileName(fileNameTemplate, invoice, fullProjectMonth)
-    : attachment.fileName;
-  const attachmentType = attachment === 'pdf' ? 'pdf' : attachment.type;
-  // return buildUrl(`/attachments/${fileType}/${invoice._id}/${attachmentType}/${encodeURIComponent(fileName)}${query}`);
+  const attachmentType = typeof attachment === 'string' ? attachment : attachment.type;
+  const filename = typeof attachment === 'string' || attachment.type === 'pdf' || attachment.type === 'xml' ?
+    getInvoiceFileName(fileNameTemplate, invoice, attachmentType, fullProjectMonth) : attachment.fileName;
 
-  return getDownloadUrl(fileType, invoice._id, attachmentType, fileName, downloadType);
+  return getDownloadUrl(fileType, invoice._id, attachmentType, filename, downloadType);
 }
 
 
@@ -56,8 +53,7 @@ export function previewInvoice(fileName: string, data: InvoiceModel, fullProject
       .responseType('blob')
       .send(data)
       .then(res => {
-        // console.log('previewInvoice response', res.body);
-        previewPdf(getInvoiceFileName(fileName, data, fullProjectMonth), res.body);
+        previewPdf(getInvoiceFileName(fileName, data, 'pdf', fullProjectMonth), res.body);
         return res.text;
       })
       .catch(catchHandler);

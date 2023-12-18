@@ -30,7 +30,7 @@ export const InvoiceListRowActions = ({invoice, toggleValid, small = false}: Inv
         />
       )}
       <InvoiceVerifyIconToggle claim={Claim.ValidateInvoices} invoice={invoice} toggleValid={toggleValid} />
-      {!small && <InvoiceDownloadIcon invoice={invoice} />}
+      {!small && <InvoiceDownloadIcon invoice={invoice} fileType='pdf'/>}
       <InvoicePreviewIcon invoice={invoice} />
       {!small && (
         <ConfirmedDeleteIcon
