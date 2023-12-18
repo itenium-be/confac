@@ -103,7 +103,7 @@ const EditInvoice = () => {
                   variant="link"
                 />
                 {initInvoice._id && <DownloadInvoiceButton invoice={initInvoice} />}
-                  {storeInvoice?._id && !storeInvoice?.isQuotation && <InvoiceDownloadIcon invoice={invoice} fileType='xml' styleOption={{color: '#0062cc', marginLeft: 20}} />}
+                {storeInvoice?._id && !storeInvoice?.isQuotation && <InvoiceDownloadIcon invoice={invoice} fileType='xml' style={{color: '#0062cc', marginLeft: 20}} />}
               </div>
             </div>
           </Col>

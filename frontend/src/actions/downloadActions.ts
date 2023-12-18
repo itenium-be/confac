@@ -3,7 +3,7 @@ import moment from 'moment';
 import {catchHandler} from './utils/fetch';
 import {buildUrl} from './utils/buildUrl';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
-import {Attachment} from '../models';
+import {Attachment, CoreInvoiceAttachments} from '../models';
 import {ClientModel} from '../components/client/models/ClientModels';
 import {getInvoiceFileName, getDownloadUrl, previewPdf, downloadAttachment} from './utils/download-helpers';
 import {ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
@@ -14,7 +14,7 @@ import {authService} from '../components/users/authService';
 export function getInvoiceDownloadUrl(
   fileNameTemplate: string,
   invoice: InvoiceModel,
-  attachment: string | Attachment = 'pdf',
+  attachment: CoreInvoiceAttachments | Attachment = 'pdf',
   downloadType?: 'preview' | 'download',
   fullProjectMonth?: FullProjectMonthModel,
 ): string {

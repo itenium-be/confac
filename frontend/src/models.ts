@@ -33,6 +33,8 @@ export type Attachment = {
   desc?: string
 }
 
+export type CoreInvoiceAttachments = 'pdf' | 'xml';
+
 
 /** Duplicated on backend */
 export const TimesheetCheckAttachmentType = 'Timesheet check';

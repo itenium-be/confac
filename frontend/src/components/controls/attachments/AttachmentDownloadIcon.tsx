@@ -4,17 +4,17 @@ import {Icon, IconProps} from '../Icon';
 import {getInvoiceDownloadUrl} from '../../../actions/index';
 import t from '../../../trans';
 import {InvoiceModelProps} from '../../invoice/models/InvoiceModel';
-import {Attachment} from '../../../models';
+import {Attachment, CoreInvoiceAttachments} from '../../../models';
 import {getAwesomeFileType} from '../../invoice/models/getAwesomeFileType';
 import {ConfacState} from '../../../reducers/app-state';
 
 type InvoiceDownloadIconProps = InvoiceModelProps & {
-  fileType: string,
-  styleOption?: {}
+  fileType: CoreInvoiceAttachments,
+  style?: {}
 }
 
 
-export const InvoiceDownloadIcon = ({invoice, fileType, styleOption, ...props}: InvoiceDownloadIconProps) => {
+export const InvoiceDownloadIcon = ({invoice, fileType, style, ...props}: InvoiceDownloadIconProps) => {
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
 
   const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
@@ -23,7 +23,7 @@ export const InvoiceDownloadIcon = ({invoice, fileType, styleOption, ...props}: 
     <AttachmentDownloadIcon
       downloadUrl={url}
       attachment={invoice.attachments.find(a => a.type === fileType)}
-      style={styleOption}
+      style={style}
       {...props}
     />
   );
