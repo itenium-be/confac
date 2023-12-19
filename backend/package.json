@@ -10,7 +10,7 @@
     "lint": "eslint --fix --ext js,ts src",
     "build": "tsc -p .",
     "start:build": "node ./public/server.js",
-    "test": "jest --detectOpenHandles",
+    "test": "jest",
     "test:watch": "jest --watch",
     "faker": "node ./public/faker/index.js"
   },
