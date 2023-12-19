@@ -117,8 +117,7 @@ describe('calculating days worked', () => {
 
     expect(result).toEqual({
       daysWorked: 2,
-      workDaysInMonth: 20,
-      hoursWorked: 16,
+      hoursWorked: 16
     });
   });
 
@@ -132,8 +131,7 @@ describe('calculating days worked', () => {
 
     expect(result).toEqual({
       daysWorked: 2,
-      workDaysInMonth: 20,
-      hoursWorked: 16,
+      hoursWorked: 16
     });
   });
 
@@ -147,8 +145,7 @@ describe('calculating days worked', () => {
 
     expect(result).toEqual({
       daysWorked: 2,
-      workDaysInMonth: 20,
-      hoursWorked: 16,
+      hoursWorked: 16
     });
   });
 
