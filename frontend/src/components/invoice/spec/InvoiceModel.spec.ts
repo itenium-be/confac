@@ -52,7 +52,7 @@ describe('calculating money (taxes and totals)', () => {
       totalTax: 210,
       discount: 0,
       total: 1210,
-      totals: jasmine.any(Object),
+      totals: expect.any(Object),
     });
   });
 
@@ -68,7 +68,7 @@ describe('calculating money (taxes and totals)', () => {
         totalTax: 50,
         discount: 200,
         total: 350,
-        totals: jasmine.any(Object),
+        totals: expect.any(Object),
       });
     });
 
@@ -82,7 +82,7 @@ describe('calculating money (taxes and totals)', () => {
         totalTax: 50,
         discount: '10%',
         total: 495,
-        totals: jasmine.any(Object),
+        totals: expect.any(Object),
       });
     });
   });
