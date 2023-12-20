@@ -52,7 +52,7 @@ describe('calculating money (taxes and totals)', () => {
       totalTax: 210,
       discount: 0,
       total: 1210,
-      totals: jasmine.any(Object),
+      totals: expect.any(Object),
     });
   });
 
@@ -68,7 +68,7 @@ describe('calculating money (taxes and totals)', () => {
         totalTax: 50,
         discount: 200,
         total: 350,
-        totals: jasmine.any(Object),
+        totals: expect.any(Object),
       });
     });
 
@@ -82,7 +82,7 @@ describe('calculating money (taxes and totals)', () => {
         totalTax: 50,
         discount: '10%',
         total: 495,
-        totals: jasmine.any(Object),
+        totals: expect.any(Object),
       });
     });
   });
@@ -117,8 +117,7 @@ describe('calculating days worked', () => {
 
     expect(result).toEqual({
       daysWorked: 2,
-      workDaysInMonth: 20,
-      hoursWorked: 16,
+      hoursWorked: 16
     });
   });
 
@@ -132,8 +131,7 @@ describe('calculating days worked', () => {
 
     expect(result).toEqual({
       daysWorked: 2,
-      workDaysInMonth: 20,
-      hoursWorked: 16,
+      hoursWorked: 16
     });
   });
 
@@ -147,8 +145,7 @@ describe('calculating days worked', () => {
 
     expect(result).toEqual({
       daysWorked: 2,
-      workDaysInMonth: 20,
-      hoursWorked: 16,
+      hoursWorked: 16
     });
   });
 

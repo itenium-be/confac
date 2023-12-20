@@ -52,12 +52,12 @@ describe('user controller :: verify', () => {
     expect(result).toBe('Invalid token')
   })
 
-  it('checks the audiance & domain corresponds to ../config', async () => {
-    payload = {email_verified: true, email: 'email', aud: '', hd: 'itenium.be'}
+  it('checks the audience & domain corresponds to ../config', async () => {
+    payload = {email_verified: true, email: 'email', aud: 'id1', hd: 'itenium.be'}
     jest.replaceProperty(config, 'security', {
-      clientId: 'string',
+      clientId: 'id1',
       secret: 'string',
-      domain: 'string',
+      domain: 'itenium.be',
       defaultRole: 'string',
     });
     const result = await verify('token');
