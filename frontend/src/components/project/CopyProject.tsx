@@ -9,7 +9,7 @@ import {Modal} from '../controls/Modal';
 import {saveProject} from '../../actions/projectActions';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {FullFormConfig} from '../../models';
-import { ContractStatus } from '../client/models/ContractModels';
+import {ContractStatus} from '../client/models/ContractModels';
 
 type CopyProjectProps = {
   projectToCopy: IProjectModel;

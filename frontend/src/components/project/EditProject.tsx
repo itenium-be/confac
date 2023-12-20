@@ -43,8 +43,7 @@ export const EditProject = () => {
 
   const docTitle = consultant._id ? 'projectEdit' : 'projectNew';
   useDocumentTitle(docTitle, {consultant: consultant.firstName, client: client.name});
-
-  if (model && !project._id) {
+  if (model && (!project._id || project._id !== params.id)) {
     setProject(model);
   }
 
@@ -131,7 +130,7 @@ export const EditProject = () => {
       </Form>
       <StickyFooter claim={Claim.ManageProjects}>
         <ConfirmationButton
-        className="tst-confirm-delete-project"
+          className="tst-confirm-delete-project"
           onClick={() => dispatch(deleteProject(project._id, navigate) as any)}
           variant="danger"
           title={t('project.deleteConfirm.title')}
@@ -140,7 +139,7 @@ export const EditProject = () => {
         >
           {t('project.deleteConfirm.content')}
         </ConfirmationButton>
-        {project.endDate && project._id && <CopyProject projectToCopy={project} />}
+        {project.endDate && project._id && <CopyProject projectToCopy={project}/>}
         <BusyButton className="tst-save-project" onClick={() => dispatch(saveProject(project, navigate) as any)} disabled={isButtonDisabled}>
           {t('save')}
         </BusyButton>

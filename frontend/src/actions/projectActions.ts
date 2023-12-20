@@ -30,10 +30,6 @@ export function saveProject(project: IProjectModel, navigate?: any, after: 'to-l
           if (after === 'to-list') {
             navigate('/projects');
           } else {
-            // First navigate away?
-            // Workaround for EditProject not reloading the form
-            // when the url _id changes. Need a hook for this :)
-            navigate('/projects');
             navigate(`/projects/${response.body._id}`);
           }
         }
