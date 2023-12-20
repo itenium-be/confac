@@ -1,6 +1,6 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import '@testing-library/jest-dom'
-import { AuditChange, AuditLog, AuditModelTypes } from '../audit-models';
+import { AuditLog, AuditModelTypes } from '../audit-models';
 import { AuditChangeEntry } from '../AuditChangeEntry';
 
 it.skip('AuditChangeEntry example test', () => {
@@ -15,7 +15,7 @@ it.skip('AuditChangeEntry example test', () => {
         diff: [],
       };
       const modelType: AuditModelTypes = 'client'
-      const rendered = render(<AuditChangeEntry change={change} modelType={modelType} />)
+      render(<AuditChangeEntry change={change} modelType={modelType} />)
     })
   
   })
