@@ -33,7 +33,6 @@ export const EditProject = () => {
   const navigate = useNavigate();
   const params = useParams();
   const model = useSelector((state: ConfacState) => state.projects.find(c => c._id === params.id));
-  console.log('retrieved model', model);
   const consultants = useSelector((state: ConfacState) => state.consultants);
   const [project, setProject] = useState<IProjectModel>(model || getNewProject());
   const consultant = useSelector((state: ConfacState) => state.consultants.find(x => x._id === project.consultantId) || getNewConsultant());
