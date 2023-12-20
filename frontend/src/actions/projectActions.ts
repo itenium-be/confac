@@ -12,7 +12,7 @@ import {TimesheetCheckAttachmentType} from '../models';
 import {authService} from '../components/users/authService';
 import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
 
-export function saveProject(project: IProjectModel, navigate?: any, after: 'to-list' | 'to-details' = 'to-list', triggerCopy?: any) {
+export function saveProject(project: IProjectModel, navigate?: any, after: 'to-list' | 'to-details' = 'to-list') {
   return (dispatch: Dispatch) => {
     dispatch(busyToggle());
     return request
@@ -30,7 +30,6 @@ export function saveProject(project: IProjectModel, navigate?: any, after: 'to-l
           if (after === 'to-list') {
             navigate('/projects');
           } else {
-            triggerCopy(response.body._id);
             navigate(`/projects/${response.body._id}`);
           }
         }

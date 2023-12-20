@@ -40,15 +40,10 @@ export const EditProject = () => {
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === project.client.clientId) || getNewClient());
   const hasProjectMonths = useSelector((state: ConfacState) => state.projectsMonth.some(pm => pm.projectId === params.id));
   const [needsSync, setNeedsSync] = useState<{consultant: boolean, client: boolean}>({consultant: false, client: false});
-  const [copyId, setCopyId] = useState(0);
-  const useCopy = (id: number) => {
-    setCopyId(id);
-  }
 
   const docTitle = consultant._id ? 'projectEdit' : 'projectNew';
   useDocumentTitle(docTitle, {consultant: consultant.firstName, client: client.name});
-  if (model && (!project._id || copyId !== 0)) {
-    setCopyId(0); //needs to be reset, otherwise page will go into render loop
+  if (model && (!project._id || project._id !== params.id)) {
     setProject(model);
   }
 
@@ -144,7 +139,7 @@ export const EditProject = () => {
         >
           {t('project.deleteConfirm.content')}
         </ConfirmationButton>
-        {project.endDate && project._id && <CopyProject projectToCopy={project} triggerCopy={useCopy} />}
+        {project.endDate && project._id && <CopyProject projectToCopy={project}/>}
         <BusyButton className="tst-save-project" onClick={() => dispatch(saveProject(project, navigate) as any)} disabled={isButtonDisabled}>
           {t('save')}
         </BusyButton>
