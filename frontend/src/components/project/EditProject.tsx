@@ -33,6 +33,7 @@ export const EditProject = () => {
   const navigate = useNavigate();
   const params = useParams();
   const model = useSelector((state: ConfacState) => state.projects.find(c => c._id === params.id));
+  console.log('retrieved model', model);
   const consultants = useSelector((state: ConfacState) => state.consultants);
   const [project, setProject] = useState<IProjectModel>(model || getNewProject());
   const consultant = useSelector((state: ConfacState) => state.consultants.find(x => x._id === project.consultantId) || getNewConsultant());
@@ -40,11 +41,15 @@ export const EditProject = () => {
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === project.client.clientId) || getNewClient());
   const hasProjectMonths = useSelector((state: ConfacState) => state.projectsMonth.some(pm => pm.projectId === params.id));
   const [needsSync, setNeedsSync] = useState<{consultant: boolean, client: boolean}>({consultant: false, client: false});
+  const [copyId, setCopyId] = useState(0);
+  const useCopy = (id: number) => {
+    setCopyId(id);
+  }
 
   const docTitle = consultant._id ? 'projectEdit' : 'projectNew';
   useDocumentTitle(docTitle, {consultant: consultant.firstName, client: client.name});
-
-  if (model && !project._id) {
+  if (model && (!project._id || copyId !== 0)) {
+    setCopyId(0); //needs to be reset, otherwise page will go into render loop
     setProject(model);
   }
 
@@ -131,7 +136,7 @@ export const EditProject = () => {
       </Form>
       <StickyFooter claim={Claim.ManageProjects}>
         <ConfirmationButton
-        className="tst-confirm-delete-project"
+          className="tst-confirm-delete-project"
           onClick={() => dispatch(deleteProject(project._id, navigate) as any)}
           variant="danger"
           title={t('project.deleteConfirm.title')}
@@ -140,7 +145,7 @@ export const EditProject = () => {
         >
           {t('project.deleteConfirm.content')}
         </ConfirmationButton>
-        {project.endDate && project._id && <CopyProject projectToCopy={project} />}
+        {project.endDate && project._id && <CopyProject projectToCopy={project} triggerCopy={useCopy} />}
         <BusyButton className="tst-save-project" onClick={() => dispatch(saveProject(project, navigate) as any)} disabled={isButtonDisabled}>
           {t('save')}
         </BusyButton>

@@ -9,10 +9,11 @@ import {Modal} from '../controls/Modal';
 import {saveProject} from '../../actions/projectActions';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {FullFormConfig} from '../../models';
-import { ContractStatus } from '../client/models/ContractModels';
+import {ContractStatus} from '../client/models/ContractModels';
 
 type CopyProjectProps = {
   projectToCopy: IProjectModel;
+  triggerCopy: any;
 }
 
 
@@ -25,7 +26,7 @@ export const copyProjectProperties: FullFormConfig = [
 ];
 
 
-export const CopyProject = ({projectToCopy}: CopyProjectProps) => {
+export const CopyProject = ({projectToCopy, triggerCopy}: CopyProjectProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const defaultProject = {
     ...projectToCopy,
@@ -45,7 +46,7 @@ export const CopyProject = ({projectToCopy}: CopyProjectProps) => {
         <Modal
           show
           onClose={() => setOpen(false)}
-          onConfirm={() => dispatch(saveProject(project, history, 'to-details') as any)}
+          onConfirm={() => dispatch(saveProject(project, history, 'to-details', triggerCopy) as any)}
           title={t('project.copy.modalTitle')}
         >
           <div className="container">

@@ -12,7 +12,7 @@ import {TimesheetCheckAttachmentType} from '../models';
 import {authService} from '../components/users/authService';
 import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
 
-export function saveProject(project: IProjectModel, navigate?: any, after: 'to-list' | 'to-details' = 'to-list') {
+export function saveProject(project: IProjectModel, navigate?: any, after: 'to-list' | 'to-details' = 'to-list', triggerCopy?: any) {
   return (dispatch: Dispatch) => {
     dispatch(busyToggle());
     return request
@@ -30,10 +30,7 @@ export function saveProject(project: IProjectModel, navigate?: any, after: 'to-l
           if (after === 'to-list') {
             navigate('/projects');
           } else {
-            // First navigate away?
-            // Workaround for EditProject not reloading the form
-            // when the url _id changes. Need a hook for this :)
-            navigate('/projects');
+            triggerCopy(response.body._id);
             navigate(`/projects/${response.body._id}`);
           }
         }
