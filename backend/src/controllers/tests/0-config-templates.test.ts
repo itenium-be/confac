@@ -18,6 +18,9 @@ const res = {
 
 describe('config controller :: getTemplates', () => {
   // This test breaks CI even when skipping, so it is commented out for now
+
+  // TODO: hmm, the rest is green but there is a weird error in the console
+  // TODO: What to do...
   // --> Fix the required-at error (Hint: you probably don't want to go down this road;)
   // --> Move getTemplates to a separate file (VSCode Extension: glean?)
   /* it('returns all pug files in relative folder ./templates when !ENABLE_ROOT_TEMPLATES', async () => {
