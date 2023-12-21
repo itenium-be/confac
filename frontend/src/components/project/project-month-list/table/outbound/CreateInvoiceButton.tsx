@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FullProjectMonthModel } from '../../../models/FullProjectMonthModel';
 import { createInvoice, deleteProjectMonthAttachmentDetails } from '../../../../../actions';
-import { Button } from '../../../../controls/form-controls/Button';
 import { Icon } from '../../../../controls/Icon';
 import { t, moneyFormat } from '../../../../utils';
 import { ConfacState } from '../../../../../reducers/app-state';
