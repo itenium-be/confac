@@ -11,6 +11,7 @@ import InvoiceModel from '../../../../invoice/models/InvoiceModel';
 import { Claim } from '../../../../users/models/UserModel';
 import { ClaimGuard } from '../../../../enhancers/EnhanceWithClaim';
 import { InvoiceLine } from '../../../../invoice/models/InvoiceLineModels';
+import {BusyButton} from '../../../../controls/form-controls/BusyButton';
 
 interface CreateInvoiceButtonProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -69,10 +70,10 @@ export const CreateInvoiceButton = ({ fullProjectMonth }: CreateInvoiceButtonPro
 
   return (
     <ClaimGuard claim={Claim.ManageInvoices}>
-      <Button className="tst-create-invoice" variant={valid ? 'success' : 'outline-danger'} onClick={() => createInvoiceFully(invoice)} title={title}>
+      <BusyButton className="tst-create-invoice" variant={valid ? 'success' : 'outline-danger'} onClick={() => createInvoiceFully(invoice)} title={title}>
         <Icon fa="fa fa-file-invoice" size={1} style={{ marginRight: 8 }} />
         {t('projectMonth.outboundCreateInvoice')}
-      </Button>
+      </BusyButton>
     </ClaimGuard>
   );
 };
