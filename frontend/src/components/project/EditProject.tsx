@@ -23,6 +23,7 @@ import {Col} from 'react-bootstrap';
 import { SingleContractIcon } from "../client/contract/SingleContractIcon";
 import {EnhanceWithConfirmation} from '../enhancers/EnhanceWithConfirmation';
 import {Button} from '../controls/form-controls/Button';
+import {isDateIntervalValid} from '../controls/other/DateValidator';
 
 
 const ConfirmationButton = EnhanceWithConfirmation(Button);
@@ -102,7 +103,7 @@ export const EditProject = () => {
   const isButtonDisabled = !project.consultantId
     || !project.client || !project.client.clientId
     || (!project.client.defaultInvoiceLines.length && !project.client.defaultInvoiceLines[0].price)
-    || !project.startDate;
+    || !project.startDate || (project.endDate ? !isDateIntervalValid(project.startDate, project.endDate) : false);
 
   return (
     <Container className="edit-container">
