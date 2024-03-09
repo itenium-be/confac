@@ -129,7 +129,7 @@ function refreshToken(): void {
 function authenticateUser(loginResponse: any, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) {
   setState('');
 
-  console.log('loginResponse', loginResponse);
+  // console.log('loginResponse', loginResponse);
   const idToken = loginResponse.credential;
   return dispatch => {
     request.post(buildUrl('/user/login'))
@@ -137,7 +137,7 @@ function authenticateUser(loginResponse: any, setState: React.Dispatch<SetStateA
       .set('Accept', 'application/json')
       .send({idToken})
       .then(res => {
-        console.log('login result', res.body);
+        // console.log('login result', res.body);
         authService.authenticated(res.body.jwt);
         dispatch(initialLoad());
         setState('loggedIn');
