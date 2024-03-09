@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react';
 import moment from 'moment';
 import { displayMonthWithYear } from "../project-month-utils";
 import {t} from '../../../utils';
 import { TimesheetBadge } from './badges/TimesheetBadge';
 import { InboundBadge } from './badges/InboundBadge';
 import { OutboundBadge } from './badges/OutboundBadge';
-import { createProjectMonthBadgesSelector } from './createProjectMonthBadgesSelector';
 import { useSelector } from 'react-redux';
 import { ToggleProjectMonthButton } from '../ToggleProjectMonthButton';
+import { selectProjectMonthBadges } from './createProjectMonthBadgesSelector';
+import { ConfacState } from '../../../../reducers/app-state';
 
 
 const VerifiedBadge = (
@@ -20,8 +20,7 @@ const VerifiedBadge = (
 
 /** ProjectMonth when the list is not visible, displaying badges */
 export const ProjectMonthListCollapsed = ({month}: {month: string}) => {
-  const selectProjectMonthBadges = useMemo(createProjectMonthBadgesSelector, []);
-  const totals = useSelector((state) => selectProjectMonthBadges(state, month));
+  const totals = useSelector((state: ConfacState) => selectProjectMonthBadges({state, month}));
 
   const allVerified = totals.verified === totals.total;
   const hasTimesheetPending = totals.timesheetPending.length !== 0;
