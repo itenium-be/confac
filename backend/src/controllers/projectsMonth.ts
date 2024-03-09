@@ -8,10 +8,11 @@ import {saveAudit} from './utils/audit-logs';
 
 
 export const getProjectsPerMonthController = async (req: Request, res: Response) => {
-  const query = req.query as any;
-  const getFrom = moment().subtract(query.months, 'months').startOf('month').format('YYYY-MM-DD');
+  // const query = req.query as any;
+  // const getFrom = moment().subtract(query.months, 'months').startOf('month').format('YYYY-MM-DD');
   const projectsPerMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
-    .find({month: {$gte: getFrom}})
+    // .find({month: {$gte: getFrom}})
+    .find({})
     .toArray();
   return res.send(projectsPerMonth);
 };

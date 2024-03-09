@@ -61,9 +61,10 @@ const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMo
 
 
 export const getInvoicesController = async (req: Request<void, void, void, {months: number}>, res: Response) => {
-  const getFrom = moment().subtract(req.query.months, 'months').startOf('month').format('YYYY-MM-DD');
+  // const getFrom = moment().subtract(req.query.months, 'months').startOf('month').format('YYYY-MM-DD');
   const invoices = await req.db.collection(CollectionNames.INVOICES)
-    .find({date: {$gte: getFrom}})
+    // .find({date: {$gte: getFrom}})
+    .find({})
     .toArray();
   return res.send(invoices);
 };
