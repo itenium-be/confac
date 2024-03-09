@@ -8,12 +8,9 @@ import {UserModel, Claim} from './models/UserModel';
 import {getRoles} from '../../reducers/user-reducers';
 import {IAuthService} from './auth/IAuthService';
 import {JwtModel} from './models/JwtModel';
-import {getFakeClaims, getFakeJwtToken} from './auth/auth-helpers';
+
 
 class AuthService implements IAuthService {
-  _jwt = '';
-  _token: JwtModel | null = null;
-  _claims: Claim[] = [];
   _fake = false;
 
   constructor() {
@@ -24,7 +21,7 @@ class AuthService implements IAuthService {
   }
 
   loggedIn(): boolean {
-    return !!this._jwt;
+    return !!localStorage.getItem('jwt');
   }
 
   /**
@@ -37,52 +34,46 @@ class AuthService implements IAuthService {
 
   anonymousLogin(name: string): void {
     this._fake = true;
-    this._jwt = name;
-    this._token = getFakeJwtToken(name);
-    this._claims = getFakeClaims();
   }
 
   authenticated(jwt: string): void {
     localStorage.setItem('jwt', jwt);
-    this._jwt = jwt;
-    this._token = jwt ? parseJwt(jwt) : null;
-    const user = this._token?.data;
-    if (user) {
-      this._claims = getRoles()
-        .filter(x => (user.roles || []).includes(x.name))
-        .map(x => x.claims)
-        .flat();
-
-    } else {
-      this._claims = [];
-    }
   }
 
   logout(): void {
     localStorage.removeItem('jwt');
-    this._jwt = '';
-    this._token = null;
-    this._claims = [];
   }
 
   getBearer(): string {
-    return `Bearer ${this._jwt}`;
+    return `Bearer ${localStorage.getItem('jwt')}`;
   }
 
   getTokenString(): string | null {
-    return this._jwt || null;
+    return localStorage.getItem('jwt') || null;
   }
 
   getToken(): JwtModel | null {
-    return this._token;
+    const token = localStorage.getItem('jwt');
+    if (!token) {
+      return null;
+    }
+    return parseJwt(token);
   }
 
   getUser(): UserModel | null {
-    return this._token?.data || null;
+    return this.getToken()?.data || null;
   }
 
   getClaims(): Claim[] {
-    return this._claims;
+    const user = this.getToken()?.data;
+    if (user) {
+      return getRoles()
+        .filter(x => (user.roles || []).includes(x.name))
+        .map(x => x.claims)
+        .flat();
+
+    }
+    return [];
   }
 
   refresh(): void {
