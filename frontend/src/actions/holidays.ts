@@ -4,8 +4,6 @@ import Holidays from 'date-holidays';
 class HolidaysService {
   /** Returns the number of workdays in the month */
   get(momentInst: moment.Moment): number {
-    console.log('HolidaysService.get');
-
     const curMonth = momentInst.month();
     const hd = new Holidays('BE');
 
