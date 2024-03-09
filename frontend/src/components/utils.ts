@@ -2,9 +2,9 @@ import numeral from 'numeral';
 import moment from 'moment';
 import latinize from 'latinize';
 
-export const defaultLocale = 'nl';
+export const defaultLocale = 'en';
 
-numeral.register('locale', defaultLocale, {
+numeral.register('locale', 'nl', {
   delimiters: {
     thousands: '.',
     decimal: ',',
@@ -44,9 +44,9 @@ export function tariffFormat(input: number): string {
  */
 export const getNumeric = (text: string) => text.replace(/[^0-9]+/g, '');
 
-export const datePickerDateFormat = 'dd/MM/yyyy';
+export const datePickerDateFormat = 'MM/dd/yyyy';
 
-export const formatDate = (date?: string | Date | moment.Moment, format = 'DD/MM/YYYY'): string => {
+export const formatDate = (date?: string | Date | moment.Moment, format = 'MM/DD/YYYY'): string => {
   if (!date) {
     return '';
   }

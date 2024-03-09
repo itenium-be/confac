@@ -11,17 +11,16 @@ if (process.env.NODE_ENV !== 'production') {
 
 
 import moment from 'moment';
-import 'moment/locale/nl';
-import 'moment/locale/fr';
+// import 'moment/locale/nl';
 
 
 moment.locale(defaultLocale);
 
 
 import {registerLocale, setDefaultLocale} from 'react-datepicker';
-import nl from 'date-fns/locale/nl';
+import en from 'date-fns/locale/en-US' ;
 
-registerLocale(defaultLocale, nl);
+registerLocale(defaultLocale, en);
 setDefaultLocale(defaultLocale);
 
 // ATTN: See util.ts for numeral nl configuration
