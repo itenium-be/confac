@@ -31,7 +31,6 @@ export function useProjects(month?: Moment): FullProjectModel[] {
 
 /** Resolve a single ProjectModel _id */
 export function useProjectsMonth(projectMonthId?: string): FullProjectMonthModel | undefined {
-  // TODO: here also:
   const confacState = useSelector((state: ConfacState) => state);
   if (!projectMonthId) {
     return undefined;
