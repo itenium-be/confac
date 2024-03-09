@@ -61,7 +61,7 @@ export const defaultAppState: AppState = {
   isBusy: false,
   busyCount: 0,
   settings: {
-    listSize: 100,
+    listSize: 500,
   },
   lastMonthsDownloaded: null,
   invoiceFilters: {
