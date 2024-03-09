@@ -22,8 +22,10 @@ const selectAllData = createSelector(
 
 /** Calculates the totals needed for rendering the timesheet/inbound/outbound badges for one projectMonth */
 export const createProjectMonthBadgesSelector = () => createSelector(
-  selectAllData,
-  (_, month: string) => month,
+  [
+    selectAllData,
+    (_, month: string) => month
+  ],
   ({projectsMonth, projects, consultants, clients}, month) => {
     const projectMonths = projectsMonth
       .filter(x => x.month.isSame(month, 'month') && x.verified !== 'forced')
