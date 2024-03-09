@@ -26,12 +26,14 @@ const selectInvoices = (state: ConfacState) => state.invoices;
 
 
 export const createFullProjectMonthsSelector = () => createSelector(
-  selectProjectMonths,
-  selectProjects,
-  selectConsultants,
-  selectClients,
-  selectInvoices,
-  (_, month: string) => month,
+  [
+    selectProjectMonths,
+    selectProjects,
+    selectConsultants,
+    selectClients,
+    selectInvoices,
+    (_, month: string) => month
+  ],
   (projectsMonth, projects, consultants, clients, invoices, month) => {
     const context: ProjectMonthResolverState = {
       projectsMonth, projects, consultants, clients, invoices
