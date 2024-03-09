@@ -281,5 +281,7 @@ export function calculateDaysWorked(invoices: InvoiceModel[]): DaysWorked {
     hoursWorked: a.hoursWorked + b.hoursWorked,
   }), {daysWorked: 0, hoursWorked: 0});
 
-  return invoiceDayTotals;
+  const workDaysInMonth = getWorkDaysInMonths(invoices);
+  const result = Object.assign(invoiceDayTotals, {workDaysInMonth});
+  return result;
 }
