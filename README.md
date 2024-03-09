@@ -57,7 +57,7 @@ See `deploy/deploy.sh`
 
 ### Seeding random data
 
-Configure amounts in `backend/src/faker/insertStuff.ts`
+Configure amounts in `backend/src/faker/faker-config.ts`
 and the mongo creds in `backend/src/faker/index.ts`.
 
 ```sh

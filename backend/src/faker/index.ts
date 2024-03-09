@@ -6,7 +6,7 @@ dotenv.config();
 
 const appConfig = {
   db: {
-    host: process.env.MONGO_HOST || '',
+    host: process.env.MONGO_HOST || 'localhost',
     db: process.env.MONGO_DB || '',
     port: +(process.env.MONGO_PORT || 27017),
     user: process.env.MONGO_USERNAME || '',

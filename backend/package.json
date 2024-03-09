@@ -12,7 +12,7 @@
     "start:build": "node ./public/server.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "faker": "node ./public/faker/index.js"
+    "faker": "npm run build && node ./public/faker/index.js"
   },
   "husky2": {
     "hooks": {

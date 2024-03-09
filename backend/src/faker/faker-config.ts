@@ -13,11 +13,13 @@ const projectConfig: ProjectConfig = {
 
 
 const projectMonthsConfig = {
+  // TODO: this is not implemented, use the UI?
   amount: 0,
 };
 
 
 const invoicesConfig = {
+  // TODO: only works after having created some projectMonths (use UI)
   amount: 0,
 }
 

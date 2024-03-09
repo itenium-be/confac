@@ -163,8 +163,13 @@ export const getNewProjects = async (db: Db, config: ProjectConfig) => {
 export const getNewInvoices = async (db: Db, config: any) => {
   const consultants = await db.collection('consultants').find().toArray();
   const projectMonths = await db.collection('projects_month').find().toArray();
-  const projects = await db.collection('projects').find().toArray();
+  // const projects = await db.collection('projects').find().toArray();
   const clients = await db.collection('clients').find().toArray();
+
+  if (!projectMonths.length) {
+    console.log('No projectMonths found! Create some through the UI!');
+    return [];
+  }
 
   const newInvoices = Array(config.amount).fill(0).map((_, index) => {
     const client = clients[Math.floor(Math.random() * clients.length)];
@@ -300,6 +305,8 @@ export async function insertAdminRole(db: Db) {
 export const getNewProjectMonths = async (db: Db, config: ProjectConfig) => {
   const clients = await db.collection('clients').find().toArray();
   const clientIds = clients.map(x => x._id);
+
+  console.log('insert new ProjectMonths -- Oopsie, not implemented!!');
 
   // TODO: insert projectMonths here...
 
