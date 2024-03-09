@@ -5,7 +5,7 @@ import {MailData} from '@sendgrid/helpers/classes/mail';
 import fs from 'fs';
 import tmp from 'tmp';
 import {ObjectID} from 'mongodb';
-import {IAttachmentCollection, IAttachments, ISendGridAttachment} from '../models/attachments';
+import {IAttachmentCollection, ISendGridAttachment} from '../models/attachments';
 import {IEmail} from '../models/clients';
 import {CollectionNames, IAttachment} from '../models/common';
 
@@ -18,9 +18,9 @@ type EmailAttachmentRequest = {
 type EmailRequest = Omit<IEmail, 'attachments'> & {attachments: EmailAttachmentRequest[]};
 
 
-export const emailInvoiceController = async (req: Request, res: Response) => {
+export const emailInvoiceController = async (req: Request<{id: number}, any, EmailRequest, {emailInvoiceOnly: string}>, res: Response) => {
   const invoiceId = req.params.id;
-  const email: EmailRequest = req.body;
+  const email = req.body;
 
   const attachmentTypes = email.attachments.map(a => a.type).reduce((acc: { [key: string]: number; }, cur) => {
     acc[cur] = 1;
@@ -75,7 +75,7 @@ async function buildInvoiceEmailData(
     const files: tmp.FileResult[] = [];
     attachments.forEach(attachment => {
       const tmpFile = tmp.fileSync();
-      fs.writeSync(tmpFile.fd, attachmentBuffers[attachment.type as keyof IAttachment].buffer);
+      fs.writeSync(tmpFile.fd, attachmentBuffers[attachment.type as keyof IAttachment].buffer as Buffer);
       files.push(tmpFile);
     });
 
@@ -107,7 +107,7 @@ async function buildInvoiceEmailData(
     const invoiceBuffer = sendGridAttachments[0].content.buffer;
 
     const invoiceFile = tmp.fileSync();
-    fs.writeSync(invoiceFile.fd, invoiceBuffer);
+    fs.writeSync(invoiceFile.fd, invoiceBuffer as Buffer);
 
     const termsCondFile = tmp.fileSync();
     fs.writeSync(termsCondFile.fd, termsAndConditions);
@@ -138,14 +138,15 @@ async function buildInvoiceEmailData(
 
 async function sendEmail(res: Response, mailData: MailData): Promise<Response | null> {
   try {
-    await sgMail.send(mailData, false).then(() => {
+    await sgMail.send(mailData as any, false).then(() => {
       const tos = [mailData.to, mailData.cc, mailData.bcc].filter(x => !!x).join(', ');
-      const atts = mailData.attachments?.map(x => x.filename);
+      const atts = mailData.attachments?.map((x: any) => x.filename);
       // eslint-disable-next-line
       console.log(`Mail sent successfully to ${tos}. Subject=${mailData.subject}. Attachments=${atts}`);
     });
 
-  } catch (error) {
+  } catch (err) {
+    const error = err as any;
     if (error.code === 401) {
       // eslint-disable-next-line
       console.log('SendGrid returned 401. API key not set?');

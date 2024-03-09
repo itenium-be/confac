@@ -58,7 +58,7 @@ export const getTemplates = (req: Request, res: Response) => {
 
 
 /** Get logs_audit for an entity */
-export const getAudit = async (req: Request, res: Response) => {
+export const getAudit = async (req: Request<void, void, void, {model: string, modelId: number}>, res: Response) => {
   const logs = await req.db.collection('logs_audit')
     .find({model: req.query.model, modelId: new ObjectID(req.query.modelId)})
     .toArray();

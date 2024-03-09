@@ -111,13 +111,15 @@ export const createXml = (savedInvoice: IInvoice): string => {
     const customerPostalAddress = new PostalAddress({
       streetName: savedInvoice.client.address.trim(),
       cityName: savedInvoice.client.city.trim(),
-      country: new Country({identificationCode: customerCountryAndCode ? customerCountryAndCode.code : DEFAULT_COUNTRY_CODE})
+      country: new Country({identificationCode: customerCountryAndCode ? customerCountryAndCode.code : DEFAULT_COUNTRY_CODE}),
+      postalZone: '',
     });
 
     const supplierPostalAddress = new PostalAddress({
       streetName: savedInvoice.your.address.trim(),
       cityName: savedInvoice.your.city.trim(),
-      country: new Country({identificationCode: DEFAULT_COUNTRY_CODE})
+      country: new Country({identificationCode: DEFAULT_COUNTRY_CODE}),
+      postalZone: '',
     });
     const supplierLegalEntity = new PartyLegalEntity({
       registrationName: savedInvoice.your.name,
@@ -228,10 +230,10 @@ export const createXml = (savedInvoice: IInvoice): string => {
       })
     });
 
-    const orderRef = savedInvoice.orderNr && savedInvoice.orderNr.trim().length !== 0 ? savedInvoice.orderNr : savedInvoice._id;
-    
-    /** More info on invoice type codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNCL1001-inv/ 
-     *  Code 380 signals a commercial invoice. 
+    const orderRef = savedInvoice.orderNr && savedInvoice.orderNr.trim().length !== 0 ? savedInvoice.orderNr : savedInvoice._id.toString();
+
+    /** More info on invoice type codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNCL1001-inv/
+     *  Code 380 signals a commercial invoice.
     */
     const commercialInvoiceTypeCode = '380';
 

@@ -18,7 +18,7 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user:
 
   const [createdInvoice] = inserted.ops;
 
-  
+
   if (!invoice.isQuotation) {
     const xmlBuffer = Buffer.from(createXml(invoice));
     await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf' | 'xml'>>(CollectionNames.ATTACHMENTS).insertOne({
@@ -60,7 +60,7 @@ const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMo
 };
 
 
-export const getInvoicesController = async (req: Request, res: Response) => {
+export const getInvoicesController = async (req: Request<void, void, void, {months: number}>, res: Response) => {
   const getFrom = moment().subtract(req.query.months, 'months').startOf('month').format('YYYY-MM-DD');
   const invoices = await req.db.collection(CollectionNames.INVOICES)
     .find({date: {$gte: getFrom}})
