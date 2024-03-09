@@ -12,11 +12,11 @@ export const UserSettings = () => {
 
   return (
     <div className="row">
-      <h2 style={{ marginTop: 34 }}>Instellingen</h2>
+      <h2 style={{ marginTop: 34 }}>Settings</h2>
 
       <div className="col-6">
         <NumericInput
-          label={'Aantal records per pagina tonen'}
+          label={'Records per page'}
           value={listSize}
           onChange={value => dispatch({ type: ACTION_TYPES.APP_SETTINGS_UPDATED, payload: { listSize: value } })} />
       </div>

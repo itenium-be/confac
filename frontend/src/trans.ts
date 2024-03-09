@@ -1,4 +1,4 @@
-import {trans, features} from './trans.nl';
+import {trans, features} from './trans.en';
 
 export {features};
 
