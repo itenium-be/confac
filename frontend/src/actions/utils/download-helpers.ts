@@ -17,7 +17,8 @@ export function getDownloadUrl(
   modelType: keyof DownloadAttachmentModelTypes,
   _id: string,
   attachmentType: string,
-  fileName: string, downloadType?: 'preview' | 'download',
+  fileName: string,
+  downloadType?: 'preview' | 'download',
 ): string {
 
   let query = `?token=${authService.getTokenString()}`;

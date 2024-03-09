@@ -72,10 +72,21 @@ export function useProjectsMonths(): FullProjectMonthModel[] {
 
 
 export function useProjectMonthFromInvoice(invoiceId: string): FullProjectMonthModel | undefined {
-  const fullProjectMonth = useSelector((state: ConfacState) => projectMonthResolve(state)
-    .find(x => x.invoice && x.invoice._id === invoiceId));
+  const fullProjectMonth = useSelector((state: ConfacState) => {
+    const invoice = state.invoices.find(x => x._id === invoiceId);
+    if (!invoice?.projectMonth?.projectMonthId) {
+      return undefined;
+    }
 
-  return fullProjectMonth;
+    const projectMonth = state.projectsMonth.find(x => x._id === invoice?.projectMonth?.projectMonthId);
+    if (!projectMonth) {
+      return undefined;
+    }
+
+    return mapToProjectMonth(state, projectMonth as ProjectMonthModel, invoice);
+  });
+
+  return fullProjectMonth ?? undefined;
 }
 
 /** Can be used to do the resolving in legacy Component classes */
@@ -91,7 +102,7 @@ export function projectMonthResolve(confacState: ProjectMonthResolverState): Ful
 }
 
 
-export function mapToProjectMonth(confacState: ProjectMonthResolverState, projectMonth: ProjectMonthModel): null | FullProjectMonthModel {
+export function mapToProjectMonth(confacState: ProjectMonthResolverState, projectMonth: ProjectMonthModel, invoice?: InvoiceModel): null | FullProjectMonthModel {
   const project = confacState.projects.find(p => p._id === projectMonth.projectId);
   if (!project) {
     return null;
@@ -114,7 +125,7 @@ export function mapToProjectMonth(confacState: ProjectMonthResolverState, projec
     consultant,
     client,
     partner: project.partner && confacState.clients.find(c => project.partner && c._id === project.partner.clientId),
-    invoice: confacState.invoices.find(i => i.projectMonth && i.projectMonth.projectMonthId === projectMonth._id),
+    invoice: invoice || confacState.invoices.find(i => i.projectMonth && i.projectMonth.projectMonthId === projectMonth._id),
   };
 
   return new FullProjectMonthModel(fullModel);
