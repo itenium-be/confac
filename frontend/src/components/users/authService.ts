@@ -6,31 +6,9 @@ import {buildUrl} from '../../actions/utils/buildUrl';
 import {initialLoad} from '../../actions/initialLoad';
 import {UserModel, Claim} from './models/UserModel';
 import {getRoles} from '../../reducers/user-reducers';
-
-interface IAuthService {
-  loggedIn: () => boolean;
-  login: (res: any, dispatch: Dispatch<any>, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) => void;
-  anonymousLogin: (name: string) => void;
-  logout: () => void;
-  getBearer: () => string;
-  getTokenString: () => string | null;
-  getToken: () => JwtModel | null;
-  getUser: () => UserModel | null;
-  getClaims: () => Claim[],
-  refresh: () => void;
-  /** In ms */
-  refreshInterval: () => number;
-  /** For redirecting to after login */
-  entryPathname: string;
-}
-
-type JwtModel = {
-  iat: number;
-  exp: number;
-  data: UserModel;
-}
-
-
+import {IAuthService} from './auth/IAuthService';
+import {JwtModel} from './models/JwtModel';
+import {getFakeClaims, getFakeJwtToken} from './auth/auth-helpers';
 
 class AuthService implements IAuthService {
   _jwt = '';
@@ -60,25 +38,8 @@ class AuthService implements IAuthService {
   anonymousLogin(name: string): void {
     this._fake = true;
     this._jwt = name;
-    this._token = {
-      iat: 0,
-      exp: 0,
-      data: {
-        _id: name,
-        email: name + '@itenium.be',
-        name: 'X',
-        firstName: name,
-        alias: name,
-        active: true,
-        roles: ['admin'],
-        audit: {
-          createdOn: new Date().toISOString(),
-          createdBy: name,
-        },
-      }
-    };
-
-    this._claims = Object.keys(Claim).filter(key => Number.isNaN(Number(key))).map(key => Claim[key]);
+    this._token = getFakeJwtToken(name);
+    this._claims = getFakeClaims();
   }
 
   authenticated(jwt: string): void {
