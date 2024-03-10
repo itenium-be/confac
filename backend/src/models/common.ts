@@ -51,6 +51,8 @@ export function updateAudit(audit: IAudit, user: Jwt): IAudit {
   }
 
   return {
+    // TODO: when doing an update, it takes the audit from the body and not from the db
+    //       allowing the user to overwrite the audit.createdBy by modifying the request
     ...audit,
     modifiedOn: new Date().toISOString(),
     modifiedBy: user.data._id,
