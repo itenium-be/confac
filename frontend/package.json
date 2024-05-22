@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "start": "react-scripts start",
+    "start-ssl": "set HTTPS=true&&set SSL_CRT_FILE=./cert/cert.pem&&set SSL_KEY_FILE=./cert/key.pem&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!astronomia)/\"",
     "eject": "react-scripts eject",
