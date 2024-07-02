@@ -9,13 +9,12 @@ import {ITextEditorCustomReplacement} from '../../../invoice/invoice-replacement
 type TextEditorReplacementsProps = {
   onChange?: (editorState: EditorState) => void,
   editorState: EditorState,
-  replacements: ITextEditorCustomReplacement[],
-  addClearButton?: boolean
+  replacements: ITextEditorCustomReplacement[]
 }
 
 
 
-export const TextEditorReplacements = ({onChange, editorState, replacements, addClearButton}: TextEditorReplacementsProps) => {
+export const TextEditorReplacements = ({onChange, editorState, replacements}: TextEditorReplacementsProps) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const addPlaceholder = (placeholder: string): void => {
@@ -60,7 +59,7 @@ export const TextEditorReplacements = ({onChange, editorState, replacements, add
           </ul>
         </div>
       </div>
-      {addClearButton ? <button type='button' className="rdw-option-wrapper" onClick={() => clearText()}> Clear</button> : null}
+      <button type='button' className="rdw-option-wrapper" onClick={() => clearText()}> Clear</button>
     </div>
   );
 };
