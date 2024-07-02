@@ -17,7 +17,7 @@ import './EmailForm.scss';
 type EmailFormProps = BaseInputProps<EmailModel> & {
   /** Attachments that are available for emailing */
   attachmentsAvailable: string[],
-  textEditorReplacements?: ITextEditorCustomReplacement[];
+  textEditorReplacements?: ITextEditorCustomReplacement[]
 };
 
 export const EmailForm = ({value, onChange, attachmentsAvailable, textEditorReplacements}: EmailFormProps) => {
@@ -29,7 +29,7 @@ export const EmailForm = ({value, onChange, attachmentsAvailable, textEditorRepl
   let getToolbarCustomButtons: (editorState: EditorState) => JSX.Element[] = () => [];
   if (textEditorReplacements && textEditorReplacements.length) {
     getToolbarCustomButtons = (editorState: EditorState) => (
-      [<TextEditorReplacements editorState={editorState} replacements={textEditorReplacements} />]
+      [<TextEditorReplacements editorState={editorState} replacements={textEditorReplacements}/>]
     );
   }
 
