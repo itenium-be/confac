@@ -39,7 +39,7 @@ export const TextEditorReplacements = ({onChange, editorState, replacements}: Te
   }
 
   return (
-    <div className="rdw-inline-wrapper">
+    <>
       <div onClick={() => setOpen(!open)} className="rdw-block-wrapper" aria-label="rdw-block-control" role="button" tabIndex={0}>
         <div className="rdw-dropdown-wrapper rdw-block-dropdown" aria-label="rdw-dropdown" style={{width: 180}}>
           <div className="rdw-dropdown-selectedtext">
@@ -59,7 +59,14 @@ export const TextEditorReplacements = ({onChange, editorState, replacements}: Te
           </ul>
         </div>
       </div>
-      <button type='button' className="rdw-option-wrapper" onClick={() => clearText()}> Clear</button>
-    </div>
+      <div className="rdw-inline-wrapper" aria-label="rdw-inline-control">
+        <div 
+          className="rdw-option-wrapper" 
+          aria-selected={false}
+          title={t("config.invoiceReplacements.clearButton")}
+          onClick={() => clearText()} > {t("config.invoiceReplacements.clearButton")}</div>
+      </div>
+    </>
+
   );
 };
