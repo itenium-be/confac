@@ -7,6 +7,7 @@ export const configDefinition: FullFormConfig = [
   {title: 'config.company.title'},
   'company.name',
   'company.address',
+  'company.postalCode',
   'company.city',
   {key: 'company.telephone', component: 'phone'},
   {key: 'company.email', component: 'email'},
