@@ -12,6 +12,7 @@ export interface ICompanyConfig {
     name: string;
     address: string;
     city: string;
+    postalCode: string;
     btw: string;
     bank: string;
     iban: string;
