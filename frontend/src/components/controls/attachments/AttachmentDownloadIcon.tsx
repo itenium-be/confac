@@ -19,7 +19,7 @@ export const InvoiceDownloadIcon = ({invoice, fileType, style, ...props}: Invoic
   const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
 
   const fullProjectMonth = useProjectMonthFromInvoice(invoice._id);
-  const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, 'pdf', 'download', fullProjectMonth);
+  const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, fileType, 'download', fullProjectMonth);
   return (
     <AttachmentDownloadIcon
       downloadUrl={url}

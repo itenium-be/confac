@@ -249,7 +249,7 @@ export const createXml = (savedInvoice: IInvoice): string => {
     invoiceXml.setAccountingSupplierParty(accountingSupplierParty);
     invoiceXml.setAccountingCustomerParty(accountingCustomerParty);
     invoiceXml.setLegalMonetaryTotal(legalMonetaryTotal);
-    invoiceXml.setID(savedInvoice.number.toString());
+    invoiceXml.setID(savedInvoice._id.toString());
     invoiceXml.setOrderReference(new OrderReference({id: orderRef}));
     invoiceXml.addTaxTotal(taxTotal);
     invoiceXml.addPaymentMeans(paymentMeans);
