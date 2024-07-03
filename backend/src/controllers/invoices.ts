@@ -20,7 +20,7 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user:
 
 
   if (!invoice.isQuotation) {
-    const xmlBuffer = Buffer.from(createXml(invoice));
+    const xmlBuffer = Buffer.from(createXml(createdInvoice));
     await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf' | 'xml'>>(CollectionNames.ATTACHMENTS).insertOne({
       _id: new ObjectID(createdInvoice._id),
       pdf: pdfBuffer,
