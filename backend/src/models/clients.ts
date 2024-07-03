@@ -31,6 +31,7 @@ export interface IClient {
   name: string;
   address: string;
   city: string;
+  postalCode: string;
   country: string;
   telephone: string;
   btw: string;

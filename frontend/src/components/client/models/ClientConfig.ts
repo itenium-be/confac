@@ -11,6 +11,7 @@ export const defaultClientProperties: FullFormConfig = [
   {key: 'slug', updateOnly: true},
   {key: 'address'},
   {key: 'city'},
+  {key: 'postalCode'},
   {key: 'country', component: 'CountrySelect'},
   {key: 'telephone', component: 'phone'},
   {key: 'contact', suffix: 'user'},
