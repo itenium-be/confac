@@ -28,6 +28,7 @@ export interface ICompany {
   name: string;
   address: string;
   city: string;
+  postalCode: string;
   btw: string;
   rpr: string;
   bank: string;
@@ -77,8 +78,8 @@ export const INVOICE_EXCEL_HEADERS = [
   'First line desc', 'Id',
 ];
 
-/** 
- * ISO 3166 country codes used to identify countries 
+/**
+ * ISO 3166 country codes used to identify countries
  * This is a requirement for the e-invoice xml based on the peppol protocol
  * see https://docs.peppol.eu/poacc/billing/3.0/codelist/ISO3166/
  */
@@ -90,7 +91,7 @@ export const COUNTRY_CODES = [
   {code: 'GB', country: 'UK'}
 ]
 
-/** 
+/**
  * Endpoint scheme codes are a requirement for the e-invoice xml based on the peppol protocol and represent international commercial entity codes
  * more info on endpoint scheme codes:  https://docs.peppol.eu/poacc/billing/3.0/codelist/eas/ */
 export const ENDPOINT_SCHEMES = [
@@ -103,7 +104,7 @@ export const ENDPOINT_SCHEMES = [
 
 /**
  * Unit codes are a requirement for the e-invoice xml based on the peppol protocol
- * more info on unit codes: more info on unit codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNECERec20/ 
+ * more info on unit codes: more info on unit codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNECERec20/
  */
 
 type UnitCodes = { unit: EditClientRateType, code: string };

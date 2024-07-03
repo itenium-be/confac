@@ -82,7 +82,7 @@ export const getTemplatesPath = (): string => {
 };
 
 /**
- *This method creates an invoice xml following UBL 2.1 standard, required for Peppol protocol. 
+ *This method creates an invoice xml following UBL 2.1 standard, required for Peppol protocol.
   Check https://docs.peppol.eu/poacc/billing/3.0/ for full documentation.
  */
 export const createXml = (savedInvoice: IInvoice): string => {
@@ -112,15 +112,16 @@ export const createXml = (savedInvoice: IInvoice): string => {
       streetName: savedInvoice.client.address.trim(),
       cityName: savedInvoice.client.city.trim(),
       country: new Country({identificationCode: customerCountryAndCode ? customerCountryAndCode.code : DEFAULT_COUNTRY_CODE}),
-      postalZone: '',
+      postalZone: savedInvoice.client.postalCode.trim(),
     });
 
     const supplierPostalAddress = new PostalAddress({
       streetName: savedInvoice.your.address.trim(),
       cityName: savedInvoice.your.city.trim(),
       country: new Country({identificationCode: DEFAULT_COUNTRY_CODE}),
-      postalZone: '',
+      postalZone: savedInvoice.your.postalCode.trim(),
     });
+
     const supplierLegalEntity = new PartyLegalEntity({
       registrationName: savedInvoice.your.name,
       companyID: savedInvoice.your.btw
@@ -179,7 +180,7 @@ export const createXml = (savedInvoice: IInvoice): string => {
     });
 
 
-    /** More info on the tax codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNCL5305/ 
+    /** More info on the tax codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNCL5305/
      * and on the reason codes: https://docs.peppol.eu/poacc/billing/3.0/syntax/ubl-invoice/cac-TaxTotal/cac-TaxSubtotal/cac-TaxCategory/cbc-TaxExemptionReasonCode/
      */
     let taxObject: {id: string | UdtIdentifier; percent: string | UdtPercent; taxScheme: TaxScheme | undefined; taxExemptionReasonCode?: string | undefined};
@@ -254,7 +255,7 @@ export const createXml = (savedInvoice: IInvoice): string => {
     invoiceXml.addTaxTotal(taxTotal);
     invoiceXml.addPaymentMeans(paymentMeans);
 
-    /** more info on unit codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNECERec20/ 
+    /** more info on unit codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNECERec20/
      * code C62 is a general code meaning 'one' or 'unit'
     */
     const defaultUnitCode = 'C62';

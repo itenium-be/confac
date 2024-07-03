@@ -10,6 +10,7 @@ export const defaultConfig: ConfigModel = {
     name: '',
     address: '',
     city: '',
+    postalCode: '',
     btw: '',
     rpr: '',
     bank: '',
