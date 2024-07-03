@@ -95,13 +95,13 @@ const EditInvoice = () => {
             </div>
             <div>
               <div className={`invoice-top-buttonbar ${storeInvoice?._id ? 'invoice-edit' : 'invoice-new'}`}>
-                <NotesModalButton
+                {invoice.note && <NotesModalButton
                   claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
                   value={invoice.note}
                   onChange={val => updateInvoice('note', val)}
                   title={t('projectMonth.note')}
                   variant="link"
-                />
+                />}
                 {initInvoice._id && <DownloadInvoiceButton invoice={initInvoice} />}
                 {storeInvoice?._id && !storeInvoice?.isQuotation && <InvoiceDownloadIcon invoice={invoice} fileType='xml' style={{color: '#0062cc', marginLeft: 20}} />}
               </div>
