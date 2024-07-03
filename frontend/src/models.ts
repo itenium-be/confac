@@ -4,7 +4,7 @@ import {StandardComponents} from './components/controls/form-controls/lib/Compon
 import {ConsultantListFilters, ClientListFilters, InvoiceListFilters,
   ProjectListFilters, ProjectMonthListFilters, UsersListFilters, RolesListFilters} from './components/controls/table/table-models';
 
-export type InvoiceDateStrategy = 'prev-month-last-day' | 'today';
+export type InvoiceDateStrategy = 'new-month-from-22th' | 'prev-month-last-day' | 'today';
 
 export type ChildrenType = React.ReactNode | JSX.Element[];
 
