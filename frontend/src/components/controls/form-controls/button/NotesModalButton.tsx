@@ -23,6 +23,7 @@ export const NotesModalButton = ({claim, value, onChange, title, variant, disabl
 
   const icon = !value ? 'far fa-comment' : 'far fa-comment-dots';
   const showConfirm = !disabled && (!claim || (claim && authService.getClaims().includes(claim)));
+
   return (
     <>
       <Button

@@ -188,6 +188,7 @@ export const trans = {
       name: 'Bedrijfsnaam',
       address: 'Straat',
       city: 'Stad',
+      postalCode: 'Postcode',
       telephone: 'Telefoon nr',
       email: 'Email',
       iban: 'IBAN',
