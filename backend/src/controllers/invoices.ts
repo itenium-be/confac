@@ -140,6 +140,12 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
       .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {pdf: updatedPdfBuffer}});
   }
 
+  if (!invoice.isQuotation) {
+    const updateXmlBuffer = Buffer.from(createXml({_id, ...invoice}));
+    await req.db.collection<IAttachment>(CollectionNames.ATTACHMENTS)
+      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {xml: updateXmlBuffer}});
+  } 
+
   if (!invoice.projectMonth) {
     // Makes sure projectMonth is overwritten in the db if already present there
     invoice.projectMonth = undefined;
