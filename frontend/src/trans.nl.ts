@@ -285,6 +285,7 @@ export const trans = {
     dateStrategies: {
       'prev-month-last-day': 'Laatste dag vorige maand',
       today: 'Vandaag',
+      'new-month-from-22th': 'Nieuwe maand vanaf de 22ste'
     },
     hours: 'Totaal uren',
     days: 'Dagen',
