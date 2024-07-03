@@ -208,3 +208,61 @@ describe('Switch between days and hours', () => {
     expect(vm.lines[0].amount).toBe(10);
   });
 });
+
+describe('Invoice date for last of month config', () => {
+  it('Should be 31 may when date is 10 june', () => {
+    const vm = createViewModel();
+    vm.date = moment('2024-06-10');
+    vm.setClient(undefined);
+
+    expect(vm.date.format('YYYY-MM-DD')).toBe('2024-05-31')
+  })
+
+  it('Should be 31 december when date is 10 januari', () => {
+    const vm = createViewModel();
+    vm.date = moment('2024-01-10');
+    vm.setClient(undefined);
+
+    expect(vm.date.format('YYYY-MM-DD')).toBe('2023-12-31')
+  })
+
+  it('Should be 30 june month when date is 30 june', () => {
+    const vm = createViewModel();
+    vm.date = moment('2024-06-30');
+    vm.setClient(undefined);
+
+    expect(vm.date.format('YYYY-MM-DD')).toBe('2024-06-30')
+  })
+
+  it('Should be 29 februari month when date is 29 februari', () => {
+    const vm = createViewModel();
+    vm.date = moment('2024-02-29');
+    vm.setClient(undefined);
+
+    expect(vm.date.format('YYYY-MM-DD')).toBe('2024-02-29')
+  })
+
+  it('Should be 31 januari month when date is 31 januari', () => {
+    const vm = createViewModel();
+    vm.date = moment('2024-01-31');
+    vm.setClient(undefined);
+
+    expect(vm.date.format('YYYY-MM-DD')).toBe('2024-01-31')
+  })
+
+  it('Should be 1 june month when date is 22 june', () => {
+    const vm = createViewModel();
+    vm.date = moment('2024-06-22');
+    vm.setClient(undefined);
+
+    expect(vm.date.format('YYYY-MM-DD')).toBe('2024-06-01')
+  })
+
+  it('Should be 1 januari month when date is 22 januari', () => {
+    const vm = createViewModel();
+    vm.date = moment('2024-01-22');
+    vm.setClient(undefined);
+
+    expect(vm.date.format('YYYY-MM-DD')).toBe('2024-01-01')
+  })
+})

@@ -55,6 +55,7 @@ export default class InvoiceModel implements IAttachment {
   lines: InvoiceLine[] = [];
   money: InvoiceMoney;
   note: string;
+  config: ConfigModel;
 
   get isNew(): boolean {
     return this._id === undefined;
@@ -79,6 +80,7 @@ export default class InvoiceModel implements IAttachment {
 
     this._lines = obj.lines || config.defaultInvoiceLines || [];
     this.audit = obj.audit;
+    this.config = config;
   }
 
   getType(): 'quotation' | 'invoice' {
@@ -102,7 +104,7 @@ export default class InvoiceModel implements IAttachment {
   /** Some weird stuff happening here that EditInvoice probably depends on */
   setClient(client: undefined | ClientModel): InvoiceModel {
     this.client = client as ClientModel;
-    this.date = getInvoiceDate(client);
+    this.date = getInvoiceDate(client, this.config, this.date);
 
     if (client && client.defaultInvoiceLines.length) {
       this._lines = client.defaultInvoiceLines.map(x => ({...x}));
