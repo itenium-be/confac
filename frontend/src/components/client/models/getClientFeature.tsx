@@ -41,7 +41,7 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
       <>
         <span>{client.address}</span>
         <br />
-        <span>{client.city}</span>
+        <span>{client.postalCode} {client.city}</span>
         <br />
         <span>{client.telephone}</span>
       </>
