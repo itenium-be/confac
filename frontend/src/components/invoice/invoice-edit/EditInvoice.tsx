@@ -49,7 +49,6 @@ const EditInvoice = () => {
   const dispatch = useDispatch();
   // useEffect(() => window.scrollTo(0, 0)); // TODO: each keystroke made it scroll to top :(
   const [showEmailModal, setEmailModal] = useState<EmailTemplate>(EmailTemplate.None);
-  
   let docTitle: string;
   if (storeInvoice?._id) {
     const name = t(isQuotation ? 'quotation.pdfName' : 'invoice.invoice');
@@ -95,7 +94,7 @@ const EditInvoice = () => {
             </div>
             <div>
               <div className={`invoice-top-buttonbar ${storeInvoice?._id ? 'invoice-edit' : 'invoice-new'}`}>
-                {invoice.note && <NotesModalButton
+                {<NotesModalButton
                   claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
                   value={invoice.note}
                   onChange={val => updateInvoice('note', val)}
