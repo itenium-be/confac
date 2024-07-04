@@ -49,7 +49,6 @@ const EditInvoice = () => {
   const dispatch = useDispatch();
   // useEffect(() => window.scrollTo(0, 0)); // TODO: each keystroke made it scroll to top :(
   const [showEmailModal, setEmailModal] = useState<EmailTemplate>(EmailTemplate.None);
-
   let docTitle: string;
   if (storeInvoice?._id) {
     const name = t(isQuotation ? 'quotation.pdfName' : 'invoice.invoice');
