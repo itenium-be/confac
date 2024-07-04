@@ -37,7 +37,7 @@ const ClientDetails = ({client, onOpenDetails, onOpenDetailsTitle}: ClientDetail
       </Link>
     </HeaderWithEditIcon>
     <div>{client.address}</div>
-    <div>{client.city}</div>
+    <div>{client.postalCode} {client.city}</div>
     <div>{client.telephone}</div>
     <div>{client.btw}</div>
   </>
