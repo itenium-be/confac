@@ -23,7 +23,7 @@ import {Col} from 'react-bootstrap';
 import { SingleContractIcon } from "../client/contract/SingleContractIcon";
 import {EnhanceWithConfirmation} from '../enhancers/EnhanceWithConfirmation';
 import {Button} from '../controls/form-controls/Button';
-import {isDateIntervalValid} from '../controls/other/DateValidator';
+import {isDateIntervalValid} from '../controls/other/ProjectValidator';
 
 
 const ConfirmationButton = EnhanceWithConfirmation(Button);
