@@ -22,18 +22,13 @@ export const createAccountingSupplierParty = (invoice: IInvoice, taxScheme: TaxS
     postalZone: invoice.your.postalCode.trim(),
   });
 
-  const companyNumber = invoice.your.btw.replace('BE', '')
-    .split('.').join('')
-    .split(' ').join('')
-    .padStart(10, '0');
+  const companyNumber = createCompanyNumber(invoice.your.btw, 'BE');
 
   const supplierEndpointID = new UdtIdentifier(companyNumber, {
     schemeID: companyNumberScheme
   });
 
-  const cleanedVat = invoice.your.btw
-    .split('.').join('')
-    .split(' ').join('');
+  const cleanedVat = cleanVat(invoice.your.btw);
 
   const supplierLegalEntity = new PartyLegalEntity({
     registrationName: invoice.your.name,
@@ -81,19 +76,14 @@ export const createAccountingCustomerParty = (invoice: IInvoice, taxScheme: TaxS
     postalZone: invoice.client.postalCode?.trim() ?? '',
   });
 
-  const companyNumber = invoice.your.btw
-    .replace('BE', '')
-    .split('.').join('')
-    .split(' ').join('');
+  const companyNumber = createCompanyNumber(invoice.client.btw, customerCountryAndCode?.code ?? DEFAULT_COUNTRY_CODE);
 
   const customerLegalEntity = new PartyLegalEntity({
     registrationName: invoice.client.name,
     companyID: companyNumber
   });
 
-  const cleanedVat = invoice.your.btw
-    .split('.').join('')
-    .split(' ').join('');
+  const cleanedVat = cleanVat(invoice.your.btw);
 
   const customerEndpointScheme = ENDPOINT_SCHEMES.find(scheme => scheme.country === customerCountryAndCode?.country ? customerCountryAndCode.code : DEFAULT_COUNTRY_CODE);
 
@@ -276,10 +266,8 @@ export const postProccess = (invoice: Invoice, pdf: Buffer | undefined, savedInv
   let jObj = parser.parse(xml);
 
   //somehow ublbuilder removes leading 0 so we readd it here
-  const companyNumber = savedInvoice.your.btw.replace('BE', '')
-    .split('.').join('')
-    .split(' ').join('')
-    .padStart(10, '0');
+  const companyNumber = createCompanyNumber(savedInvoice.your.btw, 'BE');
+
   if(jObj.Invoice['cac:AccountingSupplierParty']['cac:Party']['cbc:EndpointID']){
     jObj.Invoice['cac:AccountingSupplierParty']['cac:Party']['cbc:EndpointID'] = {
       '#text': companyNumber,
@@ -305,4 +293,29 @@ export const postProccess = (invoice: Invoice, pdf: Buffer | undefined, savedInv
   const xmlContent = builder.build(jObj);
 
   return xmlContent;
+}
+
+const cleanVat = (vat: string): string => {
+  const cleanedVat = vat
+    .split('.').join('')
+    .split(' ').join('');
+
+  return cleanedVat;
+}
+
+const createCompanyNumber = (vat: string, countryCode: string): string => {
+  const companyNumber = cleanVat(vat)
+    .replace(countryCode, '');
+
+  switch(countryCode){
+    case 'NL':
+      return companyNumber.padStart(12, '0')
+    case 'UK':
+    case 'DE':
+    case 'FR':
+      return companyNumber.padStart(9, '0')
+    case 'BE':
+    default:
+        return companyNumber.padStart(10, '0')
+  }
 }
