@@ -10,6 +10,7 @@ import {saveProject} from '../../actions/projectActions';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {FullFormConfig} from '../../models';
 import {ContractStatus} from '../client/models/ContractModels';
+import {isProjectValid} from '../controls/other/ProjectValidator';
 
 type CopyProjectProps = {
   projectToCopy: IProjectModel;
@@ -47,6 +48,7 @@ export const CopyProject = ({projectToCopy}: CopyProjectProps) => {
           onClose={() => setOpen(false)}
           onConfirm={() => dispatch(saveProject(project, history, 'to-details') as any)}
           title={t('project.copy.modalTitle')}
+          disableSave={!isProjectValid(project.startDate, project.endDate, projectToCopy.endDate!)}
         >
           <div className="container">
             <div className="row">

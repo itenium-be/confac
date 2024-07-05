@@ -33,6 +33,7 @@ type ModalProps = BaseModalProps & {
   children: any,
   /** For custom sizing of the Modal etc */
   dialogClassName?: string,
+  disableSave?: boolean
 }
 
 export const Modal = (props: ModalProps) => {
@@ -54,7 +55,7 @@ export const Modal = (props: ModalProps) => {
       <ReactModal.Footer>
         <ReactButton onClick={props.onClose} variant="light">{t('close')}</ReactButton>
         {props.onConfirm ? (
-          <ReactButton onClick={onConfirm} variant={props.confirmVariant || 'success'}>
+          <ReactButton  onClick={onConfirm} variant={props.confirmVariant || 'success'} disabled={props.disableSave}>
             {props.confirmText || t('save')}
           </ReactButton>
         ) : null}
