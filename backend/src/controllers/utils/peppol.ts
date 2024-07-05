@@ -144,12 +144,31 @@ export const createTaxTotal = (invoice: IInvoice, taxCategory: TaxCategory, curr
 }
 
 export const createTaxObjects = (invoice: IInvoice, taxScheme: TaxScheme) : { taxCategory: TaxCategory, classifiedTaxCategory: ClassifiedTaxCategory } => {
-  /** More info on the tax codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNCL5305/
- * and on the reason codes: https://docs.peppol.eu/poacc/billing/3.0/syntax/ubl-invoice/cac-TaxTotal/cac-TaxSubtotal/cac-TaxCategory/cbc-TaxExemptionReasonCode/
- */
+  /**
+   * More info on the tax codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNCL5305/
+   * More info on vatex codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/vatex/
+   * and on the reason codes: https://docs.peppol.eu/poacc/billing/3.0/syntax/ubl-invoice/cac-TaxTotal/cac-TaxSubtotal/cac-TaxCategory/cbc-TaxExemptionReasonCode/
+   */
   const customerCountryAndCode = COUNTRY_CODES.find(codes => codes.country === invoice.client.country || codes.code === invoice.client.country);
 
-  if (customerCountryAndCode?.code !== DEFAULT_COUNTRY_CODE) {
+  if(customerCountryAndCode?.code === 'UK'){
+    const outsideEuropeTaxChargeCode = 'G';
+    const outsideEuropeTaxChargeReasonCode = 'VATEX-EU-G';
+    return {
+      taxCategory : new TaxCategory({
+        id: outsideEuropeTaxChargeCode,
+        percent: '0',
+        taxExemptionReasonCode: outsideEuropeTaxChargeReasonCode,
+        taxScheme: taxScheme
+      }),
+      classifiedTaxCategory: new ClassifiedTaxCategory({
+        id: outsideEuropeTaxChargeCode,
+        percent: '0',
+        taxScheme: taxScheme
+      })
+    }
+  }
+  else if (customerCountryAndCode?.code !== DEFAULT_COUNTRY_CODE) {
     const reversedTaxChargeCode = 'AE';
     const reversedTaxChargeReasonCode = 'VATEX-EU-AE';
     return {
