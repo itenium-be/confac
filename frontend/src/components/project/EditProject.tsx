@@ -103,7 +103,7 @@ export const EditProject = () => {
   const isButtonDisabled = !project.consultantId
     || !project.client || !project.client.clientId
     || (!project.client.defaultInvoiceLines.length && !project.client.defaultInvoiceLines[0].price)
-    || !project.startDate || (project.endDate ? !isDateIntervalValid(project.startDate, project.endDate) : false);
+    || !project.startDate || !isDateIntervalValid(project.startDate, project.endDate);
 
   return (
     <Container className="edit-container">
