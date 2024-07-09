@@ -38,6 +38,7 @@
     "express-async-errors": "^3.1.1",
     "express-jwt": "^5.3.3",
     "express-unless": "^0.5.0",
+    "fast-xml-parser": "^4.4.0",
     "google-auth-library": "^6.0.0",
     "html-pdf": "^2.1.0",
     "jsonwebtoken": "^8.5.1",
@@ -52,7 +53,8 @@
     "regenerator-runtime": "^0.13.3",
     "slugify": "^1.1.0",
     "tmp": "^0.2.1",
-    "ubl-builder": "github:pipesanta/ubl-builder"
+    "ubl-builder": "github:pipesanta/ubl-builder",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",
@@ -82,6 +84,7 @@
     "@types/request": "^2.48.4",
     "@types/supertest": "^2.0.12",
     "@types/tmp": "^0.1.0",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^2.17.0",
     "@typescript-eslint/parser": "^2.17.0",
     "babel-eslint": "^10.0.3",

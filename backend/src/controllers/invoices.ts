@@ -20,7 +20,7 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user:
 
 
   if (!invoice.isQuotation) {
-    const xmlBuffer = Buffer.from(createXml(createdInvoice));
+    const xmlBuffer = Buffer.from(createXml(createdInvoice, pdfBuffer));
     await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf' | 'xml'>>(CollectionNames.ATTACHMENTS).insertOne({
       _id: new ObjectID(createdInvoice._id),
       pdf: pdfBuffer,
@@ -141,10 +141,10 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
   }
 
   if (!invoice.isQuotation) {
-    const updateXmlBuffer = Buffer.from(createXml({_id, ...invoice}));
+    const updateXmlBuffer = Buffer.from(createXml({_id, ...invoice}, updatedPdfBuffer as Buffer));
     await req.db.collection<IAttachment>(CollectionNames.ATTACHMENTS)
       .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {xml: updateXmlBuffer}});
-  } 
+  }
 
   if (!invoice.projectMonth) {
     // Makes sure projectMonth is overwritten in the db if already present there
