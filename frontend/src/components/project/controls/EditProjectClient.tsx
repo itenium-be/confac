@@ -1,7 +1,7 @@
 import React from 'react';
 import {MinimalInputProps} from '../../controls/form-controls/inputs/BaseInput';
 import {ProjectClientModel, ProjectEndCustomerModel} from '../models/IProjectModel';
-import {getNewProjectClient, getNewProjectEndCustomer} from '../models/getNewProject';
+import {getNewProjectClient} from '../models/getNewProject';
 import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
 import {FullFormConfig} from '../../../models';
 import {getNewInvoiceLine, InvoiceLine} from '../../invoice/models/InvoiceLineModels';
@@ -91,9 +91,8 @@ const endCustomerConfig: FullFormConfig = [
 ];
 
 export const EditProjectEndCustomer = ({value, onChange} : EditProjectEndCustomerProps ) => {
-  console.log("loading cmp");
   const projectEndCustomer : ProjectEndCustomerModel | undefined | null = value;
-
+  
   if(!projectEndCustomer){
     return null;
   }

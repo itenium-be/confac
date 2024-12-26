@@ -128,7 +128,7 @@ export const EditProject = () => {
         </Col>
       </Row>
       <Form>
-        <Row>     
+        <Row>git      
           <ArrayInput
             config={projectFormConfig}
             model={project}
