@@ -273,6 +273,8 @@ export const trans = {
     clientNew: 'New client',
     partner: 'Partner',
     partnerNew: 'New client',
+    endCustomer: 'End customer',
+    endCustomerNew: 'New client',
     clientEditModal: 'Open details in modal',
     number: 'Invoice nr',
     numberShort: 'Nr',
@@ -472,11 +474,17 @@ export const trans = {
       ref: 'reference',
       advancedInvoicing: 'Set specific invoicing details',
     },
+    endCustomer: {
+      clientId: 'End customer',
+      contact: 'Contact',
+      notes: 'Notes'
+    },
     projectMonthConfig: {
       titleConfig: 'Monthly invoicing',
       timesheetCheck: 'Timesheets: Check report',
       inboundInvoice: 'Has inbound invoice',
       changingOrderNr: 'Order nr changes for each invocie',
+      forEndCustomer: 'Project is at end customer'
     },
     copy: {
       buttonText: 'Verlenging',

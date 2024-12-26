@@ -12,7 +12,7 @@ import {PropertiesSelect} from '../select/PropertiesSelect';
 import {MoneyInput} from '../inputs/MoneyInput';
 import {Switch} from '../Switch';
 import {ClientSelect} from '../../../client/controls/ClientSelect';
-import {ClientSelectWithCreateModal, PartnerSelectWithCreateModal} from '../../../client/controls/ClientSelectWithCreateModal';
+import {ClientSelectWithCreateModal, EndCustomerSelectWithCreateModal, PartnerSelectWithCreateModal} from '../../../client/controls/ClientSelectWithCreateModal';
 import {FloatInput} from '../inputs/FloatInput';
 import {StringsSelect} from '../select/StringsSelect';
 import {BtwInput} from '../inputs/BtwInput';
@@ -25,7 +25,7 @@ import {ExtraFieldsInput} from '../inputs/ExtraFieldsInput';
 import {TextEditor} from '../inputs/TextEditor';
 import {AttachmentsTypeSelect} from '../../attachments/AttachmentsTypeSelect';
 import {DatePicker} from '../DatePicker';
-import {EditProjectClient, EditProjectPartner} from '../../../project/controls/EditProjectClient';
+import {EditProjectClient, EditProjectEndCustomer, EditProjectPartner} from '../../../project/controls/EditProjectClient';
 import {ConsultantSelectWithCreateModal} from '../../../consultant/controls/ConsultantSelectWithCreateModal';
 import {LanguageSelect} from '../../LanguageSelect';
 import {EditInvoiceLines} from '../../../invoice/invoice-edit/invoice-lines/EditInvoiceLines';
@@ -71,12 +71,14 @@ export function getComponent(col: FormConfig) {
     ClientSelect,
     ClientSelectWithCreateModal,
     PartnerSelectWithCreateModal,
+    EndCustomerSelectWithCreateModal,
     StringsSelect,
     AttachmentsTypeSelect,
     ConsultantTypeSelect,
     ProjectSelect,
     EditProjectClient,
     EditProjectPartner,
+    EditProjectEndCustomer,
     ConsultantSelectWithCreateModal,
     InvoiceReplacementsInput,
     InvoiceReplacementsTextEditor,

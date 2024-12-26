@@ -273,6 +273,8 @@ export const trans = {
     clientNew: 'Nieuwe klant',
     partner: 'Onderaannemer',
     partnerNew: 'Nieuwe klant',
+    endCustomer: 'Eindklant',
+    endCustomerNew: 'Nieuwe klant',
     clientEditModal: 'Open details in modal',
     number: 'Factuurnummer',
     numberShort: 'Nr',
@@ -471,12 +473,18 @@ export const trans = {
       rateType: 'Eenheid',
       ref: 'Referentie',
       advancedInvoicing: 'Specifieke facturatiedetails instellen',
+    },    
+    endCustomer: {
+      clientId: 'Eindklant',
+      contact: 'Contact',
+      notes: 'Notitie'
     },
     projectMonthConfig: {
       titleConfig: 'Maandelijkse facturatie',
       timesheetCheck: 'Timesheets: SDWorx rapport check',
       inboundInvoice: 'Heeft inkomende factuur',
       changingOrderNr: 'Het bestelbon nr wijzigt voor elke factuur',
+      forEndCustomer: 'Project is bij eindklant'
     },
     copy: {
       buttonText: 'Verlenging',
