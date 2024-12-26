@@ -2,10 +2,10 @@ import { ProjectConfig } from './models';
 
 
 const projectConfig: ProjectConfig = {
-  amount: 0, // amount of projects to insert
+  amount: 50, // amount of projects to insert
 
   // endDate: new Date('2023-02-01'),
-  startDate: new Date('2021-01-01'),
+  startDate: new Date('2024-01-01'),
 
   partnerProbability: 0.5,
   noEndDateProbability: 0.2,
@@ -25,8 +25,8 @@ const invoicesConfig = {
 
 
 export const config = {
-  clients: 0, // amount of clients to insert
-  consultants: 0, // amount of consultants to insert
+  clients: 50, // amount of clients to insert
+  consultants: 50, // amount of consultants to insert
   projects: projectConfig,
   invoices: invoicesConfig,
   projectMonths: projectMonthsConfig,
