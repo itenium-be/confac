@@ -15,6 +15,7 @@ export const features = {
       telephone: 'Telephone nr',
       createdOn: 'Created on',
       active: 'Active',
+      accountingCode: 'Accounting code'
     },
   },
   invoice: {
@@ -428,6 +429,7 @@ export const trans = {
       telephone: 'Phone nr',
       createdOn: 'Created on',
       active: 'Active',
+      accountingCode: 'Accounting code'
     },
   },
   project: {

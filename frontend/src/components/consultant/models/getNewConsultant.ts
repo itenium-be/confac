@@ -11,4 +11,5 @@ export const getNewConsultant = (): ConsultantModel => ({
   telephone: '',
   active: true,
   audit: {} as IAudit,
+  accountingCode: ''
 });
