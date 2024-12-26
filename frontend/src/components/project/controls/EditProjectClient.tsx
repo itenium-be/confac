@@ -1,6 +1,6 @@
 import React from 'react';
 import {MinimalInputProps} from '../../controls/form-controls/inputs/BaseInput';
-import {ProjectClientModel} from '../models/IProjectModel';
+import {ProjectClientModel, ProjectEndCustomerModel} from '../models/IProjectModel';
 import {getNewProjectClient} from '../models/getNewProject';
 import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
 import {FullFormConfig} from '../../../models';
@@ -47,7 +47,6 @@ type EditProjectClientProps = MinimalInputProps<ProjectClientModel>;
 
 
 
-
 const partnerConfig: FullFormConfig = [
   {key: 'clientId', component: 'PartnerSelectWithCreateModal', cols: 5},
   {key: 'defaultInvoiceLines', label: '', component: Bridge, cols: false},
@@ -58,10 +57,6 @@ export const EditProjectPartner = ({value, onChange}: EditProjectClientProps) =>
   const prjClient: ProjectClientModel = value || getNewProjectClient();
   return <ArrayInput config={partnerConfig} model={prjClient} onChange={onChange} tPrefix="project.partner." />;
 };
-
-
-
-
 
 
 const clientConfig: FullFormConfig = [
@@ -86,3 +81,21 @@ export const EditProjectClient = ({value, onChange}: EditProjectClientProps) => 
   const config = prjClient.advancedInvoicing || prjClient.defaultInvoiceLines.length > 1 ? advancedInvoicingClientConfig : clientConfig;
   return <ArrayInput config={config} model={prjClient} onChange={onChange} tPrefix="project.client." />;
 };
+
+
+type EditProjectEndCustomerProps = MinimalInputProps<ProjectEndCustomerModel>;
+
+const endCustomerConfig: FullFormConfig = [
+  {key: 'clientId', component: 'EndCustomerSelectWithCreateModal', cols: 5},
+  {key: 'notes', component: 'text', cols: 5},
+];
+
+export const EditProjectEndCustomer = ({value, onChange} : EditProjectEndCustomerProps ) => {
+  const projectEndCustomer : ProjectEndCustomerModel | undefined | null = value;
+  
+  if(!projectEndCustomer){
+    return null;
+  }
+
+  return <ArrayInput config={endCustomerConfig} model={projectEndCustomer} onChange={onChange} tPrefix="project.endCustomer." />;
+}

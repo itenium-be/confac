@@ -16,6 +16,8 @@ export interface IProjectModel {
   notes?: string;
   contract: IContractModel;
   audit: IAudit;
+  forEndCustomer: boolean;
+  endCustomer: ProjectEndCustomerModel | null;
 }
 
 
@@ -37,7 +39,11 @@ export interface ProjectClientModel {
 }
 
 
-
+export interface ProjectEndCustomerModel{
+  clientId: string;
+  contact: string;
+  notes: string;
+}
 
 
 export enum ProjectStatus {

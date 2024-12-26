@@ -10,12 +10,14 @@ export const projectFormConfig: FullFormConfig = [
   {key: 'endDate', component: 'date', cols: 3},
   {key: 'partner', label: '', component: 'EditProjectPartner', cols: false},
   {key: 'client', label: '', component: 'EditProjectClient', cols: false},
+  {key: 'endCustomer', label: '', component: 'EditProjectEndCustomer', cols: false},
 
   {title: 'project.projectMonthConfig.titleConfig'},
   {key: 'projectMonthConfig.timesheetCheck', component: 'switch'},
   {key: 'projectMonthConfig.inboundInvoice', component: 'switch'},
   {key: 'projectMonthConfig.changingOrderNr', component: 'switch'},
   {key: 'client.advancedInvoicing', component: 'switch'},
+  {key: 'forEndCustomer', component: 'switch'},
 
   {title: 'client.notes'},
   {key: 'notes', label: '', component: 'TextEditor', cols: 12},

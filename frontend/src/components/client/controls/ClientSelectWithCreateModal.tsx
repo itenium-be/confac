@@ -13,7 +13,7 @@ import {ClientIconLinks} from './ClientIconLinks';
 
 
 type ClientSelectWithCreateModalProps = SelectWithCreateModalProps<ClientModel> & {
-  clientType: 'client' | 'partner';
+  clientType: 'client' | 'partner' | 'endCustomer';
 }
 
 
@@ -21,6 +21,10 @@ export const PartnerSelectWithCreateModal = (props: ClientSelectWithCreateModalP
   <ClientSelectWithCreateModal {...props} clientType="partner" />
 );
 
+
+export const EndCustomerSelectWithCreateModal = (props: ClientSelectWithCreateModalProps) => (
+  <ClientSelectWithCreateModal {...props} clientType="endCustomer" />
+);
 
 
 export const ClientSelectWithCreateModal = ({value, onChange, clientType = 'client'}: ClientSelectWithCreateModalProps) => {
