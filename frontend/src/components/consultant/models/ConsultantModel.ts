@@ -14,4 +14,5 @@ export interface ConsultantModel {
   telephone: string,
   audit: IAudit;
   active: boolean;
+  accountingCode: string; 
 }

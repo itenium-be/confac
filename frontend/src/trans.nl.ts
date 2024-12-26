@@ -15,6 +15,7 @@ export const features = {
       telephone: 'Telefoon nr',
       createdOn: 'Aangemaakt op',
       active: 'Actief',
+      accountingCode: 'Kostendrager'
     },
   },
   invoice: {
@@ -428,6 +429,7 @@ export const trans = {
       telephone: 'Telefoon nr',
       createdOn: 'Aangemaakt op',
       active: 'Actief',
+      accountingCode: 'Kostendrager'
     },
   },
   project: {
