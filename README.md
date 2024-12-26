@@ -58,7 +58,7 @@ See `deploy/deploy.sh`
 ### Seeding random data
 
 Configure amounts in `backend/src/faker/faker-config.ts`
-and the mongo creds in `backend/src/faker/index.ts`.
+Mongo db credentials are read automatically from the env file.
 
 ```sh
 cd backend
