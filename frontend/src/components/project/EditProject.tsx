@@ -9,7 +9,7 @@ import {StickyFooter} from '../controls/other/StickyFooter';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {IProjectModel, ProjectClientInvoiceLine} from './models/IProjectModel';
 import {projectFormConfig} from './models/ProjectFormConfig';
-import {getNewProject} from './models/getNewProject';
+import {getNewProject, getNewProjectEndCustomer} from './models/getNewProject';
 import {ConfacState} from '../../reducers/app-state';
 import {getDefaultProjectMonthConfig} from './models/ProjectMonthModel';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
@@ -83,10 +83,18 @@ export const EditProject = () => {
     setProject(newProject);
   }
 
-
-
   const setProjectInterceptor = (value: IProjectModel) => {
+   
     const newProject = {...project, ...value};
+
+    if(!newProject.forEndCustomer && newProject.endCustomer) {
+      newProject.endCustomer = null;
+    }
+  
+    if(newProject.forEndCustomer && !newProject.endCustomer) {
+      newProject.endCustomer = getNewProjectEndCustomer();
+    }
+
     setProject(newProject);
 
     // Set a flag to update fields that receive default values from the
@@ -120,7 +128,7 @@ export const EditProject = () => {
         </Col>
       </Row>
       <Form>
-        <Row>
+        <Row>     
           <ArrayInput
             config={projectFormConfig}
             model={project}

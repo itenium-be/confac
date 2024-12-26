@@ -449,6 +449,7 @@ export const trans = {
     consultantType: 'Type',
     startDate: 'Start date',
     endDate: 'End date',
+    forEndCustomer: 'Project is at end customer',
     deleteConfirm: {
       title: 'Delete project',
       content: 'Project will be permanently deleted.',
@@ -483,8 +484,7 @@ export const trans = {
       titleConfig: 'Monthly invoicing',
       timesheetCheck: 'Timesheets: Check report',
       inboundInvoice: 'Has inbound invoice',
-      changingOrderNr: 'Order nr changes for each invocie',
-      forEndCustomer: 'Project is at end customer'
+      changingOrderNr: 'Order nr changes for each invocie'
     },
     copy: {
       buttonText: 'Verlenging',

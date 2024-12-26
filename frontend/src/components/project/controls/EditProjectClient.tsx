@@ -91,6 +91,12 @@ const endCustomerConfig: FullFormConfig = [
 ];
 
 export const EditProjectEndCustomer = ({value, onChange} : EditProjectEndCustomerProps ) => {
-  const projectEndCustomer : ProjectEndCustomerModel = value || getNewProjectEndCustomer();
+  console.log("loading cmp");
+  const projectEndCustomer : ProjectEndCustomerModel | undefined | null = value;
+
+  if(!projectEndCustomer){
+    return null;
+  }
+
   return <ArrayInput config={endCustomerConfig} model={projectEndCustomer} onChange={onChange} tPrefix="project.endCustomer." />;
 }

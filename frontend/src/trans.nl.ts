@@ -449,6 +449,7 @@ export const trans = {
     consultantType: 'Type',
     startDate: 'Start datum',
     endDate: 'Eind datum',
+    forEndCustomer: 'Project is bij eindklant',
     deleteConfirm: {
       title: 'Project verwijderen',
       content: 'Project wordt definitief verwijderd.',
@@ -483,8 +484,7 @@ export const trans = {
       titleConfig: 'Maandelijkse facturatie',
       timesheetCheck: 'Timesheets: SDWorx rapport check',
       inboundInvoice: 'Heeft inkomende factuur',
-      changingOrderNr: 'Het bestelbon nr wijzigt voor elke factuur',
-      forEndCustomer: 'Project is bij eindklant'
+      changingOrderNr: 'Het bestelbon nr wijzigt voor elke factuur'
     },
     copy: {
       buttonText: 'Verlenging',
