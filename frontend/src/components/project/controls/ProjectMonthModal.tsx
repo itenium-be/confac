@@ -17,6 +17,7 @@ import {singleProjectMonthResolve} from '../../hooks/useProjects';
 import './ProjectMonthModal.scss';
 import { useDispatch } from 'react-redux';
 import { saveProject } from '../../../actions';
+import { Icon } from '../../controls/Icon';
 
 
 type ProjectMonthModalProps = {
@@ -91,7 +92,17 @@ export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProp
         {fullProjectMonth.endCustomer &&  
           <div>
              <hr/>
-             <h5>{fullProjectMonth.endCustomer.name}</h5>
+             <h5>{t('project.endCustomer.clientId')}: {fullProjectMonth.endCustomer.name}</h5>
+             
+              {fullProjectMonth.project.endCustomer?.contact &&
+                <div>
+                  <Icon fa="fa fa-user" size={1} style={{ marginRight: '5px'}}/>
+                  <span>{fullProjectMonth.project.endCustomer?.contact}</span>
+                </div>
+              }
+              {fullProjectMonth.project.endCustomer?.notes && 
+                <span><b>{t('project.endCustomer.notes')}</b>: {fullProjectMonth.project.endCustomer?.notes}</span>
+              }
           </div>
         }
 
