@@ -3,7 +3,9 @@ version: '3'
 services:
   mongo:
     container_name: confac-${ENVIRONMENT}-mongo
-    image: mongo:3.6.3
+    build:
+      context: ./mongo-seed
+      dockerfile: Dockerfile
     restart: always
     volumes:
       - "${MONGO_DATA_VOLUME}:/data/db"
@@ -16,6 +18,9 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PWD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
+      MONGO_POWERBI_USER: ${MONGO_POWERBI_USER}
+      MONGO_POWERBI_PWD: ${MONGO_POWERBI_PWD}
 
 
   app:
