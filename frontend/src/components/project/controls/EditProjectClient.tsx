@@ -87,7 +87,8 @@ type EditProjectEndCustomerProps = MinimalInputProps<ProjectEndCustomerModel>;
 
 const endCustomerConfig: FullFormConfig = [
   {key: 'clientId', component: 'EndCustomerSelectWithCreateModal', cols: 5},
-  {key: 'notes', component: 'text', cols: 5},
+  {key: 'contact', component: 'text', cols: 2, suffix:'user'},
+  {key: 'notes', component: 'text', cols: 3},
 ];
 
 export const EditProjectEndCustomer = ({value, onChange} : EditProjectEndCustomerProps ) => {

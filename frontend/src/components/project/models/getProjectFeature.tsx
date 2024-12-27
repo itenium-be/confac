@@ -16,6 +16,7 @@ import {ProjectForecastPartnerFooter} from "../project-month-list/table/footers/
 import {getTariffs} from '../utils/getTariffs';
 import {getProjectMarkup} from '../utils/getProjectMarkup';
 import {ContractIcons} from '../../client/contract/ContractIcons';
+import { ProjectEndCustomerIcon } from '../controls/ProjectEndCustomerIcon';
 
 
 export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel, ProjectListFilters>;
@@ -132,6 +133,11 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     key: 'partnerTariff',
     header: 'project.partner.tariff',
     value: p => <ProjectClientTariff projectClient={p.details.partner} />,
+  },
+  {
+    key: 'endCustomer',
+    header: '',
+    value: p => <ProjectEndCustomerIcon endCustomer={p.details.endCustomer} endCustomerClientModel={p.endCustomer}/>
   }, {
     key: 'client',
     header: 'project.client.clientId',

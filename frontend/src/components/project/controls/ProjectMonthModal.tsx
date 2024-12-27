@@ -75,7 +75,7 @@ export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProp
         <ProjectDuration project={fullProjectMonth.project} />
 
         <hr />
-
+        
         <div className="project-client">
           {fullProjectMonth.client.name}
           <small><ProjectClientTariff projectClient={fullProjectMonth.project.client} /></small>
@@ -87,6 +87,13 @@ export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProp
             </h5>
           )}
         </div>
+
+        {fullProjectMonth.endCustomer &&  
+          <div>
+             <hr/>
+             <h5>{fullProjectMonth.endCustomer.name}</h5>
+          </div>
+        }
 
       </div>
     </Modal>
