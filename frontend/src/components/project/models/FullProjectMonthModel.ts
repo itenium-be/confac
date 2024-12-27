@@ -20,6 +20,7 @@ export class FullProjectMonthModel {
   consultant: ConsultantModel;
   client: ClientModel;
   partner?: ClientModel;
+  endCustomer?: ClientModel;
   invoice?: InvoiceModel;
 
   constructor(json: IFullProjectMonthModel) {
@@ -28,6 +29,7 @@ export class FullProjectMonthModel {
     this.consultant = json.consultant;
     this.client = json.client;
     this.partner = json.partner;
+    this.endCustomer = json.endCustomer;
     this.invoice = json.invoice;
   }
 }
@@ -40,5 +42,6 @@ export interface IFullProjectMonthModel {
   consultant: ConsultantModel;
   client: ClientModel;
   partner?: ClientModel;
+  endCustomer?: ClientModel;
   invoice?: InvoiceModel;
 }

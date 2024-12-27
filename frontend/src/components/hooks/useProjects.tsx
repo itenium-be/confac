@@ -126,6 +126,7 @@ export function mapToProjectMonth(confacState: ProjectMonthResolverState, projec
     consultant,
     client,
     partner: project.partner && confacState.clients.find(c => project.partner && c._id === project.partner.clientId),
+    endCustomer: !!project.endCustomer?.clientId ? confacState.clients.find(c=> c._id === project.endCustomer!.clientId): undefined,
     invoice: invoice || confacState.invoices.find(i => i.projectMonth && i.projectMonth.projectMonthId === projectMonth._id),
   };
 
