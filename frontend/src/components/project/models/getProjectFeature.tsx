@@ -135,7 +135,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     value: p => <ProjectClientTariff projectClient={p.details.partner} />,
   },
   {
-    key: 'forEndKlant',
+    key: 'endCustomer',
     header: '',
     value: p => <ProjectEndCustomerIcon endCustomer={p.details.endCustomer} endCustomerClientModel={p.endCustomer}/>
   }, {
