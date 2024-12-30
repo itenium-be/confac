@@ -1,7 +1,7 @@
 
 import { Dispatch } from "redux";
 import { io } from "socket.io-client";
-import { handleClientSocketEvents, handleConsultantSocketEvents, handleProjectSocketEvents } from "../../actions";
+import { handleClientSocketEvents, handleconfigSocketEvents, handleConsultantSocketEvents, handleProjectSocketEvents } from "../../actions";
 import { SocketEventTypes } from "./SocketEventTypes";
 import { EntityEventPayload } from "./EntityEventPayload";
 import { t } from "../utils";
@@ -44,6 +44,7 @@ function createSocketService () {
                    case 'clients': dispatch(handleClientSocketEvents(eventType, eventPayload)); break;
                    case 'users': dispatch(handleUserSocketEvents(eventType, eventPayload)); break;
                    case 'roles': dispatch(handleRoleSocketEvents(eventType, eventPayload)); break;
+                   case 'config': dispatch(handleconfigSocketEvents(eventType, eventPayload)); break;
                    default: throw new Error(`${eventPayload.entityType} event for entity type not supported.`);
                 }; 
             });
