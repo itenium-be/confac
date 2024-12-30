@@ -146,11 +146,15 @@ export const saveRole = async (req: ConfacRequest, res: Response) => {
     role.audit = updateAudit(role.audit, req.user);
     const {value: originalRole} = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: role}, {returnOriginal: true});
     await saveAudit(req, 'role', originalRole, role);
-    return res.send({_id, ...role});
+
+    const responseRole = {_id, ...role};
+    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.ROLES, _id, responseRole);
+    return res.send(responseRole);
   }
 
   role.audit = createAudit(req.user);
   const inserted = await collection.insertOne(role);
-  const [createdClient] = inserted.ops;
-  return res.send(createdClient);
+  const [createdRole] = inserted.ops;
+  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.ROLES, createdRole._id, createdRole);
+  return res.send(createdRole);
 };
