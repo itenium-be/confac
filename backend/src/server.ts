@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import sgMail from '@sendgrid/mail';
 import {MongoClient} from 'mongodb';
 import cors from 'cors';
-import  { Server } from 'socket.io';
+import {Server} from 'socket.io';
 import http from 'http';
 
 import 'express-async-errors';
@@ -15,19 +15,19 @@ import appRouter from './routes';
 const app = express();
 const server = http.createServer(app);
 
-// TODO nicolas finetune CORS config... 
-const io  = new Server(server, {
+// TODO nicolas finetune CORS config...
+const io = new Server(server, {
   cors: {
-    origin: "*", // Allow all origins
-    methods: ["GET", "POST"], // Allowed HTTP methods
-    allowedHeaders: ["my-custom-header", "x-socket-id"], // Optional: specify allowed headers
+    origin: '*', // Allow all origins
+    methods: ['GET', 'POST'], // Allowed HTTP methods
+    allowedHeaders: ['x-socket-id'], // Optional: specify allowed headers
     credentials: true, // Allow credentials (e.g., cookies)
   },
 });
 
 sgMail.setApiKey(appConfig.SENDGRID_API_KEY);
 
-
+// TODO nicolas finetune CORS config...
 // Allow only specific origins (e.g., your frontend's URL)
 const corsOptions = {
   origin: 'http://localhost:3000', // Replace with your frontend URL
@@ -102,16 +102,4 @@ app.use((req: Request, res: Response) => res.sendFile('/home/public/index.html')
 server.listen(appConfig.server.port, () => {
   console.log(`Server connected to port ${appConfig.server.port}, running in a ${appConfig.ENVIRONMENT} environment.`);
   console.log(appConfig);
-});
-
-
-// TODO nicolas remove debug below... 
-// Handle Socket.IO connections
-io.on('connection', (socket) => {
-  console.log('A user connected');
-
-  // Disconnect event
-  socket.on('disconnect', () => {
-    console.log('A user disconnected');
-  });
 });

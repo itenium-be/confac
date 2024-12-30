@@ -6,10 +6,9 @@ import { ConsultantModel } from "../components/consultant/models/ConsultantModel
 import { busyToggle, success } from "./appActions";
 import { ACTION_TYPES } from "./utils/ActionTypes";
 import { authService } from "../components/users/authService";
-import { socketService, notifyEntityEvent } from "../components/socketio/SocketService";
+import { socketService } from "../components/socketio/SocketService";
 import { EntityEventPayload } from "../components/socketio/EntityEventPayload";
 import { SocketEventTypes } from "../components/socketio/SocketEventTypes";
-import { Dispatch } from "redux";
 
 export function saveConsultant(
   consultant: ConsultantModel,

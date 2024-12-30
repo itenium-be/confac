@@ -53,13 +53,13 @@ function createSocketService () {
     }
 
     function toastEntityChanged(eventType: SocketEventTypes, eventPayload: EntityEventPayload){
-        let operation = 'entityUpdated';
+        let operation: string | undefined;
     
         switch(eventType){
             case SocketEventTypes.EntityCreated:
-                operation = 'entityCreated';break;
+                operation = 'entityCreated'; break;
             case SocketEventTypes.EntityUpdated:
-                operation = 'entityUpdated';break;
+                operation = 'entityUpdated'; break;
             case SocketEventTypes.EntityDeleted:
                 operation = 'entityDeleted'; break;
             default: throw new Error(`${eventType} not supported.`);
@@ -74,8 +74,8 @@ function createSocketService () {
         );
     }
 
-    function enableToastsForEntity(entityId: string){
-        var unsubscriptions:(()=>void)[] = [];
+    function enableToastsForEntity(entityId: string) {
+        var unsubscriptions: (()=>void)[] = [];
 
         function registerToastForEventType(eventType: SocketEventTypes){
             var process = (msg: EntityEventPayload)=>{
