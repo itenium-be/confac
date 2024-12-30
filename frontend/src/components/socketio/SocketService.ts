@@ -5,6 +5,7 @@ import { handleConsultantSocketEvents, handleProjectSocketEvents, info } from ".
 import { SocketEventTypes } from "./SocketEventTypes";
 import { EntityEventPayload } from "./EntityEventPayload";
 import { t } from "../utils";
+import { toast } from "react-toastify";
 
 function createSocketService () {
     // TODO nicolas read server url from frontend config !!! 
@@ -24,17 +25,46 @@ function createSocketService () {
             throw new Error("Initialize should only be called once.");
         }
 
-        socket.on(SocketEventTypes.EntityCreated, (msg)=>{
-            handleEntityEvent(SocketEventTypes.EntityCreated, msg, dispatch);
-        });
-        socket.on(SocketEventTypes.EntityUpdated, (msg)=>{
-            handleEntityEvent(SocketEventTypes.EntityUpdated, msg, dispatch);
-        });
-        socket.on(SocketEventTypes.EntityDeleted, (msg)=>{
-            handleEntityEvent(SocketEventTypes.EntityDeleted, msg, dispatch);
-        });
+        function registerEntityEventHandler(entityEventType: SocketEventTypes){
+            socket.on(entityEventType,msg=> handleEntityEvent(entityEventType, msg, dispatch));
+        }
+
+        registerEntityEventHandler(SocketEventTypes.EntityCreated);
+        registerEntityEventHandler(SocketEventTypes.EntityUpdated);
+        registerEntityEventHandler(SocketEventTypes.EntityDeleted);
 
         initialized = true;
+    }
+
+    function enableNotificationsForEntity(entityId: string ){
+
+        var unsubscriptions:(()=>void)[] = [];
+
+        function registerEntityChangesSubscription(eventType: SocketEventTypes){
+            var process = (msg: EntityEventPayload)=>{
+                if(msg.sourceSocketId === socketId){
+                    console.log("Event ignored for entityId subscription => socket id is self");
+                    return;
+                }
+                if(msg.entityId !== entityId){
+                    console.log("Event ignored for entityId subscription => entity id not match");
+                    return;
+                }
+                notifyEntityEvent(eventType, msg);
+            };
+
+            socket.on(eventType, process);
+
+            unsubscriptions.push(() => socket.off(eventType,process));
+        }
+
+        registerEntityChangesSubscription(SocketEventTypes.EntityCreated);
+        registerEntityChangesSubscription(SocketEventTypes.EntityUpdated);
+        registerEntityChangesSubscription(SocketEventTypes.EntityDeleted);
+
+        return ()=> {
+            unsubscriptions.forEach(fn=> fn());
+        }
     }
 
     function handleEntityEvent(eventType: SocketEventTypes, eventPayload: EntityEventPayload, dispatch: Dispatch<any>){
@@ -49,11 +79,8 @@ function createSocketService () {
         }
 
         switch(eventPayload.entityType){
-           case 'projects': 
-                dispatch(handleProjectSocketEvents(eventType, eventPayload));  
-                break;
-           case 'consultants': dispatch(handleConsultantSocketEvents(eventType, eventPayload)); 
-                break;
+           case 'projects': dispatch(handleProjectSocketEvents(eventType, eventPayload)); break;
+           case 'consultants': dispatch(handleConsultantSocketEvents(eventType, eventPayload)); break;
            default: throw new Error(`${eventPayload.entityType} event for entity type not supported.`);
         };   
     }
@@ -62,11 +89,12 @@ function createSocketService () {
         get socketId() {
             return socketId;
         },
-        initialize
+        initialize,
+        enableNotificationsForEntity
     };
 };
 
-export function notifyEntityEvent(entityDisplay: string, eventType: SocketEventTypes, eventPayload: EntityEventPayload){
+export function notifyEntityEvent(eventType: SocketEventTypes, eventPayload: EntityEventPayload){
     let operation = 'entityUpdated';
 
     switch(eventType){
@@ -79,11 +107,13 @@ export function notifyEntityEvent(entityDisplay: string, eventType: SocketEventT
         default: throw new Error(`${eventType} not supported.`);
     }
 
-    info(t(`socketio.operation.${operation}`, {
-        entityType: t(`socketio.entities.${eventPayload.entityType}`),
-        user: eventPayload.sourceUserEmail,
-        entityDisplay: entityDisplay
-    }))
+    toast.info(
+        t(`socketio.operation.${operation}`, {
+            entityType: t(`socketio.entities.${eventPayload.entityType}`),
+            user: eventPayload.sourceUserEmail,
+        }),
+        {autoClose: false, position: toast.POSITION.TOP_RIGHT, closeButton: true},
+    )
 }
 
 export const socketService = createSocketService();

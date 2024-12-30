@@ -683,9 +683,9 @@ export const trans = {
       consultants: 'Consultant'
     },
     operation: {
-      entityUpdated: '{entityType} {entityDisplay} werd aangepast door {user}',
-      entityCreated: '{entityType} {entityDisplay} werd aangemaakt door {user}',
-      entityDeleted: '{entityType} {entityDisplay} werd verwijderd door {user}'
+      entityUpdated: '{entityType} werd aangepast door {user}',
+      entityCreated: '{entityType} werd aangemaakt door {user}',
+      entityDeleted: '{entityType} werd verwijderd door {user}'
     }
   } // TODO nicolas vertaling overnemen in .en file
 };

@@ -59,8 +59,7 @@ export function handleConsultantSocketEvents(
       default:
         throw new Error(`${eventType} not supported for consultant.`);
     }
-
-    notifyEntityEvent(eventPayload.entity.name, eventType, eventPayload);
+    
     dispatch(busyToggle.off());
   }
 }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
@@ -24,6 +24,7 @@ import { SingleContractIcon } from "../client/contract/SingleContractIcon";
 import {EnhanceWithConfirmation} from '../enhancers/EnhanceWithConfirmation';
 import {Button} from '../controls/form-controls/Button';
 import {isDateIntervalValid} from '../controls/other/ProjectValidator';
+import { socketService } from '../socketio/SocketService';
 
 
 const ConfirmationButton = EnhanceWithConfirmation(Button);
@@ -41,6 +42,17 @@ export const EditProject = () => {
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === project.client.clientId) || getNewClient());
   const hasProjectMonths = useSelector((state: ConfacState) => state.projectsMonth.some(pm => pm.projectId === params.id));
   const [needsSync, setNeedsSync] = useState<{consultant: boolean, client: boolean}>({consultant: false, client: false});
+
+  useEffect(()=>{
+    var subs: undefined| (()=>void);
+    
+    if(model?._id){
+      subs = socketService.enableNotificationsForEntity(model?._id);
+    }
+
+    return subs;
+   
+  }, [model?._id])
 
   const docTitle = consultant._id ? 'projectEdit' : 'projectNew';
   useDocumentTitle(docTitle, {consultant: consultant.firstName, client: client.name});
