@@ -681,7 +681,8 @@ export const trans = {
     entities: {
       projects: 'Project',
       consultants: 'Consultant',
-      clients: 'Klant'
+      clients: 'Klant',
+      users: 'Gebruiker'
     },
     operation: {
       entityUpdated: '{entityType} werd aangepast door {user}',

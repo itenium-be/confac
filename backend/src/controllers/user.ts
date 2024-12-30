@@ -3,11 +3,12 @@ import {Request, Response} from 'express';
 import {ObjectID} from 'mongodb';
 import {OAuth2Client, TokenPayload} from 'google-auth-library';
 import jwt from 'jsonwebtoken';
-import {CollectionNames, IAudit, createAudit, updateAudit} from '../models/common';
+import {CollectionNames, IAudit, SocketEventTypes, createAudit, updateAudit} from '../models/common';
 import config from '../config';
 import {IUser, IRole} from '../models/user';
 import {ConfacRequest} from '../models/technical';
 import {saveAudit} from './utils/audit-logs';
+import { emitEntityEvent } from './utils/entity-events';
 
 const AdminRole = 'admin';
 
@@ -111,13 +112,16 @@ export const saveUser = async (req: ConfacRequest, res: Response) => {
     user.audit = updateAudit(user.audit, req.user);
     const {value: originalUser} = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: user}, {returnOriginal: true});
     await saveAudit(req, 'user', originalUser, user);
-    return res.send({_id, ...user});
+    const responseUser = {_id, ...user};
+    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.USERS, _id, responseUser);
+    return res.send(responseUser);
   }
 
   user.audit = createAudit(req.user);
   const inserted = await collection.insertOne(user);
-  const [createdClient] = inserted.ops;
-  return res.send(createdClient);
+  const [createdUser] = inserted.ops;
+  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.USERS, createdUser._id, createdUser);
+  return res.send(createdUser);
 };
 
 

@@ -14,6 +14,7 @@ import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {saveUser} from '../../actions/userActions';
 import {Audit} from '../admin/audit/Audit';
 import {useParams} from 'react-router-dom';
+import useEntityChangedToast from '../hooks/useEntityChangedToast';
 
 
 
@@ -23,9 +24,12 @@ export const EditUser = () => {
   const params = useParams();
   const model = useSelector((state: ConfacState) => state.user.users.find(c => c.alias === params.id));
   const [user, setUser] = useState<UserModel>(model || getNewUser());
-
+  
+  useEntityChangedToast(user._id);
+  
   const docTitle = user._id ? 'userEdit' : 'userNew';
   useDocumentTitle(docTitle, {name: `${user.firstName} ${user.name}`});
+  
 
   if (model && !user._id) {
     setUser(model);

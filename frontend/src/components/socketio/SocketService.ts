@@ -6,6 +6,7 @@ import { SocketEventTypes } from "./SocketEventTypes";
 import { EntityEventPayload } from "./EntityEventPayload";
 import { t } from "../utils";
 import { toast } from "react-toastify";
+import { handleUserSocketEvents } from "../../actions/userActions";
 
 function createSocketService () {
     // TODO nicolas read server url from frontend config !!! 
@@ -41,6 +42,7 @@ function createSocketService () {
                    case 'projects': dispatch(handleProjectSocketEvents(eventType, eventPayload)); break;
                    case 'consultants': dispatch(handleConsultantSocketEvents(eventType, eventPayload)); break;
                    case 'clients': dispatch(handleClientSocketEvents(eventType, eventPayload)); break;
+                   case 'users': dispatch(handleUserSocketEvents(eventType, eventPayload)); break;
                    default: throw new Error(`${eventPayload.entityType} event for entity type not supported.`);
                 }; 
             });
