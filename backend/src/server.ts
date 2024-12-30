@@ -19,7 +19,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: '*', // Allow all origins
-    methods: ['GET', 'POST'], // Allowed HTTP methods
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed HTTP methods
     allowedHeaders: ['x-socket-id'], // Optional: specify allowed headers
     credentials: true, // Allow credentials (e.g., cookies)
   },
@@ -31,7 +31,7 @@ sgMail.setApiKey(appConfig.SENDGRID_API_KEY);
 // Allow only specific origins (e.g., your frontend's URL)
 const corsOptions = {
   origin: 'http://localhost:3000', // Replace with your frontend URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization', 'x-socket-id'], // Allowed headers
   credentials: true, // Allow cookies and credentials
 };

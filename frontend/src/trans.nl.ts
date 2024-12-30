@@ -684,7 +684,8 @@ export const trans = {
       clients: 'Klant',
       users: 'Gebruiker',
       roles: 'Rol',
-      config: 'Configuratie'
+      config: 'Configuratie',
+      projects_month: 'Project maand'
     },
     operation: {
       entityUpdated: '{entityType} werd aangepast door {user}',

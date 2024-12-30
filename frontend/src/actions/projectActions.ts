@@ -264,3 +264,32 @@ export function handleProjectSocketEvents(eventType: string, eventPayload: Entit
     dispatch(busyToggle.off());
   }
 }
+
+export function handleProjectMonthSocketEvents(eventType: string, eventPayload: EntityEventPayload){
+  return (dispatch: Dispatch) => {
+    dispatch(busyToggle());
+    switch(eventType){
+      case SocketEventTypes.EntityUpdated: 
+      case SocketEventTypes.EntityCreated:
+          if(Array.isArray(eventPayload.entity)){
+            dispatch({
+              type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
+              projectsMonth: eventPayload.entity,
+          });
+          }else{
+            dispatch({
+                type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
+                projectMonth: eventPayload.entity,
+            });
+          }
+          break;
+      case SocketEventTypes.EntityDeleted: 
+          dispatch({
+              type: ACTION_TYPES.PROJECTS_MONTH_DELETE,
+              id: eventPayload.entityId,
+          }); break;
+      default: throw new Error(`${eventType} not supported for project month.`);    
+  }
+  dispatch(busyToggle.off());
+}
+}

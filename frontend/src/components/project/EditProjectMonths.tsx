@@ -17,6 +17,7 @@ import {useProjectsMonth} from '../hooks/useProjects';
 import {EnhanceWithConfirmation} from '../enhancers/EnhanceWithConfirmation';
 import {Button} from '../controls/form-controls/Button';
 import {useParams} from 'react-router-dom';
+import useEntityChangedToast from '../hooks/useEntityChangedToast';
 
 const ConfirmationButton = EnhanceWithConfirmation(Button);
 
@@ -26,6 +27,8 @@ export const EditProjectMonths = () => {
   const params = useParams();
   const model = useProjectsMonth(params.projectMonthId);
   const [projectMonth, setProjectMonth] = useState<ProjectMonthModel>((model && model.details) || getNewProjectMonth());
+
+  useEntityChangedToast(model?._id);
 
   const docTitle = projectMonth._id ? 'projectMonthEdit' : 'projectMonthNew';
   const consultantName = (model && model.consultantName) || '';

@@ -1,7 +1,7 @@
 
 import { Dispatch } from "redux";
 import { io } from "socket.io-client";
-import { handleClientSocketEvents, handleconfigSocketEvents, handleConsultantSocketEvents, handleProjectSocketEvents } from "../../actions";
+import { handleClientSocketEvents, handleConfigSocketEvents, handleConsultantSocketEvents, handleProjectMonthSocketEvents, handleProjectSocketEvents } from "../../actions";
 import { SocketEventTypes } from "./SocketEventTypes";
 import { EntityEventPayload } from "./EntityEventPayload";
 import { t } from "../utils";
@@ -44,7 +44,8 @@ function createSocketService () {
                    case 'clients': dispatch(handleClientSocketEvents(eventType, eventPayload)); break;
                    case 'users': dispatch(handleUserSocketEvents(eventType, eventPayload)); break;
                    case 'roles': dispatch(handleRoleSocketEvents(eventType, eventPayload)); break;
-                   case 'config': dispatch(handleconfigSocketEvents(eventType, eventPayload)); break;
+                   case 'config': dispatch(handleConfigSocketEvents(eventType, eventPayload)); break;
+                   case 'projects_month': dispatch(handleProjectMonthSocketEvents(eventType, eventPayload)); break;
                    default: throw new Error(`${eventPayload.entityType} event for entity type not supported.`);
                 }; 
             });
@@ -70,6 +71,7 @@ function createSocketService () {
             default: throw new Error(`${eventType} not supported.`);
         }
     
+        // TODO nicolas debounce toasts
         toast.info(
             t(`socketio.operation.${operation}`, {
                 entityType: t(`socketio.entities.${eventPayload.entityType}`),
@@ -79,7 +81,7 @@ function createSocketService () {
         );
     }
 
-    function enableToastsForEntity(entityId: string) {
+    function enableToastsForEntity(entityId: string|null|undefined, entityType: string|null|undefined) {
         var unsubscriptions: (()=>void)[] = [];
 
         function registerHandlerForEventType(eventType: SocketEventTypes){
@@ -89,8 +91,12 @@ function createSocketService () {
                     console.log("Event ignored for entityId subscription => source socket id is self");
                     return;
                 }
-                if(msg.entityId !== entityId){
+                if(!!entityId && msg.entityId !== entityId){
                     console.log("Event ignored for entityId subscription => entity id not match");
+                    return;
+                }
+                if(!!entityType && msg.entityType !== entityType){
+                    console.log("Event ignored for entityType subscription => entity type not match");
                     return;
                 }
                 toastEntityChanged(eventType, msg);

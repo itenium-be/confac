@@ -28,7 +28,7 @@ export function updateConfig(newConfig: ConfigModel) {
   };
 }
 
-export function handleconfigSocketEvents(eventType: string, eventPayload: EntityEventPayload){
+export function handleConfigSocketEvents(eventType: string, eventPayload: EntityEventPayload){
     return (dispatch: Dispatch) => {
       dispatch(busyToggle());
       switch(eventType){

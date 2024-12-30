@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { socketService } from "../socketio/SocketService";
 
-function useEntityChangedToast(entityId: string|null|undefined) {
+function useEntityChangedToast(entityId: string|null|undefined, entityType: string|null|undefined = null) {
   useEffect(()=>{
     var subs: undefined| (()=>void);
     
-    if(entityId){
-      subs = socketService.enableToastsForEntity(entityId);
+    if(entityId || entityType ){
+      subs = socketService.enableToastsForEntity(entityId, entityType);
     }
 
     return subs;
     
-  }, [entityId]);
+  }, [entityId, entityType]);
 }
 
 export default useEntityChangedToast;
