@@ -1,7 +1,7 @@
 
 import { Dispatch } from "redux";
 import { io } from "socket.io-client";
-import { handleConsultantSocketEvents, handleProjectSocketEvents } from "../../actions";
+import { handleClientSocketEvents, handleConsultantSocketEvents, handleProjectSocketEvents } from "../../actions";
 import { SocketEventTypes } from "./SocketEventTypes";
 import { EntityEventPayload } from "./EntityEventPayload";
 import { t } from "../utils";
@@ -25,9 +25,9 @@ function createSocketService () {
             throw new Error("Initialize should only be called once.");
         }
 
-        function registerEntityChangeEventHandler(entityEventType: SocketEventTypes, dispatch: Dispatch<any>){
-            socket.on(entityEventType, eventPayload=> {
-                console.log("Received entity event from socketio: " + entityEventType);
+        function registerHandlerForEventType(eventType: SocketEventTypes, dispatch: Dispatch<any>){
+            socket.on(eventType, eventPayload=> {
+                console.log("Received entity event from socketio: " + eventType);
                 console.log("Source socket Id: " + eventPayload.sourceSocketId);
                 console.log("Payload:");
                 console.log(eventPayload);
@@ -38,16 +38,17 @@ function createSocketService () {
                 }
         
                 switch(eventPayload.entityType){
-                   case 'projects': dispatch(handleProjectSocketEvents(entityEventType, eventPayload)); break;
-                   case 'consultants': dispatch(handleConsultantSocketEvents(entityEventType, eventPayload)); break;
+                   case 'projects': dispatch(handleProjectSocketEvents(eventType, eventPayload)); break;
+                   case 'consultants': dispatch(handleConsultantSocketEvents(eventType, eventPayload)); break;
+                   case 'clients': dispatch(handleClientSocketEvents(eventType, eventPayload)); break;
                    default: throw new Error(`${eventPayload.entityType} event for entity type not supported.`);
                 }; 
             });
         }
     
-        registerEntityChangeEventHandler(SocketEventTypes.EntityCreated, dispatch);
-        registerEntityChangeEventHandler(SocketEventTypes.EntityUpdated, dispatch);
-        registerEntityChangeEventHandler(SocketEventTypes.EntityDeleted, dispatch);
+        registerHandlerForEventType(SocketEventTypes.EntityCreated, dispatch);
+        registerHandlerForEventType(SocketEventTypes.EntityUpdated, dispatch);
+        registerHandlerForEventType(SocketEventTypes.EntityDeleted, dispatch);
 
         initialized = true;
     }
@@ -77,10 +78,11 @@ function createSocketService () {
     function enableToastsForEntity(entityId: string) {
         var unsubscriptions: (()=>void)[] = [];
 
-        function registerToastForEventType(eventType: SocketEventTypes){
-            var process = (msg: EntityEventPayload)=>{
+        function registerHandlerForEventType(eventType: SocketEventTypes){
+
+            var handleEvent = (msg: EntityEventPayload)=>{
                 if(msg.sourceSocketId === socketId){
-                    console.log("Event ignored for entityId subscription => socket id is self");
+                    console.log("Event ignored for entityId subscription => source socket id is self");
                     return;
                 }
                 if(msg.entityId !== entityId){
@@ -90,14 +92,14 @@ function createSocketService () {
                 toastEntityChanged(eventType, msg);
             };
 
-            socket.on(eventType, process);
+            socket.on(eventType, handleEvent);
 
-            unsubscriptions.push(() => socket.off(eventType,process));
+            unsubscriptions.push(() => socket.off(eventType,handleEvent));
         }
 
-        registerToastForEventType(SocketEventTypes.EntityCreated);
-        registerToastForEventType(SocketEventTypes.EntityUpdated);
-        registerToastForEventType(SocketEventTypes.EntityDeleted);
+        registerHandlerForEventType(SocketEventTypes.EntityCreated);
+        registerHandlerForEventType(SocketEventTypes.EntityUpdated);
+        registerHandlerForEventType(SocketEventTypes.EntityDeleted);
 
         return ()=> {
             unsubscriptions.forEach(fn=> fn());

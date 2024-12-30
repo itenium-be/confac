@@ -680,7 +680,8 @@ export const trans = {
   socketio: {
     entities: {
       projects: 'Project',
-      consultants: 'Consultant'
+      consultants: 'Consultant',
+      clients: 'Klant'
     },
     operation: {
       entityUpdated: '{entityType} werd aangepast door {user}',
