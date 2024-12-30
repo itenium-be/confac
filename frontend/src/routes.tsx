@@ -25,12 +25,14 @@ import {EditProjectMonths} from './components/project/EditProjectMonths';
 import {ConsultantProjectsList} from './components/consultant/ConsultantProjectsList';
 import {initialLoad} from './actions';
 import {Home} from './components/home/Home';
+import { socketService } from './components/socketio/SocketService';
 
 
 const Routes = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(initialLoad());
+    socketService.initialize(dispatch);
   }, [dispatch]);
 
   return (

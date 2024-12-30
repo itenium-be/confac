@@ -6,6 +6,7 @@ import {t} from '../components/utils';
 import {catchHandler} from './utils/fetch';
 import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
+import { socketService } from '../components/socketio/SocketService';
 
 
 export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => void, navigate?: any) {
@@ -15,6 +16,7 @@ export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => v
       .put(buildUrl('/user'))
       .set('Content-Type', 'application/json')
       .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
       .send(user)
       .then(response => {
         dispatch({
@@ -42,6 +44,7 @@ export function saveRole(role: RoleModel, callback?: (savedRole: RoleModel) => v
       .put(buildUrl('/user/roles'))
       .set('Content-Type', 'application/json')
       .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
       .send(role)
       .then(response => {
         dispatch({

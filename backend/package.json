@@ -52,6 +52,7 @@
     "pug": "^2.0.4",
     "regenerator-runtime": "^0.13.3",
     "slugify": "^1.1.0",
+    "socket.io": "^4.8.1",
     "tmp": "^0.2.1",
     "ubl-builder": "github:pipesanta/ubl-builder",
     "uuid": "^10.0.0"
