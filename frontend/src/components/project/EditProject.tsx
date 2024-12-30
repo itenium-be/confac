@@ -47,7 +47,7 @@ export const EditProject = () => {
     var subs: undefined| (()=>void);
     
     if(model?._id){
-      subs = socketService.enableNotificationsForEntity(model?._id);
+      subs = socketService.enableToastsForEntity(model?._id);
     }
 
     return subs;

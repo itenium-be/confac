@@ -22,7 +22,7 @@ export const saveConsultant = async (req: ConfacRequest, res: Response) => {
 
     await saveAudit(req, 'consultant', originalConsultant, consultant);
     const responseConsultant = {_id, ...consultant};
-    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.CONSULTANTS, responseConsultant, _id);
+    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.CONSULTANTS, _id, responseConsultant);
     return res.send(responseConsultant);
   }
 
@@ -34,6 +34,6 @@ export const saveConsultant = async (req: ConfacRequest, res: Response) => {
     audit: createAudit(req.user),
   });
   const [createdConsultant] = inserted.ops;
-  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.CONSULTANTS, createdConsultant, createdConsultant._id);
+  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.CONSULTANTS, createdConsultant._id, createdConsultant);
   return res.send(createdConsultant);
 };

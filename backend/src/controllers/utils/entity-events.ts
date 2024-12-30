@@ -2,7 +2,7 @@ import { ObjectID } from 'bson';
 import {CollectionNames, SocketEventTypes} from '../../models/common';
 import {ConfacRequest} from '../../models/technical';
 
-export function emitEntityEvent(req: ConfacRequest, eventType: SocketEventTypes, entityType: CollectionNames, entity:any, entityId: ObjectID) {
+export function emitEntityEvent(req: ConfacRequest, eventType: SocketEventTypes, entityType: CollectionNames, entityId: ObjectID, entity:any) {
   const sourceSocketId = req.headers['x-socket-id'];
   const sourceUserEmail = req.user?.data?.email;
   req.io.emit(eventType, {
