@@ -70,7 +70,7 @@ export const features = {
       name: 'Naam',
       claims: 'Claims',
     },
-  },
+  }
 };
 
 
@@ -676,5 +676,16 @@ export const trans = {
         }
       }
     }
-  }
+  },
+  socketio: {
+    entities: {
+      projects: 'Project',
+      consultants: 'Consultant'
+    },
+    operation: {
+      entityUpdated: '{entityType} {entityDisplay} werd aangepast door {user}',
+      entityCreated: '{entityType} {entityDisplay} werd aangemaakt door {user}',
+      entityDeleted: '{entityType} {entityDisplay} werd verwijderd door {user}'
+    }
+  } // TODO nicolas vertaling overnemen in .en file
 };

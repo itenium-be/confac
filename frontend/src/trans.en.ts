@@ -70,7 +70,7 @@ export const features = {
       name: 'Name',
       claims: 'Claims',
     },
-  },
+  }
 };
 
 
