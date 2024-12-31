@@ -119,7 +119,9 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
     const projectMonthId = new ObjectID(invoice.projectMonth.projectMonthId);
     const {updatedInvoice, updatedProjectMonth} = await moveProjectMonthAttachmentsToInvoice(createdInvoice, projectMonthId, req.db);
     emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, updatedInvoice!._id, updatedInvoice);
-    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS_MONTH, updatedProjectMonth!._id, updatedProjectMonth);
+    if (updatedProjectMonth) {
+      emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS_MONTH, updatedProjectMonth!._id, updatedProjectMonth);
+    }
     return res.send(updatedInvoice);
   }
 
@@ -223,10 +225,13 @@ export const deleteInvoiceController = async (req: ConfacRequest, res: Response)
 
     const projectMonthCollection = req.db.collection(CollectionNames.PROJECTS_MONTH);
     const attachments = invoice.attachments.filter(a => a.type !== 'pdf');
+
     const projectMonthId = new ObjectID(invoice.projectMonth.projectMonthId);
     const updateProjectMonthResult = await projectMonthCollection.findOneAndUpdate({ _id: projectMonthId }, { $set: { attachments } });
     const updatedProjectMonth = updateProjectMonthResult.value;
-    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS_MONTH, updatedProjectMonth!._id, updatedProjectMonth);
+    if (updatedProjectMonth) {
+      emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS_MONTH, updatedProjectMonth._id, updatedProjectMonth);
+    }
   }
 
   await req.db.collection(CollectionNames.INVOICES).findOneAndDelete({ _id: new ObjectID(invoiceId) });

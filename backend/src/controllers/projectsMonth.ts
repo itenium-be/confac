@@ -56,7 +56,7 @@ export const createProjectsMonthController = async (req: ConfacRequest, res: Res
     return createdProjectMonth;
   }));
 
-  emitEntityEvent({ req, eventType: SocketEventTypes.EntityCreated, entityType: CollectionNames.PROJECTS_MONTH, entityId: null, entity: createdProjectsMonth });
+  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.PROJECTS_MONTH, null, createdProjectsMonth );
 
   return res.send(createdProjectsMonth);
 };
@@ -72,7 +72,7 @@ export const patchProjectsMonthController = async (req: ConfacRequest, res: Resp
     const {value: originalProjectMonth} = await projMonthCollection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: projectMonth}, {returnOriginal: true});
     await saveAudit(req, 'projectMonth', originalProjectMonth, projectMonth);
     const projectMonthResponse = {_id, ...projectMonth};
-    emitEntityEvent({ req, eventType: SocketEventTypes.EntityUpdated, entityType: CollectionNames.PROJECTS_MONTH, entityId: projectMonthResponse._id, entity: projectMonthResponse });
+    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS_MONTH, projectMonthResponse._id, projectMonthResponse);
     return res.send(projectMonthResponse);
   }
 
@@ -81,7 +81,7 @@ export const patchProjectsMonthController = async (req: ConfacRequest, res: Resp
     audit: createAudit(req.user),
   });
   const [createdProjectMonth] = inserted.ops;
-  emitEntityEvent({ req, eventType: SocketEventTypes.EntityCreated, entityType: CollectionNames.PROJECTS_MONTH, entityId: createdProjectMonth._id, entity: createdProjectMonth });
+  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.PROJECTS_MONTH, createdProjectMonth._id, createdProjectMonth);
   return res.send(createdProjectMonth);
 };
 
@@ -91,6 +91,6 @@ export const deleteProjectsMonthController = async (req: ConfacRequest, res: Res
   const id = req.body.id;
   await req.db.collection(CollectionNames.PROJECTS_MONTH).findOneAndDelete({ _id: new ObjectID(id) });
   await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).findOneAndDelete({ _id: new ObjectID(id) });
-  emitEntityEvent({ req, eventType: SocketEventTypes.EntityDeleted, entityType: CollectionNames.PROJECTS_MONTH, entityId: id, entity: null });
+  emitEntityEvent(req, SocketEventTypes.EntityDeleted, CollectionNames.PROJECTS_MONTH, id, null);
   return res.send(id);
 };
