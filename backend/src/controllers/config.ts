@@ -4,9 +4,10 @@ import {ObjectID} from 'mongodb';
 import appConfig from '../config';
 import {ICompanyConfig} from '../models/config';
 import {getTemplatesPath} from './utils';
-import {CollectionNames, updateAudit} from '../models/common';
+import {CollectionNames, SocketEventTypes, updateAudit} from '../models/common';
 import {ConfacRequest} from '../models/technical';
 import {saveAudit} from './utils/audit-logs';
+import { emitEntityEvent } from './utils/entity-events';
 
 export const getCompanyConfig = async (req: Request, res: Response) => {
   const companyConfig: ICompanyConfig | null = await req.db.collection(CollectionNames.CONFIG).findOne({key: 'conf'});
@@ -41,11 +42,15 @@ export const saveCompanyConfig = async (req: ConfacRequest, res: Response) => {
       .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: config}, {returnOriginal: true});
 
     await saveAudit(req, 'config', originalConfig, config);
-    return res.send({_id, ...config});
+    const responseConfig = {_id, ...config};
+    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.CONFIG, _id, responseConfig);
+    return res.send(responseConfig);
   }
 
   const inserted = await req.db.collection<ICompanyConfig>(CollectionNames.CONFIG).insertOne(config);
-  return res.send(inserted.ops[0]);
+  const responseConfig = inserted.ops[0];
+  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.CONFIG, responseConfig._id, responseConfig);
+  return res.send(responseConfig);
 };
 
 

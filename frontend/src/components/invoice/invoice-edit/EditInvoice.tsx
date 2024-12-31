@@ -28,6 +28,7 @@ import {InvoiceDownloadIcon} from '../../controls/attachments/AttachmentDownload
 
 
 import './EditInvoice.scss';
+import useEntityChangedToast from '../../hooks/useEntityChangedToast';
 
 
 const EditInvoice = () => {
@@ -45,6 +46,7 @@ const EditInvoice = () => {
   const initInvoice = storeInvoice ? new InvoiceModel(config, storeInvoice) : getNewInvoice(config, invoices, clients, {isQuotation});
   const fullProjectMonth = useProjectsMonth(storeInvoice?.projectMonth?.projectMonthId);
   const [invoice, setInvoice] = useState<InvoiceModel>(initInvoice);
+  useEntityChangedToast(invoice._id);
   const [, forceUpdate] = useReducer(x => x + 1, 0);
   const dispatch = useDispatch();
   // useEffect(() => window.scrollTo(0, 0)); // TODO: each keystroke made it scroll to top :(

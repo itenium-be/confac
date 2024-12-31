@@ -14,6 +14,7 @@ import {Audit} from '../admin/audit/Audit';
 import {Claim} from '../users/models/UserModel';
 import {GenericAttachmentDropzone} from '../controls/attachments/GenericAttachmentDropzone';
 import {ClaimGuard} from '../enhancers/EnhanceWithClaim';
+import useEntityChangedToast from '../hooks/useEntityChangedToast';
 
 
 const EditConfig = () => {
@@ -21,6 +22,8 @@ const EditConfig = () => {
   const dispatch = useDispatch();
   const config = useSelector((state: ConfacState) => state.config);
   const [state, setState] = useState<ConfigModel>(JSON.parse(JSON.stringify(config)));
+
+  useEntityChangedToast(config._id);
 
   const termsAndConditions = config.attachments.find(x => x.type === 'TermsAndConditions');
   return (

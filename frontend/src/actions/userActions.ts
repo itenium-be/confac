@@ -6,6 +6,10 @@ import {t} from '../components/utils';
 import {catchHandler} from './utils/fetch';
 import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
+import { socketService } from '../components/socketio/SocketService';
+import { SocketEventTypes } from '../components/socketio/SocketEventTypes';
+import { Dispatch } from 'redux';
+import { EntityEventPayload } from '../components/socketio/EntityEventPayload';
 
 
 export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => void, navigate?: any) {
@@ -15,6 +19,7 @@ export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => v
       .put(buildUrl('/user'))
       .set('Content-Type', 'application/json')
       .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
       .send(user)
       .then(response => {
         dispatch({
@@ -34,6 +39,22 @@ export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => v
   };
 }
 
+export function handleUserSocketEvents(eventType: string, eventPayload: EntityEventPayload){
+    return (dispatch: Dispatch) => {
+      dispatch(busyToggle());
+      switch(eventType){
+        case SocketEventTypes.EntityUpdated: 
+        case SocketEventTypes.EntityCreated:
+            dispatch({
+                type: ACTION_TYPES.USER_UPDATE,
+                user: eventPayload.entity,
+            }); break;
+        default: throw new Error(`${eventType} not supported for user.`);    
+    }
+    dispatch(busyToggle.off());
+  }
+}
+
 
 export function saveRole(role: RoleModel, callback?: (savedRole: RoleModel) => void, navigate?: any) {
   return dispatch => {
@@ -42,6 +63,7 @@ export function saveRole(role: RoleModel, callback?: (savedRole: RoleModel) => v
       .put(buildUrl('/user/roles'))
       .set('Content-Type', 'application/json')
       .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
       .send(role)
       .then(response => {
         dispatch({
@@ -59,4 +81,20 @@ export function saveRole(role: RoleModel, callback?: (savedRole: RoleModel) => v
       .catch(catchHandler)
       .then(() => dispatch(busyToggle.off()));
   };
+}
+
+export function handleRoleSocketEvents(eventType: string, eventPayload: EntityEventPayload){
+  return (dispatch: Dispatch) => {
+    dispatch(busyToggle());
+    switch(eventType){
+      case SocketEventTypes.EntityUpdated: 
+      case SocketEventTypes.EntityCreated:
+          dispatch({
+              type: ACTION_TYPES.ROLE_UPDATE,
+              role: eventPayload.entity,
+          }); break;
+      default: throw new Error(`${eventType} not supported for role.`);    
+  }
+  dispatch(busyToggle.off());
+}
 }

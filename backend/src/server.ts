@@ -4,6 +4,8 @@ import bodyParser from 'body-parser';
 import sgMail from '@sendgrid/mail';
 import {MongoClient} from 'mongodb';
 import cors from 'cors';
+import {Server} from 'socket.io';
+import http from 'http';
 
 import 'express-async-errors';
 
@@ -11,17 +13,25 @@ import appConfig from './config';
 import appRouter from './routes';
 
 const app = express();
+const server = http.createServer(app);
+
+const corsOptions = {
+  origins: '*', // TODO allow frontend only.
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-socket-id'],
+  credentials: true,
+};
+
+const io = new Server(server, {
+  cors: corsOptions
+});
 
 sgMail.setApiKey(appConfig.SENDGRID_API_KEY);
 
-
-
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(`./${appConfig.server.basePath}public`));
-
-
 
 if (appConfig.ENABLE_ROOT_TEMPLATES) {
   app.use(express.static('/templates'));
@@ -50,6 +60,7 @@ MongoClient.connect(connectionString, opts).then(client => {
 app.use((req: Request, res: Response, next: NextFunction) => {
   // TODO: fix race condition
   req.db = _MongoClient.db();
+  req.io = io;
   next();
 });
 
@@ -80,7 +91,7 @@ app.use((req: Request, res: Response) => res.sendFile('/home/public/index.html')
 
 
 
-app.listen(appConfig.server.port, () => {
+server.listen(appConfig.server.port, () => {
   console.log(`Server connected to port ${appConfig.server.port}, running in a ${appConfig.ENVIRONMENT} environment.`);
   console.log(appConfig);
 });

@@ -2,9 +2,10 @@ import {Request, Response} from 'express';
 import moment from 'moment';
 import {ObjectID} from 'mongodb';
 import {IProject} from '../models/projects';
-import {CollectionNames, createAudit, updateAudit} from '../models/common';
+import {CollectionNames, createAudit, SocketEventTypes, updateAudit} from '../models/common';
 import {ConfacRequest} from '../models/technical';
 import {saveAudit} from './utils/audit-logs';
+import {emitEntityEvent} from './utils/entity-events';
 
 /** No longer in use: this is now done in the frontend */
 export const findActiveProjectsForSelectedMonth = (selectedMonth: string, projects: IProject[]) => projects.filter(project => {
@@ -44,7 +45,9 @@ export const saveProject = async (req: ConfacRequest, res: Response) => {
     const projectsColl = req.db.collection<IProject>(CollectionNames.PROJECTS);
     const {value: originalProject} = await projectsColl.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: project}, {returnOriginal: true});
     await saveAudit(req, 'project', originalProject, project);
-    return res.send({_id, ...project});
+    const responseProject = {_id, ...project};
+    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS, _id, responseProject);
+    return res.send(responseProject);
   }
 
   const inserted = await req.db.collection<Omit<IProject, '_id'>>(CollectionNames.PROJECTS).insertOne({
@@ -52,12 +55,14 @@ export const saveProject = async (req: ConfacRequest, res: Response) => {
     audit: createAudit(req.user),
   });
   const [createdProject] = inserted.ops;
+  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.PROJECTS, createdProject._id, createdProject);
   return res.send(createdProject);
 };
 
 
 export const deleteProject = async (req: ConfacRequest, res: Response) => {
   const id = req.body.id;
-  await req.db.collection(CollectionNames.PROJECTS).findOneAndDelete({ _id: new ObjectID(id) });
+  await req.db.collection(CollectionNames.PROJECTS).findOneAndDelete({_id: new ObjectID(id)});
+  emitEntityEvent(req, SocketEventTypes.EntityDeleted, CollectionNames.PROJECTS, id, null);
   return res.send(id);
 };

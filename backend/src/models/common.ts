@@ -25,6 +25,12 @@ export enum CollectionNames {
   ROLES = 'roles',
 }
 
+export enum SocketEventTypes {
+  EntityCreated = 'ENTITY_CREATED',
+  EntityUpdated = 'ENTITY_UPDATED',
+  EntityDeleted = 'ENTITY_DELETED'
+}
+
 export interface IAudit {
   createdOn: string;
   createdBy: string;

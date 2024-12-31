@@ -11,6 +11,9 @@ import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel'
 import {TimesheetCheckAttachmentType} from '../models';
 import {authService} from '../components/users/authService';
 import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
+import { socketService } from '../components/socketio/SocketService';
+import { EntityEventPayload } from '../components/socketio/EntityEventPayload';
+import { SocketEventTypes } from '../components/socketio/SocketEventTypes';
 
 export function saveProject(project: IProjectModel, navigate?: any, after: 'to-list' | 'to-details' = 'to-list') {
   return (dispatch: Dispatch) => {
@@ -19,6 +22,7 @@ export function saveProject(project: IProjectModel, navigate?: any, after: 'to-l
       .post(buildUrl('/projects'))
       .set('Content-Type', 'application/json')
       .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
       .send(project)
       .then(response => {
         dispatch({
@@ -45,6 +49,7 @@ export function createProjectsMonth(month: Moment, projectIds: string[]) {
     .post(buildUrl('/projects/month'))
     .set('Content-Type', 'application/json')
     .set('Authorization', authService.getBearer())
+    .set('x-socket-id', socketService.socketId)
     .send({month, projectIds})
     .then(response => {
       dispatch({
@@ -64,6 +69,7 @@ export function createProjectsMonthInvoice(project: ProjectMonthModel) {
     .post(buildUrl(`/projects/month/${project._id}/create-invoice`))
     .set('Content-Type', 'application/json')
     .set('Authorization', authService.getBearer())
+    .set('x-socket-id', socketService.socketId)
     .then(response => {
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_INVOICE_CREATED,
@@ -84,6 +90,7 @@ export function deleteProjectsMonth(id: string, navigate: any) {
     request.delete(buildUrl('/projects/month'))
       .set('Content-Type', 'application/json')
       .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
       .send({id})
       .then(res => {
         console.log('projectMonth deleted', id); // eslint-disable-line
@@ -108,6 +115,7 @@ export function deleteProject(id: string, navigate: any) {
     request.delete(buildUrl('/projects'))
       .set('Content-Type', 'application/json')
       .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
       .send({id})
       .then(res => {
         console.log('project deleted', id); // eslint-disable-line
@@ -143,6 +151,7 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
     .patch(buildUrl('/projects/month'))
     .set('Content-Type', 'application/json')
     .set('Authorization', authService.getBearer())
+    .set('x-socket-id', socketService.socketId)
     .send(project)
     .then(response => {
       dispatch({
@@ -163,7 +172,9 @@ export function projectMonthUpload(file: File, type: ProjectMonthAttachmentTypes
     const modelId = projectMonth.invoice ? projectMonth.invoice._id : projectMonth._id;
     const req = request
       .put(buildUrl(`/attachments/${modelType}/${modelId}/${type}`))
-      .set('Authorization', authService.getBearer());
+      .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
+      ;
 
     req.attach(fileName, file);
     req.then(response => {
@@ -189,7 +200,8 @@ export function projectsMonthOverviewUpload(file: File, month: Moment) {
   return (dispatch: Dispatch) => {
     const req = request
       .put(buildUrl(`/attachments/project_month_overview/${month.toISOString()}/${TimesheetCheckAttachmentType}`))
-      .set('Authorization', authService.getBearer());
+      .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId);
 
     req.attach(file.name, file);
     req.then(response => {
@@ -208,7 +220,8 @@ export function deleteProjectsMonthOverview(id: string) {
   return (dispatch: Dispatch) => {
     const req = request
       .delete(buildUrl(`/attachments/project_month_overview/${id}/${TimesheetCheckAttachmentType}`))
-      .set('Authorization', authService.getBearer());
+      .set('Authorization', authService.getBearer())
+      ;
 
     req.then(response => {
       dispatch({
@@ -229,4 +242,54 @@ export function deleteProjectMonthAttachmentDetails(projectMonth: ProjectMonthMo
       projectMonth: {...projectMonth, attachments: []},
     });
   };
+}
+
+export function handleProjectSocketEvents(eventType: string, eventPayload: EntityEventPayload){
+    return (dispatch: Dispatch) => {
+      dispatch(busyToggle());
+      switch(eventType){
+        case SocketEventTypes.EntityUpdated: 
+        case SocketEventTypes.EntityCreated:
+            dispatch({
+                type: ACTION_TYPES.PROJECT_UPDATE,
+                project: eventPayload.entity,
+            }); break;
+        case SocketEventTypes.EntityDeleted: 
+            dispatch({
+                type: ACTION_TYPES.PROJECT_DELETE,
+                id: eventPayload.entityId,
+            }); break;
+        default: throw new Error(`${eventType} not supported for project.`);    
+    }
+    dispatch(busyToggle.off());
+  }
+}
+
+export function handleProjectMonthSocketEvents(eventType: string, eventPayload: EntityEventPayload){
+  return (dispatch: Dispatch) => {
+    dispatch(busyToggle());
+    switch(eventType){
+      case SocketEventTypes.EntityUpdated: 
+      case SocketEventTypes.EntityCreated:
+          if(Array.isArray(eventPayload.entity)){
+            dispatch({
+              type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
+              projectsMonth: eventPayload.entity,
+          });
+          }else{
+            dispatch({
+                type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
+                projectMonth: eventPayload.entity,
+            });
+          }
+          break;
+      case SocketEventTypes.EntityDeleted: 
+          dispatch({
+              type: ACTION_TYPES.PROJECTS_MONTH_DELETE,
+              id: eventPayload.entityId,
+          }); break;
+      default: throw new Error(`${eventType} not supported for project month.`);    
+  }
+  dispatch(busyToggle.off());
+  }
 }

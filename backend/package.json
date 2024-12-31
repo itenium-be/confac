@@ -52,6 +52,7 @@
     "pug": "^2.0.4",
     "regenerator-runtime": "^0.13.3",
     "slugify": "^1.1.0",
+    "socket.io": "^4.8.1",
     "tmp": "^0.2.1",
     "ubl-builder": "github:pipesanta/ubl-builder",
     "uuid": "^10.0.0"
@@ -101,6 +102,7 @@
     "lint-staged": "^10.0.1",
     "mongodb-memory-server": "^8.12.1",
     "nodemon": "^1.11.0",
+    "socket.io-mock-ts": "^1.0.2",
     "supertest": "^6.3.3",
     "ts-jest": "^29.0.5",
     "typescript": "4.3"

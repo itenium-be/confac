@@ -3,9 +3,10 @@ import slugify from 'slugify';
 import fetch from 'node-fetch';
 import {ObjectID} from 'mongodb';
 import {IClient} from '../models/clients';
-import {CollectionNames, updateAudit, createAudit} from '../models/common';
+import {CollectionNames, updateAudit, createAudit, SocketEventTypes} from '../models/common';
 import {ConfacRequest} from '../models/technical';
 import {saveAudit} from './utils/audit-logs';
+import {emitEntityEvent} from './utils/entity-events';
 
 
 export const getClients = async (req: Request, res: Response) => {
@@ -31,7 +32,9 @@ export const saveClient = async (req: ConfacRequest, res: Response) => {
     const {value: originalClient} = await clientsCollection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: client}, {returnOriginal: true});
 
     await saveAudit(req, 'client', originalClient, client);
-    return res.send({_id, ...client});
+    const clientResponse = {_id, ...client};
+    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.CLIENTS, _id, clientResponse);
+    return res.send(clientResponse);
   }
 
 
@@ -39,5 +42,6 @@ export const saveClient = async (req: ConfacRequest, res: Response) => {
   client.audit = createAudit(req.user);
   const inserted = await req.db.collection(CollectionNames.CLIENTS).insertOne(client);
   const [createdClient] = inserted.ops;
+  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.CLIENTS, createdClient._id, createdClient);
   return res.send(createdClient);
 };

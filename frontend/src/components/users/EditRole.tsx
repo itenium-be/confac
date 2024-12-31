@@ -14,6 +14,7 @@ import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {saveRole} from '../../actions/userActions';
 import {Audit} from '../admin/audit/Audit';
 import {useParams} from 'react-router-dom';
+import useEntityChangedToast from '../hooks/useEntityChangedToast';
 
 
 export const EditRole = () => {
@@ -22,6 +23,8 @@ export const EditRole = () => {
   const params = useParams();
   const model = useSelector((state: ConfacState) => state.user.roles.find(c => c.name === params.id));
   const [role, setRole] = useState<RoleModel>(model || getNewRole());
+
+  useEntityChangedToast(role._id);
 
   const docTitle = role._id ? 'roleEdit' : 'roleNew';
   useDocumentTitle(docTitle, {name: role.name});

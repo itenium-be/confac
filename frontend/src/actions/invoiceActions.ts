@@ -7,6 +7,10 @@ import t from '../trans';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
 import {authService} from '../components/users/authService';
+import { socketService } from '../components/socketio/SocketService';
+import { EntityEventPayload } from '../components/socketio/EntityEventPayload';
+import { SocketEventTypes } from '../components/socketio/SocketEventTypes';
+import { Dispatch } from 'redux';
 
 
 function cleanViewModel(data: InvoiceModel): InvoiceModel {
@@ -24,6 +28,7 @@ export function createInvoice(data: InvoiceModel, navigate?: any) {
     request.post(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
       .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
       .set('Accept', 'application/json')
       .send(cleanViewModel(data))
       .then(res => {
@@ -56,6 +61,7 @@ export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | un
     request.put(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
       .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
       .set('Accept', 'application/json')
       .send(cleanViewModel(data))
       .then(res => {
@@ -101,6 +107,7 @@ export function deleteInvoice(invoice: InvoiceModel) {
     request.delete(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
       .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
       .send({id: invoice._id})
       .then(res => {
         console.log('invoice deleted', invoice); // eslint-disable-line
@@ -114,4 +121,24 @@ export function deleteInvoice(invoice: InvoiceModel) {
       .catch(catchHandler)
       .then(() => dispatch(busyToggle.off()));
   };
+}
+
+export function handleInvoiceSocketEvents(eventType: string, eventPayload: EntityEventPayload){
+  return (dispatch: Dispatch) => {
+    dispatch(busyToggle());
+    switch(eventType){
+      case SocketEventTypes.EntityUpdated: 
+      case SocketEventTypes.EntityCreated:
+        dispatch({
+          type: ACTION_TYPES.INVOICE_UPDATED,
+          invoice: eventPayload.entity}); break;
+      case SocketEventTypes.EntityDeleted: 
+        dispatch({
+            type: ACTION_TYPES.INVOICE_DELETED,
+            id: eventPayload.entityId,
+        }); break;
+      default: throw new Error(`${eventType} not supported for project month.`);    
+  }
+  dispatch(busyToggle.off());
+  }
 }

@@ -18,6 +18,7 @@ import {Audit} from '../admin/audit/Audit';
 import {Claim} from '../users/models/UserModel';
 import {useParams} from 'react-router-dom';
 import {InvoiceLine} from '../invoice/models/InvoiceLineModels';
+import useEntityChangedToast from '../hooks/useEntityChangedToast';
 
 
 /** Different spellings of "Belgium" */
@@ -39,9 +40,13 @@ const EditClient = () => {
   const initClient = getClient(storeClient, config);
   const [client, setClient] = useState<ClientModel>(initClient);
   const clientWithSameKbo = useSelector((state: ConfacState) => state.clients.filter(x => x.btw === client.btw).find(x => x.slug !== params.id));
+  
+  useEntityChangedToast(client._id);
+  
   const dispatch = useDispatch();
   // useEffect(() => window.scrollTo(0, 0)); // TODO: each keystroke made it scroll to top :(
   useDocumentTitle('clientEdit', {name: client.name});
+  
 
   if (storeClient && !client._id) {
     setClient(storeClient);

@@ -9,6 +9,7 @@ import { ProjectMonthsListToolbar } from './ProjectMonthsListToolbar';
 
 
 import './project-month-list.scss';
+import useEntityChangedToast from '../../hooks/useEntityChangedToast';
 
 
 /** The monthly invoicing tables including the top searchbar */
@@ -20,6 +21,8 @@ export const ProjectMonthsLists = () => {
     .map(projectMonth => projectMonth.month.format(ProjectMonthsListFilterOpenMonthsFormat))
     .filter((month, index, arr) => arr.indexOf(month) === index)
     .sort((a, b) => b.localeCompare(a));
+
+    useEntityChangedToast(null, 'projects_month');
 
   return (
     <Container className={`list list-${Features.projectMonths}`}>
