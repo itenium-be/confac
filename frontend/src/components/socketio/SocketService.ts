@@ -1,4 +1,4 @@
-
+ 
 import { Dispatch } from "redux";
 import { io } from "socket.io-client";
 import { handleClientSocketEvents, handleConfigSocketEvents, handleConsultantSocketEvents, handleInvoiceSocketEvents, handleProjectMonthSocketEvents, handleProjectSocketEvents } from "../../actions";
@@ -28,13 +28,12 @@ function createSocketService () {
 
         function registerHandlerForEventType(eventType: SocketEventTypes, dispatch: Dispatch<any>){
             socket.on(eventType, eventPayload=> {
-                console.log("Received entity event from socketio: " + eventType);
-                console.log("Source socket Id: " + eventPayload.sourceSocketId);
-                console.log("Payload:");
+                console.log("Socket.io: Received entity event" + eventType);
+                console.log("Socket.io: Payload");
                 console.log(eventPayload);
         
                 if(eventPayload.sourceSocketId === socketId){
-                    console.log("Event ignored: sourceSocketId is equal to current socket id.");
+                    console.log("Socket.io: Event ignored => sourceSocketId is equal to current socket id.");
                     return;
                 }
         
@@ -89,15 +88,15 @@ function createSocketService () {
 
             var handleEvent = (msg: EntityEventPayload)=>{
                 if(msg.sourceSocketId === socketId){
-                    console.log("Event ignored for entityId subscription => source socket id is self");
+                    console.log("Socket.io: Event ignored => sourceSocketId is equal to current socket id.");
                     return;
                 }
                 if(!!entityId && msg.entityId !== entityId){
-                    console.log("Event ignored for entityId subscription => entity id not match");
+                    console.log("Socket.io: Event ignored for entityId subscription => entity id not match");
                     return;
                 }
                 if(!!entityType && msg.entityType !== entityType){
-                    console.log("Event ignored for entityType subscription => entity type not match");
+                    console.log("Socket.io: Event ignored for entityType subscription => entity type not match");
                     return;
                 }
                 toastEntityChanged(eventType, msg);

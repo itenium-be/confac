@@ -5,7 +5,7 @@ import {IProjectMonth, IProjectMonthOverview, TimesheetCheckAttachmentType} from
 import {CollectionNames, createAudit, SocketEventTypes, updateAudit} from '../models/common';
 import {ConfacRequest} from '../models/technical';
 import {saveAudit} from './utils/audit-logs';
-import { emitEntityEvent } from './utils/entity-events';
+import {emitEntityEvent} from './utils/entity-events';
 
 
 export const getProjectsPerMonthController = async (req: Request, res: Response) => {
