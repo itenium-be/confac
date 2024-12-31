@@ -291,5 +291,5 @@ export function handleProjectMonthSocketEvents(eventType: string, eventPayload: 
       default: throw new Error(`${eventType} not supported for project month.`);    
   }
   dispatch(busyToggle.off());
-}
+  }
 }

@@ -4,10 +4,11 @@ import {ObjectID, Db} from 'mongodb';
 import {IInvoice, INVOICE_EXCEL_HEADERS} from '../models/invoices';
 import {IAttachmentCollection} from '../models/attachments';
 import {createPdf, createXml} from './utils';
-import {CollectionNames, IAttachment, createAudit, updateAudit} from '../models/common';
+import {CollectionNames, IAttachment, SocketEventTypes, createAudit, updateAudit} from '../models/common';
 import {IProjectMonth} from '../models/projectsMonth';
 import {ConfacRequest, Jwt} from '../models/technical';
 import {saveAudit} from './utils/audit-logs';
+import {emitEntityEvent} from './utils/entity-events';
 
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
@@ -49,14 +50,16 @@ const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMo
   const projectMonth = await db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).findOne({_id: projectMonthId});
   const updatedAttachmentDetails = projectMonth ? [...invoice.attachments, ...projectMonth?.attachments] : invoice.attachments;
 
-  const inserted = await db.collection<IInvoice>(CollectionNames.INVOICES)
+  const updateInvoiceResult = await db.collection<IInvoice>(CollectionNames.INVOICES)
     .findOneAndUpdate({_id: new ObjectID(invoice._id)}, {$set: {attachments: updatedAttachmentDetails}}, {returnOriginal: false});
-  const updatedInvoice = inserted.value;
+  const updatedInvoice = updateInvoiceResult.value;
 
-  await db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).findOneAndUpdate({_id: projectMonthId}, {$set: {attachments: []}});
+  const updateProjectMonthResult = await db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).findOneAndUpdate({_id: projectMonthId}, {$set: {attachments: []}});
+  const updatedProjectMonth = updateProjectMonthResult.value;
+
   await db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).findOneAndDelete({_id: projectMonthId});
 
-  return updatedInvoice;
+  return {updatedInvoice, updatedProjectMonth};
 };
 
 
@@ -114,11 +117,13 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
 
   if (invoice.projectMonth) {
     const projectMonthId = new ObjectID(invoice.projectMonth.projectMonthId);
-    const updatedInvoice = await moveProjectMonthAttachmentsToInvoice(createdInvoice, projectMonthId, req.db);
-
+    const {updatedInvoice, updatedProjectMonth} = await moveProjectMonthAttachmentsToInvoice(createdInvoice, projectMonthId, req.db);
+    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, updatedInvoice!._id, updatedInvoice);
+    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS_MONTH, updatedProjectMonth!._id, updatedProjectMonth);
     return res.send(updatedInvoice);
   }
 
+  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.INVOICES, createdInvoice._id, createdInvoice);
   return res.send(createdInvoice);
 };
 
@@ -172,15 +177,20 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
       .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth.projectMonthId)}, {$set: {verified: invoice.verified}});
   }
 
+  const invoiceResponse = {_id, ...invoice};
   const result: Array<any> = [{
     type: 'invoice',
-    model: {_id, ...invoice},
+    model: invoiceResponse,
   }];
+  emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, invoiceResponse._id, invoiceResponse);
+
   if (projectMonth && projectMonth.ok && projectMonth.value) {
+    const projectMonthResponse = projectMonth.value;
     result.push({
       type: 'projectMonth',
-      model: projectMonth.value,
+      model: projectMonthResponse,
     });
+    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS_MONTH, projectMonthResponse._id, projectMonthResponse);
   }
 
   return res.send(result);
@@ -189,7 +199,7 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
 
 
 /** Hard invoice delete: There is no coming back from this one */
-export const deleteInvoiceController = async (req: Request, res: Response) => {
+export const deleteInvoiceController = async (req: ConfacRequest, res: Response) => {
   const { id: invoiceId }: { id: string; } = req.body;
 
   const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOne({ _id: new ObjectID(invoiceId) });
@@ -213,11 +223,16 @@ export const deleteInvoiceController = async (req: Request, res: Response) => {
 
     const projectMonthCollection = req.db.collection(CollectionNames.PROJECTS_MONTH);
     const attachments = invoice.attachments.filter(a => a.type !== 'pdf');
-    await projectMonthCollection.findOneAndUpdate({ _id: new ObjectID(invoice.projectMonth.projectMonthId) }, { $set: { attachments } });
+    const projectMonthId = new ObjectID(invoice.projectMonth.projectMonthId);
+    const updateProjectMonthResult = await projectMonthCollection.findOneAndUpdate({ _id: projectMonthId }, { $set: { attachments } });
+    const updatedProjectMonth = updateProjectMonthResult.value;
+    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS_MONTH, updatedProjectMonth!._id, updatedProjectMonth);
   }
 
   await req.db.collection(CollectionNames.INVOICES).findOneAndDelete({ _id: new ObjectID(invoiceId) });
   await req.db.collection(CollectionNames.ATTACHMENTS).findOneAndDelete({ _id: new ObjectID(invoiceId) });
+
+  emitEntityEvent(req, SocketEventTypes.EntityDeleted, CollectionNames.INVOICES, new ObjectID(invoiceId), null);
 
   return res.send(invoiceId);
 };

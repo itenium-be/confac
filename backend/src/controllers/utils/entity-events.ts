@@ -1,4 +1,4 @@
-import { ObjectID } from 'bson';
+import {ObjectID} from 'bson';
 import {CollectionNames, SocketEventTypes} from '../../models/common';
 import {ConfacRequest} from '../../models/technical';
 

@@ -46,7 +46,7 @@ export const saveProject = async (req: ConfacRequest, res: Response) => {
     const {value: originalProject} = await projectsColl.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: project}, {returnOriginal: true});
     await saveAudit(req, 'project', originalProject, project);
     const responseProject = {_id, ...project};
-    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS, _id, responseProject);
+    emitEntityEvent({ req, eventType: SocketEventTypes.EntityUpdated, entityType: CollectionNames.PROJECTS, entityId: _id, entity: responseProject });
     return res.send(responseProject);
   }
 
@@ -55,7 +55,7 @@ export const saveProject = async (req: ConfacRequest, res: Response) => {
     audit: createAudit(req.user),
   });
   const [createdProject] = inserted.ops;
-  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.PROJECTS, createdProject._id, createdProject);
+  emitEntityEvent({ req, eventType: SocketEventTypes.EntityCreated, entityType: CollectionNames.PROJECTS, entityId: createdProject._id, entity: createdProject });
   return res.send(createdProject);
 };
 
@@ -63,6 +63,6 @@ export const saveProject = async (req: ConfacRequest, res: Response) => {
 export const deleteProject = async (req: ConfacRequest, res: Response) => {
   const id = req.body.id;
   await req.db.collection(CollectionNames.PROJECTS).findOneAndDelete({_id: new ObjectID(id)});
-  emitEntityEvent(req, SocketEventTypes.EntityDeleted, CollectionNames.PROJECTS, id, null);
+  emitEntityEvent({ req, eventType: SocketEventTypes.EntityDeleted, entityType: CollectionNames.PROJECTS, entityId: id, entity: null });
   return res.send(id);
 };

@@ -113,14 +113,14 @@ export const saveUser = async (req: ConfacRequest, res: Response) => {
     const {value: originalUser} = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: user}, {returnOriginal: true});
     await saveAudit(req, 'user', originalUser, user);
     const responseUser = {_id, ...user};
-    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.USERS, _id, responseUser);
+    emitEntityEvent({ req, eventType: SocketEventTypes.EntityUpdated, entityType: CollectionNames.USERS, entityId: _id, entity: responseUser });
     return res.send(responseUser);
   }
 
   user.audit = createAudit(req.user);
   const inserted = await collection.insertOne(user);
   const [createdUser] = inserted.ops;
-  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.USERS, createdUser._id, createdUser);
+  emitEntityEvent({ req, eventType: SocketEventTypes.EntityCreated, entityType: CollectionNames.USERS, entityId: createdUser._id, entity: createdUser });
   return res.send(createdUser);
 };
 
@@ -148,13 +148,13 @@ export const saveRole = async (req: ConfacRequest, res: Response) => {
     await saveAudit(req, 'role', originalRole, role);
 
     const responseRole = {_id, ...role};
-    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.ROLES, _id, responseRole);
+    emitEntityEvent({ req, eventType: SocketEventTypes.EntityUpdated, entityType: CollectionNames.ROLES, entityId: _id, entity: responseRole });
     return res.send(responseRole);
   }
 
   role.audit = createAudit(req.user);
   const inserted = await collection.insertOne(role);
   const [createdRole] = inserted.ops;
-  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.ROLES, createdRole._id, createdRole);
+  emitEntityEvent({ req, eventType: SocketEventTypes.EntityCreated, entityType: CollectionNames.ROLES, entityId: createdRole._id, entity: createdRole });
   return res.send(createdRole);
 };

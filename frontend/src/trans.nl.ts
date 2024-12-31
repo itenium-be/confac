@@ -679,18 +679,19 @@ export const trans = {
   },
   socketio: {
     entities: {
-      projects: 'Project',
-      consultants: 'Consultant',
       clients: 'Klant',
-      users: 'Gebruiker',
-      roles: 'Rol',
       config: 'Configuratie',
-      projects_month: 'Project maand'
+      consultants: 'Consultant',
+      invoices: 'Factuur',
+      projects: 'Project',
+      projects_month: 'Project maand',
+      roles: 'Rol',
+      users: 'Gebruiker',
     },
     operation: {
-      entityUpdated: '{entityType} werd aangepast door {user}',
       entityCreated: '{entityType} werd aangemaakt door {user}',
+      entityUpdated: '{entityType} werd aangepast door {user}',
       entityDeleted: '{entityType} werd verwijderd door {user}'
     }
-  } // TODO nicolas vertaling overnemen in .en file
+  }
 };

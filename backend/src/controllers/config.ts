@@ -43,13 +43,13 @@ export const saveCompanyConfig = async (req: ConfacRequest, res: Response) => {
 
     await saveAudit(req, 'config', originalConfig, config);
     const responseConfig = {_id, ...config};
-    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.CONFIG, _id, responseConfig);
+    emitEntityEvent({ req, eventType: SocketEventTypes.EntityUpdated, entityType: CollectionNames.CONFIG, entityId: _id, entity: responseConfig });
     return res.send(responseConfig);
   }
 
   const inserted = await req.db.collection<ICompanyConfig>(CollectionNames.CONFIG).insertOne(config);
   const responseConfig = inserted.ops[0];
-  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.CONFIG, responseConfig._id, responseConfig);
+  emitEntityEvent({ req, eventType: SocketEventTypes.EntityCreated, entityType: CollectionNames.CONFIG, entityId: responseConfig._id, entity: responseConfig });
   return res.send(responseConfig);
 };
 

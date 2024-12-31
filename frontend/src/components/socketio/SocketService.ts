@@ -1,7 +1,7 @@
 
 import { Dispatch } from "redux";
 import { io } from "socket.io-client";
-import { handleClientSocketEvents, handleConfigSocketEvents, handleConsultantSocketEvents, handleProjectMonthSocketEvents, handleProjectSocketEvents } from "../../actions";
+import { handleClientSocketEvents, handleConfigSocketEvents, handleConsultantSocketEvents, handleInvoiceSocketEvents, handleProjectMonthSocketEvents, handleProjectSocketEvents } from "../../actions";
 import { SocketEventTypes } from "./SocketEventTypes";
 import { EntityEventPayload } from "./EntityEventPayload";
 import { t } from "../utils";
@@ -39,14 +39,15 @@ function createSocketService () {
                 }
         
                 switch(eventPayload.entityType){
-                   case 'projects': dispatch(handleProjectSocketEvents(eventType, eventPayload)); break;
-                   case 'consultants': dispatch(handleConsultantSocketEvents(eventType, eventPayload)); break;
-                   case 'clients': dispatch(handleClientSocketEvents(eventType, eventPayload)); break;
-                   case 'users': dispatch(handleUserSocketEvents(eventType, eventPayload)); break;
-                   case 'roles': dispatch(handleRoleSocketEvents(eventType, eventPayload)); break;
-                   case 'config': dispatch(handleConfigSocketEvents(eventType, eventPayload)); break;
-                   case 'projects_month': dispatch(handleProjectMonthSocketEvents(eventType, eventPayload)); break;
-                   default: throw new Error(`${eventPayload.entityType} event for entity type not supported.`);
+                    case 'clients': dispatch(handleClientSocketEvents(eventType, eventPayload)); break;
+                    case 'config': dispatch(handleConfigSocketEvents(eventType, eventPayload)); break;
+                    case 'consultants': dispatch(handleConsultantSocketEvents(eventType, eventPayload)); break;
+                    case 'invoices': dispatch(handleInvoiceSocketEvents(eventType, eventPayload)); break;
+                    case 'projects': dispatch(handleProjectSocketEvents(eventType, eventPayload)); break;
+                    case 'projects_month': dispatch(handleProjectMonthSocketEvents(eventType, eventPayload)); break;
+                    case 'roles': dispatch(handleRoleSocketEvents(eventType, eventPayload)); break;
+                    case 'users': dispatch(handleUserSocketEvents(eventType, eventPayload)); break;
+                    default: throw new Error(`${eventPayload.entityType} event for entity type not supported.`);
                 }; 
             });
         }

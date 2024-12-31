@@ -676,5 +676,22 @@ export const trans = {
         }
       }
     }
+  },
+  socketio: {
+    entities: {
+      clients: 'Client',
+      config: 'Configuration',
+      consultants: 'Consultant',
+      invoices: 'Invoice',
+      projects: 'Project',
+      projects_month: 'Project month',
+      roles: 'Role',
+      users: 'User',
+    },
+    operation: {
+      entityCreated: '{entityType} has been created by {user}',
+      entityUpdated: '{entityType} has been updated by {user}',
+      entityDeleted: '{entityType} has been deleted by {user}'
+    }
   }
 };
