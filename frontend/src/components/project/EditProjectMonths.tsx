@@ -28,7 +28,7 @@ export const EditProjectMonths = () => {
   const model = useProjectsMonth(params.projectMonthId);
   const [projectMonth, setProjectMonth] = useState<ProjectMonthModel>((model && model.details) || getNewProjectMonth());
 
-  useEntityChangedToast(model?._id);
+  useEntityChangedToast(projectMonth._id);
 
   const docTitle = projectMonth._id ? 'projectMonthEdit' : 'projectMonthNew';
   const consultantName = (model && model.consultantName) || '';

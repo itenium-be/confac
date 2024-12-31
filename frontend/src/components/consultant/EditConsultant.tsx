@@ -28,7 +28,7 @@ export const EditConsultant = () => {
     .filter(x => x.email === consultant.email)
     .find(x => x.slug !== params.id && x._id !== params.id));
 
-  useEntityChangedToast(model?._id);
+  useEntityChangedToast(consultant._id);
 
   const docTitle = consultant._id ? 'consultantEdit' : 'consultantNew';
   useDocumentTitle(docTitle, {name: `${consultant.firstName} ${consultant.name}`});

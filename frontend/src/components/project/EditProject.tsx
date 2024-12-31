@@ -43,7 +43,7 @@ export const EditProject = () => {
   const hasProjectMonths = useSelector((state: ConfacState) => state.projectsMonth.some(pm => pm.projectId === params.id));
   const [needsSync, setNeedsSync] = useState<{consultant: boolean, client: boolean}>({consultant: false, client: false});
   
-  useEntityChangedToast(model?._id);
+  useEntityChangedToast(project._id);
 
   const docTitle = consultant._id ? 'projectEdit' : 'projectNew';
   useDocumentTitle(docTitle, {consultant: consultant.firstName, client: client.name});
