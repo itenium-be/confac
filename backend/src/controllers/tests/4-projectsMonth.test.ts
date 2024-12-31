@@ -11,7 +11,7 @@ import request from 'supertest';
 import express from 'express';
 import projectsRouter from '../../routes/projects';
 import bodyParser from 'body-parser';
-import SocketMock from 'socket.io-mock';
+import MockedSocket from 'socket.io-mock';
 
 
 
@@ -21,7 +21,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use((req: Request, res: Response, next: NextFunction) => {
   req.db = getFakeDb();
-  req.io = new SocketMock();
+  req.io = new MockedSocket();
   next();
 });
 app.use('/', projectsRouter);
