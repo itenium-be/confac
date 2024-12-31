@@ -22,7 +22,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use((req: Request, res: Response, next: NextFunction) => {
   req.db = getFakeDb();
-  req.io = new SocketServerMock() as any;;
+  req.io = new SocketServerMock() as any;
   next();
 });
 app.use('/', projectsRouter);
