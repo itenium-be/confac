@@ -11,6 +11,7 @@ import request from 'supertest';
 import express from 'express';
 import projectsRouter from '../../routes/projects';
 import bodyParser from 'body-parser';
+import MockedSocket from 'socket.io-mock';
 
 
 
@@ -19,7 +20,8 @@ const getFakeDb: jest.Mock<Db> = jest.fn();
 const app = express();
 app.use(bodyParser.json());
 app.use((req: Request, res: Response, next: NextFunction) => {
-  req.db = getFakeDb()
+  req.db = getFakeDb();
+  req.io = new MockedSocket();
   next();
 });
 app.use('/', projectsRouter);

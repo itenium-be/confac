@@ -11,7 +11,7 @@ import { Jwt } from '../../models/technical'
 import { saveConsultant } from '../consultants';
 import { IConsultant } from '../../models/consultants';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-
+import MockedSocket from 'socket.io-mock';
 
 const fakeUser: Jwt = {
   data: { _id: '_id', email: 'string', firstName: 'first', name: 'name', alias: 'alias', active: true },
