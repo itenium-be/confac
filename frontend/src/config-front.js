@@ -1,7 +1,9 @@
 if (process.env.NODE_ENV === 'production') {
   console.log('process.env', process.env);
-  const backend = `${window.location.origin}/api`;
-  module.exports = {backend};
+  const baseUrl = window.location.origin;
+  const backend = `${baseUrl}/api`;
+  module.exports = {backend, baseUrl};
 } else {
-  module.exports = {backend: 'http://localhost:9000/api'};
+  const baseUrl = 'http://localhost:9000';
+  module.exports = {backend: baseUrl+'/api',baseUrl};
 }

@@ -15,26 +15,18 @@ import appRouter from './routes';
 const app = express();
 const server = http.createServer(app);
 
-// TODO nicolas finetune CORS config...
+const corsOptions = {
+  origins: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-socket-id'],
+  credentials: true,
+};
+
 const io = new Server(server, {
-  cors: {
-    origin: '*', // Allow all origins
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed HTTP methods
-    allowedHeaders: ['x-socket-id'], // Optional: specify allowed headers
-    credentials: true, // Allow credentials (e.g., cookies)
-  },
+  cors: corsOptions
 });
 
 sgMail.setApiKey(appConfig.SENDGRID_API_KEY);
-
-// TODO nicolas finetune CORS config...
-// Allow only specific origins (e.g., your frontend's URL)
-const corsOptions = {
-  origin: 'http://localhost:3000', // Replace with your frontend URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-socket-id'], // Allowed headers
-  credentials: true, // Allow cookies and credentials
-};
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());

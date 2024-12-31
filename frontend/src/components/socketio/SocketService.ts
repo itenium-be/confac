@@ -7,10 +7,10 @@ import { EntityEventPayload } from "./EntityEventPayload";
 import { t } from "../utils";
 import { toast } from "react-toastify";
 import { handleRoleSocketEvents, handleUserSocketEvents } from "../../actions/userActions";
+import { baseUrl } from "../../config-front";
 
 function createSocketService () {
-    // TODO nicolas read server url from frontend config !!! 
-    const socket = io('localhost:9000');
+    const socket = io(baseUrl);
     
     var socketId: undefined|string = undefined;
     var initialized = false;
