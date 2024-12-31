@@ -12,7 +12,7 @@ import request from 'supertest';
 import express from 'express';
 import projectsRouter from '../../routes/projects';
 import bodyParser from 'body-parser';
-import MockedSocket from 'socket.io-mock';
+import { SocketServerMock } from 'socket.io-mock-ts';
 
 
 
@@ -22,7 +22,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use((req: Request, res: Response, next: NextFunction) => {
   req.db = getFakeDb();
-  req.io = new MockedSocket();
+  req.io = new SocketServerMock() as any;;
   next();
 });
 app.use('/', projectsRouter);

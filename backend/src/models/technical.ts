@@ -1,5 +1,4 @@
 import {Request} from 'express';
-import { Server } from 'socket.io';
 
 export type Jwt = {
   data: {

@@ -1,5 +1,5 @@
 import {Db} from 'mongodb';
-import { Server } from 'socket.io';
+import {Server} from 'socket.io';
 
 declare global {
   namespace Express {
