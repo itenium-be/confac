@@ -5,7 +5,7 @@ import {IConsultant} from '../models/consultants';
 import {CollectionNames, createAudit, SocketEventTypes, updateAudit} from '../models/common';
 import {ConfacRequest} from '../models/technical';
 import {saveAudit} from './utils/audit-logs';
-import { emitEntityEvent } from './utils/entity-events';
+import {emitEntityEvent} from './utils/entity-events';
 
 export const getConsultants = async (req: Request, res: Response) => {
   const consultants = await req.db.collection<IConsultant>(CollectionNames.CONSULTANTS).find().toArray();
@@ -22,7 +22,7 @@ export const saveConsultant = async (req: ConfacRequest, res: Response) => {
 
     await saveAudit(req, 'consultant', originalConsultant, consultant);
     const responseConsultant = {_id, ...consultant};
-    emitEntityEvent(SocketEventTypes.EntityUpdated, CollectionNames.CONSULTANTS, _id, responseConsultant);
+    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.CONSULTANTS, _id, responseConsultant);
     return res.send(responseConsultant);
   }
 
