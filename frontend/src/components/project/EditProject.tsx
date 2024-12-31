@@ -24,7 +24,6 @@ import { SingleContractIcon } from "../client/contract/SingleContractIcon";
 import {EnhanceWithConfirmation} from '../enhancers/EnhanceWithConfirmation';
 import {Button} from '../controls/form-controls/Button';
 import {isDateIntervalValid} from '../controls/other/ProjectValidator';
-import { socketService } from '../socketio/SocketService';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
 
 
