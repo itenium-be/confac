@@ -16,7 +16,7 @@ const app = express();
 const server = http.createServer(app);
 
 const corsOptions = {
-  origins: '*',
+  origins: '*', // TODO allow frontend only.
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-socket-id'],
   credentials: true,
