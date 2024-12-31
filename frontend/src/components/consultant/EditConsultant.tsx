@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form, Alert} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
@@ -15,7 +15,6 @@ import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {Audit} from '../admin/audit/Audit';
 import {Claim} from '../users/models/UserModel';
 import {useParams} from 'react-router-dom';
-import { socketService } from '../socketio/SocketService';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
 
 
