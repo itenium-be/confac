@@ -9,7 +9,7 @@ import { ObjectID } from 'mongodb'
 import { IClient } from '../../models/clients'
 import { Jwt } from '../../models/technical'
 import { saveClient } from '../clients';
-import MockedSocket from 'socket.io-mock';
+import SocketMock from 'socket.io-mock';
 
 const fakeUser: Jwt = {
   data: {
@@ -45,7 +45,7 @@ describe('clients controller :: saveClient creation', () => {
       user: fakeUser,
       body: {...fakeClient, name: 'Company X'},
       db: fakeDb,
-      io: new MockedSocket(),
+      io: new SocketMock(),
     } as ConfacRequest;
 
     const res = {
