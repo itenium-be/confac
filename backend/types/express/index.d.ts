@@ -5,7 +5,7 @@ declare global {
   namespace Express {
     export interface Request {
       db: Db;
-      io: Server
+      io: Server;
     }
   }
 }

@@ -12,6 +12,7 @@ import { saveConsultant } from '../consultants';
 import { IConsultant } from '../../models/consultants';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
+
 const fakeUser: Jwt = {
   data: { _id: '_id', email: 'string', firstName: 'first', name: 'name', alias: 'alias', active: true },
   iat: 0, exp: 0,
@@ -29,6 +30,7 @@ const createFakeRequestAndResponse = (db: Db, consultant: Partial<IConsultant> |
     user: fakeUser,
     body: {...fakeConsultant, ...(consultant || {})},
     db,
+    io: new MockedSocket(),
   } as ConfacRequest;
 
   const res = {
