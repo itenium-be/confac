@@ -59,7 +59,7 @@ const userListConfig = (config: UserFeatureBuilderConfig): IList<UserModel, User
     header: {title: '', width: 110},
     value: m => (
       <>
-        <EditIcon onClick={`/users/${m.alias}`} style={{marginRight: 15}} size={1} />
+        <EditIcon onClick={`/users/${m.alias || m._id}`} style={{marginRight: 15}} size={1} />
         <DeleteIcon
           claim={Claim.ManageUsers}
           onClick={() => config.save({...m, active: !m.active})}

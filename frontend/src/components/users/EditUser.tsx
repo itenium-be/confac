@@ -22,14 +22,14 @@ export const EditUser = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
-  const model = useSelector((state: ConfacState) => state.user.users.find(c => c.alias === params.id));
+  const model = useSelector((state: ConfacState) => state.user.users.find(c => c.alias === params.id || c._id === params.id));
   const [user, setUser] = useState<UserModel>(model || getNewUser());
-  
+
   useEntityChangedToast(user._id);
-  
+
   const docTitle = user._id ? 'userEdit' : 'userNew';
   useDocumentTitle(docTitle, {name: `${user.firstName} ${user.name}`});
-  
+
 
   if (model && !user._id) {
     setUser(model);
