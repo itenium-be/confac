@@ -52,7 +52,7 @@ export async function verify(token: string): Promise<string | IUser> {
 
 
 export const refreshToken = async (req: Request, res: Response) => {
-  const ourToken = jwt.sign({data: (req as any).user}, config.jwt.secret, {expiresIn: config.jwt.expiresIn});
+  const ourToken = jwt.sign({data: (req as any).user.data}, config.jwt.secret, {expiresIn: config.jwt.expiresIn});
   return res.status(200).send({jwt: ourToken});
 };
 
