@@ -133,16 +133,15 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     key: 'partnerTariff',
     header: 'project.partner.tariff',
     value: p => <ProjectClientTariff projectClient={p.details.partner} />,
-  },
-  {
+  }, {
     key: 'endCustomer',
     header: '',
-    value: p => <ProjectEndCustomerIcon endCustomer={p.details.endCustomer} endCustomerClientModel={p.endCustomer}/>
+    value: p => <ProjectEndCustomerIcon endCustomer={p.details.endCustomer} endCustomerClientModel={p.endCustomer}/>,
+    footer: (models: FullProjectModel[]) => <ProjectClientForecastFooter models={models} />,
   }, {
     key: 'client',
     header: 'project.client.clientId',
     value: p => <InvoiceClientCell client={p.client} />,
-    footer: (models: FullProjectModel[]) => <ProjectClientForecastFooter models={models} />,
   }, {
     key: 'clientTariff',
     header: 'project.client.tariff',
