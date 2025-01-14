@@ -42,11 +42,10 @@ export function saveConsultant(
 }
 
 export function handleConsultantSocketEvents(
-  eventType: string,
+  eventType: SocketEventTypes,
   eventPayload: EntityEventPayload
 ) {
   return (dispatch) => {
-    dispatch(busyToggle());
     switch (eventType) {
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:
@@ -58,7 +57,5 @@ export function handleConsultantSocketEvents(
       default:
         throw new Error(`${eventType} not supported for consultant.`);
     }
-    
-    dispatch(busyToggle.off());
   }
 }

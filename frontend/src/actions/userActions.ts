@@ -39,19 +39,19 @@ export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => v
   };
 }
 
-export function handleUserSocketEvents(eventType: string, eventPayload: EntityEventPayload){
-    return (dispatch: Dispatch) => {
-      dispatch(busyToggle());
-      switch(eventType){
-        case SocketEventTypes.EntityUpdated: 
-        case SocketEventTypes.EntityCreated:
-            dispatch({
-                type: ACTION_TYPES.USER_UPDATE,
-                user: eventPayload.entity,
-            }); break;
-        default: throw new Error(`${eventType} not supported for user.`);    
+export function handleUserSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
+  return (dispatch: Dispatch) => {
+    switch(eventType) {
+      case SocketEventTypes.EntityUpdated:
+      case SocketEventTypes.EntityCreated:
+        dispatch({
+          type: ACTION_TYPES.USER_UPDATE,
+          user: eventPayload.entity,
+        });
+        break;
+      default:
+        throw new Error(`${eventType} not supported for user.`);
     }
-    dispatch(busyToggle.off());
   }
 }
 
@@ -83,18 +83,18 @@ export function saveRole(role: RoleModel, callback?: (savedRole: RoleModel) => v
   };
 }
 
-export function handleRoleSocketEvents(eventType: string, eventPayload: EntityEventPayload){
+export function handleRoleSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
   return (dispatch: Dispatch) => {
-    dispatch(busyToggle());
-    switch(eventType){
-      case SocketEventTypes.EntityUpdated: 
+    switch(eventType) {
+      case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:
-          dispatch({
-              type: ACTION_TYPES.ROLE_UPDATE,
-              role: eventPayload.entity,
-          }); break;
-      default: throw new Error(`${eventType} not supported for role.`);    
+        dispatch({
+          type: ACTION_TYPES.ROLE_UPDATE,
+          role: eventPayload.entity,
+        });
+        break;
+      default:
+        throw new Error(`${eventType} not supported for role.`);
+    }
   }
-  dispatch(busyToggle.off());
-}
 }

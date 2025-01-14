@@ -28,18 +28,18 @@ export function updateConfig(newConfig: ConfigModel) {
   };
 }
 
-export function handleConfigSocketEvents(eventType: string, eventPayload: EntityEventPayload){
-    return (dispatch: Dispatch) => {
-      dispatch(busyToggle());
-      switch(eventType){
-        case SocketEventTypes.EntityUpdated: 
-        case SocketEventTypes.EntityCreated:
-            dispatch({
-                type: ACTION_TYPES.CONFIG_UPDATE,
-                config: eventPayload.entity,
-            }); break;
-        default: throw new Error(`${eventType} not supported for config.`);    
+export function handleConfigSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
+  return (dispatch: Dispatch) => {
+    switch(eventType) {
+      case SocketEventTypes.EntityUpdated:
+      case SocketEventTypes.EntityCreated:
+        dispatch({
+            type: ACTION_TYPES.CONFIG_UPDATE,
+            config: eventPayload.entity,
+        });
+        break;
+      default:
+        throw new Error(`${eventType} not supported for config.`);
     }
-    dispatch(busyToggle.off());
   }
 }

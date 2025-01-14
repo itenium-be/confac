@@ -244,52 +244,53 @@ export function deleteProjectMonthAttachmentDetails(projectMonth: ProjectMonthMo
   };
 }
 
-export function handleProjectSocketEvents(eventType: string, eventPayload: EntityEventPayload){
-    return (dispatch: Dispatch) => {
-      dispatch(busyToggle());
-      switch(eventType){
-        case SocketEventTypes.EntityUpdated: 
-        case SocketEventTypes.EntityCreated:
-            dispatch({
-                type: ACTION_TYPES.PROJECT_UPDATE,
-                project: eventPayload.entity,
-            }); break;
-        case SocketEventTypes.EntityDeleted: 
-            dispatch({
-                type: ACTION_TYPES.PROJECT_DELETE,
-                id: eventPayload.entityId,
-            }); break;
-        default: throw new Error(`${eventType} not supported for project.`);    
+export function handleProjectSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
+  return (dispatch: Dispatch) => {
+    switch(eventType) {
+      case SocketEventTypes.EntityUpdated:
+      case SocketEventTypes.EntityCreated:
+        dispatch({
+          type: ACTION_TYPES.PROJECT_UPDATE,
+          project: eventPayload.entity,
+        });
+        break;
+      case SocketEventTypes.EntityDeleted:
+        dispatch({
+          type: ACTION_TYPES.PROJECT_DELETE,
+          id: eventPayload.entityId,
+        });
+        break;
+      default:
+        throw new Error(`${eventType} not supported for project.`);
     }
-    dispatch(busyToggle.off());
   }
 }
 
-export function handleProjectMonthSocketEvents(eventType: string, eventPayload: EntityEventPayload){
+export function handleProjectMonthSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
   return (dispatch: Dispatch) => {
-    dispatch(busyToggle());
-    switch(eventType){
-      case SocketEventTypes.EntityUpdated: 
+    switch(eventType) {
+      case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:
-          if(Array.isArray(eventPayload.entity)){
-            dispatch({
-              type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
-              projectsMonth: eventPayload.entity,
-          });
-          }else{
-            dispatch({
-                type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
-                projectMonth: eventPayload.entity,
-            });
-          }
-          break;
-      case SocketEventTypes.EntityDeleted: 
+        if (Array.isArray(eventPayload.entity)) {
           dispatch({
-              type: ACTION_TYPES.PROJECTS_MONTH_DELETE,
-              id: eventPayload.entityId,
-          }); break;
-      default: throw new Error(`${eventType} not supported for project month.`);    
-  }
-  dispatch(busyToggle.off());
+            type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
+            projectsMonth: eventPayload.entity,
+          });
+        } else {
+          dispatch({
+            type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
+            projectMonth: eventPayload.entity,
+          });
+        }
+        break;
+      case SocketEventTypes.EntityDeleted:
+        dispatch({
+          type: ACTION_TYPES.PROJECTS_MONTH_DELETE,
+          id: eventPayload.entityId,
+        });
+        break;
+      default:
+        throw new Error(`${eventType} not supported for project month.`);
+    }
   }
 }

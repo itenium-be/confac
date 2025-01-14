@@ -123,22 +123,24 @@ export function deleteInvoice(invoice: InvoiceModel) {
   };
 }
 
-export function handleInvoiceSocketEvents(eventType: string, eventPayload: EntityEventPayload){
+export function handleInvoiceSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
   return (dispatch: Dispatch) => {
-    dispatch(busyToggle());
-    switch(eventType){
-      case SocketEventTypes.EntityUpdated: 
+    switch(eventType) {
+      case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:
         dispatch({
           type: ACTION_TYPES.INVOICE_UPDATED,
-          invoice: eventPayload.entity}); break;
-      case SocketEventTypes.EntityDeleted: 
+          invoice: eventPayload.entity
+        });
+        break;
+      case SocketEventTypes.EntityDeleted:
         dispatch({
-            type: ACTION_TYPES.INVOICE_DELETED,
-            id: eventPayload.entityId,
-        }); break;
-      default: throw new Error(`${eventType} not supported for project month.`);    
-  }
-  dispatch(busyToggle.off());
+          type: ACTION_TYPES.INVOICE_DELETED,
+          id: eventPayload.entityId,
+        });
+        break;
+      default:
+        throw new Error(`${eventType} not supported for project month.`);
+    }
   }
 }

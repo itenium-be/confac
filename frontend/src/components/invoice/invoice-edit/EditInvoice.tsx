@@ -25,10 +25,10 @@ import {useProjectsMonth} from '../../hooks/useProjects';
 import {useParams} from 'react-router-dom';
 import {ProjectMonthOrManualSelect} from '../../project/controls/ProjectMonthOrManualSelect';
 import {InvoiceDownloadIcon} from '../../controls/attachments/AttachmentDownloadIcon';
+import useEntityChangedToast from '../../hooks/useEntityChangedToast';
 
 
 import './EditInvoice.scss';
-import useEntityChangedToast from '../../hooks/useEntityChangedToast';
 
 
 const EditInvoice = () => {

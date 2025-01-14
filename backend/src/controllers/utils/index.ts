@@ -126,7 +126,7 @@ export const createXml = (savedInvoice: IInvoice, pdf?: Buffer): string => {
 
     const additionalDocumentReference = createAdditionalDocumentReference(pdf);
 
-    if(additionalDocumentReference){
+    if (additionalDocumentReference) {
       invoiceXml.addAdditionalDocumentReference(additionalDocumentReference);
     }
 

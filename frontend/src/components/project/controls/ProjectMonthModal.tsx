@@ -76,7 +76,7 @@ export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProp
         <ProjectDuration project={fullProjectMonth.project} />
 
         <hr />
-        
+
         <div className="project-client">
           {fullProjectMonth.client.name}
           <small><ProjectClientTariff projectClient={fullProjectMonth.project.client} /></small>
@@ -89,18 +89,18 @@ export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProp
           )}
         </div>
 
-        {fullProjectMonth.endCustomer &&  
+        {fullProjectMonth.endCustomer &&
           <div>
              <hr/>
              <h5>{t('project.endCustomer.clientId')}: {fullProjectMonth.endCustomer.name}</h5>
-             
+
               {fullProjectMonth.project.endCustomer?.contact &&
                 <div>
-                  <Icon fa="fa fa-user" size={1} style={{ marginRight: '5px'}}/>
+                  <Icon fa="fa fa-user" size={1} style={{ marginRight: 5}}/>
                   <span>{fullProjectMonth.project.endCustomer?.contact}</span>
                 </div>
               }
-              {fullProjectMonth.project.endCustomer?.notes && 
+              {fullProjectMonth.project.endCustomer?.notes &&
                 <span><b>{t('project.endCustomer.notes')}</b>: {fullProjectMonth.project.endCustomer?.notes}</span>
               }
           </div>

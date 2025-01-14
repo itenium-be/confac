@@ -18,7 +18,7 @@ export const buildRequest = (url: string) => {
   if (authService.loggedIn()) {
     headers.append('Authorization', authService.getBearer());
   }
-  if(socketService.socketId){
+  if (socketService.socketId) {
     headers.append('x-socket-id', socketService.socketId);
   }
   const request = new Request(buildUrl(url), {

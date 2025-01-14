@@ -151,7 +151,7 @@ export const createTaxObjects = (invoice: IInvoice, taxScheme: TaxScheme) : { ta
    */
   const customerCountryAndCode = COUNTRY_CODES.find(codes => codes.country === invoice.client.country || codes.code === invoice.client.country);
 
-  if(customerCountryAndCode?.code === 'UK'){
+  if (customerCountryAndCode?.code === 'UK') {
     const outsideEuropeTaxChargeCode = 'G';
     const outsideEuropeTaxChargeReasonCode = 'VATEX-EU-G';
     return {
@@ -264,7 +264,7 @@ export const createInvoiceLine = (invoice: IInvoice, line: IInvoiceLine, index: 
 }
 
 export const createAdditionalDocumentReference = (pdf: Buffer | undefined):AdditionalDocumentReference | undefined => {
-  if(pdf){
+  if (pdf) {
     const additionalDocumentReference = new AdditionalDocumentReference({
       id: uuidv4(),
       attachment: ''
@@ -287,14 +287,14 @@ export const postProccess = (invoice: Invoice, pdf: Buffer | undefined, savedInv
   //somehow ublbuilder removes leading 0 so we readd it here
   const companyNumber = createCompanyNumber(savedInvoice.your.btw, 'BE');
 
-  if(jObj.Invoice['cac:AccountingSupplierParty']['cac:Party']['cbc:EndpointID']){
+  if (jObj.Invoice['cac:AccountingSupplierParty']['cac:Party']['cbc:EndpointID']) {
     jObj.Invoice['cac:AccountingSupplierParty']['cac:Party']['cbc:EndpointID'] = {
       '#text': companyNumber,
       '@_schemeID': companyNumberScheme
     }
   }
 
-  if(pdf){
+  if (pdf) {
     jObj.Invoice['cac:AdditionalDocumentReference']['cac:Attachment'] = {
       'cbc:EmbeddedDocumentBinaryObject':{
         '#text': pdf.toString('base64'),
@@ -326,7 +326,7 @@ const createCompanyNumber = (vat: string, countryCode: string): string => {
   const companyNumber = cleanVat(vat)
     .replace(countryCode, '');
 
-  switch(countryCode){
+  switch(countryCode) {
     case 'NL':
       return companyNumber.padStart(12, '0')
     case 'UK':

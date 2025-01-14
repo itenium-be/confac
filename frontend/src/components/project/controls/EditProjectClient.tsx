@@ -93,8 +93,8 @@ const endCustomerConfig: FullFormConfig = [
 
 export const EditProjectEndCustomer = ({value, onChange} : EditProjectEndCustomerProps ) => {
   const projectEndCustomer : ProjectEndCustomerModel | undefined | null = value;
-  
-  if(!projectEndCustomer){
+
+  if (!projectEndCustomer) {
     return null;
   }
 

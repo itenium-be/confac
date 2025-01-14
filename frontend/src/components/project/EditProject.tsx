@@ -42,7 +42,7 @@ export const EditProject = () => {
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === project.client.clientId) || getNewClient());
   const hasProjectMonths = useSelector((state: ConfacState) => state.projectsMonth.some(pm => pm.projectId === params.id));
   const [needsSync, setNeedsSync] = useState<{consultant: boolean, client: boolean}>({consultant: false, client: false});
-  
+
   useEntityChangedToast(project._id);
 
   const docTitle = consultant._id ? 'projectEdit' : 'projectNew';
@@ -87,14 +87,14 @@ export const EditProject = () => {
   }
 
   const setProjectInterceptor = (value: IProjectModel) => {
-   
+
     const newProject = {...project, ...value};
 
-    if(!newProject.forEndCustomer && newProject.endCustomer) {
+    if (!newProject.forEndCustomer && newProject.endCustomer) {
       newProject.endCustomer = null;
     }
-  
-    if(newProject.forEndCustomer && !newProject.endCustomer) {
+
+    if (newProject.forEndCustomer && !newProject.endCustomer) {
       newProject.endCustomer = getNewProjectEndCustomer();
     }
 

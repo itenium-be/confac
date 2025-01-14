@@ -26,11 +26,11 @@ const newMonthFromThe22th = (date?: moment.Moment): moment.Moment => {
   const currentDay:number = dateToCheck.date();
 
   //checking on format to skip any time inequality
-  if(dateToCheck.format('YYYY-MM-DD') === dateToCheck.endOf('month').format('YYYY-MM-DD')){
+  if (dateToCheck.format('YYYY-MM-DD') === dateToCheck.endOf('month').format('YYYY-MM-DD')) {
     return dateToCheck
-  }else if(currentDay >= endOfMonthStartDay && currentDay <= endOfMonthEndDay){
+  } else if (currentDay >= endOfMonthStartDay && currentDay <= endOfMonthEndDay) {
     return dateToCheck.subtract(1, 'months').endOf('month');
-  }else{
+  } else {
     return dateToCheck.startOf('month')
   }
 };

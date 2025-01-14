@@ -38,18 +38,18 @@ export function saveClient(client: ClientModel, stayOnPage = false, callback?: (
   };
 }
 
-export function handleClientSocketEvents(eventType: string, eventPayload: EntityEventPayload){
-    return (dispatch: Dispatch) => {
-      dispatch(busyToggle());
-      switch(eventType){
-        case SocketEventTypes.EntityUpdated: 
-        case SocketEventTypes.EntityCreated:
-            dispatch({
-                type: ACTION_TYPES.CLIENT_UPDATE,
-                client: eventPayload.entity,
-            }); break;
-        default: throw new Error(`${eventType} not supported for client.`);    
+export function handleClientSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
+  return (dispatch: Dispatch) => {
+    switch(eventType) {
+      case SocketEventTypes.EntityUpdated:
+      case SocketEventTypes.EntityCreated:
+        dispatch({
+          type: ACTION_TYPES.CLIENT_UPDATE,
+          client: eventPayload.entity,
+        });
+        break;
+      default:
+        throw new Error(`${eventType} not supported for client.`);
     }
-    dispatch(busyToggle.off());
   }
 }
