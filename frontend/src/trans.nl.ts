@@ -474,7 +474,7 @@ export const trans = {
       rateType: 'Eenheid',
       ref: 'Referentie',
       advancedInvoicing: 'Specifieke facturatiedetails instellen',
-    },    
+    },
     endCustomer: {
       clientId: 'Eindklant',
       contact: 'Contact',
@@ -689,9 +689,9 @@ export const trans = {
       users: 'Gebruiker',
     },
     operation: {
-      entityCreated: '{entityType} werd aangemaakt door {user}',
-      entityUpdated: '{entityType} werd aangepast door {user}',
-      entityDeleted: '{entityType} werd verwijderd door {user}'
+      ENTITY_CREATED: '{entityType} werd aangemaakt door {user}',
+      ENTITY_UPDATED: '{entityType} werd aangepast door {user}',
+      ENTITY_DELETED: '{entityType} werd verwijderd door {user}'
     }
   }
 };

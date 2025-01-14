@@ -14,6 +14,8 @@ import {FullProjectMonthModel} from '../components/project/models/FullProjectMon
 import { socketService } from '../components/socketio/SocketService';
 import { EntityEventPayload } from '../components/socketio/EntityEventPayload';
 import { SocketEventTypes } from '../components/socketio/SocketEventTypes';
+import { store } from '../store';
+import moment from 'moment';
 
 export function saveProject(project: IProjectModel, navigate?: any, after: 'to-list' | 'to-details' = 'to-list') {
   return (dispatch: Dispatch) => {
@@ -281,6 +283,30 @@ export function handleProjectMonthSocketEvents(eventType: SocketEventTypes, even
             type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
             projectMonth: eventPayload.entity,
           });
+
+          // HACK: Open/Close the month so that it is refreshed
+          const storeState = store.getState();
+          const projectMonth = eventPayload.entity as ProjectMonthModel;
+          const monthKey = moment(projectMonth.month).format('YYYY-MM');
+          if (storeState.app.filters.projectMonths.openMonths[monthKey]) {
+            dispatch({
+              type: ACTION_TYPES.APP_FILTER_OPEN_MONTHS_UPDATED,
+              payload: {
+                month: monthKey,
+                opened: false,
+              },
+            });
+
+            setTimeout(() => {
+              dispatch({
+                type: ACTION_TYPES.APP_FILTER_OPEN_MONTHS_UPDATED,
+                payload: {
+                  month: monthKey,
+                  opened: true,
+                },
+              });
+            });
+          }
         }
         break;
       case SocketEventTypes.EntityDeleted:

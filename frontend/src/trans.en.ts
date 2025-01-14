@@ -689,9 +689,9 @@ export const trans = {
       users: 'User',
     },
     operation: {
-      entityCreated: '{entityType} has been created by {user}',
-      entityUpdated: '{entityType} has been updated by {user}',
-      entityDeleted: '{entityType} has been deleted by {user}'
+      ENTITY_CREATED: '{entityType} has been created by {user}',
+      ENTITY_UPDATED: '{entityType} has been updated by {user}',
+      ENTITY_DELETED: '{entityType} has been deleted by {user}'
     }
   }
 };

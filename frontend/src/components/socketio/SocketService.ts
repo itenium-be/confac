@@ -77,25 +77,8 @@ function createSocketService() {
   }
 
   function toastEntityChanged(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
-    let operation: string | undefined;
-
-    switch (eventType) {
-      case SocketEventTypes.EntityCreated:
-        operation = "entityCreated";
-        break;
-      case SocketEventTypes.EntityUpdated:
-        operation = "entityUpdated";
-        break;
-      case SocketEventTypes.EntityDeleted:
-        operation = "entityDeleted";
-        break;
-      default:
-        throw new Error(`${eventType} not supported.`);
-    }
-
-    // TODO nicolas debounce toasts
     toast.info(
-      t(`socketio.operation.${operation}`, {
+      t(`socketio.operation.${eventType}`, {
         entityType: t(`socketio.entities.${eventPayload.entityType}`),
         user: eventPayload.sourceUserEmail,
       }),
@@ -113,8 +96,8 @@ function createSocketService() {
   ) {
     var unsubscriptions: (() => void)[] = [];
 
-    function registerHandlerForEventType(eventType: SocketEventTypes) {
-      var handleEvent = (msg: EntityEventPayload) => {
+    function registerHandlerForToastEventType(eventType: SocketEventTypes) {
+      const handleEvent = (msg: EntityEventPayload) => {
         if (msg.sourceSocketId === socketId) {
           console.log("Socket.io: Event ignored => sourceSocketId is equal to current socket id.");
           return;
@@ -134,9 +117,9 @@ function createSocketService() {
       unsubscriptions.push(() => socket.off(eventType, handleEvent));
     }
 
-    registerHandlerForEventType(SocketEventTypes.EntityCreated);
-    registerHandlerForEventType(SocketEventTypes.EntityUpdated);
-    registerHandlerForEventType(SocketEventTypes.EntityDeleted);
+    registerHandlerForToastEventType(SocketEventTypes.EntityCreated);
+    registerHandlerForToastEventType(SocketEventTypes.EntityUpdated);
+    registerHandlerForToastEventType(SocketEventTypes.EntityDeleted);
 
     return () => {
       unsubscriptions.forEach(fn => fn());

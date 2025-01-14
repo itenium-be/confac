@@ -5,11 +5,8 @@ import {Features} from '../../controls/feature/feature-models';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import { OpenOrClosedProjectMonthsList } from './OpenOrClosedProjectMonthsList';
 import { ProjectMonthsListToolbar } from './ProjectMonthsListToolbar';
-import useEntityChangedToast from '../../hooks/useEntityChangedToast';
-
 
 import './project-month-list.scss';
-
 
 /** The monthly invoicing tables including the top searchbar */
 export const ProjectMonthsLists = () => {
@@ -20,8 +17,6 @@ export const ProjectMonthsLists = () => {
     .map(projectMonth => projectMonth.month.format(ProjectMonthsListFilterOpenMonthsFormat))
     .filter((month, index, arr) => arr.indexOf(month) === index)
     .sort((a, b) => b.localeCompare(a));
-
-    useEntityChangedToast(null, 'projects_month');
 
   return (
     <Container className={`list list-${Features.projectMonths}`}>
