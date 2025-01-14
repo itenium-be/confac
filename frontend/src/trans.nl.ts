@@ -70,7 +70,7 @@ export const features = {
       name: 'Naam',
       claims: 'Claims',
     },
-  },
+  }
 };
 
 
@@ -675,6 +675,23 @@ export const trans = {
           danger: 'Factuur {max} dagen open'
         }
       }
+    }
+  },
+  socketio: {
+    entities: {
+      clients: 'Klant',
+      config: 'Configuratie',
+      consultants: 'Consultant',
+      invoices: 'Factuur',
+      projects: 'Project',
+      projects_month: 'Project maand',
+      roles: 'Rol',
+      users: 'Gebruiker',
+    },
+    operation: {
+      entityCreated: '{entityType} werd aangemaakt door {user}',
+      entityUpdated: '{entityType} werd aangepast door {user}',
+      entityDeleted: '{entityType} werd verwijderd door {user}'
     }
   }
 };

@@ -8,7 +8,8 @@ import { IAudit } from '../../models/common';
 import { ObjectID } from 'mongodb'
 import { IClient } from '../../models/clients'
 import { Jwt } from '../../models/technical'
-import { saveClient } from '../clients'
+import { saveClient } from '../clients';
+import { SocketServerMock } from 'socket.io-mock-ts';
 
 const fakeUser: Jwt = {
   data: {
@@ -44,6 +45,7 @@ describe('clients controller :: saveClient creation', () => {
       user: fakeUser,
       body: {...fakeClient, name: 'Company X'},
       db: fakeDb,
+      io: new SocketServerMock() as any,
     } as ConfacRequest;
 
     const res = {

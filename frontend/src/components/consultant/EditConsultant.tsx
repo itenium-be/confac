@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form, Alert} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
@@ -15,6 +15,7 @@ import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {Audit} from '../admin/audit/Audit';
 import {Claim} from '../users/models/UserModel';
 import {useParams} from 'react-router-dom';
+import useEntityChangedToast from '../hooks/useEntityChangedToast';
 
 
 export const EditConsultant = () => {
@@ -26,6 +27,8 @@ export const EditConsultant = () => {
   const consultantDuplicate = useSelector((state: ConfacState) => state.consultants
     .filter(x => x.email === consultant.email)
     .find(x => x.slug !== params.id && x._id !== params.id));
+
+  useEntityChangedToast(consultant._id);
 
   const docTitle = consultant._id ? 'consultantEdit' : 'consultantNew';
   useDocumentTitle(docTitle, {name: `${consultant.firstName} ${consultant.name}`});

@@ -2,9 +2,10 @@ import {Request, Response} from 'express';
 import slugify from 'slugify';
 import {ObjectID} from 'mongodb';
 import {IConsultant} from '../models/consultants';
-import {CollectionNames, createAudit, updateAudit} from '../models/common';
+import {CollectionNames, createAudit, SocketEventTypes, updateAudit} from '../models/common';
 import {ConfacRequest} from '../models/technical';
 import {saveAudit} from './utils/audit-logs';
+import {emitEntityEvent} from './utils/entity-events';
 
 export const getConsultants = async (req: Request, res: Response) => {
   const consultants = await req.db.collection<IConsultant>(CollectionNames.CONSULTANTS).find().toArray();
@@ -20,7 +21,9 @@ export const saveConsultant = async (req: ConfacRequest, res: Response) => {
       .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: consultant}, {returnOriginal: true});
 
     await saveAudit(req, 'consultant', originalConsultant, consultant);
-    return res.send({_id, ...consultant});
+    const responseConsultant = {_id, ...consultant};
+    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.CONSULTANTS, _id, responseConsultant);
+    return res.send(responseConsultant);
   }
 
   const slug = slugify(`${consultant.firstName}-${consultant.name}`).toLowerCase();
@@ -31,5 +34,6 @@ export const saveConsultant = async (req: ConfacRequest, res: Response) => {
     audit: createAudit(req.user),
   });
   const [createdConsultant] = inserted.ops;
+  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.CONSULTANTS, createdConsultant._id, createdConsultant);
   return res.send(createdConsultant);
 };

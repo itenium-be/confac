@@ -11,6 +11,7 @@ import { Jwt } from '../../models/technical'
 import { saveConsultant } from '../consultants';
 import { IConsultant } from '../../models/consultants';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { SocketServerMock } from 'socket.io-mock-ts';
 
 const fakeUser: Jwt = {
   data: { _id: '_id', email: 'string', firstName: 'first', name: 'name', alias: 'alias', active: true },
@@ -29,6 +30,7 @@ const createFakeRequestAndResponse = (db: Db, consultant: Partial<IConsultant> |
     user: fakeUser,
     body: {...fakeConsultant, ...(consultant || {})},
     db,
+    io: new SocketServerMock() as any,
   } as ConfacRequest;
 
   const res = {
