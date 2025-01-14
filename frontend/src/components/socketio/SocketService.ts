@@ -101,7 +101,7 @@ function createSocketService() {
       }),
       {
         autoClose: false,
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.BOTTOM_RIGHT,
         closeButton: true,
       }
     );
