@@ -1,3 +1,4 @@
+import React from 'react';
 import {Claim, GenericClaim} from '../users/models/UserModel';
 import {authService} from '../users/authService';
 import {ChildrenType} from '../../models';

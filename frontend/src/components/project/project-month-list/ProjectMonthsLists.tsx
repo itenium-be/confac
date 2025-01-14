@@ -5,10 +5,10 @@ import {Features} from '../../controls/feature/feature-models';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import { OpenOrClosedProjectMonthsList } from './OpenOrClosedProjectMonthsList';
 import { ProjectMonthsListToolbar } from './ProjectMonthsListToolbar';
+import useEntityChangedToast from '../../hooks/useEntityChangedToast';
 
 
 import './project-month-list.scss';
-import useEntityChangedToast from '../../hooks/useEntityChangedToast';
 
 
 /** The monthly invoicing tables including the top searchbar */
