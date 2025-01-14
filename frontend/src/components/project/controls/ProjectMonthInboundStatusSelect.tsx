@@ -23,7 +23,7 @@ const ButtonGroup = EnhanceWithClaim(ReactButtonGroup);
 const ProjectMonthInboundStatusSelectComponent = ({value, onChange, style}: ProjectMonthInboundStatusSelectProps) => {
   const currentStatus = value;
   const btnGroup = (
-    <ButtonGroup claim={Claim.ValidateProjectMonth}>
+    <ButtonGroup claim={Claim.ValidateProjectMonthInbound}>
       <Button
         key="new"
         variant={currentStatus === 'new' ? 'success' : 'outline-dark'}

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {Container, Row, Form} from 'react-bootstrap';
@@ -68,7 +68,7 @@ export const EditProjectMonths = () => {
           {t('projectMonth.deleteConfirm.content')}
         </ConfirmationButton>
         <BusyButton
-        className="tst-validate-project-month"
+          className="tst-validate-project-month"
           onClick={() => dispatch(patchProjectsMonth(projectMonth) as any)}
           claim={Claim.ValidateProjectMonth}
         >

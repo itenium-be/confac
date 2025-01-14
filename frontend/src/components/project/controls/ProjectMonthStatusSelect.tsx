@@ -1,4 +1,3 @@
-import React from 'react';
 import {ButtonGroup as ReactButtonGroup} from 'react-bootstrap';
 import {ProjectMonthStatus} from '../models/ProjectMonthModel';
 import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';

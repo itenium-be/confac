@@ -8,6 +8,7 @@ import {StringInput} from '../../../../controls/form-controls/inputs/StringInput
 import {useDebouncedSave} from '../../../../hooks/useDebounce';
 import { CreateInvoiceButton } from './CreateInvoiceButton';
 import { OutboundInvoice } from './OutboundInvoice';
+import { Claim } from '../../../../users/models/UserModel';
 
 
 interface ProjectMonthOutboundCellProps {
@@ -33,6 +34,7 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
 
   const ValidityToggle = (
     <ValidityToggleButton
+      claim={Claim.ValidateProjectMonth}
       value={!!fullProjectMonth.details.verified}
       onChange={() => toggleValid(fullProjectMonth.details.verified ? false : 'forced')}
       outline

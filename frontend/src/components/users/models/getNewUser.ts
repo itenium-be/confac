@@ -32,5 +32,6 @@ export const getAdminRole = (): RoleModel => {
     Claim.ViewRoles, Claim.ManageRoles,
     Claim.ViewInvoices, Claim.EmailInvoices, Claim.ValidateInvoices, Claim.ManageInvoices,
     Claim.ViewProjectMonth, Claim.EditProjectMonth, Claim.CreateProjectMonth, Claim.ValidateProjectMonth, Claim.DeleteProjectMonth,
+    Claim.ValidateProjectMonthTimesheet, Claim.ValidateProjectMonthInbound,
   ]);
 };

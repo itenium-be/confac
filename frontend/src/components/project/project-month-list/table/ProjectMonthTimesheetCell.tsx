@@ -121,6 +121,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
 
       <div className="timesheet-actions">
         <ValidityToggleButton
+          claim={Claim.ValidateProjectMonthTimesheet}
           value={timesheet.validated}
           onChange={val => saveTimesheet({...timesheet, validated: val})}
           disabled={canToggleValid}

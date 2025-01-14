@@ -10,10 +10,11 @@ type ValidityToggleButtonProps = MinimalInputProps<boolean> & {
   outline?: boolean;
   /** Button tooltip */
   title?: string | {on: string, off: string, disabled: string};
+  claim: Claim;
 };
 
 
-export const ValidityToggleButton = ({value, onChange, outline, title, disabled, ...props}: ValidityToggleButtonProps) => {
+export const ValidityToggleButton = ({value, onChange, outline, title, disabled, claim, ...props}: ValidityToggleButtonProps) => {
   const icon = !value ? 'fa fa-check' : 'fas fa-ban';
 
   let variant: BootstrapVariant;
@@ -36,7 +37,7 @@ export const ValidityToggleButton = ({value, onChange, outline, title, disabled,
 
   return (
     <Button
-      claim={{claim: Claim.ValidateProjectMonth, or: hiddenButton}}
+      claim={{claim, or: hiddenButton}}
       onClick={() => onChange(!value)}
       variant={variant}
       icon={icon}
