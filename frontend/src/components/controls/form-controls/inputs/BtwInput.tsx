@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Button} from 'react-bootstrap';
 import {useDebouncedCallback} from 'use-debounce';
 import cn from 'classnames';

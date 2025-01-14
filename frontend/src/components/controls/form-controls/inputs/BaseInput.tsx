@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
 import {FormControl} from 'react-bootstrap';
 import {EnhanceInputWithLabel, EnhanceInputWithLabelProps} from '../../../enhancers/EnhanceInputWithLabel';
 import {EnhanceInputWithAddons, EnhanceInputWithAddonsProps,

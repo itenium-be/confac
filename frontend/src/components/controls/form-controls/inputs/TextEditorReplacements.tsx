@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Modifier, EditorState, ContentState} from 'draft-js';
 import {t} from '../../../utils';
 import {ITextEditorCustomReplacement} from '../../../invoice/invoice-replacements';
@@ -60,8 +60,8 @@ export const TextEditorReplacements = ({onChange, editorState, replacements}: Te
         </div>
       </div>
       <div className="rdw-inline-wrapper" aria-label="rdw-inline-control">
-        <div 
-          className="rdw-option-wrapper" 
+        <div
+          className="rdw-option-wrapper"
           aria-selected={false}
           title={t("config.invoiceReplacements.clearButton")}
           onClick={() => clearText()} > {t("config.invoiceReplacements.clearButton")}</div>

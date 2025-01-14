@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
 import Creatable from 'react-select/creatable';
 import {SelectItem} from '../../../../models';
 import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Form, Row} from 'react-bootstrap';
 import {EditorState} from 'draft-js';
 import {StringInput} from '../form-controls/inputs/StringInput';

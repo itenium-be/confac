@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import moment from 'moment';
 import { displayMonthWithYear } from "../project-month-utils";
 import {t} from '../../../utils';

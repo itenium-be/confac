@@ -1,4 +1,4 @@
-import React, {CSSProperties, useState} from 'react';
+import {CSSProperties, useState} from 'react';
 import {MinimalInputProps} from '../inputs/BaseInput';
 import {Button} from '../Button';
 import {Modal} from '../../Modal';

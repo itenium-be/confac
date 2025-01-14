@@ -1,4 +1,4 @@
-import React, {CSSProperties} from 'react';
+import {CSSProperties} from 'react';
 import {t, moneyFormat} from '../../utils';
 import InvoiceModel, {InvoiceMoney} from '../models/InvoiceModel';
 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Table} from 'react-bootstrap';
 import {ListHeader} from './ListHeader';
 import {ListRow} from './ListRow';

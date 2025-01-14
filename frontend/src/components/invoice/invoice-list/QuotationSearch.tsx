@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {InvoiceFiltersSearch, InvoiceFilters} from '../../../models';
 import {SearchStringInput} from '../../controls/form-controls/inputs/SearchStringInput';

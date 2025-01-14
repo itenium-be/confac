@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
 import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
 import {SelectItem} from '../../../../models';
 import {BaseSelect} from './BaseSelect';

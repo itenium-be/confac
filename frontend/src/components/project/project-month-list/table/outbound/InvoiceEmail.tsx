@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import moment from 'moment';
 import { Button } from '../../../../controls/form-controls/Button';
 import { NotEmailedIcon, EmailedIcon } from '../../../../controls/Icon';

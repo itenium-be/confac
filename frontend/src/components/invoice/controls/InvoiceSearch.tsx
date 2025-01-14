@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Row, Col, ButtonGroup} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
 import {t} from '../../utils';

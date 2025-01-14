@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {useSelector} from 'react-redux';
 import moment, {Moment} from 'moment';
 import {Col} from 'react-bootstrap';

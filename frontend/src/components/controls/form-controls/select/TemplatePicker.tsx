@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
 import {toast} from 'react-toastify';
 import {SimpleSelect} from './SimpleSelect';
 import {failure, buildRequest} from '../../../../actions';
