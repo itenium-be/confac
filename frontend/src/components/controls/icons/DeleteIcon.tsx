@@ -1,4 +1,3 @@
-import React from 'react';
 import {IconProps, Icon} from '../Icon';
 import {t} from '../../utils';
 import {EnhanceWithConfirmation} from '../../enhancers/EnhanceWithConfirmation';

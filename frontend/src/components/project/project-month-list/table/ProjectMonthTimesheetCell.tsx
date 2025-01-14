@@ -1,4 +1,3 @@
-import React from 'react';
 import {useDispatch} from 'react-redux';
 import cn from 'classnames';
 import {ProjectMonthTimesheet} from '../../models/ProjectMonthModel';

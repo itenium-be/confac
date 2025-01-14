@@ -1,4 +1,3 @@
-import React from 'react';
 import { t } from '../../../../utils';
 import { ProjectMonthBadgeTotals } from "../ProjectMonthBadgeTotals";
 import {Tooltip} from "../../../../controls/Tooltip";

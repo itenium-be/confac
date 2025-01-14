@@ -1,4 +1,3 @@
-import React from 'react';
 import {useDispatch} from 'react-redux';
 import InvoiceModel from '../models/InvoiceModel';
 import {EditIcon} from '../../controls/Icon';

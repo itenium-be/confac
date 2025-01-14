@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { t } from '../../utils';
 import { Table } from 'react-bootstrap';
 import { buildRequest, failure } from '../../../actions';

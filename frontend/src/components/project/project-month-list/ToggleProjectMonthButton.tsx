@@ -1,4 +1,3 @@
-import React from 'react';
 import { t } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { updateAppProjectMonthsFilter } from '../../../actions';

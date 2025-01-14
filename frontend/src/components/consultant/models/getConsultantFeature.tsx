@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React from 'react';
 import {ConsultantModel} from './ConsultantModel';
 import {IList, IListCell, ConsultantListFilters} from '../../controls/table/table-models';
 import {t, searchinize} from '../../utils';

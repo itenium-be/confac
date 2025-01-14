@@ -1,4 +1,3 @@
-import React from 'react';
 import {useDispatch} from 'react-redux';
 import moment from 'moment';
 import t from '../../../trans';

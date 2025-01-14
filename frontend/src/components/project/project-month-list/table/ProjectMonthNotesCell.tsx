@@ -1,4 +1,3 @@
-import React from 'react';
 import {useDispatch} from 'react-redux';
 import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
 import {patchProjectsMonth} from '../../../../actions';

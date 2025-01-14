@@ -1,4 +1,3 @@
-import React from 'react';
 import moment from 'moment';
 import { t, moneyFormat } from '../../../../utils';
 import { FullProjectMonthModel } from '../../../models/FullProjectMonthModel';

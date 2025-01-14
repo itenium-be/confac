@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {BrowserRouter, Route, Routes as Switch} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 

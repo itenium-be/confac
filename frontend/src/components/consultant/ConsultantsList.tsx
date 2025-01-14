@@ -1,4 +1,3 @@
-import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {ConfacState} from '../../reducers/app-state';
 import {ListPage} from '../controls/table/ListPage';

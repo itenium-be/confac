@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {ConfacState} from '../../reducers/app-state';
 import {Button} from '../controls/form-controls/Button';

@@ -1,4 +1,3 @@
-import React from 'react';
 import {NumericInput} from '../../../controls/form-controls/inputs/NumericInput';
 import {BasicMathInput} from '../../../controls/form-controls/inputs/BasicMathInput';
 import {InvoiceLineTypeSelect} from '../../controls/InvoiceLineTypeSelect';

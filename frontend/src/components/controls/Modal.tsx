@@ -1,4 +1,3 @@
-import React from 'react';
 import {Button as ReactButton, Modal as ReactModal} from 'react-bootstrap';
 import {t} from '../utils';
 import {BootstrapVariant} from '../../models';

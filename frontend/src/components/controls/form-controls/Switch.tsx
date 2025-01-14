@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactSwitch from 'react-ios-switch';
 import {BaseInputProps} from './inputs/BaseInput';
 

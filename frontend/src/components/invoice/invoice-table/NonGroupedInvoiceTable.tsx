@@ -1,4 +1,3 @@
-import React from 'react';
 import {useSelector} from 'react-redux';
 import {createInvoiceList} from '../models/getInvoiceFeature';
 import {ConfigModel} from '../../config/models/ConfigModel';

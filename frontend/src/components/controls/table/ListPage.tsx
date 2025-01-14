@@ -1,4 +1,3 @@
-import React from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
 import {IFeature} from '../feature/feature-models';
 import {t} from '../../utils';

@@ -1,4 +1,3 @@
-import React from 'react';
 import {MinimalInputProps} from './BaseInput';
 
 export type CheckboxInputProps = MinimalInputProps<boolean> & {

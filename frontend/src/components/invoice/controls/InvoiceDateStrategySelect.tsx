@@ -1,4 +1,3 @@
-import React from 'react';
 import {t} from '../../utils';
 import {SimpleSelect} from '../../controls/form-controls/select/SimpleSelect';
 import {invoiceDateStrategies} from '../models/invoice-date-strategy';

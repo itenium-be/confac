@@ -1,4 +1,3 @@
-import React from 'react';
 import {IconProps, EditIcon} from '../../controls/Icon';
 import {ClientModel} from '../models/ClientModels';
 

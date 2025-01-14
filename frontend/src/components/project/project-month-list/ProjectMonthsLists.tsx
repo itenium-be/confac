@@ -1,4 +1,3 @@
-import React from 'react';
 import {useSelector} from 'react-redux';
 import {Container} from 'react-bootstrap';
 import {ConfacState, ProjectMonthsListFilterOpenMonthsFormat} from '../../../reducers/app-state';

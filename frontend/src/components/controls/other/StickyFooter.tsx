@@ -1,5 +1,4 @@
 import {Navbar, Nav} from 'react-bootstrap';
-import React from 'react';
 import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
 
 type StickyFooterProps = {

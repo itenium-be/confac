@@ -1,4 +1,3 @@
-import React from 'react';
 import {BaseInput, BaseInputProps} from './BaseInput';
 import {Icon} from '../../Icon';
 import {InputGroup} from 'react-bootstrap';

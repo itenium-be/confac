@@ -1,4 +1,3 @@
-import React from 'react';
 import Select from 'react-select';
 import {t} from '../../../utils';
 import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';

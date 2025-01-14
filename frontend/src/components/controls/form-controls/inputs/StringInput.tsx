@@ -1,4 +1,3 @@
-import React from 'react';
 import {BaseInput, BaseInputProps} from './BaseInput';
 
 type StringInputProps = BaseInputProps<string>;

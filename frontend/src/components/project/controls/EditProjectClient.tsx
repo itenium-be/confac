@@ -1,4 +1,3 @@
-import React from 'react';
 import {MinimalInputProps} from '../../controls/form-controls/inputs/BaseInput';
 import {ProjectClientModel, ProjectEndCustomerModel} from '../models/IProjectModel';
 import {getNewProjectClient} from '../models/getNewProject';

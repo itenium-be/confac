@@ -1,4 +1,3 @@
-import React from 'react';
 import {Col} from 'react-bootstrap';
 import {t} from '../../utils';
 import InvoiceModel from '../models/InvoiceModel';

@@ -1,4 +1,3 @@
-import React from 'react';
 import {EditIcon, IconProps} from './Icon';
 
 type ChildrenProps = {children: React.ReactNode}

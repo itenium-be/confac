@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Container, Row, Form, Col} from 'react-bootstrap';
 import {t} from '../utils';

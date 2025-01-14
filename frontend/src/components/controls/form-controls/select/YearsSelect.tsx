@@ -1,4 +1,3 @@
-import React from 'react';
 import {BaseSelect} from './BaseSelect';
 import {SelectItem} from '../../../../models';
 

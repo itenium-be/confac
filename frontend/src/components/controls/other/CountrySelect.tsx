@@ -1,4 +1,3 @@
-import React from 'react';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import {BaseInputProps} from '../form-controls/inputs/BaseInput';
 import {Option, SimpleCreatableSelectWithOptions} from '../form-controls/select/SimpleCreatableSelectWithOptions';

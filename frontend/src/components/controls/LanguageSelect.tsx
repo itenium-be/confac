@@ -1,4 +1,3 @@
-import React from 'react';
 import {BaseInputProps} from './form-controls/inputs/BaseInput';
 import {Language} from '../../models';
 import {SimpleSelect} from './form-controls/select/SimpleSelect';

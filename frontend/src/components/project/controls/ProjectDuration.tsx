@@ -1,4 +1,3 @@
-import React from 'react';
 import moment from 'moment';
 import {IProjectModel} from '../models/IProjectModel';
 import {Icon} from '../../controls/Icon';

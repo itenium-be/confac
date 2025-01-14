@@ -1,4 +1,3 @@
-import React from 'react';
 import { FullProjectMonthModel } from '../../../models/FullProjectMonthModel';
 import { moneyFormat, formatDate } from '../../../../utils';
 import { InvoiceNumberCell } from '../../../../invoice/invoice-table/InvoiceNumberCell';

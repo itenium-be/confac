@@ -1,4 +1,3 @@
-import React from 'react';
 import Creatable from 'react-select/creatable';
 import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
 import {t} from '../../../utils';

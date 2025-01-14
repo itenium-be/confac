@@ -1,4 +1,3 @@
-import React from 'react';
 import {Table} from 'react-bootstrap';
 import {DragDropContext, Droppable, Draggable, DropResult} from 'react-beautiful-dnd';
 import {t} from '../../../utils';

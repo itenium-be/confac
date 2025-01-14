@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { ConfacState } from '../../../reducers/app-state';
 import { NumericInput } from '../../controls/form-controls/inputs/NumericInput';

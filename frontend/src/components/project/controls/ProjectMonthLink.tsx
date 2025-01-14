@@ -1,4 +1,3 @@
-import React from 'react';
 import {Link, LinkProps} from '../../controls/Link';
 import {t} from '../../utils';
 import {ProjectMonthModel} from '../models/ProjectMonthModel';

@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import {Component, useState} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Form, Col} from 'react-bootstrap';
 import {t} from '../../utils';

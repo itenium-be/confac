@@ -1,4 +1,3 @@
-import React from 'react';
 import {useSelector} from 'react-redux';
 import {BaseInputProps} from '../controls/form-controls/inputs/BaseInput';
 import {ConfacState} from '../../reducers/app-state';

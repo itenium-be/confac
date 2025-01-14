@@ -1,4 +1,3 @@
-import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button as ReactButton} from 'react-bootstrap';
 import {Icon} from '../Icon';

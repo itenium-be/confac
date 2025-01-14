@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form, Alert} from 'react-bootstrap';
 import {t} from '../utils';
@@ -40,13 +40,13 @@ const EditClient = () => {
   const initClient = getClient(storeClient, config);
   const [client, setClient] = useState<ClientModel>(initClient);
   const clientWithSameKbo = useSelector((state: ConfacState) => state.clients.filter(x => x.btw === client.btw).find(x => x.slug !== params.id));
-  
+
   useEntityChangedToast(client._id);
-  
+
   const dispatch = useDispatch();
   // useEffect(() => window.scrollTo(0, 0)); // TODO: each keystroke made it scroll to top :(
   useDocumentTitle('clientEdit', {name: client.name});
-  
+
 
   if (storeClient && !client._id) {
     setClient(storeClient);

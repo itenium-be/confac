@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-one-expression-per-line, max-len */
-import React from 'react';
 import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';

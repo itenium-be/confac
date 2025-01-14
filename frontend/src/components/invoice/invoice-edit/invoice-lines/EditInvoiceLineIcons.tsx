@@ -1,4 +1,3 @@
-import React from 'react';
 import {DeleteIcon} from '../../../controls/icons/DeleteIcon';
 import {InvoiceLine, InvoiceLineActions} from '../../models/InvoiceLineModels';
 import {Claim} from '../../../users/models/UserModel';

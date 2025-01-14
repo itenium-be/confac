@@ -1,4 +1,3 @@
-import React from 'react';
 import moment from 'moment';
 import {BaseInputProps} from './inputs/BaseInput';
 import {DatePicker} from './DatePicker';

@@ -1,4 +1,3 @@
-import React from 'react';
 import moment from 'moment';
 import { Badge } from 'react-bootstrap';
 import { t, moneyFormat } from '../../../../utils';

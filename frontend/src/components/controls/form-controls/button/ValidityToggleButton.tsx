@@ -1,4 +1,3 @@
-import React from 'react';
 import {MinimalInputProps} from '../inputs/BaseInput';
 import {Button} from '../Button';
 import {BootstrapVariant} from '../../../../models';

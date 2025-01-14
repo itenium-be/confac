@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { t } from '../../utils';
 import { Icon } from '../../controls/Icon';
 import { FullAuditModal } from './FullAuditModal';

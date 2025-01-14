@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {ClientModel} from '../models/ClientModels';
 import {Attachment} from '../../../models';
 import {AttachmentsForm} from '../../controls/attachments/AttachmentsForm';

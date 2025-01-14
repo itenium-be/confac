@@ -1,4 +1,3 @@
-import React from 'react';
 import {InputGroup} from 'react-bootstrap';
 import {formatDate} from '../utils';
 

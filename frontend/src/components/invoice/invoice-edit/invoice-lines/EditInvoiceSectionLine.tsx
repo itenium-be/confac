@@ -1,4 +1,3 @@
-import React from 'react';
 import {StringInput} from '../../../controls/form-controls/inputs/StringInput';
 import {InvoiceLineTypeSelect} from '../../controls/InvoiceLineTypeSelect';
 import {EditInvoiceLineProps} from './EditInvoiceDefaultLine';

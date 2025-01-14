@@ -1,4 +1,3 @@
-import React from 'react';
 import {toast} from 'react-toastify';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import t from '../trans';

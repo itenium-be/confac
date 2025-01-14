@@ -1,4 +1,3 @@
-import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {saveClient, updateAppFilters} from '../../actions/index';
 import {ConfacState} from '../../reducers/app-state';

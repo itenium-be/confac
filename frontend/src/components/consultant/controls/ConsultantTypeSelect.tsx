@@ -1,4 +1,3 @@
-import React from 'react';
 import {SimpleSelect} from '../../controls/form-controls/select/SimpleSelect';
 import {t} from '../../utils';
 import {BaseInputProps} from '../../controls/form-controls/inputs/BaseInput';

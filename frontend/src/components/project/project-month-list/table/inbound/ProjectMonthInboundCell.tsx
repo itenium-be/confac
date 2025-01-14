@@ -1,4 +1,3 @@
-import React from 'react';
 import moment from 'moment';
 import {useDispatch} from 'react-redux';
 import cn from 'classnames';

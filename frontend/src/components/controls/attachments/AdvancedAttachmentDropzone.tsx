@@ -1,4 +1,3 @@
-import React from 'react';
 import {Attachment} from '../../../models';
 import {AttachmentDownloadIcon, AttachmentPreviewIcon} from './AttachmentDownloadIcon';
 import {t} from '../../utils';

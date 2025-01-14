@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FullProjectMonthModel } from '../../../models/FullProjectMonthModel';
 import { createInvoice, deleteProjectMonthAttachmentDetails } from '../../../../../actions';

@@ -1,4 +1,3 @@
-import React from 'react';
 import {ClientModel} from '../../client/models/ClientModels';
 import {ModalState} from '../../controls/Modal';
 import {ClientModal} from '../../client/controls/ClientModal';

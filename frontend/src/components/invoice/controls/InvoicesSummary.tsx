@@ -1,4 +1,3 @@
-import React from 'react';
 import {Tooltip} from '../../controls/Tooltip';
 import {t, moneyFormat} from '../../utils';
 import InvoiceModel from '../models/InvoiceModel';

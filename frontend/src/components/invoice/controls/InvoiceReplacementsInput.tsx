@@ -1,4 +1,3 @@
-import React from 'react';
 import {OverlayTrigger, Popover, InputGroup} from 'react-bootstrap';
 import {BaseInput, BaseInputProps} from '../../controls/form-controls/inputs/BaseInput';
 import {Icon} from '../../controls/Icon';

@@ -1,6 +1,4 @@
-import React from 'react';
 import {useDropzone} from 'react-dropzone';
-
 import {Icon} from '../Icon';
 import {t} from '../../utils';
 

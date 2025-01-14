@@ -1,4 +1,3 @@
-import React from 'react';
 import {ModalState} from '../../Modal';
 import {t} from '../../../utils';
 import {Button} from '../Button';

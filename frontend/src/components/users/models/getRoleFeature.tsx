@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React from 'react';
 import {IList, IListCell, RolesListFilters} from '../../controls/table/table-models';
 import {searchinize} from '../../utils';
 import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';

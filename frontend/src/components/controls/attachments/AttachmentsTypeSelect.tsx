@@ -1,4 +1,3 @@
-import React from 'react';
 import {useSelector} from 'react-redux';
 import {StringsSelect} from '../form-controls/select/StringsSelect';
 import {BaseInputProps} from '../form-controls/inputs/BaseInput';

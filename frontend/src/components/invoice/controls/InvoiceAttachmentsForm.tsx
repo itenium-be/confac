@@ -1,4 +1,3 @@
-import React from 'react';
 import {useSelector} from 'react-redux';
 import {getInvoiceDownloadUrl} from '../../../actions/index';
 import {Attachment} from '../../../models';

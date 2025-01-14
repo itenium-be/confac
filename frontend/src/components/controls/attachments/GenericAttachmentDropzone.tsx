@@ -1,4 +1,3 @@
-import React from 'react';
 import {useDispatch} from 'react-redux';
 import {Attachment} from '../../../models';
 import {AttachmentDownloadIcon, AttachmentPreviewIcon} from './AttachmentDownloadIcon';

@@ -1,4 +1,3 @@
-import React from 'react';
 import {Nav, Navbar, Dropdown, ButtonGroup} from 'react-bootstrap';
 import {Link as ReactLink, NavLink} from 'react-router-dom';
 import {t} from './utils';

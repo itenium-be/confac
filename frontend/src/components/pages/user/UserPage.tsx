@@ -1,4 +1,3 @@
-import React from 'react';
 import {t} from '../../utils';
 import {authService} from '../../users/authService';
 import {Button} from '../../controls/form-controls/Button';

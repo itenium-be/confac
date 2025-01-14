@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React from 'react';
 import {IList, IListCell, ProjectMonthListFilters} from '../../controls/table/table-models';
 import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';

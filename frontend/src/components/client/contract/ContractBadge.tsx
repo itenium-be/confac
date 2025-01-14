@@ -1,4 +1,3 @@
-import React from 'react';
 import {Badge} from 'react-bootstrap';
 import {t} from '../../utils';
 import {ContractStatus, IContractModel} from '../models/ContractModels';

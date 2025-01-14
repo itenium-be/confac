@@ -1,4 +1,3 @@
-import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Col} from 'react-bootstrap';
 import {ConfacState} from '../../../reducers/app-state';

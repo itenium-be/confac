@@ -1,4 +1,3 @@
-import React from 'react';
 import {t} from '../../utils';
 import {IFeature} from '../feature/feature-models';
 

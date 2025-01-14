@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAppFilters, patchProjectsMonth } from '../../../actions';
 import { ListPageHeader } from '../../controls/table/ListPage';

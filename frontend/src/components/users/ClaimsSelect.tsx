@@ -1,4 +1,3 @@
-import React from 'react';
 import { BaseInputProps } from '../controls/form-controls/inputs/BaseInput';
 import { StringsSelect } from '../controls/form-controls/select/StringsSelect';
 import { Claim } from './models/UserModel';

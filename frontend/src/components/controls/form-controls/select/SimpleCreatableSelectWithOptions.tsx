@@ -1,5 +1,4 @@
 import Creatable from 'react-select/creatable';
-import React from 'react';
 import {SelectItem} from '../../../../models';
 import {t} from '../../../utils';
 

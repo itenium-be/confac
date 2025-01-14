@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import { CSSProperties } from 'react';
 import { Icon } from '../../controls/Icon';
 import { t } from '../../utils';
 import { IContractModel, isFinalContractStatus } from '../models/ContractModels';

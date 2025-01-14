@@ -1,4 +1,3 @@
-import React from 'react';
 import {Icon} from '../../Icon';
 import {StringInput} from './StringInput';
 import {BaseInputProps} from './BaseInput';

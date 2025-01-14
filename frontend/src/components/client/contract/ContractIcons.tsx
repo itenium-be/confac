@@ -1,4 +1,3 @@
-import React from 'react';
 import {IProjectModel} from '../../project/models/IProjectModel';
 import {t} from '../../utils';
 import {ClientModel} from '../models/ClientModels';

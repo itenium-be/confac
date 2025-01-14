@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
 import {getNewConsultant} from '../models/getNewConsultant';
