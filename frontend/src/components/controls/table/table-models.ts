@@ -86,6 +86,8 @@ export interface IListCell<TModel> {
   // BUG: GroupedInvoiceTable footer is wrong
   /** Will span until next cell with a footer */
   footer?: string | ((models: TModel[]) => string | React.ReactNode);
+
+  sort?: StringFn<TModel>
 }
 
 

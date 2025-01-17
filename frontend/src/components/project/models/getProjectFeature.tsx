@@ -115,10 +115,12 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     header: 'project.consultant',
     value: p => <ConsultantLinkWithModal consultant={p.consultant} showType />,
     footer: (models: FullProjectModel[]) => <ConsultantCountFooter consultants={models.map(x => x.consultant)} />,
+    sort: p => p.consultantName
   }, {
     key: 'startDate',
     header: 'project.startDate',
     value: p => formatDate(p.details.startDate),
+    sort: undefined
   }, {
     key: 'endDate',
     header: 'project.endDate',

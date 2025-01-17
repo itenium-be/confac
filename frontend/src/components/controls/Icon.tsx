@@ -123,3 +123,5 @@ export const EmailedIcon = ({...props}) => (
     <Icon fa="fas fa-check fa-stack-2x" size={1} color="green" />
   </Icon>
 );
+
+export const SortIcon = ({...props}) => <Icon className="tst-sort" fa="fa fa-sort" {...props} />;

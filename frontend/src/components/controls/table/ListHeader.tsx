@@ -1,5 +1,6 @@
 import {t} from '../../utils';
 import {IFeature} from '../feature/feature-models';
+import { SortIcon } from '../Icon';
 
 
 type ListHeaderProps<TModel> = {
@@ -15,6 +16,7 @@ export const ListHeader = ({feature}: ListHeaderProps<any>) => {
         {feature.list.rows.cells.map(col => {
           let header: string = '';
           let width: string | undefined | number;
+          let addSort: boolean = false;
           if (!col.header) {
             header = feature.trans.props[col.key];
           } else if (typeof col.header === 'string') {
@@ -24,9 +26,14 @@ export const ListHeader = ({feature}: ListHeaderProps<any>) => {
             width = col.header.width;
           }
 
+          if(col.sort) {
+            addSort = true;
+          }
+
           return (
             <th key={col.key} style={{width}}>
               {header ? t(header) : <>&nbsp;</>}
+              {addSort ? <><SortIcon/></> : <>&nbsp;</>}
             </th>
           );
         })}
