@@ -1,15 +1,15 @@
-import {t} from '../../utils';
 import {IFeature} from '../feature/feature-models';
-import { SortIcon } from '../Icon';
+import { ListHeaderCell } from './ListHeaderCell';
 
 
 type ListHeaderProps<TModel> = {
   feature: IFeature<TModel>;
+  onSort?: (sort?: (a: TModel, b: TModel) => number) => void
 }
 
 
 // eslint-disable-next-line arrow-body-style
-export const ListHeader = ({feature}: ListHeaderProps<any>) => {
+export const ListHeader = ({feature, onSort}: ListHeaderProps<any>) => {
   return (
     <thead>
       <tr>
@@ -31,10 +31,7 @@ export const ListHeader = ({feature}: ListHeaderProps<any>) => {
           }
 
           return (
-            <th key={col.key} style={{width}}>
-              {header ? t(header) : <>&nbsp;</>}
-              {addSort ? <><SortIcon/></> : <>&nbsp;</>}
-            </th>
+            <ListHeaderCell key={col.key} width={width} header={header} addSort={addSort} onSort={(asc) => { if(onSort && col.sort) onSort(col.sort(asc)) }}/>
           );
         })}
       </tr>

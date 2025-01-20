@@ -124,4 +124,4 @@ export const EmailedIcon = ({...props}) => (
   </Icon>
 );
 
-export const SortIcon = ({...props}) => <Icon className="tst-sort" fa="fa fa-sort" {...props} />;
+export const SortIcon = ({...props}: IconProps) => <Icon className="tst-sort" {...props} />;

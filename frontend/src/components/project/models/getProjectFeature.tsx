@@ -115,7 +115,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     header: 'project.consultant',
     value: p => <ConsultantLinkWithModal consultant={p.consultant} showType />,
     footer: (models: FullProjectModel[]) => <ConsultantCountFooter consultants={models.map(x => x.consultant)} />,
-    sort: p => p.consultantName
+    sort: (asc) => (p, p2) => p.consultantName > p2.consultantName ? (asc ? 1 : -1) : (asc ? -1 : 1)
   }, {
     key: 'startDate',
     header: 'project.startDate',

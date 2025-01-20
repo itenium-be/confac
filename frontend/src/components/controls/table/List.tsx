@@ -31,9 +31,14 @@ export const List = ({feature}: ListProps) => {
     data = data.slice().sort(feature.list.sorter);
   }
 
+  const handleSort = (sort: any) => {
+    data = data.slice().sort(sort);
+    console.log("sorted", data.map((val) => val.consultantName));
+  }
+
   return (
     <Table size="sm" className={`table-${feature.key}`}>
-      <ListHeader feature={feature} />
+      <ListHeader feature={feature} onSort={handleSort} />
       <tbody>
         {data.slice(page * listSize, page * listSize + listSize).map(model => (
           <ListRow config={config} model={model} key={model._id} />

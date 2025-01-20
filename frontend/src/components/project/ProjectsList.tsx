@@ -36,7 +36,6 @@ export const ProjectsList = () => {
     </>
   );
 
-
   const feature = projectFeature(config);
   return <ListPage feature={feature} topToolbar={TopToolbar} />;
 };

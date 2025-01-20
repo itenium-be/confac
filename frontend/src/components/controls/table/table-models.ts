@@ -87,7 +87,7 @@ export interface IListCell<TModel> {
   /** Will span until next cell with a footer */
   footer?: string | ((models: TModel[]) => string | React.ReactNode);
 
-  sort?: StringFn<TModel>
+  sort?: (asc: boolean) => (a: TModel, b: TModel) => number
 }
 
 

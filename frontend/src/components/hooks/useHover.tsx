@@ -1,12 +1,14 @@
-const { useState, useMemo } = React;
+import { useState, useMemo } from 'react';
 
-const useHover = () => {
-  const [hovered, setHovered] = useState<boolean>();
+const useHover = () : [boolean, { onMouseOver(): void, onMouseOut(): void}]  => {
+  const [hovered, setHovered] = useState<boolean>(false);
 
   const eventHandlers = useMemo(() => ({
     onMouseOver() { setHovered(true); },
     onMouseOut() { setHovered(false); }
   }), []);
 
-  return {hovered, eventHandlers};
+  return [hovered, eventHandlers];
 }
+
+export default useHover;
