@@ -120,7 +120,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     key: 'startDate',
     header: 'project.startDate',
     value: p => formatDate(p.details.startDate),
-    sort: undefined
+    sort: (asc) => (p, p2) => p.details.startDate.valueOf() - p2.details.startDate.valueOf() > 0 ? (asc ? 1 : -1) : (asc ? -1 : 1)
   }, {
     key: 'endDate',
     header: 'project.endDate',

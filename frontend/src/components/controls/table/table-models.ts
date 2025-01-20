@@ -24,6 +24,10 @@ export interface IList<TModel, TFilterModel extends ListFilters = {}, TTag = {}>
 export type ListFilters = {
   freeText?: string;
   showInactive?: boolean;
+  sort?: {
+    direction: "asc" | "desc"
+    columnName: string
+  }
 }
 
 export type ProjectListFilters = ListFilters;

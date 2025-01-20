@@ -27,18 +27,21 @@ export const List = ({feature}: ListProps) => {
     }
   }
 
-  if (feature.list.sorter) {
-    data = data.slice().sort(feature.list.sorter);
+  if(feature.list.filter?.state?.sort) {
+    const key = feature.list.filter?.state?.sort.columnName;
+    const cell = feature.list.rows.cells.find(col => col.key === key)
+    if(cell && cell.sort){
+      const sortFunc = cell.sort(feature.list.filter?.state?.sort.direction === "asc")
+      data = data.slice().sort(sortFunc);
+    }
   }
-
-  const handleSort = (sort: any) => {
-    data = data.slice().sort(sort);
-    console.log("sorted", data.map((val) => val.consultantName));
+  else if (feature.list.sorter) {
+    data = data.slice().sort(feature.list.sorter);
   }
 
   return (
     <Table size="sm" className={`table-${feature.key}`}>
-      <ListHeader feature={feature} onSort={handleSort} />
+      <ListHeader feature={feature} />
       <tbody>
         {data.slice(page * listSize, page * listSize + listSize).map(model => (
           <ListRow config={config} model={model} key={model._id} />
