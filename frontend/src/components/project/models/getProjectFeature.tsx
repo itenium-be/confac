@@ -146,6 +146,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     key: 'client',
     header: 'project.client.clientId',
     value: p => <InvoiceClientCell client={p.client} />,
+    sort: (asc) => (p, p2) => (p.client?.name ?? '').localeCompare(p2.client?.name ?? '') > 0 ? (asc ? 1 : -1) : (asc ? -1 : 1)
   }, {
     key: 'clientTariff',
     header: 'project.client.tariff',
