@@ -13,13 +13,17 @@ type ListHeaderCellProps = {
 
 export const ListHeaderCell = ({width, columnName, header, filter, onSort}: ListHeaderCellProps) => {
   const [hovered, eventHandlers] = useHover();
+  //showing sort icon when hovering or having a direction and dealing with the same column
+  const showSortIcon = hovered || (filter.sort?.direction !== undefined && filter.sort?.columnName === columnName)
   return (
     <th style={{width}} {...eventHandlers}>
     {header ? t(header) : <>&nbsp;</>}
-    {onSort && (hovered || (filter.sort?.direction !== undefined && filter.sort?.columnName === columnName)) ? <SortIcon
+    {onSort && showSortIcon ? <SortIcon
       fa={filter.sort?.columnName !== columnName || filter.sort?.direction === 'asc' ? "fa fa-arrow-up" : "fa fa-arrow-down"}
       onClick={() => {
           let isAsc;
+          //only change direction is we are dealing with same column
+          //otherwise always begin sorting ascending order
           if(filter.sort?.columnName === columnName){
             if(filter.sort?.direction === 'desc'){
               isAsc = undefined;
