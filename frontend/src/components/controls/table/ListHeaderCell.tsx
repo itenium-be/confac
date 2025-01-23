@@ -38,17 +38,22 @@ export const ListHeaderCell = ({width, columnName, header, filter, onSort}: List
     // </th>
     <th style={{width}} {...eventHandlers}>
     {header ? t(header) : <>&nbsp;</>}
-    {onSort && ((hovered) || (filter.sort?.direction !== undefined && filter.sort?.columnName === columnName)) ? <SortIcon
-      fa={filter.sort?.direction === 'asc' ? "fa fa-arrow-up" : "fa fa-arrow-down"}
+    {onSort && (hovered || (filter.sort?.direction !== undefined && filter.sort?.columnName === columnName)) ? <SortIcon
+      fa={filter.sort?.columnName !== columnName || filter.sort?.direction === 'asc' ? "fa fa-arrow-up" : "fa fa-arrow-down"}
       onClick={() => {
           let isAsc;
-          if(filter.sort?.direction === 'desc'){
-            isAsc = undefined;
-          }else if (filter.sort?.direction === undefined){
-            isAsc = true;
-          }else {
-            isAsc = false;
+          if(filter.sort?.columnName === columnName){
+            if(filter.sort?.direction === 'desc'){
+              isAsc = undefined;
+            }else if (filter.sort?.direction === undefined){
+              isAsc = true;
+            }else {
+              isAsc = false;
+            }
+          }else{
+            isAsc = true
           }
+
 
           onSort(isAsc);
         }}
