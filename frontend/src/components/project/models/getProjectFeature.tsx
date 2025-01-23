@@ -115,7 +115,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     header: 'project.consultant',
     value: p => <ConsultantLinkWithModal consultant={p.consultant} showType />,
     footer: (models: FullProjectModel[]) => <ConsultantCountFooter consultants={models.map(x => x.consultant)} />,
-    sort: (asc) => (p, p2) => p.consultantName > p2.consultantName ? (asc ? 1 : -1) : (asc ? -1 : 1)
+    sort: (asc) => (p, p2) => p.consultantName.localeCompare(p2.consultantName) > 0 ? (asc ? 1 : -1) : (asc ? -1 : 1)
   }, {
     key: 'startDate',
     header: 'project.startDate',
@@ -125,12 +125,13 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     key: 'endDate',
     header: 'project.endDate',
     value: p => p.details.endDate && formatDate(p.details.endDate),
+    sort: (asc) => (p, p2) => (p.details.endDate?.valueOf() ?? 0) - (p2.details.endDate?.valueOf() ?? 0) > 0 ? (asc ? 1 : -1) : (asc ? -1 : 1)
   }, {
     key: 'partner',
     header: 'project.partner.clientId',
     value: p => <InvoiceClientCell client={p.partner} />,
     footer: (models: FullProjectModel[]) => <ProjectForecastPartnerFooter models={models} />,
-    sort: (asc) => (p, p2) => (p.partner?.name ?? '') > (p2.partner?.name ?? '') ? (asc ? 1 : -1) : (asc ? -1 : 1)
+    sort: (asc) => (p, p2) => (p.partner?.name ?? '').localeCompare(p2.partner?.name ?? '') > 0 ? (asc ? 1 : -1) : (asc ? -1 : 1)
   }, {
     key: 'partnerTariff',
     header: 'project.partner.tariff',
@@ -140,6 +141,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     header: '',
     value: p => <ProjectEndCustomerIcon endCustomer={p.details.endCustomer} endCustomerClientModel={p.endCustomer}/>,
     footer: (models: FullProjectModel[]) => <ProjectClientForecastFooter models={models} />,
+    sort: (asc) => (p, p2) => (p.endCustomer?.name ?? '').localeCompare(p2.endCustomer?.name ?? '') > 0 ? (asc ? 1 : -1) : (asc ? -1 : 1)
   }, {
     key: 'client',
     header: 'project.client.clientId',
