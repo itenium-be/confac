@@ -30,31 +30,30 @@ export const ListHeader = ({feature, onSort}: ListHeaderProps<any>) => {
           }
 
           let handleSort : ((asc: boolean | undefined) => void) | undefined = undefined;
+          const filter = feature.list.filter?.state as ListFilters;
           if(col.sort){
             handleSort = (asc: boolean | undefined) => {
-              if(feature.list.filter?.state){
-                const f = feature.list.filter?.state as ListFilters;
-                if(asc !== undefined){
-                  f.sort = {
-                    direction: asc? "asc" : "desc",
+              if(filter){
+                const newFilter = {
+                  ...filter,
+                  sort: asc !== undefined ? {
+                    direction: asc ? ('asc' as const ): ('desc' as const),
                     columnName: col.key
-                  }
-                }else{
-                  f.sort = undefined
+                  } : undefined
                 }
 
-                dispatch(updateAppFilters(feature.key, f))
+                dispatch(updateAppFilters(feature.key, newFilter))
               }
-
             }
           }
-
 
           return (
             <ListHeaderCell
               key={col.key}
+              columnName={col.key}
               width={width}
               header={header}
+              filter={filter}
               onSort={handleSort}/>
           );
         })}

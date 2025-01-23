@@ -1,38 +1,59 @@
-import { useState } from "react";
 import useHover from "../../hooks/useHover";
 import { t } from "../../utils";
 import { SortIcon } from "../Icon";
+import { ListFilters } from "./table-models";
 
 type ListHeaderCellProps = {
   width: string | undefined | number
-  header:string
+  columnName: string,
+  header:string,
+  filter: ListFilters
   onSort?: (asc: boolean | undefined) => void
 }
 
-export const ListHeaderCell = ({width, header, onSort}: ListHeaderCellProps) => {
+export const ListHeaderCell = ({width, columnName, header, filter, onSort}: ListHeaderCellProps) => {
   const [hovered, eventHandlers] = useHover();
-  const [asc, setAsc] = useState<boolean | undefined>(undefined)
-
+  //const [asc, setAsc] = useState<boolean | undefined>(undefined)
+  console.log(filter);
   return (
+    // <th style={{width}} {...eventHandlers}>
+    //   {header ? t(header) : <>&nbsp;</>}
+    //   {onSort && (hovered || asc !== undefined) ? <SortIcon
+    //     fa={asc ? "fa fa-arrow-up" : "fa fa-arrow-down"}
+    //     onClick={() => {
+    //       let isAsc = asc;
+    //       if(asc === false){
+    //         isAsc = undefined;
+    //       }else if (asc === undefined){
+    //         isAsc = true;
+    //       }else {
+    //         isAsc = false;
+    //       }
+
+    //       setAsc(isAsc);
+    //       onSort(isAsc);
+    //     }}
+    //     style={{marginLeft: "3px"}}
+    //     size={1}/> : <>&nbsp;</>}
+    // </th>
     <th style={{width}} {...eventHandlers}>
-      {header ? t(header) : <>&nbsp;</>}
-      {onSort && (hovered || asc !== undefined) ? <SortIcon
-        fa={asc ? "fa fa-arrow-up" : "fa fa-arrow-down"}
-        onClick={() => {
-          let isAsc = asc;
-          if(asc === false){
+    {header ? t(header) : <>&nbsp;</>}
+    {onSort && ((hovered) || (filter.sort?.direction !== undefined && filter.sort?.columnName === columnName)) ? <SortIcon
+      fa={filter.sort?.direction === 'asc' ? "fa fa-arrow-up" : "fa fa-arrow-down"}
+      onClick={() => {
+          let isAsc;
+          if(filter.sort?.direction === 'desc'){
             isAsc = undefined;
-          }else if (asc === undefined){
+          }else if (filter.sort?.direction === undefined){
             isAsc = true;
           }else {
             isAsc = false;
           }
 
-          setAsc(isAsc);
           onSort(isAsc);
         }}
-        style={{marginLeft: "3px"}}
-        size={1}/> : <>&nbsp;</>}
-    </th>
+      style={{marginLeft: "3px"}}
+      size={1}/> : <>&nbsp;</>}
+  </th>
   )
 }

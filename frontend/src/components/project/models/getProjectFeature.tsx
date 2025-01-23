@@ -130,6 +130,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     header: 'project.partner.clientId',
     value: p => <InvoiceClientCell client={p.partner} />,
     footer: (models: FullProjectModel[]) => <ProjectForecastPartnerFooter models={models} />,
+    sort: (asc) => (p, p2) => (p.partner?.name ?? '') > (p2.partner?.name ?? '') ? (asc ? 1 : -1) : (asc ? -1 : 1)
   }, {
     key: 'partnerTariff',
     header: 'project.partner.tariff',
