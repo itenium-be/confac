@@ -29,22 +29,26 @@ export const ListHeader = ({feature, onSort}: ListHeaderProps<any>) => {
             width = col.header.width;
           }
 
-          const handleSort = (asc: boolean | undefined) => {
-            if(feature.list.filter?.state){
-              const f = feature.list.filter?.state as ListFilters;
-              if(asc !== undefined){
-                f.sort = {
-                  direction: asc? "asc" : "desc",
-                  columnName: col.key
+          let handleSort : ((asc: boolean | undefined) => void) | undefined = undefined;
+          if(col.sort){
+            handleSort = (asc: boolean | undefined) => {
+              if(feature.list.filter?.state){
+                const f = feature.list.filter?.state as ListFilters;
+                if(asc !== undefined){
+                  f.sort = {
+                    direction: asc? "asc" : "desc",
+                    columnName: col.key
+                  }
+                }else{
+                  f.sort = undefined
                 }
-              }else{
-                f.sort = undefined
+
+                dispatch(updateAppFilters(feature.key, f))
               }
 
-              dispatch(updateAppFilters(feature.key, f))
             }
-
           }
+
 
           return (
             <ListHeaderCell

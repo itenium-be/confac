@@ -16,20 +16,20 @@ export const ListHeaderCell = ({width, header, onSort}: ListHeaderCellProps) => 
   return (
     <th style={{width}} {...eventHandlers}>
       {header ? t(header) : <>&nbsp;</>}
-      {asc !== undefined || (onSort && hovered) ? <SortIcon
+      {onSort && (hovered || asc !== undefined) ? <SortIcon
         fa={asc ? "fa fa-arrow-up" : "fa fa-arrow-down"}
         onClick={() => {
+          let isAsc = asc;
           if(asc === false){
-            setAsc(undefined)
+            isAsc = undefined;
           }else if (asc === undefined){
-            setAsc(true)
+            isAsc = true;
           }else {
-            setAsc(false)
+            isAsc = false;
           }
 
-          if(onSort){
-            onSort(asc);
-          }
+          setAsc(isAsc);
+          onSort(isAsc);
         }}
         style={{marginLeft: "3px"}}
         size={1}/> : <>&nbsp;</>}
