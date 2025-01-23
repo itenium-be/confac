@@ -13,29 +13,7 @@ type ListHeaderCellProps = {
 
 export const ListHeaderCell = ({width, columnName, header, filter, onSort}: ListHeaderCellProps) => {
   const [hovered, eventHandlers] = useHover();
-  //const [asc, setAsc] = useState<boolean | undefined>(undefined)
-  console.log(filter);
   return (
-    // <th style={{width}} {...eventHandlers}>
-    //   {header ? t(header) : <>&nbsp;</>}
-    //   {onSort && (hovered || asc !== undefined) ? <SortIcon
-    //     fa={asc ? "fa fa-arrow-up" : "fa fa-arrow-down"}
-    //     onClick={() => {
-    //       let isAsc = asc;
-    //       if(asc === false){
-    //         isAsc = undefined;
-    //       }else if (asc === undefined){
-    //         isAsc = true;
-    //       }else {
-    //         isAsc = false;
-    //       }
-
-    //       setAsc(isAsc);
-    //       onSort(isAsc);
-    //     }}
-    //     style={{marginLeft: "3px"}}
-    //     size={1}/> : <>&nbsp;</>}
-    // </th>
     <th style={{width}} {...eventHandlers}>
     {header ? t(header) : <>&nbsp;</>}
     {onSort && (hovered || (filter.sort?.direction !== undefined && filter.sort?.columnName === columnName)) ? <SortIcon
@@ -53,8 +31,6 @@ export const ListHeaderCell = ({width, columnName, header, filter, onSort}: List
           }else{
             isAsc = true
           }
-
-
           onSort(isAsc);
         }}
       style={{marginLeft: "3px"}}
