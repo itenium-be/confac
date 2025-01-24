@@ -8,7 +8,7 @@ import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {Features, IFeature, IFeatureBuilderConfig} from '../controls/feature/feature-models';
 import {ConsultantModel} from './models/ConsultantModel';
 import {IProjectModel} from '../project/models/IProjectModel';
-import {formatDate, searchinize, t} from '../utils';
+import {formatDate, searchinize, sortResult, t} from '../utils';
 import {IList, IListCell, ListFilters} from '../controls/table/table-models';
 import {ClientModel} from '../client/models/ClientModels';
 import { ConsultantLinkWithModal } from "./controls/ConsultantLinkWithModal";
@@ -89,18 +89,22 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
     header: 'project.consultant',
     value: p => <ConsultantLinkWithModal consultant={p.consultant} showType />,
     footer: (models: ConsultantProject[]) => <ConsultantCountFooter consultants={models.map(x => x.consultant)} />,
+    sort: (asc) => (cp, cp1) => sortResult(cp.consultant.firstName.localeCompare(cp1.consultant.firstName) > 0, asc),
   }, {
     key: 'startDate',
     header: 'project.startDate',
     value: p => formatDate(p.project?.startDate),
+    sort: (asc) => (cp, cp1) => sortResult((cp.project?.startDate?.valueOf() ?? 0) - (cp1.project?.startDate?.valueOf() ?? 0) > 0, asc),
   }, {
     key: 'endDate',
     header: 'project.endDate',
     value: p => p.project?.endDate && formatDate(p.project?.endDate),
+    sort: (asc) => (cp, cp1) => sortResult((cp.project?.endDate?.valueOf() ?? 0) - (cp1.project?.endDate?.valueOf() ?? 0) > 0, asc),
   }, {
     key: 'client',
     header: 'project.client.clientId',
     value: p => <InvoiceClientCell client={p.client} />,
+    sort: (asc) => (cp, cp1) => sortResult((cp.client?.name ?? '').localeCompare((cp1.client?.name ?? '')) > 0, asc),
   }, {
     key: 'clientTariff',
     header: 'project.client.tariff',
