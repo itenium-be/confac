@@ -14,7 +14,7 @@ type ListHeaderCellProps = {
 export const ListHeaderCell = ({width, columnName, header, filter, onSort}: ListHeaderCellProps) => {
   const [hovered, eventHandlers] = useHover();
   //showing sort icon when hovering or having a direction and dealing with the same column
-  const showSortIcon = hovered || (filter.sort?.direction !== undefined && filter.sort?.columnName === columnName)
+  const showSortIcon = hovered || (filter?.sort?.direction !== undefined && filter?.sort?.columnName === columnName)
   return (
     <th style={{width}} {...eventHandlers}>
     {header ? t(header) : <>&nbsp;</>}
