@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { IFeature} from '../feature/feature-models';
 import { ListHeaderCell } from './ListHeaderCell';
 import { updateAppFilters } from '../../../actions';
-import { ListFilters } from './table-models';
+import { ListFilters, SortDirection, SortDirections } from './table-models';
 
 
 type ListHeaderProps<TModel> = {
@@ -37,7 +37,7 @@ export const ListHeader = ({feature, onSort}: ListHeaderProps<any>) => {
                 const newFilter = {
                   ...filter,
                   sort: asc !== undefined ? {
-                    direction: asc ? ('asc' as const ): ('desc' as const),
+                    direction: asc ? SortDirections.ASC : SortDirections.DESC,
                     columnName: col.key
                   } : undefined
                 }

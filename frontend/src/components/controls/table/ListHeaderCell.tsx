@@ -1,7 +1,7 @@
 import useHover from "../../hooks/useHover";
 import { t } from "../../utils";
 import { SortIcon } from "../Icon";
-import { ListFilters } from "./table-models";
+import { ListFilters, SortDirection, SortDirections } from "./table-models";
 
 type ListHeaderCellProps = {
   width: string | undefined | number
@@ -19,7 +19,7 @@ export const ListHeaderCell = ({width, columnName, header, filter, onSort}: List
     <th style={{width}} {...eventHandlers}>
     {header ? t(header) : <>&nbsp;</>}
     {onSort && showSortIcon ? <SortIcon
-      fa={filter.sort?.columnName !== columnName || filter.sort?.direction === 'asc' ? "fa fa-arrow-up" : "fa fa-arrow-down"}
+      fa={filter.sort?.columnName !== columnName || filter.sort?.direction === SortDirections.ASC ? "fa fa-arrow-up" : "fa fa-arrow-down"}
       onClick={() => {
           let isAsc :boolean | undefined;
           //only change direction is we are dealing with same column
@@ -37,8 +37,8 @@ export const ListHeaderCell = ({width, columnName, header, filter, onSort}: List
   )
 }
 
-const switchDirection = (direction: string) : boolean | undefined => {
-  if(direction === 'desc'){
+const switchDirection = (direction: SortDirection) : boolean | undefined => {
+  if(direction === SortDirections.DESC){
     return undefined;
   }else if (direction === undefined){
     return true;

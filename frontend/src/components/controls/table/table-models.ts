@@ -25,10 +25,17 @@ export type ListFilters = {
   freeText?: string;
   showInactive?: boolean;
   sort?: {
-    direction: "asc" | "desc"
+    direction: SortDirection
     columnName: string
   }
 }
+
+export const SortDirections = {
+  ASC: "asc",
+  DESC: "desc",
+} as const;
+
+export type SortDirection = typeof SortDirections[keyof typeof SortDirections];
 
 export type ProjectListFilters = ListFilters;
 export type ProjectMonthListFilters = ListFilters & {
