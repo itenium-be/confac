@@ -23,6 +23,7 @@ import {EditIcon} from '../controls/Icon';
 import {DeleteIcon} from '../controls/icons/DeleteIcon';
 import {Claim} from '../users/models/UserModel';
 
+import './ConsultantProjectsList.scss';
 
 type ConsultantProject = {
   consultant: ConsultantModel,
@@ -170,7 +171,6 @@ const consultantFeature = (config: ConsultantFeatureBuilderConfig): IFeature<Con
 
   return feature;
 };
-
 
 
 export const ConsultantProjectsList = () => {
