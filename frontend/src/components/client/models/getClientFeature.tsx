@@ -46,6 +46,7 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
         <span>{client.telephone}</span>
       </>
     ),
+    sort: (asc) => (c1, c2) => c1.address.localeCompare(c2.address) > 0 ? (asc ? 1 : -1) : (asc ? -1 : 1)
   }, {
     key: 'time-invested',
     header: 'client.timeTitle',
