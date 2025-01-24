@@ -7,7 +7,6 @@ import {IFeature} from '../feature/feature-models';
 import {useSelector} from 'react-redux';
 import {ConfacState} from '../../../reducers/app-state';
 import { Pagination } from './Pagination';
-import { SortIcon } from '../Icon';
 import { SortDirections } from './table-models';
 
 

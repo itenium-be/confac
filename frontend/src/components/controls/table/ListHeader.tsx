@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { IFeature} from '../feature/feature-models';
 import { ListHeaderCell } from './ListHeaderCell';
 import { updateAppFilters } from '../../../actions';
-import { ListFilters, SortDirection, SortDirections } from './table-models';
+import { ListFilters, SortDirections } from './table-models';
 
 
 type ListHeaderProps<TModel> = {
