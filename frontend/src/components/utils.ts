@@ -64,4 +64,8 @@ export const searchinize = (str: string): string => {
   return latinize(str).trim().toLowerCase();
 };
 
+export const sortResult = (comparison: boolean, asc: boolean):number => {
+  return comparison ? (asc ? 1 : -1) : (asc ? -1 : 1)
+}
+
 export {default as t} from '../trans';

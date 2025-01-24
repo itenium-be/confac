@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import {ConsultantModel} from './ConsultantModel';
 import {IList, IListCell, ConsultantListFilters} from '../../controls/table/table-models';
-import {t, searchinize} from '../../utils';
+import {t, searchinize, sortResult} from '../../utils';
 import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {EditIcon} from '../../controls/Icon';
@@ -36,14 +36,15 @@ function getRowClassName(m: ConsultantModel): string | undefined {
   return undefined;
 }
 
-
 const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<ConsultantModel, ConsultantListFilters> => {
   const cells: IListCell<ConsultantModel>[] = [{
     key: 'name',
     value: m => <ConsultantLinkWithModal consultant={m} />,
+    sort: (asc) => (c, c1) => sortResult(c.firstName.localeCompare(c1.firstName) > 0, asc)
   }, {
     key: 'type',
     value: m => t(`consultant.types.${m.type}`),
+    sort: (asc) => (c, c1) => sortResult(c.type.localeCompare(c1.type) > 0, asc)
   }, {
     key: 'email',
     value: m => {
@@ -52,6 +53,7 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
       }
       return '';
     },
+    sort: (asc) => (c, c1) => sortResult(c.email.localeCompare(c1.email) > 0, asc)
   }, {
     key: 'telephone',
     value: m => m.telephone,
