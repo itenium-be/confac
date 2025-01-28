@@ -8,6 +8,7 @@ import {useSelector} from 'react-redux';
 import {ConfacState} from '../../../reducers/app-state';
 import { Pagination } from './Pagination';
 import { SortDirections } from './table-models';
+import { sortResult } from '../../utils';
 
 
 type ListProps = {
@@ -32,9 +33,8 @@ export const List = ({feature}: ListProps) => {
     const key = feature.list.filter?.state?.sort.columnName;
     const cell = feature.list.rows.cells.find(col => col.key === key)
     if(cell && cell.sort){
-      //IListCell.sort returns a function to pass to Array.Sort
-      const sortFunc = cell.sort(feature.list.filter?.state?.sort.direction === SortDirections.ASC)
-      data = data.slice().sort(sortFunc);
+      const asc = feature.list.filter?.state?.sort.direction === SortDirections.ASC;
+      data = data.slice().sort(sortResult(cell.sort, asc));
     }
   }
   else if (feature.list.sorter) {

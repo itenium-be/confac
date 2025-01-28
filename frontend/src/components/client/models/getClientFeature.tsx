@@ -7,7 +7,7 @@ import {InvoiceWorkedDays} from '../../invoice/invoice-list/InvoiceWorkedDays';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
 import {InvoicesSummary} from '../../invoice/controls/InvoicesSummary';
 import {DeleteIcon} from '../../controls/icons/DeleteIcon';
-import {sortResult, t} from '../../utils';
+import {t} from '../../utils';
 import {searchClientForList} from './searchClientFor';
 import {getInvoiceYears} from '../../invoice/models/InvoiceListModel';
 import {YearsSelect} from '../../controls/form-controls/select/YearsSelect';
@@ -33,7 +33,7 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
         <span>{client.btw}</span>
       </>
     ),
-    sort: (asc) => (c1, c2) => sortResult(c1.name.localeCompare(c2.name) > 0, asc)
+    sort: (c1, c2) => c1.name.localeCompare(c2.name)
   }, {
     key: 'contact',
     header: 'client.contact',
@@ -46,7 +46,7 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
         <span>{client.telephone}</span>
       </>
     ),
-    sort: (asc) => (c1, c2) => sortResult(c1.address.localeCompare(c2.address) > 0, asc)
+    sort: (c1, c2) => c1.address.localeCompare(c2.address)
   }, {
     key: 'time-invested',
     header: 'client.timeTitle',
