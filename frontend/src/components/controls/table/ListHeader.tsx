@@ -1,14 +1,18 @@
-import {t} from '../../utils';
-import {IFeature} from '../feature/feature-models';
+import { useDispatch } from 'react-redux';
+import { IFeature} from '../feature/feature-models';
+import { ListHeaderCell } from './ListHeaderCell';
+import { updateAppFilters } from '../../../actions';
+import { ListFilters, SortDirections } from './table-models';
 
 
 type ListHeaderProps<TModel> = {
-  feature: IFeature<TModel>;
+  feature: IFeature<TModel>
 }
 
 
 // eslint-disable-next-line arrow-body-style
 export const ListHeader = ({feature}: ListHeaderProps<any>) => {
+  const dispatch = useDispatch();
   return (
     <thead>
       <tr>
@@ -24,10 +28,32 @@ export const ListHeader = ({feature}: ListHeaderProps<any>) => {
             width = col.header.width;
           }
 
+          let handleSort : ((asc: boolean | undefined) => void) | undefined = undefined;
+          const filter = feature.list.filter?.state as ListFilters;
+          if(col.sort){
+            handleSort = (asc: boolean | undefined) => {
+              if(filter){
+                const newFilter = {
+                  ...filter,
+                  sort: asc !== undefined ? {
+                    direction: asc ? SortDirections.ASC : SortDirections.DESC,
+                    columnName: col.key
+                  } : undefined
+                }
+
+                dispatch(updateAppFilters(feature.key, newFilter))
+              }
+            }
+          }
+
           return (
-            <th key={col.key} style={{width}}>
-              {header ? t(header) : <>&nbsp;</>}
-            </th>
+            <ListHeaderCell
+              key={col.key}
+              columnName={col.key}
+              width={width}
+              header={header}
+              filter={filter}
+              onSort={handleSort}/>
           );
         })}
       </tr>

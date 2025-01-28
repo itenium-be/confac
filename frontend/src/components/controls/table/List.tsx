@@ -7,6 +7,8 @@ import {IFeature} from '../feature/feature-models';
 import {useSelector} from 'react-redux';
 import {ConfacState} from '../../../reducers/app-state';
 import { Pagination } from './Pagination';
+import { SortDirections } from './table-models';
+import { sortResult } from '../../utils';
 
 
 type ListProps = {
@@ -27,7 +29,15 @@ export const List = ({feature}: ListProps) => {
     }
   }
 
-  if (feature.list.sorter) {
+  if(feature.list.filter?.state?.sort) {
+    const key = feature.list.filter?.state?.sort.columnName;
+    const cell = feature.list.rows.cells.find(col => col.key === key)
+    if(cell && cell.sort){
+      const asc = feature.list.filter?.state?.sort.direction === SortDirections.ASC;
+      data = data.slice().sort(sortResult(cell.sort, asc));
+    }
+  }
+  else if (feature.list.sorter) {
     data = data.slice().sort(feature.list.sorter);
   }
 

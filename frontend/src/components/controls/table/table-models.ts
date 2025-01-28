@@ -24,7 +24,18 @@ export interface IList<TModel, TFilterModel extends ListFilters = {}, TTag = {}>
 export type ListFilters = {
   freeText?: string;
   showInactive?: boolean;
+  sort?: {
+    direction: SortDirection
+    columnName: string
+  }
 }
+
+export const SortDirections = {
+  ASC: "asc",
+  DESC: "desc",
+} as const;
+
+export type SortDirection = typeof SortDirections[keyof typeof SortDirections];
 
 export type ProjectListFilters = ListFilters;
 export type ProjectMonthListFilters = ListFilters & {
@@ -86,6 +97,8 @@ export interface IListCell<TModel> {
   // BUG: GroupedInvoiceTable footer is wrong
   /** Will span until next cell with a footer */
   footer?: string | ((models: TModel[]) => string | React.ReactNode);
+
+  sort?: (a: TModel, b: TModel) => number
 }
 
 

@@ -36,14 +36,15 @@ function getRowClassName(m: ConsultantModel): string | undefined {
   return undefined;
 }
 
-
 const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<ConsultantModel, ConsultantListFilters> => {
   const cells: IListCell<ConsultantModel>[] = [{
     key: 'name',
     value: m => <ConsultantLinkWithModal consultant={m} />,
+    sort: (c, c1) => c.firstName.localeCompare(c1.firstName)
   }, {
     key: 'type',
     value: m => t(`consultant.types.${m.type}`),
+    sort: (c, c1) => c.type.localeCompare(c1.type)
   }, {
     key: 'email',
     value: m => {
@@ -52,6 +53,7 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
       }
       return '';
     },
+    sort: (c, c1) => c.email.localeCompare(c1.email)
   }, {
     key: 'telephone',
     value: m => m.telephone,

@@ -115,19 +115,23 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     header: 'project.consultant',
     value: p => <ConsultantLinkWithModal consultant={p.consultant} showType />,
     footer: (models: FullProjectModel[]) => <ConsultantCountFooter consultants={models.map(x => x.consultant)} />,
+    sort: (p, p2) => p.consultantName.localeCompare(p2.consultantName)
   }, {
     key: 'startDate',
     header: 'project.startDate',
     value: p => formatDate(p.details.startDate),
+    sort: (p, p2) => p.details.startDate.valueOf() - p2.details.startDate.valueOf()
   }, {
     key: 'endDate',
     header: 'project.endDate',
     value: p => p.details.endDate && formatDate(p.details.endDate),
+    sort: (p, p2) => (p.details.endDate?.valueOf() ?? 0) - (p2.details.endDate?.valueOf() ?? 0)
   }, {
     key: 'partner',
     header: 'project.partner.clientId',
     value: p => <InvoiceClientCell client={p.partner} />,
     footer: (models: FullProjectModel[]) => <ProjectForecastPartnerFooter models={models} />,
+    sort: (p, p2) => (p.partner?.name ?? '').localeCompare(p2.partner?.name ?? '')
   }, {
     key: 'partnerTariff',
     header: 'project.partner.tariff',
@@ -137,10 +141,12 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     header: '',
     value: p => <ProjectEndCustomerIcon endCustomer={p.details.endCustomer} endCustomerClientModel={p.endCustomer}/>,
     footer: (models: FullProjectModel[]) => <ProjectClientForecastFooter models={models} />,
+    sort: (p, p2) => (p.endCustomer?.name ?? '').localeCompare(p2.endCustomer?.name ?? '')
   }, {
     key: 'client',
     header: 'project.client.clientId',
     value: p => <InvoiceClientCell client={p.client} />,
+    sort:(p, p2) => (p.client?.name ?? '').localeCompare(p2.client?.name ?? '')
   }, {
     key: 'clientTariff',
     header: 'project.client.tariff',

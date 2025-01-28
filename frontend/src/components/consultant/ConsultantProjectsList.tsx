@@ -23,6 +23,7 @@ import {EditIcon} from '../controls/Icon';
 import {DeleteIcon} from '../controls/icons/DeleteIcon';
 import {Claim} from '../users/models/UserModel';
 
+import './ConsultantProjectsList.scss';
 
 type ConsultantProject = {
   consultant: ConsultantModel,
@@ -89,18 +90,22 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
     header: 'project.consultant',
     value: p => <ConsultantLinkWithModal consultant={p.consultant} showType />,
     footer: (models: ConsultantProject[]) => <ConsultantCountFooter consultants={models.map(x => x.consultant)} />,
+    sort: (cp, cp1) => cp.consultant.firstName.localeCompare(cp1.consultant.firstName),
   }, {
     key: 'startDate',
     header: 'project.startDate',
     value: p => formatDate(p.project?.startDate),
+    sort: (cp, cp1) => (cp.project?.startDate?.valueOf() ?? 0) - (cp1.project?.startDate?.valueOf() ?? 0),
   }, {
     key: 'endDate',
     header: 'project.endDate',
     value: p => p.project?.endDate && formatDate(p.project?.endDate),
+    sort: (cp, cp1) => (cp.project?.endDate?.valueOf() ?? 0) - (cp1.project?.endDate?.valueOf() ?? 0),
   }, {
     key: 'client',
     header: 'project.client.clientId',
     value: p => <InvoiceClientCell client={p.client} />,
+    sort: (cp, cp1) => (cp.client?.name ?? '').localeCompare((cp1.client?.name ?? '')),
   }, {
     key: 'clientTariff',
     header: 'project.client.tariff',
@@ -166,7 +171,6 @@ const consultantFeature = (config: ConsultantFeatureBuilderConfig): IFeature<Con
 
   return feature;
 };
-
 
 
 export const ConsultantProjectsList = () => {

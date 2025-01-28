@@ -33,6 +33,7 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
         <span>{client.btw}</span>
       </>
     ),
+    sort: (c1, c2) => c1.name.localeCompare(c2.name)
   }, {
     key: 'contact',
     header: 'client.contact',
@@ -45,6 +46,7 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
         <span>{client.telephone}</span>
       </>
     ),
+    sort: (c1, c2) => c1.address.localeCompare(c2.address)
   }, {
     key: 'time-invested',
     header: 'client.timeTitle',
