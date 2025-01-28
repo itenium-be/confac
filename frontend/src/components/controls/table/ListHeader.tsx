@@ -6,13 +6,12 @@ import { ListFilters, SortDirections } from './table-models';
 
 
 type ListHeaderProps<TModel> = {
-  feature: IFeature<TModel>;
-  onSort?: (sort?: (a: TModel, b: TModel) => number) => void
+  feature: IFeature<TModel>
 }
 
 
 // eslint-disable-next-line arrow-body-style
-export const ListHeader = ({feature, onSort}: ListHeaderProps<any>) => {
+export const ListHeader = ({feature}: ListHeaderProps<any>) => {
   const dispatch = useDispatch();
   return (
     <thead>
