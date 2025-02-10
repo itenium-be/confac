@@ -1,3 +1,4 @@
+import { ClientType, ClientTypes } from './../../client/models/ClientModels';
 
 /**
  * TODO: TModel has an untyped dependency on an _id property
@@ -50,6 +51,7 @@ export type RolesListFilters = ListFilters;
 
 export type ClientListFilters = ListFilters & {
   years: number[];
+  types: ClientType[];
 };
 
 
