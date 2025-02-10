@@ -27,9 +27,9 @@ const getFilteredClients = (config: ClientFeatureBuilderConfig): ClientModel[] =
   if(config.filters.types.length > 0){
 
     clients = clients.filter(client => {
-      if(!Array.isArray(client.type)) return false; // @debugging
+      if(!Array.isArray(client.types)) return false; // @debugging
       
-      return config.filters.types.every(type => client.type.includes(type))
+      return config.filters.types.every(type => client.types.includes(type))
     })
   }
 
@@ -45,7 +45,7 @@ const getFilteredClients = (config: ClientFeatureBuilderConfig): ClientModel[] =
       return config.filters.years.every(year => years.includes(year))
     })
   }
-
+  
   return clients;
 }
 
@@ -69,7 +69,7 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
     value: client => {
     let temp = (
       <>
-      { client.type && client.type.map(type => (<><span>{type}</span><br /></>)) }
+      { client.types && client.types.map(type => (<><span>{type}</span><br /></>)) }
       </>
     )
 

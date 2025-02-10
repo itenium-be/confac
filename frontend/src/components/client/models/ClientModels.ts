@@ -15,7 +15,7 @@ export type ClientModel = IAttachment & {
   slug: string;
   active: boolean;
   name: string;
-  type: ClientType[];
+  types: ClientType[];
   address: string;
   city: string;
   postalCode: string;
