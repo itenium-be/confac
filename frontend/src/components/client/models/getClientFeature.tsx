@@ -35,6 +35,10 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
     ),
     sort: (c1, c2) => c1.name.localeCompare(c2.name)
   }, {
+    key: 'type',
+    header: 'client.type',
+    value: client => (<>{client.type.map( t => (<><span>{t}</span><br /></>))}</>)
+  }, {
     key: 'contact',
     header: 'client.contact',
     value: client => (
