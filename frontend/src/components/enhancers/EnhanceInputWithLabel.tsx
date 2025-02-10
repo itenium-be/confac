@@ -30,7 +30,7 @@ export const EnhanceInputWithLabel = <P extends object>(ComposedComponent: React
 
     return (
       <Form.Group className="form-group">
-        <Form.Label>{label}</Form.Label>
+        <Form.Label htmlFor="react-select-2-input">{label}</Form.Label>
         <ComposedComponent {...props as P} placeholder={placeholderText} />
       </Form.Group>
     );
