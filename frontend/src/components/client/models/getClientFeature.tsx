@@ -45,7 +45,7 @@ const getFilteredClients = (config: ClientFeatureBuilderConfig): ClientModel[] =
       return config.filters.years.every(year => years.includes(year))
     })
   }
-  
+
   return clients;
 }
 
@@ -160,9 +160,9 @@ const createFilterByDescription = (filters :string[]) =>
 
 const getFilterOptions = (config: ClientFeatureBuilderConfig): ClientFilterOption[] => {
   let options: ClientFilterOption[] = [
-    {value: 'partner', label: t('client.types.partner')},
-    {value: 'client', label: t('client.types.client')},
-    {value: 'endcustomer', label: t('client.types.endcustomer')},
+    {value: 'partner', label: t('client.clienttypes.partner')},
+    {value: 'client', label: t('client.clienttypes.client')},
+    {value: 'endCustomer', label: t('client.clienttypes.endCustomer')},
   ];
 
   let years: number[] = getInvoiceYears(config.invoices);

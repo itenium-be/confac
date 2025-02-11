@@ -21,7 +21,7 @@ export const ClientSearch = ({values, options, onChange, ...props}: ClientSearch
         value={values.map(y => ({label: y, value: y}))}
         onChange={(newOptions: SelectItem[]) => onChange((newOptions || []).map(o => o.value as string))}
         options={options}
-        isClearable
+        isClearable={false}
         isMulti
         {...props}
     />

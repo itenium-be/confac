@@ -398,10 +398,10 @@ export const trans = {
       contract: 'Status raamcontract',
       notes: 'Notitie',
     },
-    types: {
+    clienttypes: {
       partner: 'Onderaannemer',
       client: 'klant',
-      endcustomer: 'Eindklant'
+      endCustomer: 'Eindklant'
     },
     email: {
       to: 'Naar',
