@@ -5,10 +5,9 @@ import {IContractModel} from './ContractModels';
 
 
 
+export const ClientTypes = ['partner', 'client', 'endCustomer'] as const;
+export type ClientType = typeof ClientTypes[number];
 
-export type ClientType = 'partner' | 'client' | 'endCustomer';
-
-export const ClientTypes: ClientType[] = ['partner', 'client', 'endCustomer'];
 
 export type ClientModel = IAttachment & {
   _id: string;

@@ -12,35 +12,30 @@ import {searchClientForList} from './searchClientFor';
 import {getInvoiceYears} from '../../invoice/models/InvoiceListModel';
 import {ClientEditIcon} from '../controls/ClientEditIcon';
 import {Claim} from '../../users/models/UserModel';
-import { ClientSearch, ClientFilterOption } from '../controls/ClientSearch';
+import { ClientSearch, ClientFilterOption, FilterValue } from '../controls/ClientSearch';
+import React from 'react';
 
 
 export type ClientFeatureBuilderConfig = IFeatureBuilderConfig<ClientModel, ClientListFilters> & {
   invoices: InvoiceModel[];
 };
 
-const getFilteredClients = (config: ClientFeatureBuilderConfig): ClientModel[] =>
-{
+const getFilteredClients = (config: ClientFeatureBuilderConfig): ClientModel[] => {
   let clients = config.data;
   if(clients.length === 0) return clients;
 
   if(config.filters.types.length > 0){
 
-    clients = clients.filter(client => {
-      if(!Array.isArray(client.types)) return false; // @debugging
-      
-      return config.filters.types.every(type => client.types.includes(type))
-    })
+    clients = clients.filter(client =>  config.filters.types.every(type => client.types.includes(type)))
   }
 
   if(clients.length === 0) return clients;
 
 
-  if(config.filters.years.length > 0)
-  {
+  if(config.filters.years.length > 0) {
     clients = clients.filter(client => {
-      let invoices = config.invoices.filter(i => i.client._id === client._id)
-      let years = getInvoiceYears(invoices);
+      const invoices = config.invoices.filter(i => i.client._id === client._id)
+      const years = getInvoiceYears(invoices);
 
       return config.filters.years.every(year => years.includes(year))
     })
@@ -65,11 +60,12 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
     sort: (c1, c2) => c1.name.localeCompare(c2.name)
   }, {
     key: 'type',
-    header: 'client.type',
+    header: 'client.types',
     value: client => {
     let temp = (
       <>
-      { client.types && client.types.map(type => (<><span>{type}</span><br /></>)) }
+
+      { client.types && client.types.map((type, index) => (<><span key={index}>{t(`client.clienttypes.${type}`)}</span><br/></>)) }
       </>
     )
 
@@ -134,36 +130,23 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
   };
 };
 
-const createFilterByDescription = (filters :string[]) =>
-{
+const createFilterByDescription = (filters :FilterValue[]) => {
  let newFilter: ClientListFilters = {
   years: [],
   types: []
  } ;
- 
-  filters.forEach(f => {
-    if(ClientTypes.includes(f as ClientType)){
-      newFilter.types.push(f as ClientType);
-    }
 
-    const yearFilter = f.match(/(\d{4})/);
-    if (yearFilter) {
-      const year = Number(yearFilter[1]);
-      newFilter.years.push(year);
-    }
+ newFilter.types = filters.filter(f => ClientTypes.includes(f as ClientType)).map(f => f as ClientType);
+ newFilter.years = filters.filter(f => typeof f === 'number').map(f => f as number);
 
-  });
+
 
   return newFilter;
 };
 
 
 const getFilterOptions = (config: ClientFeatureBuilderConfig): ClientFilterOption[] => {
-  let options: ClientFilterOption[] = [
-    {value: 'partner', label: t('client.clienttypes.partner')},
-    {value: 'client', label: t('client.clienttypes.client')},
-    {value: 'endCustomer', label: t('client.clienttypes.endCustomer')},
-  ];
+  let options = ClientTypes.map(ct => { return {value: ct.toString(), label: t(`client.clienttypes.${ct}`)} })
 
   let years: number[] = getInvoiceYears(config.invoices);
   options = options.concat(years.map(y =>  {return {value: y.toString(), label: y.toString()}}));
@@ -177,8 +160,8 @@ export const clientFeature = (config: ClientFeatureBuilderConfig): IFeature<Clie
     trans: features.client as any,
     list: clientListConfig(config),
   };
-  
-  let values = config.filters.types.map(f => f.toString()).concat(config.filters.years.map(y => y.toString()))
+
+  const values : FilterValue[] = config.filters.types.map(f => f as FilterValue).concat(config.filters.years)
 
 
   feature.list.filter = {

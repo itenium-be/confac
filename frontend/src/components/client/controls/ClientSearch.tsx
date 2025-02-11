@@ -1,25 +1,27 @@
 import { SelectItem } from '../../../models';
 import { BaseSelect } from '../../controls/form-controls/select/BaseSelect';
 
+
+export type FilterValue = string | number;
+
 export type ClientFilterOption = {
-    label: string,
-    value: string
+  label: string,
+  value: FilterValue
 }
 
 export type ClientSearchProps = {
-  values: string[];
+  values: FilterValue[];
   options: ClientFilterOption[];
-  onChange: (newOption: string[]) => void;
+  onChange: (newOption: FilterValue[]) => void;
   label?: string;
 };
 
 
-export const ClientSearch = ({values, options, onChange, ...props}: ClientSearchProps) => 
-{
+export const ClientSearch = ({values, options, onChange, ...props}: ClientSearchProps) => {
     return (
       <BaseSelect
         value={values.map(y => ({label: y, value: y}))}
-        onChange={(newOptions: SelectItem[]) => onChange((newOptions || []).map(o => o.value as string))}
+        onChange={(newOptions: SelectItem[]) => onChange((newOptions || []).map(o => o.value))}
         options={options}
         isClearable={false}
         isMulti
