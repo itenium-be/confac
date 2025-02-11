@@ -3,11 +3,18 @@ import {EmailModel} from '../../controls/email/EmailModels';
 import {InvoiceLine} from '../../invoice/models/InvoiceLineModels';
 import {IContractModel} from './ContractModels';
 
+
+
+export const ClientTypes = ['partner', 'client', 'endCustomer'] as const;
+export type ClientType = typeof ClientTypes[number];
+
+
 export type ClientModel = IAttachment & {
   _id: string;
   slug: string;
   active: boolean;
   name: string;
+  types: ClientType[];
   address: string;
   city: string;
   postalCode: string;

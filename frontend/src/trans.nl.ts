@@ -369,6 +369,7 @@ export const trans = {
     createNewButton: 'Klant aanmaken',
     alreadyExists: 'Klant met btw {btw} bestaat reeds',
     name: 'Klant',
+    types: "Klanttypen",
     btw: 'BTW',
     address: 'Straat & Nr',
     city: 'Stad',
@@ -396,6 +397,11 @@ export const trans = {
       title: 'Raamcontract',
       contract: 'Status raamcontract',
       notes: 'Notitie',
+    },
+    clienttypes: {
+      partner: 'Onderaannemer',
+      client: 'klant',
+      endCustomer: 'Eindklant'
     },
     email: {
       to: 'Naar',

@@ -369,6 +369,7 @@ export const trans = {
     createNewButton: 'Create client',
     alreadyExists: 'Client with tax nr {btw} already exists',
     name: 'Client',
+    types: "Client Types",
     btw: 'Tax',
     address: 'Street & Nr',
     city: 'City',
@@ -396,6 +397,11 @@ export const trans = {
       title: 'Raamcontract',
       contract: 'Status raamcontract',
       notes: 'Notes',
+    },
+    clienttypes: {
+      partner: 'Partner',
+      client: 'Client',
+      endCustomer: 'End customer'
     },
     email: {
       to: 'To',

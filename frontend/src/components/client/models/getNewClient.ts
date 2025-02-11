@@ -15,6 +15,7 @@ export function getNewClient(config?: ConfigModel): ClientModel {
     slug: '',
     active: true,
     name: '',
+    types: [],
     address: '',
     city: '',
     postalCode: '',

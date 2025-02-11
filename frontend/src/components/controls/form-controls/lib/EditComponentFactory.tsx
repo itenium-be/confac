@@ -12,6 +12,7 @@ import {PropertiesSelect} from '../select/PropertiesSelect';
 import {MoneyInput} from '../inputs/MoneyInput';
 import {Switch} from '../Switch';
 import {ClientSelect} from '../../../client/controls/ClientSelect';
+import {ClientTypeSelect} from '../../../client/controls/ClientTypeSelect';
 import {ClientSelectWithCreateModal, EndCustomerSelectWithCreateModal, PartnerSelectWithCreateModal} from '../../../client/controls/ClientSelectWithCreateModal';
 import {FloatInput} from '../inputs/FloatInput';
 import {StringsSelect} from '../select/StringsSelect';
@@ -69,6 +70,7 @@ export function getComponent(col: FormConfig) {
     PropertiesSelect,
     ExtraFields: ExtraFieldsInput,
     ClientSelect,
+    ClientTypeSelect,
     ClientSelectWithCreateModal,
     PartnerSelectWithCreateModal,
     EndCustomerSelectWithCreateModal,
