@@ -151,7 +151,14 @@ export const clientFeature = (config: ClientFeatureBuilderConfig): IFeature<Clie
     list: clientListConfig(config),
   };
 
-  const values = [...config.filters.types, ...config.filters.years]
+  const values = config.filters.types.map(ct => ({
+    value: ct,
+    label: t(`client.clienttypes.${ct}`)
+  } as ClientFilterOption))
+  .concat(config.filters.years.map(y =>  ({
+    value: y,
+    label: y.toString()
+  })));
 
   feature.list.filter = {
     state: config.filters,

@@ -10,7 +10,7 @@ export type ClientFilterOption = {
 }
 
 export type ClientSearchProps = {
-  values: FilterValue[];
+  values: ClientFilterOption[];
   options: ClientFilterOption[];
   onChange: (newOption: FilterValue[]) => void;
   label?: string;
@@ -20,7 +20,7 @@ export type ClientSearchProps = {
 export const ClientSearch = ({values, options, onChange, ...props}: ClientSearchProps) => {
     return (
       <BaseSelect
-        value={values.map(y => ({label: y, value: y}))}
+        value={values}
         onChange={(newOptions: SelectItem[]) => onChange((newOptions || []).map(o => o.value))}
         options={options}
         isClearable={false}
