@@ -61,16 +61,11 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
   }, {
     key: 'type',
     header: 'client.types',
-    value: client => {
-    let temp = (
+    value: client => (
       <>
-
       { client.types && client.types.map((type, index) => (<><span key={index}>{t(`client.clienttypes.${type}`)}</span><br/></>)) }
       </>
     )
-
-     return temp
-    }
   }, {
     key: 'contact',
     header: 'client.contact',
