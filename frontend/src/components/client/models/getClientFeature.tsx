@@ -13,7 +13,6 @@ import {getInvoiceYears} from '../../invoice/models/InvoiceListModel';
 import {ClientEditIcon} from '../controls/ClientEditIcon';
 import {Claim} from '../../users/models/UserModel';
 import { ClientSearch, ClientFilterOption, FilterValue } from '../controls/ClientSearch';
-import React from 'react';
 
 
 export type ClientFeatureBuilderConfig = IFeatureBuilderConfig<ClientModel, ClientListFilters> & {
@@ -126,26 +125,22 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
 };
 
 const createFilterByDescription = (filters :FilterValue[]) => {
- let newFilter: ClientListFilters = {
-  years: [],
-  types: []
- } ;
-
- newFilter.types = filters.filter(f => ClientTypes.includes(f as ClientType)).map(f => f as ClientType);
- newFilter.years = filters.filter(f => typeof f === 'number').map(f => f as number);
-
-
-
-  return newFilter;
+  return {
+    types: filters.filter(f => ClientTypes.includes(f as ClientType)).map(f => f as ClientType),
+    years: filters.filter(f => typeof f === 'number').map(f => f as number)
+  };
 };
 
 
 const getFilterOptions = (config: ClientFeatureBuilderConfig): ClientFilterOption[] => {
-  let options = ClientTypes.map(ct => { return {value: ct.toString(), label: t(`client.clienttypes.${ct}`)} })
-
-  let years: number[] = getInvoiceYears(config.invoices);
-  options = options.concat(years.map(y =>  {return {value: y.toString(), label: y.toString()}}));
-  return options
+  return  ClientTypes.map(ct => ({
+    value: ct,
+    label: t(`client.clienttypes.${ct}`)
+  } as ClientFilterOption))
+  .concat(getInvoiceYears(config.invoices).map(y =>  ({
+    value: y,
+    label: y.toString()
+  })));
 }
 
 export const clientFeature = (config: ClientFeatureBuilderConfig): IFeature<ClientModel, ClientListFilters> => {
@@ -156,8 +151,7 @@ export const clientFeature = (config: ClientFeatureBuilderConfig): IFeature<Clie
     list: clientListConfig(config),
   };
 
-  const values : FilterValue[] = config.filters.types.map(f => f as FilterValue).concat(config.filters.years)
-
+  const values = [...config.filters.types, ...config.filters.years]
 
   feature.list.filter = {
     state: config.filters,
