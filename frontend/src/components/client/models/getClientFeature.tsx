@@ -63,7 +63,7 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
     header: 'client.types',
     value: client => (
       <>
-      { client.types && client.types.map((type, index) => (<><span key={index}>{t(`client.clienttypes.${type}`)}</span><br/></>)) }
+      { client.types && client.types.map(type => (<span key={type}>{t(`client.clienttypes.${type}`)}<br/></span>)) }
       </>
     )
   }, {
