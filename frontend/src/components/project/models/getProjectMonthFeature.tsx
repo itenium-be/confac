@@ -14,6 +14,7 @@ import {ConsultantCountFooter} from '../project-month-list/table/footers/Consult
 import { ProjectClientForecastFooter } from "../project-month-list/table/footers/ProjectClientForecastFooter";
 import {ProjectForecastPartnerFooter} from "../project-month-list/table/footers/ProjectForecastPartnerFooter";
 import {Switch} from '../../controls/form-controls/Switch';
+import { ContractStatus } from '../../client/models/ContractModels';
 
 
 export type ProjectMonthFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectMonthModel, ProjectMonthListFilters>;
@@ -60,6 +61,15 @@ const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMon
 };
 
 
+const ContractStatusOrder: { [key in ContractStatus]: number } = {
+  [ContractStatus.NoContract]: 0,
+  [ContractStatus.Sent]: 1,
+  [ContractStatus.Verified]: 2,
+  [ContractStatus.WeSigned]: 3,
+  [ContractStatus.TheySigned]: 4,
+  [ContractStatus.BothSigned]: 5,
+  [ContractStatus.NotNeeded]: 6,
+};
 
 
 
@@ -80,6 +90,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
       }
       return <ConsultantCountFooter consultants={consultants} month={models[0].details.month} />;
     },
+    sort: (p, p2) => p.consultantName.localeCompare(p2.consultantName),
   }, {
     key: 'timesheet',
     value: p => <ProjectMonthTimesheetCell fullProjectMonth={p} />,
@@ -89,6 +100,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
       }
       return undefined;
     },
+    sort: (p, p2) =>  (p.details.timesheet.timesheet  ?? 0) - (p2.details.timesheet.timesheet ?? 0),
   }, {
     key: 'inbound',
     value: p => <ProjectMonthInboundCell fullProjectMonth={p} />,
@@ -111,6 +123,15 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
       }
       return <ProjectForecastPartnerFooter models={models} month={models[0].details.month} />;
     },
+    sort: (p, p2) => {
+      const validated1 = p.project.projectMonthConfig.inboundInvoice || p.details.inbound.status === 'paid' || p.details.verified === 'forced';
+      const validated2 = p2.project.projectMonthConfig.inboundInvoice || p2.details.inbound.status === 'paid' || p2.details.verified === 'forced';
+
+      if(validated1 === validated2)
+        return validated1 ? 0 : (ContractStatusOrder[p.project.contract.status] ) - (ContractStatusOrder[p.project.contract.status]);
+
+      return validated1 ? 1: -1;
+    }
   }, {
     key: 'outbound',
     value: p => <ProjectMonthOutboundCell fullProjectMonth={p} />,
@@ -129,6 +150,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
       }
       return <ProjectClientForecastFooter models={models} month={models[0].details.month} />;
     },
+    sort: (p, p2) => (p.invoice?.number ?? 0) - (p2.invoice?.number ?? 0),
   }, {
     key: 'notes',
     value: p => <ProjectMonthNotesCell fullProjectMonth={p} />,
