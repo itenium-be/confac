@@ -32,6 +32,7 @@ export interface ProjectMonthOverviewModel {
 }
 
 export type ProjectMonthInboundStatus = 'new' | 'validated' | 'paid';
+export const ProjectMonthInboundStatusOrder: ProjectMonthInboundStatus[] = ['new', 'validated', 'paid'];
 
 export interface ProjectMonthInbound {
   nr: string;

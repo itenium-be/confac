@@ -14,7 +14,7 @@ import {ConsultantCountFooter} from '../project-month-list/table/footers/Consult
 import { ProjectClientForecastFooter } from "../project-month-list/table/footers/ProjectClientForecastFooter";
 import {ProjectForecastPartnerFooter} from "../project-month-list/table/footers/ProjectForecastPartnerFooter";
 import {Switch} from '../../controls/form-controls/Switch';
-import { ContractStatus } from '../../client/models/ContractModels';
+import { ProjectMonthInboundStatusOrder } from './ProjectMonthModel';
 
 
 export type ProjectMonthFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectMonthModel, ProjectMonthListFilters>;
@@ -61,15 +61,6 @@ const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMon
 };
 
 
-const ContractStatusOrder: { [key in ContractStatus]: number } = {
-  [ContractStatus.NoContract]: 0,
-  [ContractStatus.Sent]: 1,
-  [ContractStatus.Verified]: 2,
-  [ContractStatus.WeSigned]: 3,
-  [ContractStatus.TheySigned]: 4,
-  [ContractStatus.BothSigned]: 5,
-  [ContractStatus.NotNeeded]: 6,
-};
 
 
 
@@ -125,12 +116,11 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     },
     sort: (p, p2) => {
       const validated1 = p.project.projectMonthConfig.inboundInvoice || p.details.inbound.status === 'paid' || p.details.verified === 'forced';
-      const validated2 = p2.project.projectMonthConfig.inboundInvoice || p2.details.inbound.status === 'paid' || p2.details.verified === 'forced';
-
+      const validated2 = p2.project.projectMonthConfig.inboundInvoice || p.details.inbound.status === 'paid' || p.details.verified === 'forced';
       if(validated1 === validated2)
-        return validated1 ? 0 : (ContractStatusOrder[p.project.contract.status] ) - (ContractStatusOrder[p.project.contract.status]);
+        return validated1 ? 0 : (ProjectMonthInboundStatusOrder.indexOf(p.details.inbound.status) ) - (ProjectMonthInboundStatusOrder.indexOf(p2.details.inbound.status));
 
-      return validated1 ? 1: -1;
+      return validated1 ? -1: 1
     }
   }, {
     key: 'outbound',
