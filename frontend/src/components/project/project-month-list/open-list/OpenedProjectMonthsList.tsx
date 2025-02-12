@@ -26,7 +26,6 @@ const createFiltersSelector = () => createSelector(
   (filters) => {
     const safeFilters: FiltersModel = {
       ...filters,
-      openMonths: {},
     }
     return safeFilters;
   }, {
