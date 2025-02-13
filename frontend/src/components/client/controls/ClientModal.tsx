@@ -104,7 +104,7 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
                   config={requiredClientProperties}
                   model={client}
                   onChange={value => this.setState({client: {...client, ...value}})}
-                  tPrefix="config.company."
+                  tPrefix="client."
                 />
               </Row>
             </Container>
