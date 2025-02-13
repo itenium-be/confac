@@ -33,7 +33,8 @@ const createFiltersSelector = () => createSelector(
     memoizeOptions: {
       // TODO: need to update for new filters here! use deep-equal instead.
       // --> or better, the feature has the filter method there!
-      equalityCheck: (a: FiltersModel, b: FiltersModel) => a.freeText === b.freeText && a.unverifiedOnly === b.unverifiedOnly && a.sort === b.sort,
+      equalityCheck: (a: FiltersModel, b: FiltersModel) => a.freeText === b.freeText && a.unverifiedOnly === b.unverifiedOnly &&
+        a.sort?.columnName === b.sort?.columnName && a.sort?.direction === b.sort?.direction,
       // maxSize: 10,
       // resultEqualityCheck: shallowEqual
     }
