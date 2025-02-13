@@ -31,7 +31,8 @@ export interface ProjectMonthOverviewModel {
   fileDetails: Attachment;
 }
 
-export type ProjectMonthInboundStatus = 'new' | 'validated' | 'paid';
+export const ProjectMonthInboundStatusOrder = ['new', 'validated', 'paid'] as const;
+export type ProjectMonthInboundStatus = typeof ProjectMonthInboundStatusOrder[number];
 
 export interface ProjectMonthInbound {
   nr: string;
