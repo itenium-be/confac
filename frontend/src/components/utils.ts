@@ -25,8 +25,18 @@ numeral.register('locale', defaultLocale, {
 
 numeral.locale(defaultLocale);
 
-export function moneyFormat(input: any): string {
-  return `€ ${numeral(input).format('0,0.00')}`;
+export function moneyFormat(input: string | number): string {
+  const inputNumber = numeral(input);
+  const value = inputNumber.value(); // Get the numeric value once
+
+  if(value === null)
+    return '€ 0,00'; // Or handle the error as appropriate
+
+  if (value < 0) {
+    return `€ -${numeral(Math.abs(value)).format('0,0.00')}`;
+  }
+
+  return `€ ${inputNumber.format('0,0.00')}`; // No need for separate else
 }
 
 export function tariffFormat(input: number): string {
