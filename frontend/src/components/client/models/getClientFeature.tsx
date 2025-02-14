@@ -43,6 +43,15 @@ const getFilteredClients = (config: ClientFeatureBuilderConfig): ClientModel[] =
   return clients;
 }
 
+const getClientInvoices = (client: ClientModel, config: ClientFeatureBuilderConfig): InvoiceModel[] => {
+  let clientInvoices = config.invoices.filter(i => i.client._id === client._id);
+  if (config.filters.years && config.filters.years.length) {
+    clientInvoices = clientInvoices.filter(i => config.filters.years.includes(i.date.year()));
+  }
+  console.log('getClientInvoices', clientInvoices)
+  return clientInvoices
+}
+
 const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel, ClientListFilters> => {
   const cells: IListCell<ClientModel>[] = [{
     key: 'name',
@@ -82,22 +91,17 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
     key: 'time-invested',
     header: 'client.timeTitle',
     value: client => {
-      let clientInvoices = config.invoices.filter(i => i.client._id === client._id);
-      if (config.filters.years && config.filters.years.length) {
-        clientInvoices = clientInvoices.filter(i => config.filters.years.includes(i.date.year()));
-      }
-      return <InvoiceWorkedDays invoices={clientInvoices} display="client" />;
+      return <InvoiceWorkedDays invoices={getClientInvoices(client, config)} display="client" />;
     },
   }, {
     key: 'invoices',
     header: 'invoice.amount',
     value: client => {
-      let clientInvoices = config.invoices.filter(i => i.client._id === client._id);
-      if (config.filters.years && config.filters.years.length) {
-        clientInvoices = clientInvoices.filter(i => config.filters.years.includes(i.date.year()));
-      }
-      return <InvoicesSummary invoices={clientInvoices} />;
+
+      return <InvoicesSummary invoices={getClientInvoices(client, config)} />;
     },
+    sort: (c1, c2) => getClientInvoices(c2, config).map(i => i.money).reduce((a, b) => a + b.total, 0) -
+      getClientInvoices(c1, config).map(i => i.money).reduce((a, b) => a + b.total, 0)
   }, {
     key: 'buttons',
     header: '',
