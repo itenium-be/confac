@@ -32,7 +32,7 @@ export const ListHeaderCell = ({width, columnName, header, filter, onSort}: List
           onSort(isAsc);
         }}
       style={{
-        marginLeft: "3px",
+        marginLeft: 3,
         visibility: (showSortIcon ? 'visible' : 'hidden'),
         color: (filter.sort ? undefined : 'hsl(0, 0%, 60%)')}}
       size={1}/>}

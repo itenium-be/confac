@@ -48,7 +48,7 @@ const getClientInvoices = (client: ClientModel, config: ClientFeatureBuilderConf
   if (config.filters.years && config.filters.years.length) {
     clientInvoices = clientInvoices.filter(i => config.filters.years.includes(i.date.year()));
   }
-  console.log('getClientInvoices', clientInvoices)
+
   return clientInvoices
 }
 
