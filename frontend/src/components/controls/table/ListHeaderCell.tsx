@@ -18,7 +18,7 @@ export const ListHeaderCell = ({width, columnName, header, filter, onSort}: List
   return (
     <th style={{width}} {...eventHandlers}>
     {header ? t(header) : <>&nbsp;</>}
-    {onSort && showSortIcon ? <SortIcon
+    {onSort && <SortIcon
       fa={filter.sort?.columnName !== columnName || filter.sort?.direction === SortDirections.ASC ? "fa fa-arrow-up" : "fa fa-arrow-down"}
       onClick={() => {
           let isAsc :boolean | undefined;
@@ -31,8 +31,11 @@ export const ListHeaderCell = ({width, columnName, header, filter, onSort}: List
           }
           onSort(isAsc);
         }}
-      style={{marginLeft: "3px"}}
-      size={1}/> : <>&nbsp;</>}
+      style={{
+        marginLeft: 3,
+        visibility: (showSortIcon ? 'visible' : 'hidden'),
+        color: (filter.sort ? undefined : 'hsl(0, 0%, 60%)')}}
+      size={1}/>}
   </th>
   )
 }
