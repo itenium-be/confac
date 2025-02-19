@@ -79,10 +79,10 @@ const commentListConfig = (config: CommentFeatureBuilderConfig): IList<CommentMo
     value: comment => (
       <>
       <EditIcon claim={config.claim} onClick={() => config.onEditClicked(comment)} size={1}/>
-      <DeleteIcon claim={config.claim} onClick={() => config.onDeleteClicked(comment)} size={1}/>
+      <DeleteIcon claim={config.claim} onClick={() => config.onDeleteClicked(comment)} size={1} style={ {marginLeft: 6}}/>
       </>
     ),
-    style: {width: 40},
+    style: {width: 50},
   }
   ];
 
