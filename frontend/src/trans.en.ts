@@ -70,6 +70,15 @@ export const features = {
       name: 'Name',
       claims: 'Claims',
     },
+  },
+  comments: {
+    title: 'Comments',
+    listTitle: '',
+    createNew: 'Add new Comment',
+    props: {
+      user: 'User',
+      text: 'Comment'
+    }
   }
 };
 
@@ -643,6 +652,13 @@ export const trans = {
       name: 'Name',
       claims: 'Claims',
     },
+  },
+  comment: {
+    user: 'User',
+    text: 'Comment',
+    createdOn: '{date} at {hour}',
+    modifiedOn: 'Last changed on {date} at {hour} by {user}',
+    addComment: 'Add new Comment',
   },
   admin: {
     title: 'Admin Config',

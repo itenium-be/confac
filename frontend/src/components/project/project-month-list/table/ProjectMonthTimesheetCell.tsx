@@ -14,6 +14,7 @@ import {TimesheetTimeConfig, getAmountInDays} from '../../../invoice/controls/In
 import {AttachmentUploadPreviewButtons} from '../../controls/AttachmentUploadPreviewButtons';
 import {SignedTimesheetAttachmentType} from '../../../../models';
 import {Claim} from '../../../users/models/UserModel';
+import { NotesWithCommentsModalButton } from '../../../controls/form-controls/button/NotesWithCommentsModalButton';
 
 interface ProjectMonthTimesheetCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -130,10 +131,10 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
             disabled: t('projectMonth.validateTimesheetDisabled'),
           }}
         />
-        <NotesModalButton
+        <NotesWithCommentsModalButton
           claim={Claim.EditProjectMonth}
-          value={timesheet.note}
-          onChange={val => saveTimesheet({...timesheet, note: val})}
+          value={timesheet}
+          onChange={val => saveTimesheet({...timesheet, note: val.note, comments: val.comments})}
           title={t('projectMonth.timesheetNote', {name: `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`})}
         />
         <AttachmentUploadPreviewButtons
