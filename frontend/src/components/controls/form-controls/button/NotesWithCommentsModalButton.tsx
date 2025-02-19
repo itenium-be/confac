@@ -69,13 +69,18 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
     if(editComment.isNote) {
       updatedComments = {
         ...commentAndNote,
-        note: editComment.comment
+        note: editComment.comment,
+        notes: editComment.comment
       }
     }
     else {
+      const index = commentAndNote.comments.findIndex(c => c.createdOn === editComment.createdOn && c.createdBy === editComment.createdBy);
+
       updatedComments = {
         ...commentAndNote,
-        comments: [...commentAndNote.comments.filter(c => c.createdOn !== editComment.createdOn || c.createdBy !== editComment.createdBy), editComment]
+        comments: (index !== -1 ?
+          [...commentAndNote.comments.slice(0, index), editComment, ... commentAndNote.comments.slice(index + 1)] :
+          [... commentAndNote.comments, editComment])
       }
     }
     setCommentsAndNote(updatedComments)
