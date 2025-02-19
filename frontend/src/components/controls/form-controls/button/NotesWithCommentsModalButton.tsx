@@ -112,12 +112,18 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
     setEditComment(null)
   }
 
+  let text;
+  if(!text && value?.note) text = value.note;
+  if(!text && value?.notes) text = value.notes;
+  if(!text && value?.comments?.length) text = value?.comments.at(-1)?.comment
+
+
   return (
     <>
       <Button
         onClick={() => setOpen(!open)}
         variant={variant || 'outline-dark'}
-        title={t('comment.addComment')}
+        title={text || t('comment.addComment')}
         icon={icon}
         style={style}
         className="tst-add-note"
