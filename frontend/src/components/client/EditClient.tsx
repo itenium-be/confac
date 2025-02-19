@@ -19,6 +19,7 @@ import {Claim} from '../users/models/UserModel';
 import {useParams} from 'react-router-dom';
 import {InvoiceLine} from '../invoice/models/InvoiceLineModels';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
+import { NotesWithCommentsModalButton } from '../controls/form-controls/button/NotesWithCommentsModalButton';
 
 
 /** Different spellings of "Belgium" */
@@ -106,6 +107,12 @@ const EditClient = () => {
         <Row>
           <h1 style={{marginBottom: 10}}>
             {client.name || (initClient._id ? '' : t('client.createNew'))}
+            <NotesWithCommentsModalButton
+                 claim={Claim.EditProjectMonth}
+                 value={client}
+                 onChange={val => setClient( { ...client, notes: val.note || '', comments: val.comments} )}
+                 title={t('client.comments')}
+                 style={ {marginLeft: 6, marginBottom: 6}} />
             <Audit model={storeClient} modelType="client" />
           </h1>
           {clientAlreadyExists && <Alert variant="danger">{t('client.alreadyExists', {btw: client.btw})}</Alert>}

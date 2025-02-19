@@ -388,6 +388,7 @@ export const trans = {
     contactEmail: 'Email contact persoon',
     language: 'Taal communicatie',
     notes: 'Notitie',
+    comments: 'Commentaar',
     telephone: 'Telefoon nr',
     contact: 'Contact gegevens',
     projectDesc: 'Omschrijving',

@@ -13,7 +13,8 @@ import { CommentEdit } from '../../comments/CommentEdit';
 
 export type NotesWithComments = {
   comments: IComment[],
-  note?: string
+  note?: string,
+  notes?: string
 }
 
 type NotesWithCommentsModalButtonProps = MinimalInputProps<NotesWithComments> & {
@@ -74,7 +75,7 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
     else {
       updatedComments = {
         ...commentAndNote,
-        comments: [editComment, ...commentAndNote.comments.filter(c => c.createdOn !== editComment.createdOn || c.createdBy !== editComment.createdBy)]
+        comments: [...commentAndNote.comments.filter(c => c.createdOn !== editComment.createdOn || c.createdBy !== editComment.createdBy), editComment]
       }
     }
     setCommentsAndNote(updatedComments)

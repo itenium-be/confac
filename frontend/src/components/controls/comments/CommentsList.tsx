@@ -27,13 +27,22 @@ type CommentsListProps = MinimalInputProps<NotesWithComments> & {
 export const CommentList = ({onChange, value, claim, ...config}: CommentsListProps) => {
 
   let data = value?.comments?.map(comment => ({...comment, isNote: false})) || [];
-  if(value?.note)
+  if(value?.note) {
     data.push({
       createdBy: '',
       createdOn: new Date().toISOString(),
       comment: value.note,
       isNote: true
     })
+  }
+  else if(value?.notes) {
+    data.push({
+      createdBy: '',
+      createdOn: new Date().toISOString(),
+      comment: value.notes,
+      isNote: true
+    })
+  }
 
 
   const feature = getCommentsFeature({
