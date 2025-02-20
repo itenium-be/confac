@@ -4,7 +4,6 @@ import {ProjectMonthTimesheet} from '../../models/ProjectMonthModel';
 import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
 import {t} from '../../../utils';
 import {ValidityToggleButton} from '../../../controls/form-controls/button/ValidityToggleButton';
-import {NotesModalButton} from '../../../controls/form-controls/button/NotesModalButton';
 import {projectMonthUpload, patchProjectsMonth} from '../../../../actions/projectActions';
 import {getNewProjectMonthTimesheet} from '../../models/getNewProject';
 import {useDebouncedSave} from '../../../hooks/useDebounce';

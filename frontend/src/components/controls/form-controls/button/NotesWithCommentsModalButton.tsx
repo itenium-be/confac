@@ -79,8 +79,8 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
       updatedComments = {
         ...commentAndNote,
         comments: (index !== -1 ?
-          [...commentAndNote.comments.slice(0, index), editComment, ... commentAndNote.comments.slice(index + 1)] :
-          [... commentAndNote.comments, editComment])
+          [...commentAndNote.comments.slice(0, index), editComment, ...commentAndNote.comments.slice(index + 1)] :
+          [...commentAndNote.comments, editComment])
       }
     }
     setCommentsAndNote(updatedComments)
