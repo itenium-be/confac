@@ -94,7 +94,7 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
 
     if(deletedComment.isNote)
     {
-      updatedComments = {...commentAndNote, note: undefined}
+      updatedComments = {...commentAndNote, note: undefined, notes: undefined}
     }
     else
     {
@@ -113,10 +113,27 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
   }
 
   let text;
-  if(!text && value?.note) text = value.note;
-  if(!text && value?.notes) text = value.notes;
-  if(!text && value?.comments?.length) text = value?.comments.at(-1)?.comment
+  if(!text && commentAndNote?.note) text = commentAndNote.note;
+  if(!text && commentAndNote?.notes) text = commentAndNote.notes;
+  if(!text && commentAndNote.comments.length) text = commentAndNote.comments.at(-1)?.comment
 
+  let data = commentAndNote?.comments?.map(comment => ({...comment, isNote: false})) || [];
+  if(commentAndNote?.note) {
+    data.push({
+      createdBy: '',
+      createdOn: new Date().toISOString(),
+      comment: commentAndNote.note,
+      isNote: true
+    })
+  }
+  else if(commentAndNote?.notes) {
+    data.push({
+      createdBy: '',
+      createdOn: new Date().toISOString(),
+      comment: commentAndNote.notes,
+      isNote: true
+    })
+  }
 
   return (
     <>
@@ -143,12 +160,12 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
               />
             ) : (
               <CommentList
-                onChange={onChange}
+                onChange={() => {}}
                 claim={claim}
                 onAddClicked={() => handleAddComment()}
                 onEditClicked={comment => handleEditComment(comment)}
                 onDeleteClicked={comment => handleDeleteComment(comment)}
-                value={value}
+                value={data}
               />)
 
           }

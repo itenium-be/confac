@@ -14,7 +14,7 @@ import { AddIcon } from "../Icon";
 import { SearchStringInput } from "../form-controls/inputs/SearchStringInput";
 
 
-type CommentsListProps = MinimalInputProps<NotesWithComments> & {
+type CommentsListProps = MinimalInputProps<CommentModel[]> & {
   claim?: Claim;
   style?: CSSProperties;
   onEditClicked: (comment: CommentModel) => void,
@@ -28,26 +28,10 @@ type CommentsListProps = MinimalInputProps<NotesWithComments> & {
 export const CommentList = ({value, claim, ...config}: CommentsListProps) => {
   const [needle, setNeedle] = useState('');
 
-  let data = value?.comments?.map(comment => ({...comment, isNote: false})) || [];
-  if(value?.note) {
-    data.push({
-      createdBy: '',
-      createdOn: new Date().toISOString(),
-      comment: value.note,
-      isNote: true
-    })
-  }
-  else if(value?.notes) {
-    data.push({
-      createdBy: '',
-      createdOn: new Date().toISOString(),
-      comment: value.notes,
-      isNote: true
-    })
-  }
 
+  let data = value || [];
   if (needle) {
-    data = data.filter(comment => {
+    value = data.filter(comment => {
       return comment.comment.toLocaleLowerCase().includes(needle.trim().toLocaleLowerCase());
     });
   }

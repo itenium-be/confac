@@ -110,7 +110,7 @@ const EditClient = () => {
             <NotesWithCommentsModalButton
                  claim={Claim.EditProjectMonth}
                  value={client}
-                 onChange={val => setClient( { ...client, notes: val.note || '', comments: val.comments} )}
+                 onChange={val => setClient( { ...client, notes: val.notes || '', comments: val.comments} )}
                  title={t('client.comments')}
                  style={ {marginLeft: 6, marginBottom: 6}} />
             <Audit model={storeClient} modelType="client" />
