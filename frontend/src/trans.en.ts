@@ -658,8 +658,10 @@ export const trans = {
     user: 'User',
     text: 'Comment',
     createdOn: '{date} at {hour}',
-    modifiedOn: 'Last changed on {date} at {hour} by {user}',
+    modifiedOn: '✎ {date} at {hour} by {user}',
     addComment: 'Add new Comment',
+    noComments: 'Be the first to comment!',
+    noResults: 'No comments matches your filter.',
   },
   admin: {
     title: 'Admin Config',

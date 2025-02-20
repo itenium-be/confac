@@ -658,8 +658,10 @@ export const trans = {
     user: 'Gebruiker',
     text: 'Commentaar',
     createdOn: '{date} om {hour}',
-    modifiedOn: 'Laast gewijzigd op {date} om {hour} door {user}',
+    modifiedOn: '✎ {date} om {hour} door {user}',
     addComment: 'Commentaar toevoegen',
+    noComments: 'Wees de eerste om commentaar toe te voegen!',
+    noResults: 'Geen commentaar gevonden die overeenkomen met uw filter.',
   },
   admin: {
     title: 'Administrator Configuratie',

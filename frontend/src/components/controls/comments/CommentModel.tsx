@@ -54,8 +54,13 @@ const commentListConfig = (config: CommentFeatureBuilderConfig): IList<CommentMo
         <small className="created-on">
               {t('comment.createdOn', {date: formatDate(comment.createdOn, 'DD/MM/YYYY'), hour: formatDate(comment.createdOn, 'H:mm')})}
               <br />
-              {comment.modifiedOn && t('comment.modifiedOn', {date: formatDate(comment.modifiedOn, 'DD/MM/YYYY'), hour: formatDate(comment.modifiedOn, 'H:mm'), user: comment.modifiedBy})}
-
+              {comment.modifiedOn &&
+                t('comment.modifiedOn', {
+                  date: formatDate(comment.modifiedOn, 'DD/MM/YYYY'),
+                  hour: formatDate(comment.modifiedOn, 'H:mm'),
+                  user: comment.modifiedBy,
+                })
+              }
         </small>
         </>)
       }
