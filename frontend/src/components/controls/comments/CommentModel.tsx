@@ -34,8 +34,6 @@ export default class CommentModel implements IComment
 
 export type CommentFeatureBuilderConfig = IFeatureBuilderConfig<CommentModel, ListFilters> & {
   feature: string,
-  slug: string,
-  claim?: Claim,
   onEditClicked: (comment: CommentModel) => void,
   onDeleteClicked: (comment: CommentModel) => void,
 };
@@ -46,9 +44,11 @@ const commentListConfig = (config: CommentFeatureBuilderConfig): IList<CommentMo
     key: 'user',
     header: 'comment.user',
     value: comment => {
-      if(!comment.isNote) {
-        return (
-        <>
+      if(comment.isNote)
+        return null
+
+      return (
+      <>
         <strong>{comment.createdBy}</strong>
         <br />
         <small className="created-on">
@@ -62,9 +62,7 @@ const commentListConfig = (config: CommentFeatureBuilderConfig): IList<CommentMo
                 })
               }
         </small>
-        </>)
-      }
-      return ((<></>))
+      </>)
     },
     style: {
       width: 150,
@@ -107,12 +105,13 @@ const commentListConfig = (config: CommentFeatureBuilderConfig): IList<CommentMo
   };
 };
 
+
 export const getCommentsFeature = (config: CommentFeatureBuilderConfig): IFeature<CommentModel, CommentsListFilters> => {
 
 
   const feature: IFeature<CommentModel, CommentsListFilters> = {
     key: Features.comments,
-    nav: m => `/${config.feature}/${config.slug}/comments`,
+    nav: m => '',
     trans: features.comments as any,
     list: commentListConfig( config),
   };
