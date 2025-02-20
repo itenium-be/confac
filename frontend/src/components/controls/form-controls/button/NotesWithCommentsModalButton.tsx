@@ -57,6 +57,13 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
       return
     }
 
+    const doNotSetModifiedWhenCreatedAgo = 1000 * 60 * 10; // 10 minutes
+    const timePassedSinceCreation = new Date().valueOf() - new Date(comment.createdOn).valueOf();
+    if (comment.createdBy === currentUser._id && timePassedSinceCreation < doNotSetModifiedWhenCreatedAgo) {
+      setEditComment(comment);
+      return
+    }
+
     setEditComment({...comment, modifiedBy: currentUser._id, modifiedOn: new Date().toISOString()})
   }
 
