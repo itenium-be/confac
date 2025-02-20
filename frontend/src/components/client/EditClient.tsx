@@ -108,7 +108,7 @@ const EditClient = () => {
           <h1 style={{marginBottom: 10}}>
             {client.name || (initClient._id ? '' : t('client.createNew'))}
             <NotesWithCommentsModalButton
-                 claim={Claim.EditProjectMonth}
+                 claim={Claim.ManageClients}
                  value={client}
                  onChange={val => setClient( { ...client, notes: val.notes || '', comments: val.comments} )}
                  title={t('client.comments')}

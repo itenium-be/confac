@@ -9,6 +9,7 @@ import { CommentsListFilters, IList, IListCell, ListFilters } from "../table/tab
 
 import { features } from "../../../trans";
 import moment from "moment";
+import { authService } from "../../users/authService";
 
 export default class CommentModel implements IComment
 {
@@ -81,8 +82,8 @@ const commentListConfig = (config: CommentFeatureBuilderConfig): IList<CommentMo
     header: '',
     value: comment => (
       <>
-      <EditIcon claim={config.claim} onClick={() => config.onEditClicked(comment)} size={1}/>
-      <DeleteIcon claim={config.claim} onClick={() => config.onDeleteClicked(comment)} size={1} style={ {marginLeft: 6}}/>
+      <EditIcon claim={claims => comment.isNote || userCanManageComment(claims, comment.createdBy)} onClick={() => config.onEditClicked(comment)} size={1}/>
+      <DeleteIcon claim={claims => comment.isNote || userCanManageComment(claims, comment.createdBy)} onClick={() => config.onDeleteClicked(comment)} size={1} style={ {marginLeft: 6}}/>
       </>
     ),
     style: {width: 50},
@@ -105,6 +106,13 @@ const commentListConfig = (config: CommentFeatureBuilderConfig): IList<CommentMo
   };
 };
 
+const userCanManageComment = (claims: Claim[], commentAuthor: string): boolean => {
+  const currentUser = authService.getUser()
+  if(currentUser?._id === commentAuthor)
+    return true
+
+  return claims.includes(Claim.ManageComments)
+}
 
 export const getCommentsFeature = (config: CommentFeatureBuilderConfig): IFeature<CommentModel, CommentsListFilters> => {
 

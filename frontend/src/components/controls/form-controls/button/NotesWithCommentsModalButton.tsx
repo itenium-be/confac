@@ -168,7 +168,6 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
             ) : (
               <CommentList
                 onChange={() => {}}
-                claim={claim}
                 onAddClicked={() => handleAddComment()}
                 onEditClicked={comment => handleEditComment(comment)}
                 onDeleteClicked={comment => handleDeleteComment(comment)}

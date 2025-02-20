@@ -6,8 +6,6 @@ import { Features } from "../feature/feature-models";
 
 
 import { CSSProperties, useState } from "react";
-import { NotesWithComments } from "../form-controls/button/NotesWithCommentsModalButton";
-import { Claim } from "../../users/models/UserModel";
 import { Button } from "react-bootstrap";
 import { t } from "../../utils";
 import { AddIcon } from "../Icon";
@@ -15,7 +13,6 @@ import { SearchStringInput } from "../form-controls/inputs/SearchStringInput";
 
 
 type CommentsListProps = MinimalInputProps<CommentModel[]> & {
-  claim?: Claim;
   style?: CSSProperties;
   onEditClicked: (comment: CommentModel) => void,
   onDeleteClicked: (comment: CommentModel) => void,
@@ -25,7 +22,7 @@ type CommentsListProps = MinimalInputProps<CommentModel[]> & {
 
 
 
-export const CommentList = ({value, claim, ...config}: CommentsListProps) => {
+export const CommentList = ({value, ...config}: CommentsListProps) => {
   const [needle, setNeedle] = useState('');
 
 
@@ -40,8 +37,6 @@ export const CommentList = ({value, claim, ...config}: CommentsListProps) => {
   const feature = getCommentsFeature({
     data: data,
     feature: Features.comments,
-    slug: 'test',
-    claim,
     onEditClicked: config.onEditClicked,
     onDeleteClicked: config.onDeleteClicked,
     save: () => {},
