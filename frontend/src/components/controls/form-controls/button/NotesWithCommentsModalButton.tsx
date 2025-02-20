@@ -13,8 +13,7 @@ import { CommentEdit } from '../../comments/CommentEdit';
 
 export type NotesWithComments = {
   comments: IComment[],
-  note?: string,
-  notes?: string
+  note?: string
 }
 
 type NotesWithCommentsModalButtonProps = MinimalInputProps<NotesWithComments> & {
@@ -76,8 +75,7 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
     if(editComment.isNote) {
       updatedComments = {
         ...commentAndNote,
-        note: editComment.comment,
-        notes: editComment.comment
+        note: editComment.comment
       }
     }
     else {
@@ -101,7 +99,7 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
 
     if(deletedComment.isNote)
     {
-      updatedComments = {...commentAndNote, note: undefined, notes: undefined}
+      updatedComments = {...commentAndNote, note: undefined}
     }
     else
     {
@@ -121,7 +119,6 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
 
   let text;
   if(!text && commentAndNote?.note) text = commentAndNote.note;
-  if(!text && commentAndNote?.notes) text = commentAndNote.notes;
   if(!text && commentAndNote.comments.length) text = commentAndNote.comments.at(-1)?.comment
 
   let data = commentAndNote?.comments?.map(comment => ({...comment, isNote: false})) || [];
@@ -130,14 +127,6 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
       createdBy: '',
       createdOn: new Date().toISOString(),
       comment: commentAndNote.note,
-      isNote: true
-    })
-  }
-  else if(commentAndNote?.notes) {
-    data.push({
-      createdBy: '',
-      createdOn: new Date().toISOString(),
-      comment: commentAndNote.notes,
       isNote: true
     })
   }
