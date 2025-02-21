@@ -132,8 +132,8 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
         />
         <NotesWithCommentsModalButton
           claim={Claim.EditProjectMonth}
-          value={timesheet}
-          onChange={val => saveTimesheet({...timesheet, note: val.note, comments: val.comments})}
+          value={{note: timesheet.note, comments: timesheet.comments || []}}
+          onChange={val => saveTimesheet({...timesheet, note: val.note, comments: val.comments })}
           title={t('projectMonth.timesheetNote', {name: `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`})}
         />
         <AttachmentUploadPreviewButtons
