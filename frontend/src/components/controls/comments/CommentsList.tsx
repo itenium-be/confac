@@ -7,7 +7,7 @@ import { Features } from "../feature/feature-models";
 
 import { CSSProperties, useState } from "react";
 import { Button } from "react-bootstrap";
-import { t } from "../../utils";
+import { searchinize, t } from "../../utils";
 import { AddIcon } from "../Icon";
 import { SearchStringInput } from "../form-controls/inputs/SearchStringInput";
 
@@ -28,8 +28,13 @@ export const CommentList = ({value, ...config}: CommentsListProps) => {
 
   let data = value || [];
   if (needle) {
-    value = data.filter(comment => {
-      return comment.comment.toLocaleLowerCase().includes(needle.trim().toLocaleLowerCase());
+    data = data.filter(comment => {
+        const commentStr = JSON.stringify({
+          comment: comment.comment,
+          createdBy: comment.createdBy,
+          modifiedBy: comment.modifiedBy,
+        });
+      return searchinize(commentStr).includes(searchinize(needle));
     });
   }
 
