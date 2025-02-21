@@ -16,6 +16,7 @@ import {BaseModalProps, Modal} from '../../controls/Modal';
 
 type ClientModalProps = BaseModalProps & {
   config: ConfigModel,
+  title?: string,
   saveClient: Function,
   onConfirm?: (client: ClientModel) => void,
   client: ClientModel | null,
@@ -88,11 +89,12 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
       </>
     );
 
+    const modalTitle = this.props.title ? this.props.title : t('client.createNewModal.client')
     return (
       <Modal
         show={this.props.show}
         onClose={this.props.onClose}
-        title={client._id ? client.name : t('client.createNew')}
+        title={client._id ? client.name : modalTitle}
         onConfirm={() => this.onSave()}
         dialogClassName="client-modal"
       >

@@ -38,6 +38,7 @@ export const ClientSelectWithCreateModal = ({value, onChange, clientType }: Clie
         <ClientModal
           client={modalId !== 'create' ? (client || null) : null}
           show={!!modalId}
+          title={t(`client.createNewModal.${clientTypeName}`)}
           onClose={() => setModalId(null)}
           onConfirm={(model: ClientModel) => onChange(model._id, model)}
         />
