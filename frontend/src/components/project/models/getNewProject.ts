@@ -44,6 +44,7 @@ export const getNewProjectMonth = (): ProjectMonthModel => ({
   timesheet: getNewProjectMonthTimesheet(),
   inbound: getNewProjectMonthInbound(),
   note: '',
+  comments: [],
   orderNr: '',
   verified: false,
   attachments: [],
@@ -57,4 +58,5 @@ export const getNewProjectMonthInbound = (): ProjectMonthInbound => ({
 
 export const getNewProjectMonthTimesheet = (): ProjectMonthTimesheet => ({
   validated: false,
+  comments: []
 });

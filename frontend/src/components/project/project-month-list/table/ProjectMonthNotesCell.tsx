@@ -4,6 +4,7 @@ import {patchProjectsMonth} from '../../../../actions';
 import {NotesModalButton} from '../../../controls/form-controls/button/NotesModalButton';
 import {t} from '../../../utils';
 import {Claim} from '../../../users/models/UserModel';
+import { NotesWithCommentsModalButton } from '../../../controls/form-controls/button/NotesWithCommentsModalButton';
 
 
 interface ProjectMonthNotesCellProps {
@@ -17,10 +18,10 @@ export const ProjectMonthNotesCell = ({fullProjectMonth}: ProjectMonthNotesCellP
 
   return (
     <div className="notes-cell">
-      <NotesModalButton
+      <NotesWithCommentsModalButton
         claim={Claim.EditProjectMonth}
-        value={fullProjectMonth.details.note}
-        onChange={val => dispatch(patchProjectsMonth({...fullProjectMonth.details, note: val}) as any)}
+        value={fullProjectMonth.details}
+        onChange={val => dispatch(patchProjectsMonth({...fullProjectMonth.details, note: val.note, comments: val.comments}) as any)}
         title={t('projectMonth.note')}
       />
     </div>

@@ -1,3 +1,4 @@
+import { getRoles } from "../../../reducers";
 import { Claim } from "../models/UserModel";
 
 export function getFakeJwtToken(name: string) {
@@ -20,6 +21,15 @@ export function getFakeJwtToken(name: string) {
   };
 }
 
+const requiredClaimsForFakeUser: Claim[] = [
+  Claim.ViewUsers,
+  Claim.ManageUsers,
+  Claim.ViewRoles,
+  Claim.ManageRoles
+]
+
 export function getFakeClaims() {
-  return Object.keys(Claim).filter(key => Number.isNaN(Number(key))).map(key => Claim[key]);
+  const adminClaims = getRoles().filter(role => role.name === 'admin').map(x => x.claims).flat();
+  const uniqueSet = new Set([...adminClaims, ...requiredClaimsForFakeUser]);
+  return Array.from(uniqueSet);
 }

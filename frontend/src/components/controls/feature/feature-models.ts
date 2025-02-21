@@ -8,6 +8,7 @@ export enum Features {
   projectMonths = 'projectMonths',
   users = 'users',
   roles = 'roles',
+  comments = 'comments'
 }
 
 

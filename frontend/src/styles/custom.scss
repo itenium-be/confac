@@ -14,3 +14,21 @@
   height: 90%;
   max-height: none !important;
 }
+
+
+.comments-modal {
+  width: 90%;
+  max-width: 800px !important;
+  height: 90%;
+  max-height: none !important;
+
+
+  .modal-content {
+    max-height: 100%;
+  }
+
+  .modal-body {
+    overflow-y: auto;
+  }
+
+}

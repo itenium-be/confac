@@ -1,6 +1,6 @@
 import {Moment} from 'moment';
 import {ConsultantType} from '../../consultant/models/ConsultantModel';
-import {Attachment, IAudit} from '../../../models';
+import {Attachment, IAudit, IComment} from '../../../models';
 
 /**
  * false: The invoice has not yet been verified
@@ -18,6 +18,7 @@ export interface ProjectMonthModel {
   timesheet: ProjectMonthTimesheet;
   inbound: ProjectMonthInbound;
   note?: string;
+  comments: IComment[]
   /** The invoice orderNr when ProjectMonthConfig.changingOrderNr */
   orderNr: string;
   audit: IAudit;
@@ -50,6 +51,8 @@ export interface ProjectMonthTimesheet {
   validated: boolean;
   /** Some contextual info */
   note?: string;
+
+  comments: IComment[]
 }
 
 
