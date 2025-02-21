@@ -33,8 +33,9 @@ export default class CommentModel implements IComment
 }
 
 
-export type CommentFeatureBuilderConfig = IFeatureBuilderConfig<CommentModel, ListFilters> & {
+export type CommentFeatureBuilderConfig =  {
   feature: string,
+  data: CommentModel[];
   onEditClicked: (comment: CommentModel) => void,
   onDeleteClicked: (comment: CommentModel) => void,
 };
@@ -93,7 +94,6 @@ const commentListConfig = (config: CommentFeatureBuilderConfig): IList<CommentMo
 
   return {
     rows: {
-      className: comment => comment.isNote ? 'note-row' : undefined,
       cells,
     },
     data: config.data,
@@ -123,15 +123,6 @@ export const getCommentsFeature = (config: CommentFeatureBuilderConfig): IFeatur
     trans: features.comments as any,
     list: commentListConfig( config),
   };
-
-
-
-  feature.list.filter = {
-    state: config.filters,
-    updateFilter: config.setFilters,
-    softDelete: true,
-  };
-
 
   return feature;
 }

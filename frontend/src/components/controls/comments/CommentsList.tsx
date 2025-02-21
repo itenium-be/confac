@@ -1,7 +1,7 @@
 
 import { MinimalInputProps } from "../form-controls/inputs/BaseInput";
 import { List } from "../table/List";
-import CommentModel, { getCommentsFeature } from "./CommentModel";
+import CommentModel, { CommentFeatureBuilderConfig, getCommentsFeature } from "./CommentModel";
 import { Features } from "../feature/feature-models";
 
 
@@ -22,9 +22,8 @@ type CommentsListProps = MinimalInputProps<CommentModel[]> & {
 
 
 
-export const CommentList = ({value, ...config}: CommentsListProps) => {
-  const [needle, setNeedle] = useState('');
-
+export const CommentList = ({value, onChange, ...config}: CommentsListProps) => {
+  const [needle, setNeedle] = useState<string| undefined>('');
 
   let data = value || [];
   if (needle) {
@@ -38,17 +37,14 @@ export const CommentList = ({value, ...config}: CommentsListProps) => {
     });
   }
 
-
-  const feature = getCommentsFeature({
+  const commentsConfig: CommentFeatureBuilderConfig = {
     data: data,
     feature: Features.comments,
     onEditClicked: config.onEditClicked,
     onDeleteClicked: config.onDeleteClicked,
-    save: () => {},
-    filters: {},
-    setFilters: () => {},
+  };
 
-  });
+  const feature = getCommentsFeature(commentsConfig);
 
 
   return (
