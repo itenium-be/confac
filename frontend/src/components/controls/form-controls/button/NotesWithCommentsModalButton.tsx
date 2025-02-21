@@ -10,7 +10,6 @@ import { CommentList } from '../../comments/CommentsList';
 import CommentModel from '../../comments/CommentModel';
 import { CommentEdit } from '../../comments/CommentEdit';
 
-
 export type NotesWithComments = {
   comments: IComment[],
   note?: string
@@ -96,7 +95,6 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
 
   const handleDeleteComment = (deletedComment: CommentModel) => {
     let updatedComments;
-
     if(deletedComment.isNote)
     {
       updatedComments = {...commentAndNote, note: undefined}
