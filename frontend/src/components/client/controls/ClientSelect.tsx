@@ -30,7 +30,7 @@ const ClientSelectComponent = ({value, clientType, onChange}: ClientSelectProps)
 
   return (
     <Select
-      value={selectedOption}
+      value={selectedOption || ''}
       options={options as any}
       onChange={((itm: SelectItem) => onChange(itm && itm.value as string, itm && getModel(itm.value as string))) as any}
       isClearable
