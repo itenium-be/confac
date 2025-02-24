@@ -25,6 +25,7 @@ import {EnhanceWithConfirmation} from '../enhancers/EnhanceWithConfirmation';
 import {Button} from '../controls/form-controls/Button';
 import {isDateIntervalValid} from '../controls/other/ProjectValidator';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
+import { FormConfig } from '../../models';
 
 
 const ConfirmationButton = EnhanceWithConfirmation(Button);
@@ -42,6 +43,7 @@ export const EditProject = () => {
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === project.client.clientId) || getNewClient());
   const hasProjectMonths = useSelector((state: ConfacState) => state.projectsMonth.some(pm => pm.projectId === params.id));
   const [needsSync, setNeedsSync] = useState<{consultant: boolean, client: boolean}>({consultant: false, client: false});
+  const [clientFormConfig, setClientFormConfig] = useState(projectFormConfig)
 
   useEntityChangedToast(project._id);
 
@@ -100,6 +102,27 @@ export const EditProject = () => {
 
     setProject(newProject);
 
+    setClientFormConfig(clientFormConfig.map(config => {
+      if(typeof config === 'string') return config;
+      if('forceRow' in config) return config;
+
+      const clientConfig = config as FormConfig;
+      if(clientConfig.key === 'client')
+      {
+        return {
+          ...clientConfig,
+          props: {
+            ...clientConfig.props,
+            clientType: (newProject.forEndCustomer ? 'client' : 'endCustomer')
+          }
+        }
+      }
+
+      return config;
+    }))
+
+
+
     // Set a flag to update fields that receive default values from the
     // selected Consultant/Client. Cannot update them at this point because
     // the selectors have not yet included the Consultant/Client when the
@@ -133,7 +156,7 @@ export const EditProject = () => {
       <Form>
         <Row>
           <ArrayInput
-            config={projectFormConfig}
+            config={clientFormConfig}
             model={project}
             onChange={(value: IProjectModel) => setProjectInterceptor(value)}
             tPrefix="project."

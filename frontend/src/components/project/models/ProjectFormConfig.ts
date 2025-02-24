@@ -9,7 +9,7 @@ export const projectFormConfig: FullFormConfig = [
   {key: 'startDate', component: 'date', cols: 4},
   {key: 'endDate', component: 'date', cols: 3},
   {key: 'partner', label: '', component: 'EditProjectPartner', cols: false},
-  {key: 'client', label: '', component: 'EditProjectClient', cols: false},
+  {key: 'client', label: '', component: 'EditProjectClient', props: {clientType: 'endCustomer'}, cols: false},
   {key: 'endCustomer', label: '', component: 'EditProjectEndCustomer', cols: false},
 
   {title: 'project.projectMonthConfig.titleConfig'},
