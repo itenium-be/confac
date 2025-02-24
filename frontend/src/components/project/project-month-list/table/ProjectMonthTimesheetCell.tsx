@@ -4,7 +4,6 @@ import {ProjectMonthTimesheet} from '../../models/ProjectMonthModel';
 import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
 import {t} from '../../../utils';
 import {ValidityToggleButton} from '../../../controls/form-controls/button/ValidityToggleButton';
-import {NotesModalButton} from '../../../controls/form-controls/button/NotesModalButton';
 import {projectMonthUpload, patchProjectsMonth} from '../../../../actions/projectActions';
 import {getNewProjectMonthTimesheet} from '../../models/getNewProject';
 import {useDebouncedSave} from '../../../hooks/useDebounce';
@@ -14,6 +13,7 @@ import {TimesheetTimeConfig, getAmountInDays} from '../../../invoice/controls/In
 import {AttachmentUploadPreviewButtons} from '../../controls/AttachmentUploadPreviewButtons';
 import {SignedTimesheetAttachmentType} from '../../../../models';
 import {Claim} from '../../../users/models/UserModel';
+import { NotesWithCommentsModalButton } from '../../../controls/form-controls/button/NotesWithCommentsModalButton';
 
 interface ProjectMonthTimesheetCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -130,10 +130,10 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
             disabled: t('projectMonth.validateTimesheetDisabled'),
           }}
         />
-        <NotesModalButton
+        <NotesWithCommentsModalButton
           claim={Claim.EditProjectMonth}
-          value={timesheet.note}
-          onChange={val => saveTimesheet({...timesheet, note: val})}
+          value={{note: timesheet.note, comments: timesheet.comments || []}}
+          onChange={val => saveTimesheet({...timesheet, note: val.note, comments: val.comments })}
           title={t('projectMonth.timesheetNote', {name: `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`})}
         />
         <AttachmentUploadPreviewButtons

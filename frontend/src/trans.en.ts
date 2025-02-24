@@ -70,6 +70,15 @@ export const features = {
       name: 'Name',
       claims: 'Claims',
     },
+  },
+  comments: {
+    title: 'Comments',
+    listTitle: '',
+    createNew: 'Add new Comment',
+    props: {
+      user: 'User',
+      text: 'Comment'
+    }
   }
 };
 
@@ -379,6 +388,7 @@ export const trans = {
     contactEmail: 'Email contact person',
     language: 'Communication language',
     notes: 'Notes',
+    comments: 'Comments',
     telephone: 'Telephone nr',
     contact: 'Contact details',
     projectDesc: 'Description',
@@ -648,6 +658,15 @@ export const trans = {
       name: 'Name',
       claims: 'Claims',
     },
+  },
+  comment: {
+    user: 'User',
+    text: 'Comment',
+    createdOn: '{date} at {hour}',
+    modifiedOn: '✎ {date} at {hour} by {user}',
+    addComment: 'Add new Comment',
+    noComments: 'Be the first to comment!',
+    noResults: 'No comments matches your filter.',
   },
   admin: {
     title: 'Admin Config',

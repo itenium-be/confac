@@ -2,7 +2,9 @@ import {CSSProperties} from 'react';
 import {InputIcons} from './components/controls/form-controls/lib/IconFactory';
 import {StandardComponents} from './components/controls/form-controls/lib/ComponentsTypes';
 import {ConsultantListFilters, ClientListFilters, InvoiceListFilters,
-  ProjectListFilters, ProjectMonthListFilters, UsersListFilters, RolesListFilters} from './components/controls/table/table-models';
+  ProjectListFilters, ProjectMonthListFilters, UsersListFilters, RolesListFilters,
+  CommentsListFilters} from './components/controls/table/table-models';
+import { Moment } from 'moment';
 
 export type InvoiceDateStrategy = 'new-month-from-22th' | 'prev-month-last-day' | 'today';
 
@@ -70,6 +72,7 @@ export type AppState = {
     projectMonths: ProjectMonthListFilters,
     users: UsersListFilters,
     roles: RolesListFilters,
+    comments: CommentsListFilters,
   },
 }
 
@@ -165,4 +168,13 @@ export interface IAudit {
   createdBy: string;
   modifiedOn?: string;
   modifiedBy?: string;
+}
+
+
+export interface IComment {
+  createdBy: string,
+  createdOn: string,
+  modifiedBy?: string,
+  modifiedOn?: string,
+  comment: string
 }

@@ -1,4 +1,4 @@
-import {InvoiceDateStrategy, IAttachment, Attachment, Language, IAudit} from '../../../models';
+import {InvoiceDateStrategy, IAttachment, Attachment, Language, IAudit, IComment} from '../../../models';
 import {EmailModel} from '../../controls/email/EmailModels';
 import {InvoiceLine} from '../../invoice/models/InvoiceLineModels';
 import {IContractModel} from './ContractModels';
@@ -23,6 +23,7 @@ export type ClientModel = IAttachment & {
   btw: string;
   language: Language;
   notes: string;
+  comments: IComment[];
   /** ex: Invoicing or Timesheet info documents */
   attachments: Attachment[];
   email: EmailModel & {

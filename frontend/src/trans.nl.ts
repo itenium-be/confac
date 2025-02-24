@@ -70,6 +70,15 @@ export const features = {
       name: 'Naam',
       claims: 'Claims',
     },
+  },
+  comments: {
+    title: 'Commentaar',
+    listTitle: '',
+    createNew: 'Commentaar toevoegen',
+    props: {
+      user: 'Gebruiker',
+      text: 'Commentaar'
+    }
   }
 };
 
@@ -379,6 +388,7 @@ export const trans = {
     contactEmail: 'Email contact persoon',
     language: 'Taal communicatie',
     notes: 'Notitie',
+    comments: 'Commentaar',
     telephone: 'Telefoon nr',
     contact: 'Contact gegevens',
     projectDesc: 'Omschrijving',
@@ -648,6 +658,15 @@ export const trans = {
       name: 'Naam',
       claims: 'Claims',
     },
+  },
+  comment: {
+    user: 'Gebruiker',
+    text: 'Commentaar',
+    createdOn: '{date} om {hour}',
+    modifiedOn: '✎ {date} om {hour} door {user}',
+    addComment: 'Commentaar toevoegen',
+    noComments: 'Wees de eerste om commentaar toe te voegen!',
+    noResults: 'Geen commentaar gevonden die overeenkomen met uw filter.',
   },
   admin: {
     title: 'Administrator Configuratie',

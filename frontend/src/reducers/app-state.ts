@@ -83,5 +83,8 @@ export const defaultAppState: AppState = {
     },
     users: getListFilters(true),
     roles: getListFilters(),
+    comments:{
+      freeText: '',
+    },
   },
 };

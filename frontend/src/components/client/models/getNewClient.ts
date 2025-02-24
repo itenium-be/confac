@@ -27,6 +27,7 @@ export function getNewClient(config?: ConfigModel): ClientModel {
     defaultInvoiceLines: [],
     attachments: [],
     notes: '',
+    comments: [],
     defaultInvoiceDateStrategy: config.defaultInvoiceDateStrategy,
     defaultChangingOrderNr: false,
     email: {...getNewEmail(), combineAttachments: false},

@@ -48,6 +48,14 @@ export type InvoiceListFilters = ListFilters;
 export type ConsultantListFilters = ListFilters;
 export type UsersListFilters = ListFilters;
 export type RolesListFilters = ListFilters;
+export type CommentsListFilters = {
+  freeText?: string;
+  sort?: {
+    direction: SortDirection
+    columnName: string
+  }
+};
+
 
 export type ClientListFilters = ListFilters & {
   years: number[];
