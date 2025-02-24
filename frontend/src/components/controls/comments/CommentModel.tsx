@@ -18,6 +18,10 @@ export default class CommentModel implements IComment
   modifiedBy?: string;
   modifiedOn?: string;
   comment: string;
+  /**
+  True: is a legacy note (of which there could be only one)
+  False: is a new comment (of which there can be x)
+  */
   isNote: boolean;
 
 
