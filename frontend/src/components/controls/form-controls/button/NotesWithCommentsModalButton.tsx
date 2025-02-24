@@ -95,12 +95,9 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
 
   const handleDeleteComment = (deletedComment: CommentModel) => {
     let updatedComments;
-    if(deletedComment.isNote)
-    {
+    if(deletedComment.isNote) {
       updatedComments = {...commentAndNote, note: undefined}
-    }
-    else
-    {
+    } else {
       updatedComments = {
         ...commentAndNote,
         comments: commentAndNote.comments.filter(comment => comment.createdOn !== deletedComment.createdOn || comment.createdBy !== deletedComment.createdBy)

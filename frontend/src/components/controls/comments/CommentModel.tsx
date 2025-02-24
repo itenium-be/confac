@@ -11,8 +11,7 @@ import { features } from "../../../trans";
 import moment from "moment";
 import { authService } from "../../users/authService";
 
-export default class CommentModel implements IComment
-{
+export default class CommentModel implements IComment {
   createdBy: string;
   createdOn: string;
   modifiedBy?: string;
