@@ -89,7 +89,7 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
       </>
     );
 
-    const modalTitle = this.props.title ? this.props.title : t('client.createNewModal.client')
+    const modalTitle = this.props.title ?? t('client.createNewModal.client')
     return (
       <Modal
         show={this.props.show}
