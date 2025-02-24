@@ -108,11 +108,12 @@ const EditClient = () => {
           <h1 style={{marginBottom: 10}}>
             {client.name || (initClient._id ? '' : t('client.createNew'))}
             <NotesWithCommentsModalButton
-                 claim={Claim.ManageClients}
-                 value={{note: client.notes, comments: client.comments }}
-                 onChange={val => setClient( { ...client, notes: val.note || '', comments: val.comments} )}
-                 title={t('client.comments')}
-                 style={ {marginLeft: 6, marginBottom: 6}} />
+              claim={Claim.ManageClients}
+              value={{note: client.notes, comments: client.comments }}
+              onChange={val => setClient( { ...client, notes: val.note || '', comments: val.comments} )}
+              title={t('client.comments')}
+              style={ {marginLeft: 6, marginBottom: 6}}
+            />
             <Audit model={storeClient} modelType="client" />
           </h1>
           {clientAlreadyExists && <Alert variant="danger">{t('client.alreadyExists', {btw: client.btw})}</Alert>}
