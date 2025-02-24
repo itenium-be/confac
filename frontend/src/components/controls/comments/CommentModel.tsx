@@ -34,7 +34,7 @@ export default class CommentModel implements IComment
 
 
 export type CommentFeatureBuilderConfig =  {
-  feature: string,
+  feature: Features,
   data: CommentModel[];
   onEditClicked: (comment: CommentModel) => void,
   onDeleteClicked: (comment: CommentModel) => void,
