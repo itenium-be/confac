@@ -403,6 +403,11 @@ export const trans = {
       client: 'Client',
       endCustomer: 'End customer'
     },
+    createNewModal: {
+      partner: 'New partner',
+      client: 'New client',
+      endCustomer: 'new end customer'
+    },
     email: {
       to: 'To',
       toPlaceholder: 'Separate email addresses with ;',

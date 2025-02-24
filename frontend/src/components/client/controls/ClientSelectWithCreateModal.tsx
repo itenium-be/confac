@@ -10,6 +10,7 @@ import {ConfacState} from '../../../reducers/app-state';
 import {Claim} from '../../users/models/UserModel';
 import {Form} from 'react-bootstrap';
 import {ClientIconLinks} from './ClientIconLinks';
+import { getNewClient } from '../models/getNewClient';
 
 
 type ClientSelectWithCreateModalProps = SelectWithCreateModalProps<ClientModel> & {
@@ -36,8 +37,9 @@ export const ClientSelectWithCreateModal = ({value, onChange, clientType }: Clie
     <>
       {modalId && (
         <ClientModal
-          client={modalId !== 'create' ? (client || null) : null}
+          client={modalId !== 'create' ? (client || null) : {...getNewClient(), types: [clientTypeName]}}
           show={!!modalId}
+          title={t(`client.createNewModal.${clientTypeName}`)}
           onClose={() => setModalId(null)}
           onConfirm={(model: ClientModel) => onChange(model._id, model)}
         />

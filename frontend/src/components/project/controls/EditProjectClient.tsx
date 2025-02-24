@@ -2,9 +2,10 @@ import {MinimalInputProps} from '../../controls/form-controls/inputs/BaseInput';
 import {ProjectClientModel, ProjectEndCustomerModel} from '../models/IProjectModel';
 import {getNewProjectClient} from '../models/getNewProject';
 import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
-import {FullFormConfig} from '../../../models';
+import {FormConfig, FullFormConfig} from '../../../models';
 import {getNewInvoiceLine, InvoiceLine} from '../../invoice/models/InvoiceLineModels';
 import {DefaultHoursInDay} from "../../client/models/getNewClient";
+import { ClientType } from '../../client/models/ClientModels';
 
 /** Map Tariff & RateType to the client/partner.defaultInvoiceLines[0].price/type */
 const Bridge = ({value = [getNewInvoiceLine()], onChange}: MinimalInputProps<InvoiceLine[]>) => {
@@ -42,7 +43,9 @@ const defaultInvoiceLinesConfig: FullFormConfig = [
 
 
 
-type EditProjectClientProps = MinimalInputProps<ProjectClientModel>;
+type EditProjectClientProps = MinimalInputProps<ProjectClientModel> & {
+  clientType?: ClientType;
+};
 
 
 
@@ -75,9 +78,27 @@ const advancedInvoicingClientConfig: FullFormConfig = [
 
 
 
-export const EditProjectClient = ({value, onChange}: EditProjectClientProps) => {
+export const EditProjectClient = ({value, clientType, onChange}: EditProjectClientProps) => {
   const prjClient: ProjectClientModel = value || getNewProjectClient();
-  const config = prjClient.advancedInvoicing || prjClient.defaultInvoiceLines.length > 1 ? advancedInvoicingClientConfig : clientConfig;
+  let config = prjClient.advancedInvoicing || prjClient.defaultInvoiceLines.length > 1 ? advancedInvoicingClientConfig : clientConfig;
+
+  config = config.map(config => {
+    if(typeof config === 'string') return config;
+    if('forceRow' in config) return config;
+
+    const clientFormConfig = config as FormConfig
+    if(clientFormConfig.key === 'clientId'){
+      return {
+        ...clientFormConfig,
+        props: {
+          ...clientFormConfig.props,
+          clientType: clientType
+        }}
+    }
+
+    return config
+  })
+
   return <ArrayInput config={config} model={prjClient} onChange={onChange} tPrefix="project.client." />;
 };
 
