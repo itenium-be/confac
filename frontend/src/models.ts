@@ -12,7 +12,8 @@ export type ChildrenType = React.ReactNode | JSX.Element[];
 
 
 /** Array defined as projectLineTypes */
-export type EditProjectRateType = 'hourly' | 'daily';
+export const EditProjectRateTypeSortOrder = ['hourly', 'daily'] as const
+export type EditProjectRateType = typeof EditProjectRateTypeSortOrder[number];
 
 /** Array defined as invoiceLineTypes */
 export type EditClientRateType = EditProjectRateType | 'km' | 'items' | 'section' | 'other';

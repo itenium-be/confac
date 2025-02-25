@@ -34,7 +34,7 @@ export const ListHeaderCell = ({width, columnName, header, filter, onSort}: List
       style={{
         marginLeft: 3,
         visibility: (showSortIcon ? 'visible' : 'hidden'),
-        color: (filter.sort ? undefined : 'hsl(0, 0%, 60%)')}}
+        color: (filter.sort && filter.sort?.columnName === columnName ? undefined : 'hsl(0, 0%, 60%)')}}
       size={1}/>}
   </th>
   )

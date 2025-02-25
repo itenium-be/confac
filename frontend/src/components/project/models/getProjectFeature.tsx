@@ -12,7 +12,7 @@ import { ConsultantLinkWithModal } from "../../consultant/controls/ConsultantLin
 import {ConsultantCountFooter} from '../project-month-list/table/footers/ConsultantCountFooter';
 import { ProjectClientForecastFooter } from "../project-month-list/table/footers/ProjectClientForecastFooter";
 import {ProjectForecastPartnerFooter} from "../project-month-list/table/footers/ProjectForecastPartnerFooter";
-import {getTariffs} from '../utils/getTariffs';
+import {compareTariffs, getTariffs} from '../utils/getTariffs';
 import {getProjectMarkup} from '../utils/getProjectMarkup';
 import {ContractIcons} from '../../client/contract/ContractIcons';
 import { ProjectEndCustomerIcon } from '../controls/ProjectEndCustomerIcon';
@@ -136,6 +136,12 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     key: 'partnerTariff',
     header: 'project.partner.tariff',
     value: p => <ProjectClientTariff projectClient={p.details.partner} />,
+    sort: (p, p2) => {
+      if(!p.details.partner  || !p2.details.partner)
+        return (p2.details.partner ? 1 : 0) - (p.details.partner ? 1 : 0)
+
+      return compareTariffs(getTariffs(p.details.partner), getTariffs(p2.details.partner))
+    }
   }, {
     key: 'endCustomer',
     header: '',
@@ -151,10 +157,12 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     key: 'clientTariff',
     header: 'project.client.tariff',
     value: p => <ProjectClientTariff projectClient={p.details.client} />,
+    sort: (p, p2) => compareTariffs(getTariffs(p.details.client), getTariffs(p2.details.client))
   }, {
     key: 'markup',
     header: 'projectMonth.markup',
     value: p => <ProjectMarkup project={p.details} />,
+    sort: (p, p2) => getProjectMarkup(p2.details).amount - getProjectMarkup(p.details).amount
   // }, {
   //   key: 'clientRef',
   //   header: 'project.client.ref',

@@ -27,6 +27,10 @@ $borderSeparator: 3px solid $table-border-color;
       }
     }
 
+    thead {
+      white-space: nowrap;
+    }
+
     tfoot {
       border-top: $borderSeparator;
 
