@@ -105,7 +105,6 @@ export const EditProject = () => {
     {
       const selectedClient = clients.find(x => x._id === project.client.clientId);
       if(selectedClient && !selectedClient.types.includes(clientTypeForClientField)){
-        console.log("clear client", selectedClient, clientTypeForClientField)
         newProject.client.clientId = '';
       }
     }
