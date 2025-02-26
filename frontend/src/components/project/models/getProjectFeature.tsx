@@ -140,7 +140,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
       if(!p.details.partner  || !p2.details.partner)
         return (p2.details.partner ? 1 : 0) - (p.details.partner ? 1 : 0)
 
-      return compareTariffs(getTariffs(p.details.partner), getTariffs(p2.details.partner))
+      return compareTariffs(getTariffs(p.details.partner), getTariffs(p2.details.partner), false)
     }
   }, {
     key: 'endCustomer',
@@ -157,7 +157,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     key: 'clientTariff',
     header: 'project.client.tariff',
     value: p => <ProjectClientTariff projectClient={p.details.client} />,
-    sort: (p, p2) => compareTariffs(getTariffs(p.details.client), getTariffs(p2.details.client))
+    sort: (p, p2) => compareTariffs(getTariffs(p.details.client), getTariffs(p2.details.client), false)
   }, {
     key: 'markup',
     header: 'projectMonth.markup',

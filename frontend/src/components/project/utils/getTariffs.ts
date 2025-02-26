@@ -17,10 +17,10 @@ export function getTariffs(projectClient: ProjectClientModel): ProjectClientTari
   };
 }
 
-export const compareTariffs = (t1: ProjectClientTariff, t2: ProjectClientTariff, seperateHourlyDaily: boolean = true): number => {
-  if(!seperateHourlyDaily)
-    return (t2.rateType === 'hourly' ? t2.tariff * DefaultHoursInDay : t2.tariff) -
-      (t1.rateType === 'hourly' ? t1.tariff * DefaultHoursInDay : t1.tariff)
+export const compareTariffs = (t1: ProjectClientTariff, t2: ProjectClientTariff, separateHourlyDaily: boolean = true): number => {
+  if(!separateHourlyDaily)
+    return (t1.rateType === 'hourly' ? DefaultHoursInDay : 1) * t1.tariff -
+      (t2.rateType === 'hourly' ? DefaultHoursInDay : 1) * t2.tariff
 
   if(t1.rateType !== t2.rateType)
     return EditProjectRateTypeSortOrder.indexOf(t1.rateType) - EditProjectRateTypeSortOrder.indexOf(t2.rateType)
