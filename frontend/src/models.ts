@@ -64,7 +64,7 @@ export type AppState = {
   },
   /** Last x months of data has been loaded */
   lastMonthsDownloaded: number | null,
-  invoiceFilters: InvoiceFilters,
+  invoiceFilters: InvoiceListFilters,
   filters: {
     consultants: ConsultantListFilters,
     clients: ClientListFilters,
@@ -130,25 +130,6 @@ export type ColSizes = {
 
 export type FullFormConfig = AnyFormConfig[] & {
   addMissingProps?: boolean,
-}
-
-
-export type InvoiceFiltersSearch = {
-  value: string | number,
-  label: string | number,
-  type: 'invoice-nr' | 'year' | 'client' | 'invoice_line' | 'manual_input',
-}
-
-/**
- * Filters used on InvoiceList
- * Used for: state.app.invoiceFilters
- * Actual filtering is done in InvoiceListModel
- * TODO: This needs to go by using a ListPage for the InvoiceList
- */
-export type InvoiceFilters = {
-  search: InvoiceFiltersSearch[],
-  groupedByMonth: boolean,
-  freeInvoice: string,
 }
 
 /**

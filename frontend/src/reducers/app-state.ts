@@ -73,7 +73,12 @@ export const defaultAppState: AppState = {
   filters: {
     consultants: getListFilters(),
     clients: {...getListFilters(), years: [moment().year()], types: []},
-    invoices: getListFilters(),
+    invoices: {
+      ...getListFilters(),
+      search: [],
+      groupedByMonth: false,
+      freeInvoice: ''
+    },
     projects: getListFilters(),
     projectMonths: {
       freeText: '',

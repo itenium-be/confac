@@ -35,8 +35,13 @@ export const SortDirections = {
   ASC: "asc",
   DESC: "desc",
 } as const;
-
 export type SortDirection = typeof SortDirections[keyof typeof SortDirections];
+
+export type InvoiceFiltersSearch = {
+  value: string | number,
+  label: string | number,
+  type: 'invoice-nr' | 'year' | 'client' | 'invoice_line' | 'manual_input',
+}
 
 export type ProjectListFilters = ListFilters;
 export type ProjectMonthListFilters = ListFilters & {
@@ -44,7 +49,11 @@ export type ProjectMonthListFilters = ListFilters & {
   openMonths: {[key: string]: boolean},
   unverifiedOnly: boolean
 };
-export type InvoiceListFilters = ListFilters;
+export type InvoiceListFilters = ListFilters & {
+    search: InvoiceFiltersSearch[],
+    groupedByMonth: boolean,
+    freeInvoice: string,
+};
 export type ConsultantListFilters = ListFilters;
 export type UsersListFilters = ListFilters;
 export type RolesListFilters = ListFilters;

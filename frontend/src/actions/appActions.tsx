@@ -1,8 +1,7 @@
 import {toast} from 'react-toastify';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import t from '../trans';
-import {InvoiceFilters} from '../models';
-import {ListFilters} from '../components/controls/table/table-models';
+import {InvoiceListFilters, ListFilters} from '../components/controls/table/table-models';
 import {Features} from '../components/controls/feature/feature-models';
 
 type ToastType = 'error' | 'success' | 'info';
@@ -73,7 +72,7 @@ export function busyToggle() {
 busyToggle.off = () => ({type: ACTION_TYPES.APP_BUSYTOGGLE, why: 'lessBusy'});
 
 
-export function updateInvoiceFilters(filters: InvoiceFilters) {
+export function updateInvoiceFilters(filters: InvoiceListFilters) {
   return {
     type: ACTION_TYPES.APP_INVOICE_FILTERSUPDATED,
     filters,

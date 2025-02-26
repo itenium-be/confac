@@ -1,11 +1,11 @@
 import moment from 'moment';
 import InvoiceModel from './InvoiceModel';
 import {ClientModel} from '../../client/models/ClientModels';
-import {InvoiceFilters, InvoiceFiltersSearch} from '../../../models';
 import {searchClientFor} from '../../client/models/searchClientFor';
 import {t, searchinize, formatDate} from '../../utils';
 import {getMoney} from '../../controls/form-controls/inputs/BasicMathInput';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
+import { InvoiceFiltersSearch, InvoiceListFilters } from '../../controls/table/table-models';
 
 
 function transformFilters(search: InvoiceFiltersSearch[], freeText: string): TransformedInvoiceFilters {
@@ -45,7 +45,7 @@ export default class InvoiceListModel {
     invoices: InvoiceModel[],
     clients: ClientModel[],
     consultants: ConsultantModel[],
-    filters: InvoiceFilters,
+    filters: InvoiceListFilters,
     isQuotation: boolean,
   ) {
     this.invoices = invoices;

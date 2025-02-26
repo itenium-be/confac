@@ -5,14 +5,14 @@ import {InvoiceClientCell} from '../invoice-table/InvoiceClientCell';
 import {InvoiceNumberCell} from '../invoice-table/InvoiceNumberCell';
 import InvoiceModel from './InvoiceModel';
 import {formatDate, moneyFormat} from '../../utils';
-import {IListCell, IListRow} from '../../controls/table/table-models';
+import {IListCell, IListRow, InvoiceListFilters} from '../../controls/table/table-models';
 import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
 import {NotEmailedIcon, Icon} from '../../controls/Icon';
 import {InvoiceListRowActions} from '../invoice-table/InvoiceListRowActions';
 import {getInvoiceListRowClass} from '../invoice-table/getInvoiceListRowClass';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
-import {Features, IFeature} from '../../controls/feature/feature-models';
+import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ProjectMonthModal} from '../../project/controls/ProjectMonthModal';
@@ -24,12 +24,11 @@ export interface IInvoiceListData {
   consultants: ConsultantModel[]
 }
 
-export interface IInvoiceListConfig {
-  data: InvoiceModel[];
+export type InvoiceFeatureBuilderConfig = IFeatureBuilderConfig<InvoiceModel, InvoiceListFilters> & {
   isGroupedOnMonth: boolean;
   isQuotation: boolean;
   invoicePayDays: number;
-}
+};
 
 const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
   const [modal, setModal] = useState<boolean>(false);
@@ -73,7 +72,7 @@ const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
 };
 
 
-export function createInvoiceList(config: IInvoiceListConfig): IFeature<InvoiceModel> {
+export function createInvoiceList(config: InvoiceFeatureBuilderConfig): IFeature<InvoiceModel, InvoiceListFilters> {
   const colsTillTotalAmount = config.isGroupedOnMonth ? ['date-month', 'number', 'client'] : ['number', 'client', 'date-full', 'period'];
   const transPrefix = config.isQuotation ? 'quotation' : 'invoice';
   const listRows: IListRow<InvoiceModel> = {
@@ -88,7 +87,7 @@ export function createInvoiceList(config: IInvoiceListConfig): IFeature<InvoiceM
     ], transPrefix),
   };
 
-  return {
+  let feature: IFeature<InvoiceModel, InvoiceListFilters> =  {
     key: Features.invoices,
     nav: m => `/invoices/${m === 'create' ? m : m.number}`,
     trans: features.invoice as any,
@@ -98,6 +97,14 @@ export function createInvoiceList(config: IInvoiceListConfig): IFeature<InvoiceM
       sorter: (a, b) => b.number - a.number,
     },
   };
+
+  feature.list.filter = {
+    state: config.filters,
+    updateFilter: config.setFilters,
+    softDelete: true,
+  };
+
+  return feature
 }
 
 
