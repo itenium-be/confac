@@ -1,7 +1,7 @@
 import { IComment } from "../../../models"
 import { Claim } from "../../users/models/UserModel";
 import { formatDate, t } from "../../utils";
-import { Features, IFeature, IFeatureBuilderConfig } from "../feature/feature-models"
+import { Features, IFeature } from "../feature/feature-models"
 import { EditIcon } from "../Icon";
 import { DeleteIcon } from "../icons/DeleteIcon";
 import { CommentsListFilters, IList, IListCell, ListFilters } from "../table/table-models";

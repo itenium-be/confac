@@ -1,8 +1,8 @@
 import {Component} from 'react';
 import Creatable from 'react-select/creatable';
-import {InvoiceFiltersSearch} from '../../../models';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import {t} from '../../utils';
+import { InvoiceFiltersSearch } from '../../controls/table/table-models';
 
 
 type InvoiceSearchSelectProps = {

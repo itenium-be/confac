@@ -1,15 +1,15 @@
 import moment from 'moment';
 import InvoiceListModel from '../models/InvoiceListModel';
 import InvoiceModel from '../models/InvoiceModel';
-import {InvoiceFilters} from '../../../models';
+import { InvoiceListFilters } from '../../controls/table/table-models';
 
 
 describe('InvoiceListModel', () => {
   it('filters with last x days', () => {
-    const filters: InvoiceFilters = {
+    const filters: InvoiceListFilters = {
       search: [{value: 'last 1 days', label: 'last 1 days', type: 'manual_input'}],
       groupedByMonth: false,
-    } as InvoiceFilters;
+    } as InvoiceListFilters;
     const today = () => moment().startOf('day');
     const invoices = [
       {date: today(), verified: true} as InvoiceModel,
@@ -26,10 +26,10 @@ describe('InvoiceListModel', () => {
 
 
   it('filters with last x days no longer shows unverified too', () => {
-    const filters: InvoiceFilters = {
+    const filters: InvoiceListFilters = {
       search: [{value: 'last 1 days', label: 'last 1 days', type: 'manual_input'}],
       groupedByMonth: false,
-    } as InvoiceFilters;
+    } as InvoiceListFilters;
     const invoices = [
       {date: moment().subtract(3, 'days'), verified: false} as InvoiceModel,
     ];
@@ -42,10 +42,10 @@ describe('InvoiceListModel', () => {
 
 
   it('filters with free text in invoice lines', () => {
-    const filters: InvoiceFilters = {
+    const filters: InvoiceListFilters = {
       search: [{value: 'koen', label: 'koen', type: 'manual_input'}],
       groupedByMonth: false,
-    } as InvoiceFilters;
+    } as InvoiceListFilters;
 
     const emptyClient = {
       city: '',

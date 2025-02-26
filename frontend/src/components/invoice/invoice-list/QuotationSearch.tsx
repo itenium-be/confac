@@ -1,20 +1,20 @@
 import {Component} from 'react';
 import {Row, Col} from 'react-bootstrap';
-import {InvoiceFiltersSearch, InvoiceFilters} from '../../../models';
 import {SearchStringInput} from '../../controls/form-controls/inputs/SearchStringInput';
 import {InvoiceSearchSelect} from '../controls/InvoiceSearchSelect';
+import { InvoiceFiltersSearch, InvoiceListFilters } from '../../controls/table/table-models';
 
 
 type QuotationSearchProps = {
   filterOptions: InvoiceFiltersSearch[],
-  onChange: (newFilter: InvoiceFilters) => void,
-  filters: InvoiceFilters,
+  onChange: (newFilter: InvoiceListFilters) => void,
+  filters: InvoiceListFilters,
 }
 
 
 export class QuotationSearch extends Component<QuotationSearchProps> {
   onFilterChange(updateObj: any) {
-    const newFilter: InvoiceFilters = {...this.props.filters, ...updateObj};
+    const newFilter: InvoiceListFilters = {...this.props.filters, ...updateObj};
     this.props.onChange(newFilter);
   }
 

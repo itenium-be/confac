@@ -4,35 +4,28 @@ import InvoiceModel, {groupInvoicesPerMonth} from '../models/InvoiceModel';
 import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
-import {createInvoiceList} from '../models/getInvoiceFeature';
-import {ConfigModel} from '../../config/models/ConfigModel';
+import {createInvoiceList, InvoiceFeatureBuilderConfig} from '../models/getInvoiceFeature';
 import InvoiceListModel from '../models/InvoiceListModel';
 import {ConfacState} from '../../../reducers/app-state';
 import {ListHeader} from '../../controls/table/ListHeader';
 import {IList} from '../../controls/table/table-models';
 import {getInvoiceListRowClass} from './getInvoiceListRowClass';
 import {ListFooter} from '../../controls/table/ListFooter';
+import { IFeature } from '../../controls/feature/feature-models';
 
 
 
 type GroupedInvoiceTableProps = {
   vm: InvoiceListModel;
-  config: ConfigModel;
+  config: InvoiceFeatureBuilderConfig;
 }
 
 export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
-  const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
 
-  const invoices = vm.getFilteredInvoices();
-  const featureConfig = createInvoiceList({
-    isQuotation: vm.isQuotation,
-    invoicePayDays,
-    data: invoices,
-    isGroupedOnMonth: true,
-  });
+  const featureConfig = createInvoiceList(config) as IFeature<any, any>;
 
 
-  const invoicesPerMonth = groupInvoicesPerMonth(invoices).sort((a, b) => b.key.localeCompare(a.key));
+  const invoicesPerMonth = groupInvoicesPerMonth(config.data).sort((a, b) => b.key.localeCompare(a.key));
 
   const hideBorderStyle = {borderBottom: 0, borderTop: 0};
 
@@ -67,7 +60,7 @@ export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
         ),
       ])}
 
-      <ListFooter config={featureConfig.list} data={invoices} />
+      <ListFooter config={featureConfig.list} data={config.data} />
     </Table>
   );
 };
