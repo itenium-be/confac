@@ -4,7 +4,6 @@ import {StandardComponents} from './components/controls/form-controls/lib/Compon
 import {ConsultantListFilters, ClientListFilters, InvoiceListFilters,
   ProjectListFilters, ProjectMonthListFilters, UsersListFilters, RolesListFilters,
   CommentsListFilters} from './components/controls/table/table-models';
-import { Moment } from 'moment';
 
 export type InvoiceDateStrategy = 'new-month-from-22th' | 'prev-month-last-day' | 'today';
 

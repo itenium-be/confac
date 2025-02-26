@@ -5,7 +5,6 @@ import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import {createInvoiceList, InvoiceFeatureBuilderConfig} from '../models/getInvoiceFeature';
-import {ConfigModel} from '../../config/models/ConfigModel';
 import InvoiceListModel from '../models/InvoiceListModel';
 import {ConfacState} from '../../../reducers/app-state';
 import {ListHeader} from '../../controls/table/ListHeader';

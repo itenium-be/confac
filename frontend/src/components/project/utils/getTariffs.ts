@@ -1,4 +1,4 @@
-import {EditProjectRateType, EditProjectRateTypeSortOrder} from '../../../models';
+import {EditProjectRateType} from '../../../models';
 import { DefaultHoursInDay } from '../../client/models/getNewClient';
 import {ProjectClientModel} from '../models/IProjectModel';
 
