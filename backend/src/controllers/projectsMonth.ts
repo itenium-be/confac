@@ -28,24 +28,31 @@ export const getProjectsPerMonthOverviewController = async (req: Request, res: R
 };
 
 
+type projectMonthData =
+{
+  projectId: string,
+  hasProforma: boolean
+}
+
 
 /** Create all projectMonths for the specified month */
 export const createProjectsMonthController = async (req: ConfacRequest, res: Response) => {
-  const {projectIds, month}: {projectIds: string[]; month: string} = req.body;
+  const {projectIds, month}: {projectIds: projectMonthData[]; month: string} = req.body;
 
   // const projects = await req.db.collection<IProject>(CollectionNames.PROJECTS).find().toArray();
   // const activeProjects = findActiveProjectsForSelectedMonth(month, projects);
 
-  const createdProjectsMonth = await Promise.all(projectIds.map(async projectId => {
+  const createdProjectsMonth = await Promise.all(projectIds.map(async projectMonthSource => {
     const projectMonth: IProjectMonth = {
       _id: new ObjectID(),
       month,
-      projectId: new ObjectID(projectId),
+      projectId: new ObjectID(projectMonthSource.projectId),
       audit: createAudit(req.user),
       verified: false,
       inbound: {
         nr: '',
         status: 'new',
+        proforma : projectMonthSource.hasProforma !== undefined ? { inclusiveTax: projectMonthSource.hasProforma, status: 'new'} : undefined,
       },
       timesheet: {validated: false},
       attachments: [],

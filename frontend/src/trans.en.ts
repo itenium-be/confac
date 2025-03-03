@@ -483,6 +483,13 @@ export const trans = {
       thisContract: 'Werkopdracht',
       contracts: 'Contracten',
     },
+
+    proforma: {
+      titleConfig: 'Client sends proforma invoice',
+      no: 'No',
+      withTax: 'Yes, inclusive tax',
+      withoutTax: 'Yes, exclusive tax',
+    },
     partner: {
       clientId: 'Partner',
       tariff: 'Tarif',
@@ -505,7 +512,8 @@ export const trans = {
       titleConfig: 'Monthly invoicing',
       timesheetCheck: 'Timesheets: Check report',
       inboundInvoice: 'Has inbound invoice',
-      changingOrderNr: 'Order nr changes for each invocie'
+      changingOrderNr: 'Order nr changes for each invocie',
+      hasProforma: 'Client sends proforma invoice',
     },
     copy: {
       buttonText: 'Verlenging',
@@ -578,6 +586,7 @@ export const trans = {
     inboundInvoiceNr: 'Nr',
     inboundDateReceived: 'Received on',
     inboundUpload: 'Upload inbound invoice',
+    proformaUpload: 'Upload proforma invoice',
     inboundNew: 'New: Invoice not yet processed',
     inboundPaid: 'Paid: Invoice has been paid',
     outboundPaid: 'Not yet verified invoices',
@@ -593,6 +602,7 @@ export const trans = {
     unvalidateTimesheet: 'Invalidate timesheet',
     viewTimesheet: 'View timesheet: {fileName}',
     viewInboundInvoice: 'View inbound invoice: {fileName}',
+    viewProformaInvoice: 'View proforma invoice: {fileName}',
     linkToDetails: 'Go to project',
     sdWorxTimesheetUpload: 'Upload timesheet check report',
     selectLabel: 'Project month',

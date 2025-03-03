@@ -483,6 +483,12 @@ export const trans = {
       thisContract: 'Werkopdracht',
       contracts: 'Contracten',
     },
+    proforma: {
+      titleConfig: 'Klant stuurt proforma factuur',
+      no: 'Nee',
+      withTax: 'Ja, inclusive BTW',
+      withoutTax: 'Ja, exclusive BTW',
+    },
     partner: {
       clientId: 'Onderaannemer',
       tariff: 'Tarief',
@@ -505,7 +511,8 @@ export const trans = {
       titleConfig: 'Maandelijkse facturatie',
       timesheetCheck: 'Timesheets: SDWorx rapport check',
       inboundInvoice: 'Heeft inkomende factuur',
-      changingOrderNr: 'Het bestelbon nr wijzigt voor elke factuur'
+      changingOrderNr: 'Het bestelbon nr wijzigt voor elke factuur',
+      hasProforma: 'Klant stuurt proforma factuur',
     },
     copy: {
       buttonText: 'Verlenging',
@@ -578,6 +585,7 @@ export const trans = {
     inboundInvoiceNr: 'Nr',
     inboundDateReceived: 'Ontvangen op',
     inboundUpload: 'Binnenkomende factuur opladen',
+    proformaUpload: 'Binnenkomende proforma factuur opladen',
     inboundNew: 'Nieuw: Factuur nog niet behandeld',
     inboundPaid: 'Betaald: Factuur is betaald',
     outboundPaid: 'Nog niet geverifieerde facturen',
@@ -593,6 +601,7 @@ export const trans = {
     unvalidateTimesheet: 'Timesheet invalideren',
     viewTimesheet: 'Timesheet bekijken: {fileName}',
     viewInboundInvoice: 'Ontvangen factuur bekijken: {fileName}',
+    viewProformaInvoice: 'Ontvangen proforma factuur bekijken: {fileName}',
     linkToDetails: 'Ga naar project',
     sdWorxTimesheetUpload: 'SDWorx timesheet opladen',
     selectLabel: 'Project maand',

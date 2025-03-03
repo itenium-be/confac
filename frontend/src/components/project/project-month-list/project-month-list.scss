@@ -219,7 +219,7 @@ $cell-padding: 8px 8px;
 
 
   /** The inbound cell */
-  .inbound-cell {
+  .inbound-cell, .inbound-proforma {
     display: flex;
     padding: $cell-padding;
 

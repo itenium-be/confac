@@ -11,10 +11,11 @@ import {patchProjectsMonth, projectMonthUpload} from '../../../../../actions';
 import {useDebouncedSave} from '../../../../hooks/useDebounce';
 import {getDownloadUrl} from '../../../../../actions/utils/download-helpers';
 import {AttachmentUploadPreviewButtons} from '../../../controls/AttachmentUploadPreviewButtons';
-import {InboundInvoiceAttachmentType} from '../../../../../models';
+import {InboundInvoiceAttachmentType, ProformaInvoiceAttachmentType} from '../../../../../models';
 import {ToClipboardLabel} from '../../../../controls/other/ToClipboardLabel';
 import {ProjectMonthInboundStatusSelect} from '../../../controls/ProjectMonthInboundStatusSelect';
 import { InboundAmountForecast } from './InboundAmountForecast';
+import { ProjectMonthProformaStatusSelect } from '../../../controls/ProjectMonthProformaStatusSelect';
 
 
 interface ProjectMonthInboundCellProps {
@@ -51,6 +52,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
   const canEdit = inbound.status !== 'new' ? 'label' : undefined;
   const attachments = fullProjectMonth.invoice ? fullProjectMonth.invoice.attachments : fullProjectMonth.details.attachments;
   const inboundInvoiceDetails = attachments.find(a => a.type === InboundInvoiceAttachmentType);
+  const proformaInvoiceDetails = attachments.find(a => a.type === ProformaInvoiceAttachmentType);
 
   const getInboundInvoiceDownloadUrl = (): string => {
     if (!inboundInvoiceDetails) {
@@ -66,9 +68,24 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
     return getDownloadUrl('project_month', projectMonthId, InboundInvoiceAttachmentType, inboundInvoiceDetails.fileName, 'preview');
   };
 
+  const getProformaDownloadUrl = (): string => {
+    if(!proformaInvoiceDetails)
+      return '';
+
+    if (fullProjectMonth.invoice) {
+      return getDownloadUrl('invoice', fullProjectMonth.invoice._id,
+        ProformaInvoiceAttachmentType, proformaInvoiceDetails.fileName, 'preview');
+    }
+
+    const projectMonthId = fullProjectMonth._id;
+    return getDownloadUrl('project_month', projectMonthId, ProformaInvoiceAttachmentType, proformaInvoiceDetails.fileName, 'preview');
+  }
+
   const hasInboundInvoiceBeenUploaded = !!inboundInvoiceDetails;
+  const hasProformaInvoiceBeenUploaded = !! proformaInvoiceDetails
 
   return (
+    <>
     <div className={cn('inbound-cell')}>
       {canEdit === 'label' ? (
         <ToClipboardLabel label={inbound.nr} />
@@ -114,5 +131,45 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
         </div>
       </div>
     </div>
+    { fullProjectMonth.details.inbound.proforma && (
+      <div className='inbound-proforma'>
+        <span>Proforma: </span>
+        <InboundAmountForecast fullProjectMonth={fullProjectMonth} />
+        <div style={{ flexGrow: 1 }}></div>
+        <div className="inbound-actions">
+          <ProjectMonthProformaStatusSelect
+            value={fullProjectMonth.details.inbound.proforma.status}
+            onChange={status => saveInbound({
+              ...inbound,
+              proforma: {
+                inclusiveTax: true,
+                ...inbound.proforma,
+                status
+              }
+            })}
+          />
+          <div className="inbound-attachment-actions">
+            <AttachmentUploadPreviewButtons
+              isUploadDisabled={fullProjectMonth.details.inbound.proforma.status !== 'new'}
+              isPreviewDisabled={!hasProformaInvoiceBeenUploaded}
+              uploadTooltip={t('projectMonth.proformaUpload')}
+              previewTooltip={t('projectMonth.viewProformaInvoice', {fileName: proformaInvoiceDetails ? proformaInvoiceDetails.fileName : ''})}
+              onUpload={f => {
+
+                const proformaFileName = '{month}-{partner}-{consultant}-Invoice-Proforma'
+                  .replace('{partner}', (fullProjectMonth.partner && fullProjectMonth.partner.name) || '')
+                  .replace('{consultant}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`)
+                  .replace('{month}', fullProjectMonth.details.month.format('YYYY-MM'))
+                  + f.name.substring(f.name.lastIndexOf('.'));
+
+                return dispatch(projectMonthUpload(f, ProformaInvoiceAttachmentType, fullProjectMonth, proformaFileName) as any);
+              }}
+              downloadUrl={getProformaDownloadUrl()}
+            />
+          </div>
+        </div>
+      </div>
+    )}
+    </>
   );
 };
