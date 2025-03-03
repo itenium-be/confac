@@ -3,6 +3,7 @@ import {FullFormConfig} from '../../../models';
 export const projectFormConfig: FullFormConfig = [
   {key: 'client.clientId', component: 'ProjectClientContractStatus', label: 'project.contract.frameworkAgreementTitle'},
   {key: 'contract', component: 'ContractStatusWithNotes', label: 'project.contract.projectTitle'},
+  {key: 'projectMonthConfig.hasProforma', component: 'ProjectProformaSelect'},
 
   {title: {title: 'project.detailsTitle', level: 2}},
   {key: 'consultantId', component: 'ConsultantSelectWithCreateModal', cols: 5},
@@ -19,7 +20,6 @@ export const projectFormConfig: FullFormConfig = [
   {key: 'client.advancedInvoicing', component: 'switch'},
   {key: 'forEndCustomer', component: 'switch'},
 
-  {key: 'projectMonthConfig.hasProforma', component: 'ProjectProformaSelect'},
 
   {title: 'client.notes'},
   {key: 'notes', label: '', component: 'TextEditor', cols: 12},
