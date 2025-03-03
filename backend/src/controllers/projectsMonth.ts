@@ -37,12 +37,12 @@ type projectMonthData =
 
 /** Create all projectMonths for the specified month */
 export const createProjectsMonthController = async (req: ConfacRequest, res: Response) => {
-  const {projectIds, month}: {projectIds: projectMonthData[]; month: string} = req.body;
+  const {projectData, month}: {projectData: projectMonthData[]; month: string} = req.body;
 
   // const projects = await req.db.collection<IProject>(CollectionNames.PROJECTS).find().toArray();
   // const activeProjects = findActiveProjectsForSelectedMonth(month, projects);
 
-  const createdProjectsMonth = await Promise.all(projectIds.map(async projectMonthSource => {
+  const createdProjectsMonth = await Promise.all(projectData.map(async projectMonthSource => {
     const projectMonth: IProjectMonth = {
       _id: new ObjectID(),
       month,

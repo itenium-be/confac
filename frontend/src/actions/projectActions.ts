@@ -53,13 +53,13 @@ export type projectMonthData =
 
 
 /** Create projectMonths for all active projects in the month */
-export function createProjectsMonth(month: Moment, data: projectMonthData[]) {
+export function createProjectsMonth(month: Moment, projectData: projectMonthData[]) {
   return (dispatch: Dispatch) => request
     .post(buildUrl('/projects/month'))
     .set('Content-Type', 'application/json')
     .set('Authorization', authService.getBearer())
     .set('x-socket-id', socketService.socketId)
-    .send({month, data})
+    .send({month, projectData})
     .then(response => {
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
