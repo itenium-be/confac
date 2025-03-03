@@ -346,6 +346,7 @@ export const trans = {
     listAdvancedFilters: 'Meer filters',
     listDownloadZip: 'Alle in de lijst zichtbare facturen downloaden (zip)',
     listDownloadExcel: 'Alle in de lijst zichtbare Facturen exporteren als Excel rapport (csv)',
+    cloneInvoice: 'Factuur kopiëren'
   },
   attachment: {
     types: 'Bijlage types',
