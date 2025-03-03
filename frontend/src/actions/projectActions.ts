@@ -172,7 +172,7 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
     .catch(catchHandler);
 }
 
-type ProjectMonthAttachmentTypes = 'Getekende timesheet' | 'Factuur freelancer' | 'Proforma Factuur freelancer';
+type ProjectMonthAttachmentTypes = 'Getekende timesheet' | 'Factuur freelancer' | 'Proforma Factuur';
 
 export function projectMonthUpload(file: File, type: ProjectMonthAttachmentTypes, projectMonth: FullProjectMonthModel, fileName: string) {
   return (dispatch: Dispatch) => {
