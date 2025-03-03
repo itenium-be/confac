@@ -28,8 +28,7 @@ export const getProjectsPerMonthOverviewController = async (req: Request, res: R
 };
 
 
-type projectMonthData =
-{
+type projectMonthData = {
   projectId: string,
   hasProforma: boolean
 }

@@ -45,8 +45,7 @@ export function saveProject(project: IProjectModel, navigate?: any, after: 'to-l
   };
 }
 
-export type projectMonthData =
-{
+export type projectMonthData = {
   projectId: string,
   hasProforma?: boolean
 }
