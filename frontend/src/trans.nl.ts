@@ -606,6 +606,7 @@ export const trans = {
     sdWorxTimesheetUpload: 'SDWorx timesheet opladen',
     selectLabel: 'Project maand',
     markup: 'Margin',
+    proformaTitle: 'Proforma: ',
   },
   controls: {
     // browser
