@@ -1,4 +1,4 @@
-import {useReducer, useState} from 'react';
+import {useEffect, useReducer, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Col, Form} from 'react-bootstrap';
 import {t} from '../../utils';
@@ -14,7 +14,7 @@ import {StickyFooter} from '../../controls/other/StickyFooter';
 import {DownloadInvoiceButton} from './DownloadInvoiceButton';
 import {EmailModal, EmailTemplate} from '../../controls/email/EmailModal';
 import {Button} from '../../controls/form-controls/Button';
-import {getNewInvoice} from '../models/getNewInvoice';
+import {getNewClonedInvoice, getNewInvoice} from '../models/getNewInvoice';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import {InvoiceAttachmentsForm} from '../controls/InvoiceAttachmentsForm';
 import {EditInvoiceBadges} from './EditInvoiceBadges';
@@ -29,6 +29,7 @@ import useEntityChangedToast from '../../hooks/useEntityChangedToast';
 
 
 import './EditInvoice.scss';
+import { Icon } from '../../controls/Icon';
 
 
 const EditInvoice = () => {
@@ -63,6 +64,12 @@ const EditInvoice = () => {
   if (storeInvoice && !invoice._id) {
     setInvoice(new InvoiceModel(config, storeInvoice));
   }
+
+  useEffect(() => {
+    const isQuotation = window.location.pathname.startsWith('/quotations/');
+    const navigateInvoice = invoices.filter(x => x.isQuotation && isQuotation).find(x => x.number === parseInt(params.id, 10))
+    setInvoice(new InvoiceModel(config, navigateInvoice))
+  }, [params])
 
   const type: 'quotation' | 'invoice' = isQuotation ? 'quotation' : 'invoice';
 
@@ -207,6 +214,8 @@ const EditInvoice = () => {
                 dispatch(previewInvoice(invoice.client.invoiceFileName || config.invoiceFileName, invoice, fullProjectMonth) as any);
               } if (type === 'update') {
                 dispatch(updateInvoiceRequest(invoice, undefined, false, navigate) as any);
+              } if (type === 'clone') {
+                dispatch(createInvoice(getNewClonedInvoice(invoices, invoice), navigate) as any);
               }
             }}
             invoice={initInvoice}
