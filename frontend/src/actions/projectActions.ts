@@ -45,14 +45,14 @@ export function saveProject(project: IProjectModel, navigate?: any, after: 'to-l
   };
 }
 
-export type projectMonthData = {
+export type sourceProjectData = {
   projectId: string,
   hasProforma?: boolean
 }
 
 
 /** Create projectMonths for all active projects in the month */
-export function createProjectsMonth(month: Moment, projectData: projectMonthData[]) {
+export function createProjectsMonth(month: Moment, projectData: sourceProjectData[]) {
   return (dispatch: Dispatch) => request
     .post(buildUrl('/projects/month'))
     .set('Content-Type', 'application/json')

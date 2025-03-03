@@ -28,7 +28,7 @@ export const getProjectsPerMonthOverviewController = async (req: Request, res: R
 };
 
 
-type projectMonthData = {
+type sourceProjectData = {
   projectId: string,
   hasProforma: boolean
 }
@@ -36,7 +36,7 @@ type projectMonthData = {
 
 /** Create all projectMonths for the specified month */
 export const createProjectsMonthController = async (req: ConfacRequest, res: Response) => {
-  const {projectData, month}: {projectData: projectMonthData[]; month: string} = req.body;
+  const {projectData, month}: {projectData: sourceProjectData[]; month: string} = req.body;
 
   // const projects = await req.db.collection<IProject>(CollectionNames.PROJECTS).find().toArray();
   // const activeProjects = findActiveProjectsForSelectedMonth(month, projects);

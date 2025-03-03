@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import moment, {Moment} from 'moment';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
-import {createProjectsMonth, projectMonthData} from '../../../actions';
+import {createProjectsMonth, sourceProjectData} from '../../../actions';
 import {BaseModalProps, Modal, ModalState} from '../../controls/Modal';
 import {Button} from '../../controls/form-controls/Button';
 import {ClaimGuard} from '../../enhancers/EnhanceWithClaim';
@@ -68,7 +68,7 @@ export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
 
   const data = toBeCreated.map((selected, idx) => ({selected, prj: newProjects[idx]}));
 
-  const getSelectedProjects = (): projectMonthData[] => {
+  const getSelectedProjects = (): sourceProjectData[] => {
     return data.filter(p => p.selected).map(p => {
       const hasProforma = p.prj.details.projectMonthConfig.hasProforma
 
