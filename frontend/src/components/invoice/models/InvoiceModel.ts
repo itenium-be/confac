@@ -3,7 +3,7 @@ import {DefaultHoursInDay} from '../../client/models/getNewClient';
 import {ConfigModel, ConfigCompanyModel} from '../../config/models/ConfigModel';
 import {getInvoiceDate} from './invoice-date-strategy';
 import {ClientModel} from '../../client/models/ClientModels';
-import {Attachment, IAttachment, IAudit} from '../../../models';
+import {Attachment, IAttachment, IAudit, IComment} from '../../../models';
 import {InvoiceLine} from './InvoiceLineModels';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
@@ -55,6 +55,7 @@ export default class InvoiceModel implements IAttachment {
   lines: InvoiceLine[] = [];
   money: InvoiceMoney;
   note: string;
+  comments: IComment[];
   config: ConfigModel;
   creditNotas: number[];
 
@@ -76,6 +77,7 @@ export default class InvoiceModel implements IAttachment {
     this.isQuotation = obj.isQuotation || false;
     this.lastEmail = obj.lastEmail;
     this.note = obj.note || '';
+    this.comments = obj.comments || [];
 
     this.money = this._calculateMoneys();
 

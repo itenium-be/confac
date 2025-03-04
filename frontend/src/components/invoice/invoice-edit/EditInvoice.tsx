@@ -33,6 +33,7 @@ import { useNavigate } from 'react-router-dom';
 import { InvoiceFeatureBuilderConfig } from '../models/getInvoiceFeature';
 import { Features } from '../../controls/feature/feature-models';
 import { InvoiceCreditNotas } from '../controls/InvoiceCreditNotas';
+import { NotesWithCommentsModalButton } from '../../controls/form-controls/button/NotesWithCommentsModalButton';
 
 
 const EditInvoice = () => {
@@ -109,6 +110,7 @@ const EditInvoice = () => {
     const removedCreditNota = initInvoice.creditNotas.filter(n => !invoice.creditNotas.includes(n));
     const creditNotaGroup = [...invoice.creditNotas, invoice.number]
 
+
     removedCreditNota.forEach(creditnota => {
       const invoiceToUpdate = invoices.find(i => i.number === creditnota);
       if(invoiceToUpdate) {
@@ -121,9 +123,17 @@ const EditInvoice = () => {
     invoice.creditNotas.forEach(creditNota => {
       const invoiceToUpdate = invoices.find(i => i.number === creditNota);
       if(invoiceToUpdate) {
-        invoiceToUpdate.creditNotas = creditNotaGroup.filter(n => n !== invoiceToUpdate.number)
+        const newCreditNotas = creditNotaGroup.filter(n => n !== invoiceToUpdate.number)
 
-        dispatch(updateInvoiceRequest(invoiceToUpdate, undefined, false) as any);
+        if (newCreditNotas.length !== invoiceToUpdate.creditNotas.length ||
+          !(newCreditNotas.every(num => invoiceToUpdate.creditNotas.includes(num)) &&
+          invoiceToUpdate.creditNotas.every(num => newCreditNotas.includes(num)))
+        ) {
+          invoiceToUpdate.creditNotas = newCreditNotas
+          dispatch(updateInvoiceRequest(invoiceToUpdate, undefined, false) as any);
+        }
+
+
       }
     })
 
@@ -146,10 +156,14 @@ const EditInvoice = () => {
             </div>
             <div>
               <div className={`invoice-top-buttonbar ${storeInvoice?._id ? 'invoice-edit' : 'invoice-new'}`}>
-                {<NotesModalButton
+                {<NotesWithCommentsModalButton
                   claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
-                  value={invoice.note}
-                  onChange={val => updateInvoice('note', val)}
+                  value={{note: invoice.note, comments: invoice.comments || []}}
+                  onChange={val => {
+                    debugger
+                    setInvoice(new InvoiceModel(invoice.config, {...invoice, note: val.note, comments: val.comments}));
+                    forceUpdate();
+                  }}
                   title={t('projectMonth.note')}
                   variant="link"
                 />}
@@ -227,7 +241,7 @@ const EditInvoice = () => {
             forceUpdate()
           }}
         />
-          <InvoiceAttachmentsForm model={initInvoice} />
+        <InvoiceAttachmentsForm model={initInvoice} />
         <StickyFooter>
           {!initInvoice.isNew && (
             <>
