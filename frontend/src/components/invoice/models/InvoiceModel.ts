@@ -152,15 +152,10 @@ export default class InvoiceModel implements IAttachment {
     };
   }
 
-  addCreditNota(creditNota: InvoiceModel) {
-    if(!this.creditNotas.includes(creditNota.number)){
-      this.creditNotas.push(creditNota.number);
-    }
-  }
 
   setCreditNotas(creditNotas: InvoiceModel[])
   {
-    this.creditNotas = creditNotas.map(i => i.number)
+    this.creditNotas = creditNotas.map(i => i.number).filter(n=> this.number !== n)
   }
 
 
