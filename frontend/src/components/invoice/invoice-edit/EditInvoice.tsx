@@ -19,7 +19,6 @@ import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import {InvoiceAttachmentsForm} from '../controls/InvoiceAttachmentsForm';
 import {EditInvoiceBadges} from './EditInvoiceBadges';
 import {Audit} from '../../admin/audit/Audit';
-import {NotesModalButton} from '../../controls/form-controls/button/NotesModalButton';
 import {Claim} from '../../users/models/UserModel';
 import {useProjectsMonth} from '../../hooks/useProjects';
 import {useParams} from 'react-router-dom';
@@ -89,7 +88,7 @@ const EditInvoice = () => {
     const isQuotation = window.location.pathname.startsWith('/quotations/');
     const navigateInvoice = invoices.filter(x => x.isQuotation && isQuotation).find(x => x.number === parseInt(params.id, 10))
     setInvoice(new InvoiceModel(config, navigateInvoice))
-  }, [params])
+  }, [params, config, invoices])
 
   const type: 'quotation' | 'invoice' = isQuotation ? 'quotation' : 'invoice';
 
