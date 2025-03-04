@@ -75,7 +75,7 @@ export const getNewClonedInvoice = (
       date: today(),
       number: invoicesOrQuotations.map(i => i.number).reduce((a, b) => Math.max(a, b), 0) + 1,
       lines: invoiceToCopy.lines.map(line => ({...line, amount: 0, audit: {} })),
-      creditNotas: [invoiceToCopy.number]
+      creditNotas: [...invoiceToCopy.creditNotas, invoiceToCopy.number]
     });
 
 
