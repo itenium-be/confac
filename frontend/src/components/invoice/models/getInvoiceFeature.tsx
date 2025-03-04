@@ -8,7 +8,7 @@ import {formatDate, moneyFormat, searchinize} from '../../utils';
 import {IListCell, IListFilter, IListRow, ListFilters} from '../../controls/table/table-models';
 import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
 import {NotEmailedIcon, Icon} from '../../controls/Icon';
-import {InvoiceListRowActions} from '../invoice-table/InvoiceListRowActions';
+import {InvoiceListRowAction, InvoiceListRowActions} from '../invoice-table/InvoiceListRowActions';
 import {getInvoiceListRowClass} from '../invoice-table/getInvoiceListRowClass';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
@@ -24,7 +24,8 @@ export type InvoiceFeatureBuilderConfig = IFeatureBuilderConfig<InvoiceModel, Li
   invoicePayDays: number;
   includedFields?: string[];
   disableFilters?: boolean;
-  invoicesTotalOnly?: boolean
+  invoicesTotalOnly?: boolean;
+  buttons?: InvoiceListRowAction[];
 };
 
 export interface IInvoiceListData {
@@ -86,18 +87,10 @@ console.log("serach", filters, model)
 }
 
 export function createInvoiceList(config: InvoiceFeatureBuilderConfig): IFeature<InvoiceModel> {
-  const includedFields = config.includedFields ?? [
-    ...(config.isGroupedOnMonth ? ['date-month', 'number', 'client'] : ['number', 'client', 'date-full', 'period']),
-    'total-amount',
-    'buttons',
-    'consultant',
-    'orderNr',
-    'invoice-days'
-  ];
-  const transPrefix = config.isQuotation ? 'quotation' : 'invoice';
+
   const listRows: IListRow<InvoiceModel> = {
     className: invoice => getInvoiceListRowClass(invoice, config.invoicePayDays),
-    cells: getInvoiceColumns(includedFields, transPrefix, config.invoicesTotalOnly),
+    cells: getInvoiceColumns(config),
   };
 
   return {
@@ -118,8 +111,19 @@ export function createInvoiceList(config: InvoiceFeatureBuilderConfig): IFeature
 }
 
 
-export function getInvoiceColumns(includeFields: string[], transPrefix: string, invoicesTotalOnly?: boolean): IListCell<InvoiceModel>[] {
-  const isGroupedTable = includeFields.includes('date-month');
+export function getInvoiceColumns(config: InvoiceFeatureBuilderConfig): IListCell<InvoiceModel>[] {
+
+  const includedFields = config.includedFields ?? [
+    ...(config.isGroupedOnMonth ? ['date-month', 'number', 'client'] : ['number', 'client', 'date-full', 'period']),
+    'total-amount',
+    'buttons',
+    'consultant',
+    'orderNr',
+    'invoice-days'
+  ];
+  const transPrefix = config.isQuotation ? 'quotation' : 'invoice';
+
+  const isGroupedTable = includedFields.includes('date-month');
   const columns: IListCell<InvoiceModel>[] = [{
     key: 'date-month',
     header: `${transPrefix}.date`,
@@ -174,16 +178,15 @@ export function getInvoiceColumns(includeFields: string[], transPrefix: string, 
         {moneyFormat(invoice.money.total)}
       </>
     ),
-    footer: invoices => <InvoicesTotal invoices={invoices} totalOnly={invoicesTotalOnly} />,
+    footer: invoices => <InvoicesTotal invoices={invoices} totalOnly={config.invoicesTotalOnly} />,
   }, {
     key: 'buttons',
     header: '',
-    style: {width: 240},
     className: 'icons-cell',
-    value: (i: InvoiceModel) => <InvoiceListRowActions invoice={i} />,
+    value: (i: InvoiceModel) => <InvoiceListRowActions invoice={i} buttons={config.buttons}/>,
   }];
 
-  const result = columns.filter(col => includeFields.includes(col.key));
+  const result = columns.filter(col => includedFields.includes(col.key));
   // console.log('result, ', result);
   return result;
 }

@@ -28,11 +28,16 @@ export const InvoicesTotal = ({invoices, totalOnly = false, ...props}: { invoice
 
 
   if (totalOnly) {
-    return <span style={amountsStyle}><strong>{moneyFormat(money.total)}</strong></span>;
+    return (
+      <div>
+        {t('invoice.total')}
+        <span style={amountsStyle}><strong>{moneyFormat(money.total)}</strong></span>
+      </div>
+    );
   }
 
   return (
-    <div style={{minWidth: 300}}>
+    <div>
       <div>
         {t('invoice.subtotalLong')}
         <span style={amountsStyle}>{moneyFormat(money.totalWithoutTax)}</span>
