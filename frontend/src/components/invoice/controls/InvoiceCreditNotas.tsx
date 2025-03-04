@@ -31,7 +31,9 @@ export const InvoiceCreditNotas = ({config, model, onChange}: InvoiceCreditNotas
       'period',
       'consultant',
       'total-amount',
-    ]
+      'buttons'
+    ],
+    buttons: ['comment', 'edit', 'preview']
   });
 
 
