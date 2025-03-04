@@ -486,8 +486,8 @@ export const trans = {
     proforma: {
       titleConfig: 'Klant stuurt proforma factuur',
       no: 'Nee',
-      withTax: 'Ja, inclusive BTW',
-      withoutTax: 'Ja, exclusive BTW',
+      withTax: 'Ja, inclusief BTW',
+      withoutTax: 'Ja, exclusief BTW',
     },
     partner: {
       clientId: 'Onderaannemer',
