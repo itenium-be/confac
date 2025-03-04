@@ -14,9 +14,14 @@ export type InvoiceCreditNotasProps = {
 }
 
 export const InvoiceCreditNotas = ({config, model, onChange}: InvoiceCreditNotasProps) => {
+  const creditNotas = config.data.filter(i => model.creditNotas.includes(i.number))
+  if(creditNotas.length === 0) {
+    return null
+  }
+
   const feature = createInvoiceList({
     ...config,
-    data: config.data.filter(i => model.creditNotas.includes(i.number)),
+    data: [...creditNotas, model],
     disableFilters: true,
     invoicesTotalOnly: true,
     includedFields: [
