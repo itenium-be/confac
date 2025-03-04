@@ -14,11 +14,10 @@ import { useState } from "react";
 export type InvoiceLinkedInvoicesProps = {
   config: InvoiceFeatureBuilderConfig,
   model: InvoiceModel,
-  claim?: Claim,
   onChange: (invoice: InvoiceModel) => void,
 }
 
-export const InvoiceLinkedInvoices = ({config, model, claim, onChange}: InvoiceLinkedInvoicesProps) => {
+export const InvoiceLinkedInvoices = ({config, model, onChange}: InvoiceLinkedInvoicesProps) => {
   const feature = createInvoiceList({
     ...config,
     data: config.data.filter(i => model.linkedInvoiceNumbers.includes(i.number)),
@@ -51,7 +50,7 @@ export const InvoiceLinkedInvoices = ({config, model, claim, onChange}: InvoiceL
         model={model}
         onConfirm={saveLinkedInvoices}
         config={config}
-        claim={claim}
+        claim={Claim.ManageInvoices}
       />
     </>
   );
