@@ -23,7 +23,7 @@ export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButton
         onClick={() => onClick('clone', navigate)}
         className="tst-clone-invoice"
       >
-        {t('invoice.cloneInvoice')}
+        {t('invoice.createCreditNota')}
       </BusyButton>
       <BusyButton
         claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
