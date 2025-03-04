@@ -18,6 +18,7 @@ export const InvoiceCreditNotas = ({config, model, onChange}: InvoiceCreditNotas
     ...config,
     data: config.data.filter(i => model.creditNotas.includes(i.number)),
     disableFilters: true,
+    invoicesTotalOnly: true,
     includedFields: [
       'number',
       'client',
