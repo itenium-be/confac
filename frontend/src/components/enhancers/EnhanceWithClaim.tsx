@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {Claim, GenericClaim} from '../users/models/UserModel';
 import {authService} from '../users/authService';
 import {ChildrenType} from '../../models';
@@ -53,26 +53,63 @@ type ClaimGuardProps = {
 }
 
 export const ClaimGuard = ({feature, claim, children}: ClaimGuardProps) => {
-  if (feature) {
-    const realClaim = mapClaim(feature.key, feature.claim);
-    const claims = authService.getClaims();
 
-    if (!claims.includes(realClaim) && !claims.map(x => x.toString()).includes(`manage-${feature.key}`)) {
-      return null;
-    }
-  }
-
-  if (claim) {
-    const claims = authService.getClaims();
-    if (!claims.includes(claim)) {
-      return null;
-    }
+  if(!hasClaim(feature, claim)) {
+    return null;
   }
 
   return children;
 };
 
 
+export type ClaimGuardSwitchProps = {
+  feature?: {key: string, claim: GenericClaim};
+  children: ReactNode;
+}
+export const ClaimGuardSwitch = ({feature, children}: ClaimGuardSwitchProps) => {
+
+  if(React.Children.count(children) === 0)
+  {
+    return null;
+  }
+
+  const claimGuards = React.Children.toArray(children).filter(
+    (child) => React.isValidElement(child) && child.type === ClaimGuard
+  ) as React.ReactElement<ClaimGuardProps>[];
+
+  for (const claimGuard of claimGuards) {
+    const { feature: guardFeature, claim, children: guardChildren } = claimGuard.props;
+
+    if(hasClaim(guardFeature ?? feature, claim)){
+      return guardChildren;
+    }
+  }
+
+  return null;
+}
+
+
+
 function mapClaim(entity: string, claim: GenericClaim): Claim {
   return Claim[`${claim}-${entity}`];
+}
+
+function hasClaim(feature?: {key: string, claim: GenericClaim}, claim?: Claim ): boolean {
+  if (feature) {
+    const realClaim = mapClaim(feature.key, feature.claim);
+    const claims = authService.getClaims();
+
+    if (!claims.includes(realClaim) && !claims.map(x => x.toString()).includes(`manage-${feature.key}`)) {
+      return false;
+    }
+  }
+
+  if (claim) {
+    const claims = authService.getClaims();
+    if (!claims.includes(claim)) {
+      return false;
+    }
+  }
+
+  return true;
 }

@@ -53,6 +53,7 @@ export enum Claim {
   ManageInvoices = 'manage-invoices',
   ValidateInvoices = 'validate-invoices',
   EmailInvoices = 'email-invoices',
+  ViewEmailInvoices = 'view-email-invoices',
   ViewProjectMonth = 'view-projectMonth',
   ValidateProjectMonth = 'validate-projectMonth',
   ValidateProjectMonthTimesheet = 'validate-projectMonthTimesheet',
