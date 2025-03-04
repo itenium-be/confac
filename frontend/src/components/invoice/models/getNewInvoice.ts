@@ -66,6 +66,7 @@ export const getNewClonedInvoice = (
   invoiceToCopy: InvoiceModel
 ): InvoiceModel => {
 
+
   const invoicesOrQuotations = invoiceToCopy.isQuotation ? invoices.filter(x => x.isQuotation) : invoices.filter(x => !x.isQuotation);
 
    const newInvoice = new InvoiceModel(invoiceToCopy.config, {
@@ -73,7 +74,8 @@ export const getNewClonedInvoice = (
       _id: undefined,
       date: today(),
       number: invoicesOrQuotations.map(i => i.number).reduce((a, b) => Math.max(a, b), 0) + 1,
-      lines: invoiceToCopy.lines.map(line => ({...line, amount: 0, audit: {} }))
+      lines: invoiceToCopy.lines.map(line => ({...line, amount: 0, audit: {} })),
+      creditNotas: [invoiceToCopy.number]
     });
 
 

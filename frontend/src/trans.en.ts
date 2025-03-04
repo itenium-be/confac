@@ -334,9 +334,9 @@ export const trans = {
     attachmentViewTooltip: 'View {type}',
     pdfTemplateNotFoundTitle: 'Pdf template niet gevonden!',
     pdfTemplateNotFound: 'The pdf template could not be found (check Config)',
-    linkedInvoices: {
-      title: 'Linked Invoices',
-      addLine: 'link invoices',
+    creditNotas: {
+      title: 'Credit Notas',
+      addLine: 'Add Credit nota',
     },
     search: {
       placeholder: 'Filter list',
