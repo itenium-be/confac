@@ -242,7 +242,10 @@ const EditInvoice = () => {
               } if (type === 'update') {
                 dispatch(updateInvoiceRequest(invoice, undefined, false, navigate) as any);
               } if (type === 'clone') {
-                dispatch(createInvoice(getNewClonedInvoice(invoices, invoice), navigate) as any);
+                const creditNota = getNewClonedInvoice(invoices, invoice)
+                invoice.addCreditNota(creditNota)
+                dispatch(updateInvoiceRequest(invoice, undefined, false, navigate) as any);
+                dispatch(createInvoice(creditNota, navigate) as any);
               }
             }}
             invoice={initInvoice}
