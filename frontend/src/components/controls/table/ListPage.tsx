@@ -54,7 +54,6 @@ export const ListPage = ({feature, topToolbar}: ListPageProps) => (
 
 export const ListPageFilters = ({feature}: {feature: IFeature<any, ListFilters>}) => {
   const components: React.ReactNode[] = [];
-
   const {filter} = feature.list;
   if (filter) {
     if (filter.fullTextSearch) {

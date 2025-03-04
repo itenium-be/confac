@@ -5,7 +5,6 @@ import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import {createInvoiceList, InvoiceFeatureBuilderConfig} from '../models/getInvoiceFeature';
-import InvoiceListModel from '../models/InvoiceListModel';
 import {ConfacState} from '../../../reducers/app-state';
 import {ListHeader} from '../../controls/table/ListHeader';
 import {IList} from '../../controls/table/table-models';
@@ -16,12 +15,10 @@ import { IFeature } from '../../controls/feature/feature-models';
 
 
 type GroupedInvoiceTableProps = {
-  vm: InvoiceListModel;
   config: InvoiceFeatureBuilderConfig;
 }
 
-export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
-
+export const GroupedInvoiceTable = ({config}: GroupedInvoiceTableProps) => {
   const featureConfig = createInvoiceList(config) as IFeature<any, any>;
 
 
@@ -45,12 +42,12 @@ export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
           ))}
         </tbody>,
 
-        (!vm.isQuotation && invoiceList.length > 1) && (
+        (!config.isQuotation && invoiceList.length > 1) && (
           <tbody key={`${key}-group-row`} style={hideBorderStyle}>
             <tr style={{...hideBorderStyle, height: 60}}>
               <td style={hideBorderStyle}>&nbsp;</td>
               <td colSpan={featureConfig.list.rows.cells.length - 4}>
-                <strong><InvoiceAmountLabel invoices={invoiceList} isQuotation={vm.isQuotation} /></strong>
+                <strong><InvoiceAmountLabel invoices={invoiceList} isQuotation={config.isQuotation} /></strong>
               </td>
               <td><strong><InvoiceWorkedDays invoices={invoiceList} /></strong></td>
               <td><InvoicesTotal invoices={invoiceList} totalOnly /></td>

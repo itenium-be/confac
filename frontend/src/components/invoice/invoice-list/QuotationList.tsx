@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {Container, Row, Col} from 'react-bootstrap';
-import {createInvoice, updateInvoiceFilters} from '../../../actions/index';
+import {updateAppFilters, updateInvoiceFilters, updateInvoiceRequest} from '../../../actions/index';
 import InvoiceListModel from '../models/InvoiceListModel';
 import {GroupedInvoiceTable} from '../invoice-table/GroupedInvoiceTable';
 import {NonGroupedInvoiceTable} from '../invoice-table/NonGroupedInvoiceTable';
@@ -14,10 +14,11 @@ import {LinkToButton} from '../../controls/form-controls/button/LinkToButton';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {Claim} from '../../users/models/UserModel';
-import { useSelector } from 'react-redux';
-import { InvoiceFeatureBuilderConfig } from '../models/getInvoiceFeature';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { InvoiceFeatureBuilderConfig } from '../models/getInvoiceFeature';
+import { Features } from '../../controls/feature/feature-models';
 import { InvoiceListFilters } from '../../controls/table/table-models';
 
 
@@ -33,9 +34,10 @@ type QuotationListProps = {
 // eslint-disable-next-line react/prefer-stateless-function
 export const QuotationList = (props: QuotationListProps) => {
   useDocumentTitle('quotationList');
-  const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const invoiceFilters = useSelector((state: ConfacState) => state.app.filters.projects)
+  const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
 
   if (!props.filters) {
     return null;
@@ -43,16 +45,17 @@ export const QuotationList = (props: QuotationListProps) => {
 
   const vm = new InvoiceListModel(props.invoices, props.clients, props.consultants, props.filters, true);
 
-  const featureConfig: InvoiceFeatureBuilderConfig = {
+  const invoices = vm.getFilteredInvoices();
+  const config: InvoiceFeatureBuilderConfig = {
     isQuotation: vm.isQuotation,
     invoicePayDays,
-    isGroupedOnMonth: props.filters.groupedByMonth,
-    data: props.invoices,
-    save: m => dispatch(createInvoice(m, navigate) as any),
-    filters: props.filters,
-    setFilters: props.updateInvoiceFilters,
-  }
+    isGroupedOnMonth: false,
+    data: invoices,
+    save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate) as any),
+    filters: invoiceFilters,
+    setFilters: f => dispatch(updateAppFilters(Features.invoices, f)),
 
+  }
 
   const TableComponent = props.filters.groupedByMonth ? GroupedInvoiceTable : NonGroupedInvoiceTable;
   return (
@@ -70,7 +73,7 @@ export const QuotationList = (props: QuotationListProps) => {
         filterOptions={vm.getFilterOptions()}
         filters={props.filters}
       />
-      <TableComponent vm={vm} config={featureConfig} />
+      <TableComponent config={config} />
     </Container>
   );
 };

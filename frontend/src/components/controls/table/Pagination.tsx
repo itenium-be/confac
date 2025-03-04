@@ -5,11 +5,12 @@ type PaginationProps = {
   current: number;
   total: number;
   onChange: (page: number) => void;
+  listSize? : number
 };
 
 
 export const Pagination = (props: PaginationProps) => {
-  const listSize = useSelector((state: ConfacState) => state.app.settings.listSize);
+  const listSize = useSelector((state: ConfacState) => props.listSize ?? state.app.settings.listSize);
   const pageCount = Math.ceil(props.total / listSize);
   if (pageCount === 1) {
     return null;

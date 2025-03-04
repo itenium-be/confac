@@ -1,12 +1,8 @@
 import {createInvoiceList, InvoiceFeatureBuilderConfig} from '../models/getInvoiceFeature';
-import InvoiceListModel from '../models/InvoiceListModel';
 import {List} from '../../controls/table/List';
 
-export const NonGroupedInvoiceTable = ({vm, config}: {vm: InvoiceListModel, config: InvoiceFeatureBuilderConfig}) => {
+export const NonGroupedInvoiceTable = ({config}: {config: InvoiceFeatureBuilderConfig}) => {
+  const featureConfig = createInvoiceList(config);
 
-
-
-  const feature = createInvoiceList(config);
-
-  return <List feature={feature} />;
+  return <List feature={featureConfig} />;
 };

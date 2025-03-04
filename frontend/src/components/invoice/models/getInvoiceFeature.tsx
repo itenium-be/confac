@@ -4,8 +4,8 @@ import moment from 'moment';
 import {InvoiceClientCell} from '../invoice-table/InvoiceClientCell';
 import {InvoiceNumberCell} from '../invoice-table/InvoiceNumberCell';
 import InvoiceModel, { calculateDaysWorked } from './InvoiceModel';
-import {formatDate, moneyFormat} from '../../utils';
-import {IListCell, IListRow, InvoiceListFilters} from '../../controls/table/table-models';
+import {formatDate, moneyFormat, searchinize} from '../../utils';
+import {IListCell, IListRow, ListFilters} from '../../controls/table/table-models';
 import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
 import {NotEmailedIcon, Icon} from '../../controls/Icon';
 import {InvoiceListRowActions} from '../invoice-table/InvoiceListRowActions';
@@ -18,17 +18,19 @@ import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ProjectMonthModal} from '../../project/controls/ProjectMonthModal';
 
 
+export type InvoiceFeatureBuilderConfig = IFeatureBuilderConfig<InvoiceModel, ListFilters> & {
+  isGroupedOnMonth: boolean;
+  isQuotation: boolean;
+  invoicePayDays: number;
+  includedFields?: string[];
+  disableFilters?: boolean;
+};
 
 export interface IInvoiceListData {
   invoices: InvoiceModel[],
   consultants: ConsultantModel[]
 }
 
-export type InvoiceFeatureBuilderConfig = IFeatureBuilderConfig<InvoiceModel, InvoiceListFilters> & {
-  isGroupedOnMonth: boolean;
-  isQuotation: boolean;
-  invoicePayDays: number;
-};
 
 const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
   const [modal, setModal] = useState<boolean>(false);
@@ -72,22 +74,31 @@ const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
 };
 
 
-export function createInvoiceList(config: InvoiceFeatureBuilderConfig): IFeature<InvoiceModel, InvoiceListFilters> {
-  const colsTillTotalAmount = config.isGroupedOnMonth ? ['date-month', 'number', 'client'] : ['number', 'client', 'date-full', 'period'];
+const searchInvoices = (filters:  ListFilters, model: InvoiceModel) => {
+    if (!filters.freeText) {
+      return true;
+    }
+    return searchinize(
+      `${model.client.name} ${model.projectMonth?.consultantName ?? ''}`,
+    ).includes(searchinize(filters.freeText));
+}
+
+export function createInvoiceList(config: InvoiceFeatureBuilderConfig): IFeature<InvoiceModel, ListFilters> {
+  const includedFields = config.includedFields ?? [
+    ...(config.isGroupedOnMonth ? ['date-month', 'number', 'client'] : ['number', 'client', 'date-full', 'period']),
+    'total-amount',
+    'buttons',
+    'consultant',
+    'orderNr',
+    'invoice-days'
+  ];
   const transPrefix = config.isQuotation ? 'quotation' : 'invoice';
   const listRows: IListRow<InvoiceModel> = {
     className: invoice => getInvoiceListRowClass(invoice, config.invoicePayDays),
-    cells: getInvoiceColumns([
-      ...colsTillTotalAmount,
-      'total-amount',
-      'buttons',
-      'consultant',
-      'orderNr',
-      'invoice-days',
-    ], transPrefix),
+    cells: getInvoiceColumns(includedFields, transPrefix),
   };
 
-  let feature: IFeature<InvoiceModel, InvoiceListFilters> =  {
+  let feature: IFeature<InvoiceModel, ListFilters> =  {
     key: Features.invoices,
     nav: m => `/invoices/${m === 'create' ? m : m.number}`,
     trans: features.invoice as any,
@@ -95,6 +106,11 @@ export function createInvoiceList(config: InvoiceFeatureBuilderConfig): IFeature
       rows: listRows,
       data: config.data,
       sorter: (a, b) => b.number - a.number,
+      filter: !config.disableFilters ? {
+        fullTextSearch: searchInvoices,
+        updateFilter: config.setFilters,
+        state: config.filters,
+      } : undefined
     },
   };
 
