@@ -105,6 +105,30 @@ const EditInvoice = () => {
   // --> There should be a form variant and a model variant new'd for every render
   // --> problem right now is that ex for a new invoice the invoice._id is not set after save
   // --> the invoice.attachments are also not updated because they are separate from the form...
+  const syncCreditNotas = (invoice: InvoiceModel) => {
+    const removedCreditNota = initInvoice.creditNotas.filter(n => !invoice.creditNotas.includes(n));
+    const creditNotaGroup = [...invoice.creditNotas, invoice.number]
+
+    removedCreditNota.forEach(creditnota => {
+      const invoiceToUpdate = invoices.find(i => i.number === creditnota);
+      if(invoiceToUpdate) {
+        invoiceToUpdate.creditNotas = []
+
+        dispatch(updateInvoiceRequest(invoiceToUpdate, undefined, false) as any);
+      }
+    })
+
+    invoice.creditNotas.forEach(creditNota => {
+      const invoiceToUpdate = invoices.find(i => i.number === creditNota);
+      if(invoiceToUpdate) {
+        invoiceToUpdate.creditNotas = creditNotaGroup.filter(n => n !== invoiceToUpdate.number)
+
+        dispatch(updateInvoiceRequest(invoiceToUpdate, undefined, false) as any);
+      }
+    })
+
+  }
+
 
   return (
     <Container className="edit-container">
@@ -240,11 +264,11 @@ const EditInvoice = () => {
               } if (type === 'preview') {
                 dispatch(previewInvoice(invoice.client.invoiceFileName || config.invoiceFileName, invoice, fullProjectMonth) as any);
               } if (type === 'update') {
+                syncCreditNotas(invoice)
                 dispatch(updateInvoiceRequest(invoice, undefined, false, navigate) as any);
               } if (type === 'clone') {
                 const creditNota = getNewClonedInvoice(invoices, invoice)
-                invoice.addCreditNota(creditNota)
-                dispatch(updateInvoiceRequest(invoice, undefined, false, navigate) as any);
+                syncCreditNotas(creditNota)
                 dispatch(createInvoice(creditNota, navigate) as any);
               }
             }}
