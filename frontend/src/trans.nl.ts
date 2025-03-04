@@ -336,7 +336,7 @@ export const trans = {
     pdfTemplateNotFound: 'De pdf template was niet gevonden (check Config)',
     linkedInvoices: {
       title: 'Gekoppelde Facturen',
-      linkInvoice: 'Factuur koppelen',
+      addLine: 'Facturen koppelen',
     },
     search: {
       placeholder: 'Lijst filteren',
