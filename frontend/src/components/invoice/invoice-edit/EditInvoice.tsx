@@ -29,11 +29,10 @@ import useEntityChangedToast from '../../hooks/useEntityChangedToast';
 
 
 import './EditInvoice.scss';
-import { Icon } from '../../controls/Icon';
-import { InvoiceLinkedInvoices } from '../controls/InvoiceLinkedInvoices';
 import { useNavigate } from 'react-router-dom';
 import { InvoiceFeatureBuilderConfig } from '../models/getInvoiceFeature';
 import { Features } from '../../controls/feature/feature-models';
+import { InvoiceCreditNotas } from '../controls/InvoiceCreditNotas';
 
 
 const EditInvoice = () => {
@@ -196,8 +195,7 @@ const EditInvoice = () => {
             translationPrefix={invoice.getType()}
           />
         </Row>
-        <InvoiceAttachmentsForm model={initInvoice} />
-        <InvoiceLinkedInvoices
+        <InvoiceCreditNotas
           config={featureConfig}
           model={invoice}
           onChange={m => {
@@ -205,6 +203,7 @@ const EditInvoice = () => {
             forceUpdate()
           }}
         />
+          <InvoiceAttachmentsForm model={initInvoice} />
         <StickyFooter>
           {!initInvoice.isNew && (
             <>

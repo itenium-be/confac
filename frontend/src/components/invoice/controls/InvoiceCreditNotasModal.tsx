@@ -13,17 +13,17 @@ import { SearchStringInput } from "../../controls/form-controls/inputs/SearchStr
 import { IFeature } from "../../controls/feature/feature-models";
 import { ListFilters } from "../../controls/table/table-models";
 
-export type InvoiceLinkedInvoicesModalProp = {
+export type InvoiceCreditNotasModalProps = {
   onConfirm: (ListSelectionItem) => void,
   model: InvoiceModel,
   config: InvoiceFeatureBuilderConfig,
   claim?: Claim,
 }
 
-export const InvoiceLinkedInvoicesModal = ({ config, model, onConfirm, claim}: InvoiceLinkedInvoicesModalProp) => {
+export const InvoiceCreditNotasModal = ({ config, model, onConfirm, claim}: InvoiceCreditNotasModalProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [selectedInvoices, setSelectedInvoices] = useState<ListSelectionItem<InvoiceModel>>(
-    config.data.filter(i => model.linkedInvoiceNumbers.includes(i.number))
+    config.data.filter(i => model.creditNotas.includes(i.number))
   )
 
   const featureConfig: IFeature<InvoiceModel, ListFilters> = createInvoiceList({
@@ -40,22 +40,22 @@ export const InvoiceLinkedInvoicesModal = ({ config, model, onConfirm, claim}: I
 
   useEffect(() => {
     setSelectedInvoices(
-        config.data.filter(i => model.linkedInvoiceNumbers.includes(i.number))
+        config.data.filter(i => model.creditNotas.includes(i.number))
     );
-  }, [model.linkedInvoiceNumbers, config.data]);
+  }, [model.creditNotas, config.data]);
 
 
 
   return (
     <>
-      <AddIcon claim={claim} onClick={() => {setOpen(true)}} label={t('invoice.linkedInvoices.addLine')} size={1} />
+      <AddIcon claim={claim} onClick={() => {setOpen(true)}} label={t('invoice.creditNotas.addLine')} size={1} />
 
       {open && (
         <Modal
           show={true}
           onClose={() => setOpen(false)}
           onConfirm={() => onConfirm(selectedInvoices)}
-          title={t('invoice.linkedInvoices.title')}
+          title={t('invoice.creditNotas.title')}
           dialogClassName="linked-invoices-modal"
 
         >

@@ -32,7 +32,7 @@ export const InvoicesTotal = ({invoices, totalOnly = false, ...props}: { invoice
   }
 
   return (
-    <div>
+    <div style={{minWidth: 300}}>
       <div>
         {t('invoice.subtotalLong')}
         <span style={amountsStyle}>{moneyFormat(money.totalWithoutTax)}</span>

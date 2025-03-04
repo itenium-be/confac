@@ -1,4 +1,3 @@
-import { InvoiceLinkedInvoices } from './../controls/InvoiceLinkedInvoices';
 import moment, {Moment} from 'moment';
 import {DefaultHoursInDay} from '../../client/models/getNewClient';
 import {ConfigModel, ConfigCompanyModel} from '../../config/models/ConfigModel';
@@ -57,7 +56,7 @@ export default class InvoiceModel implements IAttachment {
   money: InvoiceMoney;
   note: string;
   config: ConfigModel;
-  linkedInvoiceNumbers: number[];
+  creditNotas: number[];
 
   get isNew(): boolean {
     return this._id === undefined;
@@ -83,7 +82,7 @@ export default class InvoiceModel implements IAttachment {
     this._lines = obj.lines || config.defaultInvoiceLines || [];
     this.audit = obj.audit;
     this.config = config;
-    this.linkedInvoiceNumbers = obj.linkedInvoiceNumbers || [];
+    this.creditNotas = obj.creditNotas || [];
   }
 
   getType(): 'quotation' | 'invoice' {
@@ -153,15 +152,15 @@ export default class InvoiceModel implements IAttachment {
     };
   }
 
-  addLinkedInvoice(linkedInvoice: InvoiceModel) {
-    if(!this.linkedInvoiceNumbers.includes(linkedInvoice.number)){
-      this.linkedInvoiceNumbers.push(linkedInvoice.number);
+  addCreditNota(creditNota: InvoiceModel) {
+    if(!this.creditNotas.includes(creditNota.number)){
+      this.creditNotas.push(creditNota.number);
     }
   }
 
-  setLinkedInvoices(linkedInvoices: InvoiceModel[])
+  setCreditNotas(creditNotas: InvoiceModel[])
   {
-    this.linkedInvoiceNumbers = linkedInvoices.map(i => i.number)
+    this.creditNotas = creditNotas.map(i => i.number)
   }
 
 
