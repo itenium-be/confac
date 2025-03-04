@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {Container, Row, Col} from 'react-bootstrap';
-import {updateInvoiceFilters} from '../../../actions/index';
+import {updateAppFilters, updateInvoiceFilters, updateInvoiceRequest} from '../../../actions/index';
 import InvoiceListModel from '../models/InvoiceListModel';
 import {InvoiceSearch} from '../controls/InvoiceSearch';
 import {GroupedInvoiceTable} from '../invoice-table/GroupedInvoiceTable';
@@ -15,6 +15,11 @@ import {LinkToButton} from '../../controls/form-controls/button/LinkToButton';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {Claim} from '../../users/models/UserModel';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { InvoiceFeatureBuilderConfig } from '../models/getInvoiceFeature';
+import { Features } from '../../controls/feature/feature-models';
 
 
 type InvoiceListProps = {
@@ -30,12 +35,29 @@ type InvoiceListProps = {
 export const InvoiceList = (props: InvoiceListProps) => {
   useDocumentTitle('invoiceList');
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const invoiceFilters = useSelector((state: ConfacState) => state.app.filters.projects)
+  const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
+
   if (!props.filters) {
     return null;
   }
 
   const isQuotation = window.location.pathname === '/quotations';
   const vm = new InvoiceListModel(props.invoices, props.clients, props.consultants, props.filters, isQuotation);
+
+  const invoices = vm.getFilteredInvoices();
+  const config: InvoiceFeatureBuilderConfig = {
+    isQuotation: vm.isQuotation,
+    invoicePayDays,
+    isGroupedOnMonth: false,
+    data: invoices,
+    save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate) as any),
+    filters: invoiceFilters,
+    setFilters: f => dispatch(updateAppFilters(Features.invoices, f)),
+
+  }
 
   const TableComponent = props.filters.groupedByMonth ? GroupedInvoiceTable : NonGroupedInvoiceTable;
   return (
@@ -57,7 +79,7 @@ export const InvoiceList = (props: InvoiceListProps) => {
         isQuotation={vm.isQuotation}
         vm={vm}
       />
-      <TableComponent vm={vm} config={props.config} />
+      <TableComponent config={config} />
     </Container>
   );
 };

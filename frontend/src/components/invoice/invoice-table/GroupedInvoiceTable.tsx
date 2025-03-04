@@ -4,9 +4,7 @@ import InvoiceModel, {groupInvoicesPerMonth} from '../models/InvoiceModel';
 import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
-import {createInvoiceList} from '../models/getInvoiceFeature';
-import {ConfigModel} from '../../config/models/ConfigModel';
-import InvoiceListModel from '../models/InvoiceListModel';
+import {createInvoiceList, InvoiceFeatureBuilderConfig} from '../models/getInvoiceFeature';
 import {ConfacState} from '../../../reducers/app-state';
 import {ListHeader} from '../../controls/table/ListHeader';
 import {IList} from '../../controls/table/table-models';
@@ -16,23 +14,14 @@ import {ListFooter} from '../../controls/table/ListFooter';
 
 
 type GroupedInvoiceTableProps = {
-  vm: InvoiceListModel;
-  config: ConfigModel;
+  config: InvoiceFeatureBuilderConfig;
 }
 
-export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
-  const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
-
-  const invoices = vm.getFilteredInvoices();
-  const featureConfig = createInvoiceList({
-    isQuotation: vm.isQuotation,
-    invoicePayDays,
-    data: invoices,
-    isGroupedOnMonth: true,
-  });
+export const GroupedInvoiceTable = ({config}: GroupedInvoiceTableProps) => {
+  const featureConfig = createInvoiceList(config);
 
 
-  const invoicesPerMonth = groupInvoicesPerMonth(invoices).sort((a, b) => b.key.localeCompare(a.key));
+  const invoicesPerMonth = groupInvoicesPerMonth(config.data).sort((a, b) => b.key.localeCompare(a.key));
 
   const hideBorderStyle = {borderBottom: 0, borderTop: 0};
 
@@ -52,12 +41,12 @@ export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
           ))}
         </tbody>,
 
-        (!vm.isQuotation && invoiceList.length > 1) && (
+        (!config.isQuotation && invoiceList.length > 1) && (
           <tbody key={`${key}-group-row`} style={hideBorderStyle}>
             <tr style={{...hideBorderStyle, height: 60}}>
               <td style={hideBorderStyle}>&nbsp;</td>
               <td colSpan={featureConfig.list.rows.cells.length - 4}>
-                <strong><InvoiceAmountLabel invoices={invoiceList} isQuotation={vm.isQuotation} /></strong>
+                <strong><InvoiceAmountLabel invoices={invoiceList} isQuotation={config.isQuotation} /></strong>
               </td>
               <td><strong><InvoiceWorkedDays invoices={invoiceList} /></strong></td>
               <td><InvoicesTotal invoices={invoiceList} totalOnly /></td>
@@ -67,7 +56,7 @@ export const GroupedInvoiceTable = ({vm, config}: GroupedInvoiceTableProps) => {
         ),
       ])}
 
-      <ListFooter config={featureConfig.list} data={invoices} />
+      <ListFooter config={featureConfig.list} data={config.data} />
     </Table>
   );
 };

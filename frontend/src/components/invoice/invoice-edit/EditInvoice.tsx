@@ -5,7 +5,7 @@ import {t} from '../../utils';
 import {EditInvoiceLines} from './invoice-lines/EditInvoiceLines';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
-import {createInvoice, previewInvoice, updateInvoiceRequest} from '../../../actions/index';
+import {createInvoice, previewInvoice, updateAppFilters, updateInvoiceRequest} from '../../../actions/index';
 import {EditInvoiceClient} from './EditInvoiceClient';
 import InvoiceModel from '../models/InvoiceModel';
 import {ConfacState} from '../../../reducers/app-state';
@@ -30,6 +30,10 @@ import useEntityChangedToast from '../../hooks/useEntityChangedToast';
 
 import './EditInvoice.scss';
 import { Icon } from '../../controls/Icon';
+import { InvoiceLinkedInvoices } from '../controls/InvoiceLinkedInvoices';
+import { useNavigate } from 'react-router-dom';
+import { InvoiceFeatureBuilderConfig } from '../models/getInvoiceFeature';
+import { Features } from '../../controls/feature/feature-models';
 
 
 const EditInvoice = () => {
@@ -50,6 +54,22 @@ const EditInvoice = () => {
   useEntityChangedToast(invoice._id);
   const [, forceUpdate] = useReducer(x => x + 1, 0);
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+  const invoiceFilters = useSelector((state: ConfacState) => state.app.filters.invoices)
+  const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
+  const featureConfig: InvoiceFeatureBuilderConfig = {
+    isQuotation: isQuotation,
+    invoicePayDays,
+    isGroupedOnMonth: false,
+    data: invoices,
+    save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate) as any),
+    filters: invoiceFilters,
+    setFilters: f => dispatch(updateAppFilters(Features.invoices, f)),
+
+  }
+
+
   // useEffect(() => window.scrollTo(0, 0)); // TODO: each keystroke made it scroll to top :(
   const [showEmailModal, setEmailModal] = useState<EmailTemplate>(EmailTemplate.None);
   let docTitle: string;
@@ -177,6 +197,14 @@ const EditInvoice = () => {
           />
         </Row>
         <InvoiceAttachmentsForm model={initInvoice} />
+        <InvoiceLinkedInvoices
+          config={featureConfig}
+          model={invoice}
+          onChange={m => {
+            setInvoice(m)
+            forceUpdate()
+          }}
+        />
         <StickyFooter>
           {!initInvoice.isNew && (
             <>

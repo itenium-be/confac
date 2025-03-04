@@ -1,3 +1,4 @@
+import { InvoiceLinkedInvoices } from './../controls/InvoiceLinkedInvoices';
 import moment, {Moment} from 'moment';
 import {DefaultHoursInDay} from '../../client/models/getNewClient';
 import {ConfigModel, ConfigCompanyModel} from '../../config/models/ConfigModel';
@@ -56,6 +57,7 @@ export default class InvoiceModel implements IAttachment {
   money: InvoiceMoney;
   note: string;
   config: ConfigModel;
+  linkedInvoiceNumbers: number[];
 
   get isNew(): boolean {
     return this._id === undefined;
@@ -81,6 +83,7 @@ export default class InvoiceModel implements IAttachment {
     this._lines = obj.lines || config.defaultInvoiceLines || [];
     this.audit = obj.audit;
     this.config = config;
+    this.linkedInvoiceNumbers = obj.linkedInvoiceNumbers || [];
   }
 
   getType(): 'quotation' | 'invoice' {
@@ -149,6 +152,18 @@ export default class InvoiceModel implements IAttachment {
       consultantName: consultant ? `${consultant.firstName} ${consultant.name}` : undefined,
     };
   }
+
+  addLinkedInvoice(linkedInvoice: InvoiceModel) {
+    if(!this.linkedInvoiceNumbers.includes(linkedInvoice.number)){
+      this.linkedInvoiceNumbers.push(linkedInvoice.number);
+    }
+  }
+
+  setLinkedInvoices(linkedInvoices: InvoiceModel[])
+  {
+    this.linkedInvoiceNumbers = linkedInvoices.map(i => i.number)
+  }
+
 
   static emptyMoney(): InvoiceMoney {
     return {
@@ -285,3 +300,4 @@ export function calculateDaysWorked(invoices: InvoiceModel[]): DaysWorked {
 
   return invoiceDayTotals;
 }
+

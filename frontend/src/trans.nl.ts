@@ -334,6 +334,10 @@ export const trans = {
     attachmentViewTooltip: '{type} bekijken',
     pdfTemplateNotFoundTitle: 'Pdf template niet gevonden!',
     pdfTemplateNotFound: 'De pdf template was niet gevonden (check Config)',
+    linkedInvoices: {
+      title: 'Gekoppelde Facturen',
+      linkInvoice: 'Factuur koppelen',
+    },
     search: {
       placeholder: 'Lijst filteren',
       withoutPayPeriod: 'Zonder periode',

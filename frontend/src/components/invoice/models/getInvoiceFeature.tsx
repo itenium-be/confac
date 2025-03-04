@@ -4,32 +4,33 @@ import moment from 'moment';
 import {InvoiceClientCell} from '../invoice-table/InvoiceClientCell';
 import {InvoiceNumberCell} from '../invoice-table/InvoiceNumberCell';
 import InvoiceModel from './InvoiceModel';
-import {formatDate, moneyFormat} from '../../utils';
-import {IListCell, IListRow} from '../../controls/table/table-models';
+import {formatDate, moneyFormat, searchinize} from '../../utils';
+import {IListCell, IListFilter, IListRow, ListFilters} from '../../controls/table/table-models';
 import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
 import {NotEmailedIcon, Icon} from '../../controls/Icon';
 import {InvoiceListRowActions} from '../invoice-table/InvoiceListRowActions';
 import {getInvoiceListRowClass} from '../invoice-table/getInvoiceListRowClass';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
-import {Features, IFeature} from '../../controls/feature/feature-models';
+import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ProjectMonthModal} from '../../project/controls/ProjectMonthModal';
 
 
+export type InvoiceFeatureBuilderConfig = IFeatureBuilderConfig<InvoiceModel, ListFilters> & {
+  isGroupedOnMonth: boolean;
+  isQuotation: boolean;
+  invoicePayDays: number;
+  includedFields?: string[];
+  disableFilters?: boolean;
+};
 
 export interface IInvoiceListData {
   invoices: InvoiceModel[],
   consultants: ConsultantModel[]
 }
 
-export interface IInvoiceListConfig {
-  data: InvoiceModel[];
-  isGroupedOnMonth: boolean;
-  isQuotation: boolean;
-  invoicePayDays: number;
-}
 
 const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
   const [modal, setModal] = useState<boolean>(false);
@@ -73,19 +74,29 @@ const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
 };
 
 
-export function createInvoiceList(config: IInvoiceListConfig): IFeature<InvoiceModel> {
-  const colsTillTotalAmount = config.isGroupedOnMonth ? ['date-month', 'number', 'client'] : ['number', 'client', 'date-full', 'period'];
+const searchInvoices = (filters:  ListFilters, model: InvoiceModel) => {
+    if (!filters.freeText) {
+      return true;
+    }
+console.log("serach", filters, model)
+    return searchinize(
+      `${model.client.name} ${model.projectMonth?.consultantName ?? ''}`,
+    ).includes(searchinize(filters.freeText));
+}
+
+export function createInvoiceList(config: InvoiceFeatureBuilderConfig): IFeature<InvoiceModel> {
+  const includedFields = config.includedFields ?? [
+    ...(config.isGroupedOnMonth ? ['date-month', 'number', 'client'] : ['number', 'client', 'date-full', 'period']),
+    'total-amount',
+    'buttons',
+    'consultant',
+    'orderNr',
+    'invoice-days'
+  ];
   const transPrefix = config.isQuotation ? 'quotation' : 'invoice';
   const listRows: IListRow<InvoiceModel> = {
     className: invoice => getInvoiceListRowClass(invoice, config.invoicePayDays),
-    cells: getInvoiceColumns([
-      ...colsTillTotalAmount,
-      'total-amount',
-      'buttons',
-      'consultant',
-      'orderNr',
-      'invoice-days',
-    ], transPrefix),
+    cells: getInvoiceColumns(includedFields, transPrefix),
   };
 
   return {
@@ -96,6 +107,11 @@ export function createInvoiceList(config: IInvoiceListConfig): IFeature<InvoiceM
       rows: listRows,
       data: config.data,
       sorter: (a, b) => b.number - a.number,
+      filter: !config.disableFilters ? {
+        fullTextSearch: searchInvoices,
+        updateFilter: config.setFilters,
+        state: config.filters,
+      } : undefined
     },
   };
 }
