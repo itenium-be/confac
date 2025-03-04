@@ -41,6 +41,7 @@ export type CoreInvoiceAttachments = 'pdf' | 'xml';
 export const TimesheetCheckAttachmentType = 'Timesheet check';
 export const SignedTimesheetAttachmentType = 'Getekende timesheet';
 export const InboundInvoiceAttachmentType = 'Factuur freelancer';
+export const ProformaInvoiceAttachmentType = 'Proforma Factuur';
 
 /**
  * InvoiceModel | ClientModel

@@ -32,6 +32,16 @@ export interface ProjectMonthOverviewModel {
   fileDetails: Attachment;
 }
 
+
+export type ProjectMonthProformaStatus = 'new' | 'verified'
+export interface ProjectMonthProforma {
+  inclusiveTax: boolean,
+  status: ProjectMonthProformaStatus
+}
+
+export const ProjectProformaOptions = ['no', 'withTax', 'withoutTax'] as const;
+export type ProjectProforma = typeof ProjectProformaOptions[number]
+
 export const ProjectMonthInboundStatusOrder = ['new', 'validated', 'paid'] as const;
 export type ProjectMonthInboundStatus = typeof ProjectMonthInboundStatusOrder[number];
 
@@ -39,6 +49,7 @@ export interface ProjectMonthInbound {
   nr: string;
   dateReceived?: Moment | null;
   status: ProjectMonthInboundStatus;
+  proforma?: ProjectMonthProforma
 }
 
 
@@ -64,10 +75,11 @@ export interface ProjectMonthConfig {
   inboundInvoice: boolean;
   /** Does the OrderNr change for each invoice? */
   changingOrderNr: boolean;
+  hasProforma: ProjectProforma
 }
 
 /** How monthly invoicing is handled depends on the type of consultant */
-export function getDefaultProjectMonthConfig(consultantType?: ConsultantType): Omit<ProjectMonthConfig, 'changingOrderNr'> {
+export function getDefaultProjectMonthConfig(consultantType?: ConsultantType): Omit<ProjectMonthConfig, 'changingOrderNr' | 'hasProforma'> {
   switch (consultantType) {
     case 'manager':
       return {

@@ -45,14 +45,20 @@ export function saveProject(project: IProjectModel, navigate?: any, after: 'to-l
   };
 }
 
+export type sourceProjectData = {
+  projectId: string,
+  hasProforma?: boolean
+}
+
+
 /** Create projectMonths for all active projects in the month */
-export function createProjectsMonth(month: Moment, projectIds: string[]) {
+export function createProjectsMonth(month: Moment, projectData: sourceProjectData[]) {
   return (dispatch: Dispatch) => request
     .post(buildUrl('/projects/month'))
     .set('Content-Type', 'application/json')
     .set('Authorization', authService.getBearer())
     .set('x-socket-id', socketService.socketId)
-    .send({month, projectIds})
+    .send({month, projectData})
     .then(response => {
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
@@ -166,7 +172,7 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
     .catch(catchHandler);
 }
 
-type ProjectMonthAttachmentTypes = 'Getekende timesheet' | 'Factuur freelancer';
+type ProjectMonthAttachmentTypes = 'Getekende timesheet' | 'Factuur freelancer' | 'Proforma Factuur';
 
 export function projectMonthUpload(file: File, type: ProjectMonthAttachmentTypes, projectMonth: FullProjectMonthModel, fileName: string) {
   return (dispatch: Dispatch) => {

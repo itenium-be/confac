@@ -5,6 +5,9 @@ import {InvoiceLine} from '../../invoice/models/InvoiceLineModels';
 import {IContractModel} from '../../client/models/ContractModels';
 
 
+export const ProjectProformaOptions = ['no', 'withTax', 'withoutTax'] as const;
+export type ProjectProforma = typeof ProjectProformaOptions[number]
+
 export interface IProjectModel {
   _id: string;
   consultantId: string;

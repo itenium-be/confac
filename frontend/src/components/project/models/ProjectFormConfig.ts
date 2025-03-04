@@ -18,6 +18,9 @@ export const projectFormConfig: FullFormConfig = [
   {key: 'projectMonthConfig.changingOrderNr', component: 'switch'},
   {key: 'client.advancedInvoicing', component: 'switch'},
   {key: 'forEndCustomer', component: 'switch'},
+  {forceRow: true},
+  {key: 'projectMonthConfig.hasProforma', component: 'ProjectProformaSelect'},
+
 
   {title: 'client.notes'},
   {key: 'notes', label: '', component: 'TextEditor', cols: 12},
