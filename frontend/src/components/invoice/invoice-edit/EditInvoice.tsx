@@ -159,7 +159,6 @@ const EditInvoice = () => {
                   claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
                   value={{note: invoice.note, comments: invoice.comments || []}}
                   onChange={val => {
-                    debugger
                     setInvoice(new InvoiceModel(invoice.config, {...invoice, note: val.note, comments: val.comments}));
                     forceUpdate();
                   }}
