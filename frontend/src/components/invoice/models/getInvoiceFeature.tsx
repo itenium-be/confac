@@ -24,6 +24,7 @@ export type InvoiceFeatureBuilderConfig = IFeatureBuilderConfig<InvoiceModel, Li
   invoicePayDays: number;
   includedFields?: string[];
   disableFilters?: boolean;
+  invoicesTotalOnly?: boolean
 };
 
 export interface IInvoiceListData {
@@ -95,7 +96,7 @@ export function createInvoiceList(config: InvoiceFeatureBuilderConfig): IFeature
   const transPrefix = config.isQuotation ? 'quotation' : 'invoice';
   const listRows: IListRow<InvoiceModel> = {
     className: invoice => getInvoiceListRowClass(invoice, config.invoicePayDays),
-    cells: getInvoiceColumns(includedFields, transPrefix),
+    cells: getInvoiceColumns(includedFields, transPrefix, config.invoicesTotalOnly),
   };
 
   let feature: IFeature<InvoiceModel, ListFilters> =  {
@@ -124,7 +125,7 @@ export function createInvoiceList(config: InvoiceFeatureBuilderConfig): IFeature
 }
 
 
-export function getInvoiceColumns(includeFields: string[], transPrefix: string): IListCell<InvoiceModel>[] {
+export function getInvoiceColumns(includeFields: string[], transPrefix: string, invoicesTotalOnly?: boolean): IListCell<InvoiceModel>[] {
   const isGroupedTable = includeFields.includes('date-month');
   const columns: IListCell<InvoiceModel>[] = [{
     key: 'date-month',
@@ -189,7 +190,7 @@ export function getInvoiceColumns(includeFields: string[], transPrefix: string):
       </>
     ),
     sort: (i, i2) => i.money.total - i2.money.total,
-    footer: invoices => <InvoicesTotal invoices={invoices} />,
+    footer: invoices => <InvoicesTotal invoices={invoices} totalOnly={invoicesTotalOnly} />,
   }, {
     key: 'buttons',
     header: '',
