@@ -15,16 +15,17 @@ export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButton
   const tp = (transKey: string): string => t(invoice.getType() + transKey);
   return (
     <>
-
-      <BusyButton
-        claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
-        variant='light'
-        icon="far fa-thin fa-copy"
-        onClick={() => onClick('clone', navigate)}
-        className="tst-clone-invoice"
-      >
-        {t('invoice.createCreditNota')}
-      </BusyButton>
+      {!invoice.isQuotation &&
+        <BusyButton
+          claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
+          variant='light'
+          icon="far fa-thin fa-copy"
+          onClick={() => onClick('clone', navigate)}
+          className="tst-clone-invoice"
+        >
+          {t('invoice.createCreditNota')}
+        </BusyButton>
+      }
       <BusyButton
         claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
         variant="light"
