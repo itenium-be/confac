@@ -10,6 +10,7 @@ import { Pagination } from './Pagination';
 import { SortDirections } from './table-models';
 import { sortResult } from '../../utils';
 import { CheckboxInput } from '../form-controls/inputs/CheckboxInput';
+import { filterAndSortFeatureData } from './List';
 
 export type ListSelectionItem<TModel> = TModel | TModel[]
 
@@ -27,38 +28,19 @@ export const ListSelect = ({feature, value, isMulti, onChange, ...props}: ListSe
   const [page, setPage] = useState(0);
 
   const config = feature.list;
-  let {data} = config;
-  if (feature.list.filter) {
-    const {filter} = feature.list;
-    if (filter.fullTextSearch) {
-      const {fullTextSearch} = filter;
-      data = data.filter(model => fullTextSearch(filter.state, model));
-    }
-  }
-
-  if(feature.list.filter?.state?.sort) {
-    const key = feature.list.filter?.state?.sort.columnName;
-    const cell = feature.list.rows.cells.find(col => col.key === key)
-    if(cell && cell.sort){
-      const asc = feature.list.filter?.state?.sort.direction === SortDirections.ASC;
-      data = data.slice().sort(sortResult(cell.sort, asc));
-    }
-  }
-  else if (feature.list.sorter) {
-    data = data.slice().sort(feature.list.sorter);
-  }
+  const data = filterAndSortFeatureData(feature);
 
   const handleCheckboxChange = useCallback((model: any) => {
     if (isMulti) {
-        if (Array.isArray(value) && value.map(i => i._id).includes(model._id)) {
-            onChange(value.filter(item => item !== model));
-        } else {
-            onChange([...(Array.isArray(value) ? value : []), model]);
-        }
+      if (Array.isArray(value) && value.map(i => i._id).includes(model._id)) {
+        onChange(value.filter(item => item !== model));
+      } else {
+        onChange([...(Array.isArray(value) ? value : []), model]);
+      }
     } else {
-        onChange(model);
+      onChange(model);
     }
-}, [value, onChange, isMulti]);
+  }, [value, onChange, isMulti]);
 
 
   const hasAddedSelectCell = useRef(false);

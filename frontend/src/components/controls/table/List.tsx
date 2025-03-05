@@ -15,12 +15,9 @@ type ListProps = {
   feature: IFeature<any, any>;
 }
 
-export const List = ({feature}: ListProps) => {
-  const listSize = useSelector((state: ConfacState) => state.app.settings.listSize);
-  const [page, setPage] = useState(0);
-
+export const filterAndSortFeatureData = (feature: IFeature<any, any>) => {
   const config = feature.list;
-  let {data} = config;
+  let {data} = config
   if (feature.list.filter) {
     const {filter} = feature.list;
     if (filter.fullTextSearch) {
@@ -40,6 +37,16 @@ export const List = ({feature}: ListProps) => {
   else if (feature.list.sorter) {
     data = data.slice().sort(feature.list.sorter);
   }
+
+  return data
+}
+
+export const List = ({feature}: ListProps) => {
+  const listSize = useSelector((state: ConfacState) => state.app.settings.listSize);
+  const [page, setPage] = useState(0);
+
+  const config = feature.list;
+  const data = filterAndSortFeatureData(feature);
 
   return (
     <Table size="sm" className={`table-${feature.key}`}>
