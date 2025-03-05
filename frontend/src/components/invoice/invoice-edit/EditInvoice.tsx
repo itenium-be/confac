@@ -52,11 +52,12 @@ const EditInvoice = () => {
   }
 
   const configRef = useRef(config)
+  const invoicesRef = useRef(invoices)
   useEffect(() => {
     const isQuotation = window.location.pathname.startsWith('/quotations/');
-    const navigateInvoice = invoices.filter(x => x.isQuotation && isQuotation).find(x => x.number === parseInt(params.id, 10))
+    const navigateInvoice = invoicesRef.current.filter(x => x.isQuotation && isQuotation).find(x => x.number === parseInt(params.id, 10))
     setInvoice(new InvoiceModel(configRef.current, navigateInvoice))
-  }, [params, invoices])
+  }, [params])
 
 
   // TODO: confusion with storeInvoice vs initInvoice vs invoice
