@@ -5,7 +5,7 @@ import {t} from '../../utils';
 import {EditInvoiceLines} from './invoice-lines/EditInvoiceLines';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
-import {createInvoice, previewInvoice, updateInvoiceRequest} from '../../../actions/index';
+import {createInvoice, previewInvoice, syncCreditNotas, updateInvoiceRequest} from '../../../actions/index';
 import {EditInvoiceClient} from './EditInvoiceClient';
 import InvoiceModel from '../models/InvoiceModel';
 import {ConfacState} from '../../../reducers/app-state';
@@ -87,38 +87,6 @@ const EditInvoice = () => {
   // --> There should be a form variant and a model variant new'd for every render
   // --> problem right now is that ex for a new invoice the invoice._id is not set after save
   // --> the invoice.attachments are also not updated because they are separate from the form...
-  const syncCreditNotas = (invoice: InvoiceModel) => {
-    const removedCreditNota = initInvoice.creditNotas.filter(n => !invoice.creditNotas.includes(n));
-    const creditNotaGroup = [...invoice.creditNotas, invoice.number]
-
-
-    removedCreditNota.forEach(creditnota => {
-      const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i.number === creditnota && !i.isQuotation))
-      if(invoiceToUpdate) {
-        invoiceToUpdate.creditNotas = []
-
-        dispatch(updateInvoiceRequest(invoiceToUpdate, undefined, false) as any);
-      }
-    })
-
-    invoice.creditNotas.forEach(creditNota => {
-      const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i.number === creditNota && !i.isQuotation))
-      if(invoiceToUpdate) {
-        const newCreditNotas = creditNotaGroup.filter(n => n !== invoiceToUpdate.number)
-
-        if ( newCreditNotas.length !== invoiceToUpdate.creditNotas.length ||
-          !(newCreditNotas.every(num => invoiceToUpdate.creditNotas.includes(num)) &&
-          invoiceToUpdate.creditNotas.every(num => newCreditNotas.includes(num)))
-        ) {
-          invoiceToUpdate.creditNotas = newCreditNotas
-          dispatch(updateInvoiceRequest(invoiceToUpdate, undefined, false) as any);
-        }
-
-
-      }
-    })
-
-  }
 
 
   return (
@@ -257,11 +225,11 @@ const EditInvoice = () => {
               } if (type === 'preview') {
                 dispatch(previewInvoice(invoice.client.invoiceFileName || config.invoiceFileName, invoice, fullProjectMonth) as any);
               } if (type === 'update') {
-                syncCreditNotas(invoice)
+                dispatch(syncCreditNotas(invoice, initInvoice.creditNotas, invoices) as any)
                 dispatch(updateInvoiceRequest(invoice, undefined, false, navigate) as any);
               } if (type === 'clone') {
                 const creditNota = getNewClonedInvoice(invoices, invoice)
-                syncCreditNotas(creditNota)
+                dispatch(syncCreditNotas(creditNota, initInvoice.creditNotas, invoices) as any)
                 dispatch(createInvoice(creditNota, navigate) as any);
               }
             }}
