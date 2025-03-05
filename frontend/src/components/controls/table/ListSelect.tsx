@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useCallback, useState} from 'react';
 import {Table} from 'react-bootstrap';
 import {ListHeader} from './ListHeader';
 import {ListRow} from './ListRow';
@@ -7,8 +7,6 @@ import {IFeature} from '../feature/feature-models';
 import {useSelector} from 'react-redux';
 import {ConfacState} from '../../../reducers/app-state';
 import { Pagination } from './Pagination';
-import { SortDirections } from './table-models';
-import { sortResult } from '../../utils';
 import { CheckboxInput } from '../form-controls/inputs/CheckboxInput';
 import { filterAndSortFeatureData } from './List';
 

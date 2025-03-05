@@ -5,22 +5,44 @@ import { List } from "../../controls/table/List";
 import { Claim } from "../../users/models/UserModel";
 import { ListSelectionItem } from "../../controls/table/ListSelect";
 import { InvoiceCreditNotasModal } from "./InvoiceCreditNotasModal";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { ConfacState } from "../../../reducers/app-state";
+import { useDispatch } from "react-redux";
+import { updateAppFilters, updateInvoiceRequest } from "../../../actions";
+import { Features } from "../../controls/feature/feature-models";
 
 
 export type InvoiceCreditNotasProps = {
-  config: InvoiceFeatureBuilderConfig,
   model: InvoiceModel,
   onChange: (invoice: InvoiceModel) => void,
 }
 
-export const InvoiceCreditNotas = ({config, model, onChange}: InvoiceCreditNotasProps) => {
-  const creditNotas = config.data.filter(i => model.creditNotas.includes(i.number) && !i.isQuotation)
+export const InvoiceCreditNotas = ({ model, onChange}: InvoiceCreditNotasProps) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const invoiceFilters = useSelector((state: ConfacState) => state.app.filters.invoices)
+  const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
+  const invoices = useSelector((state: ConfacState) => state.invoices);
+
+  const featureConfig: InvoiceFeatureBuilderConfig = {
+    isQuotation: model.isQuotation,
+    invoicePayDays,
+    isGroupedOnMonth: false,
+    data: invoices,
+    save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate) as any),
+    filters: invoiceFilters,
+    setFilters: f => dispatch(updateAppFilters(Features.invoices, f)),
+
+  }
+
+  const creditNotas = featureConfig.data.filter(i => model.creditNotas.includes(i.number) && !i.isQuotation)
   if(creditNotas.length === 0) {
     return null
   }
 
   const feature = createInvoiceList({
-    ...config,
+    ...featureConfig,
     data: [...creditNotas, model],
     disableFilters: true,
     invoicesTotalOnly: true,
@@ -54,7 +76,7 @@ export const InvoiceCreditNotas = ({config, model, onChange}: InvoiceCreditNotas
       <InvoiceCreditNotasModal
         model={model}
         onConfirm={saveCreditNotas}
-        config={config}
+        config={featureConfig}
         claim={Claim.ManageInvoices}
       />
     </>
