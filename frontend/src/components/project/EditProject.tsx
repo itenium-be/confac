@@ -101,8 +101,7 @@ export const EditProject = () => {
     }
 
     const clientTypeForClientField = (newProject.forEndCustomer ? 'client' : 'endCustomer')
-    if(project.client.clientId)
-    {
+    if(project.client.clientId) {
       const selectedClient = clients.find(x => x._id === project.client.clientId);
       if(selectedClient && !selectedClient.types.includes(clientTypeForClientField)){
         newProject.client.clientId = '';
@@ -116,8 +115,7 @@ export const EditProject = () => {
       if('forceRow' in config) return config;
 
       const clientConfig = config as FormConfig;
-      if(clientConfig.key === 'client')
-      {
+      if(clientConfig.key === 'client') {
         return {
           ...clientConfig,
           props: {

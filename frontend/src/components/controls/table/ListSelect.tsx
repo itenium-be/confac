@@ -61,8 +61,7 @@ export const ListSelect = ({feature, value, isMulti, onChange, ...props}: ListSe
 }, [value, onChange, isMulti]);
 
 
-  if(config.rows.cells.length > 0 && config.rows.cells[0].key !== 'select')
-  {
+  if(config.rows.cells.length > 0 && config.rows.cells[0].key !== 'select') {
     config.rows.cells.unshift({
     key: 'select',
     header: '',
