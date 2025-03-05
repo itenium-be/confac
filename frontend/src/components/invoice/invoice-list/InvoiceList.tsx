@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {Container, Row, Col} from 'react-bootstrap';
-import {createInvoice, updateAppFilters, updateInvoiceFilters} from '../../../actions/index';
+import {updateAppFilters, updateInvoiceFilters, updateInvoiceRequest} from '../../../actions/index';
 import InvoiceListModel from '../models/InvoiceListModel';
 import {InvoiceSearch} from '../controls/InvoiceSearch';
 import {GroupedInvoiceTable} from '../invoice-table/GroupedInvoiceTable';
@@ -48,19 +48,17 @@ export const InvoiceList = (props: InvoiceListProps) => {
   const isQuotation = window.location.pathname === '/quotations';
   const vm = new InvoiceListModel(props.invoices, props.clients, props.consultants, props.filters, isQuotation);
 
-
-
   const invoices = vm.getFilteredInvoices();
-
   const featureConfig: InvoiceFeatureBuilderConfig = {
     isQuotation: vm.isQuotation,
     invoicePayDays,
     isGroupedOnMonth: props.filters.groupedByMonth,
     data: invoices,
-    save: m => dispatch(createInvoice(m, navigate) as any),
+    save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate) as any),
     filters: invoiceFilters,
     setFilters: f => dispatch(updateAppFilters(Features.invoices, f)),
   }
+
 
   const TableComponent = props.filters.groupedByMonth ? GroupedInvoiceTable : NonGroupedInvoiceTable;
   return (
@@ -82,7 +80,7 @@ export const InvoiceList = (props: InvoiceListProps) => {
         isQuotation={vm.isQuotation}
         vm={vm}
       />
-      <TableComponent vm={vm} config={featureConfig} />
+      <TableComponent config={featureConfig} />
     </Container>
   );
 };

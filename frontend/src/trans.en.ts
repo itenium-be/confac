@@ -334,6 +334,10 @@ export const trans = {
     attachmentViewTooltip: 'View {type}',
     pdfTemplateNotFoundTitle: 'Pdf template niet gevonden!',
     pdfTemplateNotFound: 'The pdf template could not be found (check Config)',
+    creditNotas: {
+      title: 'Credit Notas',
+      addLine: 'Add Credit nota',
+    },
     search: {
       placeholder: 'Filter list',
       withoutPayPeriod: 'Without period',
@@ -346,6 +350,7 @@ export const trans = {
     listAdvancedFilters: 'Meer filters',
     listDownloadZip: 'Alle in de lijst zichtbare facturen downloaden (zip)',
     listDownloadExcel: 'Alle in de lijst zichtbare Facturen exporteren als Excel rapport (csv)',
+    createCreditNota: 'Create Credit Nota'
   },
   attachment: {
     types: 'Bijlage types',

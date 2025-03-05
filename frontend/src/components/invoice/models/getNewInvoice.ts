@@ -2,7 +2,7 @@
 import InvoiceModel from './InvoiceModel';
 import {ConfigModel} from '../../config/models/ConfigModel';
 import {ClientModel} from '../../client/models/ClientModels';
-import {today} from './invoice-date-strategy';
+import {getInvoiceDate, today} from './invoice-date-strategy';
 
 
 export type NewInvoiceType = Partial<Omit<InvoiceModel, '_id'>> & {
@@ -60,3 +60,26 @@ export const getNewInvoice = (
   }
   return model;
 };
+
+export const getNewClonedInvoice = (
+  invoices: InvoiceModel[],
+  invoiceToCopy: InvoiceModel
+): InvoiceModel => {
+
+
+  const invoicesOrQuotations = invoiceToCopy.isQuotation ? invoices.filter(x => x.isQuotation) : invoices.filter(x => !x.isQuotation);
+
+   const newInvoice = new InvoiceModel(invoiceToCopy.config, {
+      ...invoiceToCopy,
+      _id: undefined,
+      date: getInvoiceDate(invoiceToCopy.client, invoiceToCopy.config, today()),
+      number: invoicesOrQuotations.map(i => i.number).reduce((a, b) => Math.max(a, b), 0) + 1,
+      lines: invoiceToCopy.lines.map(line => ({...line, amount: 0, audit: {} })),
+      creditNotas: [...invoiceToCopy.creditNotas, invoiceToCopy.number],
+      note: '',
+      comments: []
+    });
+
+
+    return newInvoice
+}

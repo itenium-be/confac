@@ -6,7 +6,7 @@ import {Claim} from '../../users/models/UserModel';
 
 type EditInvoiceSaveButtonsComponentProps = {
   invoice: InvoiceModel,
-  onClick: (type: 'create' | 'update' | 'preview', navigate: any) => void,
+  onClick: (type: 'create' | 'update' | 'preview' | 'clone', navigate: any) => void,
 }
 
 export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButtonsComponentProps) => {
@@ -15,6 +15,17 @@ export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButton
   const tp = (transKey: string): string => t(invoice.getType() + transKey);
   return (
     <>
+      {!invoice.isQuotation &&
+        <BusyButton
+          claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
+          variant='light'
+          icon="far fa-thin fa-copy"
+          onClick={() => onClick('clone', navigate)}
+          className="tst-clone-invoice"
+        >
+          {t('invoice.createCreditNota')}
+        </BusyButton>
+      }
       <BusyButton
         claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
         variant="light"

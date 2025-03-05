@@ -3,7 +3,7 @@ import {DefaultHoursInDay} from '../../client/models/getNewClient';
 import {ConfigModel, ConfigCompanyModel} from '../../config/models/ConfigModel';
 import {getInvoiceDate} from './invoice-date-strategy';
 import {ClientModel} from '../../client/models/ClientModels';
-import {Attachment, IAttachment, IAudit} from '../../../models';
+import {Attachment, IAttachment, IAudit, IComment} from '../../../models';
 import {InvoiceLine} from './InvoiceLineModels';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
@@ -55,7 +55,9 @@ export default class InvoiceModel implements IAttachment {
   lines: InvoiceLine[] = [];
   money: InvoiceMoney;
   note: string;
+  comments: IComment[];
   config: ConfigModel;
+  creditNotas: number[];
 
   get isNew(): boolean {
     return this._id === undefined;
@@ -75,12 +77,14 @@ export default class InvoiceModel implements IAttachment {
     this.isQuotation = obj.isQuotation || false;
     this.lastEmail = obj.lastEmail;
     this.note = obj.note || '';
+    this.comments = obj.comments || [];
 
     this.money = this._calculateMoneys();
 
     this._lines = obj.lines || config.defaultInvoiceLines || [];
     this.audit = obj.audit;
     this.config = config;
+    this.creditNotas = obj.creditNotas || [];
   }
 
   getType(): 'quotation' | 'invoice' {
@@ -149,6 +153,12 @@ export default class InvoiceModel implements IAttachment {
       consultantName: consultant ? `${consultant.firstName} ${consultant.name}` : undefined,
     };
   }
+
+
+  setCreditNotas(creditNotas: InvoiceModel[]) {
+    this.creditNotas = creditNotas.map(i => i.number).filter(n=> this.number !== n)
+  }
+
 
   static emptyMoney(): InvoiceMoney {
     return {
@@ -285,3 +295,4 @@ export function calculateDaysWorked(invoices: InvoiceModel[]): DaysWorked {
 
   return invoiceDayTotals;
 }
+

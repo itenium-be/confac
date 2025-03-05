@@ -68,8 +68,7 @@ export type ClaimGuardSwitchProps = {
 }
 export const ClaimGuardSwitch = ({feature, children}: ClaimGuardSwitchProps) => {
 
-  if(React.Children.count(children) === 0)
-  {
+  if(React.Children.count(children) === 0) {
     return null;
   }
 
