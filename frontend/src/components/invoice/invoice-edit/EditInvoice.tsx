@@ -111,7 +111,7 @@ const EditInvoice = () => {
 
 
     removedCreditNota.forEach(creditnota => {
-      const invoiceToUpdate = invoices.find(i => i.number === creditnota);
+      const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i.number === creditnota && !i.isQuotation))
       if(invoiceToUpdate) {
         invoiceToUpdate.creditNotas = []
 
@@ -120,11 +120,11 @@ const EditInvoice = () => {
     })
 
     invoice.creditNotas.forEach(creditNota => {
-      const invoiceToUpdate = invoices.find(i => i.number === creditNota);
+      const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i.number === creditNota && !i.isQuotation))
       if(invoiceToUpdate) {
         const newCreditNotas = creditNotaGroup.filter(n => n !== invoiceToUpdate.number)
 
-        if (newCreditNotas.length !== invoiceToUpdate.creditNotas.length ||
+        if ( newCreditNotas.length !== invoiceToUpdate.creditNotas.length ||
           !(newCreditNotas.every(num => invoiceToUpdate.creditNotas.includes(num)) &&
           invoiceToUpdate.creditNotas.every(num => newCreditNotas.includes(num)))
         ) {

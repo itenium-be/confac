@@ -23,12 +23,12 @@ export type InvoiceCreditNotasModalProps = {
 export const InvoiceCreditNotasModal = ({ config, model, onConfirm, claim}: InvoiceCreditNotasModalProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [selectedInvoices, setSelectedInvoices] = useState<ListSelectionItem<InvoiceModel>>(
-    config.data.filter(i => model.creditNotas.includes(i.number))
+    config.data.filter(i => model.creditNotas.includes(i.number) && !i.isQuotation)
   )
 
   const featureConfig: IFeature<InvoiceModel, ListFilters> = createInvoiceList({
     ...config,
-    data: [...config.data.filter(i => model.number !== i.number)],
+    data: [...config.data.filter(i => model.number !== i.number && !i.isQuotation)],
     includedFields: [
       'number',
       'client',
@@ -40,7 +40,7 @@ export const InvoiceCreditNotasModal = ({ config, model, onConfirm, claim}: Invo
 
   useEffect(() => {
     setSelectedInvoices(
-        config.data.filter(i => model.creditNotas.includes(i.number))
+        config.data.filter(i => model.creditNotas.includes(i.number) && !i.isQuotation)
     );
   }, [model.creditNotas, config.data]);
 

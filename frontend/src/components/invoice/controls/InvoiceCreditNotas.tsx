@@ -14,7 +14,7 @@ export type InvoiceCreditNotasProps = {
 }
 
 export const InvoiceCreditNotas = ({config, model, onChange}: InvoiceCreditNotasProps) => {
-  const creditNotas = config.data.filter(i => model.creditNotas.includes(i.number))
+  const creditNotas = config.data.filter(i => model.creditNotas.includes(i.number) && !i.isQuotation)
   if(creditNotas.length === 0) {
     return null
   }
