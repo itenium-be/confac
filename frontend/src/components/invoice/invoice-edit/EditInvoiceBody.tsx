@@ -69,7 +69,7 @@ export const EditInvoiceBody = ({invoice, onChange}: EditInvoiceBodyProps) => {
           <InvoiceCreditNotas
             model={invoice}
             onChange={m => {
-              onChange(invoice)
+              onChange(m)
             }}
           />
         </Row>
