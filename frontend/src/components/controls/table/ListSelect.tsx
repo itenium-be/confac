@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {Table} from 'react-bootstrap';
 import {ListHeader} from './ListHeader';
 import {ListRow} from './ListRow';
@@ -61,17 +61,24 @@ export const ListSelect = ({feature, value, isMulti, onChange, ...props}: ListSe
 }, [value, onChange, isMulti]);
 
 
-  if(config.rows.cells.length > 0 && config.rows.cells[0].key !== 'select') {
-    config.rows.cells.unshift({
-    key: 'select',
-    header: '',
-    className: 'lst-select-check',
-      value: (m) => (
-        <CheckboxInput
-          value={Array.isArray(value) && value.includes(m)}
-          onChange={() =>handleCheckboxChange(m)} label='' />)
-    })
-  }
+  const hasAddedSelectCell = useRef(false);
+  useEffect(() => {
+    if (!hasAddedSelectCell.current && config.rows.cells.length > 0 && config.rows.cells[0].key !== 'select') {
+      config.rows.cells.unshift({
+        key: 'select',
+        header: '',
+        className: 'lst-select-check',
+        value: (m) => (
+          <CheckboxInput
+            value={Array.isArray(value) && value.map(i => i._id).includes(m._id)}
+            onChange={() => handleCheckboxChange(m)}
+            label=''
+          />
+        ),
+      });
+      hasAddedSelectCell.current = true;
+    }
+  }, [config, value, handleCheckboxChange]);
 
 
   return (
