@@ -1,4 +1,4 @@
-import {useEffect, useReducer, useState} from 'react';
+import {useEffect, useReducer, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
@@ -51,11 +51,12 @@ const EditInvoice = () => {
     setInvoice(new InvoiceModel(config, storeInvoice));
   }
 
+  const configRef = useRef(config)
   useEffect(() => {
     const isQuotation = window.location.pathname.startsWith('/quotations/');
     const navigateInvoice = invoices.filter(x => x.isQuotation && isQuotation).find(x => x.number === parseInt(params.id, 10))
-    setInvoice(new InvoiceModel(config, navigateInvoice))
-  }, [params, config, invoices])
+    setInvoice(new InvoiceModel(configRef.current, navigateInvoice))
+  }, [params, invoices])
 
 
   // TODO: confusion with storeInvoice vs initInvoice vs invoice
