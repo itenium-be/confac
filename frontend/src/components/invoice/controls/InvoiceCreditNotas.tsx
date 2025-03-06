@@ -55,7 +55,7 @@ export const InvoiceCreditNotas = ({ model, onChange}: InvoiceCreditNotasProps) 
       'total-amount',
       'buttons'
     ],
-    buttons: ['comment', 'edit', 'preview']
+    buttons: ['comment', 'edit', 'validate', 'preview']
   });
 
   feature.list.sorter = (a, b) => a.number - b.number;
