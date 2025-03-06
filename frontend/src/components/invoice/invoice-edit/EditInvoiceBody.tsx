@@ -65,6 +65,7 @@ export const EditInvoiceBody = ({invoice, onChange}: EditInvoiceBodyProps) => {
             translationPrefix={invoice.getType()}
           />
         </Row>
+        <InvoiceAttachmentsForm model={invoice} />
         <Row>
           <InvoiceCreditNotas
             model={invoice}
@@ -73,7 +74,6 @@ export const EditInvoiceBody = ({invoice, onChange}: EditInvoiceBodyProps) => {
             }}
           />
         </Row>
-        <InvoiceAttachmentsForm model={invoice} />
 
     </>
   )
