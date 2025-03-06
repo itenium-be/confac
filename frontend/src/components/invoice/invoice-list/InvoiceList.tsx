@@ -57,6 +57,7 @@ export const InvoiceList = (props: InvoiceListProps) => {
     save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate) as any),
     filters: invoiceFilters,
     setFilters: f => dispatch(updateAppFilters(Features.invoices, f)),
+    buttons: ['edit', 'validate', 'download', 'preview', 'delete']
   }
 
 
