@@ -20,9 +20,10 @@ type InvoiceListRowActionsProps = {
   /** Hides some buttons when true */
   small?: boolean;
   buttons?: InvoiceListRowAction[]
+  hideEdit?: boolean
 }
 
-export const InvoiceListRowActions = ({invoice, toggleValid, small = false, buttons}: InvoiceListRowActionsProps) => {
+export const InvoiceListRowActions = ({invoice, toggleValid, small = false, buttons, hideEdit}: InvoiceListRowActionsProps) => {
   const dispatch = useDispatch();
   const invoiceType = invoice.isQuotation ? 'quotation' : 'invoice';
 
@@ -50,7 +51,10 @@ export const InvoiceListRowActions = ({invoice, toggleValid, small = false, butt
       {(buttons?.includes('edit') ?? true) && !small && (
         <EditIcon
           onClick={`/${invoiceType}s/${invoice.number}`}
-          style={{marginRight: invoice.isQuotation ? undefined : -15}}
+          style={{
+            marginRight: invoice.isQuotation ? undefined : -15,
+            visibility: hideEdit ?  'hidden' : 'visible'
+          }}
         />
       )}
       {(buttons?.includes('validate') ?? true) &&
