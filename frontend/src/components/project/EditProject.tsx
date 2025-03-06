@@ -8,7 +8,6 @@ import {deleteProject, saveProject} from '../../actions';
 import {StickyFooter} from '../controls/other/StickyFooter';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {IProjectModel, ProjectClientInvoiceLine} from './models/IProjectModel';
-import {projectFormConfig} from './models/ProjectFormConfig';
 import {getNewProject, getNewProjectEndCustomer} from './models/getNewProject';
 import {ConfacState} from '../../reducers/app-state';
 import {getDefaultProjectMonthConfig} from './models/ProjectMonthModel';
@@ -25,7 +24,7 @@ import {EnhanceWithConfirmation} from '../enhancers/EnhanceWithConfirmation';
 import {Button} from '../controls/form-controls/Button';
 import {isDateIntervalValid} from '../controls/other/ProjectValidator';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
-import { FormConfig } from '../../models';
+import { projectFormConfigClient, projectFormConfigEndCustomer } from './models/ProjectFormConfig';
 
 
 const ConfirmationButton = EnhanceWithConfirmation(Button);
@@ -43,7 +42,7 @@ export const EditProject = () => {
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === project.client.clientId) || getNewClient());
   const hasProjectMonths = useSelector((state: ConfacState) => state.projectsMonth.some(pm => pm.projectId === params.id));
   const [needsSync, setNeedsSync] = useState<{consultant: boolean, client: boolean}>({consultant: false, client: false});
-  const [clientFormConfig, setClientFormConfig] = useState(projectFormConfig)
+  const [clientFormConfig, setClientFormConfig] = useState(project.forEndCustomer ? projectFormConfigClient : projectFormConfigEndCustomer)
 
   useEntityChangedToast(project._id);
 
@@ -110,23 +109,7 @@ export const EditProject = () => {
 
     setProject(newProject);
 
-    setClientFormConfig(clientFormConfig.map(config => {
-      if(typeof config === 'string') return config;
-      if('forceRow' in config) return config;
-
-      const clientConfig = config as FormConfig;
-      if(clientConfig.key === 'client') {
-        return {
-          ...clientConfig,
-          props: {
-            ...clientConfig.props,
-            clientType: clientTypeForClientField
-          }
-        }
-      }
-
-      return config;
-    }))
+    setClientFormConfig(newProject.forEndCustomer ? projectFormConfigClient: projectFormConfigEndCustomer)
 
 
 
