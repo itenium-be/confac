@@ -336,7 +336,7 @@ export const trans = {
     pdfTemplateNotFound: 'De pdf template was niet gevonden (check Config)',
     creditNotas: {
       title: 'Credit nota\'s',
-      addLine: 'Creditnota toevoegen',
+      addLine: 'Factuur (ont)koppelen',
     },
     search: {
       placeholder: 'Lijst filteren',
@@ -538,6 +538,8 @@ export const trans = {
     title: 'Projecten maand',
     listTitle: '{month} {year}',
     filterUnverified: 'Enkel niet gevalideerde',
+    ProformaVerified: 'Gevalideerd: proforma factuur is gevalideerd',
+    ProformaNew: 'Nieuw: Proforma factuur nog niet behandeld',
     footer: {
       forecast: 'Forecast excl. btw',
       projecten: '{projects} projecten',

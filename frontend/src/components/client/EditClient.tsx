@@ -23,7 +23,7 @@ import { NotesWithCommentsModalButton } from '../controls/form-controls/button/N
 
 
 /** Different spellings of "Belgium" */
-export const belgiums = ['België', 'Belgium', 'Belgie'];
+export const belgiums = ['België', 'Belgium', 'Belgie', 'BE'];
 
 
 function getClient(client: ClientModel | undefined, config: ConfigModel) {

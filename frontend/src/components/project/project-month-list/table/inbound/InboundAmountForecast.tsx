@@ -9,11 +9,12 @@ import { belgiums } from '../../../../client/EditClient';
 
 type InboundAmountForecastProps = {
   fullProjectMonth: FullProjectMonthModel;
+  includeTax?: boolean
 };
 
 
 /** Expected inbound total invoice amount */
-export const InboundAmountForecast = ({ fullProjectMonth }: InboundAmountForecastProps) => {
+export const InboundAmountForecast = ({ fullProjectMonth, includeTax = true }: InboundAmountForecastProps) => {
   const tax = useSelector((state: ConfacState) => state.config.defaultInvoiceLines[0].tax);
   const { timesheet } = fullProjectMonth.details;
   if (!timesheet.timesheet || !fullProjectMonth.project.partner) {
@@ -39,9 +40,12 @@ export const InboundAmountForecast = ({ fullProjectMonth }: InboundAmountForecas
     }
   }
 
+
   let amount = timesheetConfig.amount;
-  if (!fullProjectMonth.partner || !fullProjectMonth.partner.country?.trim() || belgiums.includes(fullProjectMonth.partner.country)) {
-    amount *= (1 + tax / 100);
+  if (includeTax &&
+    (!fullProjectMonth.partner || !fullProjectMonth.partner.country?.trim() || belgiums.includes(fullProjectMonth.partner.country))) {
+      const temp = amount
+      amount *= (1 + tax / 100);
   }
 
   const totalAmount = amount * partnerTariffs.tariff;

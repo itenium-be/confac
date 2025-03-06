@@ -336,7 +336,7 @@ export const trans = {
     pdfTemplateNotFound: 'The pdf template could not be found (check Config)',
     creditNotas: {
       title: 'Credit Notas',
-      addLine: 'Add Credit nota',
+      addLine: '(un)link invoices',
     },
     search: {
       placeholder: 'Filter list',
@@ -539,6 +539,8 @@ export const trans = {
     title: 'Project months',
     listTitle: '{month} {year}',
     filterUnverified: 'Not validated only',
+    proformaVerified: 'Validated: proforma invoice has been validated',
+    ProformaNew: 'New: Proforma invoice not yet processed',
     footer: {
       forecast: 'Forecast excl. tax',
       projecten: '{projects} projects',

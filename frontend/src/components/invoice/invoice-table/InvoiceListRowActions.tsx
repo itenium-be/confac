@@ -20,9 +20,10 @@ type InvoiceListRowActionsProps = {
   /** Hides some buttons when true */
   small?: boolean;
   buttons?: InvoiceListRowAction[]
+  hideEdit?: boolean
 }
 
-export const InvoiceListRowActions = ({invoice, toggleValid, small = false, buttons}: InvoiceListRowActionsProps) => {
+export const InvoiceListRowActions = ({invoice, toggleValid, small = false, buttons, hideEdit}: InvoiceListRowActionsProps) => {
   const dispatch = useDispatch();
   const invoiceType = invoice.isQuotation ? 'quotation' : 'invoice';
 
@@ -33,6 +34,7 @@ export const InvoiceListRowActions = ({invoice, toggleValid, small = false, butt
       {(buttons?.includes('comment') ?? true) && (
         <NotesWithCommentsModalButton
           claim={Claim.ManageInvoices}
+          includeBorder={false}
           value={{note: invoice.note, comments: invoice.comments || [] }}
           onChange={val => {
             const updatedInvoice = new InvoiceModel(invoice.config, {
@@ -43,12 +45,16 @@ export const InvoiceListRowActions = ({invoice, toggleValid, small = false, butt
             dispatch(updateInvoiceRequest(updatedInvoice, undefined, false) as any)
           }}
           title={t('client.comments')}
+          style={{marginRight: invoice.isQuotation ? undefined : -15}}
         />
       )}
       {(buttons?.includes('edit') ?? true) && !small && (
         <EditIcon
           onClick={`/${invoiceType}s/${invoice.number}`}
-          style={{marginRight: invoice.isQuotation ? undefined : -15}}
+          style={{
+            marginRight: invoice.isQuotation ? undefined : -15,
+            visibility: hideEdit ?  'hidden' : 'visible'
+          }}
         />
       )}
       {(buttons?.includes('validate') ?? true) &&

@@ -134,7 +134,10 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
     { fullProjectMonth.details.inbound.proforma && (
       <div className='inbound-proforma'>
         <span>{t('projectMonth.proformaTitle')}</span>
-        <InboundAmountForecast fullProjectMonth={fullProjectMonth} />
+        <InboundAmountForecast
+          fullProjectMonth={fullProjectMonth}
+          includeTax={fullProjectMonth.details.inbound.proforma.inclusiveTax}
+        />
         <div style={{ flexGrow: 1 }}></div>
         <div className="inbound-actions">
           <ProjectMonthProformaStatusSelect

@@ -1,6 +1,6 @@
-import {FullFormConfig} from '../../../models';
+import {FormConfig, FullFormConfig} from '../../../models';
 
-export const projectFormConfig: FullFormConfig = [
+export const projectFormConfigEndCustomer: FullFormConfig = [
   {key: 'client.clientId', component: 'ProjectClientContractStatus', label: 'project.contract.frameworkAgreementTitle'},
   {key: 'contract', component: 'ContractStatusWithNotes', label: 'project.contract.projectTitle'},
 
@@ -25,6 +25,24 @@ export const projectFormConfig: FullFormConfig = [
   {title: 'client.notes'},
   {key: 'notes', label: '', component: 'TextEditor', cols: 12},
 ];
+
+export const projectFormConfigClient: FullFormConfig =  projectFormConfigEndCustomer.map(config => {
+  if(typeof config === 'string') return config;
+  if('forceRow' in config) return config;
+
+  const clientConfig = config as FormConfig;
+  if(clientConfig.key === 'client') {
+    return {
+      ...clientConfig,
+      props: {
+        ...clientConfig.props,
+        clientType: 'client'
+      }
+    }
+  }
+
+  return config
+})
 
 
 const HeaderSize = 3;

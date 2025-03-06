@@ -9,6 +9,7 @@ import {authService} from '../../../users/authService';
 import { CommentList } from '../../comments/CommentsList';
 import CommentModel from '../../comments/CommentModel';
 import { CommentEdit } from '../../comments/CommentEdit';
+import { Icon } from '../../Icon';
 
 export type NotesWithComments = {
   comments: IComment[],
@@ -19,11 +20,12 @@ type NotesWithCommentsModalButtonProps = MinimalInputProps<NotesWithComments> & 
   title: string;
   variant?: BootstrapVariant;
   claim?: Claim;
+  includeBorder?: boolean;
   style?: CSSProperties;
 };
 
 
-export const NotesWithCommentsModalButton = ({claim, value, onChange, title, variant, disabled, style}: NotesWithCommentsModalButtonProps) => {
+export const NotesWithCommentsModalButton = ({claim, value, onChange, title, variant, disabled, includeBorder = true, style}: NotesWithCommentsModalButtonProps) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const [editComment, setEditComment] = useState<CommentModel | null>(null);
@@ -128,14 +130,25 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
 
   return (
     <>
-      <Button
-        onClick={() => setOpen(!open)}
-        variant={variant || 'outline-dark'}
-        title={text || t('comment.addComment')}
-        icon={icon}
-        style={style}
-        className="tst-add-note"
-      />
+      {includeBorder ? (
+        <Button
+          onClick={() => setOpen(!open)}
+          variant={variant || 'outline-dark'}
+          title={text || t('comment.addComment')}
+          icon={icon}
+          style={style}
+          className="tst-add-note"
+        />
+      ) : (
+        <Icon
+          title={text || t('comment.addComment')}
+          size={2}
+          style={style}
+          onClick={() => setOpen(!open)}
+          className="tst-add-note"
+          fa={icon}
+        />
+      )}
       {open && (
         <Modal
           show

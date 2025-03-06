@@ -26,6 +26,7 @@ export type InvoiceFeatureBuilderConfig = IFeatureBuilderConfig<InvoiceModel, Li
   disableFilters?: boolean;
   invoicesTotalOnly?: boolean;
   buttons?: InvoiceListRowAction[];
+  currentInvoice?: InvoiceModel
 };
 
 export interface IInvoiceListData {
@@ -199,7 +200,12 @@ export function getInvoiceColumns(config: InvoiceFeatureBuilderConfig): IListCel
     key: 'buttons',
     header: '',
     className: 'icons-cell',
-    value: (i: InvoiceModel) => <InvoiceListRowActions invoice={i} buttons={config.buttons}/>,
+    value: (i: InvoiceModel) =>
+    <InvoiceListRowActions
+      invoice={i}
+      buttons={config.buttons}
+      hideEdit={(config.currentInvoice?.number ) === i.number}
+    />,
   }];
 
   const result = columns.filter(col => includedFields.includes(col.key));
