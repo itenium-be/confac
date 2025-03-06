@@ -55,6 +55,8 @@ const EditInvoice = () => {
   const invoicesRef = useRef(invoices)
   useEffect(() => {
     const isQuotation = window.location.pathname.startsWith('/quotations/');
+    window.scrollTo(0, 0)
+
     const navigateInvoice = invoicesRef.current.filter(x => x.isQuotation && isQuotation).find(x => x.number === parseInt(params.id, 10))
     setInvoice(new InvoiceModel(configRef.current, navigateInvoice))
   }, [params])
