@@ -336,7 +336,7 @@ export const trans = {
     pdfTemplateNotFound: 'De pdf template was niet gevonden (check Config)',
     creditNotas: {
       title: 'Credit nota\'s',
-      addLine: 'Creditnota toevoegen',
+      addLine: 'Factuur koppelen',
     },
     search: {
       placeholder: 'Lijst filteren',
