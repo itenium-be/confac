@@ -539,6 +539,8 @@ export const trans = {
     title: 'Project months',
     listTitle: '{month} {year}',
     filterUnverified: 'Not validated only',
+    proformaVerified: 'Validated: proforma invoice has been validated',
+    ProformaNew: 'New: Proforma invoice not yet processed',
     footer: {
       forecast: 'Forecast excl. tax',
       projecten: '{projects} projects',
