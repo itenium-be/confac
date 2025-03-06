@@ -336,7 +336,7 @@ export const trans = {
     pdfTemplateNotFound: 'De pdf template was niet gevonden (check Config)',
     creditNotas: {
       title: 'Credit nota\'s',
-      addLine: 'Factuur koppelen',
+      addLine: 'Factuur (ont)koppelen',
     },
     search: {
       placeholder: 'Lijst filteren',
@@ -350,7 +350,7 @@ export const trans = {
     listAdvancedFilters: 'Meer filters',
     listDownloadZip: 'Alle in de lijst zichtbare facturen downloaden (zip)',
     listDownloadExcel: 'Alle in de lijst zichtbare Facturen exporteren als Excel rapport (csv)',
-    createCreditNota: 'Creditnota aanmaken'
+    createCreditNota: 'Factuur koppelen'
   },
   attachment: {
     types: 'Bijlage types',

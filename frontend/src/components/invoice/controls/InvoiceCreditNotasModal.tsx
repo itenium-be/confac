@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Claim } from "../../users/models/UserModel";
-import { AddIcon } from "../../controls/Icon";
+import { EditIcon } from "../../controls/Icon";
 import { t } from "../../utils";
 import { createInvoiceList, InvoiceFeatureBuilderConfig } from "../models/getInvoiceFeature";
 import InvoiceModel from "../models/InvoiceModel";
@@ -48,7 +48,7 @@ export const InvoiceCreditNotasModal = ({ config, model, onConfirm, claim}: Invo
 
   return (
     <>
-      <AddIcon claim={claim} onClick={() => {setOpen(true)}} label={t('invoice.creditNotas.addLine')} size={1} />
+      <EditIcon claim={claim} onClick={() => {setOpen(true)}} label={t('invoice.creditNotas.addLine')} size={1} />
 
       {open && (
         <Modal
