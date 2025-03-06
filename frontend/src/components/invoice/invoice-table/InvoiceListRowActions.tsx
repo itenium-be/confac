@@ -33,6 +33,7 @@ export const InvoiceListRowActions = ({invoice, toggleValid, small = false, butt
       {(buttons?.includes('comment') ?? true) && (
         <NotesWithCommentsModalButton
           claim={Claim.ManageInvoices}
+          includeBorder={false}
           value={{note: invoice.note, comments: invoice.comments || [] }}
           onChange={val => {
             const updatedInvoice = new InvoiceModel(invoice.config, {
@@ -43,6 +44,7 @@ export const InvoiceListRowActions = ({invoice, toggleValid, small = false, butt
             dispatch(updateInvoiceRequest(updatedInvoice, undefined, false) as any)
           }}
           title={t('client.comments')}
+          style={{marginRight: invoice.isQuotation ? undefined : -15}}
         />
       )}
       {(buttons?.includes('edit') ?? true) && !small && (
