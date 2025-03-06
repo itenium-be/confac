@@ -8,6 +8,8 @@ import {useDebouncedSave} from '../../../../hooks/useDebounce';
 import { CreateInvoiceButton } from './CreateInvoiceButton';
 import { OutboundInvoice } from './OutboundInvoice';
 import { Claim } from '../../../../users/models/UserModel';
+import { useSelector } from 'react-redux';
+import { ConfacState } from '../../../../../reducers/app-state';
 
 
 interface ProjectMonthOutboundCellProps {
@@ -18,6 +20,7 @@ interface ProjectMonthOutboundCellProps {
 /** Outbound form cell for a ProjectMonth row */
 export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboundCellProps) => {
   const dispatch = useDispatch();
+  const invoices = useSelector((state: ConfacState) => state.invoices)
 
   const dispatcher = (orderNr: string) => {
     dispatch(patchProjectsMonth({...fullProjectMonth.details, orderNr}) as any);
@@ -82,8 +85,17 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
   }
 
 
-
   return (
-    <OutboundInvoice fullProjectMonth={fullProjectMonth} toggleValid={toggleValid} />
-  );
+    <>
+      <OutboundInvoice invoice={fullProjectMonth.invoice} toggleValid={toggleValid} />
+      {fullProjectMonth.invoice.creditNotas
+        .sort((a, b) => a < b ? 1 : -1)
+        .map(nbr => invoices.find(i => !i.isQuotation && i.number === nbr))
+        .filter(i => i !== undefined)
+        .map(i => (
+          <OutboundInvoice key={i!.number} invoice={i!} toggleValid={toggleValid} />
+        ))
+      }
+    </>
+  )
 };
