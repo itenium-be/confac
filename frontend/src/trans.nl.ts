@@ -350,7 +350,7 @@ export const trans = {
     listAdvancedFilters: 'Meer filters',
     listDownloadZip: 'Alle in de lijst zichtbare facturen downloaden (zip)',
     listDownloadExcel: 'Alle in de lijst zichtbare Facturen exporteren als Excel rapport (csv)',
-    createCreditNota: 'Factuur koppelen'
+    createCreditNota: 'Creditnota aanmaken'
   },
   attachment: {
     types: 'Bijlage types',
