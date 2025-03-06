@@ -28,7 +28,7 @@ export const OutboundInvoice = ({ fullProjectMonth, toggleValid }: OutboundInvoi
         <InvoiceEmail invoice={fullProjectMonth.invoice} />
       </div>
       <div className="icons-cell">
-        <InvoiceListRowActions invoice={fullProjectMonth.invoice} toggleValid={toggleValid} small />
+        <InvoiceListRowActions invoice={fullProjectMonth.invoice} toggleValid={toggleValid} small buttons={['validate', 'preview']} />
       </div>
     </div>
   );
