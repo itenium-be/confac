@@ -1,4 +1,3 @@
-import { FullProjectMonthModel } from '../../../models/FullProjectMonthModel';
 import { moneyFormat, formatDate } from '../../../../utils';
 import { InvoiceNumberCell } from '../../../../invoice/invoice-table/InvoiceNumberCell';
 import { InvoiceListRowActions } from '../../../../invoice/invoice-table/InvoiceListRowActions';

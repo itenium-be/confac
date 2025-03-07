@@ -2,7 +2,7 @@
 import InvoiceModel from './InvoiceModel';
 import {ConfigModel} from '../../config/models/ConfigModel';
 import {ClientModel} from '../../client/models/ClientModels';
-import {getInvoiceDate, today} from './invoice-date-strategy';
+import {today} from './invoice-date-strategy';
 
 
 export type NewInvoiceType = Partial<Omit<InvoiceModel, '_id'>> & {
