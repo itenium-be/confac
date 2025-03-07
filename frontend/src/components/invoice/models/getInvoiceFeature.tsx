@@ -26,7 +26,8 @@ export type InvoiceFeatureBuilderConfig = IFeatureBuilderConfig<InvoiceModel, Li
   disableFilters?: boolean;
   invoicesTotalOnly?: boolean;
   buttons?: InvoiceListRowAction[];
-  currentInvoice?: InvoiceModel
+  currentInvoice?: InvoiceModel,
+  defaultSorter?: (a: InvoiceModel, b: InvoiceModel) => number
 };
 
 export interface IInvoiceListData {
@@ -100,7 +101,7 @@ export function createInvoiceList(config: InvoiceFeatureBuilderConfig): IFeature
     list: {
       rows: listRows,
       data: config.data,
-      sorter: (a, b) => b.number - a.number,
+      sorter: config.defaultSorter ?? ( (a, b) => b.number - a.number ),
       filter: !config.disableFilters ? {
         fullTextSearch: searchInvoices,
         updateFilter: config.setFilters,
