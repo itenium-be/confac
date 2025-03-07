@@ -10,6 +10,8 @@ import { OutboundInvoice } from './OutboundInvoice';
 import { Claim } from '../../../../users/models/UserModel';
 import { useSelector } from 'react-redux';
 import { ConfacState } from '../../../../../reducers/app-state';
+import InvoiceModel from '../../../../invoice/models/InvoiceModel';
+import { getInvoiceDueDateVariant } from '../../../../invoice/invoice-table/getInvoiceListRowClass';
 
 
 interface ProjectMonthOutboundCellProps {
@@ -28,11 +30,30 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
   const [orderNr, setOrderNr/* , saveOrderNr */] = useDebouncedSave<string>(fullProjectMonth.details.orderNr || '', dispatcher);
 
 
-  const toggleValid = (verified: boolean | 'forced') => {
-    dispatch(patchProjectsMonth({...fullProjectMonth.details, verified}) as any);
+  const toggleValid = (verified: boolean | 'forced', invoice?: InvoiceModel) => {
+    if(!invoice) {
+      dispatch(patchProjectsMonth({...fullProjectMonth.details, verified}) as any);
+    }
+
+    if(verified === 'forced'){
+      dispatch(patchProjectsMonth({...fullProjectMonth.details, verified}) as any);
+    }
+
+    if(verified)
+    {
+      dispatch(patchProjectsMonth({
+        ...fullProjectMonth.details,
+        verified: invoice!.creditNotas.every(invoiceNbr => fullProjectMonth.details.verifiedInvoices.includes(invoiceNbr)),
+        verifiedInvoices: [...fullProjectMonth.details.verifiedInvoices, invoice!.number]
+      }) as any);
+    } else {
+      dispatch(patchProjectsMonth({
+        ...fullProjectMonth.details,
+        verified,
+        verifiedInvoices: fullProjectMonth.details.verifiedInvoices.filter(n => n !== invoice!.number)
+      }) as any);
+    }
   };
-
-
 
   const ValidityToggle = (
     <ValidityToggleButton
@@ -85,15 +106,29 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
   }
 
 
+  const invoiceList = [
+    ...fullProjectMonth.invoice.creditNotas,
+    fullProjectMonth.invoice.number
+  ]
+
   return (
     <>
-      <OutboundInvoice invoice={fullProjectMonth.invoice} toggleValid={toggleValid} />
-      {fullProjectMonth.invoice.creditNotas
-        .sort((a, b) => a < b ? 1 : -1)
+      {invoiceList
+        .sort((a, b) => a - b)
         .map(nbr => invoices.find(i => !i.isQuotation && i.number === nbr))
         .filter(i => i !== undefined)
         .map(i => (
-          <OutboundInvoice key={i!.number} invoice={i!} toggleValid={toggleValid} />
+          <OutboundInvoice
+            key={i!.number}
+            invoice={i!}
+            toggleValid={(valid) => toggleValid(valid, i!)}
+            className={
+              fullProjectMonth.details.verifiedInvoices.includes(i!.number) ?
+              'validated' :
+              `table-${getInvoiceDueDateVariant(i!)}`
+            }
+            style={{backgroundColor: !fullProjectMonth.details.verifiedInvoices.includes(i!.number) ? 'var(--bs-table-bg)' : undefined}}
+          />
         ))
       }
     </>

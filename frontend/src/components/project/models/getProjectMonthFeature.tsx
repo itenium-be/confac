@@ -69,7 +69,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     key: 'project',
     value: p => <ProjectMonthConsultantCell fullProjectMonth={p} />,
     className: p => {
-      if (p.details.verified || p.invoice?.verified) {
+      if (p.details.verified) {
         return 'validated';
       }
       return undefined;
@@ -127,10 +127,9 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     value: p => <ProjectMonthOutboundCell fullProjectMonth={p} />,
     className: p => {
       if (p.invoice) {
-        if (p.invoice.verified) {
+        if (p.details.verified) {
           return 'validated';
         }
-        return `table-${getInvoiceDueDateVariant(p.invoice)}`;
       }
       return undefined;
     },
@@ -145,7 +144,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     key: 'notes',
     value: p => <ProjectMonthNotesCell fullProjectMonth={p} />,
     className: p => {
-      if (p.details.verified || p.invoice?.verified) {
+      if (p.details.verified) {
         return 'validated';
       }
       return undefined;
