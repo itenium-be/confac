@@ -2,7 +2,7 @@
 import InvoiceModel from './InvoiceModel';
 import {ConfigModel} from '../../config/models/ConfigModel';
 import {ClientModel} from '../../client/models/ClientModels';
-import {getInvoiceDate, today} from './invoice-date-strategy';
+import {today} from './invoice-date-strategy';
 
 
 export type NewInvoiceType = Partial<Omit<InvoiceModel, '_id'>> & {
@@ -70,7 +70,7 @@ export const getNewClonedInvoice = (
 
   return getNewInvoice(invoiceBlueprint.config, invoices, [], {
     ...invoiceBlueprint,
-    lines: invoiceToCopy.lines.map(line => ({...line, amount: 0, audit: {} })),
+    lines: invoiceToCopy.lines.map(line => ({...line, amount: line.amount*-1, audit: {} })),
     creditNotas: [...invoiceBlueprint.creditNotas, invoiceBlueprint.number],
     note: '',
     comments: []

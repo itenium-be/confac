@@ -8,7 +8,6 @@ import {ProjectMonthTimesheetCell} from '../project-month-list/table/ProjectMont
 import {ProjectMonthConsultantCell} from '../project-month-list/table/ProjectMonthConsultantCell';
 import {ProjectMonthInboundCell} from '../project-month-list/table/inbound/ProjectMonthInboundCell';
 import {ProjectMonthOutboundCell} from '../project-month-list/table/outbound/ProjectMonthOutboundCell';
-import {getInvoiceDueDateVariant} from '../../invoice/invoice-table/getInvoiceListRowClass';
 import {ProjectMonthNotesCell} from '../project-month-list/table/ProjectMonthNotesCell';
 import {ConsultantCountFooter} from '../project-month-list/table/footers/ConsultantCountFooter';
 import { ProjectClientForecastFooter } from "../project-month-list/table/footers/ProjectClientForecastFooter";
@@ -69,7 +68,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     key: 'project',
     value: p => <ProjectMonthConsultantCell fullProjectMonth={p} />,
     className: p => {
-      if (p.details.verified || p.invoice?.verified) {
+      if (p.details.verified) {
         return 'validated';
       }
       return undefined;
@@ -127,10 +126,9 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     value: p => <ProjectMonthOutboundCell fullProjectMonth={p} />,
     className: p => {
       if (p.invoice) {
-        if (p.invoice.verified) {
+        if (p.details.verified) {
           return 'validated';
         }
-        return `table-${getInvoiceDueDateVariant(p.invoice)}`;
       }
       return undefined;
     },
@@ -145,7 +143,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     key: 'notes',
     value: p => <ProjectMonthNotesCell fullProjectMonth={p} />,
     className: p => {
-      if (p.details.verified || p.invoice?.verified) {
+      if (p.details.verified) {
         return 'validated';
       }
       return undefined;

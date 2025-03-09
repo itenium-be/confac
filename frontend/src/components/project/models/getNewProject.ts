@@ -48,6 +48,7 @@ export const getNewProjectMonth = (): ProjectMonthModel => ({
   comments: [],
   orderNr: '',
   verified: false,
+  verifiedInvoices: [],
   attachments: [],
   audit: {} as IAudit,
 });

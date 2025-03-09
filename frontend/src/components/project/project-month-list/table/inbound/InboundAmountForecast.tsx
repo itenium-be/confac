@@ -44,7 +44,6 @@ export const InboundAmountForecast = ({ fullProjectMonth, includeTax = true }: I
   let amount = timesheetConfig.amount;
   if (includeTax &&
     (!fullProjectMonth.partner || !fullProjectMonth.partner.country?.trim() || belgiums.includes(fullProjectMonth.partner.country))) {
-      const temp = amount
       amount *= (1 + tax / 100);
   }
 

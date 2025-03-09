@@ -56,10 +56,10 @@ export const InvoiceCreditNotas = ({ model, onChange}: InvoiceCreditNotasProps) 
       'buttons'
     ],
     buttons: ['comment', 'edit', 'validate', 'preview'],
-    currentInvoice: model
+    currentInvoice: model,
+    defaultSorter: (a, b) => a.number - b.number
   });
 
-  feature.list.sorter = (a, b) => a.number - b.number;
 
   const saveCreditNotas = (selectedInvoices: ListSelectionItem<InvoiceModel>) => {
     if(Array.isArray(selectedInvoices)) {

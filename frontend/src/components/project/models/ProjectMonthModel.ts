@@ -23,6 +23,7 @@ export interface ProjectMonthModel {
   orderNr: string;
   audit: IAudit;
   verified: ProjectMonthStatus;
+  verifiedInvoices: number[];
   attachments: Attachment[];
 }
 
