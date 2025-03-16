@@ -1,0 +1,6 @@
+.table-invoices th {
+  &:nth-child(3) { min-width: 140px; }
+  &:nth-child(4) { min-width: 90px; }
+  &:nth-child(7) { min-width: 80px; }
+  &:last-child { width: 220px; }
+}
