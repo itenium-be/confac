@@ -5,7 +5,7 @@
 
 import { NextFunction, Request, Response } from 'express';
 import { Db, MongoClient } from 'mongodb';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+// import { MongoMemoryServer } from 'mongodb-memory-server';
 
 import request from 'supertest';
 import express from 'express';
@@ -31,31 +31,31 @@ app.use('/', projectsRouter);
 describe('projectsMonth controller', () => {
   let connection: MongoClient;
 
-  beforeAll(async () => {
-    // Setup fake mongo
-    const mongoServer = await MongoMemoryServer.create();
-    const uri = mongoServer.getUri();
-    connection = await MongoClient.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    const db = await connection.db('projects_month');
+  // beforeAll(async () => {
+  //   // Setup fake mongo
+  //   const mongoServer = await MongoMemoryServer.create();
+  //   const uri = mongoServer.getUri();
+  //   connection = await MongoClient.connect(uri, {
+  //     useNewUrlParser: true,
+  //     useUnifiedTopology: true,
+  //   });
+  //   const db = await connection.db('projects_month');
 
-    // Make sure our Express middleware uses our fake db
-    getFakeDb.mockReturnValue(db);
-  });
+  //   // Make sure our Express middleware uses our fake db
+  //   getFakeDb.mockReturnValue(db);
+  // });
 
 
   // DELETE deleteProjectsMonthController
-  describe.skip('deleteProjectsMonthController', () => {
-    it('it deletes the projectMonth', async () => {
-      const res = await request(app)
-        .delete('/month')
-        .expect(200);
-    });
+  // describe.skip('deleteProjectsMonthController', () => {
+  //   it('it deletes the projectMonth', async () => {
+  //     const res = await request(app)
+  //       .delete('/month')
+  //       .expect(200);
+  //   });
 
-    it('also deletes the attachment', () => {})
-  })
+  //   it('also deletes the attachment', () => {})
+  // })
 
 
   // POST createProjectsMonthController
@@ -71,7 +71,7 @@ describe('projectsMonth controller', () => {
     it('saves property updates to the db', () => {})
   })
 
-  afterAll(async () => {
-    await connection.close();
-  });
+  // afterAll(async () => {
+  //   await connection.close();
+  // });
 })

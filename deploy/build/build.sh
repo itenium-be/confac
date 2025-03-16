@@ -12,8 +12,9 @@ cd ./backend
 
 rm -rf -- ./public
 
-npm install --production
-npm install typescript@4.3
+npm install
+# npm install --production
+# npm install typescript@4.3
 npm run build
 
 
