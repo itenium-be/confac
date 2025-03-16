@@ -12,7 +12,7 @@ cd ./backend
 
 rm -rf -- ./public
 
-npm install
+npm install --production
 npm run build
 
 
