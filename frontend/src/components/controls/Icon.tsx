@@ -3,6 +3,7 @@ import cn from 'classnames';
 import {Tooltip} from './Tooltip';
 import t from '../../trans';
 import {EnhanceWithClaim, EnhanceWithClaimProps} from '../enhancers/EnhanceWithClaim';
+import { Claim } from '../users/models/UserModel';
 
 
 const EnhanceIconWithCenter = <P extends object>(EnhancedComponent: React.ComponentType<P>) => (
@@ -110,11 +111,19 @@ export const EditIcon = ({...props}: IconProps) => <Icon className="tst-edit" fa
 
 export const ExpandIcon = ({...props}: IconProps) => <Icon className="tst-expand" fa="fa fa-expand-arrows-alt" {...props} />;
 
+const ClaimSpan = EnhanceWithClaim(({children, ...props}: any) => {
+  return <span {...props}>{children}</span>;
+})
+
 export const NotEmailedIcon = ({...props}) => (
-  <span className="fa-stack fa-2x tst-not-mailed"  {...props}>
+  <ClaimSpan
+    claim={claims => claims.includes(Claim.EmailInvoices) || claims.includes(Claim.ViewEmailInvoices)}
+    className="fa-stack fa-2x tst-not-mailed"
+    {...props}
+  >
     <i className="fas fa-envelope fa-stack-1x" />
     <Icon  fa="fas fa-ban fa-stack-2x" size={1} title={t('email.notMailed')} color="#CC1100" />
-  </span>
+  </ClaimSpan>
 );
 
 export const EmailedIcon = ({...props}) => (

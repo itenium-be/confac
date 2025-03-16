@@ -15,11 +15,11 @@ type InvoiceEmailProps = {
 export const InvoiceEmail = ({ invoice }: InvoiceEmailProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
-
-  const emailIcon = !invoice.lastEmail ? (<NotEmailedIcon style={{ fontSize: 17 }} />) : (
+  const emailIcon = !invoice.lastEmail ? (
+    <NotEmailedIcon style={{ fontSize: 17 }} />
+  ) : (
     <EmailedIcon title={t('email.lastEmailDaysAgo', { daysAgo: moment(invoice.lastEmail).fromNow() })} style={{ fontSize: 17 }} />
   )
-
 
   return (
     <ClaimGuardSwitch>
@@ -31,7 +31,8 @@ export const InvoiceEmail = ({ invoice }: InvoiceEmailProps) => {
           <EmailModal
             template={invoice.lastEmail ? EmailTemplate.Reminder : EmailTemplate.InitialEmail}
             invoice={invoice}
-            onClose={() => setShowModal(false)} />
+            onClose={() => setShowModal(false)}
+          />
         )}
       </ClaimGuard>
       <ClaimGuard claim={Claim.ViewEmailInvoices}>

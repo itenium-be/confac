@@ -41,7 +41,9 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
       <div>
         <Alert variant={variant} onClose={() => this.setState({dismissed: true})} dismissible>
 
-          {!invoice.lastEmail && <NotEmailedIcon style={{marginRight: 10, fontSize: 13, marginTop: -6}} />}
+          {!invoice.lastEmail && (
+            <NotEmailedIcon style={{marginRight: 10, fontSize: 13, marginTop: -6}} />
+          )}
 
           <BusyButton
             claim={Claim.ValidateInvoices}

@@ -4,12 +4,12 @@ import InvoiceModel from "../models/InvoiceModel";
 import { useProjectsMonth } from "../../hooks/useProjects";
 import { useSelector } from "react-redux";
 import { ConfacState } from "../../../reducers/app-state";
-import { Button } from "react-bootstrap";
 import { Claim } from "../../users/models/UserModel";
 import { EditInvoiceSaveButtons } from "./EditInvoiceSaveButtons";
 import { createInvoice, previewInvoice, syncCreditNotas, updateInvoiceRequest } from "../../../actions";
 import { getNewClonedInvoice } from "../models/getNewInvoice";
 import { t } from "../../utils";
+import { Button } from "../../controls/form-controls/Button";
 
 
 export type EditInvoiceFooterProps = {
@@ -52,8 +52,6 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal}: EditInv
       <EditInvoiceSaveButtons
         invoice={invoice}
         onClick={(type, navigate) => {
-
-
           if (type === 'create') {
             dispatch(createInvoice(invoice, navigate) as any);
           } if (type === 'preview') {

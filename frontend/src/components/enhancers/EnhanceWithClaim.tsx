@@ -53,8 +53,7 @@ type ClaimGuardProps = {
 }
 
 export const ClaimGuard = ({feature, claim, children}: ClaimGuardProps) => {
-
-  if(!hasClaim(feature, claim)) {
+  if (!hasClaim(feature, claim)) {
     return null;
   }
 
@@ -67,8 +66,7 @@ export type ClaimGuardSwitchProps = {
   children: ReactNode;
 }
 export const ClaimGuardSwitch = ({feature, children}: ClaimGuardSwitchProps) => {
-
-  if(React.Children.count(children) === 0) {
+  if (React.Children.count(children) === 0) {
     return null;
   }
 
@@ -79,7 +77,7 @@ export const ClaimGuardSwitch = ({feature, children}: ClaimGuardSwitchProps) => 
   for (const claimGuard of claimGuards) {
     const { feature: guardFeature, claim, children: guardChildren } = claimGuard.props;
 
-    if(hasClaim(guardFeature ?? feature, claim)){
+    if (hasClaim(guardFeature ?? feature, claim)) {
       return guardChildren;
     }
   }

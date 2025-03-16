@@ -28,19 +28,21 @@ export const EditInvoiceHeader = ({invoice, isNew, onChange} : EditInvoiceHeader
             <EditInvoiceBadges invoice={invoice} />
           </div>
         </div>
-        <div>
-          <div className={`invoice-top-buttonbar ${!isNew ? 'invoice-edit' : 'invoice-new'}`}>
-            {!isNew && <NotesWithCommentsModalButton
-              claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
-              value={{note: invoice.note, comments: invoice.comments || []}}
-              onChange={val => onChange(new InvoiceModel(invoice.config, {...invoice, note: val.note, comments: val.comments}))}
-              title={t('projectMonth.note')}
-              variant="link"
-            />}
-            {!isNew && <DownloadInvoiceButton invoice={invoice} />}
-            {!isNew && !invoice?.isQuotation && <InvoiceDownloadIcon invoice={invoice} fileType='xml' style={{color: '#0062cc', marginLeft: 20}} />}
+        {!isNew && (
+          <div>
+            <div className="invoice-top-buttonbar invoice-edit">
+              <NotesWithCommentsModalButton
+                claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
+                value={{note: invoice.note, comments: invoice.comments || []}}
+                onChange={val => onChange(new InvoiceModel(invoice.config, {...invoice, note: val.note, comments: val.comments}))}
+                title={t('projectMonth.note')}
+                variant="link"
+              />
+              <DownloadInvoiceButton invoice={invoice} />
+              {!invoice?.isQuotation && <InvoiceDownloadIcon invoice={invoice} fileType='xml' style={{color: '#0062cc', marginLeft: 20}} />}
+            </div>
           </div>
-        </div>
+        )}
       </Col>
       <Col sm={12}>
         <InvoiceNotVerifiedAlert invoice={invoice} />
