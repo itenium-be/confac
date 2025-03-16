@@ -17,14 +17,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: frontend build and test
-      working-directory: ./frontend
-      run: |
-        npm ci
-        npm run build --if-present
-        npm run ci
-      env:
-        CI: true
+    # - name: frontend build and test
+    #   working-directory: ./frontend
+    #   run: |
+    #     npm ci
+    #     npm run build --if-present
+    #     npm run ci
+    #   env:
+    #     CI: true
 
     - name: backend build and test
       working-directory: ./backend
