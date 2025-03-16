@@ -1,7 +1,6 @@
 import {useDispatch} from 'react-redux';
 import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
 import {patchProjectsMonth} from '../../../../actions';
-import {NotesModalButton} from '../../../controls/form-controls/button/NotesModalButton';
 import {t} from '../../../utils';
 import {Claim} from '../../../users/models/UserModel';
 import { NotesWithCommentsModalButton } from '../../../controls/form-controls/button/NotesWithCommentsModalButton';
