@@ -415,7 +415,7 @@ export const trans = {
     },
     clienttypes: {
       partner: 'Onderaannemer',
-      client: 'klant',
+      client: 'Klant',
       endCustomer: 'Eindklant'
     },
     createNewModal: {

@@ -5,7 +5,6 @@ import { BaseSelect } from '../../controls/form-controls/select/BaseSelect';
 
 type ClientTypeSelectProps = BaseInputProps<string[]>
 
-
 export const ClientTypeSelect = ({ value, onChange, ...props}: ClientTypeSelectProps) => {
   return (
     <BaseSelect
@@ -17,6 +16,3 @@ export const ClientTypeSelect = ({ value, onChange, ...props}: ClientTypeSelectP
     />
   );
 };
-
-
-
