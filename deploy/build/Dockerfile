@@ -1,4 +1,4 @@
-FROM node:16.10.0
+FROM node:22.12.0
 
 # Build the project, results are placed in: /deploy/dist
 
