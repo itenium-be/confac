@@ -27,12 +27,13 @@ const TimesheetTimeDisplay = (props: TimesheetTimeConfig) => {
     return <span>&nbsp;</span>;
   }
 
+  const days = getAmountInDays(props);
   const vpWidth = window.innerWidth;
-  if (vpWidth > ViewportWidths.showTimesheetDaysFrom) {
-    return <span>{t('client.daysWorked', {days: getAmountInDays(props)})}</span>;
+  if (vpWidth > ViewportWidths.showTimesheetDaysFrom && days.toString().length < 5) {
+    return <span>{t('client.daysWorked', {days})}</span>;
   }
 
-  return <span>{getAmountInDays(props)}</span>;
+  return <span>{days}</span>;
 };
 
 
