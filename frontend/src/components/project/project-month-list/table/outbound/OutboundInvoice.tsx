@@ -14,8 +14,6 @@ interface OutboundInvoiceProps {
 
 
 export const OutboundInvoice = ({ invoice, toggleValid, className, style }: OutboundInvoiceProps) => {
-
-
   return (
     <div className={`outbound-invoice-cell ${className || ''}`} style={style}>
       <div>

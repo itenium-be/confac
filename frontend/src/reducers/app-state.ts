@@ -86,7 +86,7 @@ export const defaultAppState: AppState = {
       openMonths: {},
       unverifiedOnly: false,
     },
-    users: getListFilters(true),
+    users: getListFilters(false),
     roles: getListFilters(),
     comments:{
       freeText: '',
