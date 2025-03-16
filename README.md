@@ -1,7 +1,14 @@
 confac
 ======
 
-Node v16.10.0
+## Version Lock-In
+
+We're locked into these versions (for the backend):  
+Node **v16.10.0**, TypeScript v4.3 and mongodb **v3.5.8**  
+- Could attempt to upgrade mongodb to v4.4.1
+- This is the lastest version of mongo that does not require VAX which our production server doesn't have
+- For later versions of mongo the @types/mongodb is no longer necessary but there are breaking changes
+  - ex: ObjectId -> ObjectID
 
 
 ## Starting DEV
