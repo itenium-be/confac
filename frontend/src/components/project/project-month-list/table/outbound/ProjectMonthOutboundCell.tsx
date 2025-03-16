@@ -31,16 +31,15 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
 
 
   const toggleValid = (verified: boolean | 'forced', invoice?: InvoiceModel) => {
-    if(!invoice) {
+    if (!invoice) {
       dispatch(patchProjectsMonth({...fullProjectMonth.details, verified}) as any);
     }
 
-    if(verified === 'forced'){
+    if (verified === 'forced') {
       dispatch(patchProjectsMonth({...fullProjectMonth.details, verified}) as any);
     }
 
-    if(verified)
-    {
+    if (verified) {
       dispatch(patchProjectsMonth({
         ...fullProjectMonth.details,
         verified: invoice!.creditNotas.every(invoiceNbr => fullProjectMonth.details.verifiedInvoices.includes(invoiceNbr)),
@@ -107,7 +106,7 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
 
 
   const invoiceList = [
-    ...fullProjectMonth.invoice.creditNotas,
+    ...(fullProjectMonth.invoice.creditNotas || []),
     fullProjectMonth.invoice.number
   ]
 
