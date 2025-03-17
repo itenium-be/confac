@@ -36,6 +36,17 @@ docker volume create mongodata
 docker run -id -p 27017:27017 -e "MONGO_INITDB_ROOT_USERNAME=admin" -e "MONGO_INITDB_ROOT_PASSWORD=pwd" -v mongodata:/data/db --name confac-mongo mongo:3.6.3
 ```
 
+### Migrations
+
+```sh
+cd deploy
+npm run create some-name
+npm run up
+
+# Or on server:
+./migrate.sh
+```
+
 
 
 ## Emailing
@@ -71,7 +82,6 @@ Mongo db credentials are read automatically from the env file.
 cd backend
 npm run faker
 ```
-
 
 
 ## Template testing

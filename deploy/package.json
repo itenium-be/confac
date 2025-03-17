@@ -1,0 +1,18 @@
+{
+  "name": "mongo-migrate",
+  "version": "1.0.0",
+  "description": "Run mongodb migrations",
+  "scripts": {
+    "create": "migrate-mongo create",
+    "up": "migrate-mongo up",
+    "down": "migrate-mongo down",
+    "status": "migrate-mongo status"
+  },
+  "author": "itenium",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "migrate-mongo": "^6.0.4",
+    "objectid": "^3.2.1"
+  }
+}
