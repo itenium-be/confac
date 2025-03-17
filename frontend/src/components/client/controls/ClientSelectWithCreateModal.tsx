@@ -30,7 +30,10 @@ export const EndCustomerSelectWithCreateModal = (props: ClientSelectWithCreateMo
 
 export const ClientSelectWithCreateModal = ({value, onChange, clientType }: ClientSelectWithCreateModalProps) => {
   const [modalId, setModalId] = useState<ModalState>(null);
-  const client = useSelector((state: ConfacState) => state.clients.filter(c=> clientType === undefined || c.types.includes(clientType)).find(c => c._id === value));
+  const client = useSelector((state: ConfacState) => state.clients
+    .filter(c=> clientType === undefined || c.types.includes(clientType))
+    .find(c => c._id === value)
+  );
 
   const clientTypeName = clientType || 'client' // backwards compatibility, defaults to 'client'
   return (

@@ -21,7 +21,7 @@ export type InvoiceCreditNotasProps = {
 export const InvoiceCreditNotas = ({ model, onChange}: InvoiceCreditNotasProps) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const invoiceFilters = useSelector((state: ConfacState) => state.app.filters.invoices)
+  const invoiceFilters = useSelector((state: ConfacState) => state.app.filters.invoices);
   const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
   const invoices = useSelector((state: ConfacState) => state.invoices);
 
@@ -36,9 +36,9 @@ export const InvoiceCreditNotas = ({ model, onChange}: InvoiceCreditNotasProps) 
 
   }
 
-  const creditNotas = featureConfig.data.filter(i => model.creditNotas.includes(i.number) && !i.isQuotation)
-  if(creditNotas.length === 0) {
-    return null
+  const creditNotas = featureConfig.data.filter(i => model.creditNotas.includes(i.number) && !i.isQuotation);
+  if (creditNotas.length === 0) {
+    return null;
   }
 
   const feature = createInvoiceList({
@@ -62,12 +62,12 @@ export const InvoiceCreditNotas = ({ model, onChange}: InvoiceCreditNotasProps) 
 
 
   const saveCreditNotas = (selectedInvoices: ListSelectionItem<InvoiceModel>) => {
-    if(Array.isArray(selectedInvoices)) {
-      model.setCreditNotas(selectedInvoices)
+    if (Array.isArray(selectedInvoices)) {
+      model.setCreditNotas(selectedInvoices);
     } else {
-      model.setCreditNotas([selectedInvoices])
+      model.setCreditNotas([selectedInvoices]);
     }
-    onChange(model)
+    onChange(model);
   };
 
   return (
@@ -85,5 +85,4 @@ export const InvoiceCreditNotas = ({ model, onChange}: InvoiceCreditNotasProps) 
       </div>
     </>
   );
-
 }

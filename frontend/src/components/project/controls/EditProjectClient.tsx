@@ -82,21 +82,26 @@ export const EditProjectClient = ({value, clientType, onChange}: EditProjectClie
   const prjClient: ProjectClientModel = value || getNewProjectClient();
   let config = prjClient.advancedInvoicing || prjClient.defaultInvoiceLines.length > 1 ? advancedInvoicingClientConfig : clientConfig;
 
+  // TODO: this is duplicated in ProjectFormConfig (client vs clientId check though)
   config = config.map(config => {
-    if(typeof config === 'string') return config;
-    if('forceRow' in config) return config;
+    if (typeof config === 'string')
+      return config;
+
+    if ('forceRow' in config)
+      return config;
 
     const clientFormConfig = config as FormConfig
-    if(clientFormConfig.key === 'clientId'){
+    if (clientFormConfig.key === 'clientId') {
       return {
         ...clientFormConfig,
         props: {
           ...clientFormConfig.props,
           clientType: clientType
-        }}
+        }
+      }
     }
 
-    return config
+    return config;
   })
 
   return <ArrayInput config={config} model={prjClient} onChange={onChange} tPrefix="project.client." />;
@@ -107,12 +112,12 @@ type EditProjectEndCustomerProps = MinimalInputProps<ProjectEndCustomerModel>;
 
 const endCustomerConfig: FullFormConfig = [
   {key: 'clientId', component: 'EndCustomerSelectWithCreateModal', cols: 5},
-  {key: 'contact', component: 'text', cols: 2, suffix:'user'},
+  {key: 'contact', component: 'text', cols: 2, suffix: 'user'},
   {key: 'notes', component: 'text', cols: 3},
 ];
 
 export const EditProjectEndCustomer = ({value, onChange} : EditProjectEndCustomerProps ) => {
-  const projectEndCustomer : ProjectEndCustomerModel | undefined | null = value;
+  const projectEndCustomer: ProjectEndCustomerModel | undefined | null = value;
 
   if (!projectEndCustomer) {
     return null;

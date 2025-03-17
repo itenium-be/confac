@@ -21,21 +21,20 @@ export type ClientFeatureBuilderConfig = IFeatureBuilderConfig<ClientModel, Clie
 
 const getFilteredClients = (config: ClientFeatureBuilderConfig): ClientModel[] => {
   let clients = config.data;
-  if(clients.length === 0) return clients;
+  if (clients.length === 0)
+    return clients;
 
-  if(config.filters.types.length > 0){
-
+  if (config.filters.types.length > 0) {
     clients = clients.filter(client =>  config.filters.types.every(type => client.types.includes(type)))
   }
 
-  if(clients.length === 0) return clients;
+  if (clients.length === 0)
+    return clients;
 
-
-  if(config.filters.years.length > 0) {
+  if (config.filters.years.length > 0) {
     clients = clients.filter(client => {
       const invoices = config.invoices.filter(i => i.client._id === client._id)
       const years = getInvoiceYears(invoices);
-
       return config.filters.years.every(year => years.includes(year))
     })
   }
@@ -49,7 +48,7 @@ const getClientInvoices = (client: ClientModel, config: ClientFeatureBuilderConf
     clientInvoices = clientInvoices.filter(i => config.filters.years.includes(i.date.year()));
   }
 
-  return clientInvoices
+  return clientInvoices;
 }
 
 const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel, ClientListFilters> => {

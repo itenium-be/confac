@@ -137,10 +137,10 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     header: 'project.partner.tariff',
     value: p => <ProjectClientTariff projectClient={p.details.partner} />,
     sort: (p, p2) => {
-      if(!p.details.partner  || !p2.details.partner)
-        return (p2.details.partner ? 1 : 0) - (p.details.partner ? 1 : 0)
+      if (!p.details.partner  || !p2.details.partner)
+        return (p2.details.partner ? 1 : 0) - (p.details.partner ? 1 : 0);
 
-      return compareTariffs(getTariffs(p.details.partner), getTariffs(p2.details.partner))
+      return compareTariffs(getTariffs(p.details.partner), getTariffs(p2.details.partner));
     }
   }, {
     key: 'endCustomer',

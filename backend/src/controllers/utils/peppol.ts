@@ -155,7 +155,7 @@ export const createTaxObjects = (invoice: IInvoice, taxScheme: TaxScheme) : { ta
     const outsideEuropeTaxChargeCode = 'G';
     const outsideEuropeTaxChargeReasonCode = 'VATEX-EU-G';
     return {
-      taxCategory : new TaxCategory({
+      taxCategory: new TaxCategory({
         id: outsideEuropeTaxChargeCode,
         percent: '0',
         taxExemptionReasonCode: outsideEuropeTaxChargeReasonCode,

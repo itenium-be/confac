@@ -29,16 +29,14 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
   const [open, setOpen] = useState<boolean>(false);
 
   const [editComment, setEditComment] = useState<CommentModel | null>(null);
-  const [commentAndNote, setCommentsAndNote] = useState<NotesWithComments>(value || {comments: []})
-
-
+  const [commentAndNote, setCommentsAndNote] = useState<NotesWithComments>(value || {comments: []});
 
   const icon = (!value?.note && !value?.comments?.length) ? 'far fa-comment' : 'far fa-comment-dots';
   const showConfirm = !disabled && (!claim || (claim && authService.getClaims().includes(claim)));
 
   const handleAddComment = () => {
     const currentUser = authService.getUser();
-    if(!currentUser){
+    if (!currentUser) {
       return
     }
     const newComment: IComment = {
@@ -47,79 +45,81 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
       comment: ''
     }
 
-
-    setEditComment({...newComment, isNote: false})
+    setEditComment({...newComment, isNote: false});
   }
 
   const handleEditComment = (comment: CommentModel) => {
     const currentUser = authService.getUser();
-    if(!currentUser){
-      return
+    if (!currentUser) {
+      return;
     }
 
     const doNotSetModifiedWhenCreatedAgo = 1000 * 60 * 10; // 10 minutes
     const timePassedSinceCreation = new Date().valueOf() - new Date(comment.createdOn).valueOf();
     if (comment.createdBy === currentUser._id && timePassedSinceCreation < doNotSetModifiedWhenCreatedAgo) {
       setEditComment(comment);
-      return
+      return;
     }
 
-    setEditComment({...comment, modifiedBy: currentUser._id, modifiedOn: new Date().toISOString()})
+    setEditComment({...comment, modifiedBy: currentUser._id, modifiedOn: new Date().toISOString()});
   }
 
   const handleSaveEditedComment = () => {
-
-    if(!editComment)
-      return
+    if (!editComment)
+      return;
 
     let updatedComments;
-    if(editComment.isNote) {
+    if (editComment.isNote) {
       updatedComments = {
         ...commentAndNote,
         note: editComment.comment
       }
-    }
-    else {
+    } else {
       const index = commentAndNote.comments.findIndex(c => c.createdOn === editComment.createdOn && c.createdBy === editComment.createdBy);
 
       updatedComments = {
         ...commentAndNote,
         comments: (index !== -1 ?
           [...commentAndNote.comments.slice(0, index), editComment, ...commentAndNote.comments.slice(index + 1)] :
-          [...commentAndNote.comments, editComment])
+          [...commentAndNote.comments, editComment]
+        )
       }
     }
-    setCommentsAndNote(updatedComments)
-    onChange(updatedComments)
-    setEditComment(null)
+    setCommentsAndNote(updatedComments);
+    onChange(updatedComments);
+    setEditComment(null);
   }
 
 
   const handleDeleteComment = (deletedComment: CommentModel) => {
     let updatedComments;
-    if(deletedComment.isNote) {
-      updatedComments = {...commentAndNote, note: undefined}
+    if (deletedComment.isNote) {
+      updatedComments = {...commentAndNote, note: undefined};
     } else {
       updatedComments = {
         ...commentAndNote,
         comments: commentAndNote.comments.filter(comment => comment.createdOn !== deletedComment.createdOn || comment.createdBy !== deletedComment.createdBy)
-      }
+      };
     }
 
-    setCommentsAndNote(updatedComments)
-    onChange(updatedComments)
+    setCommentsAndNote(updatedComments);
+    onChange(updatedComments);
   };
 
   const handleDiscardEditComment = () => {
-    setEditComment(null)
+    setEditComment(null);
   }
 
-  let text;
-  if(!text && commentAndNote?.note) text = commentAndNote.note;
-  if(!text && commentAndNote.comments.length) text = commentAndNote.comments.at(-1)?.comment
+  let text: string = '';
+  if (!text && commentAndNote?.note) {
+    text = commentAndNote.note;
+  }
+  if (!text && commentAndNote.comments.length) {
+    text = commentAndNote.comments.at(-1)?.comment || '';
+  }
 
-  let data = commentAndNote?.comments?.map(comment => ({...comment, isNote: false})) || [];
-  if(commentAndNote?.note) {
+  const data = commentAndNote?.comments?.map(comment => ({...comment, isNote: false})) || [];
+  if (commentAndNote?.note) {
     data.push({
       createdBy: '',
       createdOn: new Date().toISOString(),
@@ -157,21 +157,20 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, var
           title={title}
           dialogClassName="comments-modal"
         >
-          { editComment ? (
-              <CommentEdit
-                value={editComment}
-                onChange={value => setEditComment(value)}
-              />
-            ) : (
-              <CommentList
-                onChange={() => {}}
-                onAddClicked={() => handleAddComment()}
-                onEditClicked={comment => handleEditComment(comment)}
-                onDeleteClicked={comment => handleDeleteComment(comment)}
-                value={data}
-              />)
-
-          }
+          {editComment ? (
+            <CommentEdit
+              value={editComment}
+              onChange={value => setEditComment(value)}
+            />
+          ) : (
+            <CommentList
+              onChange={() => {}}
+              onAddClicked={() => handleAddComment()}
+              onEditClicked={comment => handleEditComment(comment)}
+              onDeleteClicked={comment => handleDeleteComment(comment)}
+              value={data}
+            />
+          )}
         </Modal>
       )}
     </>

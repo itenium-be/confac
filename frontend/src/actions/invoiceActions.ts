@@ -84,24 +84,22 @@ export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | un
 export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: number[], invoices: InvoiceModel[]) => {
   return dispatch => {
     const removedCreditNota = previousCreditNotas.filter(n => !invoice.creditNotas.includes(n));
-    const creditNotaGroup = [...invoice.creditNotas, invoice.number]
-
+    const creditNotaGroup = [...invoice.creditNotas, invoice.number];
 
     removedCreditNota.forEach(creditnota => {
       const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i.number === creditnota && !i.isQuotation))
-      if(invoiceToUpdate) {
-        invoiceToUpdate.creditNotas = []
-
+      if (invoiceToUpdate) {
+        invoiceToUpdate.creditNotas = [];
         dispatch(updateInvoiceRequest(invoiceToUpdate, undefined, false) as any);
       }
     })
 
     invoice.creditNotas.forEach(creditNota => {
       const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i.number === creditNota && !i.isQuotation))
-      if(invoiceToUpdate) {
-        const newCreditNotas = creditNotaGroup.filter(n => n !== invoiceToUpdate.number)
+      if (invoiceToUpdate) {
+        const newCreditNotas = creditNotaGroup.filter(n => n !== invoiceToUpdate.number);
 
-        if ( newCreditNotas.length !== invoiceToUpdate.creditNotas.length ||
+        if (newCreditNotas.length !== invoiceToUpdate.creditNotas.length ||
           !(newCreditNotas.every(num => invoiceToUpdate.creditNotas.includes(num)) &&
           invoiceToUpdate.creditNotas.every(num => newCreditNotas.includes(num)))
         ) {

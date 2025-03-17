@@ -69,7 +69,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
   };
 
   const getProformaDownloadUrl = (): string => {
-    if(!proformaInvoiceDetails)
+    if (!proformaInvoiceDetails)
       return '';
 
     if (fullProjectMonth.invoice) {

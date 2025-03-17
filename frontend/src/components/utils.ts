@@ -29,7 +29,7 @@ export function moneyFormat(input: string | number): string {
   const inputNumber = numeral(input);
   const value = inputNumber.value();
 
-  if(value === null)
+  if (value === null)
     return '€ 0,00';
 
   if (value < 0) {

@@ -17,7 +17,7 @@ type ListProps = {
 
 export const filterAndSortFeatureData = (feature: IFeature<any, any>) => {
   const config = feature.list;
-  let {data} = config
+  let {data} = config;
   if (feature.list.filter) {
     const {filter} = feature.list;
     if (filter.fullTextSearch) {
@@ -26,19 +26,18 @@ export const filterAndSortFeatureData = (feature: IFeature<any, any>) => {
     }
   }
 
-  if(feature.list.filter?.state?.sort) {
+  if (feature.list.filter?.state?.sort) {
     const key = feature.list.filter?.state?.sort.columnName;
-    const cell = feature.list.rows.cells.find(col => col.key === key)
-    if(cell && cell.sort){
+    const cell = feature.list.rows.cells.find(col => col.key === key);
+    if (cell && cell.sort) {
       const asc = feature.list.filter?.state?.sort.direction === SortDirections.ASC;
       data = data.slice().sort(sortResult(cell.sort, asc));
     }
-  }
-  else if (feature.list.sorter) {
+  } else if (feature.list.sorter) {
     data = data.slice().sort(feature.list.sorter);
   }
 
-  return data
+  return data;
 }
 
 export const List = ({feature}: ListProps) => {

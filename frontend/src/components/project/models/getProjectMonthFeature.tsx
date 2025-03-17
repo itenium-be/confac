@@ -116,10 +116,10 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     sort: (p, p2) => {
       const validated1 = p.project.projectMonthConfig.inboundInvoice || p.details.inbound.status === 'paid' || p.details.verified === 'forced';
       const validated2 = p2.project.projectMonthConfig.inboundInvoice || p.details.inbound.status === 'paid' || p.details.verified === 'forced';
-      if(validated1 === validated2)
-        return validated1 ? 0 : (ProjectMonthInboundStatusOrder.indexOf(p.details.inbound.status) ) - (ProjectMonthInboundStatusOrder.indexOf(p2.details.inbound.status));
+      if (validated1 === validated2)
+        return validated1 ? 0 : (ProjectMonthInboundStatusOrder.indexOf(p.details.inbound.status)) - (ProjectMonthInboundStatusOrder.indexOf(p2.details.inbound.status));
 
-      return validated1 ? -1: 1
+      return validated1 ? -1 : 1;
     }
   }, {
     key: 'outbound',

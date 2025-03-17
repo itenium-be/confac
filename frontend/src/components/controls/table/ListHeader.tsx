@@ -28,11 +28,11 @@ export const ListHeader = ({feature}: ListHeaderProps<any>) => {
             width = col.header.width;
           }
 
-          let handleSort : ((asc: boolean | undefined) => void) | undefined = undefined;
+          let handleSort: ((asc: boolean | undefined) => void) | undefined = undefined;
           const filter = feature.list.filter?.state as ListFilters;
-          if(col.sort){
+          if (col.sort) {
             handleSort = (asc: boolean | undefined) => {
-              if(filter){
+              if (filter) {
                 const newFilter = {
                   ...filter,
                   sort: asc !== undefined ? {
@@ -53,7 +53,8 @@ export const ListHeader = ({feature}: ListHeaderProps<any>) => {
               width={width}
               header={header}
               filter={filter}
-              onSort={handleSort}/>
+              onSort={handleSort}
+            />
           );
         })}
       </tr>

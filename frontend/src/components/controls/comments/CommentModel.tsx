@@ -49,32 +49,33 @@ const commentListConfig = (config: CommentFeatureBuilderConfig): IList<CommentMo
     key: 'user',
     header: 'comment.user',
     value: comment => {
-      if(comment.isNote)
+      if (comment.isNote)
         return null
 
       return (
-      <>
-        <strong>{comment.createdBy}</strong>
-        <br />
-        <small className="created-on">
-              {t('comment.createdOn', {date: formatDate(comment.createdOn, 'DD/MM/YYYY'), hour: formatDate(comment.createdOn, 'H:mm')})}
-              <br />
-              {comment.modifiedOn &&
-                t('comment.modifiedOn', {
-                  date: formatDate(comment.modifiedOn, 'DD/MM/YYYY'),
-                  hour: formatDate(comment.modifiedOn, 'H:mm'),
-                  user: comment.modifiedBy,
-                })
-              }
-        </small>
-      </>)
+        <>
+          <strong>{comment.createdBy}</strong>
+          <br />
+          <small className="created-on">
+            {t('comment.createdOn', {date: formatDate(comment.createdOn, 'DD/MM/YYYY'), hour: formatDate(comment.createdOn, 'H:mm')})}
+            <br />
+            {comment.modifiedOn &&
+              t('comment.modifiedOn', {
+                date: formatDate(comment.modifiedOn, 'DD/MM/YYYY'),
+                hour: formatDate(comment.modifiedOn, 'H:mm'),
+                user: comment.modifiedBy,
+              })
+            }
+          </small>
+        </>
+      )
     },
     style: {
       width: 150,
       maxWidth: 150,
       textOverflow: 'ellipsis',
       overflow: 'hidden',
-   }
+    }
   }, {
     key: 'comment',
     header: 'comment.text',
@@ -91,9 +92,7 @@ const commentListConfig = (config: CommentFeatureBuilderConfig): IList<CommentMo
       </>
     ),
     style: {width: 50},
-  }
-  ];
-
+  }];
 
   return {
     rows: {
@@ -101,25 +100,26 @@ const commentListConfig = (config: CommentFeatureBuilderConfig): IList<CommentMo
     },
     data: config.data,
     sorter: (a, b) => {
-      if(a.isNote) return -1
-      if(b.isNote) return 1
+      if (a.isNote)
+        return -1;
 
-      return moment(b.createdOn).valueOf() - moment(a.createdOn).valueOf()
+      if (b.isNote)
+        return 1;
+
+      return moment(b.createdOn).valueOf() - moment(a.createdOn).valueOf();
     }
   };
 };
 
 const userCanManageComment = (claims: Claim[], commentAuthor: string): boolean => {
-  const currentUser = authService.getUser()
-  if(currentUser?._id === commentAuthor)
-    return true
+  const currentUser = authService.getUser();
+  if (currentUser?._id === commentAuthor)
+    return true;
 
-  return claims.includes(Claim.ManageComments)
+  return claims.includes(Claim.ManageComments);
 }
 
 export const getCommentsFeature = (config: CommentFeatureBuilderConfig): IFeature<CommentModel, CommentsListFilters> => {
-
-
   const feature: IFeature<CommentModel, CommentsListFilters> = {
     key: Features.comments,
     nav: m => '',

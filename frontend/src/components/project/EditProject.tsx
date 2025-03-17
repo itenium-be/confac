@@ -88,7 +88,6 @@ export const EditProject = () => {
   }
 
   const setProjectInterceptor = (value: IProjectModel) => {
-
     const newProject = {...project, ...value};
 
     if (!newProject.forEndCustomer && newProject.endCustomer) {
@@ -100,9 +99,9 @@ export const EditProject = () => {
     }
 
     const clientTypeForClientField = (newProject.forEndCustomer ? 'client' : 'endCustomer')
-    if(project.client.clientId) {
+    if (project.client.clientId) {
       const selectedClient = clients.find(x => x._id === project.client.clientId);
-      if(selectedClient && !selectedClient.types.includes(clientTypeForClientField)){
+      if (selectedClient && !selectedClient.types.includes(clientTypeForClientField)) {
         newProject.client.clientId = '';
       }
     }

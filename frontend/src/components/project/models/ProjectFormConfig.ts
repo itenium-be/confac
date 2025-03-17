@@ -21,17 +21,19 @@ export const projectFormConfigEndCustomer: FullFormConfig = [
   {forceRow: true},
   {key: 'projectMonthConfig.hasProforma', component: 'ProjectProformaSelect'},
 
-
   {title: 'client.notes'},
   {key: 'notes', label: '', component: 'TextEditor', cols: 12},
 ];
 
-export const projectFormConfigClient: FullFormConfig =  projectFormConfigEndCustomer.map(config => {
-  if(typeof config === 'string') return config;
-  if('forceRow' in config) return config;
+export const projectFormConfigClient: FullFormConfig = projectFormConfigEndCustomer.map(config => {
+  if (typeof config === 'string')
+    return config;
+
+  if ('forceRow' in config)
+    return config;
 
   const clientConfig = config as FormConfig;
-  if(clientConfig.key === 'client') {
+  if (clientConfig.key === 'client') {
     return {
       ...clientConfig,
       props: {
@@ -41,7 +43,7 @@ export const projectFormConfigClient: FullFormConfig =  projectFormConfigEndCust
     }
   }
 
-  return config
+  return config;
 })
 
 
@@ -52,7 +54,6 @@ export const projectMonthFormProperties: FullFormConfig = [
   {key: 'month', component: 'month', cols: 2},
   {key: 'projectId', component: 'ProjectSelect', cols: 6},
   {key: 'orderNr', component: 'text', cols: 2},
-
 
   {title: {title: 'projectMonth.props.timesheet.title', level: HeaderSize}},
   {key: 'timesheet.validated', component: 'switch', cols: 12},
