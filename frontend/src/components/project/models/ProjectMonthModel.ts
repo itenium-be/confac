@@ -76,7 +76,7 @@ export interface ProjectMonthConfig {
   inboundInvoice: boolean;
   /** Does the OrderNr change for each invoice? */
   changingOrderNr: boolean;
-  hasProforma: ProjectProforma
+  hasProforma: ProjectProforma;
 }
 
 /** How monthly invoicing is handled depends on the type of consultant */

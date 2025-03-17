@@ -51,7 +51,7 @@ export const createProjectsMonthController = async (req: ConfacRequest, res: Res
       inbound: {
         nr: '',
         status: 'new',
-        proforma : projectMonthSource.hasProforma !== undefined ? { inclusiveTax: projectMonthSource.hasProforma, status: 'new'} : undefined,
+        proforma: projectMonthSource.hasProforma ? { inclusiveTax: projectMonthSource.hasProforma, status: 'new'} : undefined,
       },
       timesheet: {validated: false},
       attachments: [],

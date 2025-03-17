@@ -70,8 +70,7 @@ export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
 
   const getSelectedProjects = (): sourceProjectData[] => {
     return data.filter(p => p.selected).map(p => {
-      const hasProforma = p.prj.details.projectMonthConfig.hasProforma
-
+      const hasProforma = p.prj.details.projectMonthConfig.hasProforma;
       return {projectId: p.prj._id, hasProforma: (hasProforma !== 'no') ? (hasProforma === 'withTax') : undefined}
     })
   }

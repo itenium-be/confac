@@ -9,15 +9,12 @@ type ProjectProformaSelectProps = BaseInputProps<string[]>
 export const ProjectProformaSelect = ({ value, onChange, ...props}: ProjectProformaSelectProps) => {
   return (
     <BaseSelect
-      value={{value: value, label: t(`project.proforma.${value}`)}}
+      value={{value: value, label: t(`project.proforma.${value || 'no'}`)}}
       onChange={val => onChange(val.value)}
       isMulti={false}
       isClearable={false}
-      options={[...ProjectProformaOptions.map(ct => ({value: ct, label: t(`project.proforma.${ct}`)}))]}
+      options={[...ProjectProformaOptions.map(ct => ({value: ct, label: t(`project.proforma.${ct || 'no'}`)}))]}
       {...props}
     />
   );
 };
-
-
-

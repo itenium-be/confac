@@ -82,7 +82,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
   }
 
   const hasInboundInvoiceBeenUploaded = !!inboundInvoiceDetails;
-  const hasProformaInvoiceBeenUploaded = !! proformaInvoiceDetails
+  const hasProformaInvoiceBeenUploaded = !!proformaInvoiceDetails;
 
   return (
     <>
