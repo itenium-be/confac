@@ -12,8 +12,6 @@ console.log('env', process.env.NODE_ENV);
 console.log('url', url);
 console.log('db', process.env.MONGO_DB || "confac");
 
-throw new Error("STOP");
-
 const config = {
   mongodb: {
     url,

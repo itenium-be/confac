@@ -5,7 +5,7 @@
 echo -e "\033[0;32m===================="
 echo "= MONGO MIGRATIONS ="
 printf "====================\033[0m\n"
-echo -e "\033[1;37mBuild the app & start mongo & app containers\033[0m"
+echo -e "\033[1;37mRun the mongo migrations\033[0m"
 
 if [ "$1" = "" ]
 then
@@ -31,14 +31,13 @@ fi
 
 echo "Using env: $1"
 
-# .env file juggling because Synology docker version does not yet support:
-# docker-compose up --env-file $1
 if [ -f .env ]
 then
   rm .env
 fi
 cp $1 .env
 
+npm install
 npm run up
 
 echo "That could've worked"

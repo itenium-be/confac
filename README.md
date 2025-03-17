@@ -45,6 +45,7 @@ npm run create some-name
 npm run up
 
 # Or on server:
+cd deploy
 ./migrate.sh
 ```
 
