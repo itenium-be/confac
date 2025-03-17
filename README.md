@@ -40,6 +40,7 @@ docker run -id -p 27017:27017 -e "MONGO_INITDB_ROOT_USERNAME=admin" -e "MONGO_IN
 
 ```sh
 cd deploy
+npm install
 npm run create some-name
 npm run up
 

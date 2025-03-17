@@ -39,6 +39,6 @@ then
 fi
 cp $1 .env
 
-npm start
+npm run up
 
 echo "That could've worked"
