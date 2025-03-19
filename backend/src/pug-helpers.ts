@@ -29,5 +29,11 @@ export default {
   moment,
   numeral,
   formatDate: (dateString: string, format = 'DD/MM/YYYY') => moment(dateString).format(format),
-  numberFormat: (number: number) => numeral(number).format('0,0.00'),
+  numberFormat: (number: number) => {
+    if (number < 0) {
+      return `-${numeral(Math.abs(number)).format('0,0.00')}`;
+    }
+
+    return numeral(number).format('0,0.00');
+  },
 };
