@@ -14,7 +14,7 @@ export const ProjectEndCustomerIcon = ({
   endCustomerClientModel,
   ...props
 }: ProjectEndCustomerIconProps) => {
-  
+
   const [modal, setModal] = useState<boolean>(false);
 
   if (!endCustomer) {
@@ -25,7 +25,7 @@ export const ProjectEndCustomerIcon = ({
       endCustomerClientModel?.name,
       endCustomer.contact,
       endCustomer.notes,
-    ].filter(Boolean).join("<br/>");
+    ].filter(Boolean).join("<br />");
 
   return (
     <div>

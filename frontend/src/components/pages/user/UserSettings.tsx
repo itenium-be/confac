@@ -11,7 +11,7 @@ export const UserSettings = () => {
 
   return (
     <div className="row">
-      <h2 style={{ marginTop: 34 }}>Instellingen</h2>
+      <h2 style={{marginTop: 34}}>Instellingen</h2>
 
       <div className="col-6">
         <NumericInput

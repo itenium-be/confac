@@ -10,7 +10,7 @@ import {Claim} from '../../users/models/UserModel';
 import { NotesWithCommentsModalButton } from '../../controls/form-controls/button/NotesWithCommentsModalButton';
 
 
-export type InvoiceListRowAction = 'comment' | 'edit' | 'validate' | 'download' | 'preview' | 'delete'
+export type InvoiceListRowAction = 'comment' | 'edit' | 'validate' | 'download' | 'preview' | 'delete';
 
 
 type InvoiceListRowActionsProps = {
@@ -27,41 +27,37 @@ export const InvoiceListRowActions = ({invoice, toggleValid, small = false, butt
   const dispatch = useDispatch();
   const invoiceType = invoice.isQuotation ? 'quotation' : 'invoice';
 
-
-
   return (
     <>
-      {(buttons?.includes('comment') ?? true) && (
+      {!hideEdit && (buttons?.includes('comment') ?? true) && (
         <NotesWithCommentsModalButton
           claim={Claim.ManageInvoices}
           includeBorder={false}
           value={{note: invoice.note, comments: invoice.comments || [] }}
           onChange={val => {
             const updatedInvoice = new InvoiceModel(invoice.config, {
-                ...invoice,
-                note: val.note || '',
-                comments: val.comments
-              })
+              ...invoice,
+              note: val.note || '',
+              comments: val.comments
+            })
             dispatch(updateInvoiceRequest(updatedInvoice, undefined, false) as any)
           }}
           title={t('client.comments')}
+          style={{marginRight: invoice.isQuotation ? undefined : -5}}
+          showNote
+        />
+      )}
+      {!hideEdit && (buttons?.includes('edit') ?? true) && !small && (
+        <EditIcon
+          onClick={`/${invoiceType}s/${invoice.number}`}
           style={{marginRight: invoice.isQuotation ? undefined : -15}}
         />
       )}
-      {(buttons?.includes('edit') ?? true) && !small && (
-        <EditIcon
-          onClick={`/${invoiceType}s/${invoice.number}`}
-          style={{
-            marginRight: invoice.isQuotation ? undefined : -15,
-            visibility: hideEdit ?  'hidden' : 'visible'
-          }}
-        />
-      )}
-      {(buttons?.includes('validate') ?? true) &&
+      {!hideEdit && (buttons?.includes('validate') ?? true) &&
         <InvoiceVerifyIconToggle claim={Claim.ValidateInvoices} invoice={invoice} toggleValid={toggleValid} />
       }
       {(buttons?.includes('download') ?? true) && !small &&
-        <InvoiceDownloadIcon invoice={invoice} fileType='pdf'/>
+        <InvoiceDownloadIcon invoice={invoice} fileType='pdf' />
       }
       {(buttons?.includes('preview') ?? true) &&
         <InvoicePreviewIcon invoice={invoice} />

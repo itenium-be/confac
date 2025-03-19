@@ -7,9 +7,9 @@ export const AuditChangeEntryIcon = (props: { diff: AuditChange; }) => {
     case 'A':
       return <i className="" style={commonStyle} />;
     case 'D':
-      return <i className="fa fa-trash" style={{ color: 'red', ...commonStyle }} />;
+      return <i className="fa fa-trash" style={{color: 'red', ...commonStyle}} />;
     case 'E':
-      return <i className="far fa-edit" style={{ color: 'gray', ...commonStyle }} />;
+      return <i className="far fa-edit" style={{color: 'gray', ...commonStyle}} />;
     case 'N':
       return <i className="fa fa-plus" style={commonStyle} />;
     default:

@@ -90,7 +90,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
       }
       return undefined;
     },
-    sort: (p, p2) =>  (p.details.timesheet.timesheet  ?? 0) - (p2.details.timesheet.timesheet ?? 0),
+    sort: (p, p2) => (p.details.timesheet.timesheet ?? 0) - (p2.details.timesheet.timesheet ?? 0),
   }, {
     key: 'inbound',
     value: p => <ProjectMonthInboundCell fullProjectMonth={p} />,
@@ -156,8 +156,8 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     },
     listTitle: () => t('project.projectMonthConfig.titleConfig'),
     data: config.data,
-    sorter: (a, b) => `${a.client.name} ${a.consultant.firstName} ${a.consultant.name} ${a._id}`
-      .localeCompare(`${b.client.name} ${b.consultant.firstName} ${b.consultant.name} ${b._id}`),
+    sorter: (a, b) => `${a.consultant.firstName} ${a.consultant.name} ${a._id}`
+      .localeCompare(`${b.consultant.firstName} ${b.consultant.name} ${b._id}`),
   };
 };
 

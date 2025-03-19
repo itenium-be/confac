@@ -20,10 +20,7 @@ type GroupedInvoiceTableProps = {
 
 export const GroupedInvoiceTable = ({config}: GroupedInvoiceTableProps) => {
   const featureConfig = createInvoiceList(config) as IFeature<any, any>;
-
-
   const invoicesPerMonth = groupInvoicesPerMonth(config.data).sort((a, b) => b.key.localeCompare(a.key));
-
   const hideBorderStyle = {borderBottom: 0, borderTop: 0};
 
   return (

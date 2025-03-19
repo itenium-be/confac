@@ -9,7 +9,8 @@ const countries: Option[] = [
   {label: 'Nederland', value: 'NL'},
   {label: 'UK', value: 'GB'},
   {label: 'Duitsland', value: 'DE'},
-  {label: 'Frankrijk', value: 'FR'}];
+  {label: 'Frankrijk', value: 'FR'}
+];
 
 const CountrySelectComponent = ({value, onChange, ...props}: CountrySelectProps) => {
   return (

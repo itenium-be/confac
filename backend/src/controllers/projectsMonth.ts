@@ -62,7 +62,7 @@ export const createProjectsMonthController = async (req: ConfacRequest, res: Res
     return createdProjectMonth;
   }));
 
-  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.PROJECTS_MONTH, null, createdProjectsMonth );
+  emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.PROJECTS_MONTH, null, createdProjectsMonth);
 
   return res.send(createdProjectsMonth);
 };

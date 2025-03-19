@@ -1,6 +1,6 @@
 import InvoiceModel from "../models/InvoiceModel"
 import { t } from "../../utils";
-import { createInvoiceList, InvoiceFeatureBuilderConfig } from "../models/getInvoiceFeature";
+import { createInvoiceList } from "../models/getInvoiceFeature";
 import { List } from "../../controls/table/List";
 import { Claim } from "../../users/models/UserModel";
 import { ListSelectionItem } from "../../controls/table/ListSelect";
@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ConfacState } from "../../../reducers/app-state";
 import { useDispatch } from "react-redux";
-import { updateAppFilters, updateInvoiceRequest } from "../../../actions";
-import { Features } from "../../controls/feature/feature-models";
+import { updateInvoiceRequest } from "../../../actions";
+import { ClaimGuard } from "../../enhancers/EnhanceWithClaim";
 
 
 export type InvoiceCreditNotasProps = {
@@ -18,32 +18,26 @@ export type InvoiceCreditNotasProps = {
   onChange: (invoice: InvoiceModel) => void,
 }
 
-export const InvoiceCreditNotas = ({ model, onChange}: InvoiceCreditNotasProps) => {
+export const InvoiceCreditNotas = ({model, onChange}: InvoiceCreditNotasProps) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const invoiceFilters = useSelector((state: ConfacState) => state.app.filters.invoices);
   const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
-  const invoices = useSelector((state: ConfacState) => state.invoices);
+  const creditNotas = useSelector((state: ConfacState) => state.invoices
+    .filter(i => model.creditNotas.includes(i.number) || i._id === model._id)
+  );
 
-  const featureConfig: InvoiceFeatureBuilderConfig = {
-    isQuotation: model.isQuotation,
-    invoicePayDays,
-    isGroupedOnMonth: false,
-    data: invoices,
-    save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate) as any),
-    filters: invoiceFilters,
-    setFilters: f => dispatch(updateAppFilters(Features.invoices, f)),
-
-  }
-
-  const creditNotas = featureConfig.data.filter(i => model.creditNotas.includes(i.number) && !i.isQuotation);
   if (creditNotas.length === 0) {
     return null;
   }
 
   const feature = createInvoiceList({
-    ...featureConfig,
-    data: [...creditNotas, model],
+    isQuotation: model.isQuotation,
+    invoicePayDays,
+    isGroupedOnMonth: false,
+    data: creditNotas,
+    save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate) as any),
+    filters: {},
+    setFilters: f => {},
     disableFilters: true,
     invoicesTotalOnly: true,
     includedFields: [
@@ -57,31 +51,30 @@ export const InvoiceCreditNotas = ({ model, onChange}: InvoiceCreditNotasProps) 
     ],
     buttons: ['comment', 'edit', 'validate', 'preview'],
     currentInvoice: model,
-    defaultSorter: (a, b) => a.number - b.number
+    defaultSorter: (a, b) => b.number - a.number
   });
 
-
-  const saveCreditNotas = (selectedInvoices: ListSelectionItem<InvoiceModel>) => {
-    if (Array.isArray(selectedInvoices)) {
-      model.setCreditNotas(selectedInvoices);
+  const saveCreditNotas = (selectedInvoiceNrs: ListSelectionItem<number>) => {
+    if (Array.isArray(selectedInvoiceNrs)) {
+      model.setCreditNotas(selectedInvoiceNrs);
     } else {
-      model.setCreditNotas([selectedInvoices]);
+      model.setCreditNotas([selectedInvoiceNrs]);
     }
     onChange(model);
   };
 
   return (
     <>
-      <div style={ {marginBottom: '1rem'}} >
+      <div style={{marginBottom: '1rem'}}>
         <h2>{t('invoice.creditNotas.title')}</h2>
         <List feature={feature} />
 
-        <InvoiceCreditNotasModal
-          model={model}
-          onConfirm={saveCreditNotas}
-          config={featureConfig}
-          claim={Claim.ManageInvoices}
-        />
+        <ClaimGuard claim={Claim.ManageInvoices}>
+          <InvoiceCreditNotasModal
+            model={model}
+            onConfirm={saveCreditNotas}
+          />
+        </ClaimGuard>
       </div>
     </>
   );

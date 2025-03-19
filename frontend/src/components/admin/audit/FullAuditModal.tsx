@@ -45,7 +45,7 @@ export const FullAuditModal = (props: FullAuditModalProps) => {
 
   return (
     <Modal
-      show={true}
+      show
       onClose={props.onClose}
       title={t('audit.fullAudit')}
       dialogClassName="audit-modal"
@@ -54,7 +54,7 @@ export const FullAuditModal = (props: FullAuditModalProps) => {
       <Table size="sm" bordered>
         <thead>
           <tr>
-            <th style={{ width: '25%' }}>{t('audit.change.field')}</th>
+            <th style={{width: '25%'}}>{t('audit.change.field')}</th>
             <th>{t('audit.change.new')}</th>
             <th>{t('audit.change.old')}</th>
           </tr>

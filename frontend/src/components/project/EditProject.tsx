@@ -163,7 +163,7 @@ export const EditProject = () => {
         >
           {t('project.deleteConfirm.content')}
         </ConfirmationButton>
-        {project.endDate && project._id && <CopyProject projectToCopy={project}/>}
+        {project.endDate && project._id && <CopyProject projectToCopy={project} />}
         <BusyButton className="tst-save-project" onClick={() => dispatch(saveProject(project, navigate) as any)} disabled={isButtonDisabled}>
           {t('save')}
         </BusyButton>

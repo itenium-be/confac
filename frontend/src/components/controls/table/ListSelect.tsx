@@ -1,72 +1,69 @@
 import {useCallback, useState} from 'react';
 import {Table} from 'react-bootstrap';
-import {ListHeader} from './ListHeader';
-import {ListRow} from './ListRow';
-import {ListFooter} from './ListFooter';
-import {IFeature} from '../feature/feature-models';
 import {useSelector} from 'react-redux';
 import {ConfacState} from '../../../reducers/app-state';
 import { Pagination } from './Pagination';
 import { CheckboxInput } from '../form-controls/inputs/CheckboxInput';
-import { filterAndSortFeatureData } from './List';
+import { formatDate, t } from '../../utils';
+import moment from 'moment';
+import InvoiceModel from '../../invoice/models/InvoiceModel';
+
+import './ListSelect.scss';
 
 export type ListSelectionItem<TModel> = TModel | TModel[]
 
 type ListSelectProps<TModel> = {
-  feature: IFeature<TModel, any>;
-  value?: ListSelectionItem<TModel>,
-  onChange: (selection: ListSelectionItem<TModel>) => void,
-  isClearable?: boolean,
-  isMulti?: boolean,
+  /** List of available items */
+  data: TModel[],
+  /** Currently selected items */
+  value: TModel[],
+  onChange: (selection: TModel[]) => void,
   listSize?: number,
 }
 
-export const ListSelect = ({feature, value, isMulti, onChange, ...props}: ListSelectProps<any>) => {
+export const ListSelect = ({data, value, onChange, ...props}: ListSelectProps<InvoiceModel>) => {
   const listSize = useSelector((state: ConfacState) => props.listSize ?? state.app.settings.listSize);
   const [page, setPage] = useState(0);
 
-  const config = feature.list;
-  const data = filterAndSortFeatureData(feature);
-
-  const handleCheckboxChange = useCallback((model: any) => {
-    if (isMulti) {
-      if (Array.isArray(value) && value.map(i => i._id).includes(model._id)) {
-        onChange(value.filter(item => item !== model));
-      } else {
-        onChange([...(Array.isArray(value) ? value : []), model]);
-      }
+  const handleCheckboxChange = useCallback((model: ListSelectionItem<InvoiceModel>) => {
+    if (Array.isArray(model)) {
+      onChange([...value, ...model]);
     } else {
-      onChange(model);
+      onChange([...value, model]);
     }
-  }, [value, onChange, isMulti]);
-
-
-  if (config.rows.cells.length > 0 && config.rows.cells[0].key !== 'select') {
-    config.rows.cells.unshift({
-      key: 'select',
-      header: '',
-      className: 'lst-select-check',
-      value: (m) => (
-        <CheckboxInput
-          value={Array.isArray(value) && value.map(i => i._id).includes(m._id)}
-          onChange={() => handleCheckboxChange(m)}
-          label=''
-        />
-      ),
-    });
-  }
-
+  }, [value, onChange]);
 
   return (
-    <Table size="sm" className={`table-${feature.key}`}>
-      <ListHeader feature={feature} />
+    <Table size="sm" className="list-select">
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th>{t('invoice.numberShort')}</th>
+          <th>{t('invoice.client')}</th>
+          <th>{t('invoice.dateShort')}</th>
+          <th>{t('invoice.period')}</th>
+          <th>{t('invoice.consultant')}</th>
+        </tr>
+      </thead>
       <tbody>
         {data.slice(page * listSize, page * listSize + listSize).map(model => (
-          <ListRow config={config} model={model} key={model._id} />
+          <tr key={model._id}>
+            <td>
+              <CheckboxInput
+                value={Array.isArray(value) && value.map(i => i._id).includes(model._id)}
+                onChange={() => handleCheckboxChange(model)}
+                label=''
+              />
+            </td>
+            <td>#{model.number}</td>
+            <td>{model.client.name}</td>
+            <td>{formatDate(model.date, 'DD/MM/YY')}</td>
+            <td>{model.projectMonth?.month && moment(model.projectMonth.month).format('M/YY')}</td>
+            <td>{model.projectMonth?.consultantName}</td>
+          </tr>
         ))}
       </tbody>
       <Pagination listSize={listSize} current={page} total={data.length} onChange={setPage} />
-      <ListFooter config={config} data={data} />
     </Table>
   );
 };

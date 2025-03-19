@@ -38,7 +38,7 @@ const EditConfig = () => {
           />
         </Row>
         <ClaimGuard claim={Claim.ManageConfig}>
-          <Row style={{marginBottom: 16}} >
+          <Row style={{marginBottom: 16}}>
             <Col>
               <Form.Label>{t('config.termsAndConditions')}</Form.Label>
               <GenericAttachmentDropzone

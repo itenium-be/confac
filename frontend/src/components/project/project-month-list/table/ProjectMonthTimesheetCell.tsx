@@ -136,6 +136,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           value={{note: timesheet.note, comments: timesheet.comments || []}}
           onChange={val => saveTimesheet({...timesheet, note: val.note, comments: val.comments })}
           title={t('projectMonth.timesheetNote', {name: `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`})}
+          showNote
         />
         <AttachmentUploadPreviewButtons
           isUploadDisabled={fullProjectMonth.details.timesheet.validated}

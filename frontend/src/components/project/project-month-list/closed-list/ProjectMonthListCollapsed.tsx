@@ -30,7 +30,7 @@ export const ProjectMonthListCollapsed = ({month}: {month: string}) => {
   return (
     <>
       <h2 className="list-projectMonths-collapsed">
-        <ToggleProjectMonthButton month={month} toggleOpen={true} />
+        <ToggleProjectMonthButton month={month} toggleOpen />
         <span className="month">{displayMonthWithYear(moment(month))}</span>
 
         <span className="separate">

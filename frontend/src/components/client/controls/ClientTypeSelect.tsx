@@ -10,7 +10,7 @@ export const ClientTypeSelect = ({ value, onChange, ...props}: ClientTypeSelectP
     <BaseSelect
       value={value.map(v => ({value: v, label: t(`client.clienttypes.${v}`)}))}
       onChange={val => onChange(val.map(v => v.value))}
-      isMulti={true}
+      isMulti
       options={[...ClientTypes.map(ct => ({value: ct, label: t(`client.clienttypes.${ct}`)}))]}
       {...props}
     />

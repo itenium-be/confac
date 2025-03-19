@@ -38,7 +38,7 @@ export function callback(
 //     <h2 className="list-projectMonths-collapsed">
 //       <Profiler id="ProjectMonthListCollapsed" onRender={callback}>
 //         <Profiler id="ToggleProjectMonthButton" onRender={callback}>
-//           <ToggleProjectMonthButton month={month} toggleOpen={true} />
+//           <ToggleProjectMonthButton month={month} toggleOpen />
 //         </Profiler>
 
 

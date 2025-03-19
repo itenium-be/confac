@@ -1,5 +1,7 @@
 var objectid = require('objectid');
 
+// ATTN: this migration has to run twice for clients that are both client and partner
+
 module.exports = {
   async up(db) {
     async function addTypeToClient(project, clientid, type) {
@@ -11,11 +13,10 @@ module.exports = {
 
       const clientTypes = client.types || [];
       if (clientTypes.includes(type)) {
-        console.log(`Client ${client.name} already has type ${type}`);
         return;
       }
 
-      console.log(`Client ${client.name}: adding type ${type}`);
+      console.log(`Client ${client.name}: adding type ${type} to [${clientTypes.join(', ')}]`);
       clientTypes.push(type);
       const update = { $set: {types: clientTypes} };
       db.collection('clients').updateOne({ _id: objectid(clientid) }, update);
@@ -29,9 +30,11 @@ module.exports = {
       if (project?.partner?.clientId) {
         await addTypeToClient(project, project.partner.clientId, 'partner');
       }
-      if (project?.endCustomer?.clientId) {
-        await addTypeToClient(project, project.endCustomer.clientId, 'endCustomer');
-      }
+
+      // endCustomer is new, this isn't filled in for any project
+      // if (project?.endCustomer?.clientId) {
+      //   await addTypeToClient(project, project.endCustomer.clientId, 'endCustomer');
+      // }
     });
   },
 

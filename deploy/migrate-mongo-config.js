@@ -4,7 +4,6 @@ require('dotenv').config();
 
 let url = "mongodb://admin:pwd@localhost:27017/?authSource=admin&directConnection=true";
 if (process.env.MONGO_USER) {
-  // const server = process.env.NODE_ENV === 'development' ? 'localhost' : 'mongo';
   const server = 'localhost';
   url = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@${server}:${process.env.MONGO_PORT}/?authSource=admin&directConnection=true`;
 }

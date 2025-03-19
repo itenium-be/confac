@@ -109,10 +109,11 @@ const EditClient = () => {
             {client.name || (initClient._id ? '' : t('client.createNew'))}
             <NotesWithCommentsModalButton
               claim={Claim.ManageClients}
-              value={{note: client.notes, comments: client.comments }}
-              onChange={val => setClient( { ...client, notes: val.note || '', comments: val.comments} )}
+              value={{comments: client.comments || []}}
+              onChange={val => setClient({...client, comments: val.comments})}
               title={t('client.comments')}
-              style={ {marginLeft: 6, marginBottom: 6}}
+              style={{marginLeft: 6, marginBottom: 6}}
+              showNote={false}
             />
             <Audit model={storeClient} modelType="client" />
           </h1>

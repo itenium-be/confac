@@ -296,6 +296,7 @@ export const trans = {
     deleteConfirm: 'Factuur verwijderd',
     createConfirm: 'Factuur aangemaakt',
     date: 'Factuurdatum',
+    dateShort: 'Datum',
     dateStrategies: {
       'prev-month-last-day': 'Laatste dag vorige maand',
       today: 'Vandaag',
@@ -680,7 +681,7 @@ export const trans = {
     user: 'Gebruiker',
     text: 'Commentaar',
     createdOn: '{date} om {hour}',
-    modifiedOn: '✎ {date} om {hour} door {user}',
+    modifiedOn: '✎ {date} om {hour} door',
     addComment: 'Commentaar toevoegen',
     noComments: 'Wees de eerste om commentaar toe te voegen!',
     noResults: 'Geen commentaar gevonden die overeenkomen met uw filter.',

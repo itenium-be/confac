@@ -17,7 +17,7 @@ export const OutboundInvoice = ({ invoice, toggleValid, className, style }: Outb
   return (
     <div className={`outbound-invoice-cell ${className || ''}`} style={style}>
       <div>
-        <span style={{ whiteSpace: 'nowrap' }}>{moneyFormat(invoice.money.total)}</span>
+        <span style={{whiteSpace: 'nowrap'}}>{moneyFormat(invoice.money.total)}</span>
         <span>
           <InvoiceNumberCell invoice={invoice} />
           &nbsp;({formatDate(invoice.date, 'D/M')})

@@ -28,7 +28,7 @@ export const ProjectClientForecastFooter = ({ models, month }: ProjectClientFore
       <div className="label">{t('consultant.externals')}</div>
       <div className="total">{moneyFormat(clients.externals)}</div>
       <div className="markup">
-        <Badge pill bg="success" text="white" style={{ fontSize: 18 }}>
+        <Badge pill bg="success" text="white" style={{fontSize: 18}}>
           {moneyFormat(clients.externals - partners.externals)}
         </Badge>
       </div>

@@ -6,7 +6,7 @@ import {Tooltip} from "../../../../controls/Tooltip";
 
 const AllInboundPaidBadge = (
   <span className="badge rounded-pill text-white bg-success">
-    <i className="fa fa-inbox fa-1x"/>
+    <i className="fa fa-inbox fa-1x" />
     {t('projectMonth.list.inboundAllPaid')}
   </span>
 );

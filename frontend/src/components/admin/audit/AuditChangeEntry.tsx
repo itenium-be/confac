@@ -13,7 +13,7 @@ export const AuditChangeEntry = ({ change, modelType }: { change: AuditLog; mode
   return (
     <tbody>
       <tr>
-        <td colSpan={3} style={{ fontWeight: 'bold' }}>
+        <td colSpan={3} style={{fontWeight: 'bold'}}>
           {t('audit.modifiedOn', { date: formatDate(change.date), hour: formatDate(change.date, 'H:mm') })}
           {t('modifiedBy', { name: user?.alias || change.user })}
           <small>{' (' + moment(change.date).fromNow() + ')'}</small>
@@ -21,7 +21,7 @@ export const AuditChangeEntry = ({ change, modelType }: { change: AuditLog; mode
       </tr>
       {change.diff.map((diff, index) => (
         <tr key={index}>
-          <td style={{ wordBreak: 'break-all' }}>
+          <td style={{wordBreak: 'break-all'}}>
             <AuditChangeEntryIcon diff={diff} />
             {diff.path + (diff.index ? `[${diff.index}]` : '')}
           </td>

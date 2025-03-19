@@ -296,6 +296,7 @@ export const trans = {
     deleteConfirm: 'Invoice deleted',
     createConfirm: 'Invoice created',
     date: 'Invoice date',
+    dateShort: 'Date',
     dateStrategies: {
       'prev-month-last-day': 'Last day last month',
       today: 'Today',
@@ -681,7 +682,7 @@ export const trans = {
     user: 'User',
     text: 'Comment',
     createdOn: '{date} at {hour}',
-    modifiedOn: '✎ {date} at {hour} by {user}',
+    modifiedOn: '✎ {date} at {hour} by',
     addComment: 'Add new Comment',
     noComments: 'Be the first to comment!',
     noResults: 'No comments matches your filter.',

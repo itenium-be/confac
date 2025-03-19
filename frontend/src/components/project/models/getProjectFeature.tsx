@@ -145,7 +145,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
   }, {
     key: 'endCustomer',
     header: '',
-    value: p => <ProjectEndCustomerIcon endCustomer={p.details.endCustomer} endCustomerClientModel={p.endCustomer}/>,
+    value: p => <ProjectEndCustomerIcon endCustomer={p.details.endCustomer} endCustomerClientModel={p.endCustomer} />,
     footer: (models: FullProjectModel[]) => <ProjectClientForecastFooter models={models} />,
     sort: (p, p2) => (p.endCustomer?.name ?? '').localeCompare(p2.endCustomer?.name ?? '')
   }, {

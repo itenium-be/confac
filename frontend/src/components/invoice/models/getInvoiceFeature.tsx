@@ -78,30 +78,30 @@ const InvoiceConsultantCell = ({invoice}: {invoice: InvoiceModel}) => {
 };
 
 
-const searchInvoices = (filters:  ListFilters, model: InvoiceModel) => {
-    if (!filters.freeText) {
-      return true;
-    }
-    return searchinize(
-      `${model.client.name} ${model.projectMonth?.consultantName ?? ''}`,
-    ).includes(searchinize(filters.freeText));
+export const searchInvoices = (filters: ListFilters, model: InvoiceModel) => {
+  if (!filters.freeText) {
+    return true;
+  }
+  return searchinize(
+    `${model.number} ${model._id} ${model.client.name} ${model.projectMonth?.consultantName ?? ''}`
+    + ` ${model.orderNr} ${model.date.format('DD/MM/YYYY')} ${model.projectMonth?.month}`,
+  ).includes(searchinize(filters.freeText));
 }
 
 export function createInvoiceList(config: InvoiceFeatureBuilderConfig): IFeature<InvoiceModel> {
-
   const listRows: IListRow<InvoiceModel> = {
     className: invoice => getInvoiceListRowClass(invoice, config.invoicePayDays),
     cells: getInvoiceColumns(config),
   };
 
-  let feature: IFeature<InvoiceModel, ListFilters> =  {
+  const feature: IFeature<InvoiceModel, ListFilters> = {
     key: Features.invoices,
     nav: m => `/invoices/${m === 'create' ? m : m.number}`,
     trans: features.invoice as any,
     list: {
       rows: listRows,
       data: config.data,
-      sorter: config.defaultSorter ?? ( (a, b) => b.number - a.number ),
+      sorter: config.defaultSorter ?? ((a, b) => b.number - a.number),
       filter: !config.disableFilters ? {
         fullTextSearch: searchInvoices,
         updateFilter: config.setFilters,
@@ -116,12 +116,11 @@ export function createInvoiceList(config: InvoiceFeatureBuilderConfig): IFeature
     softDelete: true,
   };
 
-  return feature
+  return feature;
 }
 
 
 export function getInvoiceColumns(config: InvoiceFeatureBuilderConfig): IListCell<InvoiceModel>[] {
-
   const includedFields = config.includedFields ?? [
     ...(config.isGroupedOnMonth ? ['date-month', 'number', 'client'] : ['number', 'client', 'date-full', 'period']),
     'total-amount',
@@ -143,8 +142,9 @@ export function getInvoiceColumns(config: InvoiceFeatureBuilderConfig): IListCel
     key: 'number',
     header: 'invoice.numberShort',
     value: (i: InvoiceModel) => <InvoiceNumberCell invoice={i} />,
-    // eslint-disable-next-line max-len
-    footer: (invoices: InvoiceModel[]) => !isGroupedTable && <InvoiceAmountLabel invoices={invoices} isQuotation={invoices[0].isQuotation} />,
+    footer: (invoices: InvoiceModel[]) => !isGroupedTable && (
+      <InvoiceAmountLabel invoices={invoices} isQuotation={invoices[0].isQuotation} />
+    ),
     sort: (i, i2) => i.number - i2.number
   }, {
     key: 'client',
@@ -205,7 +205,7 @@ export function getInvoiceColumns(config: InvoiceFeatureBuilderConfig): IListCel
     <InvoiceListRowActions
       invoice={i}
       buttons={config.buttons}
-      hideEdit={(config.currentInvoice?.number ) === i.number}
+      hideEdit={config.currentInvoice?.number === i.number}
     />,
   }];
 

@@ -9,13 +9,13 @@ import {EmailModal, EmailTemplate} from '../../controls/email/EmailModal';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import {useParams} from 'react-router-dom';
 import useEntityChangedToast from '../../hooks/useEntityChangedToast';
-
-
-import './EditInvoice.scss';
 import { EditInvoiceHeader } from './EditInvoiceHeader';
 import { EditInvoiceBody } from './EditInvoiceBody';
 import { EditInvoiceFooter } from './EditInvoiceFooter';
 import { getNewInvoice } from '../models/getNewInvoice';
+
+
+import './EditInvoice.scss';
 
 
 const EditInvoice = () => {
@@ -36,7 +36,6 @@ const EditInvoice = () => {
   useEntityChangedToast(invoice._id);
   const [, forceUpdate] = useReducer(x => x + 1, 0);
 
-  // useEffect(() => window.scrollTo(0, 0)); // TODO: each keystroke made it scroll to top :(
   const [showEmailModal, setEmailModal] = useState<EmailTemplate>(EmailTemplate.None);
   let docTitle: string;
   if (storeInvoice?._id) {
@@ -51,14 +50,16 @@ const EditInvoice = () => {
     setInvoice(new InvoiceModel(config, storeInvoice));
   }
 
-  const configRef = useRef(config)
-  const invoicesRef = useRef(invoices)
+  const configRef = useRef(config);
+  const invoicesRef = useRef(invoices);
   useEffect(() => {
     const isQuotation = window.location.pathname.startsWith('/quotations/');
     window.scrollTo(0, 0)
 
-    const navigateInvoice = invoicesRef.current.filter(x => x.isQuotation && isQuotation).find(x => x.number === parseInt(params.id, 10))
-    setInvoice(new InvoiceModel(configRef.current, navigateInvoice))
+    const navigateInvoice = invoicesRef.current
+      .filter(x => x.isQuotation && isQuotation)
+      .find(x => x.number === parseInt(params.id, 10));
+    setInvoice(new InvoiceModel(configRef.current, navigateInvoice));
   }, [params])
 
 
@@ -76,8 +77,8 @@ const EditInvoice = () => {
             invoice={invoice}
             isNew={!initInvoice._id}
             onChange={invoice => {
-              setInvoice(invoice)
-              forceUpdate()
+              setInvoice(invoice);
+              forceUpdate();
             }}
           />
         </Row>
@@ -85,8 +86,8 @@ const EditInvoice = () => {
           <EditInvoiceBody
             invoice={invoice}
             onChange={invoice => {
-              setInvoice(invoice)
-              forceUpdate()
+              setInvoice(invoice);
+              forceUpdate();
             }}
           />
         </Row>

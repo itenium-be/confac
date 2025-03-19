@@ -25,7 +25,7 @@ const getFilteredClients = (config: ClientFeatureBuilderConfig): ClientModel[] =
     return clients;
 
   if (config.filters.types.length > 0) {
-    clients = clients.filter(client =>  config.filters.types.every(type => client.types.includes(type)))
+    clients = clients.filter(client => config.filters.types.every(type => client.types.includes(type)))
   }
 
   if (clients.length === 0)
@@ -70,7 +70,9 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
     header: 'client.types',
     value: client => (
       <>
-      { client.types && client.types.map(type => (<span key={type}>{t(`client.clienttypes.${type}`)}<br/></span>)) }
+        {client.types && client.types.map(type => (
+          <span key={type}>{t(`client.clienttypes.${type}`)}<br /></span>)
+        )}
       </>
     )
   }, {
@@ -140,7 +142,7 @@ const getFilterOptions = (config: ClientFeatureBuilderConfig): ClientFilterOptio
     value: ct,
     label: t(`client.clienttypes.${ct}`)
   } as ClientFilterOption))
-  .concat(getInvoiceYears(config.invoices).map(y =>  ({
+  .concat(getInvoiceYears(config.invoices).map(y => ({
     value: y,
     label: y.toString()
   })));
@@ -158,7 +160,7 @@ export const clientFeature = (config: ClientFeatureBuilderConfig): IFeature<Clie
     value: ct,
     label: t(`client.clienttypes.${ct}`)
   } as ClientFilterOption))
-  .concat(config.filters.years.map(y =>  ({
+  .concat(config.filters.years.map(y => ({
     value: y,
     label: y.toString()
   })));

@@ -29,7 +29,7 @@ export const EmailForm = ({value, onChange, attachmentsAvailable, textEditorRepl
   let getToolbarCustomButtons: (editorState: EditorState) => JSX.Element[] = () => [];
   if (textEditorReplacements && textEditorReplacements.length) {
     getToolbarCustomButtons = (editorState: EditorState) => (
-      [<TextEditorReplacements editorState={editorState} replacements={textEditorReplacements}/>]
+      [<TextEditorReplacements editorState={editorState} replacements={textEditorReplacements} />]
     );
   }
 

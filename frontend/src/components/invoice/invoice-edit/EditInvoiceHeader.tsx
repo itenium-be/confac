@@ -14,7 +14,7 @@ export type EditInvoiceHeaderProps = {
   isNew: boolean,
   onChange: (invoice: InvoiceModel) => void;
 }
-export const EditInvoiceHeader = ({invoice, isNew, onChange} : EditInvoiceHeaderProps) => {
+export const EditInvoiceHeader = ({invoice, isNew, onChange}: EditInvoiceHeaderProps) => {
   const type: 'quotation' | 'invoice' = invoice.isQuotation ? 'quotation' : 'invoice';
   return (
     <>
@@ -37,6 +37,7 @@ export const EditInvoiceHeader = ({invoice, isNew, onChange} : EditInvoiceHeader
                 onChange={val => onChange(new InvoiceModel(invoice.config, {...invoice, note: val.note, comments: val.comments}))}
                 title={t('projectMonth.note')}
                 variant="link"
+                showNote
               />
               <DownloadInvoiceButton invoice={invoice} />
               {!invoice?.isQuotation && <InvoiceDownloadIcon invoice={invoice} fileType='xml' style={{color: '#0062cc', marginLeft: 20}} />}

@@ -116,7 +116,7 @@ const endCustomerConfig: FullFormConfig = [
   {key: 'notes', component: 'text', cols: 3},
 ];
 
-export const EditProjectEndCustomer = ({value, onChange} : EditProjectEndCustomerProps ) => {
+export const EditProjectEndCustomer = ({value, onChange}: EditProjectEndCustomerProps) => {
   const projectEndCustomer: ProjectEndCustomerModel | undefined | null = value;
 
   if (!projectEndCustomer) {

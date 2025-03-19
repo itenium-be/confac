@@ -13,8 +13,9 @@ export type EditInvoiceBodyProps = {
   invoice: InvoiceModel,
   onChange: (invoice: InvoiceModel) => void
 }
-export const EditInvoiceBody = ({invoice, onChange}: EditInvoiceBodyProps) => {
 
+
+export const EditInvoiceBody = ({invoice, onChange}: EditInvoiceBodyProps) => {
   return (
     <>
       <Row>
@@ -55,26 +56,23 @@ export const EditInvoiceBody = ({invoice, onChange}: EditInvoiceBodyProps) => {
         </Col>
       </Row>
       <Row style={{marginTop: 8}}>
-          <EditInvoiceLines
-            claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
-            value={invoice.lines}
-            onChange={m => {
-              invoice.setLines(m);
-              onChange(invoice)
-            }}
-            translationPrefix={invoice.getType()}
-          />
-        </Row>
-        <InvoiceAttachmentsForm model={invoice} />
-        <Row>
-          <InvoiceCreditNotas
-            model={invoice}
-            onChange={m => {
-              onChange(m)
-            }}
-          />
-        </Row>
-
+        <EditInvoiceLines
+          claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
+          value={invoice.lines}
+          onChange={m => {
+            invoice.setLines(m);
+            onChange(invoice)
+          }}
+          translationPrefix={invoice.getType()}
+        />
+      </Row>
+      <InvoiceAttachmentsForm model={invoice} />
+      <Row>
+        <InvoiceCreditNotas
+          model={invoice}
+          onChange={m => onChange(m)}
+        />
+      </Row>
     </>
   )
 }

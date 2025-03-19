@@ -32,7 +32,7 @@ export const ConsultantLinkWithModal = ({ consultant, showType }: ConsultantLink
 
       {showType && (
         <>
-          <small style={{ paddingLeft: 6 }}>
+          <small style={{paddingLeft: 6}}>
             {`(${t(`consultant.types.${consultant.type}`).toLowerCase()})`}
           </small>
         </>
@@ -42,7 +42,7 @@ export const ConsultantLinkWithModal = ({ consultant, showType }: ConsultantLink
         className="tst-open-consultant-modal-link"
         title={t('consultant.openEditModal')}
         size={1}
-        style={{ marginLeft: 8, color: 'grey', visibility: hover ? 'unset' : 'hidden' }}
+        style={{marginLeft: 8, color: 'grey', visibility: hover ? 'unset' : 'hidden'}}
         onClick={() => setModal(true)}
         fa="fa fa-external-link-alt" />
 

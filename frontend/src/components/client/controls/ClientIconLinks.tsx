@@ -27,7 +27,7 @@ export const ClientIconLinks = ({client}: ClientProps) => {
         className="tst-open-client-modal"
         fa="fa fa-external-link-alt"
       />
-      <ClientEditIcon client={client} style={{color: 'grey', fontSize: 14}} className="tst-edit-client"/>
+      <ClientEditIcon client={client} style={{color: 'grey', fontSize: 14}} className="tst-edit-client" />
 
       {modal && (
         <ClientModal

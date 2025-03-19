@@ -69,7 +69,7 @@ export const CreateInvoiceButton = ({ fullProjectMonth }: CreateInvoiceButtonPro
   return (
     <ClaimGuard claim={Claim.ManageInvoices}>
       <BusyButton className="tst-create-invoice" variant={valid ? 'success' : 'outline-danger'} onClick={() => createInvoiceFully(invoice)} title={title}>
-        <Icon fa="fa fa-file-invoice" size={1} style={{ marginRight: 8 }} />
+        <Icon fa="fa fa-file-invoice" size={1} style={{marginRight: 8}} />
         {t('projectMonth.outboundCreateInvoice')}
       </BusyButton>
     </ClaimGuard>

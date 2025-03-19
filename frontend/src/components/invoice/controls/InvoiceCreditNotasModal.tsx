@@ -1,89 +1,82 @@
 import { useEffect, useState } from "react";
-import { Claim } from "../../users/models/UserModel";
 import { EditIcon } from "../../controls/Icon";
 import { t } from "../../utils";
-import { createInvoiceList, InvoiceFeatureBuilderConfig } from "../models/getInvoiceFeature";
 import InvoiceModel from "../models/InvoiceModel";
-import { Container } from "react-bootstrap";
-import { Row } from "react-bootstrap";
-import { Col } from "react-bootstrap";
 import { ListSelect, ListSelectionItem } from "../../controls/table/ListSelect";
 import { Modal } from "../../controls/Modal";
 import { SearchStringInput } from "../../controls/form-controls/inputs/SearchStringInput";
-import { IFeature } from "../../controls/feature/feature-models";
-import { ListFilters } from "../../controls/table/table-models";
+import { useSelector } from "react-redux";
+import { ConfacState } from "../../../reducers/app-state";
+import { searchInvoices } from "../models/getInvoiceFeature";
+
 
 export type InvoiceCreditNotasModalProps = {
-  onConfirm: (ListSelectionItem) => void,
+  onConfirm: (invoiceNrs: ListSelectionItem<number>) => void,
   model: InvoiceModel,
-  config: InvoiceFeatureBuilderConfig,
-  claim?: Claim,
 }
 
-export const InvoiceCreditNotasModal = ({ config, model, onConfirm, claim}: InvoiceCreditNotasModalProps) => {
+export const InvoiceCreditNotasModal = ({model, onConfirm}: InvoiceCreditNotasModalProps) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedInvoices, setSelectedInvoices] = useState<ListSelectionItem<InvoiceModel>>(
-    config.data.filter(i => model.creditNotas.includes(i.number) && !i.isQuotation)
-  )
-
-  const featureConfig: IFeature<InvoiceModel, ListFilters> = createInvoiceList({
-    ...config,
-    data: [...config.data.filter(i => model.number !== i.number && !i.isQuotation)],
-    includedFields: [
-      'number',
-      'client',
-      'date-full',
-      'period',
-      'consultant',
-    ]
-  });
+  const [selectedInvoices, setSelectedInvoices] = useState<number[]>(model.creditNotas);
 
   useEffect(() => {
-    setSelectedInvoices(
-        config.data.filter(i => model.creditNotas.includes(i.number) && !i.isQuotation)
-    );
-  }, [model.creditNotas, config.data]);
-
-
+    setSelectedInvoices(model.creditNotas);
+  }, [model.creditNotas]);
 
   return (
     <>
-      <EditIcon claim={claim} onClick={() => {setOpen(true)}} label={t('invoice.creditNotas.addLine')} size={1} />
+      <EditIcon onClick={() => setOpen(true)} label={t('invoice.creditNotas.addLine')} size={1} />
 
       {open && (
         <Modal
-          show={true}
+          show
           onClose={() => setOpen(false)}
           onConfirm={() => onConfirm(selectedInvoices)}
           title={t('invoice.creditNotas.title')}
           dialogClassName="linked-invoices-modal"
-
         >
-          <Container className={`list list-${featureConfig.key}`}>
-            <Row>
-              <Col sm={6}>
-                <h1>
-                  {featureConfig.list.listTitle ? featureConfig.list.listTitle() : t(featureConfig.trans.listTitle)}
-                </h1>
-              </Col>
-              {featureConfig.list.filter?.fullTextSearch &&
-                <Col sm={6}>
-                  <SearchStringInput value={featureConfig.list.filter.state.freeText}
-                    onChange={str => featureConfig.list.filter?.updateFilter({...featureConfig.list.filter.state, freeText: str})}
-                  />
-                </Col>
-              }
-            </Row>
-            <ListSelect
-              feature={featureConfig}
-              value={selectedInvoices}
-              isMulti={true}
-              onChange={(selection) => setSelectedInvoices(selection)}
-              listSize={10}
-            />
-          </Container>
+          <ModalBody
+            model={model}
+            selectedInvoices={selectedInvoices}
+            setSelectedInvoices={setSelectedInvoices}
+          />
         </Modal>
       )}
     </>
   );
+}
+
+
+type ModelBodyProps = {
+  model: InvoiceModel,
+  selectedInvoices: number[],
+  setSelectedInvoices: (invoiceNrs: number[]) => void,
+}
+
+const ModalBody = ({model, selectedInvoices, setSelectedInvoices}: ModelBodyProps) => {
+  const [needle, setNeedle] = useState<string>('');
+  const invoices = useSelector((state: ConfacState) => state.invoices.filter(i => !i.isQuotation && i._id !== model._id));
+  const selectedInvoiceModels = selectedInvoices.map(nr => invoices.find(i => i.number === nr)!);
+
+  let filteredInvoices = invoices;
+  if (needle) {
+    const filters = {freeText: needle};
+    filteredInvoices = invoices.filter(invoice => searchInvoices(filters, invoice));
+  }
+  filteredInvoices = filteredInvoices.sort((a, b) => b.number - a.number);
+
+  return (
+    <>
+      <SearchStringInput
+        value={needle}
+        onChange={str => setNeedle(str)}
+      />
+      <ListSelect
+        data={filteredInvoices}
+        value={selectedInvoiceModels}
+        onChange={selection => setSelectedInvoices(selection.map(i => i.number))}
+        listSize={10}
+      />
+    </>
+  )
 }

@@ -16,9 +16,9 @@ export const InvoiceEmail = ({ invoice }: InvoiceEmailProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const emailIcon = !invoice.lastEmail ? (
-    <NotEmailedIcon style={{ fontSize: 17 }} />
+    <NotEmailedIcon style={{fontSize: 17}} />
   ) : (
-    <EmailedIcon title={t('email.lastEmailDaysAgo', { daysAgo: moment(invoice.lastEmail).fromNow() })} style={{ fontSize: 17 }} />
+    <EmailedIcon title={t('email.lastEmailDaysAgo', {daysAgo: moment(invoice.lastEmail).fromNow()})} style={{fontSize: 17}} />
   )
 
   return (

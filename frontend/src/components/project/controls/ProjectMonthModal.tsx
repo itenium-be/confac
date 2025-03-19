@@ -11,20 +11,18 @@ import {NotesModalButton} from '../../controls/form-controls/button/NotesModalBu
 import {Claim} from '../../users/models/UserModel';
 import {ConfacState} from '../../../reducers/app-state';
 import {singleProjectMonthResolve} from '../../hooks/useProjects';
-
-
-import './ProjectMonthModal.scss';
 import { useDispatch } from 'react-redux';
 import { saveProject } from '../../../actions';
 import { Icon } from '../../controls/Icon';
+
+
+import './ProjectMonthModal.scss';
 
 
 type ProjectMonthModalProps = {
   onClose: () => void;
   projectMonth: FullProjectMonthModel | string;
 }
-
-
 
 
 export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProps) => {
@@ -88,23 +86,22 @@ export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProp
           )}
         </div>
 
-        {fullProjectMonth.endCustomer &&
+        {fullProjectMonth.endCustomer && (
           <div>
-             <hr/>
-             <h5>{t('project.endCustomer.clientId')}: {fullProjectMonth.endCustomer.name}</h5>
+            <hr />
+            <h5>{t('project.endCustomer.clientId')}: {fullProjectMonth.endCustomer.name}</h5>
 
-              {fullProjectMonth.project.endCustomer?.contact &&
-                <div>
-                  <Icon fa="fa fa-user" size={1} style={{ marginRight: 5}}/>
-                  <span>{fullProjectMonth.project.endCustomer?.contact}</span>
-                </div>
-              }
-              {fullProjectMonth.project.endCustomer?.notes &&
-                <span><b>{t('project.endCustomer.notes')}</b>: {fullProjectMonth.project.endCustomer?.notes}</span>
-              }
+            {fullProjectMonth.project.endCustomer?.contact && (
+              <div>
+                <Icon fa="fa fa-user" size={1} style={{marginRight: 5}} />
+                <span>{fullProjectMonth.project.endCustomer?.contact}</span>
+              </div>
+            )}
+            {fullProjectMonth.project.endCustomer?.notes && (
+              <span><b>{t('project.endCustomer.notes')}</b>: {fullProjectMonth.project.endCustomer?.notes}</span>
+            )}
           </div>
-        }
-
+        )}
       </div>
     </Modal>
   );

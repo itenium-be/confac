@@ -22,6 +22,7 @@ export const ProjectMonthNotesCell = ({fullProjectMonth}: ProjectMonthNotesCellP
         value={fullProjectMonth.details}
         onChange={val => dispatch(patchProjectsMonth({...fullProjectMonth.details, note: val.note, comments: val.comments}) as any)}
         title={t('projectMonth.note')}
+        showNote
       />
     </div>
   );

@@ -11,8 +11,8 @@ export const defaultClientProperties: FullFormConfig = [
   {key: 'btw', component: 'btw'},
   {key: 'slug', updateOnly: true},
   {key: 'address'},
-  {key: 'city'},
   {key: 'postalCode'},
+  {key: 'city'},
   {key: 'country', component: 'CountrySelect'},
   {key: 'telephone', component: 'phone'},
   {key: 'contact', suffix: 'user'},
@@ -47,10 +47,11 @@ export const defaultClientProperties: FullFormConfig = [
  */
 export const requiredClientProperties: FullFormConfig = [
   {key: 'name', cols: 8},
-  {key: 'types', component: 'ClientTypeSelect'},
   {key: 'btw'},
   {key: 'address'},
+  {key: 'postalCode'},
   {key: 'city'},
+  {key: 'types', component: 'ClientTypeSelect', cols: 8},
   {key: 'telephone'},
   {forceRow: true},
   {key: 'contact', cols: 6},

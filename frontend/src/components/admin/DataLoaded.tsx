@@ -33,7 +33,7 @@ const DataLoadedComponent = () => {
       />
       {open && (
         <Modal
-          show={true}
+          show
           onClose={() => setOpen(false)}
           title={t('dataLoad.loadMore')}
         >

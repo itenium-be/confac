@@ -18,14 +18,14 @@ export const ConsultantIconLinks = ({ consultant }: ConsultantProps) => {
       <Icon
         title={t('consultant.openEditModal')}
         size={1}
-        style={{ color: 'grey', marginRight: 8 }}
+        style={{color: 'grey', marginRight: 8}}
         onClick={() => setModal(true)}
         className="tst-open-consultant-modal"
         fa="fa fa-external-link-alt"
       />
       <Link to={`/consultants/${consultant.slug}`} className="icon-link">
         <EditIcon
-          style={{ fontSize: 14 }}
+          style={{fontSize: 14}}
           title={t('consultant.viewDetails')}
           className="tst-view-consultant"
         />

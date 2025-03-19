@@ -5,70 +5,48 @@ import { Features, IFeature } from "../feature/feature-models"
 import { EditIcon } from "../Icon";
 import { DeleteIcon } from "../icons/DeleteIcon";
 import { CommentsListFilters, IList, IListCell, ListFilters } from "../table/table-models";
-
-
 import { features } from "../../../trans";
 import moment from "moment";
 import { authService } from "../../users/authService";
-
-export default class CommentModel implements IComment {
-  createdBy: string;
-  createdOn: string;
-  modifiedBy?: string;
-  modifiedOn?: string;
-  comment: string;
-  /**
-  True: is a legacy note (of which there could be only one)
-  False: is a new comment (of which there can be x)
-  */
-  isNote: boolean;
+import { UserName } from "../../users/UserName";
 
 
-  constructor( obj: any = {}) {
-    this.createdBy = obj.createdBy;
-    this.createdOn = obj.createdOn;
-    this.modifiedBy = obj.modifiedby;
-    this.modifiedOn = obj.modifiedOn;
-    this.comment = obj.comment;
-    this.isNote = obj.isNote
-  }
-
-}
-
-
-export type CommentFeatureBuilderConfig =  {
+export type CommentFeatureBuilderConfig = {
   feature: Features,
-  data: CommentModel[];
-  onEditClicked: (comment: CommentModel) => void,
-  onDeleteClicked: (comment: CommentModel) => void,
+  data: IComment[];
+  onEditClicked: (comment: IComment) => void,
+  onDeleteClicked: (comment: IComment) => void,
 };
 
 
-const commentListConfig = (config: CommentFeatureBuilderConfig): IList<CommentModel, ListFilters> => {
-  const cells: IListCell<CommentModel>[] = [{
+const commentListConfig = (config: CommentFeatureBuilderConfig): IList<IComment, ListFilters> => {
+  const cells: IListCell<IComment>[] = [{
     key: 'user',
     header: 'comment.user',
     value: comment => {
-      if (comment.isNote)
-        return null
-
       return (
         <>
-          <strong>{comment.createdBy}</strong>
+          <strong><UserName userId={comment.createdBy} /></strong>
           <br />
           <small className="created-on">
-            {t('comment.createdOn', {date: formatDate(comment.createdOn, 'DD/MM/YYYY'), hour: formatDate(comment.createdOn, 'H:mm')})}
+            {t('comment.createdOn', {
+              date: formatDate(comment.createdOn, 'DD/MM/YY'),
+              hour: formatDate(comment.createdOn, 'H:mm'),
+            })}
             <br />
-            {comment.modifiedOn &&
-              t('comment.modifiedOn', {
-                date: formatDate(comment.modifiedOn, 'DD/MM/YYYY'),
-                hour: formatDate(comment.modifiedOn, 'H:mm'),
-                user: comment.modifiedBy,
-              })
-            }
+            {comment.modifiedOn && (
+              <>
+                {t('comment.modifiedOn', {
+                  date: formatDate(comment.modifiedOn, 'DD/MM/YY'),
+                  hour: formatDate(comment.modifiedOn, 'H:mm'),
+                })}
+                &nbsp;
+                <UserName userId={comment.modifiedBy!} />
+              </>
+            )}
           </small>
         </>
-      )
+      );
     },
     style: {
       width: 150,
@@ -87,8 +65,17 @@ const commentListConfig = (config: CommentFeatureBuilderConfig): IList<CommentMo
     header: '',
     value: comment => (
       <>
-      <EditIcon claim={claims => comment.isNote || userCanManageComment(claims, comment.createdBy)} onClick={() => config.onEditClicked(comment)} size={1}/>
-      <DeleteIcon claim={claims => comment.isNote || userCanManageComment(claims, comment.createdBy)} onClick={() => config.onDeleteClicked(comment)} size={1} style={ {marginLeft: 6}}/>
+        <EditIcon
+          claim={claims => userCanManageComment(claims, comment.createdBy)}
+          onClick={() => config.onEditClicked(comment)}
+          size={1}
+        />
+        <DeleteIcon
+          claim={claims => userCanManageComment(claims, comment.createdBy)}
+          onClick={() => config.onDeleteClicked(comment)}
+          size={1}
+          style={{marginLeft: 6}}
+        />
       </>
     ),
     style: {width: 50},
@@ -100,12 +87,6 @@ const commentListConfig = (config: CommentFeatureBuilderConfig): IList<CommentMo
     },
     data: config.data,
     sorter: (a, b) => {
-      if (a.isNote)
-        return -1;
-
-      if (b.isNote)
-        return 1;
-
       return moment(b.createdOn).valueOf() - moment(a.createdOn).valueOf();
     }
   };
@@ -119,12 +100,12 @@ const userCanManageComment = (claims: Claim[], commentAuthor: string): boolean =
   return claims.includes(Claim.ManageComments);
 }
 
-export const getCommentsFeature = (config: CommentFeatureBuilderConfig): IFeature<CommentModel, CommentsListFilters> => {
-  const feature: IFeature<CommentModel, CommentsListFilters> = {
+export const getCommentsFeature = (config: CommentFeatureBuilderConfig): IFeature<IComment, CommentsListFilters> => {
+  const feature: IFeature<IComment, CommentsListFilters> = {
     key: Features.comments,
     nav: m => '',
     trans: features.comments as any,
-    list: commentListConfig( config),
+    list: commentListConfig(config),
   };
 
   return feature;

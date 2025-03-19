@@ -171,10 +171,11 @@ export interface IAudit {
 }
 
 
-export interface IComment {
-  createdBy: string,
-  createdOn: string,
-  modifiedBy?: string,
-  modifiedOn?: string,
-  comment: string
+export interface IComment extends IAudit {
+  comment: string;
+}
+
+export interface IModelComments {
+  comments: IComment[];
+  note?: string;
 }

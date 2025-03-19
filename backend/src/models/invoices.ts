@@ -93,7 +93,7 @@ export const COUNTRY_CODES = [
 
 /**
  * Endpoint scheme codes are a requirement for the e-invoice xml based on the peppol protocol and represent international commercial entity codes
- * more info on endpoint scheme codes:  https://docs.peppol.eu/poacc/billing/3.0/codelist/eas/ */
+ * more info on endpoint scheme codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/eas/ */
 export const ENDPOINT_SCHEMES = [
   {country: 'BE', schemeID: '9925'},
   {country: 'NL', schemeID: '9944'},
