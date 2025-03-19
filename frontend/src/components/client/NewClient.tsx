@@ -4,6 +4,10 @@ import {ClientModel} from './models/ClientModels';
 import {t} from '../utils';
 import {BtwInput, BtwResponse, formatBtw} from '../controls/form-controls/inputs/BtwInput';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
+import { getNewClient } from './models/getNewClient';
+import { useSelector } from 'react-redux';
+import { ConfacState } from '../../reducers/app-state';
+import { ConfigModel } from '../config/models/ConfigModel';
 
 type NewClientProps = {
   client: ClientModel,
@@ -11,14 +15,16 @@ type NewClientProps = {
 }
 
 /** Returns a partial ClientModel with the data from the BTW lookup */
-export function btwResponseToModel(btw: BtwResponse): ClientModel {
+export function btwResponseToModel(config: ConfigModel, btw: BtwResponse): ClientModel {
   return {
+    ...getNewClient(config),
     name: btw.name,
     btw: formatBtw(`${btw.countryCode}${btw.vatNumber}`),
     address: `${btw.address.street} ${btw.address.number}`,
-    city: `${btw.address.zip_code} ${btw.address.city}`,
-    country: btw.address.country,
-  } as ClientModel;
+    postalCode: btw.address.zip_code,
+    city: btw.address.city,
+    country: 'BE', // btw.address.country
+  };
 }
 
 
@@ -29,11 +35,12 @@ export function btwResponseToModel(btw: BtwResponse): ClientModel {
  **/
 export const NewClient = (props: NewClientProps) => {
   useDocumentTitle('clientNew');
+  const config = useSelector((state: ConfacState) => state.config);
   const [client, setClient] = useState<ClientModel | null>(null);
   const [btw, setBtw] = useState<string>(props.client.btw);
 
   const onBtwChange = (res: BtwResponse) => {
-    setClient(btwResponseToModel(res));
+    setClient(btwResponseToModel(config, res));
   };
 
   return (
@@ -59,7 +66,7 @@ export const NewClient = (props: NewClientProps) => {
             <Col md={6} sm={12}>
               <h3>{client.name}</h3>
               <div>{client.address}</div>
-              <div>{client.city}</div>
+              <div>{client.postalCode} {client.city}</div>
               <div>{client.country}</div>
             </Col>
           </Row>

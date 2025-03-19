@@ -15,9 +15,9 @@ export const defaultClientProperties: FullFormConfig = [
   {key: 'city'},
   {key: 'country', component: 'CountrySelect'},
   {key: 'telephone', component: 'phone'},
+  {key: 'language', component: 'LanguageSelect'},
   {key: 'contact', suffix: 'user'},
   {key: 'contactEmail', component: 'email'},
-  {key: 'language', component: 'LanguageSelect'},
   {key: 'notes', component: 'TextEditor', cols: 12, style: {height: 140}},
 
   {title: 'client.title'},

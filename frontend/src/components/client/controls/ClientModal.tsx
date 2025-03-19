@@ -70,12 +70,12 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
           defaultBtw={client.btw}
           onFinalize={(btw: string, btwResp?: BtwResponse) => {
             if (btwResp && btwResp.valid) {
-              this.setState({client: btwResponseToModel(btwResp)});
+              this.setState({client: btwResponseToModel(this.props.config, btwResp)});
             } else {
               this.setState({client: {...client, btw: btw || ' '}});
             }
           }}
-          onBtwChange={(btw: BtwResponse) => this.setState({btwResponse: btwResponseToModel(btw)})}
+          onBtwChange={(btw: BtwResponse) => this.setState({btwResponse: btwResponseToModel(this.props.config, btw)})}
         />
         {this.state.btwResponse && (
           <Row style={{marginTop: 25}}>
@@ -118,7 +118,10 @@ class ClientModalComponent extends Component<ClientModalProps, ClientModalState>
 }
 
 
-export const ClientModal = connect((state: ConfacState) => ({config: state.config}), {saveClient})(ClientModalComponent);
+export const ClientModal = connect(
+  (state: ConfacState) => ({config: state.config}),
+  {saveClient}
+)(ClientModalComponent);
 
 
 
