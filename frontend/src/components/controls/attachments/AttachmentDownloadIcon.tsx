@@ -20,10 +20,17 @@ export const InvoiceDownloadIcon = ({invoice, fileType, style, ...props}: Invoic
 
   const fullProjectMonth = useProjectMonthFromInvoice(invoice._id);
   const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, fileType, 'download', fullProjectMonth);
+  const attachment = invoice.attachments.find(a => a.type === fileType);
+
+  if (!attachment) {
+    // Example: Peppol XML for old invoices
+    return null;
+  }
+
   return (
     <AttachmentDownloadIcon
       downloadUrl={url}
-      attachment={invoice.attachments.find(a => a.type === fileType)}
+      attachment={attachment}
       style={style}
       {...props}
     />
