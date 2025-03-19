@@ -6,6 +6,8 @@ import {ListPage} from '../controls/table/ListPage';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {Features} from '../controls/feature/feature-models';
 
+import './clients-list.scss';
+
 export const ClientList = () => {
   useDocumentTitle('clientList');
 
