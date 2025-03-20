@@ -295,4 +295,3 @@ export function calculateDaysWorked(invoices: InvoiceModel[]): DaysWorked {
 
   return invoiceDayTotals;
 }
-

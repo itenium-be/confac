@@ -32,7 +32,6 @@ export const getNewInvoice = (
   const invoicesOrQuotations = invoice.isQuotation ? invoices.filter(x => x.isQuotation) : invoices.filter(x => !x.isQuotation);
   invoice.number = invoicesOrQuotations.map(i => i.number).reduce((a, b) => Math.max(a, b), 0) + 1;
 
-
   const model = new InvoiceModel(config, invoice);
   if (invoice.client) {
     // DATE: Set in the setClient()

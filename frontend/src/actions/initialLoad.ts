@@ -195,16 +195,18 @@ export function initialLoad(loadNextMonth?: number): any {
       }
     });
 
-    promise = promise.then(() => [
-      dispatch(fetchClients()),
-      dispatch(fetchConsultants()),
-      dispatch(fetchUsers()),
-      dispatch(fetchRoles()),
-      dispatch(fetchInvoices(monthsToLoad)),
-      dispatch(fetchProjects(monthsToLoad)),
-      dispatch(fetchProjectsMonth(monthsToLoad)),
-      dispatch(fetchProjectsMonthOverviews(monthsToLoad)),
-    ]);
+    promise = promise.then(() => {
+      return Promise.all([
+        dispatch(fetchClients()),
+        dispatch(fetchConsultants()),
+        dispatch(fetchUsers()),
+        dispatch(fetchRoles()),
+        dispatch(fetchInvoices(monthsToLoad)),
+        dispatch(fetchProjects(monthsToLoad)),
+        dispatch(fetchProjectsMonth(monthsToLoad)),
+        dispatch(fetchProjectsMonthOverviews(monthsToLoad)),
+      ]);
+    });
 
     return promise
       .then(() => dispatch({type: ACTION_TYPES.INITIAL_LOAD, lastMonthsDownloaded: monthsToLoad}));
