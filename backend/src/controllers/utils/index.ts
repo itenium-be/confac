@@ -123,7 +123,6 @@ export const createXml = (savedInvoice: IInvoice, pdf?: Buffer): string => {
     const paymentMeans = createPaymentMeans(savedInvoice);
     const orderReference = createOrderReference(savedInvoice);
 
-
     const additionalDocumentReference = createAdditionalDocumentReference(pdf);
 
     if (additionalDocumentReference) {
@@ -153,14 +152,12 @@ export const createXml = (savedInvoice: IInvoice, pdf?: Buffer): string => {
     invoiceXml.addPaymentMeans(paymentMeans);
 
 
-    savedInvoice.lines.forEach((line, index:number) => {
-      const createdInvoiceLine = createInvoiceLine(savedInvoice, line, index, currencyID, classifiedTaxCategory)
+    savedInvoice.lines.filter(line => line.type !== 'section').forEach((line, index: number) => {
+      const createdInvoiceLine = createInvoiceLine(savedInvoice, line, index, currencyID, classifiedTaxCategory);
       invoiceXml.addInvoiceLine(createdInvoiceLine);
     });
-
   }
 
   const xml = postProccess(invoiceXml, pdf, savedInvoice);
   return xml;
 }
-

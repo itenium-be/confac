@@ -186,7 +186,7 @@ export const createTaxObjects = (invoice: IInvoice, taxScheme: TaxScheme) : { ta
     }
   }
 
-  const vat: number = 21
+  const vat: number = 21;
   const standardTaxChargeCode = 'S';
   return {
     taxCategory: new TaxCategory({
@@ -239,7 +239,7 @@ export const createInvoiceLine = (invoice: IInvoice, line: IInvoiceLine, index: 
     * more info on unit codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNECERec20/
     * code C62 is a general code meaning 'one' or 'unit'
     */
-   const defaultUnitCode = 'C62';
+  const defaultUnitCode = 'C62';
   const unitCode = UNIT_CODES.find(unitCode => unitCode.unit === line.type);
   const invoiceLine = new InvoiceLine({
     id: (index + 1).toString(),
@@ -252,7 +252,6 @@ export const createInvoiceLine = (invoice: IInvoice, line: IInvoiceLine, index: 
         id: invoice.number + '-' + (index + 1)
       }),
       classifiedTaxCategory: classifiedTaxCategory,
-
     }),
     price: new Price({
       priceAmount: new UdtAmount(line.price.toFixed(2), currency),
@@ -260,7 +259,7 @@ export const createInvoiceLine = (invoice: IInvoice, line: IInvoiceLine, index: 
     })
   });
 
-  return invoiceLine
+  return invoiceLine;
 }
 
 export const createAdditionalDocumentReference = (pdf: Buffer | undefined):AdditionalDocumentReference | undefined => {
@@ -328,13 +327,13 @@ const createCompanyNumber = (vat: string, countryCode: string): string => {
 
   switch(countryCode) {
     case 'NL':
-      return companyNumber.padStart(12, '0')
+      return companyNumber.padStart(12, '0');
     case 'UK':
     case 'DE':
     case 'FR':
-      return companyNumber.padStart(9, '0')
+      return companyNumber.padStart(9, '0');
     case 'BE':
     default:
-        return companyNumber.padStart(10, '0')
+      return companyNumber.padStart(10, '0');
   }
 }
