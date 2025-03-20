@@ -19,7 +19,7 @@ export const InvoiceVerifyIconToggle = EnhanceWithClaim(({invoice, toggleValid, 
   }
 
   const daysPassed = moment().diff(invoice.audit.createdOn, 'days');
-  const title = invoice.verified ? t('invoice.verifyAction') : t('invoice.verifyActionTooltip', {days: daysPassed});
+  const title = invoice.verified ? t('invoice.unverifyActionTooltip') : t('invoice.verifyActionTooltip', {days: daysPassed});
   return (
     <BusyVerifyIcon
       model={invoice}
