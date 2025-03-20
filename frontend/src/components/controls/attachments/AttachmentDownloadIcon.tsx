@@ -6,7 +6,6 @@ import {InvoiceModelProps} from '../../invoice/models/InvoiceModel';
 import {Attachment, CoreInvoiceAttachments} from '../../../models';
 import {getAwesomeFileType} from '../../invoice/models/getAwesomeFileType';
 import {ConfacState} from '../../../reducers/app-state';
-import {useProjectMonthFromInvoice} from '../../hooks/useProjects';
 
 type InvoiceDownloadIconProps = InvoiceModelProps & {
   fileType: CoreInvoiceAttachments,
@@ -17,9 +16,7 @@ type InvoiceDownloadIconProps = InvoiceModelProps & {
 export const InvoiceDownloadIcon = ({invoice, fileType, style, ...props}: InvoiceDownloadIconProps) => {
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
   const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
-
-  const fullProjectMonth = useProjectMonthFromInvoice(invoice._id);
-  const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, fileType, 'download', fullProjectMonth);
+  const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, fileType, 'download');
   const attachment = invoice.attachments.find(a => a.type === fileType);
 
   if (!attachment) {
@@ -42,9 +39,7 @@ export const InvoicePreviewIcon = ({ invoice, ...props }: InvoiceModelProps & Ic
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
   const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
-
-  const fullProjectMonth = useProjectMonthFromInvoice(invoice._id);
-  const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, 'pdf', undefined, fullProjectMonth)
+  const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, 'pdf', undefined)
   return (
     <Icon
       title={t(`${fileType}.viewPdf`)}

@@ -11,24 +11,23 @@ import { t } from "../../utils";
 
 export type EditInvoiceHeaderProps = {
   invoice: InvoiceModel,
-  isNew: boolean,
   onChange: (invoice: InvoiceModel) => void;
 }
-export const EditInvoiceHeader = ({invoice, isNew, onChange}: EditInvoiceHeaderProps) => {
+export const EditInvoiceHeader = ({invoice, onChange}: EditInvoiceHeaderProps) => {
   const type: 'quotation' | 'invoice' = invoice.isQuotation ? 'quotation' : 'invoice';
   return (
     <>
       <Col sm={12} style={{marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
         <div style={{display: 'inline-flex', alignItems: 'flex-start'}}>
           <h1 style={{width: 'unset'}}>
-            {!isNew ? t(`${type}.editTitle`) : t(`${type}.createTitle`)}
+            {!invoice.isNew ? t(`${type}.editTitle`) : t(`${type}.createTitle`)}
             <Audit model={invoice} modelType="invoice" />
           </h1>
           <div>
             <EditInvoiceBadges invoice={invoice} />
           </div>
         </div>
-        {!isNew && (
+        {!invoice.isNew && (
           <div>
             <div className="invoice-top-buttonbar invoice-edit">
               <NotesWithCommentsModalButton

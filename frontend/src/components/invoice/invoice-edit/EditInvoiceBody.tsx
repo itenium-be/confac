@@ -23,8 +23,8 @@ export const EditInvoiceBody = ({invoice, onChange}: EditInvoiceBodyProps) => {
           <EditInvoiceClient
             invoice={invoice}
             onChange={val => {
-              invoice.setClient(val)
-              onChange(invoice)
+              invoice.setClient(val);
+              onChange(invoice);
             }}
           />
         </Col>
@@ -35,7 +35,7 @@ export const EditInvoiceBody = ({invoice, onChange}: EditInvoiceBodyProps) => {
               invoice={invoice}
               onChange={(fieldName: string, value: any) => {
                 invoice.updateField(fieldName, value, true);
-                onChange(invoice)
+                onChange(invoice);
               }}
             />
           </Row>
@@ -44,11 +44,11 @@ export const EditInvoiceBody = ({invoice, onChange}: EditInvoiceBodyProps) => {
               value={invoice.projectMonth}
               onProjectMonthChange={fpm => {
                 invoice.setProjectMonth(fpm);
-                onChange(invoice)
+                onChange(invoice);
               }}
               onManualChange={(consultant, month) => {
                 invoice.setManualProjectMonth(consultant, month || undefined);
-                onChange(invoice)
+                onChange(invoice);
               }}
               invoice={invoice}
             />

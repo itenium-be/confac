@@ -6,7 +6,6 @@ import {success, failure} from './appActions';
 import {t} from '../components/utils';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {invoiceReplacements} from '../components/invoice/invoice-replacements';
-import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
 import {authService} from '../components/users/authService';
 
 
@@ -14,7 +13,6 @@ export function sendEmail(
   invoiceFileName: string,
   invoice: InvoiceModel,
   email: EmailModel,
-  fullProjectMonth?: FullProjectMonthModel,
   emailInvoiceOnly?: string,
 ) {
 
@@ -24,13 +22,13 @@ export function sendEmail(
       if (attachmentType === 'pdf') {
         return {
           type: 'pdf',
-          fileName: `${invoiceReplacements(invoiceFileName, invoice, fullProjectMonth)}.pdf`,
+          fileName: `${invoiceReplacements(invoiceFileName, invoice)}.pdf`,
           fileType: 'application/pdf',
         };
       } else if (attachmentType === 'xml') {
         return {
           type: 'xml',
-          fileName: `${invoiceReplacements(invoiceFileName, invoice, fullProjectMonth)}.xml`,
+          fileName: `${invoiceReplacements(invoiceFileName, invoice)}.xml`,
           fileType: 'application/xml',
         };
       }

@@ -1,7 +1,6 @@
 import InvoiceModel from '../../components/invoice/models/InvoiceModel';
 import {buildUrl} from './buildUrl';
 import {invoiceReplacements} from '../../components/invoice/invoice-replacements';
-import {FullProjectMonthModel} from '../../components/project/models/FullProjectMonthModel';
 import {authService} from '../../components/users/authService';
 
 export type DownloadAttachmentModelTypes = {
@@ -36,8 +35,8 @@ export function downloadAttachment(fileName: string, content: Blob): void {
 }
 
 
-export function getInvoiceFileName(fileName: string, invoice: InvoiceModel, extension: string, fullProjectMonth?: FullProjectMonthModel): string {
-  return `${invoiceReplacements(fileName, invoice, fullProjectMonth)}.${extension}`;
+export function getInvoiceFileName(fileName: string, invoice: InvoiceModel, extension: string): string {
+  return `${invoiceReplacements(fileName, invoice)}.${extension}`;
 }
 
 

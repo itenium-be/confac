@@ -7,7 +7,6 @@ import {Attachment, CoreInvoiceAttachments} from '../models';
 import {ClientModel} from '../components/client/models/ClientModels';
 import {getInvoiceFileName, getDownloadUrl, previewPdf, downloadAttachment} from './utils/download-helpers';
 import {ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
-import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
 import {authService} from '../components/users/authService';
 
 
@@ -16,12 +15,11 @@ export function getInvoiceDownloadUrl(
   invoice: InvoiceModel,
   attachment: CoreInvoiceAttachments | Attachment = 'pdf',
   downloadType?: 'preview' | 'download',
-  fullProjectMonth?: FullProjectMonthModel,
 ): string {
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
   const attachmentType = typeof attachment === 'string' ? attachment : attachment.type;
   const filename = typeof attachment === 'string' || attachment.type === 'pdf' || attachment.type === 'xml' ?
-    getInvoiceFileName(fileNameTemplate, invoice, attachmentType, fullProjectMonth) : attachment.fileName;
+    getInvoiceFileName(fileNameTemplate, invoice, attachmentType) : attachment.fileName;
 
   return getDownloadUrl(fileType, invoice._id, attachmentType, filename, downloadType);
 }
@@ -46,14 +44,14 @@ export function getProjectMonthOverviewDownloadUrl(
 
 
 
-export function previewInvoice(fileName: string, data: InvoiceModel, fullProjectMonth?: FullProjectMonthModel) {
+export function previewInvoice(fileName: string, data: InvoiceModel) {
   return dispatch => {
     request.post(buildUrl('/invoices/preview'))
       .set('Authorization', authService.getBearer())
       .responseType('blob')
       .send(data)
       .then(res => {
-        previewPdf(getInvoiceFileName(fileName, data, 'pdf', fullProjectMonth), res.body);
+        previewPdf(getInvoiceFileName(fileName, data, 'pdf'), res.body);
         return res.text;
       })
       .catch(catchHandler);

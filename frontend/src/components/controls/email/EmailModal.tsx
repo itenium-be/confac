@@ -11,8 +11,6 @@ import {invoiceReplacements, getInvoiceReplacements} from '../../invoice/invoice
 import {ConfacState} from '../../../reducers/app-state';
 import {sendEmail} from '../../../actions/emailActions';
 import {ConfigModel} from '../../config/models/ConfigModel';
-import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
-import {useProjectMonthFromInvoice} from '../../hooks/useProjects';
 
 
 export enum EmailTemplate {
@@ -26,7 +24,6 @@ const getDefaultEmailValue = (
   invoice: InvoiceModel,
   template: EmailTemplate,
   config: ConfigModel,
-  fullProjectMonth?: FullProjectMonthModel,
 ): EmailModel => {
 
   const defaultEmail = config.email;
@@ -47,7 +44,7 @@ const getDefaultEmailValue = (
   }
 
   const finalValues = {...defaultEmail, ...emailValues};
-  finalValues.subject = invoiceReplacements(finalValues.subject, invoice, fullProjectMonth);
+  finalValues.subject = invoiceReplacements(finalValues.subject, invoice);
   if (template === EmailTemplate.Reminder) {
     if (config.emailReminder) {
       finalValues.body = config.emailReminder;
@@ -59,7 +56,7 @@ const getDefaultEmailValue = (
       finalValues.bcc = config.emailReminderBcc;
     }
   }
-  finalValues.body = invoiceReplacements(finalValues.body, invoice, fullProjectMonth);
+  finalValues.body = invoiceReplacements(finalValues.body, invoice);
   finalValues.body += config.emailSignature;
 
   return getNewEmail(finalValues);
@@ -77,15 +74,14 @@ type EmailModalProps = Omit<BaseModalProps, 'show'> & {
 export const EmailModal = ({invoice, onClose, template, ...props}: EmailModalProps) => {
   const dispatch = useDispatch();
   const config = useSelector((state: ConfacState) => state.config);
-  const fullProjectMonth = useProjectMonthFromInvoice(invoice._id);
-  const [value, setValue] = useState(getDefaultEmailValue(invoice, template, config, fullProjectMonth));
+  const [value, setValue] = useState(getDefaultEmailValue(invoice, template, config));
 
   const attachmentsAvailable = invoice.attachments.map(a => a.type);
   return (
     <Modal
       show
       onClose={onClose}
-      onConfirm={() => dispatch(sendEmail(invoice.client.invoiceFileName || config.invoiceFileName, invoice, value, fullProjectMonth, config.emailInvoiceOnly) as any)}
+      onConfirm={() => dispatch(sendEmail(invoice.client.invoiceFileName || config.invoiceFileName, invoice, value, config.emailInvoiceOnly) as any)}
       confirmText={t('email.send')}
       confirmVariant="danger"
       title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} template={template} />}
@@ -95,7 +91,7 @@ export const EmailModal = ({invoice, onClose, template, ...props}: EmailModalPro
         value={value}
         onChange={setValue}
         attachmentsAvailable={attachmentsAvailable}
-        textEditorReplacements={getInvoiceReplacements(invoice, fullProjectMonth)}
+        textEditorReplacements={getInvoiceReplacements(invoice)}
       />
     </Modal>
   );

@@ -1,4 +1,4 @@
-import {useEffect, useReducer, useRef, useState} from 'react';
+import {useEffect, useReducer, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
@@ -18,27 +18,37 @@ import { getNewInvoice } from '../models/getNewInvoice';
 import './EditInvoice.scss';
 
 
-const EditInvoice = () => {
-  const isQuotation = window.location.pathname.startsWith('/quotations/');
-
+const useInvoiceState = (isQuotation: boolean) => {
   const params = useParams();
   const config = useSelector((state: ConfacState) => state.config);
+  const invoices = useSelector((state: ConfacState) => state.invoices);
+  const clients = useSelector((state: ConfacState) => state.clients);
+
   const storeInvoice = useSelector((state: ConfacState) => state.invoices
     // eslint-disable-next-line
     .filter(x => x.isQuotation == isQuotation) // == the property is not present for some legacy data
     .find(x => x.number === parseInt(params.id, 10))
   );
-  const invoices = useSelector((state: ConfacState) => state.invoices);
-  const clients = useSelector((state: ConfacState) => state.clients);
-  const initInvoice = storeInvoice ? new InvoiceModel(config, storeInvoice) : getNewInvoice(config, invoices, clients, {isQuotation});
 
-  const [invoice, setInvoice] = useState<InvoiceModel>(initInvoice);
-  useEntityChangedToast(invoice._id);
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  const newInvoice = getNewInvoice(config, invoices, clients, {isQuotation});
+  const storeModelInvoice = new InvoiceModel(config, storeInvoice);
+  const originalInvoice = storeInvoice ? storeModelInvoice : newInvoice;
+  const [invoice, unpureSetInvoice] = useState<InvoiceModel>(originalInvoice);
 
-  const [showEmailModal, setEmailModal] = useState<EmailTemplate>(EmailTemplate.None);
+  useEffect(() => {
+    if (storeInvoice) {
+      unpureSetInvoice(storeModelInvoice);
+    } else {
+      unpureSetInvoice(newInvoice);
+    }
+    // ATTN: We only depend on params.id & storeInvoice
+    //       This is the only way the "form" invoice is
+    //       overwritten.
+  }, [params.id, storeInvoice]); // eslint-disable-line
+
+
   let docTitle: string;
-  if (storeInvoice?._id) {
+  if (invoice?._id) {
     const name = t(isQuotation ? 'quotation.pdfName' : 'invoice.invoice');
     docTitle = `${name} #${invoice.number} for ${invoice.client?.name}`;
   } else {
@@ -46,28 +56,30 @@ const EditInvoice = () => {
   }
   useDocumentTitle(docTitle, 'already-translated');
 
-  if (storeInvoice && !invoice._id) {
-    setInvoice(new InvoiceModel(config, storeInvoice));
+
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  const setInvoice = (invoiceModel: InvoiceModel) => {
+    // InvoiceModel is a class, when mutating it remains the
+    // same reference and React does not re-render.
+    unpureSetInvoice(invoiceModel);
+    forceUpdate();
   }
 
-  const configRef = useRef(config);
-  const invoicesRef = useRef(invoices);
-  useEffect(() => {
-    const isQuotation = window.location.pathname.startsWith('/quotations/');
-    window.scrollTo(0, 0)
-
-    const navigateInvoice = invoicesRef.current
-      .filter(x => x.isQuotation && isQuotation)
-      .find(x => x.number === parseInt(params.id, 10));
-    setInvoice(new InvoiceModel(configRef.current, navigateInvoice));
-  }, [params])
+  return {
+    invoice,
+    setInvoice,
+    originalInvoice,
+  };
+}
 
 
-  // TODO: confusion with storeInvoice vs initInvoice vs invoice
-  // --> There should be a form variant and a model variant new'd for every render
-  // --> problem right now is that ex for a new invoice the invoice._id is not set after save
-  // --> the invoice.attachments are also not updated because they are separate from the form...
+const EditInvoice = () => {
+  const isQuotation = window.location.pathname.startsWith('/quotations/');
+  const [showEmailModal, setEmailModal] = useState<EmailTemplate>(EmailTemplate.None);
+  const {invoice, setInvoice, originalInvoice} = useInvoiceState(isQuotation);
 
+  // ATTN: invoice updated from somewhere else will now overwrite local changes
+  useEntityChangedToast(invoice?._id);
 
   return (
     <Container className="edit-container">
@@ -75,26 +87,19 @@ const EditInvoice = () => {
         <Row>
           <EditInvoiceHeader
             invoice={invoice}
-            isNew={!initInvoice._id}
-            onChange={invoice => {
-              setInvoice(invoice);
-              forceUpdate();
-            }}
+            onChange={invoice => setInvoice(invoice)}
           />
         </Row>
         <Row>
           <EditInvoiceBody
             invoice={invoice}
-            onChange={invoice => {
-              setInvoice(invoice);
-              forceUpdate();
-            }}
+            onChange={invoice => setInvoice(invoice)}
           />
         </Row>
 
-        {!!initInvoice._id && invoice.client && showEmailModal !== EmailTemplate.None && (
+        {!!invoice._id && invoice.client && showEmailModal !== EmailTemplate.None && (
           <EmailModal
-            invoice={initInvoice}
+            invoice={invoice}
             template={showEmailModal}
             onClose={() => setEmailModal(EmailTemplate.None)}
           />
@@ -104,7 +109,7 @@ const EditInvoice = () => {
         <StickyFooter>
           <EditInvoiceFooter
             invoice={invoice}
-            initInvoice={initInvoice}
+            initInvoice={originalInvoice}
             setEmailModal={setEmailModal}
           />
         </StickyFooter>

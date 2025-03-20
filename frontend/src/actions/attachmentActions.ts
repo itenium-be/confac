@@ -46,7 +46,9 @@ export function updateAttachment(
         config = {type: ACTION_TYPES.INVOICE_UPDATED, key: 'invoice'};
         break;
       }
-      dispatch({ type: config.type, [config.key]: res.body });
+
+      const mergedModel = {...model, attachments: res.body.attachments};
+      dispatch({ type: config.type, [config.key]: mergedModel });
       success();
       return true;
     })
@@ -131,9 +133,10 @@ export function deleteAttachment(model: IAttachment, modelType: 'client' | 'invo
     request.delete(buildAttachmentUrl(model, type))
       .set('Authorization', authService.getBearer())
       .then(res => {
+        const mergedModel = {...model, attachments: res.body.attachments};
         dispatch({
           type: modelType === 'client' ? ACTION_TYPES.CLIENT_UPDATE : ACTION_TYPES.INVOICE_UPDATED,
-          [modelType === 'client' ? 'client' : 'invoice']: res.body,
+          [modelType === 'client' ? 'client' : 'invoice']: mergedModel,
         });
 
         success();

@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import { EmailTemplate } from "../../controls/email/EmailModal";
 import InvoiceModel from "../models/InvoiceModel";
-import { useProjectsMonth } from "../../hooks/useProjects";
 import { useSelector } from "react-redux";
 import { ConfacState } from "../../../reducers/app-state";
 import { Claim } from "../../users/models/UserModel";
@@ -21,7 +20,6 @@ export type EditInvoiceFooterProps = {
 
 export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal}: EditInvoiceFooterProps) => {
   const dispatch = useDispatch();
-  const fullProjectMonth = useProjectsMonth(invoice?.projectMonth?.projectMonthId);
   const invoices = useSelector((state: ConfacState) => state.invoices);
   const config = useSelector((state: ConfacState) => state.config);
 
@@ -55,7 +53,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal}: EditInv
           if (type === 'create') {
             dispatch(createInvoice(invoice, navigate) as any);
           } if (type === 'preview') {
-            dispatch(previewInvoice(invoice.client.invoiceFileName || config.invoiceFileName, invoice, fullProjectMonth) as any);
+            dispatch(previewInvoice(invoice.client.invoiceFileName || config.invoiceFileName, invoice) as any);
           } if (type === 'update') {
             dispatch(syncCreditNotas(invoice, initInvoice.creditNotas, invoices) as any)
             dispatch(updateInvoiceRequest(invoice, undefined, false, navigate) as any);

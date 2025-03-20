@@ -1,5 +1,4 @@
 import moment from 'moment';
-import {FullProjectMonthModel} from '../project/models/FullProjectMonthModel';
 import InvoiceModel from './models/InvoiceModel';
 import {t} from '../utils';
 
@@ -25,7 +24,7 @@ export const invoiceReplacementsPopoverConfig: ITextEditorCustomReplacement[] = 
 
 
 
-export function getInvoiceReplacements(invoice: InvoiceModel, projectMonth?: FullProjectMonthModel): ITextEditorCustomReplacement[] {
+export function getInvoiceReplacements(invoice: InvoiceModel): ITextEditorCustomReplacement[] {
   const result: ITextEditorCustomReplacement[] = [
     {code: '{nr}', desc: 'config.invoiceReplacements.nr'},
     {code: '{date:DD/MM/YYYY}', desc: 'config.invoiceReplacements.dateShort'},
@@ -33,7 +32,7 @@ export function getInvoiceReplacements(invoice: InvoiceModel, projectMonth?: Ful
     {code: '{clientName}', desc: 'config.invoiceReplacements.clientName'},
   ];
 
-  if (projectMonth) {
+  if (invoice.projectMonth) {
     result.push({code: '{projectMonth:MMMM YYYY}', desc: 'config.invoiceReplacements.projectMonthShort'});
     result.push({code: '{consultantName}', desc: 'config.invoiceReplacements.consultantName'});
   }
@@ -41,13 +40,13 @@ export function getInvoiceReplacements(invoice: InvoiceModel, projectMonth?: Ful
   return result.map(replacement => ({
     code: t(replacement.desc),
     desc: '',
-    defaultValue: invoiceReplacements(replacement.code, invoice, projectMonth),
+    defaultValue: invoiceReplacements(replacement.code, invoice),
   }));
 }
 
 
 
-export function invoiceReplacements(input: string, invoice: InvoiceModel, fullProjectMonth?: FullProjectMonthModel): string {
+export function invoiceReplacements(input: string, invoice: InvoiceModel): string {
   let str = input;
 
   const appLanguage = moment.locale();
@@ -83,15 +82,15 @@ export function invoiceReplacements(input: string, invoice: InvoiceModel, fullPr
   const projectMonthMatch = str.match(projectMonthRegex);
   if (projectMonthMatch) {
     const dateFormat = projectMonthMatch[1];
-    if (fullProjectMonth) {
-      str = str.replace(projectMonthRegex, clientFormat(fullProjectMonth.details.month, dateFormat));
+    if (invoice.projectMonth?.month) {
+      str = str.replace(projectMonthRegex, clientFormat(moment(invoice.projectMonth.month), dateFormat));
     } else {
       str = str.replace(projectMonthRegex, clientFormat(invoice.date, dateFormat));
     }
   }
 
-  if (fullProjectMonth && str.indexOf('{consultantName}') !== -1) {
-    str = str.replace('{consultantName}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`);
+  if (invoice.projectMonth?.consultantName && str.indexOf('{consultantName}') !== -1) {
+    str = str.replace('{consultantName}', invoice.projectMonth.consultantName);
   } else {
     str = str.replace('{consultantName}', '???');
   }

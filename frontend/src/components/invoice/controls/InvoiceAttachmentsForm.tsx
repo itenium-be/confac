@@ -4,7 +4,6 @@ import {Attachment} from '../../../models';
 import InvoiceModel from '../models/InvoiceModel';
 import {AttachmentsForm} from '../../controls/attachments/AttachmentsForm';
 import {ConfacState} from '../../../reducers/app-state';
-import {useProjectMonthFromInvoice} from '../../hooks/useProjects';
 
 
 type InvoiceAttachmentsFormProps = {
@@ -13,8 +12,6 @@ type InvoiceAttachmentsFormProps = {
 
 export const InvoiceAttachmentsForm = ({model}: InvoiceAttachmentsFormProps) => {
   const defaultInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
-  const fullProjectMonth = useProjectMonthFromInvoice(model._id);
-
 
   if (!model._id) {
     return null;
@@ -22,7 +19,7 @@ export const InvoiceAttachmentsForm = ({model}: InvoiceAttachmentsFormProps) => 
 
   const createDownloadUrl = (
     downloadType: 'download' | 'preview', att: 'pdf' | Attachment,
-  ) => getInvoiceDownloadUrl(defaultInvoiceFileName, model, att, downloadType, fullProjectMonth);
+  ) => getInvoiceDownloadUrl(defaultInvoiceFileName, model, att, downloadType);
 
   const modelType = model.isQuotation ? 'quotation' : 'invoice';
   return (
