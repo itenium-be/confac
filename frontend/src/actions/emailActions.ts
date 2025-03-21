@@ -58,9 +58,9 @@ export function sendEmail(
         console.log('Email response', res); // eslint-disable-line
         success(t('email.sent'));
         dispatch({
-          type: ACTION_TYPES.INVOICE_EMAILED,
-          payload: {
-            _id: invoice._id,
+          type: ACTION_TYPES.INVOICE_UPDATED,
+          invoice: {
+            ...invoice,
             lastEmail: res.text,
           },
         });
