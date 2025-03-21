@@ -70,6 +70,7 @@ export interface IInvoice {
   lines: InvoiceLine[];
   money: IInvoiceMoney;
   audit: IAudit;
+  creditNotas: string[];
 }
 
 export const INVOICE_EXCEL_HEADERS = [

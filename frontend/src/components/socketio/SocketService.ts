@@ -77,7 +77,7 @@ function createSocketService() {
     toast.info(
       t(`socketio.operation.${eventType}`, {
         entityType: t(`socketio.entities.${eventPayload.entityType}`),
-        user: eventPayload.sourceUserEmail,
+        user: eventPayload.sourceUserAlias,
       }),
       {
         autoClose: false,

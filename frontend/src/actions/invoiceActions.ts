@@ -83,13 +83,13 @@ export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | un
   };
 }
 
-export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: number[], invoices: InvoiceModel[]) => {
+export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: string[], invoices: InvoiceModel[]) => {
   return dispatch => {
     const removedCreditNota = previousCreditNotas.filter(n => !invoice.creditNotas.includes(n));
-    const creditNotaGroup = [...invoice.creditNotas, invoice.number];
+    const creditNotaGroup = [...invoice.creditNotas, invoice._id];
 
     removedCreditNota.forEach(creditnota => {
-      const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i.number === creditnota && !i.isQuotation))
+      const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i._id === creditnota && !i.isQuotation))
       if (invoiceToUpdate) {
         invoiceToUpdate.creditNotas = [];
         dispatch(updateInvoiceRequest(invoiceToUpdate, null, false) as any);
@@ -97,15 +97,15 @@ export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: numb
     })
 
     invoice.creditNotas.forEach(creditNota => {
-      const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i.number === creditNota && !i.isQuotation))
+      const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i._id === creditNota && !i.isQuotation))
       if (invoiceToUpdate) {
-        const newCreditNotas = creditNotaGroup.filter(n => n !== invoiceToUpdate.number);
+        const newCreditNotas = creditNotaGroup.filter(n => n !== invoiceToUpdate._id);
 
         if (newCreditNotas.length !== invoiceToUpdate.creditNotas.length ||
-          !(newCreditNotas.every(num => invoiceToUpdate.creditNotas.includes(num)) &&
-          invoiceToUpdate.creditNotas.every(num => newCreditNotas.includes(num)))
+          !(newCreditNotas.every(id => invoiceToUpdate.creditNotas.includes(id)) &&
+          invoiceToUpdate.creditNotas.every(id => newCreditNotas.includes(id)))
         ) {
-          invoiceToUpdate.creditNotas = newCreditNotas
+          invoiceToUpdate.creditNotas = newCreditNotas;
           dispatch(updateInvoiceRequest(invoiceToUpdate, null, false) as any);
         }
       }

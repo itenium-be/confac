@@ -11,13 +11,13 @@ import { searchInvoices } from "../models/getInvoiceFeature";
 
 
 export type InvoiceCreditNotasModalProps = {
-  onConfirm: (invoiceNrs: ListSelectionItem<number>) => void,
+  onConfirm: (invoiceIds: ListSelectionItem<string>) => void,
   model: InvoiceModel,
 }
 
 export const InvoiceCreditNotasModal = ({model, onConfirm}: InvoiceCreditNotasModalProps) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedInvoices, setSelectedInvoices] = useState<number[]>(model.creditNotas);
+  const [selectedInvoices, setSelectedInvoices] = useState<string[]>(model.creditNotas);
 
   useEffect(() => {
     setSelectedInvoices(model.creditNotas);
@@ -49,14 +49,14 @@ export const InvoiceCreditNotasModal = ({model, onConfirm}: InvoiceCreditNotasMo
 
 type ModelBodyProps = {
   model: InvoiceModel,
-  selectedInvoices: number[],
-  setSelectedInvoices: (invoiceNrs: number[]) => void,
+  selectedInvoices: string[],
+  setSelectedInvoices: (invoiceIds: string[]) => void,
 }
 
 const ModalBody = ({model, selectedInvoices, setSelectedInvoices}: ModelBodyProps) => {
   const [needle, setNeedle] = useState<string>('');
   const invoices = useSelector((state: ConfacState) => state.invoices.filter(i => !i.isQuotation && i._id !== model._id));
-  const selectedInvoiceModels = selectedInvoices.map(nr => invoices.find(i => i.number === nr)!);
+  const selectedInvoiceModels = selectedInvoices.map(id => invoices.find(i => i._id === id)!);
 
   let filteredInvoices = invoices;
   if (needle) {
@@ -74,7 +74,7 @@ const ModalBody = ({model, selectedInvoices, setSelectedInvoices}: ModelBodyProp
       <ListSelect
         data={filteredInvoices}
         value={selectedInvoiceModels}
-        onChange={selection => setSelectedInvoices(selection.map(i => i.number))}
+        onChange={selection => setSelectedInvoices(selection.map(i => i._id))}
         listSize={10}
       />
     </>

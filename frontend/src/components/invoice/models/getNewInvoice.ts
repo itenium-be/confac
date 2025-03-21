@@ -75,7 +75,7 @@ export const getNewClonedInvoice = (
       }
       return {...line, amount: line.amount * -1};
     }),
-    creditNotas: [...invoiceBlueprint.creditNotas, invoiceBlueprint.number],
+    creditNotas: [...invoiceBlueprint.creditNotas, _id],
     note: '',
     comments: []
   });

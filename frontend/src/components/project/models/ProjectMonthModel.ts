@@ -23,7 +23,7 @@ export interface ProjectMonthModel {
   orderNr: string;
   audit: IAudit;
   verified: ProjectMonthStatus;
-  verifiedInvoices: number[];
+  verifiedInvoices: string[];
   attachments: Attachment[];
 }
 
@@ -50,7 +50,7 @@ export interface ProjectMonthInbound {
   nr: string;
   dateReceived?: Moment | null;
   status: ProjectMonthInboundStatus;
-  proforma?: ProjectMonthProforma
+  proforma?: ProjectMonthProforma;
 }
 
 
@@ -63,8 +63,7 @@ export interface ProjectMonthTimesheet {
   validated: boolean;
   /** Some contextual info */
   note?: string;
-
-  comments: IComment[]
+  comments: IComment[];
 }
 
 

@@ -42,14 +42,14 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
     if (verified) {
       dispatch(patchProjectsMonth({
         ...fullProjectMonth.details,
-        verified: invoice!.creditNotas.every(invoiceNbr => fullProjectMonth.details.verifiedInvoices.includes(invoiceNbr)),
-        verifiedInvoices: [...fullProjectMonth.details.verifiedInvoices, invoice!.number]
+        verified: invoice!.creditNotas.every(invoiceId => fullProjectMonth.details.verifiedInvoices.includes(invoiceId)),
+        verifiedInvoices: [...fullProjectMonth.details.verifiedInvoices, invoice!._id]
       }) as any);
     } else {
       dispatch(patchProjectsMonth({
         ...fullProjectMonth.details,
         verified,
-        verifiedInvoices: fullProjectMonth.details.verifiedInvoices.filter(n => n !== invoice!.number)
+        verifiedInvoices: fullProjectMonth.details.verifiedInvoices.filter(n => n !== invoice!._id)
       }) as any);
     }
   };
@@ -107,14 +107,14 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
 
   const invoiceList = [
     ...(fullProjectMonth.invoice.creditNotas || []),
-    fullProjectMonth.invoice.number
+    fullProjectMonth.invoice._id
   ]
 
   return (
     <>
       {invoiceList
-        .sort((a, b) => a - b)
-        .map(nbr => invoices.find(i => !i.isQuotation && i.number === nbr))
+        .sort((a, b) => a.localeCompare(b))
+        .map(nbr => invoices.find(i => i._id === nbr))
         .filter(i => i !== undefined)
         .map(i => (
           <OutboundInvoice
@@ -122,11 +122,11 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
             invoice={i!}
             toggleValid={(valid) => toggleValid(valid, i!)}
             className={
-              fullProjectMonth.details.verifiedInvoices.includes(i!.number) ?
+              fullProjectMonth.details.verifiedInvoices.includes(i!._id) ?
               'validated' :
               `table-${getInvoiceDueDateVariant(i!)}`
             }
-            style={{backgroundColor: !fullProjectMonth.details.verifiedInvoices.includes(i!.number) ? 'var(--bs-table-bg)' : undefined}}
+            style={{backgroundColor: !fullProjectMonth.details.verifiedInvoices.includes(i!._id) ? 'var(--bs-table-bg)' : undefined}}
           />
         ))
       }

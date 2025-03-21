@@ -57,7 +57,7 @@ export default class InvoiceModel implements IAttachment {
   note: string;
   comments: IComment[];
   config: ConfigModel;
-  creditNotas: number[];
+  creditNotas: string[];
 
   get isNew(): boolean {
     return this._id === undefined;
@@ -155,8 +155,8 @@ export default class InvoiceModel implements IAttachment {
   }
 
 
-  setCreditNotas(creditNotas: number[]) {
-    this.creditNotas = creditNotas.filter(n => this.number !== n);
+  setCreditNotas(creditNotas: string[]) {
+    this.creditNotas = creditNotas.filter(n => this._id !== n);
   }
 
 

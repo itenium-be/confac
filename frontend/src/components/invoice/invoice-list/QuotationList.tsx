@@ -54,7 +54,6 @@ export const QuotationList = (props: QuotationListProps) => {
     save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate) as any),
     filters: invoiceFilters,
     setFilters: f => dispatch(updateAppFilters(Features.invoices, f)),
-
   }
 
   const TableComponent = props.filters.groupedByMonth ? GroupedInvoiceTable : NonGroupedInvoiceTable;

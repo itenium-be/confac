@@ -23,7 +23,7 @@ export const InvoiceCreditNotas = ({model, onChange}: InvoiceCreditNotasProps) =
   const navigate = useNavigate();
   const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
   const otherCreditNotas = useSelector((state: ConfacState) => state.invoices
-    .filter(i => model.creditNotas.includes(i.number))
+    .filter(i => model.creditNotas.includes(i._id))
   );
 
   if (otherCreditNotas.length === 0) {
@@ -55,7 +55,7 @@ export const InvoiceCreditNotas = ({model, onChange}: InvoiceCreditNotasProps) =
     defaultSorter: (a, b) => b.number - a.number
   });
 
-  const saveCreditNotas = (selectedInvoiceNrs: ListSelectionItem<number>) => {
+  const saveCreditNotas = (selectedInvoiceNrs: ListSelectionItem<string>) => {
     if (Array.isArray(selectedInvoiceNrs)) {
       model.setCreditNotas(selectedInvoiceNrs);
     } else {

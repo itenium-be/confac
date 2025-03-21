@@ -3,5 +3,5 @@ export interface EntityEventPayload {
   entity: any;
   entityId: string | null;
   sourceSocketId: string | undefined;
-  sourceUserEmail: string | undefined;
+  sourceUserAlias: string | undefined;
 }

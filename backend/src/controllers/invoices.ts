@@ -113,19 +113,37 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
     return res.status(500).send(pdfBuffer.error);
   }
 
-  const createdInvoice = await createInvoice(invoice, req.db, pdfBuffer as Buffer, req.user);
+  let createdInvoice = await createInvoice(invoice, req.db, pdfBuffer as Buffer, req.user);
 
   if (invoice.projectMonth) {
     const projectMonthId = new ObjectID(invoice.projectMonth.projectMonthId);
     const {updatedInvoice, updatedProjectMonth} = await moveProjectMonthAttachmentsToInvoice(createdInvoice, projectMonthId, req.db);
-    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, updatedInvoice!._id, updatedInvoice);
     if (updatedProjectMonth) {
       emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS_MONTH, updatedProjectMonth!._id, updatedProjectMonth);
     }
-    return res.send(updatedInvoice);
+    createdInvoice = updatedInvoice!;
   }
 
   emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.INVOICES, createdInvoice._id, createdInvoice);
+
+
+  if (invoice.creditNotas) {
+    const linkedInvoiceIds = invoice.creditNotas.map(id => new ObjectID(id));
+    const linkedInvoices = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
+      .find({_id: {$in: linkedInvoiceIds}})
+      .toArray();
+
+    linkedInvoices.forEach(invoice => {
+      invoice.creditNotas = [...(invoice.creditNotas || []), createdInvoice._id];
+      emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, invoice._id, invoice, 'everyone');
+    });
+
+    await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateMany(
+      {_id: {$in: linkedInvoiceIds}},
+      {$push: {creditNotas: createdInvoice._id.toString()}}
+    );
+  }
+
   return res.send(createdInvoice);
 };
 
@@ -217,7 +235,7 @@ export const deleteInvoiceController = async (req: ConfacRequest, res: Response)
 
     if (invoiceAttachments !== null && Object.keys(invoiceAttachments).length > 0) {
       await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).updateOne({ _id: new ObjectID(invoice.projectMonth.projectMonthId) }, {
-       $set: { ...invoiceAttachments }
+        $set: { ...invoiceAttachments }
       }, {
         upsert: true
       });

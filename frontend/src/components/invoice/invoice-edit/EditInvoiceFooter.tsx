@@ -58,11 +58,9 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal}: EditInv
             dispatch(syncCreditNotas(invoice, initInvoice.creditNotas, invoices) as any)
             dispatch(updateInvoiceRequest(invoice, undefined, false, navigate) as any);
           } if (type === 'clone') {
-            // TODO: local changes are taken over in the new invoice but reverted in the original one
-            //       Easiest is maybe disabling the button when there are local changes?
-            const creditNota = getNewClonedInvoice(invoices, invoice)
-            dispatch(syncCreditNotas(creditNota, initInvoice.creditNotas, invoices) as any)
-            dispatch(createInvoice(creditNota, navigate) as any);
+            const creditNota = getNewClonedInvoice(invoices, invoice);
+            navigate(`/invoices/${creditNota.number}`);
+            dispatch(createInvoice(creditNota) as any);
           }
         }}
       />
