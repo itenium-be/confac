@@ -5,6 +5,8 @@ import { ConfacState } from '../../../reducers/app-state';
 import { AuditChangeEntryIcon } from './AuditChangeEntryIcon';
 import { AuditLog, AuditModelTypes } from "./audit-models";
 
+import './audit.scss';
+
 /** tbody for 1 audit entry */
 export const AuditChangeEntry = ({ change, modelType }: { change: AuditLog; modelType: AuditModelTypes; }) => {
   // TODO: ideally uses modelType to translate the diff.path that has changed
@@ -26,7 +28,9 @@ export const AuditChangeEntry = ({ change, modelType }: { change: AuditLog; mode
             {diff.path + (diff.index ? `[${diff.index}]` : '')}
           </td>
           {diff.kind === 'A' || !diff.lhs || !diff.rhs ? (
-            <td colSpan={2}><pre>{displayVal(diff.item || diff.lhs || diff.rhs)}</pre></td>
+            <td colSpan={2}>
+              <pre className="pre-audit">{displayVal(diff.item || diff.lhs || diff.rhs)}</pre>
+            </td>
           ) : (
             <>
               <td>{displayVal(diff.rhs)}</td>
