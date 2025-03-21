@@ -25,7 +25,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal}: EditInv
 
   return (
     <>
-      {!invoice.isNew && (
+      {!invoice.isNew && invoice.client && (
         <>
           <Button
             claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}

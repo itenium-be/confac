@@ -13,9 +13,10 @@ export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButton
   const navigate = useNavigate();
   const isNewInvoice = invoice.isNew;
   const tp = (transKey: string): string => t(invoice.getType() + transKey);
+
   return (
     <>
-      {!isNewInvoice && !invoice.isQuotation &&
+      {!isNewInvoice && !invoice.isQuotation && invoice.client &&
         <BusyButton
           claim={Claim.ManageInvoices}
           variant='light'
@@ -39,6 +40,7 @@ export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButton
         className="tst-save-invoice"
         claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
         onClick={() => onClick(isNewInvoice ? 'create' : 'update', navigate)}
+        disabled={!invoice.client}
       >
         {isNewInvoice ? tp('.create') : t('save')}
       </BusyButton>

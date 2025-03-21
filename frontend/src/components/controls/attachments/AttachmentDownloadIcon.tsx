@@ -15,7 +15,7 @@ type InvoiceDownloadIconProps = InvoiceModelProps & {
 
 export const InvoiceDownloadIcon = ({invoice, fileType, style, ...props}: InvoiceDownloadIconProps) => {
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
-  const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
+  const defaultInvoiceFileName = invoice.client?.invoiceFileName || configInvoiceFileName;
   const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, fileType, 'download');
   const attachment = invoice.attachments.find(a => a.type === fileType);
 
@@ -37,7 +37,7 @@ export const InvoiceDownloadIcon = ({invoice, fileType, style, ...props}: Invoic
 
 export const InvoicePreviewIcon = ({ invoice, ...props }: InvoiceModelProps & IconProps) => {
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
-  const defaultInvoiceFileName = invoice.client.invoiceFileName || configInvoiceFileName;
+  const defaultInvoiceFileName = invoice.client?.invoiceFileName || configInvoiceFileName;
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
   const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, 'pdf', undefined)
   return (

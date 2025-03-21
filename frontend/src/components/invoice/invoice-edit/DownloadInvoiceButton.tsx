@@ -15,7 +15,7 @@ type DownloadInvoiceButtonProps = {
 /** Invoice Download and Preview icons */
 export const DownloadInvoiceButton = ({invoice}: DownloadInvoiceButtonProps) => {
   const defaultInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
-  const invoiceFileName = invoice.client.invoiceFileName || defaultInvoiceFileName;
+  const invoiceFileName = invoice.client?.invoiceFileName || defaultInvoiceFileName;
   const downloadUrl = getInvoiceDownloadUrl(invoiceFileName, invoice, 'pdf', 'download');
   return (
     <>

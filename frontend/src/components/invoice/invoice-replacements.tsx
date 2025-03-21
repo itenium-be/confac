@@ -50,7 +50,7 @@ export function invoiceReplacements(input: string, invoice: InvoiceModel): strin
   let str = input;
 
   const appLanguage = moment.locale();
-  const clientLanguage = invoice.client.language;
+  const clientLanguage = invoice.client?.language;
   if (clientLanguage) {
     moment.locale(clientLanguage);
   }
@@ -100,7 +100,7 @@ export function invoiceReplacements(input: string, invoice: InvoiceModel): strin
   }
 
   if (str.indexOf('{clientName}') !== -1) {
-    str = str.replace('{clientName}', invoice.client.name);
+    str = str.replace('{clientName}', invoice.client?.name);
   }
 
   // Object.keys(data).forEach(invoiceProp => {
