@@ -22,14 +22,15 @@ export const InvoiceCreditNotas = ({model, onChange}: InvoiceCreditNotasProps) =
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
-  const creditNotas = useSelector((state: ConfacState) => state.invoices
-    .filter(i => model.creditNotas.includes(i.number) || i._id === model._id)
+  const otherCreditNotas = useSelector((state: ConfacState) => state.invoices
+    .filter(i => model.creditNotas.includes(i.number))
   );
 
-  if (creditNotas.length === 0) {
+  if (otherCreditNotas.length === 0) {
     return null;
   }
 
+  const creditNotas = [...otherCreditNotas, model];
   const feature = createInvoiceList({
     isQuotation: model.isQuotation,
     invoicePayDays,
