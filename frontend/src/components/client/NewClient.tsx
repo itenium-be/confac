@@ -19,6 +19,7 @@ export function btwResponseToModel(config: ConfigModel, btw: BtwResponse): Clien
   return {
     ...getNewClient(config),
     name: btw.name,
+    types: ['client', 'endCustomer'],
     btw: formatBtw(`${btw.countryCode}${btw.vatNumber}`),
     address: `${btw.address.street} ${btw.address.number}`,
     postalCode: btw.address.zip_code,

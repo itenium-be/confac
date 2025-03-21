@@ -1,4 +1,4 @@
-import {ClientModel} from '../../client/models/ClientModels';
+import {ClientModel, InvoiceClientModel} from '../../client/models/ClientModels';
 import {ModalState} from '../../controls/Modal';
 import {ClientModal} from '../../client/controls/ClientModal';
 import {SelectWithCreateButton} from '../../controls/form-controls/select/SelectWithCreateButton';
@@ -7,7 +7,7 @@ import {t} from '../../utils';
 import {Claim} from '../../users/models/UserModel';
 
 type InvoiceClientSelectWithCreateModalProps = {
-  client: ClientModel;
+  client: InvoiceClientModel;
   onChange: (client: ClientModel) => void;
   modalId: ModalState;
   setModalId: (id: ModalState) => void;
@@ -22,7 +22,7 @@ export const InvoiceClientSelectWithCreateModal = ({client, onChange, modalId, s
   <>
     {modalId && (
       <ClientModal
-        client={modalId !== 'create' ? client : null}
+        client={modalId !== 'create' ? client._id : null}
         show={!!modalId}
         onClose={() => setModalId(null)}
         onConfirm={(updatedClient: ClientModel) => onChange(updatedClient)}

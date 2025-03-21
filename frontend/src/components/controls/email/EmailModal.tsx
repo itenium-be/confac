@@ -11,6 +11,7 @@ import {invoiceReplacements, getInvoiceReplacements} from '../../invoice/invoice
 import {ConfacState} from '../../../reducers/app-state';
 import {sendEmail} from '../../../actions/emailActions';
 import {ConfigModel} from '../../config/models/ConfigModel';
+import { ClientModel } from '../../client/models/ClientModels';
 
 
 export enum EmailTemplate {
@@ -22,18 +23,19 @@ export enum EmailTemplate {
 
 const getDefaultEmailValue = (
   invoice: InvoiceModel,
+  client: ClientModel | undefined,
   template: EmailTemplate,
   config: ConfigModel,
 ): EmailModel => {
 
   const defaultEmail = config.email;
-  if (!invoice.client || !invoice.client.email) {
+  if (!client?.email) {
     return {to: '', ...defaultEmail};
   }
 
-  const emailValues = Object.keys(invoice.client.email).reduce((acc: EmailModel, cur: string) => {
-    if (invoice.client.email[cur]) {
-      acc[cur] = invoice.client.email[cur];
+  const emailValues = Object.keys(client.email).reduce((acc: EmailModel, cur: string) => {
+    if (client.email[cur]) {
+      acc[cur] = client.email[cur];
       return acc;
     }
     return acc;
@@ -49,10 +51,10 @@ const getDefaultEmailValue = (
     if (config.emailReminder) {
       finalValues.body = config.emailReminder;
     }
-    if (config.emailReminderCc && !invoice.client.email.cc) {
+    if (config.emailReminderCc && !client.email.cc) {
       finalValues.cc = config.emailReminderCc;
     }
-    if (config.emailReminderBcc && !invoice.client.email.bcc) {
+    if (config.emailReminderBcc && !client.email.bcc) {
       finalValues.bcc = config.emailReminderBcc;
     }
   }
@@ -74,14 +76,15 @@ type EmailModalProps = Omit<BaseModalProps, 'show'> & {
 export const EmailModal = ({invoice, onClose, template, ...props}: EmailModalProps) => {
   const dispatch = useDispatch();
   const config = useSelector((state: ConfacState) => state.config);
-  const [value, setValue] = useState(getDefaultEmailValue(invoice, template, config));
+  const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === invoice.client._id));
+  const [value, setValue] = useState(getDefaultEmailValue(invoice, client, template, config));
 
   const attachmentsAvailable = invoice.attachments.map(a => a.type);
   return (
     <Modal
       show
       onClose={onClose}
-      onConfirm={() => dispatch(sendEmail(invoice.client.invoiceFileName || config.invoiceFileName, invoice, value, config.emailInvoiceOnly) as any)}
+      onConfirm={() => dispatch(sendEmail(client?.invoiceFileName || config.invoiceFileName, invoice, value, config.emailInvoiceOnly) as any)}
       confirmText={t('email.send')}
       confirmVariant="danger"
       title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} template={template} />}

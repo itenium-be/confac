@@ -9,19 +9,25 @@ export const ClientTypes = ['partner', 'client', 'endCustomer'] as const;
 export type ClientType = typeof ClientTypes[number];
 
 
-export type ClientModel = IAttachment & {
+export type InvoiceClientModel = {
   _id: string;
-  slug: string;
-  active: boolean;
   name: string;
-  types: ClientType[];
+  slug: string;
   address: string;
   city: string;
   postalCode: string;
   country: string;
-  telephone: string;
-  btw: string;
   language: Language;
+  btw: string;
+  telephone: string;
+  hoursInDay: number;
+  invoiceFileName: string;
+}
+
+
+export type ClientModel = InvoiceClientModel & IAttachment & {
+  active: boolean;
+  types: ClientType[];
   notes: string;
   comments: IComment[];
   /** ex: Invoicing or Timesheet info documents */
@@ -33,10 +39,8 @@ export type ClientModel = IAttachment & {
      */
     combineAttachments: boolean;
   };
-  invoiceFileName: string;
   defaultInvoiceDateStrategy: InvoiceDateStrategy;
   defaultChangingOrderNr: boolean;
-  hoursInDay: number;
   defaultInvoiceLines: InvoiceLine[];
   frameworkAgreement: IContractModel;
   audit: IAudit;

@@ -22,10 +22,10 @@ export const ProjectEndCustomerIcon = ({
   }
 
   const title = [
-      endCustomerClientModel?.name,
-      endCustomer.contact,
-      endCustomer.notes,
-    ].filter(Boolean).join("<br />");
+    endCustomerClientModel?.name,
+    endCustomer.contact,
+    endCustomer.notes,
+  ].filter(Boolean).join("<br />");
 
   return (
     <div>
@@ -39,10 +39,8 @@ export const ProjectEndCustomerIcon = ({
       {modal && endCustomerClientModel && (
         <ClientModal
           client={endCustomerClientModel}
-          show={modal}
-          onClose={() => {
-            setModal(false);
-          }}
+          show
+          onClose={() => setModal(false)}
         />
       )}
     </div>

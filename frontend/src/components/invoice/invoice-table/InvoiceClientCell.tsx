@@ -4,12 +4,12 @@ import {Link} from 'react-router-dom';
 import t from '../../../trans';
 import {ClientModal} from '../../client/controls/ClientModal';
 import {ConfacState} from '../../../reducers/app-state';
-import {ClientModel} from '../../client/models/ClientModels';
+import {InvoiceClientModel} from '../../client/models/ClientModels';
 import {Icon} from '../../controls/Icon';
 
 
 type InvoiceClientCellProps = {
-  client: ClientModel | undefined,
+  client: InvoiceClientModel | undefined,
 }
 
 /** Link to a Client with option to open a Modal */
@@ -50,8 +50,8 @@ export const InvoiceClientCell = ({client, ...props}: InvoiceClientCellProps) =>
 
       {modal && (
         <ClientModal
-          client={client}
-          show={modal}
+          client={client._id}
+          show
           onClose={() => {
             setModal(false);
             setHover(false);

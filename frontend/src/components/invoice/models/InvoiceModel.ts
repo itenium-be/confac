@@ -2,7 +2,7 @@ import moment, {Moment} from 'moment';
 import {DefaultHoursInDay} from '../../client/models/getNewClient';
 import {ConfigModel, ConfigCompanyModel} from '../../config/models/ConfigModel';
 import {getInvoiceDate} from './invoice-date-strategy';
-import {ClientModel} from '../../client/models/ClientModels';
+import {ClientModel, InvoiceClientModel} from '../../client/models/ClientModels';
 import {Attachment, IAttachment, IAudit, IComment} from '../../../models';
 import {InvoiceLine} from './InvoiceLineModels';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
@@ -40,12 +40,10 @@ export interface InvoiceProjectMonth {
  */
 export default class InvoiceModel implements IAttachment {
   private _config: ConfigModel;
-  // private _fullClient?: ClientModel;
 
   _id: string;
   number: number;
-  // client: InvoiceClientModel;
-  client: ClientModel;
+  client: InvoiceClientModel;
   your: ConfigCompanyModel;
   projectMonth?: InvoiceProjectMonth;
   date: moment.Moment;
@@ -94,10 +92,6 @@ export default class InvoiceModel implements IAttachment {
     return this._config;
   }
 
-  // get fullClient(): ClientModel | undefined {
-  //   return this._fullClient;
-  // }
-
   getType(): 'quotation' | 'invoice' {
     return this.isQuotation ? 'quotation' : 'invoice';
   }
@@ -118,21 +112,23 @@ export default class InvoiceModel implements IAttachment {
 
   /** Some weird stuff happening here that EditInvoice probably depends on */
   setClient(client: undefined | ClientModel): InvoiceModel {
-    // this._fullClient = client;
-    // this.client = undefined as unknown as InvoiceClientModel;
-    // if (client) {
-    //   this.client = {
-    //     _id: client._id,
-    //     name: client.name,
-    //     address: client.address,
-    //     city: client.city,
-    //     postalCode: client.postalCode,
-    //     country: client.country,
-    //     btw: client.btw,
-    //     hoursInDay: client.hoursInDay,
-    //   };
-    // }
-    this.client = client as ClientModel;
+    this.client = undefined as unknown as InvoiceClientModel;
+    if (client) {
+      this.client = {
+        _id: client._id,
+        name: client.name,
+        slug: client.slug,
+        address: client.address,
+        city: client.city,
+        postalCode: client.postalCode,
+        country: client.country,
+        language: client.language,
+        telephone: client.telephone,
+        btw: client.btw,
+        hoursInDay: client.hoursInDay,
+        invoiceFileName: client.invoiceFileName,
+      };
+    }
     this.date = getInvoiceDate(client, this.config, this.date);
 
     if (client && client.defaultInvoiceLines.length) {

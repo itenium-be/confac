@@ -35,7 +35,7 @@ export const getNewInvoice = (
   const model = new InvoiceModel(config, invoice);
   if (invoice.client) {
     // DATE: Set in the setClient()
-    model.setClient(invoice.client);
+    model.setClient(clients.find(c => c._id === invoice.client?._id));
 
     // ... and overwrites "lines"
     if (invoice.lines) {

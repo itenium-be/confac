@@ -1,148 +1,124 @@
-import {Component, useState} from 'react';
-import {connect} from 'react-redux';
+import {useCallback, useEffect, useState} from 'react';
 import {Container, Row, Form, Col} from 'react-bootstrap';
 import {t} from '../../utils';
 import {saveClient} from '../../../actions/clientActions';
 import {requiredClientProperties} from '../models/ClientConfig';
 import {getNewClient} from '../models/getNewClient';
 import {ClientModel} from '../models/ClientModels';
-import {ConfigModel} from '../../config/models/ConfigModel';
 import {ConfacState} from '../../../reducers/app-state';
 import {btwResponseToModel} from '../NewClient';
 import {BtwInput, BtwResponse} from '../../controls/form-controls/inputs/BtwInput';
 import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
 import {BaseModalProps, Modal} from '../../controls/Modal';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 
 type ClientModalProps = BaseModalProps & {
-  config: ConfigModel,
   title?: string,
-  saveClient: Function,
   onConfirm?: (client: ClientModel) => void,
-  client: ClientModel | null,
+  client: ClientModel | null | string,
 }
 
-type ClientModalState = {
-  client: ClientModel,
-  btwResponse: ClientModel | null,
-};
 
+export const ClientModal = ({ title, onConfirm, client: initialClient, show, onClose }: ClientModalProps) => {
+  const config = useSelector((state: ConfacState) => state.config);
+  const storeClient = useSelector((state: ConfacState) => state.clients.find(x => x._id === initialClient));
+  const dispatch = useDispatch();
 
-class ClientModalComponent extends Component<ClientModalProps, ClientModalState> {
-  constructor(props: ClientModalProps) {
-    super(props);
-    this.state = {
-      client: this.copyClient(props),
-      btwResponse: null,
-    };
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps: ClientModalProps) {
-    if (nextProps.client !== this.props.client) {
-      this.setState({client: {...this.copyClient(nextProps)}});
+  const copyClient = useCallback((fromStore: ClientModel | undefined, initialClientOrId: string | ClientModel | null): ClientModel => {
+    if (fromStore || (initialClientOrId && typeof initialClientOrId === 'object')) {
+      return JSON.parse(JSON.stringify(fromStore || initialClientOrId));
     }
+    return getNewClient(config);
+  }, [config]);
+
+  const [client, setClient] = useState<ClientModel>(copyClient(storeClient, initialClient));
+
+  useEffect(() => {
+    setClient(copyClient(storeClient, initialClient));
+  }, [storeClient, initialClient, copyClient]);
+
+  const onSave = (): void => {
+    const onSuccess = onConfirm ? (clientWithServerValues: ClientModel) => onConfirm(clientWithServerValues) : undefined;
+    dispatch(saveClient(client, true, onSuccess) as any);
+  };
+
+  if (!client) {
+    return null;
   }
 
-  onSave(): void {
-    const updatedClient = this.state.client;
-    const {onConfirm} = this.props;
-    const onSuccess = onConfirm ? (clientWithServerValues: ClientModel) => (onConfirm && onConfirm(clientWithServerValues)) : null;
-    this.props.saveClient(updatedClient, true, onSuccess);
-  }
+  const modalTitle = title ?? t('client.createNewModal.client');
 
-  copyClient(props: ClientModalProps): ClientModel {
-    if (props.client) {
-      return JSON.parse(JSON.stringify(props.client));
-    }
-    return getNewClient(props.config);
-  }
-
-  render() {
-    const client: ClientModel = this.state.client as ClientModel;
-    if (!client) {
-      return null;
-    }
-
-    const NewClientForm = !client._id && !client.btw && (
-      <>
-        <BtwInputComponent
+  return (
+    <Modal
+      show={show}
+      onClose={onClose}
+      title={client._id ? client.name : modalTitle}
+      onConfirm={onSave}
+      dialogClassName="client-modal"
+      disableSave={!client.btw || !client.name}
+    >
+      {!client._id && !client.btw ? (
+        <NewClientForm
           defaultBtw={client.btw}
           onFinalize={(btw: string, btwResp?: BtwResponse) => {
             if (btwResp && btwResp.valid) {
-              this.setState({client: btwResponseToModel(this.props.config, btwResp)});
+              setClient(btwResponseToModel(config, btwResp));
             } else {
-              this.setState({client: {...client, btw: btw || ' '}});
+              setClient({ ...client, btw: btw || ' ' });
             }
           }}
-          onBtwChange={(btw: BtwResponse) => this.setState({btwResponse: btwResponseToModel(this.props.config, btw)})}
         />
-        {this.state.btwResponse && (
-          <Row style={{marginTop: 25}}>
-            <Col>
-              <h3>{this.state.btwResponse.name}</h3>
-              <div>{this.state.btwResponse.address}</div>
-              <div>{this.state.btwResponse.city}</div>
-            </Col>
-          </Row>
-        )}
-      </>
-    );
-
-    const modalTitle = this.props.title ?? t('client.createNewModal.client')
-    return (
-      <Modal
-        show={this.props.show}
-        onClose={this.props.onClose}
-        title={client._id ? client.name : modalTitle}
-        onConfirm={() => this.onSave()}
-        dialogClassName="client-modal"
-      >
-        {NewClientForm || (
-          <Form>
-            <Container>
-              <Row>
-                <ArrayInput
-                  config={requiredClientProperties}
-                  model={client}
-                  onChange={value => this.setState({client: {...client, ...value}})}
-                  tPrefix="client."
-                />
-              </Row>
-            </Container>
-          </Form>
-        )}
-      </Modal>
-    );
-  }
-}
-
-
-export const ClientModal = connect(
-  (state: ConfacState) => ({config: state.config}),
-  {saveClient}
-)(ClientModalComponent);
+      ) : (
+        <Form>
+          <Container>
+            <Row>
+              <ArrayInput
+                config={requiredClientProperties}
+                model={client}
+                onChange={value => setClient({ ...client, ...value })}
+                tPrefix="client."
+              />
+            </Row>
+          </Container>
+        </Form>
+      )}
+    </Modal>
+  );
+};
 
 
 
-
-type BtwInputComponentProps = {
+type NewClientFormProps = {
   defaultBtw: string;
   onFinalize: (btw: string, btwResp?: BtwResponse) => void;
   onBtwChange?: (btw: BtwResponse) => void;
 }
 
 
-/** Small BtwInput wrapper that keeps its own btw: string state */
-const BtwInputComponent = ({defaultBtw, onFinalize, onBtwChange}: BtwInputComponentProps) => {
+const NewClientForm = ({defaultBtw, onFinalize}: NewClientFormProps) => {
+  const config = useSelector((state: ConfacState) => state.config);
   const [btw, setBtw] = useState<string>(defaultBtw);
+  const [btwResponse, setBtwResponse] = useState<ClientModel | null>(null);
 
   return (
-    <BtwInput
-      value={btw}
-      onChange={(val: string) => setBtw(val)}
-      onFinalize={onFinalize}
-      onBtwChange={onBtwChange}
-    />
+    <>
+      <BtwInput
+        value={btw}
+        onChange={(val: string) => setBtw(val)}
+        onFinalize={onFinalize}
+        onBtwChange={(btw: BtwResponse) => setBtwResponse(btwResponseToModel(config, btw))}
+      />
+      {btwResponse && (
+        <Row style={{ marginTop: 25 }}>
+          <Col>
+            <h3>{btwResponse.name}</h3>
+            <div>{btwResponse.address}</div>
+            <div>{btwResponse.postalCode} {btwResponse.city}</div>
+          </Col>
+        </Row>
+      )}
+    </>
   );
 };

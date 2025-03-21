@@ -32,7 +32,7 @@ export const ClientIconLinks = ({client}: ClientProps) => {
       {modal && (
         <ClientModal
           client={client}
-          show={modal}
+          show
           onClose={() => setModal(false)}
           onConfirm={(c: ClientModel) => dispatch(saveClient(c) as any)}
         />

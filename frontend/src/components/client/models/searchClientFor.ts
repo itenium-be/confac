@@ -1,14 +1,14 @@
-import {ClientModel} from './ClientModels';
+import {ClientModel, InvoiceClientModel} from './ClientModels';
 import {getNumeric, searchinize} from '../../utils';
 import {ClientListFilters} from '../../controls/table/table-models';
 
-export const searchClientFor = (model: ClientModel, input: string): boolean => {
+export const searchClientFor = (model: InvoiceClientModel, input: string): boolean => {
   if (!input) {
     return true;
   }
 
   const text = searchinize(input);
-  if (searchinize(`${model.name} ${model.address} ${model.city}`).includes(text)) {
+  if (searchinize(`${model.name} ${model.address} ${model.postalCode} ${model.city}`).includes(text)) {
     return true;
   }
 

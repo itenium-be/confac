@@ -1,8 +1,8 @@
 import {IconProps, EditIcon} from '../../controls/Icon';
-import {ClientModel} from '../models/ClientModels';
+import {InvoiceClientModel} from '../models/ClientModels';
 
 type ClientEditIconProps = IconProps & {
-  client: ClientModel;
+  client: InvoiceClientModel;
 }
 
 export const ClientEditIcon = ({client, ...props}: ClientEditIconProps) => {

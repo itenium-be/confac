@@ -21,10 +21,9 @@ type EditInvoiceClientProps = {
  * + Selected ClientDetails
  * + InvoiceTotal
  */
-export const EditInvoiceClient = (props: EditInvoiceClientProps) => {
+export const EditInvoiceClient = ({invoice, onChange}: EditInvoiceClientProps) => {
   const [modalId, setModalId] = useState<ModalState>(null);
 
-  const {invoice, onChange} = props;
   return (
     <div>
       <InvoiceClientSelectWithCreateModal
