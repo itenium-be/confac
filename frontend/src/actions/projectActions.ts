@@ -229,6 +229,7 @@ export function deleteProjectsMonthOverview(id: string) {
     const req = request
       .delete(buildUrl(`/attachments/project_month_overview/${id}/${TimesheetCheckAttachmentType}`))
       .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
       ;
 
     req.then(response => {

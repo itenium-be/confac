@@ -5,6 +5,7 @@ import {catchHandler} from './utils/fetch';
 import {buildUrl} from './utils/buildUrl';
 import {IAttachment} from '../models';
 import {authService} from '../components/users/authService';
+import {socketService} from '../components/socketio/SocketService';
 
 
 function buildAttachmentUrl(invoiceOrClient: IAttachment, type: 'pdf' | string) {
@@ -28,7 +29,8 @@ export function updateAttachment(
     dispatch(busyToggle());
     const req = request
       .put(buildAttachmentUrl(model, type))
-      .set('Authorization', authService.getBearer());
+      .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId);
 
     req.attach(file.name, file);
 
@@ -87,7 +89,8 @@ export function updateGenericAttachment(context: AttachmentFormContext, file: Fi
     dispatch(busyToggle());
     const req = request
       .put(url)
-      .set('Authorization', authService.getBearer());
+      .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId);
 
     req.attach(file.name, file);
 
@@ -112,6 +115,7 @@ export function deleteGenericAttachment(context: AttachmentFormContext) {
     dispatch(busyToggle());
     request.delete(url)
       .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
       .then(res => {
         const config = getDispatchConfig(context.modelType, res.body);
         dispatch(config);
@@ -132,6 +136,7 @@ export function deleteAttachment(model: IAttachment, modelType: 'client' | 'invo
     dispatch(busyToggle());
     request.delete(buildAttachmentUrl(model, type))
       .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
       .then(res => {
         const mergedModel = {...model, attachments: res.body.attachments};
         dispatch({

@@ -7,6 +7,7 @@ import {t} from '../components/utils';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {invoiceReplacements} from '../components/invoice/invoice-replacements';
 import {authService} from '../components/users/authService';
+import {socketService} from '../components/socketio/SocketService';
 
 
 export function sendEmail(
@@ -53,6 +54,7 @@ export function sendEmail(
     }
     request.post(url)
       .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
       .send(email)
       .then(res => {
         console.log('Email response', res); // eslint-disable-line

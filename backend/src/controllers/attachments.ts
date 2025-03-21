@@ -3,11 +3,11 @@ import JSZip from 'jszip';
 import moment from 'moment';
 import {ObjectID, Db} from 'mongodb';
 import {IAttachmentCollection, IAttachmentModelConfig, attachmentModelsConfig, IAttachments} from '../models/attachments';
-import {CollectionNames} from '../models/common';
+import {CollectionNames, SocketEventTypes} from '../models/common';
 import {IInvoice} from '../models/invoices';
 import {IProjectMonthOverview, TimesheetCheckAttachmentType} from '../models/projectsMonth';
-
-
+import { emitEntityEvent } from './utils/entity-events';
+import { ConfacRequest } from '../models/technical';
 
 
 const saveAttachment = async (req: Request, attachmentModelConfig: IAttachmentModelConfig, file: Express.Multer.File) => {
@@ -29,6 +29,15 @@ const saveAttachment = async (req: Request, attachmentModelConfig: IAttachmentMo
     .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {attachments: updatedAttachments}}, {returnOriginal: false});
 
   const result = inserted.value;
+  if (result) {
+    emitEntityEvent(
+      req as unknown as ConfacRequest,
+      SocketEventTypes.EntityUpdated,
+      standardCollectionName,
+      result._id,
+      result
+    );
+  }
 
   await req.db.collection(attachmentCollectionName)
     .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {[type]: file.buffer}}, {upsert: true});
@@ -87,17 +96,27 @@ export const saveAttachmentController = async (req: Request, res: Response) => {
 
 
 
-const deleteAttachment = async (id: string, type: string, db: Db, attachmentModelConfig: IAttachmentModelConfig) => {
+const deleteAttachment = async (id: string, type: string, req: Request, attachmentModelConfig: IAttachmentModelConfig) => {
   const {standardCollectionName, attachmentCollectionName} = attachmentModelConfig;
 
-  const data = await db.collection<IAttachments>(standardCollectionName).findOne({_id: new ObjectID(id)});
+  const data = await req.db.collection<IAttachments>(standardCollectionName).findOne({_id: new ObjectID(id)});
   const {_id, attachments} = data!;
 
   const updatedAttachments = attachments.filter(attachment => attachment.type !== type);
-  const inserted = await db.collection(standardCollectionName).findOneAndUpdate({_id}, {$set: {attachments: updatedAttachments}}, {returnOriginal: false});
-  const result = inserted.value;
+  const inserted = await req.db.collection(standardCollectionName).findOneAndUpdate({_id}, {$set: {attachments: updatedAttachments}}, {returnOriginal: false});
 
-  await db.collection(attachmentCollectionName).findOneAndUpdate({_id}, {$set: {[type]: undefined}});
+  const result = inserted.value;
+  if (result) {
+    emitEntityEvent(
+      req as unknown as ConfacRequest,
+      SocketEventTypes.EntityUpdated,
+      standardCollectionName,
+      result._id,
+      result
+    );
+  }
+
+  await req.db.collection(attachmentCollectionName).findOneAndUpdate({_id}, {$set: {[type]: undefined}});
 
   return result;
 };
@@ -123,7 +142,7 @@ export const deleteAttachmentController = async (req: Request, res: Response) =>
     return res.send(id);
   }
 
-  const result = await deleteAttachment(id, type, req.db, attachmentModelConfig);
+  const result = await deleteAttachment(id, type, req, attachmentModelConfig);
 
   return res.send(result);
 };

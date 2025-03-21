@@ -24,8 +24,8 @@ export interface ISendGridAttachment {
 
 export interface IAttachmentModelConfig {
   name: string;
-  standardCollectionName: string;
-  attachmentCollectionName: string;
+  standardCollectionName: CollectionNames;
+  attachmentCollectionName: CollectionNames;
 }
 
 export interface IAttachments {

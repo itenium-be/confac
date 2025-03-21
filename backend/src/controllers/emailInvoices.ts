@@ -7,7 +7,9 @@ import tmp from 'tmp';
 import {ObjectID} from 'mongodb';
 import {IAttachmentCollection, ISendGridAttachment} from '../models/attachments';
 import {IEmail} from '../models/clients';
-import {CollectionNames, IAttachment} from '../models/common';
+import {CollectionNames, IAttachment, SocketEventTypes} from '../models/common';
+import { emitEntityEvent } from './utils/entity-events';
+import { ConfacRequest } from '../models/technical';
 
 
 type EmailAttachmentRequest = {
@@ -50,9 +52,19 @@ export const emailInvoiceController = async (req: Request<{id: number}, any, Ema
   }
 
   const lastEmailSent = new Date().toISOString();
-  await req.db
+  const updatedInvoice = await req.db
     .collection(CollectionNames.INVOICES)
     .findOneAndUpdate({_id: new ObjectID(invoiceId)}, {$set: {lastEmail: lastEmailSent}});
+
+  if (updatedInvoice.ok && updatedInvoice.value) {
+    emitEntityEvent(
+      req as unknown as ConfacRequest,
+      SocketEventTypes.EntityUpdated,
+      CollectionNames.INVOICES,
+      updatedInvoice.value._id,
+      {...updatedInvoice.value, lastEmail: lastEmailSent}
+    );
+  }
 
   return res.status(200).send(lastEmailSent);
 };
