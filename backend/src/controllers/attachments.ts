@@ -79,6 +79,8 @@ export const saveAttachmentController = async (req: Request, res: Response) => {
     });
 
     const updatedProjectsMonthOverview = inserted.value;
+    // ATTN: This change is not emitted with socket.io (it doesn't exist as an entity)
+    //       Which is "ok" because we're not using this functionality anyway?
     return res.send(updatedProjectsMonthOverview);
   }
 
