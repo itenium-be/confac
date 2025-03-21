@@ -252,9 +252,25 @@ export const deleteInvoiceController = async (req: ConfacRequest, res: Response)
     }
   }
 
+  if (invoice?.creditNotas?.length) {
+    const linkedInvoiceIds = invoice.creditNotas.map(id => new ObjectID(id));
+    const linkedInvoices = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
+      .find({_id: {$in: linkedInvoiceIds}})
+      .toArray();
+
+    linkedInvoices.forEach(toUpdate => {
+      toUpdate.creditNotas = toUpdate.creditNotas.filter(x => x !== invoice._id);
+      emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, toUpdate._id, toUpdate, 'everyone');
+    });
+
+    await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateMany(
+      {_id: {$in: linkedInvoiceIds}},
+      {$pull: {creditNotas: invoice._id.toString()}}
+    );
+  }
+
   await req.db.collection(CollectionNames.INVOICES).findOneAndDelete({ _id: new ObjectID(invoiceId) });
   await req.db.collection(CollectionNames.ATTACHMENTS).findOneAndDelete({ _id: new ObjectID(invoiceId) });
-
   emitEntityEvent(req, SocketEventTypes.EntityDeleted, CollectionNames.INVOICES, new ObjectID(invoiceId), null);
 
   return res.send(invoiceId);
