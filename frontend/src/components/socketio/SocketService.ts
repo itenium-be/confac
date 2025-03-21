@@ -15,14 +15,13 @@ function createSocketService() {
   var initialized = false;
 
   socket.on("connect", () => {
-    console.log("Socketio: Connected to server");
+    console.log(`Socketio: Connected to server with id=${socket.id}`);
     socketId = socket.id;
-    console.log(`SocketId: ${socketId}`);
   });
 
   function initialize(dispatch: Dispatch<any>) {
     if (initialized) {
-      throw new Error("Initialize should only be called once.");
+      return;
     }
 
     function registerHandlerForEventType(
@@ -30,14 +29,12 @@ function createSocketService() {
       dispatch: Dispatch<any>
     ) {
       socket.on(eventType, (eventPayload) => {
-        console.log("Socket.io: Received entity event" + eventType);
-        console.log("Socket.io: Payload", eventPayload);
-
         if (eventPayload.sourceSocketId === socketId) {
-          console.log("Socket.io: Event ignored => sourceSocketId is equal to current socket id.");
+          // console.log("Socket.io: Event ignored => sourceSocketId is equal to current socket id.");
           return;
         }
 
+        console.log("Socket.io: Received " + eventType, eventPayload);
         switch (eventPayload.entityType) {
           case "clients":
             dispatch(handleClientSocketEvents(eventType, eventPayload));
@@ -99,7 +96,7 @@ function createSocketService() {
     function registerHandlerForToastEventType(eventType: SocketEventTypes) {
       const handleEvent = (msg: EntityEventPayload) => {
         if (msg.sourceSocketId === socketId) {
-          console.log("Socket.io: Event ignored => sourceSocketId is equal to current socket id.");
+          // console.log("Socket.io: Event ignored => sourceSocketId is equal to current socket id.");
           return;
         }
         if (!!entityId && msg.entityId !== entityId) {
