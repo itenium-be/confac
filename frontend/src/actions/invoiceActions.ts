@@ -89,7 +89,7 @@ export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: stri
     const creditNotaGroup = [...invoice.creditNotas, invoice._id];
 
     removedCreditNota.forEach(creditnota => {
-      const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i._id === creditnota && !i.isQuotation))
+      const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i._id === creditnota));
       if (invoiceToUpdate) {
         invoiceToUpdate.creditNotas = [];
         dispatch(updateInvoiceRequest(invoiceToUpdate, null, false) as any);
@@ -97,7 +97,7 @@ export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: stri
     })
 
     invoice.creditNotas.forEach(creditNota => {
-      const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i._id === creditNota && !i.isQuotation))
+      const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i._id === creditNota));
       if (invoiceToUpdate) {
         const newCreditNotas = creditNotaGroup.filter(n => n !== invoiceToUpdate._id);
 

@@ -39,8 +39,12 @@ export interface InvoiceProjectMonth {
  * (InvoiceListModel is actually for filtering etc)
  */
 export default class InvoiceModel implements IAttachment {
+  private _config: ConfigModel;
+  // private _fullClient?: ClientModel;
+
   _id: string;
   number: number;
+  // client: InvoiceClientModel;
   client: ClientModel;
   your: ConfigCompanyModel;
   projectMonth?: InvoiceProjectMonth;
@@ -56,7 +60,6 @@ export default class InvoiceModel implements IAttachment {
   money: InvoiceMoney;
   note: string;
   comments: IComment[];
-  config: ConfigModel;
   creditNotas: string[];
 
   get isNew(): boolean {
@@ -73,7 +76,7 @@ export default class InvoiceModel implements IAttachment {
     this.orderNr = obj.orderNr || '';
     this.verified = obj.verified || false;
     this.discount = obj.discount;
-    this.attachments = obj.attachments || [{type: 'pdf', desc:'Factuur pdf'}, {type:'xml', desc:'PEPPOL xml'}];
+    this.attachments = obj.attachments || [{type: 'pdf', desc: 'Factuur pdf'}, {type: 'xml', desc: 'PEPPOL xml'}];
     this.isQuotation = obj.isQuotation || false;
     this.lastEmail = obj.lastEmail;
     this.note = obj.note || '';
@@ -83,9 +86,17 @@ export default class InvoiceModel implements IAttachment {
 
     this._lines = obj.lines || config.defaultInvoiceLines || [];
     this.audit = obj.audit;
-    this.config = config;
+    this._config = config;
     this.creditNotas = obj.creditNotas || [];
   }
+
+  get config(): ConfigModel {
+    return this._config;
+  }
+
+  // get fullClient(): ClientModel | undefined {
+  //   return this._fullClient;
+  // }
 
   getType(): 'quotation' | 'invoice' {
     return this.isQuotation ? 'quotation' : 'invoice';
@@ -107,6 +118,20 @@ export default class InvoiceModel implements IAttachment {
 
   /** Some weird stuff happening here that EditInvoice probably depends on */
   setClient(client: undefined | ClientModel): InvoiceModel {
+    // this._fullClient = client;
+    // this.client = undefined as unknown as InvoiceClientModel;
+    // if (client) {
+    //   this.client = {
+    //     _id: client._id,
+    //     name: client.name,
+    //     address: client.address,
+    //     city: client.city,
+    //     postalCode: client.postalCode,
+    //     country: client.country,
+    //     btw: client.btw,
+    //     hoursInDay: client.hoursInDay,
+    //   };
+    // }
     this.client = client as ClientModel;
     this.date = getInvoiceDate(client, this.config, this.date);
 

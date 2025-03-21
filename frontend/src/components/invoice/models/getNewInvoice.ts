@@ -67,7 +67,7 @@ export const getNewClonedInvoice = (
 
   const {_id, ...invoiceBlueprint} = invoiceToCopy;
 
-  return getNewInvoice(invoiceBlueprint.config, invoices, [], {
+  return getNewInvoice(invoiceToCopy.config, invoices, [], {
     ...invoiceBlueprint,
     lines: invoiceToCopy.lines.map(line => {
       if (line.type === 'section') {
