@@ -55,7 +55,7 @@ export function createInvoice(data: InvoiceModel, navigate?: any) {
   };
 }
 
-export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined, andGoHome: boolean, navigate?: any) {
+export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined | null, andGoHome: boolean, navigate?: any) {
   return dispatch => {
     dispatch(busyToggle());
     request.put(buildUrl('/invoices'))
@@ -70,7 +70,9 @@ export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | un
           payload: res.body,
         });
 
-        success(successMsg || t('toastrConfirm'));
+        if (successMsg !== null) {
+          success(successMsg || t('toastrConfirm'));
+        }
         if (andGoHome) {
           const invoiceType = data.isQuotation ? 'quotations' : 'invoices';
           navigate(`/${invoiceType}`);
@@ -90,7 +92,7 @@ export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: numb
       const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i.number === creditnota && !i.isQuotation))
       if (invoiceToUpdate) {
         invoiceToUpdate.creditNotas = [];
-        dispatch(updateInvoiceRequest(invoiceToUpdate, undefined, false) as any);
+        dispatch(updateInvoiceRequest(invoiceToUpdate, null, false) as any);
       }
     })
 
@@ -104,7 +106,7 @@ export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: numb
           invoiceToUpdate.creditNotas.every(num => newCreditNotas.includes(num)))
         ) {
           invoiceToUpdate.creditNotas = newCreditNotas
-          dispatch(updateInvoiceRequest(invoiceToUpdate, undefined, false) as any);
+          dispatch(updateInvoiceRequest(invoiceToUpdate, null, false) as any);
         }
       }
     })

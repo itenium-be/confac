@@ -25,9 +25,9 @@ export const ListSelect = ({data, value, onChange, ...props}: ListSelectProps<In
   const listSize = useSelector((state: ConfacState) => props.listSize ?? state.app.settings.listSize);
   const [page, setPage] = useState(0);
 
-  const handleCheckboxChange = useCallback((model: ListSelectionItem<InvoiceModel>) => {
-    if (Array.isArray(model)) {
-      onChange([...value, ...model]);
+  const handleCheckboxChange = useCallback((model: InvoiceModel) => {
+    if (value.includes(model)) {
+      onChange(value.filter(x => x !== model));
     } else {
       onChange([...value, model]);
     }
@@ -50,7 +50,7 @@ export const ListSelect = ({data, value, onChange, ...props}: ListSelectProps<In
           <tr key={model._id}>
             <td>
               <CheckboxInput
-                value={Array.isArray(value) && value.map(i => i._id).includes(model._id)}
+                value={value.map(i => i._id).includes(model._id)}
                 onChange={() => handleCheckboxChange(model)}
                 label=''
               />
