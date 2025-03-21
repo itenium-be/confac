@@ -22,7 +22,7 @@ import useEntityChangedToast from '../hooks/useEntityChangedToast';
 import { NotesWithCommentsModalButton } from '../controls/form-controls/button/NotesWithCommentsModalButton';
 
 
-/** Different spellings of "Belgium" */
+/** Different spellings of "Belgium": TODO: this should just be 'BE' now */
 export const belgiums = ['België', 'Belgium', 'Belgie', 'BE'];
 
 
