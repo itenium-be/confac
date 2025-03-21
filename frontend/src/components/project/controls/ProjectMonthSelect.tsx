@@ -40,7 +40,7 @@ const ProjectMonthSelectComponent = (props: ProjectMonthSelectProps) => {
     .map(item => ({value: item._id, label: getProjectMonthDesc(item)}));
 
   const selectedProjectMonthId = props.value;
-  const selectedOption = options.find(o => o.value === selectedProjectMonthId);
+  const selectedOption = options.find(o => o.value === selectedProjectMonthId) || null;
 
   return (
     <Select

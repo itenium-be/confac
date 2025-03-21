@@ -38,7 +38,7 @@ const ProjectSelectComponent = (props: ProjectSelectProps) => {
     .sort((a, b) => getProjectDesc(a).localeCompare(getProjectDesc(b)))
     .map(item => ({value: item._id, label: getProjectDesc(item)} as SelectItem));
 
-  const selectedOption = options.find(o => o.value === selectedProjectId);
+  const selectedOption = options.find(o => o.value === selectedProjectId) || null;
 
   return (
     <Select

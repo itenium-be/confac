@@ -22,7 +22,7 @@ const ConsultantSelectComponent = ({value, onChange}: ConsultantSelectProps) => 
     .map(x => ({value: x._id, label: `${x.firstName} ${x.name} (${t(`consultant.types.${x.type}`)})`} as SelectItem))
     .sort((a, b) => (a.label as string).localeCompare(b.label as string));
 
-  const selectedOption = options.find(o => o.value === selectedModelId);
+  const selectedOption = options.find(o => o.value === selectedModelId) || null;
 
   return (
     <Select
