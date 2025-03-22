@@ -72,12 +72,6 @@ export const useClientState = (clientId: string) => {
   const [client, setSimpleClient] = useState(getNewClientState(storeClient));
   const clientAlreadyExists = useClientAlreadyExists(client);
 
-  useEffect(() => {
-    if (storeClient) {
-      setClient(getNewClientState(storeClient)!);
-    }
-  }, [storeClient]);
-
   const setClient = (newClient: ClientModel): void => {
     if (newClient.country && client?.country !== newClient.country && !client?.defaultInvoiceLines.length && newClient.country !== 'BE') {
       let btwRemark: string;
@@ -95,6 +89,14 @@ export const useClientState = (clientId: string) => {
     }
     setSimpleClient(newClient);
   };
+
+  useEffect(() => {
+    if (storeClient) {
+      setClient(getNewClientState(storeClient)!);
+    } else {
+      setSimpleClient(null);
+    }
+  }, [storeClient]);
 
   return {
     client,
