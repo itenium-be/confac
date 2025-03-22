@@ -96,7 +96,7 @@ export const useClientState = (clientId: string) => {
     } else {
       setSimpleClient(null);
     }
-  }, [storeClient]);
+  }, [storeClient]); // eslint-disable-line
 
   return {
     client,

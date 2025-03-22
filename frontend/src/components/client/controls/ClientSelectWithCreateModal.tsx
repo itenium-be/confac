@@ -10,7 +10,6 @@ import {ConfacState} from '../../../reducers/app-state';
 import {Claim} from '../../users/models/UserModel';
 import {Form} from 'react-bootstrap';
 import {ClientIconLinks} from './ClientIconLinks';
-import { getNewClient } from '../models/getNewClient';
 
 
 type ClientSelectWithCreateModalProps = SelectWithCreateModalProps<ClientModel> & {
