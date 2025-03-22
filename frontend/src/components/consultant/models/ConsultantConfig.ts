@@ -17,4 +17,5 @@ export const defaultConsultantModalProperties: FullFormConfig = [
   {key: 'email', component: 'email', cols: 6},
   {key: 'type', component: 'ConsultantTypeSelect', cols: 6},
   {key: 'telephone', component: 'phone', cols: 6},
+  {key: 'accountingCode', cols: 6},
 ];
