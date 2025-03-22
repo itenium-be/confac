@@ -4,7 +4,6 @@ import { moneyFormat } from '../../../../utils';
 import { ConfacState } from '../../../../../reducers/app-state';
 import { getTariffs } from '../../../utils/getTariffs';
 import { ToClipboardLabel } from '../../../../controls/other/ToClipboardLabel';
-import { belgiums } from '../../../../client/EditClient';
 
 
 type InboundAmountForecastProps = {
@@ -43,7 +42,7 @@ export const InboundAmountForecast = ({ fullProjectMonth, includeTax = true }: I
 
   let amount = timesheetConfig.amount;
   if (includeTax &&
-    (!fullProjectMonth.partner || !fullProjectMonth.partner.country?.trim() || belgiums.includes(fullProjectMonth.partner.country))) {
+    (!fullProjectMonth.partner || !fullProjectMonth.partner.country?.trim() || fullProjectMonth.partner.country === 'BE')) {
       amount *= (1 + tax / 100);
   }
 

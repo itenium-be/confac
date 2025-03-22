@@ -383,7 +383,7 @@ export const trans = {
     createNew: 'New client',
     btwPlaceholder: 'Tax number',
     createNewBtwPlaceholder: 'Tax number new client',
-    createNewButton: 'Create client',
+    createNewButton: 'Continue',
     alreadyExists: 'Client with tax nr {btw} already exists',
     name: 'Client',
     types: "Type(s)",

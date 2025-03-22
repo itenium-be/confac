@@ -1,103 +1,34 @@
-import {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {Container, Row, Form, Alert} from 'react-bootstrap';
-import {t} from '../utils';
-import {saveClient} from '../../actions/index';
-import {defaultClientProperties} from './models/ClientConfig';
-import {getNewClient} from './models/getNewClient';
-import {ClientModel} from './models/ClientModels';
-import {ConfacState} from '../../reducers/app-state';
-import {ConfigModel} from '../config/models/ConfigModel';
-import {StickyFooter} from '../controls/other/StickyFooter';
-import {NewClient} from './NewClient';
-import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
-import {BusyButton} from '../controls/form-controls/BusyButton';
-import {useDocumentTitle} from '../hooks/useDocumentTitle';
-import {ClientAttachmentsForm} from './controls/ClientAttachmentsForm';
-import {Audit} from '../admin/audit/Audit';
-import {Claim} from '../users/models/UserModel';
-import {useParams} from 'react-router-dom';
-import {InvoiceLine} from '../invoice/models/InvoiceLineModels';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { Container, Row, Form, Alert } from 'react-bootstrap';
+import { t } from '../utils';
+import { saveClient } from '../../actions/index';
+import { defaultClientProperties } from './models/ClientConfig';
+import { ClientModel } from './models/ClientModels';
+import { StickyFooter } from '../controls/other/StickyFooter';
+import { NewClient } from './NewClient';
+import { ArrayInput } from '../controls/form-controls/inputs/ArrayInput';
+import { BusyButton } from '../controls/form-controls/BusyButton';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { ClientAttachmentsForm } from './controls/ClientAttachmentsForm';
+import { Audit } from '../admin/audit/Audit';
+import { Claim } from '../users/models/UserModel';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
 import { NotesWithCommentsModalButton } from '../controls/form-controls/button/NotesWithCommentsModalButton';
-
-
-/** Different spellings of "Belgium": TODO: this should just be 'BE' now */
-export const belgiums = ['België', 'Belgium', 'Belgie', 'BE'];
-
-
-function getClient(client: ClientModel | undefined, config: ConfigModel) {
-  if (client) {
-    return JSON.parse(JSON.stringify(client));
-  }
-  return getNewClient(config);
-}
+import { useClientState } from './client-helpers';
 
 
 const EditClient = () => {
   const params = useParams();
-  const config = useSelector((state: ConfacState) => state.config);
-  const storeClient = useSelector((state: ConfacState) => state.clients.find(x => x.slug === params.id));
-  const initClient = getClient(storeClient, config);
-  const [client, setClient] = useState<ClientModel>(initClient);
-  const clientWithSameKbo = useSelector((state: ConfacState) => state.clients.filter(x => x.btw === client.btw).find(x => x.slug !== params.id));
-
-  useEntityChangedToast(client._id);
-
   const dispatch = useDispatch();
-  // useEffect(() => window.scrollTo(0, 0)); // TODO: each keystroke made it scroll to top :(
-  useDocumentTitle('clientEdit', {name: client.name});
+  const {client, setClient, clientAlreadyExists, canSaveClient} = useClientState(params.id);
 
-
-  if (storeClient && !client._id) {
-    setClient(storeClient);
-  }
-
-  const clientAlreadyExists = !!clientWithSameKbo && client.btw && client.btw !== t('taxRequest');
-  const isClientDisabled = (client: ClientModel): boolean => {
-    if (clientAlreadyExists || client.name.length === 0) {
-      return true;
-    }
-    if (client.slug && client.slug.length === 0) {
-      // slug can only be filled in for an existing invoice
-      // (it's set on the backend create)
-      return true;
-    }
-    if (!client.btw)
-      return true;
-
-    return false;
-  }
-
+  useEntityChangedToast(client?._id);
+  useDocumentTitle('clientEdit', {name: client?.name || ''});
 
   if (!client) {
-    return null;
-  }
-
-  const setClientIntercept = (newClient: ClientModel): void => {
-    if (newClient.country && client.country !== newClient.country && !client.defaultInvoiceLines.length && !belgiums.includes(newClient.country)) {
-      let btwRemark: string;
-      switch (newClient.country) {
-        case 'UK':
-          btwRemark = 'Belgian VAT not applicable - Article 44 EU Directive 2006/112/EC';
-          break;
-        default:
-          btwRemark = 'Vrijgesteld van BTW overeenkomstig art. 39bis W. BTW';
-      }
-
-      const invoiceLines = config.defaultInvoiceLines.map(x => ({...x, tax: 0}));
-      invoiceLines.push({type: 'section', desc: btwRemark, sort: invoiceLines.length} as InvoiceLine);
-      newClient.defaultInvoiceLines = invoiceLines;
-    }
-    setClient(newClient);
-  };
-
-  if (!client.btw && !initClient._id) {
     return (
-      <NewClient
-        client={client}
-        onChange={(value: ClientModel) => setClientIntercept({...client, ...value})}
-      />
+      <NewClient onChange={(value: ClientModel) => setClient(value)} />
     );
   }
 
@@ -106,7 +37,7 @@ const EditClient = () => {
       <Form>
         <Row>
           <h1 style={{marginBottom: 10}}>
-            {client.name || (initClient._id ? '' : t('client.createNew'))}
+            {client.name || (client._id ? '' : t('client.createNew'))}
             <NotesWithCommentsModalButton
               claim={Claim.ManageClients}
               value={{comments: client.comments || []}}
@@ -115,27 +46,29 @@ const EditClient = () => {
               style={{marginLeft: 6, marginBottom: 6}}
               showNote={false}
             />
-            <Audit model={storeClient} modelType="client" />
+            <Audit model={client} modelType="client" />
           </h1>
-          {clientAlreadyExists && <Alert variant="danger">{t('client.alreadyExists', {btw: client.btw})}</Alert>}
+          {clientAlreadyExists && (
+            <Alert variant="danger">{t('client.alreadyExists', {btw: client.btw})}</Alert>
+          )}
         </Row>
         <Row>
           <ArrayInput
             config={defaultClientProperties}
             model={client}
-            onChange={value => setClientIntercept({...client, ...value})}
+            onChange={value => setClient({...client, ...value})}
             tPrefix="client."
           />
         </Row>
 
-        <ClientAttachmentsForm model={initClient} />
+        <ClientAttachmentsForm model={client} />
 
       </Form>
       <StickyFooter claim={Claim.ManageClients}>
         <BusyButton
           onClick={() => dispatch(saveClient(client) as any)}
           className="tst-save-client"
-          disabled={isClientDisabled(client)}
+          disabled={!canSaveClient}
         >
           {t('save')}
         </BusyButton>

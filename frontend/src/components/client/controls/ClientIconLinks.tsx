@@ -31,7 +31,7 @@ export const ClientIconLinks = ({client}: ClientProps) => {
 
       {modal && (
         <ClientModal
-          client={client}
+          clientId={client._id}
           show
           onClose={() => setModal(false)}
           onConfirm={(c: ClientModel) => dispatch(saveClient(c) as any)}

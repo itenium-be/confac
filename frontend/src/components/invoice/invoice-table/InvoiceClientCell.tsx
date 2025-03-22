@@ -50,7 +50,7 @@ export const InvoiceClientCell = ({client, ...props}: InvoiceClientCellProps) =>
 
       {modal && (
         <ClientModal
-          client={client._id}
+          clientId={client._id}
           show
           onClose={() => {
             setModal(false);

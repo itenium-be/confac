@@ -4,7 +4,7 @@ import {Option, SimpleCreatableSelectWithOptions} from '../form-controls/select/
 
 export type CountrySelectProps = BaseInputProps<string>
 
-const countries: Option[] = [
+export const countries: Option[] = [
   {label: 'België', value: 'BE'},
   {label: 'Nederland', value: 'NL'},
   {label: 'UK', value: 'GB'},

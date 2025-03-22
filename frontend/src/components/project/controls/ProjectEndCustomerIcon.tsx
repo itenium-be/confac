@@ -38,7 +38,7 @@ export const ProjectEndCustomerIcon = ({
       />
       {modal && endCustomerClientModel && (
         <ClientModal
-          client={endCustomerClientModel}
+          clientId={endCustomerClientModel._id}
           show
           onClose={() => setModal(false)}
         />

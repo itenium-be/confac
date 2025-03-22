@@ -22,7 +22,7 @@ export const InvoiceClientSelectWithCreateModal = ({client, onChange, modalId, s
   <>
     {modalId && (
       <ClientModal
-        client={modalId !== 'create' ? client._id : null}
+        clientId={modalId !== 'create' ? client._id : null}
         show={!!modalId}
         onClose={() => setModalId(null)}
         onConfirm={(updatedClient: ClientModel) => onChange(updatedClient)}

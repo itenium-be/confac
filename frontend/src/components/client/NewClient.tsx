@@ -1,48 +1,28 @@
-import {useState} from 'react';
-import {Container, Row, Form, Col} from 'react-bootstrap';
-import {ClientModel} from './models/ClientModels';
-import {t} from '../utils';
-import {BtwInput, BtwResponse, formatBtw} from '../controls/form-controls/inputs/BtwInput';
-import {useDocumentTitle} from '../hooks/useDocumentTitle';
+import { useState } from 'react';
+import { Container, Row, Form } from 'react-bootstrap';
+import { ClientModel, ClientType } from './models/ClientModels';
+import { t } from '../utils';
+import { BtwInput, BtwResponse } from '../controls/form-controls/inputs/BtwInput';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { getNewClient } from './models/getNewClient';
 import { useSelector } from 'react-redux';
 import { ConfacState } from '../../reducers/app-state';
-import { ConfigModel } from '../config/models/ConfigModel';
+import { countries } from '../controls/other/CountrySelect';
+import { btwResponseToModel, useClientAlreadyExists } from './client-helpers';
+import { Alert } from 'react-bootstrap';
+
 
 type NewClientProps = {
-  client: ClientModel,
   onChange: (client: ClientModel) => void,
 }
-
-/** Returns a partial ClientModel with the data from the BTW lookup */
-export function btwResponseToModel(config: ConfigModel, btw: BtwResponse): ClientModel {
-  return {
-    ...getNewClient(config),
-    name: btw.name,
-    types: ['client', 'endCustomer'],
-    btw: formatBtw(`${btw.countryCode}${btw.vatNumber}`),
-    address: `${btw.address.street} ${btw.address.number}`,
-    postalCode: btw.address.zip_code,
-    city: btw.address.city,
-    country: 'BE', // btw.address.country
-  };
-}
-
 
 /**
  * Enter a btw nr with lookup company details with external API
  * and display those details.
  * Allow creation with "btw in aanvraag"
  **/
-export const NewClient = (props: NewClientProps) => {
+export const NewClient = ({onChange}: NewClientProps) => {
   useDocumentTitle('clientNew');
-  const config = useSelector((state: ConfacState) => state.config);
-  const [client, setClient] = useState<ClientModel | null>(null);
-  const [btw, setBtw] = useState<string>(props.client.btw);
-
-  const onBtwChange = (res: BtwResponse) => {
-    setClient(btwResponseToModel(config, res));
-  };
 
   return (
     <Container className="edit-container">
@@ -50,29 +30,63 @@ export const NewClient = (props: NewClientProps) => {
         <Row>
           <h1>{t('client.createNew')}</h1>
         </Row>
-        <Row>
-          <Col lg={8} md={10} sm={12}>
-            <BtwInput
-              value={btw}
-              onChange={(val: string) => setBtw(val)}
-              onBtwChange={onBtwChange}
-              onFinalize={(val: string) => {
-                return (client ? props.onChange(client) : props.onChange({btw: val || ' '} as ClientModel))
-              }}
-            />
-          </Col>
-        </Row>
-        {client && (
-          <Row style={{marginTop: 25}}>
-            <Col md={6} sm={12}>
-              <h3>{client.name}</h3>
-              <div>{client.address}</div>
-              <div>{client.postalCode} {client.city}</div>
-              <div>{client.country}</div>
-            </Col>
-          </Row>
-        )}
+        <NewClientForm
+          onFinalize={onChange}
+          fullWidth={false}
+        />
       </Form>
     </Container>
+  );
+};
+
+
+
+type NewClientFormProps = {
+  onFinalize: (client: ClientModel) => void;
+  /** Full width on a modal but on a full screen make the btw input smaller */
+  fullWidth: boolean;
+  newClientTypes?: ClientType[];
+}
+
+
+export const NewClientForm = ({onFinalize, fullWidth, newClientTypes}: NewClientFormProps) => {
+  const config = useSelector((state: ConfacState) => state.config);
+  const [btw, setBtw] = useState<string>('');
+  const [btwResponse, setBtwResponse] = useState<ClientModel | null>(null);
+
+  const clientAlreadyExists = useClientAlreadyExists(btwResponse);
+
+  return (
+    <>
+      <Row>
+        <div className={fullWidth ? '' : 'col-lg-8 col-md-10 col-sm-12'}>
+          <BtwInput
+            value={btw}
+            onChange={(val: string) => setBtw(val)}
+            onFinalize={(btw: string, btwResp?: BtwResponse) => {
+              if (btwResp && btwResp.valid) {
+                onFinalize(btwResponseToModel(config, btwResp, newClientTypes));
+              } else {
+                onFinalize({...getNewClient(config), btw });
+              }
+            }}
+            onBtwChange={btw => setBtwResponse(btwResponseToModel(config, btw, newClientTypes))}
+          />
+        </div>
+      </Row>
+      {btwResponse && (
+        <Row>
+          <div className={fullWidth ? '' : 'col-lg-8 col-md-10 col-sm-12'}>
+            {clientAlreadyExists && (
+              <Alert variant="danger">{t('client.alreadyExists', {btw: btwResponse.btw})}</Alert>
+            )}
+            <h3>{btwResponse.name}</h3>
+            <div>{btwResponse.address}</div>
+            <div>{btwResponse.postalCode} {btwResponse.city}</div>
+            <div>{countries.find(x => x.value === btwResponse.country)?.label || btwResponse.country}</div>
+          </div>
+        </Row>
+      )}
+    </>
   );
 };

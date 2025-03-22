@@ -23,10 +23,9 @@ type BtwInputProps = BaseInputProps<string> & {
   /**
    * Emits all **valid** BtwResponses
    */
-  onBtwChange?: (btw: BtwResponse) => void;
+  onBtwChange?: (btw: BtwResponse | null) => void;
   /**
    * When set adds buttons 'btw in aanvraag' and create client
-   * BUG: When btw is empty a space is sent instead to stop the NewClient from showing
    */
   onFinalize?: (btw: string, btwInfo?: BtwResponse) => void;
 }
@@ -74,6 +73,7 @@ const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}:
     setInputValue(val);
     debouncedCallback(val);
     onChange(val);
+    onBtwChange?.(null);
 
     if (val === BtwInRequest) {
       setValid(true);
@@ -96,7 +96,7 @@ const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}:
       prefix={<Icon fa={cn('fa', (loading ? 'fa-spinner fa-spin tst-btw-loading' : 'fa-building tst-btw-loaded'), (valid ? 'success' : 'danger'))} size={1} />}
       suffix={onFinalize && (
         <>
-          <Button className="tst-btw-submitted" variant="outline-secondary" onClick={() => onFinalize(BtwInRequest, btwRes)}>{BtwInRequest}</Button>
+          <Button className="tst-btw-submitted" variant="outline-secondary" onClick={() => onFinalize(BtwInRequest)}>{BtwInRequest}</Button>
           <Button className="tst-btw-add" variant="success" onClick={() => onFinalize(formattedBtw, btwRes)}>{t('client.createNewButton')}</Button>
         </>
       )}

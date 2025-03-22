@@ -7,17 +7,20 @@ export const defaultClientProperties: FullFormConfig = [
 
   {title: 'client.contact'},
   {key: 'name'},
-  {key: 'types', component: 'ClientTypeSelect'},
   {key: 'btw', component: 'btw'},
+  {key: 'types', component: 'ClientTypeSelect'},
+
+  {key: 'address', cols: 3},
+  {key: 'postalCode', cols: 3},
+  {key: 'city', cols: 3},
+  {key: 'country', component: 'CountrySelect', cols: 3},
+
+  {key: 'contact', suffix: 'user', cols: 3},
+  {key: 'contactEmail', component: 'email', cols: 3},
+  {key: 'telephone', component: 'phone', cols: 3},
+  {key: 'language', component: 'LanguageSelect', cols: 3},
+
   {key: 'slug', updateOnly: true},
-  {key: 'address'},
-  {key: 'postalCode'},
-  {key: 'city'},
-  {key: 'country', component: 'CountrySelect'},
-  {key: 'telephone', component: 'phone'},
-  {key: 'language', component: 'LanguageSelect'},
-  {key: 'contact', suffix: 'user'},
-  {key: 'contactEmail', component: 'email'},
   {key: 'notes', component: 'TextEditor', cols: 12, style: {height: 140}},
 
   {title: 'client.title'},
@@ -48,13 +51,16 @@ export const defaultClientProperties: FullFormConfig = [
 export const requiredClientProperties: FullFormConfig = [
   {key: 'name', cols: 8},
   {key: 'btw'},
+
+  {key: 'types', component: 'ClientTypeSelect', cols: 8},
+  {key: 'country', component: 'CountrySelect'},
+
   {key: 'address'},
   {key: 'postalCode'},
   {key: 'city'},
-  {key: 'types', component: 'ClientTypeSelect', cols: 8},
+
+  {key: 'contact', suffix: 'user'},
+  {key: 'contactEmail', component: 'email'},
   {key: 'telephone'},
-  {forceRow: true},
-  {key: 'contact', cols: 6},
-  {key: 'contactEmail', component: 'email', cols: 6},
   {key: 'notes', component: 'TextEditor', cols: 12, style: {height: 120}},
 ];
