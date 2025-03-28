@@ -32,10 +32,9 @@ export class FullProjectModel {
   client: ClientModel;
   /** ATTN: ProjectClientModel properties to be found in details.partner */
   partner?: ClientModel;
-  /** ATTN: ProjectClientModel properties to be found in details.endCustomer */
+  /** ATTN: ProjectEndCustomerModel properties to be found in details.endCustomer */
   endCustomer?: ClientModel;
 
-  
   constructor(json: IProjectModel, month?: Moment, consultant?: ConsultantModel, client?: ClientModel, partner?: ClientModel, endCustomer?: ClientModel) {
     this.details = json;
     this._month = month || moment();

@@ -26,7 +26,7 @@ import {ExtraFieldsInput} from '../inputs/ExtraFieldsInput';
 import {TextEditor} from '../inputs/TextEditor';
 import {AttachmentsTypeSelect} from '../../attachments/AttachmentsTypeSelect';
 import {DatePicker} from '../DatePicker';
-import {EditProjectClient, EditProjectEndCustomer, EditProjectPartner} from '../../../project/controls/EditProjectClient';
+import {EditProjectClient, EditProjectEndCustomer, EditProjectPartner, EditProjectClientAsEndCustomer} from '../../../project/controls/EditProjectClient';
 import {ConsultantSelectWithCreateModal} from '../../../consultant/controls/ConsultantSelectWithCreateModal';
 import {LanguageSelect} from '../../LanguageSelect';
 import {EditInvoiceLines} from '../../../invoice/invoice-edit/invoice-lines/EditInvoiceLines';
@@ -81,6 +81,7 @@ export function getComponent(col: FormConfig) {
     ProjectSelect,
     EditProjectClient,
     EditProjectPartner,
+    EditProjectClientAsEndCustomer,
     EditProjectEndCustomer,
     ConsultantSelectWithCreateModal,
     InvoiceReplacementsInput,

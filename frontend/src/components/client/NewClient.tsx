@@ -67,7 +67,7 @@ export const NewClientForm = ({onFinalize, fullWidth, newClientTypes}: NewClient
               if (btwResp && btwResp.valid) {
                 onFinalize(btwResponseToModel(config, btwResp, newClientTypes));
               } else {
-                onFinalize({...getNewClient(config), btw });
+                onFinalize({...getNewClient(config), btw, types: newClientTypes ?? [] });
               }
             }}
             onBtwChange={btw => setBtwResponse(btwResponseToModel(config, btw, newClientTypes))}

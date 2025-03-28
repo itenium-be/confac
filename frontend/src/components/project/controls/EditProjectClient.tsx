@@ -2,10 +2,9 @@ import {MinimalInputProps} from '../../controls/form-controls/inputs/BaseInput';
 import {ProjectClientModel, ProjectEndCustomerModel} from '../models/IProjectModel';
 import {getNewProjectClient} from '../models/getNewProject';
 import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
-import {FormConfig, FullFormConfig} from '../../../models';
+import {FullFormConfig} from '../../../models';
 import {getNewInvoiceLine, InvoiceLine} from '../../invoice/models/InvoiceLineModels';
 import {DefaultHoursInDay} from "../../client/models/getNewClient";
-import { ClientType } from '../../client/models/ClientModels';
 
 /** Map Tariff & RateType to the client/partner.defaultInvoiceLines[0].price/type */
 const Bridge = ({value = [getNewInvoiceLine()], onChange}: MinimalInputProps<InvoiceLine[]>) => {
@@ -43,9 +42,7 @@ const defaultInvoiceLinesConfig: FullFormConfig = [
 
 
 
-type EditProjectClientProps = MinimalInputProps<ProjectClientModel> & {
-  clientType?: ClientType;
-};
+type EditProjectClientProps = MinimalInputProps<ProjectClientModel>;
 
 
 
@@ -61,49 +58,35 @@ export const EditProjectPartner = ({value, onChange}: EditProjectClientProps) =>
 };
 
 
-const clientConfig: FullFormConfig = [
-  {key: 'clientId', component: 'ClientSelectWithCreateModal', cols: 5},
-  {key: 'defaultInvoiceLines', label: '', component: Bridge, cols: false},
-  {key: 'ref', component: 'text', cols: 3},
-];
+function getClientConfig(prjClient: ProjectClientModel, asEndCustomer: boolean): FullFormConfig {
+  const clientIdComponent = asEndCustomer ? 'EndCustomerSelectWithCreateModal' : 'ClientSelectWithCreateModal';
+  const hasCustomInvoicingLines = prjClient.advancedInvoicing || prjClient.defaultInvoiceLines.length > 1;
+  if (hasCustomInvoicingLines) {
+    return [
+      {title: {title: 'client.name', level: 2}},
+      {key: 'clientId', component: clientIdComponent, cols: 5},
+      {key: 'ref', component: 'text', cols: 3},
+      {title: {title: 'config.defaultInvoiceLines', level: 4}},
+      {key: 'defaultInvoiceLines', label: '', component: 'EditInvoiceLines', cols: 12},
+    ];
+  }
 
+  return [
+    {key: 'clientId', component: clientIdComponent, cols: 5},
+    {key: 'defaultInvoiceLines', label: '', component: Bridge, cols: false},
+    {key: 'ref', component: 'text', cols: 3},
+  ];
+}
 
-const advancedInvoicingClientConfig: FullFormConfig = [
-  {title: {title: 'client.name', level: 2}},
-  {key: 'clientId', component: 'ClientSelectWithCreateModal', cols: 5},
-  {key: 'ref', component: 'text', cols: 3},
-  {title: {title: 'config.defaultInvoiceLines', level: 4}},
-  {key: 'defaultInvoiceLines', label: '', component: 'EditInvoiceLines', cols: 12},
-];
-
-
-
-export const EditProjectClient = ({value, clientType, onChange}: EditProjectClientProps) => {
+export const EditProjectClientAsEndCustomer = ({value, onChange}: EditProjectClientProps) => {
   const prjClient: ProjectClientModel = value || getNewProjectClient();
-  let config = prjClient.advancedInvoicing || prjClient.defaultInvoiceLines.length > 1 ? advancedInvoicingClientConfig : clientConfig;
+  const config = getClientConfig(prjClient, true);
+  return <ArrayInput config={config} model={prjClient} onChange={onChange} tPrefix="project.client." />;
+};
 
-  // TODO: this is duplicated in ProjectFormConfig (client vs clientId check though)
-  config = config.map(config => {
-    if (typeof config === 'string')
-      return config;
-
-    if ('forceRow' in config)
-      return config;
-
-    const clientFormConfig = config as FormConfig
-    if (clientFormConfig.key === 'clientId') {
-      return {
-        ...clientFormConfig,
-        props: {
-          ...clientFormConfig.props,
-          clientType: clientType
-        }
-      }
-    }
-
-    return config;
-  })
-
+export const EditProjectClient = ({value, onChange}: EditProjectClientProps) => {
+  const prjClient: ProjectClientModel = value || getNewProjectClient();
+  const config = getClientConfig(prjClient, false);
   return <ArrayInput config={config} model={prjClient} onChange={onChange} tPrefix="project.client." />;
 };
 
@@ -113,7 +96,7 @@ type EditProjectEndCustomerProps = MinimalInputProps<ProjectEndCustomerModel>;
 const endCustomerConfig: FullFormConfig = [
   {key: 'clientId', component: 'EndCustomerSelectWithCreateModal', cols: 5},
   {key: 'contact', component: 'text', cols: 2, suffix: 'user'},
-  {key: 'notes', component: 'text', cols: 3},
+  {key: 'notes', component: 'text', cols: 5},
 ];
 
 export const EditProjectEndCustomer = ({value, onChange}: EditProjectEndCustomerProps) => {

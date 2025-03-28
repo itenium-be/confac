@@ -19,6 +19,7 @@ export interface IProjectModel {
   notes?: string;
   contract: IContractModel;
   audit: IAudit;
+  /** We invoice the client but the project is at an endCustomer */
   forEndCustomer: boolean;
   endCustomer: ProjectEndCustomerModel | null;
 }

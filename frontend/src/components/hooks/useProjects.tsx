@@ -1,21 +1,19 @@
-import {Moment} from 'moment';
-import {useSelector} from 'react-redux';
-import {ConfacState} from '../../reducers/app-state';
+import { Moment } from 'moment';
+import { useSelector } from 'react-redux';
+import { ConfacState } from '../../reducers/app-state';
 import { ClientModel } from '../client/models/ClientModels';
 import { ConsultantModel } from '../consultant/models/ConsultantModel';
 import InvoiceModel from '../invoice/models/InvoiceModel';
-import {FullProjectModel} from '../project/models/FullProjectModel';
-import {FullProjectMonthModel, IFullProjectMonthModel} from '../project/models/FullProjectMonthModel';
+import { FullProjectModel } from '../project/models/FullProjectModel';
+import { FullProjectMonthModel, IFullProjectMonthModel } from '../project/models/FullProjectMonthModel';
 import { IProjectModel } from '../project/models/IProjectModel';
-import {ProjectMonthModel} from '../project/models/ProjectMonthModel';
+import { ProjectMonthModel } from '../project/models/ProjectMonthModel';
 
 
 export function useProjects(month?: Moment): FullProjectModel[] {
-  const {projects, clients, consultants} = useSelector((state: ConfacState) => ({
-    projects: state.projects,
-    clients: state.clients,
-    consultants: state.consultants
-  }));
+  const projects = useSelector((state: ConfacState) => state.projects);
+  const clients = useSelector((state: ConfacState) => state.clients);
+  const consultants = useSelector((state: ConfacState) => state.consultants);
 
   return projects.map(project => {
     const consultant = consultants.find(x => x._id === project.consultantId);

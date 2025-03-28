@@ -27,30 +27,29 @@ export const EndCustomerSelectWithCreateModal = (props: ClientSelectWithCreateMo
 );
 
 
-export const ClientSelectWithCreateModal = ({value, onChange, clientType}: ClientSelectWithCreateModalProps) => {
+export const ClientSelectWithCreateModal = ({value, onChange, clientType = 'client'}: ClientSelectWithCreateModalProps) => {
   const [modalId, setModalId] = useState<ModalState>(null);
   const client = useSelector((state: ConfacState) => state.clients
     .filter(c => clientType === undefined || c.types.includes(clientType))
     .find(c => c._id === value)
   );
 
-  const clientTypeName = clientType || 'client';
   return (
     <>
       {modalId && (
         <ClientModal
           clientId={modalId === 'create' ? null : (client?._id ?? null)}
-          newClientTypes={[clientTypeName]}
+          newClientTypes={[clientType]}
           show
-          title={t(`client.createNewModal.${clientTypeName}`)}
+          title={t(`client.createNewModal.${clientType}`)}
           onClose={() => setModalId(null)}
           onConfirm={(model: ClientModel) => onChange(model._id, model)}
         />
       )}
-      <SelectWithCreateButton claim={Claim.ManageClients} setModalId={setModalId} createButtonText={`invoice.${clientTypeName}New`}>
+      <SelectWithCreateButton claim={Claim.ManageClients} setModalId={setModalId} createButtonText={`invoice.${clientType}New`}>
         <Form.Group className="form-group">
           <Form.Label>
-            <span style={{marginRight: 8}}>{t(`invoice.${clientTypeName}`)}</span>
+            <span style={{marginRight: 8}}>{t(`invoice.${clientType}`)}</span>
             {client && <ClientIconLinks client={client} />}
           </Form.Label>
           <ClientSelect value={value || ''} clientType={clientType} onChange={(id, model) => onChange(id, model)} />
