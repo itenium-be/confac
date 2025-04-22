@@ -29,11 +29,11 @@ export const ProjectMonthConsultantCell = ({fullProjectMonth}: ProjectMonthConsu
         </div>
         <small>
           {client && (
-            <Link to={`/clients/${client.slug}`}>{client.name}</Link>
+            <Link to={`/clients/${client.slug || client._id}`}>{client.name}</Link>
           )}
           {partner && ' / '}
           {partner && (
-            <Link to={`/clients/${partner.slug}`}>{partner.name}</Link>
+            <Link to={`/clients/${partner.slug || client._id}`}>{partner.name}</Link>
           )}
         </small>
       </div>

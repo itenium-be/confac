@@ -28,7 +28,7 @@ const ClientDetails = ({client, onOpenDetails, onOpenDetailsTitle}: ClientDetail
           className="tst-edit-client-modal"
           fa="fa fa-external-link-alt"
         />
-        <Link to={`/clients/${client.slug}`} className="icon-link">
+        <Link to={`/clients/${client.slug || client._id}`} className="icon-link">
           <EditIcon
             style={{fontSize: 14}}
             title={t('client.viewDetails')}

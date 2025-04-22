@@ -35,7 +35,7 @@ export const InvoiceClientCell = ({client, ...props}: InvoiceClientCellProps) =>
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <Link to={`/clients/${client.slug}`} {...props}>
+      <Link to={`/clients/${client.slug || client._id}`} {...props}>
         {client.name}
       </Link>
 
