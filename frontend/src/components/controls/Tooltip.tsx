@@ -3,6 +3,7 @@ import RcTooltip from 'rc-tooltip';
 
 type TooltipProps = {
   title: string,
+  identifier?: string;
   placement?: 'left' | 'right' | 'top' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight',
   children: ReactElement,
   mouseEnterDelay?: number;
@@ -13,8 +14,9 @@ type TooltipProps = {
 // --> The user can craft a malicious script with the NotesModalButton and this will just execute it!
 
 
-export const Tooltip = ({children, title, placement = 'left', mouseEnterDelay = 0.6}: TooltipProps) => (
+export const Tooltip = ({children, title, placement = 'left', mouseEnterDelay = 0.6, identifier = ''}: TooltipProps) => (
   <RcTooltip
+    overlayClassName={identifier}
     placement={placement} // ['left','right','top','bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight']
     trigger={['hover'/* , 'click', 'focus' */]}
     overlay={<div dangerouslySetInnerHTML={{__html: title}} />}

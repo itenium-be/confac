@@ -50,16 +50,35 @@ const ButtonComponent = ({variant = 'primary', size = 'md', disabled, className,
     if (disabled) {
       // WORKAROUND: Tooltip not going away when the button is disabled
       // https://github.com/react-component/tooltip/issues/18#issuecomment-411476678
+      const identifier = Math.floor(Math.random() * Date.now()).toString(36)
       FinalButton = (
-        <Tooltip title={title}>
+        <Tooltip
+          title={title}
+          identifier={identifier}
+        >
           <div>
             <ReactButton
               className={className}
               variant={variant}
               size={size === 'md' ? undefined : size}
               onClick={realClick}
-              disabled={disabled}
+              active={false}
+              disabled={true}
               style={{...style, pointerEvents: 'none'}}
+              onPointerLeave={()=>{
+                const tooltips = document.getElementsByClassName(identifier);
+                for(let i = 0; i < tooltips.length; i++)
+                {
+                  tooltips[i].classList.add("rc-tooltip-hidden");
+                }
+              }}
+              onPointerEnter={()=>{
+                const tooltips = document.getElementsByClassName(identifier);
+                for(let i = 0; i < tooltips.length; i++)
+                {
+                  tooltips[i].classList.remove("rc-tooltip-hidden");
+                }
+              }}
               {...rest}
             >
               {icon ? <Icon fa={icon} size={1} style={{marginRight: children ? 6 : 0}} /> : null}
