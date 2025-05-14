@@ -127,7 +127,7 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
   emitEntityEvent(req, SocketEventTypes.EntityCreated, CollectionNames.INVOICES, createdInvoice._id, createdInvoice);
 
 
-  if (invoice.creditNotas) {
+  if (invoice.creditNotas?.length) {
     const linkedInvoiceIds = invoice.creditNotas.map(id => new ObjectID(id));
     const linkedInvoices = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
       .find({_id: {$in: linkedInvoiceIds}})
