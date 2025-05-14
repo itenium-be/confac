@@ -133,15 +133,15 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
       .find({_id: {$in: linkedInvoiceIds}})
       .toArray();
 
-    linkedInvoices.forEach(invoice => {
-      invoice.creditNotas = [...(invoice.creditNotas || []), createdInvoice._id];
-      emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, invoice._id, invoice, 'everyone');
-    });
-
     await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateMany(
       {_id: {$in: linkedInvoiceIds}},
       {$push: {creditNotas: createdInvoice._id.toString()}}
     );
+
+    linkedInvoices.forEach(invoice => {
+      invoice.creditNotas = [...(invoice.creditNotas || []), createdInvoice._id];
+      emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, invoice._id, invoice, 'everyone');
+    });
   }
 
   return res.send(createdInvoice);
@@ -258,15 +258,15 @@ export const deleteInvoiceController = async (req: ConfacRequest, res: Response)
       .find({_id: {$in: linkedInvoiceIds}})
       .toArray();
 
-    linkedInvoices.forEach(toUpdate => {
-      toUpdate.creditNotas = toUpdate.creditNotas.filter(x => x !== invoice._id);
-      emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, toUpdate._id, toUpdate, 'everyone');
-    });
-
     await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateMany(
       {_id: {$in: linkedInvoiceIds}},
       {$pull: {creditNotas: invoice._id.toString()}}
     );
+
+    linkedInvoices.forEach(toUpdate => {
+      toUpdate.creditNotas = toUpdate.creditNotas.filter(x => x !== invoice._id.toString());
+      emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, toUpdate._id, toUpdate, 'everyone');
+    });
   }
 
   await req.db.collection(CollectionNames.INVOICES).findOneAndDelete({ _id: new ObjectID(invoiceId) });
