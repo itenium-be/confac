@@ -129,7 +129,8 @@ export default class InvoiceModel implements IAttachment {
         invoiceFileName: client.invoiceFileName,
       };
     }
-    this.date = getInvoiceDate(client, this.config, this.date);
+
+    this.date = getInvoiceDate(client, this.config);
 
     if (client && client.defaultInvoiceLines.length) {
       this._lines = client.defaultInvoiceLines.map(x => ({...x}));

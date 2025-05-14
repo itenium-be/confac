@@ -108,7 +108,7 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
   const invoiceList = [
     ...(fullProjectMonth.invoice.creditNotas || []),
     fullProjectMonth.invoice._id
-  ]
+  ];
 
   return (
     <>

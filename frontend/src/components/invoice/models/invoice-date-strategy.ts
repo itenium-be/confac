@@ -19,30 +19,29 @@ const endOfMonth = (): moment.Moment => {
   return lastDayPrevMonth;
 };
 
-const newMonthFromThe22th = (date?: moment.Moment): moment.Moment => {
-  const dateToCheck:moment.Moment = date || moment();
-  const endOfMonthStartDay:number = 1;
-  const endOfMonthEndDay:number = 21;
-  const currentDay:number = dateToCheck.date();
+const newMonthFromThe22th = (): moment.Moment => {
+  const dateToCheck = moment();
+  const endOfMonthEndDay = 21;
+  const currentDay = dateToCheck.date();
 
   //checking on format to skip any time inequality
   if (dateToCheck.format('YYYY-MM-DD') === dateToCheck.endOf('month').format('YYYY-MM-DD')) {
-    return dateToCheck
-  } else if (currentDay >= endOfMonthStartDay && currentDay <= endOfMonthEndDay) {
+    return dateToCheck;
+  } else if (currentDay <= endOfMonthEndDay) {
     return dateToCheck.subtract(1, 'months').endOf('month');
   } else {
-    return dateToCheck.startOf('month')
+    return dateToCheck.startOf('month');
   }
 };
 
-export const getInvoiceDate = (client?: ClientModel, config?: ConfigModel, date?: moment.Moment): moment.Moment => {
+export const getInvoiceDate = (client?: ClientModel, config?: ConfigModel): moment.Moment => {
   const strategy = (client && client.defaultInvoiceDateStrategy) || (config && config.defaultInvoiceDateStrategy);
 
   switch (strategy) {
     case 'prev-month-last-day':
       return endOfMonth();
     case 'new-month-from-22th':
-      return newMonthFromThe22th(date)
+      return newMonthFromThe22th();
     case 'today':
     default:
       return today();

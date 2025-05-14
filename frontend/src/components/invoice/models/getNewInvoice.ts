@@ -62,12 +62,12 @@ export const getNewInvoice = (
 
 export const getNewClonedInvoice = (
   invoices: InvoiceModel[],
-  invoiceToCopy: InvoiceModel
+  invoiceToCopy: InvoiceModel,
+  clients: ClientModel[],
 ): InvoiceModel => {
 
   const {_id, ...invoiceBlueprint} = invoiceToCopy;
-
-  return getNewInvoice(invoiceToCopy.config, invoices, [], {
+  const creditNota = getNewInvoice(invoiceToCopy.config, invoices, clients, {
     ...invoiceBlueprint,
     lines: invoiceToCopy.lines.map(line => {
       if (line.type === 'section') {
@@ -77,6 +77,10 @@ export const getNewClonedInvoice = (
     }),
     creditNotas: [...invoiceBlueprint.creditNotas, _id],
     note: '',
-    comments: []
+    comments: [],
+    attachments: undefined,
+    lastEmail: undefined,
   });
+
+  return creditNota;
 }

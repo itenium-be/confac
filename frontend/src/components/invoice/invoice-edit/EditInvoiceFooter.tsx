@@ -22,6 +22,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal}: EditInv
   const dispatch = useDispatch();
   const invoices = useSelector((state: ConfacState) => state.invoices);
   const config = useSelector((state: ConfacState) => state.config);
+  const clients = useSelector((state: ConfacState) => state.clients);
 
   return (
     <>
@@ -58,7 +59,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal}: EditInv
             dispatch(syncCreditNotas(invoice, initInvoice.creditNotas, invoices) as any)
             dispatch(updateInvoiceRequest(invoice, undefined, false, navigate) as any);
           } if (type === 'clone') {
-            const creditNota = getNewClonedInvoice(invoices, invoice);
+            const creditNota = getNewClonedInvoice(invoices, invoice, clients);
             navigate(`/invoices/${creditNota.number}`);
             dispatch(createInvoice(creditNota) as any);
           }
