@@ -28,15 +28,18 @@ export const getProjectsPerMonthOverviewController = async (req: Request, res: R
 };
 
 
-type sourceProjectData = {
+const ProjectProformaOptions = ['no', 'inboundWithTax', 'inboundWithoutTax', 'outboundWithTax', 'outboundWithoutTax'] as const;
+type ProjectProforma = typeof ProjectProformaOptions[number];
+
+type SourceProjectData = {
   projectId: string,
-  hasProforma: boolean
+  proforma: ProjectProforma,
 }
 
 
 /** Create all projectMonths for the specified month */
 export const createProjectsMonthController = async (req: ConfacRequest, res: Response) => {
-  const {projectData, month}: {projectData: sourceProjectData[]; month: string} = req.body;
+  const {projectData, month}: {projectData: SourceProjectData[]; month: string} = req.body;
 
   // const projects = await req.db.collection<IProject>(CollectionNames.PROJECTS).find().toArray();
   // const activeProjects = findActiveProjectsForSelectedMonth(month, projects);
@@ -51,7 +54,7 @@ export const createProjectsMonthController = async (req: ConfacRequest, res: Res
       inbound: {
         nr: '',
         status: 'new',
-        proforma: projectMonthSource.hasProforma ? { inclusiveTax: projectMonthSource.hasProforma, status: 'new'} : undefined,
+        proforma: !projectMonthSource.proforma || projectMonthSource.proforma === 'no' ? undefined : {status: 'new'} ,
       },
       timesheet: {validated: false},
       attachments: [],

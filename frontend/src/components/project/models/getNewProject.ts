@@ -25,7 +25,7 @@ export const getNewProject = (): IProjectModel => ({
   client: getNewProjectClient(),
   projectMonthConfig: {
     changingOrderNr: false,
-    hasProforma: 'no',
+    proforma: 'no',
     ...getDefaultProjectMonthConfig(),
   },
   contract: {

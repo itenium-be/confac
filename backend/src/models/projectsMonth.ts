@@ -22,10 +22,9 @@ export interface IProjectMonth {
   audit: IAudit;
 }
 
-export type ProjectMonthProformaStatus = 'new' | 'verified'
+export type ProjectMonthProformaStatus = 'new' | 'verified';
 export interface ProjectMonthProforma {
-  inclusiveTax: boolean,
-  status: ProjectMonthProformaStatus
+  status: ProjectMonthProformaStatus;
 }
 
 export type ProjectMonthInboundStatus = 'new' | 'validated' | 'paid';
@@ -34,7 +33,7 @@ export interface ProjectMonthInbound {
   nr: string;
   dateReceived?: string;
   status: ProjectMonthInboundStatus;
-  proforma?: ProjectMonthProforma
+  proforma?: ProjectMonthProforma;
 }
 
 export interface ProjectMonthTimesheet {

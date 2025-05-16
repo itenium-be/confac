@@ -1,6 +1,7 @@
 import {Moment} from 'moment';
 import {ConsultantType} from '../../consultant/models/ConsultantModel';
 import {Attachment, IAudit, IComment} from '../../../models';
+import { ProjectProforma } from './IProjectModel';
 
 /**
  * false: The invoice has not yet been verified
@@ -34,14 +35,11 @@ export interface ProjectMonthOverviewModel {
 }
 
 
-export type ProjectMonthProformaStatus = 'new' | 'verified'
+export type ProjectMonthProformaStatus = 'new' | 'verified';
 export interface ProjectMonthProforma {
-  inclusiveTax: boolean,
-  status: ProjectMonthProformaStatus
+  status: ProjectMonthProformaStatus;
 }
 
-export const ProjectProformaOptions = ['no', 'withTax', 'withoutTax'] as const;
-export type ProjectProforma = typeof ProjectProformaOptions[number]
 
 export const ProjectMonthInboundStatusOrder = ['new', 'validated', 'paid'] as const;
 export type ProjectMonthInboundStatus = typeof ProjectMonthInboundStatusOrder[number];
@@ -75,11 +73,11 @@ export interface ProjectMonthConfig {
   inboundInvoice: boolean;
   /** Does the OrderNr change for each invoice? */
   changingOrderNr: boolean;
-  hasProforma: ProjectProforma;
+  proforma: ProjectProforma;
 }
 
 /** How monthly invoicing is handled depends on the type of consultant */
-export function getDefaultProjectMonthConfig(consultantType?: ConsultantType): Omit<ProjectMonthConfig, 'changingOrderNr' | 'hasProforma'> {
+export function getDefaultProjectMonthConfig(consultantType?: ConsultantType): Omit<ProjectMonthConfig, 'changingOrderNr' | 'proforma'> {
   switch (consultantType) {
     case 'manager':
       return {

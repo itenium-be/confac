@@ -492,10 +492,11 @@ export const trans = {
       contracts: 'Contracten',
     },
     proforma: {
-      titleConfig: 'Klant stuurt proforma factuur',
-      no: 'Nee',
-      withTax: 'Ja, inclusief BTW',
-      withoutTax: 'Ja, exclusief BTW',
+      no: 'Geen proforma factuur',
+      inboundWithTax: 'Van onderaannr incl btw',
+      inboundWithoutTax: 'Van onderaannr excl btw',
+      outboundWithTax: 'Van klant incl btw',
+      outboundWithoutTax: 'Van klant excl btw',
     },
     partner: {
       clientId: 'Onderaannemer',
@@ -520,7 +521,7 @@ export const trans = {
       timesheetCheck: 'Timesheets: SDWorx rapport check',
       inboundInvoice: 'Heeft inkomende factuur',
       changingOrderNr: 'Het bestelbon nr wijzigt voor elke factuur',
-      hasProforma: 'Klant stuurt proforma factuur',
+      proforma: 'Proforma factuur',
     },
     copy: {
       buttonText: 'Verlenging',

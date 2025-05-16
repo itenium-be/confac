@@ -8,12 +8,11 @@ import { ToClipboardLabel } from '../../../../controls/other/ToClipboardLabel';
 
 type InboundAmountForecastProps = {
   fullProjectMonth: FullProjectMonthModel;
-  includeTax?: boolean
 };
 
 
 /** Expected inbound total invoice amount */
-export const InboundAmountForecast = ({ fullProjectMonth, includeTax = true }: InboundAmountForecastProps) => {
+export const InboundAmountForecast = ({ fullProjectMonth }: InboundAmountForecastProps) => {
   const tax = useSelector((state: ConfacState) => state.config.defaultInvoiceLines[0].tax);
   const { timesheet } = fullProjectMonth.details;
   if (!timesheet.timesheet || !fullProjectMonth.project.partner) {
@@ -41,9 +40,8 @@ export const InboundAmountForecast = ({ fullProjectMonth, includeTax = true }: I
 
 
   let amount = timesheetConfig.amount;
-  if (includeTax &&
-    (!fullProjectMonth.partner || !fullProjectMonth.partner.country?.trim() || fullProjectMonth.partner.country === 'BE')) {
-      amount *= (1 + tax / 100);
+  if (!fullProjectMonth.partner || !fullProjectMonth.partner.country?.trim() || fullProjectMonth.partner.country === 'BE') {
+    amount *= (1 + tax / 100);
   }
 
   const totalAmount = amount * partnerTariffs.tariff;

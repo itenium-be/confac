@@ -33,7 +33,7 @@ export function getProjectFormConfig(project: IProjectModel): FullFormConfig {
     {key: 'client.advancedInvoicing', component: 'switch'},
     {key: 'forEndCustomer', component: 'switch'},
     {forceRow: true},
-    {key: 'projectMonthConfig.hasProforma', component: 'ProjectProformaSelect'},
+    {key: 'projectMonthConfig.proforma', component: 'ProjectProformaSelect'},
 
     {title: 'client.notes'},
     {key: 'notes', label: '', component: 'TextEditor', cols: 12},

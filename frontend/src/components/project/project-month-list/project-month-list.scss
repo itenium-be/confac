@@ -217,7 +217,6 @@ $cell-padding: 8px 8px;
   }
 
 
-
   /** The inbound cell */
   .inbound-cell, .inbound-proforma {
     display: flex;
@@ -245,7 +244,7 @@ $cell-padding: 8px 8px;
         overflow: hidden;
         text-overflow: ellipsis;
 
-        &::before {
+        &.amount-label {
           content: '#';
         }
       }
@@ -265,6 +264,14 @@ $cell-padding: 8px 8px;
       .inbound-attachment-actions {
         @include attachment-upload-preview-buttons
       }
+    }
+  }
+
+  .inbound-proforma {
+    padding-top: 0;
+
+    .inbound-actions > .btn-group > * {
+      width: 50%;
     }
   }
 

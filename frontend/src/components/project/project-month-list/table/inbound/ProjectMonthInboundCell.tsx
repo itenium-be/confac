@@ -14,8 +14,9 @@ import {AttachmentUploadPreviewButtons} from '../../../controls/AttachmentUpload
 import {InboundInvoiceAttachmentType, ProformaInvoiceAttachmentType} from '../../../../../models';
 import {ToClipboardLabel} from '../../../../controls/other/ToClipboardLabel';
 import {ProjectMonthInboundStatusSelect} from '../../../controls/ProjectMonthInboundStatusSelect';
-import { InboundAmountForecast } from './InboundAmountForecast';
+import { ProformaForecast } from '../ProformaForecast';
 import { ProjectMonthProformaStatusSelect } from '../../../controls/ProjectMonthProformaStatusSelect';
+import { InboundAmountForecast } from './InboundAmountForecast';
 
 
 interface ProjectMonthInboundCellProps {
@@ -39,8 +40,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
   };
   const [inbound, setInbound, saveInbound] = useDebouncedSave<ProjectMonthInbound>(defaultValue, dispatcher);
 
-
-  if (!fullProjectMonth.project.projectMonthConfig.inboundInvoice) {
+  if (!fullProjectMonth.project.projectMonthConfig.inboundInvoice && !fullProjectMonth.details.inbound.proforma) {
     return <div />;
   }
 
@@ -86,93 +86,96 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
 
   return (
     <>
-    <div className={cn('inbound-cell')}>
-      {canEdit === 'label' ? (
-        <ToClipboardLabel label={inbound.nr} />
-      ) : (
-        <StringInput
-          value={inbound.nr}
-          onChange={nr => setInbound({...inbound, nr: sanitizeForInvoiceComment(nr)})}
-          placeholder={t('projectMonth.inboundInvoiceNr')}
-        />
-      )}
-      <InboundAmountForecast fullProjectMonth={fullProjectMonth} />
-      <DatePicker
-        value={fullProjectMonth.details.inbound.dateReceived || inbound.dateReceived}
-        onChange={dateReceived => setInbound({...inbound, dateReceived})}
-        placeholder={t('projectMonth.inboundDateReceived')}
-        display={canEdit}
-      />
-      <div className="inbound-actions">
-        <ProjectMonthInboundStatusSelect
-          value={fullProjectMonth.details.inbound.status}
-          onChange={status => saveInbound({...inbound, status})}
-        />
-        <div className="inbound-attachment-actions">
-          <AttachmentUploadPreviewButtons
-            isUploadDisabled={fullProjectMonth.details.inbound.status !== 'new'}
-            isPreviewDisabled={!hasInboundInvoiceBeenUploaded}
-            uploadTooltip={t('projectMonth.inboundUpload')}
-            previewTooltip={t('projectMonth.viewInboundInvoice', {fileName: inboundInvoiceDetails ? inboundInvoiceDetails.fileName : ''})}
-            onUpload={f => {
-              if (!inbound.dateReceived) {
-                setInbound({...inbound, dateReceived: moment()});
-              }
-              const inboundFileName = '{month}-{partner}-{consultant}-Invoice'
-                .replace('{partner}', (fullProjectMonth.partner && fullProjectMonth.partner.name) || '')
-                .replace('{consultant}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`)
-                .replace('{month}', fullProjectMonth.details.month.format('YYYY-MM'))
-                + f.name.substring(f.name.lastIndexOf('.'));
-
-              return dispatch(projectMonthUpload(f, InboundInvoiceAttachmentType, fullProjectMonth, inboundFileName) as any);
-            }}
-            downloadUrl={getInboundInvoiceDownloadUrl()}
+      {!!fullProjectMonth.project.projectMonthConfig.inboundInvoice && (
+        <div className={cn('inbound-cell')}>
+          <span className="amount-label">
+            {canEdit === 'label' ? (
+              <ToClipboardLabel label={inbound.nr} />
+            ) : (
+              <StringInput
+                value={inbound.nr}
+                onChange={nr => setInbound({...inbound, nr: sanitizeForInvoiceComment(nr)})}
+                placeholder={t('projectMonth.inboundInvoiceNr')}
+              />
+            )}
+          </span>
+          <InboundAmountForecast fullProjectMonth={fullProjectMonth} />
+          <DatePicker
+            value={fullProjectMonth.details.inbound.dateReceived || inbound.dateReceived}
+            onChange={dateReceived => setInbound({...inbound, dateReceived})}
+            placeholder={t('projectMonth.inboundDateReceived')}
+            display={canEdit}
           />
-        </div>
-      </div>
-    </div>
-    { fullProjectMonth.details.inbound.proforma && (
-      <div className='inbound-proforma'>
-        <span>{t('projectMonth.proformaTitle')}</span>
-        <InboundAmountForecast
-          fullProjectMonth={fullProjectMonth}
-          includeTax={fullProjectMonth.details.inbound.proforma.inclusiveTax}
-        />
-        <div style={{flexGrow: 1}}></div>
-        <div className="inbound-actions">
-          <ProjectMonthProformaStatusSelect
-            value={fullProjectMonth.details.inbound.proforma.status}
-            onChange={status => saveInbound({
-              ...inbound,
-              proforma: {
-                inclusiveTax: true,
-                ...inbound.proforma,
-                status
-              }
-            })}
-          />
-          <div className="inbound-attachment-actions">
-            <AttachmentUploadPreviewButtons
-              isUploadDisabled={fullProjectMonth.details.inbound.proforma.status !== 'new'}
-              isPreviewDisabled={!hasProformaInvoiceBeenUploaded}
-              uploadTooltip={t('projectMonth.proformaUpload')}
-              previewTooltip={t('projectMonth.viewProformaInvoice', {fileName: proformaInvoiceDetails ? proformaInvoiceDetails.fileName : ''})}
-              onUpload={f => {
-
-                const proformaFileName = '{month}-{partner}-{consultant}-Invoice-Proforma'
-                  .replace('{partner}', (fullProjectMonth.partner && fullProjectMonth.partner.name) || '')
-                  .replace('{consultant}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`)
-                  .replace('{month}', fullProjectMonth.details.month.format('YYYY-MM'))
-                  + f.name.substring(f.name.lastIndexOf('.'));
-
-                return dispatch(projectMonthUpload(f, ProformaInvoiceAttachmentType, fullProjectMonth, proformaFileName) as any);
-              }}
-              downloadUrl={getProformaDownloadUrl()}
+          <div className="inbound-actions">
+            <ProjectMonthInboundStatusSelect
+              value={fullProjectMonth.details.inbound.status}
+              onChange={status => saveInbound({...inbound, status})}
             />
+            <div className="inbound-attachment-actions">
+              <AttachmentUploadPreviewButtons
+                isUploadDisabled={fullProjectMonth.details.inbound.status !== 'new'}
+                isPreviewDisabled={!hasInboundInvoiceBeenUploaded}
+                uploadTooltip={t('projectMonth.inboundUpload')}
+                previewTooltip={t('projectMonth.viewInboundInvoice', {fileName: inboundInvoiceDetails ? inboundInvoiceDetails.fileName : ''})}
+                onUpload={f => {
+                  if (!inbound.dateReceived) {
+                    setInbound({...inbound, dateReceived: moment()});
+                  }
+
+                  const inboundFileName = `{month}-{partner}-{consultant}-Proforma`
+                    .replace('{partner}', (fullProjectMonth.partner && fullProjectMonth.partner.name) || '')
+                    .replace('{client}', fullProjectMonth.client.name)
+                    .replace('{consultant}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`)
+                    .replace('{month}', fullProjectMonth.details.month.format('YYYY-MM'))
+                    + f.name.substring(f.name.lastIndexOf('.'));
+
+                  return dispatch(projectMonthUpload(f, InboundInvoiceAttachmentType, fullProjectMonth, inboundFileName) as any);
+                }}
+                downloadUrl={getInboundInvoiceDownloadUrl()}
+              />
+            </div>
           </div>
         </div>
-      </div>
-    )}
+      )}
+      {fullProjectMonth.details.inbound.proforma && (
+        <div className='inbound-proforma'>
+          <span>{t('projectMonth.proformaTitle')}</span>
+          <ProformaForecast fullProjectMonth={fullProjectMonth} />
+          <span>{t(`project.proforma.${fullProjectMonth.project.projectMonthConfig.proforma}`)}</span>
+          <div className="inbound-actions">
+            <ProjectMonthProformaStatusSelect
+              value={fullProjectMonth.details.inbound.proforma.status}
+              onChange={status => saveInbound({
+                ...inbound,
+                proforma: {
+                  ...inbound.proforma!,
+                  status
+                }
+              })}
+            />
+            <div className="inbound-attachment-actions">
+              <AttachmentUploadPreviewButtons
+                isUploadDisabled={fullProjectMonth.details.inbound.proforma.status !== 'new'}
+                isPreviewDisabled={!hasProformaInvoiceBeenUploaded}
+                uploadTooltip={t('projectMonth.proformaUpload')}
+                previewTooltip={t('projectMonth.viewProformaInvoice', {fileName: proformaInvoiceDetails ? proformaInvoiceDetails.fileName : ''})}
+                onUpload={f => {
+                  const forecastType = ['inboundWithTax', 'inboundWithoutTax'].includes(fullProjectMonth.project.projectMonthConfig.proforma) ? 'partner' : 'client';
+                  const proformaFileName = `{month}-{${forecastType}}-{consultant}-Invoice-Proforma`
+                    .replace('{partner}', (fullProjectMonth.partner && fullProjectMonth.partner.name) || '')
+                    .replace('{client}', fullProjectMonth.client.name)
+                    .replace('{consultant}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`)
+                    .replace('{month}', fullProjectMonth.details.month.format('YYYY-MM'))
+                    + f.name.substring(f.name.lastIndexOf('.'));
+
+                  return dispatch(projectMonthUpload(f, ProformaInvoiceAttachmentType, fullProjectMonth, proformaFileName) as any);
+                }}
+                downloadUrl={getProformaDownloadUrl()}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

@@ -493,10 +493,11 @@ export const trans = {
     },
 
     proforma: {
-      titleConfig: 'Client sends proforma invoice',
-      no: 'No',
-      withTax: 'Yes, inclusive tax',
-      withoutTax: 'Yes, exclusive tax',
+      no: 'No proforma invoice',
+      inboundWithTax: 'From partner incl tax',
+      inboundWithoutTax: 'From Partner excl tax',
+      outboundWithTax: 'From client incl tax',
+      outboundWithoutTax: 'From client excl tax',
     },
     partner: {
       clientId: 'Partner',
@@ -521,7 +522,7 @@ export const trans = {
       timesheetCheck: 'Timesheets: Check report',
       inboundInvoice: 'Has inbound invoice',
       changingOrderNr: 'Order nr changes for each invocie',
-      hasProforma: 'Client sends proforma invoice',
+      proforma: 'Proforma invoice',
     },
     copy: {
       buttonText: 'Verlenging',

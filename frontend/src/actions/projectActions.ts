@@ -6,7 +6,7 @@ import {buildUrl} from './utils/buildUrl';
 import t from '../trans';
 import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
-import {IProjectModel} from '../components/project/models/IProjectModel';
+import {IProjectModel, ProjectProforma} from '../components/project/models/IProjectModel';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
 import {TimesheetCheckAttachmentType} from '../models';
 import {authService} from '../components/users/authService';
@@ -16,6 +16,7 @@ import { EntityEventPayload } from '../components/socketio/EntityEventPayload';
 import { SocketEventTypes } from '../components/socketio/SocketEventTypes';
 import { store } from '../store';
 import moment from 'moment';
+
 
 export function saveProject(project: IProjectModel, navigate?: any, after: 'to-list' | 'to-details' = 'to-list') {
   return (dispatch: Dispatch) => {
@@ -45,14 +46,14 @@ export function saveProject(project: IProjectModel, navigate?: any, after: 'to-l
   };
 }
 
-export type sourceProjectData = {
+export type SourceProjectData = {
   projectId: string,
-  hasProforma?: boolean
+  proforma?: ProjectProforma,
 }
 
 
 /** Create projectMonths for all active projects in the month */
-export function createProjectsMonth(month: Moment, projectData: sourceProjectData[]) {
+export function createProjectsMonth(month: Moment, projectData: SourceProjectData[]) {
   return (dispatch: Dispatch) => request
     .post(buildUrl('/projects/month'))
     .set('Content-Type', 'application/json')

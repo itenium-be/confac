@@ -1,7 +1,7 @@
 import {BaseInputProps} from '../../controls/form-controls/inputs/BaseInput';
 import { t } from '../../utils';
 import { BaseSelect } from '../../controls/form-controls/select/BaseSelect';
-import { ProjectProformaOptions } from '../models/ProjectMonthModel';
+import { ProjectProformaOptions } from '../models/IProjectModel';
 
 type ProjectProformaSelectProps = BaseInputProps<string[]>
 
