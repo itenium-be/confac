@@ -57,7 +57,7 @@ export enum Claim {
   ViewProjectMonth = 'view-projectMonth',
   ValidateProjectMonth = 'validate-projectMonth',
   ValidateProjectMonthTimesheet = 'validate-projectMonthTimesheet',
-  ValidateProjectMonthInbound = 'validate-projectMonthTimesheetInbound',
+  ValidateProjectMonthInbound = 'validate-projectMonthInbound',
   CreateProjectMonth = 'create-projectMonth',
   EditProjectMonth = 'edit-projectMonth',
   DeleteProjectMonth = 'delete-projectMonth',
