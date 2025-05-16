@@ -1,7 +1,8 @@
 @import '../../../styles/variables.scss';
 
 $in-cell-margin: 12px;
-$cell-padding: 8px 8px;
+$cell-padding-amount: 8px;
+$cell-padding: $cell-padding-amount;
 
 
 .list-projectMonths {
@@ -265,6 +266,11 @@ $cell-padding: 8px 8px;
         @include attachment-upload-preview-buttons
       }
     }
+  }
+
+  .validated > .inbound-proforma:first-child {
+    // Inbound invoice with proform for a consultant
+    padding-top: $cell-padding-amount;
   }
 
   .inbound-proforma {
