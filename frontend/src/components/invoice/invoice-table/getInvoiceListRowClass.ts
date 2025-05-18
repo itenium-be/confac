@@ -7,6 +7,20 @@ export function getInvoiceListRowClass(invoice: InvoiceModel, invoicePayDays: nu
   return rowTableClassName;
 }
 
+export function getInvoiceDueDateStyle(invoice: InvoiceModel): React.CSSProperties {
+  const variant = getInvoiceDueDateVariant(invoice);
+  switch (variant) {
+    case 'danger':
+      return {backgroundColor: '#f8d7da'};
+    case 'warning':
+      return {backgroundColor: '#fff3cd'};
+    case 'info':
+      return {backgroundColor: '#cff4fc'};
+    default:
+      return {backgroundColor: 'rgba(40, 167, 69, 0.2)'};
+  }
+}
+
 /**
  * Gets the Bootstrap variant based on the Invoice due date
  */

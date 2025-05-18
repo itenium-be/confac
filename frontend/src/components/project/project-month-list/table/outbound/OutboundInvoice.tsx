@@ -3,17 +3,15 @@ import { InvoiceNumberCell } from '../../../../invoice/invoice-table/InvoiceNumb
 import { InvoiceListRowActions } from '../../../../invoice/invoice-table/InvoiceListRowActions';
 import { InvoiceEmail } from './InvoiceEmail';
 import InvoiceModel from '../../../../invoice/models/InvoiceModel';
-import { CSSProperties } from 'react';
 
 interface OutboundInvoiceProps {
   invoice: InvoiceModel;
-  toggleValid: (valid: boolean) => void;
   className?: string;
-  style?: CSSProperties
+  style?: React.CSSProperties;
 }
 
 
-export const OutboundInvoice = ({ invoice, toggleValid, className, style }: OutboundInvoiceProps) => {
+export const OutboundInvoice = ({ invoice, className, style }: OutboundInvoiceProps) => {
   return (
     <div className={`outbound-invoice-cell ${className || ''}`} style={style}>
       <div>
@@ -27,7 +25,7 @@ export const OutboundInvoice = ({ invoice, toggleValid, className, style }: Outb
         <InvoiceEmail invoice={invoice} />
       </div>
       <div className="icons-cell">
-        <InvoiceListRowActions invoice={invoice} toggleValid={toggleValid} small buttons={['validate', 'preview']} />
+        <InvoiceListRowActions invoice={invoice} small buttons={['validate', 'preview']} toggleBusy={false} />
       </div>
     </div>
   );

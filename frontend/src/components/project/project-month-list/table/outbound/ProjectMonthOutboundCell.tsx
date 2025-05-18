@@ -10,8 +10,7 @@ import { OutboundInvoice } from './OutboundInvoice';
 import { Claim } from '../../../../users/models/UserModel';
 import { useSelector } from 'react-redux';
 import { ConfacState } from '../../../../../reducers/app-state';
-import InvoiceModel from '../../../../invoice/models/InvoiceModel';
-import { getInvoiceDueDateVariant } from '../../../../invoice/invoice-table/getInvoiceListRowClass';
+import { getInvoiceDueDateStyle } from '../../../../invoice/invoice-table/getInvoiceListRowClass';
 
 
 interface ProjectMonthOutboundCellProps {
@@ -30,28 +29,8 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
   const [orderNr, setOrderNr/* , saveOrderNr */] = useDebouncedSave<string>(fullProjectMonth.details.orderNr || '', dispatcher);
 
 
-  const toggleValid = (verified: boolean | 'forced', invoice?: InvoiceModel) => {
-    if (!invoice) {
-      dispatch(patchProjectsMonth({...fullProjectMonth.details, verified}) as any);
-    }
-
-    if (verified === 'forced') {
-      dispatch(patchProjectsMonth({...fullProjectMonth.details, verified}) as any);
-    }
-
-    if (verified) {
-      dispatch(patchProjectsMonth({
-        ...fullProjectMonth.details,
-        verified: invoice!.creditNotas.every(invoiceId => fullProjectMonth.details.verifiedInvoices.includes(invoiceId)),
-        verifiedInvoices: [...fullProjectMonth.details.verifiedInvoices, invoice!._id]
-      }) as any);
-    } else {
-      dispatch(patchProjectsMonth({
-        ...fullProjectMonth.details,
-        verified,
-        verifiedInvoices: fullProjectMonth.details.verifiedInvoices.filter(n => n !== invoice!._id)
-      }) as any);
-    }
+  const toggleValid = (verified: boolean | 'forced') => {
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, verified}) as any);
   };
 
   const ValidityToggle = (
@@ -120,16 +99,9 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
           <OutboundInvoice
             key={i!.number}
             invoice={i!}
-            toggleValid={(valid) => toggleValid(valid, i!)}
-            className={
-              fullProjectMonth.details.verifiedInvoices.includes(i!._id) ?
-              'validated' :
-              `table-${getInvoiceDueDateVariant(i!)}`
-            }
-            style={{backgroundColor: !fullProjectMonth.details.verifiedInvoices.includes(i!._id) ? 'var(--bs-table-bg)' : undefined}}
+            style={getInvoiceDueDateStyle(i!)}
           />
-        ))
-      }
+        ))}
     </>
-  )
+  );
 };

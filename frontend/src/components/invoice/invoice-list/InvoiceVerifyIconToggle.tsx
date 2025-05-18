@@ -9,10 +9,10 @@ import {EnhanceWithClaim, EnhanceWithClaimProps} from '../../enhancers/EnhanceWi
 
 type InvoiceVerifyIconToggleProps = EnhanceWithClaimProps & {
   invoice: InvoiceModel,
-  toggleValid?: (valid: boolean) => void;
+  toggleBusy?: boolean,
 }
 
-export const InvoiceVerifyIconToggle = EnhanceWithClaim(({invoice, toggleValid, ...props}: InvoiceVerifyIconToggleProps) => {
+export const InvoiceVerifyIconToggle = EnhanceWithClaim(({invoice, toggleBusy, ...props}: InvoiceVerifyIconToggleProps) => {
   const dispatch = useDispatch();
   if (invoice.isQuotation) {
     return null;
@@ -22,14 +22,10 @@ export const InvoiceVerifyIconToggle = EnhanceWithClaim(({invoice, toggleValid, 
   const title = invoice.verified ? t('invoice.unverifyActionTooltip') : t('invoice.verifyActionTooltip', {days: daysPassed});
   return (
     <BusyVerifyIcon
+      withoutStoreBusy={!toggleBusy}
       model={invoice}
       style={{marginLeft: 8}}
-      onClick={() => {
-        dispatch(toggleInvoiceVerify(invoice) as any);
-        if (toggleValid) {
-          toggleValid(!invoice.verified);
-        }
-      }}
+      onClick={() => dispatch(toggleInvoiceVerify(invoice, toggleBusy) as any)}
       title={title}
       {...props}
     />

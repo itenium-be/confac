@@ -19,12 +19,11 @@ export interface ProjectMonthModel {
   timesheet: ProjectMonthTimesheet;
   inbound: ProjectMonthInbound;
   note?: string;
-  comments: IComment[]
+  comments: IComment[];
   /** The invoice orderNr when ProjectMonthConfig.changingOrderNr */
   orderNr: string;
   audit: IAudit;
   verified: ProjectMonthStatus;
-  verifiedInvoices: string[];
   attachments: Attachment[];
 }
 

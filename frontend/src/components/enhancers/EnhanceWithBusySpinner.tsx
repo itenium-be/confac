@@ -3,6 +3,11 @@ import {SpinnerIcon} from '../controls/Icon';
 
 
 type EnhanceWithBusySpinnerProps = {
+  /**
+   * Typically busy spinner requires the busyToggle to be dispatched
+   * For some components we don't do a global busyToggle
+   **/
+  withoutStoreBusy?: boolean,
   isBusy: boolean,
   onClick: Function,
   model: any,
@@ -27,8 +32,8 @@ export const EnhanceWithBusySpinner = <P extends object>(ComposedComponent: Reac
   }
 
   render() {
-    const {isBusy, onClick, model, ...props} = this.props;
-    if (isBusy && this.state.isBusy) {
+    const {isBusy, onClick, model, withoutStoreBusy, ...props} = this.props;
+    if ((isBusy || withoutStoreBusy) && this.state.isBusy) {
       return <SpinnerIcon style={{marginLeft: 0}} />;
     }
 

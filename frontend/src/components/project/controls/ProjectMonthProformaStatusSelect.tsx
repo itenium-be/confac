@@ -1,4 +1,3 @@
-import {CSSProperties} from 'react';
 import {ButtonGroup as ReactButtonGroup} from 'react-bootstrap';
 import {ProjectMonthProformaStatus} from '../models/ProjectMonthModel';
 import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';

@@ -124,14 +124,6 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
   }, {
     key: 'outbound',
     value: p => <ProjectMonthOutboundCell fullProjectMonth={p} />,
-    className: p => {
-      if (p.invoice) {
-        if (p.details.verified) {
-          return 'validated';
-        }
-      }
-      return undefined;
-    },
     footer: (models: FullProjectMonthModel[]) => {
       if (!models.length) {
         return null;

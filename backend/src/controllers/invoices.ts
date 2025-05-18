@@ -188,15 +188,6 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
   }
   await saveAudit(req, 'invoice', originalInvoice, invoice, ['projectMonth.consultantId']);
 
-  let projectMonth;
-  if (invoice?.projectMonth?.projectMonthId) {
-    // TODO: This should be a separate route once security is implemented
-    // Right now it is always updating the projectMonth.verified but this only changes when the invoice.verified changes
-    // This is now 'fixed' on the frontend.
-    projectMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
-      .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth.projectMonthId)}, {$set: {verified: invoice.verified}});
-  }
-
   const invoiceResponse = {_id, ...invoice};
   const result: Array<any> = [{
     type: 'invoice',
@@ -204,16 +195,60 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
   }];
   emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, invoiceResponse._id, invoiceResponse);
 
-  if (projectMonth && projectMonth.ok && projectMonth.value) {
-    const projectMonthResponse = projectMonth.value;
-    result.push({
-      type: 'projectMonth',
-      model: projectMonthResponse,
-    });
-    emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS_MONTH, projectMonthResponse._id, projectMonthResponse);
+  return res.send(result);
+};
+
+
+
+export const verifyInvoiceController = async (req: ConfacRequest, res: Response) => {
+  const {id, verified}: { id: string; verified: boolean; } = req.body;
+
+  const saveResult = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
+    .findOneAndUpdate({_id: new ObjectID(id)}, {$set: {verified}}, {returnOriginal: true});
+
+  if (!saveResult?.value) {
+    return res.status(404).send('Invoice not found');
   }
 
-  return res.send(result);
+  if (saveResult.value.verified === verified) {
+    return res.status(200).send();
+  }
+
+  const originalInvoice = saveResult.value;
+  const invoice = {...originalInvoice, verified};
+  await saveAudit(req, 'invoice', originalInvoice, invoice);
+
+  const result: Array<any> = [{
+    type: 'invoice',
+    model: invoice,
+  }];
+
+  emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, invoice._id, invoice);
+
+  if (invoice?.projectMonth?.projectMonthId) {
+    let shouldUpdateProjectMonth = true;
+    if (verified && invoice.creditNotas?.length) {
+      const creditNotes = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
+        .find({_id: {$in: invoice.creditNotas.map(id => new ObjectID(id))}})
+        .toArray();
+
+      shouldUpdateProjectMonth = creditNotes.every(creditNote => creditNote.verified);
+    }
+
+    if (shouldUpdateProjectMonth) {
+      const projectMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
+        .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth.projectMonthId)}, {$set: {verified}}, {returnOriginal: false});
+
+      emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS_MONTH, invoice.projectMonth.projectMonthId, projectMonth.value);
+
+      result.push({
+        type: 'projectMonth',
+        model: projectMonth.value,
+      });
+    }
+  }
+
+  return res.status(200).send(result);
 };
 
 

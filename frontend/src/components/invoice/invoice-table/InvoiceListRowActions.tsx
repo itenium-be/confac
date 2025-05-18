@@ -15,15 +15,14 @@ export type InvoiceListRowAction = 'comment' | 'edit' | 'validate' | 'download' 
 
 type InvoiceListRowActionsProps = {
   invoice: InvoiceModel;
-  /** When from the ProjectMonth listing, also update the state of the form there */
-  toggleValid?: (valid: boolean) => void;
+  toggleBusy?: boolean;
   /** Hides some buttons when true */
   small?: boolean;
   buttons?: InvoiceListRowAction[]
   hideEdit?: boolean
 }
 
-export const InvoiceListRowActions = ({invoice, toggleValid, small = false, buttons, hideEdit}: InvoiceListRowActionsProps) => {
+export const InvoiceListRowActions = ({invoice, small = false, buttons, hideEdit, toggleBusy}: InvoiceListRowActionsProps) => {
   const dispatch = useDispatch();
   const invoiceType = invoice.isQuotation ? 'quotation' : 'invoice';
 
@@ -54,7 +53,7 @@ export const InvoiceListRowActions = ({invoice, toggleValid, small = false, butt
         />
       )}
       {!hideEdit && (buttons?.includes('validate') ?? true) &&
-        <InvoiceVerifyIconToggle claim={Claim.ValidateInvoices} invoice={invoice} toggleValid={toggleValid} />
+        <InvoiceVerifyIconToggle claim={Claim.ValidateInvoices} invoice={invoice} toggleBusy={toggleBusy} />
       }
       {(buttons?.includes('download') ?? true) && !small &&
         <InvoiceDownloadIcon invoice={invoice} fileType='pdf' />

@@ -116,10 +116,33 @@ export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: stri
 
 
 
-export function toggleInvoiceVerify(data: InvoiceModel) {
-  const successMsg = data.verified ? t('invoice.isNotVerifiedConfirm') : t('invoice.isVerifiedConfirm');
-  const newData: InvoiceModel | any = {...data, verified: !data.verified};
-  return updateInvoiceRequest(newData, successMsg, false); // change andGoHome? also need 'navigate' from router
+export function toggleInvoiceVerify(data: InvoiceModel, toggleBusy = true) {
+  return dispatch => {
+    if (toggleBusy)
+      dispatch(busyToggle());
+
+    request.put(buildUrl('/invoices/verify'))
+      .set('Content-Type', 'application/json')
+      .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
+      .set('Accept', 'application/json')
+      .send({id: data._id, verified: !data.verified})
+      .then(res => {
+        if (res) {
+          dispatch({
+            type: ACTION_TYPES.MODELS_UPDATED,
+            payload: res.body,
+          });
+        }
+
+        success(data.verified ? t('invoice.isNotVerifiedConfirm') : t('invoice.isVerifiedConfirm'));
+      })
+      .catch(catchHandler)
+      .then(() => {
+        if (toggleBusy)
+          dispatch(busyToggle.off())
+      });
+  };
 }
 
 
