@@ -58,6 +58,10 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
     key: 'telephone',
     value: m => m.telephone,
   }, {
+    key: 'accountingCode',
+    value: m => m.accountingCode,
+    sort: (c, c1) => c.accountingCode.localeCompare(c1.accountingCode)
+  }, {
     key: 'buttons',
     header: {title: '', width: 110},
     value: m => (
