@@ -525,10 +525,10 @@ export const trans = {
       proforma: 'Proforma invoice',
     },
     copy: {
-      buttonText: 'Verlenging',
-      modalTitle: 'Verlenging Project',
-      startDate: 'Start datum',
-      endDate: 'Eind datum',
+      buttonText: 'Extension',
+      modalTitle: 'Project Extension',
+      startDate: 'Start date',
+      endDate: 'End date',
     },
   },
   projectMonth: {
