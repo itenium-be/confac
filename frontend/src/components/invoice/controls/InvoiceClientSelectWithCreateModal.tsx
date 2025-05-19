@@ -28,7 +28,7 @@ export const InvoiceClientSelectWithCreateModal = ({client, onChange, modalId, s
         onConfirm={(updatedClient: ClientModel) => onChange(updatedClient)}
       />
     )}
-    <SelectWithCreateButton claim={Claim.ManageClients} setModalId={setModalId} createButtonText="invoice.clientNew">
+    <SelectWithCreateButton claim={Claim.ManageClients} openCreateModal={() => setModalId('create')} createButtonText="invoice.clientNew">
       <ClientSelect
         label={t('invoice.client')}
         value={client && client._id}

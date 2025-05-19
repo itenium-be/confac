@@ -1,7 +1,6 @@
 import {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {ClientModel, ClientType} from '../models/ClientModels';
-import {ModalState} from '../../controls/Modal';
 import {ClientModal} from './ClientModal';
 import {ClientSelect} from './ClientSelect';
 import {t} from '../../utils';
@@ -28,7 +27,7 @@ export const EndCustomerSelectWithCreateModal = (props: ClientSelectWithCreateMo
 
 
 export const ClientSelectWithCreateModal = ({value, onChange, clientType = 'client'}: ClientSelectWithCreateModalProps) => {
-  const [modalId, setModalId] = useState<ModalState>(null);
+  const [modalOpen, setModalOpen] = useState(false);
   const client = useSelector((state: ConfacState) => state.clients
     .filter(c => clientType === undefined || c.types.includes(clientType))
     .find(c => c._id === value)
@@ -36,17 +35,17 @@ export const ClientSelectWithCreateModal = ({value, onChange, clientType = 'clie
 
   return (
     <>
-      {modalId && (
+      {modalOpen && (
         <ClientModal
-          clientId={modalId === 'create' ? null : (client?._id ?? null)}
+          clientId="create"
           newClientTypes={[clientType]}
           show
           title={t(`client.createNewModal.${clientType}`)}
-          onClose={() => setModalId(null)}
+          onClose={() => setModalOpen(false)}
           onConfirm={(model: ClientModel) => onChange(model._id, model)}
         />
       )}
-      <SelectWithCreateButton claim={Claim.ManageClients} setModalId={setModalId} createButtonText={`invoice.${clientType}New`}>
+      <SelectWithCreateButton claim={Claim.ManageClients} openCreateModal={() => setModalOpen(true)} createButtonText={`invoice.${clientType}New`}>
         <Form.Group className="form-group">
           <Form.Label>
             <span style={{marginRight: 8}}>{t(`invoice.${clientType}`)}</span>

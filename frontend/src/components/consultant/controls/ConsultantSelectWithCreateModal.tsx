@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {ModalState} from '../../controls/Modal';
 import {t} from '../../utils';
 import {ConsultantSelect} from './ConsultantSelect';
 import {ConsultantModel} from '../models/ConsultantModel';
@@ -15,20 +14,20 @@ import { ConsultantIconLinks } from "./ConsultantIconLinks";
 
 export const ConsultantSelectWithCreateModal = ({value, onChange}: SelectWithCreateModalProps<ConsultantModel>) => {
   const dispatch = useDispatch();
-  const [modalId, setModalId] = useState<ModalState>(null);
+  const [modalOpen, setModalOpen] = useState(false);
   const consultant = useSelector((state: ConfacState) => state.consultants.find(c => c._id === value));
 
   return (
     <>
-      {modalId && (
+      {modalOpen && (
         <ConsultantModal
-          consultant={modalId !== 'create' ? consultant : null}
+          consultant={null}
           show
-          onClose={() => setModalId(null)}
+          onClose={() => setModalOpen(false)}
           onConfirm={(model: ConsultantModel) => dispatch(saveConsultant(model, savedModel => onChange(savedModel._id, savedModel)) as any)}
         />
       )}
-      <SelectWithCreateButton claim={Claim.ManageConsultants} createButtonText="add" setModalId={setModalId}>
+      <SelectWithCreateButton claim={Claim.ManageConsultants} createButtonText="add" openCreateModal={() => setModalOpen(true)}>
         <Form.Group className="form-group">
           <Form.Label>
             <span style={{marginRight: 8}}>{t('project.consultant')}</span>

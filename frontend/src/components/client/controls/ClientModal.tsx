@@ -13,7 +13,7 @@ import { useClientState } from '../client-helpers';
 type ClientModalProps = BaseModalProps & {
   title?: string,
   onConfirm?: (client: ClientModel) => void,
-  clientId: null | string,
+  clientId: null | string | 'create',
   newClientTypes?: ClientType[];
 }
 

@@ -1,4 +1,3 @@
-import {ModalState} from '../../Modal';
 import {t} from '../../../utils';
 import {Button} from '../Button';
 import {Claim} from '../../../users/models/UserModel';
@@ -14,13 +13,13 @@ export type SelectWithCreateModalProps<TModel> = {
 
 type SelectWithCreateButtonProps = {
   children: any;
-  setModalId: (id: ModalState) => void;
+  openCreateModal: () => void;
   createButtonText: string;
   claim: Claim;
 }
 
 
-export const SelectWithCreateButton = ({claim, children, setModalId, createButtonText}: SelectWithCreateButtonProps) => (
+export const SelectWithCreateButton = ({claim, children, openCreateModal, createButtonText}: SelectWithCreateButtonProps) => (
   <div className="unset-split">
     <div>
       {children}
@@ -29,7 +28,7 @@ export const SelectWithCreateButton = ({claim, children, setModalId, createButto
       <Button
         className='tst-create'
         claim={{claim, or: 'disabled'}}
-        onClick={() => setModalId('create')}
+        onClick={openCreateModal}
         variant="light"
         size="sm"
         style={{position: 'absolute', bottom: 18, left: 5, width: '100%'}}
