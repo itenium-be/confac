@@ -24,7 +24,7 @@ services:
 
 
   app:
-    container_name: "confac-${ENVIRONMENT}-app-new"
+    container_name: "confac-${ENVIRONMENT}-app"
     build: .
     image: confac-app:${TAG}
     restart: always
