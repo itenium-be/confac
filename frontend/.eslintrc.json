@@ -99,7 +99,8 @@
       "overrides": {
         "arrow": {"before": true, "after": true}
       }
-    }]
+    }],
+    "@typescript-eslint/space-infix-ops": "error"
   },
   "overrides": [
     {

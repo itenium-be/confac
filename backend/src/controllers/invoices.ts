@@ -48,7 +48,7 @@ const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMo
   }
 
   const projectMonth = await db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).findOne({_id: projectMonthId});
-  const updatedAttachmentDetails = projectMonth ? [...invoice.attachments, ...projectMonth?.attachments] : invoice.attachments;
+  const updatedAttachmentDetails = projectMonth ? [...invoice.attachments, ...projectMonth.attachments] : invoice.attachments;
 
   const updateInvoiceResult = await db.collection<IInvoice>(CollectionNames.INVOICES)
     .findOneAndUpdate({_id: new ObjectID(invoice._id)}, {$set: {attachments: updatedAttachmentDetails}}, {returnOriginal: false});

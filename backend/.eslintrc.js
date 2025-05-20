@@ -30,7 +30,8 @@ module.exports = {
     "object-curly-spacing": [2, "never"],
     "import/extensions": [0],
     "import/prefer-default-export": [0],
-    "no-shadow": [1],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error",
     "no-multiple-empty-lines": ["error", { max: 7 }],
     "linebreak-style": [0],
     "max-len": [1, { "code": 140 }],
@@ -68,7 +69,8 @@ module.exports = {
       "overrides": {
         "arrow": {"before": true, "after": true}
       }
-    }]
+    }],
+    "@typescript-eslint/space-infix-ops": "error"
   },
   settings: {
     "import/resolver": {

@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import {Express, Request, Response} from 'express';
 import JSZip from 'jszip';
 import moment from 'moment';
 import {ObjectID} from 'mongodb';

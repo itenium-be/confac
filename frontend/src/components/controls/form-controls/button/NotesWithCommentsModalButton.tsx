@@ -151,7 +151,7 @@ type OpenModalButtonProps = {
 const OpenModalButton = ({includeBorder, variant, style, setOpen, commentAndNote}: OpenModalButtonProps) => {
   const users = useSelector((state: ConfacState) => state.user.users);
 
-  let tooltip = commentAndNote.note|| t('comment.addComment');
+  let tooltip = commentAndNote.note || t('comment.addComment');
   if (commentAndNote.comments?.length) {
     const lastComment = commentAndNote.comments.at(-1)!;
     const userName = users.find(u => u._id === lastComment.createdBy)?.alias;

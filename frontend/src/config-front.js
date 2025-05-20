@@ -5,5 +5,5 @@ if (process.env.NODE_ENV === 'production') {
   module.exports = {backend, baseUrl};
 } else {
   const baseUrl = 'http://localhost:9000';
-  module.exports = {backend: baseUrl+'/api',baseUrl};
+  module.exports = {backend: baseUrl + '/api',baseUrl};
 }
