@@ -4,15 +4,13 @@
 // https://github.com/ladjs/supertest
 // https://github.com/ladjs/superagent
 
-import { NextFunction, Request, Response } from 'express';
-import { Db, MongoClient } from 'mongodb';
-// import { MongoMemoryServer } from 'mongodb-memory-server';
-
-import request from 'supertest';
-import express from 'express';
-import projectsRouter from '../../routes/projects';
+import express, {NextFunction, Request, Response} from 'express';
+import {Db, MongoClient} from 'mongodb';
+// import {MongoMemoryServer} from 'mongodb-memory-server';
+import request from 'supertest'; // eslint-disable-line import/no-extraneous-dependencies
 import bodyParser from 'body-parser';
-import { SocketServerMock } from 'socket.io-mock-ts';
+import {SocketServerMock} from 'socket.io-mock-ts'; // eslint-disable-line import/no-extraneous-dependencies
+import projectsRouter from '../../routes/projects';
 
 
 
@@ -58,9 +56,9 @@ describe('projectsMonth controller', () => {
   //   expect(res.body.length).toBe(0);
   // });
 
-  it.skip("/month doesn't return older records", () => {})
+  it.skip('/month doesnt return older records', () => {});
 
   // afterAll(async () => {
   //   await connection.close();
   // });
-})
+});

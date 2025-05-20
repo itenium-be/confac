@@ -3,15 +3,13 @@
 // https://github.com/ladjs/supertest
 // https://github.com/ladjs/superagent
 
-import { NextFunction, Request, Response } from 'express';
-import { Db, MongoClient } from 'mongodb';
-// import { MongoMemoryServer } from 'mongodb-memory-server';
-
-import request from 'supertest';
-import express from 'express';
-import projectsRouter from '../../routes/projects';
+import express, {NextFunction, Request, Response} from 'express';
+import {Db, MongoClient} from 'mongodb';
+// import {MongoMemoryServer} from 'mongodb-memory-server';
+import request from 'supertest'; // eslint-disable-line import/no-extraneous-dependencies
 import bodyParser from 'body-parser';
-import { SocketServerMock } from 'socket.io-mock-ts';
+import {SocketServerMock} from 'socket.io-mock-ts'; // eslint-disable-line import/no-extraneous-dependencies
+import projectsRouter from '../../routes/projects';
 
 
 
@@ -60,18 +58,18 @@ describe('projectsMonth controller', () => {
 
   // POST createProjectsMonthController
   describe('createProjectsMonthController', () => {
-    it('... creates them?', () => {})
-  })
+    it('... creates them?', () => {});
+  });
 
 
   // PATCH patchProjectsMonthController
   describe('patchProjectsMonthController', () => {
-    it('update the db', () => {})
-    it('sets the audit on insert/update', () => {})
-    it('saves property updates to the db', () => {})
-  })
+    it('update the db', () => {});
+    it('sets the audit on insert/update', () => {});
+    it('saves property updates to the db', () => {});
+  });
 
   // afterAll(async () => {
   //   await connection.close();
   // });
-})
+});

@@ -8,15 +8,15 @@
 describe.skip('deleteInvoiceController', () => {
   it('deletes the invoice', () => {
 
-  })
+  });
 
   it('deletes the invoice attachments', () => {
 
-  })
+  });
 
   describe('when created from a projectMonth', () => {
     it('moves the attachments back to the projectMonth record', () => {
       // TODO: bug was here and it's fixed, but how can we be sure...
-    })
-  })
-})
+    });
+  });
+});

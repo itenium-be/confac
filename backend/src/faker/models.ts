@@ -1,5 +1,6 @@
-import { faker } from '@faker-js/faker';
-import { Db } from 'mongodb';
+/* eslint-disable import/no-extraneous-dependencies, prefer-template, no-console */
+import {faker} from '@faker-js/faker';
+import {Db} from 'mongodb';
 import slugify from 'slugify';
 
 
@@ -18,21 +19,19 @@ const defaultInvoiceLine = (clientPrice?: number) => ({
 });
 
 
-const getAudit = () => {
-  return {
-    createdOn: faker.datatype.datetime({max: new Date().valueOf()}),
-    createdBy: faker.name.firstName(),
-    modifiedOn: '',
-    modifiedBy: ''
-  }
-};
+const getAudit = () => ({
+  createdOn: faker.datatype.datetime({max: new Date().valueOf()}),
+  createdBy: faker.name.firstName(),
+  modifiedOn: '',
+  modifiedBy: '',
+});
 
 export function getNewClient() {
   const name = faker.company.name();
   return {
     slug: slugify(name).toLowerCase(),
     active: true,
-    name: name,
+    name,
     address: faker.address.street() + ' ' + faker.datatype.number({max: 2000}),
     city: faker.address.zipCode('####') + ' ' + faker.address.cityName(),
     country: faker.address.country(),
@@ -52,7 +51,7 @@ export function getNewClient() {
       subject: 'New Invoice',
       body: 'Your invoice attached!',
       attachments: ['pdf', 'Getekende timesheet'],
-      combineAttachments: false
+      combineAttachments: false,
     },
     language: 'en',
     frameworkAgreement: {
@@ -65,14 +64,14 @@ export function getNewClient() {
 
 
 const contractStatusses = [
-  "NoContract",
-  "Sent",
-  "Verified",
-  "WeSigned",
-  "TheySigned",
-  "BothSigned",
-  "NotNeeded",
-]
+  'NoContract',
+  'Sent',
+  'Verified',
+  'WeSigned',
+  'TheySigned',
+  'BothSigned',
+  'NotNeeded',
+];
 
 const consultantTypes = ['manager', 'consultant', 'freelancer', 'externalConsultant'];
 
@@ -80,8 +79,8 @@ export const getNewConsultant = () => {
   const firstName = faker.name.firstName();
   const name = faker.name.lastName();
   return {
-    name: name,
-    firstName: firstName,
+    name,
+    firstName,
     slug: slugify(firstName + '-' + name),
     type: faker.helpers.arrayElement(consultantTypes),
     email: faker.internet.email(),
@@ -116,7 +115,7 @@ export const getNewProjects = async (db: Db, config: ProjectConfig) => {
     defaultInvoiceLines: [defaultInvoiceLine(clientPrice)],
     advancedInvoicing: false,
     ref: faker.helpers.maybe(() => faker.datatype.string(faker.datatype.number({min: 3, max: 10})), {probability: 0.3}),
-  })
+  });
 
   const newProjects = Array(config.amount).fill(0).map(() => {
     const client = createClientOrPartner();
@@ -124,8 +123,11 @@ export const getNewProjects = async (db: Db, config: ProjectConfig) => {
       consultantId: faker.helpers.arrayElement(consultantIds),
       startDate: null,
       endDate: null,
-      client: client,
-      partner: faker.helpers.maybe(() => createClientOrPartner(client.defaultInvoiceLines[0].price), {probability: config.partnerProbability}),
+      client,
+      partner: faker.helpers.maybe(
+        () => createClientOrPartner(client.defaultInvoiceLines[0].price),
+        {probability: config.partnerProbability},
+      ),
       projectMonthConfig: {
         changingOrderNr: false,
         timesheetCheck: faker.datatype.boolean(),
@@ -135,7 +137,7 @@ export const getNewProjects = async (db: Db, config: ProjectConfig) => {
         status: faker.helpers.arrayElement(contractStatusses),
         notes: '',
       },
-      audit: getAudit()
+      audit: getAudit(),
     } as any;
 
     const oneYear = 31556952000;
@@ -156,7 +158,7 @@ export const getNewProjects = async (db: Db, config: ProjectConfig) => {
   });
 
   return newProjects;
-}
+};
 
 
 
@@ -167,7 +169,7 @@ export const getNewInvoices = async (db: Db, config: any) => {
   const clients = await db.collection('clients').find().toArray();
 
   if (!projectMonths.length) {
-    console.log('No projectMonths found! Create some through the UI!');
+    console.log('No projectMonths found! Create some through the UI!'); // eslint-disable-line
     return [];
   }
 
@@ -186,7 +188,7 @@ export const getNewInvoices = async (db: Db, config: any) => {
         month: projectMonth.month,
         consultantId: consultant._id,
         consultantName: consultant.firstName,
-    },
+      },
       client: {
         _id: client._id,
         slug: client.slug,
@@ -200,88 +202,86 @@ export const getNewInvoices = async (db: Db, config: any) => {
         invoiceFileName: client.invoiceFileName,
         hoursInDay: client.hoursInDay,
         defaultInvoiceLines: [{
-          desc: "Consultancy diensten",
-          price: price,
+          desc: 'Consultancy diensten',
+          price,
           amount: 0,
           tax: 21,
-          type: "daily",
-          sort: 0
+          type: 'daily',
+          sort: 0,
         }],
         attachments: [],
-        defaultInvoiceDateStrategy: "prev-month-last-day",
+        defaultInvoiceDateStrategy: 'prev-month-last-day',
         defaultChangingOrderNr: false,
         email: {
-          to: "AnkundingandSons_Rolfson@yahoo.com",
-          subject: "New Invoice",
-          body: "Your invoice attached!",
+          to: 'AnkundingandSons_Rolfson@yahoo.com',
+          subject: 'New Invoice',
+          body: 'Your invoice attached!',
           attachments: [
-              "pdf",
-              "Getekende timesheet"
+            'pdf',
+            'Getekende timesheet',
           ],
-          combineAttachments: false
+          combineAttachments: false,
         },
-        language: "en",
+        language: 'en',
         frameworkAgreement: {
-          status: "NoContract",
-          notes: ""
+          status: 'NoContract',
+          notes: '',
         },
         audit: {
-          createdOn: "2007-1228::44.695Z",
-          createdBy: "Isobel",
+          createdOn: '2007-1228::44.695Z',
+          createdBy: 'Isobel',
         },
-        contact: "",
-        contactEmail: ""
+        contact: '',
+        contactEmail: '',
       },
       your: {
-        name: "itenium",
-        address: "",
-        city: "",
-        btw: "",
-        rpr: "",
-        bank: "",
-        iban: "",
-        bic: "",
-        telephone: "",
-        email: "",
-        website: "https://itenium.be",
-        template: "example-1.pug",
-        templateQuotation: "example-1.pug"
+        name: 'itenium',
+        address: '',
+        city: '',
+        btw: '',
+        rpr: '',
+        bank: '',
+        iban: '',
+        bic: '',
+        telephone: '',
+        email: '',
+        website: 'https://itenium.be',
+        template: 'example-1.pug',
+        templateQuotation: 'example-1.pug',
       },
       date: faker.datatype.datetime({min: new Date('2018').valueOf(), max: new Date().valueOf()}).toISOString(),
       orderNr: faker.helpers.maybe(() => faker.datatype.string(faker.datatype.number({min: 3, max: 7})), {probability: 0.35}),
       verified: faker.datatype.boolean(),
-      attachments: [ { type: "pdf" } ],
+      attachments: [{type: 'pdf'}],
       isQuotation: false,
       lines: [{
-        desc: "Consultancy diensten",
-        price: price,
+        desc: 'Consultancy diensten',
+        price,
         amount: days,
         tax: 21,
-        type: "daily",
-        sort: 0
+        type: 'daily',
+        sort: 0,
       }],
       money: {
         totalWithoutTax: 0,
         totalTax: 0,
         discount: 0,
-        total: total,
-        totals: {
-          daily: total
-        }
+        total,
+        totals: {daily: total},
       },
-      note: "",
+      note: '',
       audit: {
         createdOn: '2023-03-05T22:25:57.860Z',
-        createdBy: 'Bearer PerfUser'
+        createdBy: 'Bearer PerfUser',
       },
-      lastEmail: faker.helpers.maybe(() => faker.datatype.datetime(), {probability: 0.7})
+      lastEmail: faker.helpers.maybe(() => faker.datatype.datetime(), {probability: 0.7}),
     };
 
     return invoice;
   });
 
   return newInvoices;
-}
+};
 
 
 
@@ -294,7 +294,7 @@ export async function insertAdminRole(db: Db) {
     const adminRole = {
       name: 'admin',
       claims: ['view-config', 'manage-config', 'view-users', 'manage-users', 'view-roles', 'manage-roles'],
-      audit: {}
+      audit: {},
     };
     await db.collection('roles').insertOne(adminRole);
     console.log('Admin role inserted');
@@ -364,7 +364,9 @@ export const defaultConfig = {
   attachmentTypes: [],
   defaultInvoiceDateStrategy: 'prev-month-last-day',
   invoicePayDays: 30,
-  email: {cc: '', bcc: '', subject: '', body: '', attachments: []},
+  email: {
+    cc: '', bcc: '', subject: '', body: '', attachments: [],
+  },
   emailSignature: '',
   emailReminder: '',
   emailReminderCc: '',

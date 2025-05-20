@@ -4,16 +4,14 @@
 
 import {Response} from 'express';
 import fs from 'fs';
-import {getTemplates} from '../config'
+import {getTemplates} from '../config';
 
 
 jest.mock('fs');
 const mockedFs: jest.Mocked<typeof fs> = jest.mocked(fs);
 
 const req = {} as any;
-const res = {
-  send: (x: string[]) => Promise.resolve(x)
-} as unknown as Response;
+const res = {send: (x: string[]) => Promise.resolve(x)} as unknown as Response;
 
 
 describe('config controller :: getTemplates', () => {
@@ -38,13 +36,13 @@ describe('config controller :: getTemplates', () => {
 
   it.skip('returns all pug files in root folder /templates when ENABLE_ROOT_TEMPLATES', async () => {
 
-  })
+  });
 
-  it.skip("doesn't return other file types", async () => {
+  it.skip('doesnt return other file types', async () => {
 
-  })
+  });
 
   it.skip('strips off the .pug extension', async () => {
 
-  })
-})
+  });
+});

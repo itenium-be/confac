@@ -38,6 +38,7 @@ module.exports = {
     "padded-blocks": [0],
     "object-curly-newline": ["error", { "ImportDeclaration": "never" }],
     "no-plusplus": [0],
+    "no-console": "warn",
     "arrow-parens": ["error", "as-needed"],
     "quotes": ["error", "single"],
     "@typescript-eslint/member-delimiter-style": ['error', {
@@ -57,7 +58,7 @@ module.exports = {
     "object-curly-newline": ["error", {
       "ObjectExpression": { "multiline": true, "minProperties": 4 },
       "ObjectPattern": { "multiline": true, "minProperties": 4 },
-      "ImportDeclaration": { "multiline": true, "minProperties": 5 },
+      "ImportDeclaration": { "multiline": true, "minProperties": 8 },
       "ExportDeclaration": { "multiline": true, "minProperties": 3 }
     }],
     "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 3 }],

@@ -22,9 +22,7 @@ const corsOptions = {
   credentials: true,
 };
 
-const io = new Server(server, {
-  cors: corsOptions
-});
+const io = new Server(server, {cors: corsOptions});
 
 sgMail.setApiKey(appConfig.SENDGRID_API_KEY);
 

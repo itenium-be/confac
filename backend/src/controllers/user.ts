@@ -3,12 +3,12 @@ import {Request, Response} from 'express';
 import {ObjectID} from 'mongodb';
 import {OAuth2Client, TokenPayload} from 'google-auth-library';
 import jwt from 'jsonwebtoken';
-import {CollectionNames, IAudit, SocketEventTypes, createAudit, updateAudit} from '../models/common';
+import {CollectionNames, SocketEventTypes, createAudit, updateAudit} from '../models/common';
 import config from '../config';
 import {IUser, IRole} from '../models/user';
 import {ConfacRequest} from '../models/technical';
 import {saveAudit} from './utils/audit-logs';
-import { emitEntityEvent } from './utils/entity-events';
+import {emitEntityEvent} from './utils/entity-events';
 
 const AdminRole = 'admin';
 
@@ -74,22 +74,42 @@ export const authUser = async (req: Request, res: Response) => {
       result.active = true;
       result.roles = result.roles.concat([AdminRole]);
       user = result;
-      await usersLogCollection.insertOne({user, login: 'success', msg: 'Superuser activated', date: logDate});
+      await usersLogCollection.insertOne({
+        user,
+        login: 'success',
+        msg: 'Superuser activated',
+        date: logDate,
+      });
     }
 
     await usersCollection.insert(result);
 
     if (!result.active) {
-      await usersLogCollection.insertOne({user: result, login: 'failure', msg: 'First login, user created but not yet activated', date: logDate});
+      await usersLogCollection.insertOne({
+        user: result,
+        login: 'failure',
+        msg: 'First login, user created but not yet activated',
+        date: logDate,
+      });
       return res.send({err: 'New user: not yet activated'});
     }
 
   } else if (!user.active) {
-    await usersLogCollection.insertOne({user, login: 'failure', msg: 'User has been de-activated in confac', date: logDate});
+    await usersLogCollection.insertOne({
+      user,
+      login: 'failure',
+      msg: 'User has been de-activated in confac',
+      date: logDate,
+    });
     return res.send({err: 'User no longer active'});
   }
 
-  await usersLogCollection.insertOne({user, login: 'success', msg: 'User logged in', date: logDate});
+  await usersLogCollection.insertOne({
+    user,
+    login: 'success',
+    msg: 'User logged in',
+    date: logDate,
+  });
   const ourToken = jwt.sign({data: user}, config.jwt.secret, {expiresIn: config.jwt.expiresIn});
   return res.status(200).send({jwt: ourToken});
 };

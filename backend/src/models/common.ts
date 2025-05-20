@@ -47,7 +47,7 @@ export function createAudit(user?: Jwt): IAudit {
 
 export function updateAudit(audit: IAudit, user: Jwt): IAudit {
   if (!audit) {
-    audit = createAudit();
+    audit = createAudit(); // eslint-disable-line no-param-reassign
   }
 
   const doNotSetModifiedWhenCreatedAgo = 1000 * 60 * 10; // 10 minutes

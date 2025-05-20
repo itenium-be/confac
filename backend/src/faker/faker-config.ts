@@ -1,4 +1,4 @@
-import { ProjectConfig } from './models';
+import {ProjectConfig} from './models';
 
 
 const projectConfig: ProjectConfig = {
@@ -21,7 +21,7 @@ const projectMonthsConfig = {
 const invoicesConfig = {
   // TODO: only works after having created some projectMonths (use UI)
   amount: 0,
-}
+};
 
 
 export const config = {

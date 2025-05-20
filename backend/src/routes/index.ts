@@ -27,7 +27,7 @@ const jwtMiddleware = () => jwt({
 });
 
 
-const fakeUserMiddleware = function (req: any, res: any, next: any) {
+const fakeUserMiddleware = (req: any, res: any, next: any) => {
   if (!req.user?.data) {
     let name = req.header('Authorization') || 'Jane Doe';
     name = name.replace(/^Bearer /, '');
@@ -37,20 +37,20 @@ const fakeUserMiddleware = function (req: any, res: any, next: any) {
       exp: 0,
       data: {
         _id: name,
-        email: name + '@itenium.be',
+        email: `${name}@itenium.be`,
         name: 'X',
         firstName: name,
         alias: name,
         active: true,
-      }
-    }
+      },
+    };
   }
   next();
-}
+};
 
 const withSecurity = !!config.security.clientId;
 if (withSecurity) {
-  console.log('Starting WITH security');
+  console.log('Starting WITH security'); // eslint-disable-line
   appRouter.use('/user', jwtMiddleware().unless({path: ['/api/user/login']}), userRouter);
   appRouter.use('/clients', jwtMiddleware(), clientsRouter);
   appRouter.use('/consultants', jwtMiddleware(), consultantsRouter);
@@ -61,7 +61,7 @@ if (withSecurity) {
 } else {
   appRouter.use(fakeUserMiddleware);
 
-  console.log('Starting WITHOUT security');
+  console.log('Starting WITHOUT security'); // eslint-disable-line
   appRouter.use('/user', [], userRouter);
   appRouter.use('/clients', [], clientsRouter);
   appRouter.use('/consultants', [], consultantsRouter);

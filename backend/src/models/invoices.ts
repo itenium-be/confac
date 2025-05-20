@@ -89,30 +89,34 @@ export const COUNTRY_CODES = [
   {code: 'NL', country: 'Nederland'},
   {code: 'FR', country: 'Frankrijk'},
   {code: 'DE', country: 'Duitsland'},
-  {code: 'GB', country: 'UK'}
-]
+  {code: 'GB', country: 'UK'},
+];
 
 /**
- * Endpoint scheme codes are a requirement for the e-invoice xml based on the peppol protocol and represent international commercial entity codes
+ * Endpoint scheme codes are a requirement for the e-invoice xml based on the peppol protocol and
+ * represent international commercial entity codes
  * more info on endpoint scheme codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/eas/ */
 export const ENDPOINT_SCHEMES = [
   {country: 'BE', schemeID: '9925'},
   {country: 'NL', schemeID: '9944'},
   {country: 'FR', schemeID: '9957'},
   {country: 'DE', schemeID: '9930'},
-  {country: 'GB', schemeID: '9932'}
+  {country: 'GB', schemeID: '9932'},
 ];
 
 /**
  * Unit codes are a requirement for the e-invoice xml based on the peppol protocol
  * more info on unit codes: more info on unit codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNECERec20/
  */
+type UnitCodes = {
+  unit: EditClientRateType;
+  code: string;
+};
 
-type UnitCodes = { unit: EditClientRateType, code: string };
 export const UNIT_CODES: UnitCodes[] = [
   {unit: 'daily', code: 'DAY'},
   {unit: 'hourly', code: 'HUR'},
   {unit: 'km', code: 'KMT'},
   {unit: 'items', code: 'NAR'},
-  {unit: 'other', code: 'C62'}
+  {unit: 'other', code: 'C62'},
 ];

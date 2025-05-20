@@ -2,13 +2,12 @@
 // Test an async (req, res) Express function
 // With manual Express mocks
 
-import { Request, Response } from 'express';
-import { ConfacRequest } from '../../models/technical';
-import { IAudit } from '../../models/common';
-import { IClient } from '../../models/clients'
-import { Jwt } from '../../models/technical'
-import { saveClient } from '../clients';
-import { SocketServerMock } from 'socket.io-mock-ts';
+import {Request, Response} from 'express';
+import {SocketServerMock} from 'socket.io-mock-ts'; // eslint-disable-line import/no-extraneous-dependencies
+import {ConfacRequest, Jwt} from '../../models/technical';
+import {IAudit} from '../../models/common';
+import {IClient} from '../../models/clients';
+import {saveClient} from '../clients';
 
 const fakeUser: Jwt = {
   data: {
@@ -21,21 +20,17 @@ const fakeUser: Jwt = {
   },
   iat: 0,
   exp: 0,
-}
+};
 
 const fakeClient: Partial<IClient> = {
   // _id: new ObjectID('xxx'),
   active: true,
   name: '',
   audit: {} as IAudit,
-}
+};
 
 
-const fakeDb = {
-  collection: (colName: string) => ({
-    insertOne: (client: any) => Promise.resolve({ops: [client]})
-  })
-}
+const fakeDb = {collection: (colName: string) => ({insertOne: (client: any) => Promise.resolve({ops: [client]})})};
 
 
 describe('clients controller :: saveClient creation', () => {
@@ -47,22 +42,19 @@ describe('clients controller :: saveClient creation', () => {
       io: new SocketServerMock() as any,
     } as ConfacRequest;
 
-    const res = {
-      send: (c: IClient) => Promise.resolve(c)
-    } as unknown as Response;
-
+    const res = {send: (c: IClient) => Promise.resolve(c)} as unknown as Response;
     const result = await saveClient(req, res);
     const createdClient = result as unknown as IClient;
 
     expect(createdClient.slug).toBe('company-x');
-  })
+  });
 
 
 
   it.skip('sets the client.audit', () => {
     // TODO: Production is burning, implement this later!!
-  })
-})
+  });
+});
 
 
 
@@ -71,10 +63,10 @@ describe('clients controller :: saveClient creation', () => {
 describe.skip('clients controller :: saveClient updating', () => {
   it('should update client.audit', () => {
 
-  })
+  });
 
   it('should insert full audit of the changes', () => {
     // TODO: Maybe this whole mongodb thing is a bit too much for our fakeDb...?
     // TODO: Or could test just the saveAudit function.
-  })
-})
+  });
+});

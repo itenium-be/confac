@@ -1,29 +1,29 @@
+/* eslint-disable object-curly-newline */
 // Exercises 2:
 // In memory mongodb testing
 // https://github.com/nodkz/mongodb-memory-server
 // https://github.com/shelfio/jest-mongodb (not used here)
 
-import { Request, Response } from 'express';
-import { Db, MongoClient } from 'mongodb';
-import { ConfacRequest } from '../../models/technical';
-import { IAudit } from '../../models/common';
-import { Jwt } from '../../models/technical'
-import { saveConsultant } from '../consultants';
-import { IConsultant } from '../../models/consultants';
-// import { MongoMemoryServer } from 'mongodb-memory-server';
-import { SocketServerMock } from 'socket.io-mock-ts';
+import {Request, Response} from 'express';
+import {Db, MongoClient} from 'mongodb';
+// import {MongoMemoryServer} from 'mongodb-memory-server';
+import {SocketServerMock} from 'socket.io-mock-ts';// eslint-disable-line import/no-extraneous-dependencies
+import {IAudit} from '../../models/common';
+import {Jwt, ConfacRequest} from '../../models/technical';
+import {saveConsultant} from '../consultants';
+import {IConsultant} from '../../models/consultants';
 
 const fakeUser: Jwt = {
-  data: { _id: '_id', email: 'string', firstName: 'first', name: 'name', alias: 'alias', active: true },
+  data: {_id: '_id', email: 'string', firstName: 'first', name: 'name', alias: 'alias', active: true},
   iat: 0, exp: 0,
-}
+};
 
 const fakeConsultant: Partial<IConsultant> = {
   _id: undefined,
   firstName: '',
   name: '',
   audit: {} as IAudit,
-}
+};
 
 const createFakeRequestAndResponse = (db: Db, consultant: Partial<IConsultant> | null = null) => {
   const req = {
@@ -34,11 +34,11 @@ const createFakeRequestAndResponse = (db: Db, consultant: Partial<IConsultant> |
   } as ConfacRequest;
 
   const res = {
-    send: (c: IConsultant) => Promise.resolve(c)
+    send: (c: IConsultant) => Promise.resolve(c),
   } as unknown as Response;
 
   return {req, res};
-}
+};
 
 describe('consultants controller :: saveConsultant', () => {
   // let mongoServer: MongoMemoryServer;
@@ -61,7 +61,7 @@ describe('consultants controller :: saveConsultant', () => {
   beforeEach(async () => {
     // Clean the db for each run?
     // await db.collection('consultants').deleteMany({});
-  })
+  });
 
   describe('creating a consultant', () => {
     // it('sets the consultant.slug', async () => {
@@ -91,16 +91,16 @@ describe('consultants controller :: saveConsultant', () => {
     it.skip('checks that the db record has expected name and firstName', async () => {
 
     });
-  })
+  });
 
   describe.skip('updating a consultant', () => {
     it('updates a consultant when it has an _id', () => {
 
-    })
+    });
 
     it('saves an audit record', () => {
 
-    })
+    });
   });
 
   // afterAll(async () => {
@@ -108,4 +108,4 @@ describe('consultants controller :: saveConsultant', () => {
   //   await mongoServer.stop();
   //   // await mongoServer.cleanup();
   // });
-})
+});

@@ -1,6 +1,7 @@
-import { Db } from 'mongodb';
-import { config } from './faker-config';
-import { getNewClient, getNewConsultant, getNewProjects, getNewProjectMonths, insertAdminRole, getNewInvoices } from './models';
+/* eslint-disable no-console */
+import {Db} from 'mongodb';
+import {config} from './faker-config';
+import {getNewClient, getNewConsultant, getNewProjects, getNewProjectMonths, insertAdminRole, getNewInvoices} from './models';
 
 export async function insertStuff(db: Db) {
   if (config.clients) {
@@ -26,7 +27,7 @@ export async function insertStuff(db: Db) {
     const newProjects = await getNewProjectMonths(db, config.projects);
     await db.collection('projects_month').insertMany(newProjects);
   }
-  
+
   if (config.invoices.amount) {
     console.log(`Inserting ${config.invoices.amount} invoices`);
     const newInvoices = await getNewInvoices(db, config.invoices);
@@ -34,7 +35,7 @@ export async function insertStuff(db: Db) {
   }
 
   if (config.roles) {
-    console.log(`Insert admin role?`);
+    console.log('Insert admin role?');
     await insertAdminRole(db);
   }
 }

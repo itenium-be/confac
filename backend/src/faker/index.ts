@@ -1,6 +1,7 @@
-import { MongoClient } from 'mongodb';
-import { insertStuff } from './insertStuff';
+/* eslint-disable no-console */
 import * as dotenv from 'dotenv';
+import {MongoClient} from 'mongodb';
+import {insertStuff} from './insertStuff';
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ const appConfig = {
 };
 
 const dbString = `${appConfig.db.host}:${appConfig.db.port} (${appConfig.db.db})`;
-console.log('Going to insert data @ ' + dbString);
+console.log(`Going to insert data @ ${dbString}`);
 
 
 let connectionString: string;
@@ -37,5 +38,4 @@ MongoClient.connect(connectionString, opts).then(async (client: MongoClient) => 
 
   client.close();
 })
-.catch((err: any) => console.log(`Could not connect to the database. More info: ${err}`));
-
+  .catch((err: any) => console.log(`Could not connect to the database. More info: ${err}`));

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {ObjectID} from 'mongodb';
 import {findActiveProjectsForSelectedMonth} from '../projects';
 import {IAudit} from '../../models/common';

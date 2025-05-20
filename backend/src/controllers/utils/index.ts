@@ -1,12 +1,11 @@
 import pdf from 'html-pdf';
 import pug from 'pug';
-
+import moment from 'moment';
+import {Invoice} from 'ubl-builder';
+import {TaxScheme} from 'ubl-builder/lib/ubl21/CommonAggregateComponents';
 import appConfig from '../../config';
 import locals from '../../pug-helpers';
 import {IInvoice} from '../../models/invoices';
-import moment from 'moment';
-import {Invoice} from 'ubl-builder';
-import {TaxScheme } from 'ubl-builder/lib/ubl21/CommonAggregateComponents';
 import {DEFAULT_CURRENCY} from '../config';
 import {
   createAccountingCustomerParty,
@@ -18,17 +17,11 @@ import {
   createPaymentMeans,
   createTaxObjects,
   createTaxTotal,
-  postProccess} from './peppol';
-import { XMLBuilder, XMLParser } from 'fast-xml-parser';
+  postProccess,
+} from './peppol';
 
 // See: https://github.com/marcbachmann/node-html-pdf/issues/531
-const pdfOptions = {
-  childProcessOptions: {
-    env: {
-      OPENSSL_CONF: '/dev/null',
-    },
-  }
-};
+const pdfOptions = {childProcessOptions: {env: {OPENSSL_CONF: '/dev/null'}}};
 
 
 export const convertHtmlToBuffer = (html: string): Promise<Buffer> => new Promise((resolve, reject) => {
@@ -93,9 +86,9 @@ export const getTemplatesPath = (): string => {
  *This method creates an invoice xml following UBL 2.1 standard, required for Peppol protocol.
   Check https://docs.peppol.eu/poacc/billing/3.0/ for full documentation.
  */
-export const createXml = (savedInvoice: IInvoice, pdf?: Buffer): string => {
+export const createXml = (savedInvoice: IInvoice, pdfBuffer?: Buffer): string => {
   const invoiceXml = new Invoice(savedInvoice.number.toString(), {
-    //This empty object is created to keep TypeScript from complaining, it has no influence on the generated xml
+    // This empty object is created to keep TypeScript from complaining, it has no influence on the generated xml
     issuer: {
       prefix: '',
       endDate: '',
@@ -103,13 +96,13 @@ export const createXml = (savedInvoice: IInvoice, pdf?: Buffer): string => {
       resolutionNumber: '',
       startDate: '',
       startRange: '',
-      technicalKey: ''
+      technicalKey: '',
     },
     software: {
       id: '',
       pin: '',
-      providerNit: ''
-    }
+      providerNit: '',
+    },
   });
   if (savedInvoice) {
     const currencyID = {currencyID: DEFAULT_CURRENCY};
@@ -123,7 +116,7 @@ export const createXml = (savedInvoice: IInvoice, pdf?: Buffer): string => {
     const paymentMeans = createPaymentMeans(savedInvoice);
     const orderReference = createOrderReference(savedInvoice);
 
-    const additionalDocumentReference = createAdditionalDocumentReference(pdf);
+    const additionalDocumentReference = createAdditionalDocumentReference(pdfBuffer);
 
     if (additionalDocumentReference) {
       invoiceXml.addAdditionalDocumentReference(additionalDocumentReference);
@@ -158,6 +151,6 @@ export const createXml = (savedInvoice: IInvoice, pdf?: Buffer): string => {
     });
   }
 
-  const xml = postProccess(invoiceXml, pdf, savedInvoice);
+  const xml = postProccess(invoiceXml, pdfBuffer, savedInvoice);
   return xml;
-}
+};
