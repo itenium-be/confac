@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "react-app"
+  ],
+  "rules": {
+    "semi": ["error", "always"],
+    "keyword-spacing": ["error", { "before": true }]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts?(x)"],
+      "rules": {}
+    }
+  ]
+}

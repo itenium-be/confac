@@ -30,7 +30,7 @@ export function updateConfig(newConfig: ConfigModel) {
 
 export function handleConfigSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
   return (dispatch: Dispatch) => {
-    switch(eventType) {
+    switch (eventType) {
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:
         dispatch({

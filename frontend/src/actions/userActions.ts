@@ -41,7 +41,7 @@ export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => v
 
 export function handleUserSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
   return (dispatch: Dispatch) => {
-    switch(eventType) {
+    switch (eventType) {
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:
         dispatch({
@@ -85,7 +85,7 @@ export function saveRole(role: RoleModel, callback?: (savedRole: RoleModel) => v
 
 export function handleRoleSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
   return (dispatch: Dispatch) => {
-    switch(eventType) {
+    switch (eventType) {
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:
         dispatch({

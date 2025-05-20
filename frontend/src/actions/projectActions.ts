@@ -256,7 +256,7 @@ export function deleteProjectMonthAttachmentDetails(projectMonth: ProjectMonthMo
 
 export function handleProjectSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
   return (dispatch: Dispatch) => {
-    switch(eventType) {
+    switch (eventType) {
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:
         dispatch({
@@ -278,7 +278,7 @@ export function handleProjectSocketEvents(eventType: SocketEventTypes, eventPayl
 
 export function handleProjectMonthSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
   return (dispatch: Dispatch) => {
-    switch(eventType) {
+    switch (eventType) {
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:
         if (Array.isArray(eventPayload.entity)) {
