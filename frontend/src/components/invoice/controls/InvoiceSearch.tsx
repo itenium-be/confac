@@ -14,7 +14,6 @@ import { InvoiceFiltersSearch, InvoiceListFilters } from '../../controls/table/t
 type InvoiceSearchProps = {
   filterOptions: InvoiceFiltersSearch[],
   onChange: (newFilter: InvoiceListFilters) => void,
-  isQuotation: boolean,
   filters: InvoiceListFilters,
   vm: InvoiceListModel,
 }

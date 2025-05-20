@@ -6,7 +6,6 @@ import {InvoiceSearch} from '../controls/InvoiceSearch';
 import {GroupedInvoiceTable} from '../invoice-table/GroupedInvoiceTable';
 import {NonGroupedInvoiceTable} from '../invoice-table/NonGroupedInvoiceTable';
 import {ConfacState} from '../../../reducers/app-state';
-import {ConfigModel} from '../../config/models/ConfigModel';
 import InvoiceModel from '../models/InvoiceModel';
 import {ClientModel} from '../../client/models/ClientModels';
 import {t} from '../../utils';
@@ -23,7 +22,6 @@ import { InvoiceListFilters } from '../../controls/table/table-models';
 
 
 type InvoiceListProps = {
-  config: ConfigModel,
   invoices: InvoiceModel[],
   clients: ClientModel[],
   consultants: ConsultantModel[],
@@ -78,7 +76,6 @@ export const InvoiceList = (props: InvoiceListProps) => {
         onChange={(newFilter: InvoiceListFilters) => props.updateInvoiceFilters(newFilter)}
         filterOptions={vm.getFilterOptions()}
         filters={props.filters}
-        isQuotation={vm.isQuotation}
         vm={vm}
       />
       <TableComponent config={featureConfig} />
@@ -91,6 +88,5 @@ export default connect((state: ConfacState) => ({
   invoices: state.invoices.filter(x => !x.isQuotation),
   clients: state.clients,
   filters: state.app.invoiceFilters,
-  config: state.config,
   consultants: state.consultants,
 }), {updateInvoiceFilters})(InvoiceList);

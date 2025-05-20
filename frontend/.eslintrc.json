@@ -78,7 +78,9 @@
     "react/no-string-refs": "error",
     "react/no-unknown-property": "error",
     "react/no-unsafe": "warn",
-    "react/no-unstable-nested-components": "error"
+    "react/no-unstable-nested-components": "error",
+    "react/no-unused-prop-types": "error",
+    "react/no-unused-state": "error"
   },
   "overrides": [
     {
