@@ -32,8 +32,8 @@ export type ListFilters = {
 }
 
 export const SortDirections = {
-  ASC: "asc",
-  DESC: "desc",
+  ASC: 'asc',
+  DESC: 'desc',
 } as const;
 export type SortDirection = typeof SortDirections[keyof typeof SortDirections];
 

@@ -1,6 +1,6 @@
 import { t } from '../../../../utils';
-import { ProjectMonthBadgeTotals } from "../ProjectMonthBadgeTotals";
-import {Tooltip} from "../../../../controls/Tooltip";
+import { ProjectMonthBadgeTotals } from '../ProjectMonthBadgeTotals';
+import {Tooltip} from '../../../../controls/Tooltip';
 
 export type TimesheetBadgeProps = {
   pending: boolean;

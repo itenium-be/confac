@@ -1,14 +1,14 @@
-import { useDispatch } from "react-redux";
-import { EmailTemplate } from "../../controls/email/EmailModal";
-import InvoiceModel from "../models/InvoiceModel";
-import { useSelector } from "react-redux";
-import { ConfacState } from "../../../reducers/app-state";
-import { Claim } from "../../users/models/UserModel";
-import { EditInvoiceSaveButtons } from "./EditInvoiceSaveButtons";
-import { createInvoice, previewInvoice, syncCreditNotas, updateInvoiceRequest } from "../../../actions";
-import { getNewClonedInvoice } from "../models/getNewInvoice";
-import { t } from "../../utils";
-import { Button } from "../../controls/form-controls/Button";
+import { useDispatch } from 'react-redux';
+import { EmailTemplate } from '../../controls/email/EmailModal';
+import InvoiceModel from '../models/InvoiceModel';
+import { useSelector } from 'react-redux';
+import { ConfacState } from '../../../reducers/app-state';
+import { Claim } from '../../users/models/UserModel';
+import { EditInvoiceSaveButtons } from './EditInvoiceSaveButtons';
+import { createInvoice, previewInvoice, syncCreditNotas, updateInvoiceRequest } from '../../../actions';
+import { getNewClonedInvoice } from '../models/getNewInvoice';
+import { t } from '../../utils';
+import { Button } from '../../controls/form-controls/Button';
 
 
 export type EditInvoiceFooterProps = {

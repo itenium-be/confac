@@ -33,7 +33,7 @@ import {ConsultantSelectWithCreateModal} from '../../../consultant/controls/Cons
 import {LanguageSelect} from '../../LanguageSelect';
 import {EditInvoiceLines} from '../../../invoice/invoice-edit/invoice-lines/EditInvoiceLines';
 import {RolesSelect} from '../../../users/RolesSelect';
-import {ClaimsSelect} from "../../../users/ClaimsSelect";
+import {ClaimsSelect} from '../../../users/ClaimsSelect';
 import {MonthPicker} from '../MonthPicker';
 import {ProjectSelect} from '../../../project/controls/ProjectSelect';
 import {ProjectMonthInboundStatusSelect} from '../../../project/controls/ProjectMonthInboundStatusSelect';

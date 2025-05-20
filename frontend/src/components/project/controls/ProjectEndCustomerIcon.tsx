@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { ClientModal } from "../../client/controls/ClientModal";
-import { ClientModel } from "../../client/models/ClientModels";
-import { Icon, IconProps } from "../../controls/Icon";
-import { ProjectEndCustomerModel } from "../models/IProjectModel";
+import { useState } from 'react';
+import { ClientModal } from '../../client/controls/ClientModal';
+import { ClientModel } from '../../client/models/ClientModels';
+import { Icon, IconProps } from '../../controls/Icon';
+import { ProjectEndCustomerModel } from '../models/IProjectModel';
 
 type ProjectEndCustomerIconProps = IconProps & {
   endCustomer: ProjectEndCustomerModel | null | undefined;
@@ -25,7 +25,7 @@ export const ProjectEndCustomerIcon = ({
     endCustomerClientModel?.name,
     endCustomer.contact,
     endCustomer.notes,
-  ].filter(Boolean).join("<br />");
+  ].filter(Boolean).join('<br />');
 
   return (
     <div>

@@ -1,12 +1,12 @@
-import { t } from "../utils";
-import { MeasurementsAccordion } from "./MeasurementsAccordion";
+import { t } from '../utils';
+import { MeasurementsAccordion } from './MeasurementsAccordion';
 
-import "./Home.scss";
+import './Home.scss';
 
 export const Home = () => {
   return (
     <>
-      <h1>{t("nav.home")}</h1>
+      <h1>{t('nav.home')}</h1>
       <MeasurementsAccordion />
     </>
   );

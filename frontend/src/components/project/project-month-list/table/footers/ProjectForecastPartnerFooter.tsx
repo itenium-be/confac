@@ -2,7 +2,7 @@ import moment from 'moment';
 import { t, moneyFormat } from '../../../../utils';
 import { FullProjectMonthModel } from '../../../models/FullProjectMonthModel';
 import { FullProjectModel } from '../../../models/FullProjectModel';
-import { getProjectForecast } from "./getProjectForecast";
+import { getProjectForecast } from './getProjectForecast';
 
 type ProjectForecastPartnerFooterProps = {
   models: FullProjectModel[] | FullProjectMonthModel[];

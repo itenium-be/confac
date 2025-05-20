@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 // Let's pretend this <Counter> component is expensive to re-render so ...
 // ... we wrap with React.memo, but we're still seeing performance issues :/
 // So we add useWhyDidYouUpdate and check our console to see what's going on.
@@ -58,7 +58,7 @@ export function useWhyDidYouUpdate(name, props) {
       });
       // If changesObj not empty then output to console
       if (Object.keys(changesObj).length) {
-        console.log("[why-did-you-update]", name, changesObj);
+        console.log('[why-did-you-update]', name, changesObj);
       }
     }
     // Finally update previousProps with current props for next hook call

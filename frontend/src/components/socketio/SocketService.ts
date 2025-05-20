@@ -1,15 +1,15 @@
-import { Dispatch } from "redux";
-import { io } from "socket.io-client";
+import { Dispatch } from 'redux';
+import { io } from 'socket.io-client';
 import {
   handleClientSocketEvents, handleConfigSocketEvents, handleConsultantSocketEvents, handleInvoiceSocketEvents,
   handleProjectMonthSocketEvents, handleProjectSocketEvents,
-} from "../../actions";
-import { SocketEventTypes } from "./SocketEventTypes";
-import { EntityEventPayload } from "./EntityEventPayload";
-import { t } from "../utils";
-import { toast } from "react-toastify";
-import { handleRoleSocketEvents, handleUserSocketEvents, } from "../../actions/userActions";
-import { baseUrl } from "../../config-front";
+} from '../../actions';
+import { SocketEventTypes } from './SocketEventTypes';
+import { EntityEventPayload } from './EntityEventPayload';
+import { t } from '../utils';
+import { toast } from 'react-toastify';
+import { handleRoleSocketEvents, handleUserSocketEvents, } from '../../actions/userActions';
+import { baseUrl } from '../../config-front';
 
 function createSocketService() {
   const socket = io(baseUrl);
@@ -17,7 +17,7 @@ function createSocketService() {
   let socketId: undefined | string = undefined;
   let initialized = false;
 
-  socket.on("connect", () => {
+  socket.on('connect', () => {
     console.log(`Socketio: Connected to server with id=${socket.id}`);
     socketId = socket.id;
   });
@@ -34,30 +34,30 @@ function createSocketService() {
           return;
         }
 
-        console.log("Socket.io: Received " + eventType, eventPayload);
+        console.log('Socket.io: Received ' + eventType, eventPayload);
         switch (eventPayload.entityType) {
-          case "clients":
+          case 'clients':
             dispatch(handleClientSocketEvents(eventType, eventPayload));
             break;
-          case "config":
+          case 'config':
             dispatch(handleConfigSocketEvents(eventType, eventPayload));
             break;
-          case "consultants":
+          case 'consultants':
             dispatch(handleConsultantSocketEvents(eventType, eventPayload));
             break;
-          case "invoices":
+          case 'invoices':
             dispatch(handleInvoiceSocketEvents(eventType, eventPayload));
             break;
-          case "projects":
+          case 'projects':
             dispatch(handleProjectSocketEvents(eventType, eventPayload));
             break;
-          case "projects_month":
+          case 'projects_month':
             dispatch(handleProjectMonthSocketEvents(eventType, eventPayload));
             break;
-          case "roles":
+          case 'roles':
             dispatch(handleRoleSocketEvents(eventType, eventPayload));
             break;
-          case "users":
+          case 'users':
             dispatch(handleUserSocketEvents(eventType, eventPayload));
             break;
           default:
@@ -100,11 +100,11 @@ function createSocketService() {
           return;
         }
         if (!!entityId && msg.entityId !== entityId) {
-          console.log("Socket.io: Event ignored for entityId subscription => entity id not match");
+          console.log('Socket.io: Event ignored for entityId subscription => entity id not match');
           return;
         }
         if (!!entityType && msg.entityType !== entityType) {
-          console.log("Socket.io: Event ignored for entityType subscription => entity type not match");
+          console.log('Socket.io: Event ignored for entityType subscription => entity type not match');
           return;
         }
         toastEntityChanged(eventType, msg);

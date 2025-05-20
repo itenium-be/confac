@@ -15,7 +15,7 @@ import {ProjectsList} from './components/project/ProjectsList';
 import {ConsultantsList} from './components/consultant/ConsultantsList';
 import {ProjectMonthsLists} from './components/project/project-month-list/ProjectMonthsLists';
 import {LoginPage} from './components/pages/login/LoginPage';
-import {UnauthicatedAppLayout} from "./components/pages/login/UnauthicatedAppLayout";
+import {UnauthicatedAppLayout} from './components/pages/login/UnauthicatedAppLayout';
 import {UserPage} from './components/pages/user/UserPage';
 import {UsersList} from './components/users/UsersList';
 import {EditUser} from './components/users/EditUser';

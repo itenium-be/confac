@@ -63,10 +63,10 @@ export const TextEditorReplacements = ({onChange, editorState, replacements}: Te
         <div
           className="rdw-option-wrapper"
           aria-selected={false}
-          title={t("config.invoiceReplacements.clearButton")}
+          title={t('config.invoiceReplacements.clearButton')}
           onClick={() => clearText()}
         >
-          {t("config.invoiceReplacements.clearButton")}
+          {t('config.invoiceReplacements.clearButton')}
         </div>
       </div>
     </>

@@ -1,5 +1,5 @@
-import moment from "moment";
-import { isDateIntervalValid, isProjectValid } from "../other/ProjectValidator";
+import moment from 'moment';
+import { isDateIntervalValid, isProjectValid } from '../other/ProjectValidator';
 
 describe('ProjectValidator is date inteval valid', () => {
   it('Should return true if start date is smaller then end date', () => {

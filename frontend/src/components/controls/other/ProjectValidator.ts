@@ -1,4 +1,4 @@
-import {Moment} from "moment";
+import {Moment} from 'moment';
 
 export const isDateIntervalValid = (startDate: Moment, endDate: Moment | undefined): boolean => {
   if (!endDate) {

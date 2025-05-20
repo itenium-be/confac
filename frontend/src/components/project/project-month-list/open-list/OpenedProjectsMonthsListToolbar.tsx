@@ -5,7 +5,7 @@ import { FullProjectMonthModel } from '../../models/FullProjectMonthModel';
 import { ProjectMonthListFilters } from '../../../controls/table/table-models';
 import { ConfacState } from '../../../../reducers/app-state';
 import { getDownloadUrl } from '../../../../actions/utils/download-helpers';
-import { displayMonthWithYear } from "../project-month-utils";
+import { displayMonthWithYear } from '../project-month-utils';
 import { AdvancedAttachmentDropzone } from '../../../controls/attachments/AdvancedAttachmentDropzone';
 import { projectsMonthOverviewUpload, deleteProjectsMonthOverview } from '../../../../actions';
 import { t } from '../../../utils';

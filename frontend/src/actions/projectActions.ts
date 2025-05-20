@@ -167,7 +167,7 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
         type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
         projectMonth: response.body,
       });
-      success(t("config.popupMessage"));
+      success(t('config.popupMessage'));
       // navigate('/projects');
     })
     .catch(catchHandler);

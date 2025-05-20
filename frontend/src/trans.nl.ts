@@ -386,7 +386,7 @@ export const trans = {
     createNewButton: 'Klant verder aanvullen',
     alreadyExists: 'Klant met btw {btw} bestaat reeds',
     name: 'Klant',
-    types: "Type(s)",
+    types: 'Type(s)',
     btw: 'BTW',
     address: 'Straat & Nr',
     city: 'Stad',

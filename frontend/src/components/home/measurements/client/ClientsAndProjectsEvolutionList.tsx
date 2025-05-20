@@ -1,6 +1,6 @@
-import { Table } from "react-bootstrap";
-import { t } from "../../../utils";
-import { DateRange } from "./ClientsAndProjectsEvolution";
+import { Table } from 'react-bootstrap';
+import { t } from '../../../utils';
+import { DateRange } from './ClientsAndProjectsEvolution';
 
 interface ClientsAndProjectsEvolutionListProps {
   dateRange: DateRange;
@@ -20,7 +20,7 @@ export const ClientsAndProjectsEvolutionList = ({ dateRange, clients, clientsWit
         </thead>
         <tbody>
           <tr>
-            <td>{`${dateRange.from.format("MM/YYYY")} - ${dateRange.to.format("MM/YYYY")}`}</td>
+            <td>{`${dateRange.from.format('MM/YYYY')} - ${dateRange.to.format('MM/YYYY')}`}</td>
             <td>{clients}</td>
             <td>{clientsWithProject}</td>
           </tr>

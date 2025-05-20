@@ -2,7 +2,7 @@ import {t} from '../../../../utils';
 import {TimesheetBadgeProps} from './TimesheetBadge';
 
 import './InboundBadge.scss';
-import {Tooltip} from "../../../../controls/Tooltip";
+import {Tooltip} from '../../../../controls/Tooltip';
 
 const AllInboundPaidBadge = (
   <span className="badge rounded-pill text-white bg-success">

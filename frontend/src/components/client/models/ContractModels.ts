@@ -1,11 +1,11 @@
 export enum ContractStatus {
-  NoContract = "NoContract",
-  Sent = "Sent",
-  Verified = "Verified",
-  WeSigned = "WeSigned",
-  TheySigned = "TheySigned",
-  BothSigned = "BothSigned",
-  NotNeeded = "NotNeeded",
+  NoContract = 'NoContract',
+  Sent = 'Sent',
+  Verified = 'Verified',
+  WeSigned = 'WeSigned',
+  TheySigned = 'TheySigned',
+  BothSigned = 'BothSigned',
+  NotNeeded = 'NotNeeded',
 }
 
 export type IContractModel = {

@@ -1,10 +1,10 @@
-import { useProjects } from "../../../hooks/useProjects";
-import { Table } from "react-bootstrap";
-import { t } from "../../../utils";
-import { FullProjectModel } from "../../../project/models/FullProjectModel";
-import { Link } from "react-router-dom";
-import { Container } from "react-bootstrap";
-import { Row } from "react-bootstrap";
+import { useProjects } from '../../../hooks/useProjects';
+import { Table } from 'react-bootstrap';
+import { t } from '../../../utils';
+import { FullProjectModel } from '../../../project/models/FullProjectModel';
+import { Link } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 
 export enum ContractType {
   All,
@@ -22,20 +22,20 @@ export const ConsultantContractsList = () => {
   return (
     <Container>
       <Row>
-        <Link to={`/projects`}>
-          <h5>{t("measurements.projectSection.consultantContracts.title")}</h5>
+        <Link to={'/projects'}>
+          <h5>{t('measurements.projectSection.consultantContracts.title')}</h5>
         </Link>
         <Table>
           <thead>
             <tr>
               <th scope="col">
-                {t("measurements.projectSection.consultantContracts.list.projectsWithoutContract")}
+                {t('measurements.projectSection.consultantContracts.list.projectsWithoutContract')}
               </th>
               <th scope="col">
-                {t("measurements.projectSection.consultantContracts.list.projectsWithoutWorkContract")}
+                {t('measurements.projectSection.consultantContracts.list.projectsWithoutWorkContract')}
               </th>
               <th scope="col">
-                {t("measurements.projectSection.consultantContracts.list.projectsWithoutFrameworkAgreements")}
+                {t('measurements.projectSection.consultantContracts.list.projectsWithoutFrameworkAgreements')}
               </th>
             </tr>
           </thead>

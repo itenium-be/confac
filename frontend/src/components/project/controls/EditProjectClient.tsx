@@ -4,7 +4,7 @@ import {getNewProjectClient} from '../models/getNewProject';
 import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
 import {FullFormConfig} from '../../../models';
 import {getNewInvoiceLine, InvoiceLine} from '../../invoice/models/InvoiceLineModels';
-import {DefaultHoursInDay} from "../../client/models/getNewClient";
+import {DefaultHoursInDay} from '../../client/models/getNewClient';
 
 /** Map Tariff & RateType to the client/partner.defaultInvoiceLines[0].price/type */
 const Bridge = ({value = [getNewInvoiceLine()], onChange}: MinimalInputProps<InvoiceLine[]>) => {

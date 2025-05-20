@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { authService } from '../../users/authService';
-import { Redirecter } from "./Redirecter";
+import { Redirecter } from './Redirecter';
 
 
 /** Entire page wrapper for pages when not logged in (ie login page) */

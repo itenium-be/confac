@@ -12,6 +12,9 @@
     "no-multiple-empty-lines": ["error", { "max": 8, "maxEOF": 1 }],
     "eol-last": ["error", "always"],
     "indent": ["error", 2, { "SwitchCase": 1 }],
+    "no-tabs": "error",
+    "quote-props": ["error", "as-needed", { "keywords": false, "unnecessary": true, "numbers": false }],
+    "quotes": ["error", "single", { "avoidEscape": true }],
     // "curly": ["error", "multi-line"]
     "dot-notation": ["error", { "allowKeywords": true }],
     "eqeqeq": ["error", "always", { "null": "ignore" }],
@@ -31,8 +34,8 @@
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": "error",
     "jsx-quotes": ["error", "prefer-double"],
-    "max-len": ["error", 160]
-    // "jsx-closing-tag-location": [1, {"location":"tag-aligned"}]
+    "max-len": ["error", 160],
+    "react/jsx-closing-tag-location": [1, {"location": "tag-aligned"}]
   },
   "overrides": [
     {

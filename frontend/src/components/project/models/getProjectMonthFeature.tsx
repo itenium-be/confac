@@ -10,8 +10,8 @@ import {ProjectMonthInboundCell} from '../project-month-list/table/inbound/Proje
 import {ProjectMonthOutboundCell} from '../project-month-list/table/outbound/ProjectMonthOutboundCell';
 import {ProjectMonthNotesCell} from '../project-month-list/table/ProjectMonthNotesCell';
 import {ConsultantCountFooter} from '../project-month-list/table/footers/ConsultantCountFooter';
-import { ProjectClientForecastFooter } from "../project-month-list/table/footers/ProjectClientForecastFooter";
-import {ProjectForecastPartnerFooter} from "../project-month-list/table/footers/ProjectForecastPartnerFooter";
+import { ProjectClientForecastFooter } from '../project-month-list/table/footers/ProjectClientForecastFooter';
+import {ProjectForecastPartnerFooter} from '../project-month-list/table/footers/ProjectForecastPartnerFooter';
 import {Switch} from '../../controls/form-controls/Switch';
 import { ProjectMonthInboundStatusOrder } from './ProjectMonthModel';
 

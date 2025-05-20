@@ -1,6 +1,6 @@
 /* eslint-disable import/order */
 /* eslint-disable import/first */
-import ReactDOM from "react-dom/client";
+import ReactDOM from 'react-dom/client';
 import {defaultLocale} from './components/utils';
 
 

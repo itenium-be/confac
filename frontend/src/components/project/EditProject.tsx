@@ -15,7 +15,7 @@ import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { Audit } from '../admin/audit/Audit';
 import { CopyProject } from './CopyProject';
 import { Claim } from '../users/models/UserModel';
-import { SingleContractIcon } from "../client/contract/SingleContractIcon";
+import { SingleContractIcon } from '../client/contract/SingleContractIcon';
 import { EnhanceWithConfirmation } from '../enhancers/EnhanceWithConfirmation';
 import { Button} from '../controls/form-controls/Button';
 import { isDateIntervalValid } from '../controls/other/ProjectValidator';

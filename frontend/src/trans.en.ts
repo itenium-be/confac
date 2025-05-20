@@ -386,7 +386,7 @@ export const trans = {
     createNewButton: 'Continue',
     alreadyExists: 'Client with tax nr {btw} already exists',
     name: 'Client',
-    types: "Type(s)",
+    types: 'Type(s)',
     btw: 'Tax',
     address: 'Street & Nr',
     city: 'City',

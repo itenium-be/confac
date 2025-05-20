@@ -1,6 +1,6 @@
-import { MonthPicker } from "../../controls/form-controls/MonthPicker";
-import { t } from "../../utils";
-import { DateRange } from "./client/ClientsAndProjectsEvolution";
+import { MonthPicker } from '../../controls/form-controls/MonthPicker';
+import { t } from '../../utils';
+import { DateRange } from './client/ClientsAndProjectsEvolution';
 
 interface PeriodPickerProps {
   dateRange: DateRange;
@@ -11,7 +11,7 @@ export const PeriodPicker = ({ dateRange, setDateRange }: PeriodPickerProps) => 
   return (
     <>
       <MonthPicker
-        label={t("measurements.from")}
+        label={t('measurements.from')}
         value={dateRange.from}
         onChange={(value) => {
           if (value && value < dateRange.to) {
@@ -21,7 +21,7 @@ export const PeriodPicker = ({ dateRange, setDateRange }: PeriodPickerProps) => 
       />
 
       <MonthPicker
-        label={t("measurements.to")}
+        label={t('measurements.to')}
         value={dateRange.to}
         onChange={(value) => {
           if (value && value > dateRange.from) {

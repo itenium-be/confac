@@ -1,4 +1,4 @@
-import { AuditChange } from "./audit-models";
+import { AuditChange } from './audit-models';
 
 /** Display an icon for the audit diff type */
 export const AuditChangeEntryIcon = (props: { diff: AuditChange; }) => {

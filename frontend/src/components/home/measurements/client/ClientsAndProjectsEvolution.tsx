@@ -1,15 +1,15 @@
-import { Row } from "react-bootstrap";
-import { ClientsAndProjectsEvolutionChart } from "./ClientsAndProjectsEvolutionChart";
-import { ClientsAndProjectsEvolutionList } from "./ClientsAndProjectsEvolutionList";
-import { Container } from "react-bootstrap";
-import { Col } from "react-bootstrap";
-import { useState } from "react";
-import moment, { Moment } from "moment";
-import { useSelector } from "react-redux";
-import { ConfacState } from "../../../../reducers/app-state";
-import { t } from "../../../utils";
-import { Link } from "react-router-dom";
-import { PeriodPicker } from "../PeriodPicker";
+import { Row } from 'react-bootstrap';
+import { ClientsAndProjectsEvolutionChart } from './ClientsAndProjectsEvolutionChart';
+import { ClientsAndProjectsEvolutionList } from './ClientsAndProjectsEvolutionList';
+import { Container } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
+import { useState } from 'react';
+import moment, { Moment } from 'moment';
+import { useSelector } from 'react-redux';
+import { ConfacState } from '../../../../reducers/app-state';
+import { t } from '../../../utils';
+import { Link } from 'react-router-dom';
+import { PeriodPicker } from '../PeriodPicker';
 
 export interface ClientChartData {
   year: number;
@@ -27,7 +27,7 @@ export interface DateRange {
 export const ClientsAndProjectsEvolution = () => {
   const [dateRange, setDateRange] = useState<DateRange>({
     from: moment(),
-    to: moment().add(11, "month"),
+    to: moment().add(11, 'month'),
   });
   const models = useSelector((state: ConfacState) => ({
     clients: state.clients,
@@ -37,9 +37,9 @@ export const ClientsAndProjectsEvolution = () => {
   const interim = dateRange.from.clone();
   const timeValues: Moment[] = [];
 
-  while (interim.startOf("month").isSameOrBefore(dateRange.to.endOf("month"))) {
+  while (interim.startOf('month').isSameOrBefore(dateRange.to.endOf('month'))) {
     timeValues.push(interim.clone());
-    interim.add(1, "month");
+    interim.add(1, 'month');
   }
 
   const dataSet: ClientChartData[] = timeValues.map((date) => {
@@ -48,7 +48,7 @@ export const ClientsAndProjectsEvolution = () => {
       /**month index starts from 0 for January */
       monthIndex: date.month(),
       /**format is localized up to 3 letters so Jan, Feb... */
-      month: date.format("MMM"),
+      month: date.format('MMM'),
       clients: null,
       clientsWithProjects: null,
     };
@@ -100,9 +100,9 @@ export const ClientsAndProjectsEvolution = () => {
   return (
     <Container>
       <Row>
-        <Link to={`/clients`}>
+        <Link to={'/clients'}>
           <h5>
-            {t("measurements.clientSection.clientsAndProjectsEvolution.title")}
+            {t('measurements.clientSection.clientsAndProjectsEvolution.title')}
           </h5>
         </Link>
         <ClientsAndProjectsEvolutionList

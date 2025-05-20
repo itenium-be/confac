@@ -122,7 +122,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
                     setInbound({...inbound, dateReceived: moment()});
                   }
 
-                  const inboundFileName = `{month}-{partner}-{consultant}-Proforma`
+                  const inboundFileName = '{month}-{partner}-{consultant}-Proforma'
                     .replace('{partner}', (fullProjectMonth.partner && fullProjectMonth.partner.name) || '')
                     .replace('{client}', fullProjectMonth.client.name)
                     .replace('{consultant}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`)

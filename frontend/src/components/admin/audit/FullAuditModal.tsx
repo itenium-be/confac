@@ -5,7 +5,7 @@ import { buildRequest, failure } from '../../../actions';
 import { Modal } from '../../controls/Modal';
 import { SearchStringInput } from '../../controls/form-controls/inputs/SearchStringInput';
 import { AuditProps } from './Audit';
-import { AuditLog } from "./audit-models";
+import { AuditLog } from './audit-models';
 import { AuditChangeEntry } from './AuditChangeEntry';
 
 type FullAuditModalProps = AuditProps & {

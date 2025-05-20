@@ -3,7 +3,7 @@ import moment from 'moment';
 import { formatDate, t } from '../../utils';
 import { ConfacState } from '../../../reducers/app-state';
 import { AuditChangeEntryIcon } from './AuditChangeEntryIcon';
-import { AuditLog, AuditModelTypes } from "./audit-models";
+import { AuditLog, AuditModelTypes } from './audit-models';
 
 import './audit.scss';
 

@@ -58,7 +58,7 @@ export const LoginPage = (props: any) => {
         <GoogleLogin
           onSuccess={(res) => authService.login(res, dispatch, setState)}
           onError={() => {
-            setState("user.loginError");
+            setState('user.loginError');
             console.log("google-login-failure"); // eslint-disable-line
           }}
         />

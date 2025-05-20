@@ -1,13 +1,13 @@
-import { Col } from "react-bootstrap";
-import InvoiceModel from "../models/InvoiceModel";
-import { EditInvoiceClient } from "./EditInvoiceClient";
-import { Row } from "react-bootstrap";
-import { EditInvoiceDetails } from "./EditInvoiceDetails";
-import { ProjectMonthOrManualSelect } from "../../project/controls/ProjectMonthOrManualSelect";
-import { EditInvoiceLines } from "./invoice-lines/EditInvoiceLines";
-import { Claim } from "../../users/models/UserModel";
-import { InvoiceCreditNotas } from "../controls/InvoiceCreditNotas";
-import { InvoiceAttachmentsForm } from "../controls/InvoiceAttachmentsForm";
+import { Col } from 'react-bootstrap';
+import InvoiceModel from '../models/InvoiceModel';
+import { EditInvoiceClient } from './EditInvoiceClient';
+import { Row } from 'react-bootstrap';
+import { EditInvoiceDetails } from './EditInvoiceDetails';
+import { ProjectMonthOrManualSelect } from '../../project/controls/ProjectMonthOrManualSelect';
+import { EditInvoiceLines } from './invoice-lines/EditInvoiceLines';
+import { Claim } from '../../users/models/UserModel';
+import { InvoiceCreditNotas } from '../controls/InvoiceCreditNotas';
+import { InvoiceAttachmentsForm } from '../controls/InvoiceAttachmentsForm';
 
 export type EditInvoiceBodyProps = {
   invoice: InvoiceModel,
