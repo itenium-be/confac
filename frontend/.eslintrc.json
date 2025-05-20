@@ -49,7 +49,11 @@
     "react/jsx-closing-bracket-location": ["error"],
     "react/jsx-curly-brace-presence": ["error", "never"],
     "react/jsx-curly-newline": ["error", "consistent"],
-    "react/jsx-curly-spacing": ["error"]
+    "react/jsx-curly-spacing": ["error"],
+    "react/jsx-equals-spacing": "error",
+    "react/jsx-first-prop-new-line": ["error", "multiline"],
+    "react/jsx-fragments": "error",
+    "react/jsx-key": "error"
   },
   "overrides": [
     {

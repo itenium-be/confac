@@ -8,7 +8,7 @@ type InvoiceReplacementsTextEditorProps = BaseInputProps<string>;
 
 export const InvoiceReplacementsTextEditor = (props: InvoiceReplacementsTextEditorProps) => {
   const getToolbarCustomButtons = (editorState: EditorState) => (
-    [<TextEditorReplacements editorState={editorState} replacements={invoiceReplacementsPopoverConfig} />]
+    [<TextEditorReplacements key="replacements" editorState={editorState} replacements={invoiceReplacementsPopoverConfig} />]
   );
 
   return (
