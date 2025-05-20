@@ -80,7 +80,8 @@
     "react/no-unsafe": "warn",
     "react/no-unstable-nested-components": "error",
     "react/no-unused-prop-types": "error",
-    "react/no-unused-state": "error"
+    "react/no-unused-state": "error",
+    "react/self-closing-comp": "error"
   },
   "overrides": [
     {
