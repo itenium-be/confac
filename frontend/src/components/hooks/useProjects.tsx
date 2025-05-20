@@ -100,7 +100,12 @@ export function projectMonthResolve(confacState: ProjectMonthResolverState): Ful
 }
 
 
-export function mapToProjectMonth(confacState: ProjectMonthResolverState, projectMonth: ProjectMonthModel, invoice?: InvoiceModel): null | FullProjectMonthModel {
+export function mapToProjectMonth(
+  confacState: ProjectMonthResolverState,
+  projectMonth: ProjectMonthModel,
+  invoice?: InvoiceModel
+): null | FullProjectMonthModel {
+
   const project = confacState.projects.find(p => p._id === projectMonth.projectId);
   if (!project) {
     return null;

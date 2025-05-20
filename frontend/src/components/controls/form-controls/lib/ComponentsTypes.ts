@@ -1,7 +1,8 @@
 type CustomComponents = 'InvoiceLineTypeSelect' | 'ProjectLineTypeSelect' | 'InvoiceDateStrategySelect' | 'PropertiesSelect'
-  | 'ExtraFields' | 'StringsSelect' | 'ClientSelect' | 'ClientTypeSelect' | 'ConsultantTypeSelect' | 'EditProjectClient' | 'EditProjectEndCustomer' | 'ProjectSelect'
+  | 'ExtraFields' | 'StringsSelect' | 'ClientSelect' | 'ClientTypeSelect' | 'ConsultantTypeSelect' | 'EditProjectClient'
+  | 'EditProjectEndCustomer' | 'ProjectSelect' | 'RolesSelect' | 'ClaimsSelect'
   | 'ConsultantSelectWithCreateModal' | 'InvoiceReplacementsInput' | 'InvoiceReplacementsTextEditor' | 'EditProjectClientAsEndCustomer'
-  | 'PartnerSelectWithCreateModal' | 'EndCustomerSelectWithCreateModal' | 'LanguageSelect' | 'EditInvoiceLines' | 'RolesSelect' | 'ClaimsSelect'
+  | 'PartnerSelectWithCreateModal' | 'EndCustomerSelectWithCreateModal' | 'LanguageSelect' | 'EditInvoiceLines'
   | 'ProjectMonthInboundStatusSelect' | 'ProjectMonthStatusSelect' | 'AttachmentsTypeSelect' | 'EditProjectPartner'
   | 'ClientSelectWithCreateModal' | 'ContractStatusWithNotes' | 'ProjectClientContractStatus' | 'CountrySelect' | 'ProjectProformaSelect';
 

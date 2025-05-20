@@ -160,7 +160,8 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
                 uploadTooltip={t('projectMonth.proformaUpload')}
                 previewTooltip={t('projectMonth.viewProformaInvoice', {fileName: proformaInvoiceDetails ? proformaInvoiceDetails.fileName : ''})}
                 onUpload={f => {
-                  const forecastType = ['inboundWithTax', 'inboundWithoutTax'].includes(fullProjectMonth.project.projectMonthConfig.proforma) ? 'partner' : 'client';
+                  const isPartner = ['inboundWithTax', 'inboundWithoutTax'].includes(fullProjectMonth.project.projectMonthConfig.proforma);
+                  const forecastType = isPartner ? 'partner' : 'client';
                   const proformaFileName = `{month}-{${forecastType}}-{consultant}-Invoice-Proforma`
                     .replace('{partner}', (fullProjectMonth.partner && fullProjectMonth.partner.name) || '')
                     .replace('{client}', fullProjectMonth.client.name)

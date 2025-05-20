@@ -13,7 +13,9 @@ import {MoneyInput} from '../inputs/MoneyInput';
 import {Switch} from '../Switch';
 import {ClientSelect} from '../../../client/controls/ClientSelect';
 import {ClientTypeSelect} from '../../../client/controls/ClientTypeSelect';
-import {ClientSelectWithCreateModal, EndCustomerSelectWithCreateModal, PartnerSelectWithCreateModal} from '../../../client/controls/ClientSelectWithCreateModal';
+import {
+  ClientSelectWithCreateModal, EndCustomerSelectWithCreateModal, PartnerSelectWithCreateModal,
+} from '../../../client/controls/ClientSelectWithCreateModal';
 import {FloatInput} from '../inputs/FloatInput';
 import {StringsSelect} from '../select/StringsSelect';
 import {BtwInput} from '../inputs/BtwInput';
