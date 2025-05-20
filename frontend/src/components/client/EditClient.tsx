@@ -75,6 +75,6 @@ const EditClient = () => {
       </StickyFooter>
     </Container>
   );
-}
+};
 
 export default EditClient;

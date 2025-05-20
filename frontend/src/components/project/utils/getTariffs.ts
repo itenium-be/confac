@@ -21,4 +21,4 @@ export const compareTariffs = (t1: ProjectClientTariff, t2: ProjectClientTariff)
   const t1Tariff = t1.tariff * (t1.rateType === 'hourly' ? DefaultHoursInDay : 1);
   const t2Tariff = t2.tariff * (t2.rateType === 'hourly' ? DefaultHoursInDay : 1);
   return t1Tariff - t2Tariff;
-}
+};

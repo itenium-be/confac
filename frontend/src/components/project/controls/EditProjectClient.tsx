@@ -107,4 +107,4 @@ export const EditProjectEndCustomer = ({value, onChange}: EditProjectEndCustomer
   }
 
   return <ArrayInput config={endCustomerConfig} model={projectEndCustomer} onChange={onChange} tPrefix="project.endCustomer." />;
-}
+};

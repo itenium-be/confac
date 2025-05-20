@@ -38,8 +38,8 @@ export const InvoiceListRowActions = ({invoice, small = false, buttons, hideEdit
               ...invoice,
               note: val.note || '',
               comments: val.comments
-            })
-            dispatch(updateInvoiceRequest(updatedInvoice, undefined, false) as any)
+            });
+            dispatch(updateInvoiceRequest(updatedInvoice, undefined, false) as any);
           }}
           title={t('client.comments')}
           style={{marginRight: invoice.isQuotation ? undefined : -5}}

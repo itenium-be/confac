@@ -83,7 +83,7 @@ export const ClaimGuardSwitch = ({feature, children}: ClaimGuardSwitchProps) => 
   }
 
   return null;
-}
+};
 
 
 

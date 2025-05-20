@@ -51,5 +51,5 @@ export function handleClientSocketEvents(eventType: SocketEventTypes, eventPaylo
       default:
         throw new Error(`${eventType} not supported for client.`);
     }
-  }
+  };
 }

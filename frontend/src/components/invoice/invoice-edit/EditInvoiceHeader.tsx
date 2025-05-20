@@ -48,5 +48,5 @@ export const EditInvoiceHeader = ({invoice, onChange}: EditInvoiceHeaderProps) =
         <InvoiceNotVerifiedAlert invoice={invoice} />
       </Col>
     </>
-  )
-}
+  );
+};

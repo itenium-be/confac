@@ -57,5 +57,5 @@ export function handleConsultantSocketEvents(
       default:
         throw new Error(`${eventType} not supported for consultant.`);
     }
-  }
+  };
 }

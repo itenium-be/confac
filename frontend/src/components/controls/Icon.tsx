@@ -96,7 +96,7 @@ const IconComponent = ({fa, onClick, href, dispatch, className, label, labelStyl
   }
 
   return FinalIcon;
-}
+};
 
 
 export const SpinnerIcon = ({...props}: IconProps) => (
@@ -113,7 +113,7 @@ export const ExpandIcon = ({...props}: IconProps) => <Icon className="tst-expand
 
 const ClaimSpan = EnhanceWithClaim(({children, ...props}: any) => {
   return <span {...props}>{children}</span>;
-})
+});
 
 export const NotEmailedIcon = ({...props}) => (
   <ClaimSpan

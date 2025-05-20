@@ -41,7 +41,7 @@ function useConsultantProjects(): ConsultantProject[] {
   }));
 
   const result = consultants.reduce((acc, consultant) => {
-    const consultantProjects = projects.filter(x => x.consultantId === consultant._id)
+    const consultantProjects = projects.filter(x => x.consultantId === consultant._id);
 
     if (consultantProjects.length) {
       acc = acc.concat(consultantProjects.map(project => ({

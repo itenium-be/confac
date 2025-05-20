@@ -273,7 +273,7 @@ export function handleProjectSocketEvents(eventType: SocketEventTypes, eventPayl
       default:
         throw new Error(`${eventType} not supported for project.`);
     }
-  }
+  };
 }
 
 export function handleProjectMonthSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
@@ -326,5 +326,5 @@ export function handleProjectMonthSocketEvents(eventType: SocketEventTypes, even
       default:
         throw new Error(`${eventType} not supported for project month.`);
     }
-  }
+  };
 }

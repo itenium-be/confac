@@ -212,7 +212,7 @@ describe('Switch between days and hours', () => {
 
 
 function createViewModelWithDateStrategy(strat: InvoiceDateStrategy) {
-  const config = {...defaultConfig, defaultInvoiceDateStrategy: strat}
+  const config = {...defaultConfig, defaultInvoiceDateStrategy: strat};
   const client = getNewClient(config);
   const vm = createNew(config, client);
   vm.date = moment('2017-02-01'); // has 20 working days
@@ -227,7 +227,7 @@ describe('Invoice date new month from the 22th', () => {
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2024-05-31');
-  })
+  });
 
   it('Should be 31 december when date is 10 januari', () => {
     const vm = createViewModelWithDateStrategy('new-month-from-22th');
@@ -235,7 +235,7 @@ describe('Invoice date new month from the 22th', () => {
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2023-12-31');
-  })
+  });
 
   it('Should be 30 june month when date is 30 june', () => {
     const vm = createViewModelWithDateStrategy('new-month-from-22th');
@@ -243,7 +243,7 @@ describe('Invoice date new month from the 22th', () => {
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2024-06-30');
-  })
+  });
 
   it('Should be 29 februari month when date is 29 februari', () => {
     const vm = createViewModelWithDateStrategy('new-month-from-22th');
@@ -251,7 +251,7 @@ describe('Invoice date new month from the 22th', () => {
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2024-02-29');
-  })
+  });
 
   it('Should be 31 januari month when date is 31 januari', () => {
     const vm = createViewModelWithDateStrategy('new-month-from-22th');
@@ -259,7 +259,7 @@ describe('Invoice date new month from the 22th', () => {
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2024-01-31');
-  })
+  });
 
   it('Should be 1 june month when date is 22 june', () => {
     const vm = createViewModelWithDateStrategy('new-month-from-22th');
@@ -267,7 +267,7 @@ describe('Invoice date new month from the 22th', () => {
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2024-06-01');
-  })
+  });
 
   it('Should be 1 januari month when date is 22 januari', () => {
     const vm = createViewModelWithDateStrategy('new-month-from-22th');
@@ -275,5 +275,5 @@ describe('Invoice date new month from the 22th', () => {
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2024-01-01');
-  })
-})
+  });
+});

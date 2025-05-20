@@ -94,7 +94,7 @@ export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: stri
         invoiceToUpdate.creditNotas = [];
         dispatch(updateInvoiceRequest(invoiceToUpdate, null, false) as any);
       }
-    })
+    });
 
     invoice.creditNotas.forEach(creditNota => {
       const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i._id === creditNota));
@@ -109,9 +109,9 @@ export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: stri
           dispatch(updateInvoiceRequest(invoiceToUpdate, null, false) as any);
         }
       }
-    })
-  }
-}
+    });
+  };
+};
 
 
 
@@ -140,7 +140,7 @@ export function toggleInvoiceVerify(data: InvoiceModel, toggleBusy = true) {
       .catch(catchHandler)
       .then(() => {
         if (toggleBusy)
-          dispatch(busyToggle.off())
+          dispatch(busyToggle.off());
       });
   };
 }
@@ -198,5 +198,5 @@ export function handleInvoiceSocketEvents(eventType: SocketEventTypes, eventPayl
       default:
         throw new Error(`${eventType} not supported for project month.`);
     }
-  }
+  };
 }

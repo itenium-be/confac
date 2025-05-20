@@ -63,14 +63,14 @@ const useInvoiceState = (isQuotation: boolean) => {
     // same reference and React does not re-render.
     unpureSetInvoice(invoiceModel);
     forceUpdate();
-  }
+  };
 
   return {
     invoice,
     setInvoice,
     originalInvoice,
   };
-}
+};
 
 
 const EditInvoice = () => {
@@ -114,6 +114,6 @@ const EditInvoice = () => {
       </Form>
     </Container>
   );
-}
+};
 
 export default EditInvoice;

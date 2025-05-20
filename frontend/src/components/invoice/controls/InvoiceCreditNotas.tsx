@@ -1,4 +1,4 @@
-import InvoiceModel from "../models/InvoiceModel"
+import InvoiceModel from "../models/InvoiceModel";
 import { t } from "../../utils";
 import { createInvoiceList } from "../models/getInvoiceFeature";
 import { List } from "../../controls/table/List";
@@ -79,4 +79,4 @@ export const InvoiceCreditNotas = ({model, onChange}: InvoiceCreditNotasProps) =
       </div>
     </>
   );
-}
+};

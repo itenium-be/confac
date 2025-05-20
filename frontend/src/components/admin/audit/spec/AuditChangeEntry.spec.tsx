@@ -1,5 +1,5 @@
 import {render} from '@testing-library/react';
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom';
 import {AuditLog, AuditModelTypes} from '../audit-models';
 import {AuditChangeEntry} from '../AuditChangeEntry';
 
@@ -14,10 +14,10 @@ describe('AuditChangeEntry', () => {
       model: 'client',
       diff: [],
     };
-    const modelType: AuditModelTypes = 'client'
-    render(<AuditChangeEntry change={change} modelType={modelType} />)
-  })
+    const modelType: AuditModelTypes = 'client';
+    render(<AuditChangeEntry change={change} modelType={modelType} />);
+  });
 
-})
+});
 
 

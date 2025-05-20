@@ -52,7 +52,7 @@ export function handleUserSocketEvents(eventType: SocketEventTypes, eventPayload
       default:
         throw new Error(`${eventType} not supported for user.`);
     }
-  }
+  };
 }
 
 
@@ -96,5 +96,5 @@ export function handleRoleSocketEvents(eventType: SocketEventTypes, eventPayload
       default:
         throw new Error(`${eventType} not supported for role.`);
     }
-  }
+  };
 }

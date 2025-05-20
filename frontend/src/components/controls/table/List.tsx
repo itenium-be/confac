@@ -38,7 +38,7 @@ export const filterAndSortFeatureData = (feature: IFeature<any, any>) => {
   }
 
   return data;
-}
+};
 
 export const List = ({feature}: ListProps) => {
   const listSize = useSelector((state: ConfacState) => state.app.settings.listSize);

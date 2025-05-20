@@ -19,7 +19,7 @@ class AuthService implements IAuthService {
   constructor() {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
-      this.authenticated(jwt)
+      this.authenticated(jwt);
     }
   }
 

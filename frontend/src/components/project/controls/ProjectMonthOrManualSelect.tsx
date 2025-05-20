@@ -57,7 +57,7 @@ export const ProjectMonthOrManualSelect = (props: ProjectMonthOrManualSelectProp
         placeholder={t('projectMonth.selectLabel')}
         value={props.invoice?.projectMonth?.projectMonthId || ''}
         onChange={newProjectMonth => {
-          props.onProjectMonthChange(newProjectMonth)
+          props.onProjectMonthChange(newProjectMonth);
         }}
         invoice={props.invoice}
       />

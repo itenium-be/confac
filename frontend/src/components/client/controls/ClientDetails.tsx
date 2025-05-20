@@ -42,6 +42,6 @@ const ClientDetails = ({client, onOpenDetails, onOpenDetailsTitle}: ClientDetail
       <div>{client.btw}</div>
     </>
   );
-}
+};
 
 export default ClientDetails;

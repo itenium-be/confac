@@ -25,7 +25,7 @@ export const InvoiceSearch = (props: InvoiceSearchProps) => {
   const onFilterChange = (updateObj: Partial<InvoiceListFilters>) => {
     const newFilter: InvoiceListFilters = {...props.filters, ...updateObj};
     props.onChange(newFilter);
-  }
+  };
 
   return (
     <Row>
@@ -50,7 +50,7 @@ export const InvoiceSearch = (props: InvoiceSearchProps) => {
       />
     </Row>
   );
-}
+};
 
 type InvoiceSearchAdvancedProps = {
   groupedByMonth: boolean,

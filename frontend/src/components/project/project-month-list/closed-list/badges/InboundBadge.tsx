@@ -40,5 +40,5 @@ export const InboundBadge = ({pending, totals}: TimesheetBadgeProps) => {
         </i>
       </Tooltip>
     </span>
-  )
+  );
 };

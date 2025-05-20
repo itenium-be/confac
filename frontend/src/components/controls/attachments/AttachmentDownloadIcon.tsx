@@ -39,7 +39,7 @@ export const InvoicePreviewIcon = ({ invoice, ...props }: InvoiceModelProps & Ic
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
   const defaultInvoiceFileName = invoice.client?.invoiceFileName || configInvoiceFileName;
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';
-  const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, 'pdf', undefined)
+  const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, 'pdf', undefined);
   return (
     <Icon
       title={t(`${fileType}.viewPdf`)}

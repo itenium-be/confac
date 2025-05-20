@@ -55,6 +55,6 @@ const DataLoadedComponent = () => {
       )}
     </div>
   );
-}
+};
 
 export const DataLoaded = EnhanceWithClaim(DataLoadedComponent);

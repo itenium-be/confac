@@ -94,12 +94,12 @@ export class FullProjectModel {
 
   isWithoutWorkContract(): boolean {
     return this.details.contract.status !== ContractStatus.BothSigned &&
-      this.details.contract.status !== ContractStatus.NotNeeded
+      this.details.contract.status !== ContractStatus.NotNeeded;
   }
 
   isWithoutFrameworkAgreement(): boolean {
     return this.client.frameworkAgreement.status !== ContractStatus.BothSigned &&
-      this.client.frameworkAgreement.status !== ContractStatus.NotNeeded
+      this.client.frameworkAgreement.status !== ContractStatus.NotNeeded;
   }
 
   isWithoutContract(contractType: ContractType): boolean {
@@ -110,7 +110,7 @@ export class FullProjectModel {
       return this.isWithoutWorkContract();
     }
     if (contractType === ContractType.Framework) {
-      return this.isWithoutFrameworkAgreement()
+      return this.isWithoutFrameworkAgreement();
     }
     return false;
   }

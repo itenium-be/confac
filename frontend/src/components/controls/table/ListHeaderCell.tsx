@@ -14,7 +14,7 @@ type ListHeaderCellProps = {
 export const ListHeaderCell = ({width, columnName, header, filter, onSort}: ListHeaderCellProps) => {
   const [hovered, eventHandlers] = useHover();
   //showing sort icon when hovering or having a direction and dealing with the same column
-  const showSortIcon = hovered || (filter?.sort?.direction !== undefined && filter?.sort?.columnName === columnName)
+  const showSortIcon = hovered || (filter?.sort?.direction !== undefined && filter?.sort?.columnName === columnName);
   return (
     <th style={{width}} {...eventHandlers}>
       {header ? t(header) : <>&nbsp;</>}
@@ -41,8 +41,8 @@ export const ListHeaderCell = ({width, columnName, header, filter, onSort}: List
         />
       )}
     </th>
-  )
-}
+  );
+};
 
 const switchDirection = (direction: SortDirection) : boolean | undefined => {
   if (direction === SortDirections.DESC) {
@@ -52,4 +52,4 @@ const switchDirection = (direction: SortDirection) : boolean | undefined => {
   } else {
     return false;
   }
-}
+};

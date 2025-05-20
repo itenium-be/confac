@@ -9,6 +9,6 @@ const useHover = () : [boolean, { onMouseOver(): void, onMouseOut(): void}]  => 
   }), []);
 
   return [hovered, eventHandlers];
-}
+};
 
 export default useHover;

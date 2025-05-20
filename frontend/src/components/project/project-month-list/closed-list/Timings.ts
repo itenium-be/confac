@@ -5,7 +5,7 @@ type ITiming = {
 }
 
 
-let timings: {[key: string]: ITiming} = {}
+let timings: {[key: string]: ITiming} = {};
 
 
 export function callback(
@@ -19,7 +19,7 @@ export function callback(
 ) {
   // console.log(`${id}: ${phase} in ${actualDuration}`);
   if (id.startsWith('Badge')) {
-    id = 'NotVerifiedBadges'
+    id = 'NotVerifiedBadges';
   }
 
   if (!timings[id]) {

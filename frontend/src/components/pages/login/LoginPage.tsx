@@ -34,7 +34,7 @@ export const LoginPage = (props: any) => {
     authService.anonymousLogin(name);
     setState('loggedIn');
     dispatch(initialLoad());
-  }
+  };
 
   if (state === 'loggedIn') {
     return <Redirecter />;

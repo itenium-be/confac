@@ -13,7 +13,7 @@ const TimeSheetOkBadge = (
     <i className="fa fa-clock fa-1x" />
     {t('projectMonth.list.timesheetOk')}
   </span>
-)
+);
 
 /** ProjectMonth closed month Timesheet badge */
 export const TimesheetBadge = ({ pending, totals }: TimesheetBadgeProps) => {

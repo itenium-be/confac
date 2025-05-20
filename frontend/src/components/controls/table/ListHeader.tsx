@@ -39,11 +39,11 @@ export const ListHeader = ({feature}: ListHeaderProps<any>) => {
                     direction: asc ? SortDirections.ASC : SortDirections.DESC,
                     columnName: col.key
                   } : undefined
-                }
+                };
 
-                dispatch(updateAppFilters(feature.key, newFilter))
+                dispatch(updateAppFilters(feature.key, newFilter));
               }
-            }
+            };
           }
 
           return (

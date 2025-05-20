@@ -76,6 +76,6 @@ export const searchinize = (str: string): string => {
 
 export const sortResult = (sorter: (a: any, b: any) => number, asc: boolean): (a: any, b:any) => number => {
   return (a, b) => asc ? sorter(a, b) : sorter(b, a);
-}
+};
 
 export {default as t} from '../trans';

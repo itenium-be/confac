@@ -35,7 +35,7 @@ export const useClientAlreadyExists = (client: ClientModel | null) => {
 
   const clientAlreadyExists = !!clientWithSameKbo && client?.btw && client.btw !== t('taxRequest');
   return clientAlreadyExists;
-}
+};
 
 
 
@@ -63,7 +63,7 @@ const checkIfCanSaveClient = (client: ClientModel | null): boolean => {
     return false;
 
   return true;
-}
+};
 
 
 export const useClientState = (clientId: string) => {
@@ -104,4 +104,4 @@ export const useClientState = (clientId: string) => {
     clientAlreadyExists,
     canSaveClient: checkIfCanSaveClient(client) && (client?._id || !clientAlreadyExists),
   };
-}
+};

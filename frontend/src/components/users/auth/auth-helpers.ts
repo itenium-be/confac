@@ -26,7 +26,7 @@ const requiredClaimsForFakeUser: Claim[] = [
   Claim.ManageUsers,
   Claim.ViewRoles,
   Claim.ManageRoles
-]
+];
 
 export function getFakeClaims() {
   const adminClaims = getRoles().filter(role => role.name === 'admin').map(x => x.claims).flat();

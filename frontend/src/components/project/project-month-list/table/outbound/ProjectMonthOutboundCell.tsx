@@ -21,7 +21,7 @@ interface ProjectMonthOutboundCellProps {
 /** Outbound form cell for a ProjectMonth row */
 export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboundCellProps) => {
   const dispatch = useDispatch();
-  const invoices = useSelector((state: ConfacState) => state.invoices)
+  const invoices = useSelector((state: ConfacState) => state.invoices);
 
   const dispatcher = (orderNr: string) => {
     dispatch(patchProjectsMonth({...fullProjectMonth.details, orderNr}) as any);

@@ -56,7 +56,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal}: EditInv
           } if (type === 'preview') {
             dispatch(previewInvoice(invoice.client.invoiceFileName || config.invoiceFileName, invoice) as any);
           } if (type === 'update') {
-            dispatch(syncCreditNotas(invoice, initInvoice.creditNotas, invoices) as any)
+            dispatch(syncCreditNotas(invoice, initInvoice.creditNotas, invoices) as any);
             dispatch(updateInvoiceRequest(invoice, undefined, false, navigate) as any);
           } if (type === 'clone') {
             const creditNota = getNewClonedInvoice(invoices, invoice, clients);
@@ -66,5 +66,5 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal}: EditInv
         }}
       />
     </>
-  )
-}
+  );
+};

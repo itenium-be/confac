@@ -44,7 +44,7 @@ export const InvoiceCreditNotasModal = ({model, onConfirm}: InvoiceCreditNotasMo
       )}
     </>
   );
-}
+};
 
 
 type ModelBodyProps = {
@@ -78,5 +78,5 @@ const ModalBody = ({model, selectedInvoices, setSelectedInvoices}: ModelBodyProp
         listSize={10}
       />
     </>
-  )
-}
+  );
+};

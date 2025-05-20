@@ -36,7 +36,7 @@ export const TextEditorReplacements = ({onChange, editorState, replacements}: Te
     if (onChange) {
       onChange(result);
     }
-  }
+  };
 
   return (
     <>

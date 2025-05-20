@@ -26,7 +26,7 @@ const createFiltersSelector = () => createSelector(
   (filters) => {
     const safeFilters: FiltersModel = {
       ...filters,
-    }
+    };
     return safeFilters;
   }, {
     // New in 4.1: Pass options through to the built-in `defaultMemoize` function

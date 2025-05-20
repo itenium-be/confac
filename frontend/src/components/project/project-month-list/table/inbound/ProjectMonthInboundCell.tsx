@@ -79,7 +79,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
 
     const projectMonthId = fullProjectMonth._id;
     return getDownloadUrl('project_month', projectMonthId, ProformaInvoiceAttachmentType, proformaInvoiceDetails.fileName, 'preview');
-  }
+  };
 
   const hasInboundInvoiceBeenUploaded = !!inboundInvoiceDetails;
   const hasProformaInvoiceBeenUploaded = !!proformaInvoiceDetails;

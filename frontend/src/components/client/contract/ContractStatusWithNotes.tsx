@@ -48,6 +48,6 @@ const ContractStatusWithNotesComponent = ({value, label, onChange, ...props}: Ba
       />
     </div>
   );
-}
+};
 
 export const ContractStatusWithNotes = EnhanceInputWithLabel(ContractStatusWithNotesComponent);

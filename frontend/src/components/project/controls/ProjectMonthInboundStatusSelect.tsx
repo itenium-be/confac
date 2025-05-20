@@ -56,7 +56,7 @@ const ProjectMonthInboundStatusSelectComponent = ({value, onChange, style}: Proj
       <div style={style}>
         {btnGroup}
       </div>
-    )
+    );
   }
 
   return btnGroup;

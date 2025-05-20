@@ -27,4 +27,4 @@ export const ClientSearch = ({values, options, onChange, ...props}: ClientSearch
         isMulti
         {...props}
     />
-)};
+);};

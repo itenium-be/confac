@@ -5,7 +5,7 @@ import { AuditChangeEntryIcon } from '../AuditChangeEntryIcon';
 describe('AuditChangeEntryIcon', () => {
   it('creates a fa-plus for NEW entries', () => {
     const diff = {kind: 'N'} as AuditChange;
-    const tree = renderer.create(<AuditChangeEntryIcon diff={diff} />)
+    const tree = renderer.create(<AuditChangeEntryIcon diff={diff} />);
 
     expect(tree).toMatchInlineSnapshot(`
 <i
@@ -16,12 +16,12 @@ describe('AuditChangeEntryIcon', () => {
     }
   }
 />
-`)
-  })
+`);
+  });
 
   it('creates a fa-trash for deleted entries', () => {
     const diff = {kind: 'D'} as AuditChange;
-    const tree = renderer.create(<AuditChangeEntryIcon diff={diff} />)
+    const tree = renderer.create(<AuditChangeEntryIcon diff={diff} />);
 
     expect(tree).toMatchInlineSnapshot(`
 <i
@@ -33,6 +33,6 @@ describe('AuditChangeEntryIcon', () => {
     }
   }
 />
-`)
-  })
-})
+`);
+  });
+});

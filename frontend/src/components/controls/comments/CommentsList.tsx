@@ -59,4 +59,4 @@ export const CommentList = ({value, onChange, claim, ...config}: CommentsListPro
       )}
     </>
   );
-}
+};

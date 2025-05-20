@@ -86,7 +86,7 @@ export const searchInvoices = (filters: ListFilters, model: InvoiceModel) => {
     `${model.number} ${model._id} ${model.client.name} ${model.projectMonth?.consultantName ?? ''}`
     + ` ${model.orderNr} ${model.date.format('DD/MM/YYYY')} ${model.projectMonth?.month}`,
   ).includes(searchinize(filters.freeText));
-}
+};
 
 export function createInvoiceList(config: InvoiceFeatureBuilderConfig): IFeature<InvoiceModel> {
   const listRows: IListRow<InvoiceModel> = {

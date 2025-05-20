@@ -36,7 +36,7 @@ export const QuotationList = (props: QuotationListProps) => {
   useDocumentTitle('quotationList');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const invoiceFilters = useSelector((state: ConfacState) => state.app.filters.projects)
+  const invoiceFilters = useSelector((state: ConfacState) => state.app.filters.projects);
   const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
 
   if (!props.filters) {
@@ -54,7 +54,7 @@ export const QuotationList = (props: QuotationListProps) => {
     save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate) as any),
     filters: invoiceFilters,
     setFilters: f => dispatch(updateAppFilters(Features.invoices, f)),
-  }
+  };
 
   const TableComponent = props.filters.groupedByMonth ? GroupedInvoiceTable : NonGroupedInvoiceTable;
   return (

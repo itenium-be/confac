@@ -12,7 +12,7 @@ class HolidaysService {
     if (!this.cache[monthKey])
       this.cache[monthKey] = getWorkDaysInMonth(month);
 
-    return this.cache[monthKey]
+    return this.cache[monthKey];
   }
 }
 

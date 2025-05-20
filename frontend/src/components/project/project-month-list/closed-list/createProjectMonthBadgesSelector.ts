@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect'
+import { createSelector } from 'reselect';
 import { ProjectMonthBadgeTotals } from './ProjectMonthBadgeTotals';
 import { ConfacState } from '../../../../reducers/app-state';
 import { shallowEqual } from 'react-redux';

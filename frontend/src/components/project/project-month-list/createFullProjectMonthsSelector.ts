@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect'
+import { createSelector } from 'reselect';
 import moment from 'moment';
 import { ConfacState } from '../../../reducers/app-state';
 import { FullProjectMonthModel } from '../models/FullProjectMonthModel';
@@ -37,7 +37,7 @@ export const createFullProjectMonthsSelector = () => createSelector(
   (projectsMonth, projects, consultants, clients, invoices, month) => {
     const context: ProjectMonthResolverState = {
       projectsMonth, projects, consultants, clients, invoices
-    }
+    };
     return projectsMonth
       .filter(x => x.month.isSame(moment(month), 'month'))
       .map(x => mapToProjectMonth(context, x))

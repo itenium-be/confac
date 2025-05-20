@@ -41,5 +41,5 @@ export function handleConfigSocketEvents(eventType: SocketEventTypes, eventPaylo
       default:
         throw new Error(`${eventType} not supported for config.`);
     }
-  }
+  };
 }

@@ -74,8 +74,8 @@ export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
         projectId: p.prj._id,
         proforma: p.prj.details.projectMonthConfig.proforma,
       };
-    })
-  }
+    });
+  };
 
   return (
     <Modal
@@ -90,7 +90,7 @@ export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
             <MonthPicker
               label={t('projectMonth.createProjects.selectMonth')}
               value={date}
-              onChange={value => {value && setDate(value); value && setForceReload(true)}}
+              onChange={value => {value && setDate(value); value && setForceReload(true);}}
             />
           </Row>
           {newProjects && <ToBeCreated projects={data} setToBeCreated={setToBeCreated} />}
@@ -118,7 +118,7 @@ const ToBeCreated = ({projects, setToBeCreated}: {projects: ToBeCreatedModel[], 
     const updateIndex = projects.map(p => p.prj).indexOf(newProject.prj);
     const newValue = projects.map((prj, idx) => updateIndex === idx ? selected : prj.selected);
     setToBeCreated(newValue);
-  }
+  };
 
   return (
     <Row>

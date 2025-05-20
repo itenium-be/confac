@@ -84,7 +84,7 @@ const useProjectState = () => {
       newProject.client = {
         ...newProject.client,
         clientId: newProject.endCustomer.clientId,
-      }
+      };
       newProject.endCustomer = null;
     } else if (newProject.forEndCustomer && !newProject.endCustomer) {
       newProject.endCustomer = {
@@ -105,14 +105,14 @@ const useProjectState = () => {
     setProject,
     canDelete: !hasProjectMonths,
   };
-}
+};
 
 const useEditProjectTitle = (project: IProjectModel) => {
   const consultant = useSelector((state: ConfacState) => state.consultants.find(x => x._id === project.consultantId));
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === project.client.clientId));
   const docTitle = consultant?._id ? 'projectEdit' : 'projectNew';
   useDocumentTitle(docTitle, {consultant: consultant?.firstName ?? '', client: client?.name ?? ''});
-}
+};
 
 
 export const EditProject = () => {

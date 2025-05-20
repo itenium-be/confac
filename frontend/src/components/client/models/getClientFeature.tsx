@@ -25,7 +25,7 @@ const getFilteredClients = (config: ClientFeatureBuilderConfig): ClientModel[] =
     return clients;
 
   if (config.filters.types.length > 0) {
-    clients = clients.filter(client => config.filters.types.every(type => client.types.includes(type)))
+    clients = clients.filter(client => config.filters.types.every(type => client.types.includes(type)));
   }
 
   if (clients.length === 0)
@@ -33,14 +33,14 @@ const getFilteredClients = (config: ClientFeatureBuilderConfig): ClientModel[] =
 
   if (config.filters.years.length > 0) {
     clients = clients.filter(client => {
-      const invoices = config.invoices.filter(i => i.client._id === client._id)
+      const invoices = config.invoices.filter(i => i.client._id === client._id);
       const years = getInvoiceYears(invoices);
-      return config.filters.years.every(year => years.includes(year))
-    })
+      return config.filters.years.every(year => years.includes(year));
+    });
   }
 
   return clients;
-}
+};
 
 const getClientInvoices = (client: ClientModel, config: ClientFeatureBuilderConfig): InvoiceModel[] => {
   let clientInvoices = config.invoices.filter(i => i.client._id === client._id);
@@ -49,7 +49,7 @@ const getClientInvoices = (client: ClientModel, config: ClientFeatureBuilderConf
   }
 
   return clientInvoices;
-}
+};
 
 const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel, ClientListFilters> => {
   const cells: IListCell<ClientModel>[] = [{
@@ -146,7 +146,7 @@ const getFilterOptions = (config: ClientFeatureBuilderConfig): ClientFilterOptio
     value: y,
     label: y.toString()
   })));
-}
+};
 
 export const clientFeature = (config: ClientFeatureBuilderConfig): IFeature<ClientModel, ClientListFilters> => {
   const feature: IFeature<ClientModel, ClientListFilters> = {

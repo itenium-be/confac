@@ -58,7 +58,7 @@ export const InvoiceList = (props: InvoiceListProps) => {
     filters: invoiceFilters,
     setFilters: f => dispatch(updateAppFilters(Features.invoices, f)),
     buttons: ['edit', 'validate', 'download', 'preview', 'delete']
-  }
+  };
 
 
   const TableComponent = props.filters.groupedByMonth ? GroupedInvoiceTable : NonGroupedInvoiceTable;

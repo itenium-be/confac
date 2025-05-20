@@ -40,10 +40,10 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, dis
       createdBy: currentUser._id,
       createdOn: new Date().toISOString(),
       comment: ''
-    }
+    };
 
     setEditComment(newComment);
-  }
+  };
 
   const handleEditComment = (comment: IComment) => {
     const currentUser = authService.getUser()!;
@@ -55,7 +55,7 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, dis
     }
 
     setEditComment({...comment, modifiedBy: currentUser._id, modifiedOn: new Date().toISOString()});
-  }
+  };
 
   const handleSaveEditedComment = () => {
     if (!editComment)
@@ -74,7 +74,7 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, dis
 
     onChange(updatedComments);
     setEditComment(null);
-  }
+  };
 
 
   const handleDeleteComment = (deletedComment: IComment) => {
@@ -176,7 +176,7 @@ const OpenModalButton = ({includeBorder, variant, style, setOpen, commentAndNote
         style={style}
         className="tst-add-note"
       />
-    )
+    );
   }
 
   return (
@@ -189,4 +189,4 @@ const OpenModalButton = ({includeBorder, variant, style, setOpen, commentAndNote
       fa={icon}
     />
   );
-}
+};

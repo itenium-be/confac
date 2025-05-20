@@ -16,7 +16,7 @@ export const getNewProjectEndCustomer = (): ProjectEndCustomerModel => ({
   clientId: '',
   contact: '',
   notes: ''
-})
+});
 
 export const getNewProject = (): IProjectModel => ({
   _id: '',

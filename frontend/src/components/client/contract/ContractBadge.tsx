@@ -24,7 +24,7 @@ function getBadgeStyle(status: ContractStatus): BadgeStyle {
     case ContractStatus.Sent:
     case ContractStatus.Verified:
     case ContractStatus.NoContract:
-      return {bg: 'danger', text: 'white'}
+      return {bg: 'danger', text: 'white'};
 
     default:
       console.error(`Unexpected ContractStatus '${status}'`);
