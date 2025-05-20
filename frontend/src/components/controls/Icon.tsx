@@ -122,7 +122,7 @@ export const NotEmailedIcon = ({...props}) => (
     {...props}
   >
     <i className="fas fa-envelope fa-stack-1x" />
-    <Icon  fa="fas fa-ban fa-stack-2x" size={1} title={t('email.notMailed')} color="#CC1100" />
+    <Icon fa="fas fa-ban fa-stack-2x" size={1} title={t('email.notMailed')} color="#CC1100" />
   </ClaimSpan>
 );
 

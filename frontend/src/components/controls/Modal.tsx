@@ -54,7 +54,7 @@ export const Modal = (props: ModalProps) => {
       <ReactModal.Footer>
         <ReactButton onClick={props.onClose} variant="light">{t('close')}</ReactButton>
         {props.onConfirm ? (
-          <ReactButton  onClick={onConfirm} variant={props.confirmVariant || 'success'} disabled={props.disableSave}>
+          <ReactButton onClick={onConfirm} variant={props.confirmVariant || 'success'} disabled={props.disableSave}>
             {props.confirmText || t('save')}
           </ReactButton>
         ) : null}

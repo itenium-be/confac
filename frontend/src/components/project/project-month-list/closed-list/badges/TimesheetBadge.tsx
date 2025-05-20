@@ -24,7 +24,7 @@ export const TimesheetBadge = ({ pending, totals }: TimesheetBadgeProps) => {
   return (
     <Tooltip title={`<b>${t('projectMonth.timesheetValidated')}</b><br>` + totals.timesheetPending}>
       <span className="badge rounded-pill bg-warning">
-        <i className="fa fa-clock fa-1x"  />
+        <i className="fa fa-clock fa-1x" />
             {t('projectMonth.list.timesheetPending', {timesheetPendingCount: totals.timesheetPendingCount})}
       </span>
     </Tooltip>

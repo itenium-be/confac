@@ -138,7 +138,7 @@ const createFilterByDescription = (filters :FilterValue[]) => {
 
 
 const getFilterOptions = (config: ClientFeatureBuilderConfig): ClientFilterOption[] => {
-  return  ClientTypes.map(ct => ({
+  return ClientTypes.map(ct => ({
     value: ct,
     label: t(`client.clienttypes.${ct}`)
   } as ClientFilterOption))
