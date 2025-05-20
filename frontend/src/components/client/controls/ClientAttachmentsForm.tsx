@@ -4,7 +4,7 @@ import {AttachmentsForm} from '../../controls/attachments/AttachmentsForm';
 import {getClientDownloadUrl} from '../../../actions/downloadActions';
 
 type ClientAttachmentsFormProps = {
-  model: ClientModel,
+  model: ClientModel;
 }
 
 export const ClientAttachmentsForm = (props: ClientAttachmentsFormProps) => {

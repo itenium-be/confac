@@ -26,13 +26,13 @@ export type InvoiceFeatureBuilderConfig = IFeatureBuilderConfig<InvoiceModel, Li
   disableFilters?: boolean;
   invoicesTotalOnly?: boolean;
   buttons?: InvoiceListRowAction[];
-  currentInvoice?: InvoiceModel,
-  defaultSorter?: (a: InvoiceModel, b: InvoiceModel) => number
+  currentInvoice?: InvoiceModel;
+  defaultSorter?: (a: InvoiceModel, b: InvoiceModel) => number;
 };
 
 export interface IInvoiceListData {
-  invoices: InvoiceModel[],
-  consultants: ConsultantModel[]
+  invoices: InvoiceModel[];
+  consultants: ConsultantModel[];
 }
 
 

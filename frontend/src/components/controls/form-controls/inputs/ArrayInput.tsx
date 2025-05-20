@@ -7,10 +7,10 @@ import {getComponent} from '../lib/EditComponentFactory';
 import {failure} from '../../../../actions';
 
 type ArrayInputProps = {
-  config: AnyFormConfig[],
-  model: { _id?: string, [key: string]: any },
-  onChange: (value: any) => void,
-  tPrefix: string,
+  config: AnyFormConfig[];
+  model: { _id?: string; [key: string]: any };
+  onChange: (value: any) => void;
+  tPrefix: string;
 }
 
 
@@ -133,7 +133,7 @@ const getColSizes = (cols?: number | ColSize | ColSizes | false): ColSizes | nul
     };
   }
 
-  const colSize = cols as { span?: number, offset?: number };
+  const colSize = cols as { span?: number; offset?: number };
   if (colSize && (colSize.span || colSize.offset)) {
     return {
       lg: {span: colSize.span || defaultLg, offset: colSize.offset},

@@ -2,9 +2,9 @@ import {ReactElement} from 'react';
 import RcTooltip from 'rc-tooltip';
 
 type TooltipProps = {
-  title: string,
-  placement?: 'left' | 'right' | 'top' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight',
-  children: ReactElement,
+  title: string;
+  placement?: 'left' | 'right' | 'top' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
+  children: ReactElement;
   mouseEnterDelay?: number;
 }
 

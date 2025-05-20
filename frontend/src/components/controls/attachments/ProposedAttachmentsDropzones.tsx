@@ -7,8 +7,8 @@ import {AttachmentDropzone} from './AttachmentDropzone';
 import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
 
 type ProposedAttachmentsProps = {
-  model: IAttachment,
-  modelType: 'client' | 'invoice' | 'quotation',
+  model: IAttachment;
+  modelType: 'client' | 'invoice' | 'quotation';
 }
 
 /**

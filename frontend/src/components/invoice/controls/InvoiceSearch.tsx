@@ -12,10 +12,10 @@ import { InvoiceFiltersSearch, InvoiceListFilters } from '../../controls/table/t
 
 
 type InvoiceSearchProps = {
-  filterOptions: InvoiceFiltersSearch[],
-  onChange: (newFilter: InvoiceListFilters) => void,
-  filters: InvoiceListFilters,
-  vm: InvoiceListModel,
+  filterOptions: InvoiceFiltersSearch[];
+  onChange: (newFilter: InvoiceListFilters) => void;
+  filters: InvoiceListFilters;
+  vm: InvoiceListModel;
 }
 
 
@@ -52,9 +52,9 @@ export const InvoiceSearch = (props: InvoiceSearchProps) => {
 };
 
 type InvoiceSearchAdvancedProps = {
-  groupedByMonth: boolean,
-  onGroupedByMonthCange: (checked: boolean) => void,
-  vm: InvoiceListModel,
+  groupedByMonth: boolean;
+  onGroupedByMonthCange: (checked: boolean) => void;
+  vm: InvoiceListModel;
 }
 
 

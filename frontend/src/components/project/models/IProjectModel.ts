@@ -60,5 +60,5 @@ export enum ProjectStatus {
 
 
 export type ProjectClientInvoiceLine = InvoiceLine & {
-  type: EditProjectRateType
+  type: EditProjectRateType;
 }

@@ -5,13 +5,13 @@ export type ConsultantType = 'manager' | 'consultant' | 'freelancer' | 'external
 export const ConsultantTypes: ConsultantType[] = ['manager', 'consultant', 'freelancer', 'externalConsultant'];
 
 export interface ConsultantModel {
-  _id: string,
-  name: string,
-  firstName: string,
-  slug: string,
-  type: ConsultantType,
-  email: string,
-  telephone: string,
+  _id: string;
+  name: string;
+  firstName: string;
+  slug: string;
+  type: ConsultantType;
+  email: string;
+  telephone: string;
   audit: IAudit;
   active: boolean;
   accountingCode: string;

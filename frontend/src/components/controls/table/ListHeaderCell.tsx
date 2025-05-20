@@ -4,11 +4,11 @@ import { SortIcon } from '../Icon';
 import { ListFilters, SortDirection, SortDirections } from './table-models';
 
 type ListHeaderCellProps = {
-  width: string | undefined | number
-  columnName: string,
-  header:string,
-  filter: ListFilters
-  onSort?: (asc: boolean | undefined) => void
+  width: string | undefined | number;
+  columnName: string;
+  header:string;
+  filter: ListFilters;
+  onSort?: (asc: boolean | undefined) => void;
 }
 
 export const ListHeaderCell = ({width, columnName, header, filter, onSort}: ListHeaderCellProps) => {

@@ -11,8 +11,8 @@ import { searchInvoices } from '../models/getInvoiceFeature';
 
 
 export type InvoiceCreditNotasModalProps = {
-  onConfirm: (invoiceIds: ListSelectionItem<string>) => void,
-  model: InvoiceModel,
+  onConfirm: (invoiceIds: ListSelectionItem<string>) => void;
+  model: InvoiceModel;
 }
 
 export const InvoiceCreditNotasModal = ({model, onConfirm}: InvoiceCreditNotasModalProps) => {
@@ -48,9 +48,9 @@ export const InvoiceCreditNotasModal = ({model, onConfirm}: InvoiceCreditNotasMo
 
 
 type ModelBodyProps = {
-  model: InvoiceModel,
-  selectedInvoices: string[],
-  setSelectedInvoices: (invoiceIds: string[]) => void,
+  model: InvoiceModel;
+  selectedInvoices: string[];
+  setSelectedInvoices: (invoiceIds: string[]) => void;
 }
 
 const ModalBody = ({model, selectedInvoices, setSelectedInvoices}: ModelBodyProps) => {

@@ -35,7 +35,7 @@ export const _AttachmentsForm = (props: AttachmentsFormProps) => {
       <AddAttachmentPopup
         claim={mapModelType(modelType)}
         attachments={model.attachments}
-        onAdd={(att: { file: File; type: string; }) => props.updateAttachment(props.model, modelType, att)}
+        onAdd={(att: { file: File; type: string }) => props.updateAttachment(props.model, modelType, att)}
       />
       <Row>
         {model.attachments.filter(att => (att.type !== 'pdf' && att.type !== 'xml')).map(att => (

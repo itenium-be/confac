@@ -11,8 +11,8 @@ import {projectMonthResolve} from '../../hooks/useProjects';
 
 type ProjectMonthSelectProps = {
   /** The projectModel _id */
-  value: string,
-  onChange: (fullProjectMonth: FullProjectMonthModel) => void,
+  value: string;
+  onChange: (fullProjectMonth: FullProjectMonthModel) => void;
   /** Currently selected Invoice */
   invoice?: InvoiceModel;
 }

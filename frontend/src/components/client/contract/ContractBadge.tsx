@@ -9,7 +9,7 @@ type ContractBadgeProps = {
 
 const defaultBadgeStyle = {fontSize: '130%', fontWeight: 300};
 
-type BadgeStyle = {bg: string, text: string};
+type BadgeStyle = {bg: string; text: string};
 
 function getBadgeStyle(status: ContractStatus): BadgeStyle {
   switch (status) {

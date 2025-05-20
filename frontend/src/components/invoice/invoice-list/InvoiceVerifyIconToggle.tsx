@@ -8,8 +8,8 @@ import {EnhanceWithClaim, EnhanceWithClaimProps} from '../../enhancers/EnhanceWi
 
 
 type InvoiceVerifyIconToggleProps = EnhanceWithClaimProps & {
-  invoice: InvoiceModel,
-  toggleBusy?: boolean,
+  invoice: InvoiceModel;
+  toggleBusy?: boolean;
 }
 
 export const InvoiceVerifyIconToggle = EnhanceWithClaim(({invoice, toggleBusy, ...props}: InvoiceVerifyIconToggleProps) => {

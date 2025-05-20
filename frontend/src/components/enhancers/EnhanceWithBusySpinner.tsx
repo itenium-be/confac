@@ -7,14 +7,14 @@ type EnhanceWithBusySpinnerProps = {
    * Typically busy spinner requires the busyToggle to be dispatched
    * For some components we don't do a global busyToggle
    **/
-  withoutStoreBusy?: boolean,
-  isBusy: boolean,
-  onClick: Function,
-  model: any,
+  withoutStoreBusy?: boolean;
+  isBusy: boolean;
+  onClick: Function;
+  model: any;
 }
 
 type EnhanceWithBusySpinnerState = {
-  isBusy: boolean,
+  isBusy: boolean;
 }
 
 // eslint-disable-next-line max-len

@@ -13,8 +13,8 @@ type TextEditorProps = BaseInputProps<string> & {
 };
 
 type TextEditorState = {
-  editorState: EditorState,
-  defaultValue: string,
+  editorState: EditorState;
+  defaultValue: string;
 }
 
 class TextEditorComponent extends Component<TextEditorProps, TextEditorState> {

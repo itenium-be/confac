@@ -6,9 +6,9 @@ import { InvoiceFiltersSearch } from '../../controls/table/table-models';
 
 
 type InvoiceSearchSelectProps = {
-  options: InvoiceFiltersSearch[],
-  value: any,
-  onChange: Function,
+  options: InvoiceFiltersSearch[];
+  value: any;
+  onChange: Function;
 }
 
 

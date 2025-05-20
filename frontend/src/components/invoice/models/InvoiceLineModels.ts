@@ -8,12 +8,12 @@ const DefaultRateType: EditProjectRateType = 'daily';
 
 
 export type InvoiceLine = {
-  desc: string,
-  amount: number,
-  type: EditClientRateType,
-  price: number,
-  tax: number,
-  sort: number,
+  desc: string;
+  amount: number;
+  type: EditClientRateType;
+  price: number;
+  tax: number;
+  sort: number;
 }
 
 

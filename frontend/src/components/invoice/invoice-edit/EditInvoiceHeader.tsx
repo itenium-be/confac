@@ -10,7 +10,7 @@ import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
 import { t } from '../../utils';
 
 export type EditInvoiceHeaderProps = {
-  invoice: InvoiceModel,
+  invoice: InvoiceModel;
   onChange: (invoice: InvoiceModel) => void;
 }
 export const EditInvoiceHeader = ({invoice, onChange}: EditInvoiceHeaderProps) => {

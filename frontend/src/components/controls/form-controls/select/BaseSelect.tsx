@@ -5,11 +5,11 @@ import {SelectItem} from '../../../../models';
 
 
 type BaseSelectProps = {
-  value: SelectItem | SelectItem[],
-  onChange: any,
-  options: SelectItem[],
-  isClearable?: boolean,
-  isMulti?: boolean,
+  value: SelectItem | SelectItem[];
+  onChange: any;
+  options: SelectItem[];
+  isClearable?: boolean;
+  isMulti?: boolean;
 }
 
 

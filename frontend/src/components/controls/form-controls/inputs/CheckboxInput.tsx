@@ -1,8 +1,8 @@
 import {MinimalInputProps} from './BaseInput';
 
 export type CheckboxInputProps = MinimalInputProps<boolean> & {
-  style?: React.CSSProperties,
-  label: string,
+  style?: React.CSSProperties;
+  label: string;
 }
 
 export const CheckboxInput = ({value, label, onChange, ...props}: CheckboxInputProps) => {

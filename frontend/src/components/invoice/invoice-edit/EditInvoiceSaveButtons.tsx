@@ -5,8 +5,8 @@ import {BusyButton} from '../../controls/form-controls/BusyButton';
 import {Claim} from '../../users/models/UserModel';
 
 type EditInvoiceSaveButtonsComponentProps = {
-  invoice: InvoiceModel,
-  onClick: (type: 'create' | 'update' | 'preview' | 'clone', navigate: any) => void,
+  invoice: InvoiceModel;
+  onClick: (type: 'create' | 'update' | 'preview' | 'clone', navigate: any) => void;
 }
 
 export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButtonsComponentProps) => {

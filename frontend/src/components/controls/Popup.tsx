@@ -6,18 +6,18 @@ import {BusyButton} from './form-controls/BusyButton';
 
 
 export type PopupButton = {
-  text: string,
-  onClick: Function,
-  variant?: BootstrapVariant,
-  busy?: boolean,
-  disabled?: boolean,
+  text: string;
+  onClick: Function;
+  variant?: BootstrapVariant;
+  busy?: boolean;
+  disabled?: boolean;
 }
 
 type PopupProps = {
-  title: string,
-  children: any,
-  onHide: () => void,
-  buttons: PopupButton[],
+  title: string;
+  children: any;
+  onHide: () => void;
+  buttons: PopupButton[];
 }
 
 // eslint-disable-next-line react/prefer-stateless-function

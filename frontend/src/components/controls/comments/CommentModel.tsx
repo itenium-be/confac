@@ -12,10 +12,10 @@ import { UserName } from '../../users/UserName';
 
 
 export type CommentFeatureBuilderConfig = {
-  feature: Features,
+  feature: Features;
   data: IComment[];
-  onEditClicked: (comment: IComment) => void,
-  onDeleteClicked: (comment: IComment) => void,
+  onEditClicked: (comment: IComment) => void;
+  onDeleteClicked: (comment: IComment) => void;
 };
 
 

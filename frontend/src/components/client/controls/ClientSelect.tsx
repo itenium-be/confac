@@ -9,9 +9,9 @@ import {SelectItem} from '../../../models';
 
 type ClientSelectProps = {
   /** The client _id */
-  value: string | ClientModel,
-  clientType?: ClientType
-  onChange: (clientId: string, client: ClientModel) => void,
+  value: string | ClientModel;
+  clientType?: ClientType;
+  onChange: (clientId: string, client: ClientModel) => void;
 }
 
 const ClientSelectComponent = ({value, clientType, onChange}: ClientSelectProps) => {

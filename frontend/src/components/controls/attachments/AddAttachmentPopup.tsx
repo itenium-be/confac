@@ -11,12 +11,12 @@ import {AddIcon} from '../Icon';
 import {AttachmentDropzone} from './AttachmentDropzone';
 import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
 
-export type FileAttachment = {file: File, type: string}
+export type FileAttachment = {file: File; type: string}
 
 type AddAttachmentPopupProps = {
-  attachments: Attachment[],
-  onAdd: (file: FileAttachment) => void,
-  attachmentTypes: string[],
+  attachments: Attachment[];
+  onAdd: (file: FileAttachment) => void;
+  attachmentTypes: string[];
 }
 
 const AddAttachmentPopupComponent = (props: AddAttachmentPopupProps) => {

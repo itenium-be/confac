@@ -15,7 +15,7 @@ export const SingleContractIcon = ({ contract, contracts, style, tooltip, ...pro
     return null;
   }
 
-  let ownStyle: { backgroundColor?: string; color: string; };
+  let ownStyle: { backgroundColor?: string; color: string };
   let fa: string;
   let globalTooltip: string;
 

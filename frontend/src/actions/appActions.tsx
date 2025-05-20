@@ -19,9 +19,9 @@ function getIcon(type: ToastType): string {
 }
 
 type ToastMessageProps = {
-  msg: string,
-  title: string,
-  type: ToastType,
+  msg: string;
+  title: string;
+  type: ToastType;
 }
 
 const ToastMessage = ({msg, title, type}: ToastMessageProps) => (

@@ -7,7 +7,7 @@ import {ConfacState} from '../../../reducers/app-state';
 
 
 type InvoiceAttachmentsFormProps = {
-  model: InvoiceModel,
+  model: InvoiceModel;
 }
 
 export const InvoiceAttachmentsForm = ({model}: InvoiceAttachmentsFormProps) => {

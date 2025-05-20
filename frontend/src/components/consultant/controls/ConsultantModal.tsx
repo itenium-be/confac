@@ -10,7 +10,7 @@ import {defaultConsultantModalProperties} from '../models/ConsultantConfig';
 
 type ConsultantModalProps = BaseModalProps & {
   consultant?: ConsultantModel | null;
-  onConfirm: (consultant: ConsultantModel) => void,
+  onConfirm: (consultant: ConsultantModel) => void;
 }
 
 

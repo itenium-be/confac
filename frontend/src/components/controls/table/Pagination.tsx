@@ -5,7 +5,7 @@ type PaginationProps = {
   current: number;
   total: number;
   onChange: (page: number) => void;
-  listSize? : number
+  listSize? : number;
 };
 
 

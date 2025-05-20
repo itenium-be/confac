@@ -9,8 +9,8 @@ import {SelectItem} from '../../../models';
 
 type ConsultantSelectProps = {
   /** The consultant _id */
-  value: string | ConsultantModel,
-  onChange: (consultantId: string, consultant: ConsultantModel) => void,
+  value: string | ConsultantModel;
+  onChange: (consultantId: string, consultant: ConsultantModel) => void;
 }
 
 const ConsultantSelectComponent = ({value, onChange}: ConsultantSelectProps) => {

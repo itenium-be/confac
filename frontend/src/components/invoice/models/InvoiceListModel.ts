@@ -26,10 +26,10 @@ function transformFilters(search: InvoiceFiltersSearch[], freeText: string): Tra
 
 
 type TransformedInvoiceFilters = {
-  directInvoiceNrs: number[],
-  years: number[],
-  clients: string[],
-  other: string[],
+  directInvoiceNrs: number[];
+  years: number[];
+  clients: string[];
+  other: string[];
 }
 
 /** Model used for filtering the InvoiceList */

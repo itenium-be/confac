@@ -18,8 +18,8 @@ type InvoiceListRowActionsProps = {
   toggleBusy?: boolean;
   /** Hides some buttons when true */
   small?: boolean;
-  buttons?: InvoiceListRowAction[]
-  hideEdit?: boolean
+  buttons?: InvoiceListRowAction[];
+  hideEdit?: boolean;
 }
 
 export const InvoiceListRowActions = ({invoice, small = false, buttons, hideEdit, toggleBusy}: InvoiceListRowActionsProps) => {

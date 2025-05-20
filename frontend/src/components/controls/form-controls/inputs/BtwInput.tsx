@@ -118,20 +118,20 @@ export const BtwInput = EnhanceInputWithLabel(EnhanceInputWithAddons(BtwInputCom
  * Btw lookup result
  */
 export type BtwResponse = {
-  valid: boolean,
-  countryCode: string,
-  vatNumber: string,
-  name: string,
+  valid: boolean;
+  countryCode: string;
+  vatNumber: string;
+  name: string;
   address: {
-    street: string,
-    number: string,
+    street: string;
+    number: string;
     // eslint-disable-next-line camelcase
-    zip_code: string,
-    city: string,
-    country: string,
-    countryCode: string,
-  },
-  strAddress: string,
+    zip_code: string;
+    city: string;
+    country: string;
+    countryCode: string;
+  };
+  strAddress: string;
 }
 
 async function fetchBtwInfo(btw: string): Promise<BtwResponse> {

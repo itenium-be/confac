@@ -105,8 +105,8 @@ export const EmailModal = ({invoice, onClose, template, ...props}: EmailModalPro
 
 
 type EmailModalTitleProps = {
-  title: string,
-  lastEmail: string,
+  title: string;
+  lastEmail: string;
 }
 
 export const EmailModalTitle = ({title, lastEmail}: EmailModalTitleProps) => {

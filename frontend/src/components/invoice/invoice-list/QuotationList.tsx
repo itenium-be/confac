@@ -22,11 +22,11 @@ import { InvoiceListFilters } from '../../controls/table/table-models';
 
 
 type QuotationListProps = {
-  invoices: InvoiceModel[],
-  clients: ClientModel[],
-  consultants: ConsultantModel[],
-  updateInvoiceFilters: any,
-  filters: InvoiceListFilters,
+  invoices: InvoiceModel[];
+  clients: ClientModel[];
+  consultants: ConsultantModel[];
+  updateInvoiceFilters: any;
+  filters: InvoiceListFilters;
 }
 
 // eslint-disable-next-line react/prefer-stateless-function

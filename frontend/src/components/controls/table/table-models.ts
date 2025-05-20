@@ -26,9 +26,9 @@ export type ListFilters = {
   freeText?: string;
   showInactive?: boolean;
   sort?: {
-    direction: SortDirection
-    columnName: string
-  }
+    direction: SortDirection;
+    columnName: string;
+  };
 }
 
 export const SortDirections = {
@@ -38,21 +38,21 @@ export const SortDirections = {
 export type SortDirection = typeof SortDirections[keyof typeof SortDirections];
 
 export type InvoiceFiltersSearch = {
-  value: string | number,
-  label: string | number,
-  type: 'invoice-nr' | 'year' | 'client' | 'invoice_line' | 'manual_input',
+  value: string | number;
+  label: string | number;
+  type: 'invoice-nr' | 'year' | 'client' | 'invoice_line' | 'manual_input';
 }
 
 export type ProjectListFilters = ListFilters;
 export type ProjectMonthListFilters = ListFilters & {
   /** Format: {YYYY-MM: true} */
-  openMonths: {[key: string]: boolean},
-  unverifiedOnly: boolean
+  openMonths: {[key: string]: boolean};
+  unverifiedOnly: boolean;
 };
 export type InvoiceListFilters = ListFilters & {
-    search: InvoiceFiltersSearch[],
-    groupedByMonth: boolean,
-    freeInvoice: string,
+    search: InvoiceFiltersSearch[];
+    groupedByMonth: boolean;
+    freeInvoice: string;
 };
 export type ConsultantListFilters = ListFilters;
 export type UsersListFilters = ListFilters;
@@ -60,9 +60,9 @@ export type RolesListFilters = ListFilters;
 export type CommentsListFilters = {
   freeText?: string;
   sort?: {
-    direction: SortDirection
-    columnName: string
-  }
+    direction: SortDirection;
+    columnName: string;
+  };
 };
 
 
@@ -73,8 +73,8 @@ export type ClientListFilters = ListFilters & {
 
 
 export interface IListFilter<TFilterModel extends ListFilters, TModel> {
-  state: TFilterModel,
-  updateFilter: (m: TFilterModel) => void,
+  state: TFilterModel;
+  updateFilter: (m: TFilterModel) => void;
   fullTextSearch?: (filters: TFilterModel, m: TModel) => boolean;
   softDelete?: boolean;
   /** Custom filter components */
@@ -117,7 +117,7 @@ export interface IListCell<TModel> {
   /** Will span until next cell with a footer */
   footer?: string | ((models: TModel[]) => string | React.ReactNode);
 
-  sort?: (a: TModel, b: TModel) => number
+  sort?: (a: TModel, b: TModel) => number;
 }
 
 

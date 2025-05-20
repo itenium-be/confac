@@ -6,7 +6,7 @@ import {t} from '../../utils';
 
 
 /** Click on Label to put text on clipboard */
-export const ToClipboardLabel = ({label, copyValue}: {label: string, copyValue?: string}) => {
+export const ToClipboardLabel = ({label, copyValue}: {label: string; copyValue?: string}) => {
   const copyToClipBoard = async (copyMe: string) => {
     console.log('To clipboard', copyMe); // eslint-disable-line
 

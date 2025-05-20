@@ -8,8 +8,8 @@ import {getAwesomeFileType} from '../../invoice/models/getAwesomeFileType';
 import {ConfacState} from '../../../reducers/app-state';
 
 type InvoiceDownloadIconProps = InvoiceModelProps & {
-  fileType: CoreInvoiceAttachments,
-  style?: {}
+  fileType: CoreInvoiceAttachments;
+  style?: {};
 }
 
 
@@ -53,9 +53,9 @@ export const InvoicePreviewIcon = ({ invoice, ...props }: InvoiceModelProps & Ic
 
 
 type AttachmentPreviewIconProps = {
-  attachment: Attachment,
-  previewUrl: string,
-  title?: string,
+  attachment: Attachment;
+  previewUrl: string;
+  title?: string;
 }
 
 export const AttachmentPreviewIcon = ({previewUrl, attachment, ...props}: AttachmentPreviewIconProps) => (
@@ -64,7 +64,7 @@ export const AttachmentPreviewIcon = ({previewUrl, attachment, ...props}: Attach
 
 
 type AttachmentDownloadIconProps = IconProps & {
-  attachment: Attachment | undefined,
+  attachment: Attachment | undefined;
   downloadUrl: string;
 }
 

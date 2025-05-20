@@ -12,8 +12,8 @@ import { Button } from '../form-controls/Button';
 
 type CommentsListProps = MinimalInputProps<IComment[]> & {
   style?: CSSProperties;
-  onEditClicked: (comment: IComment) => void,
-  onDeleteClicked: (comment: IComment) => void,
+  onEditClicked: (comment: IComment) => void;
+  onDeleteClicked: (comment: IComment) => void;
   onAddClicked: () => void;
   claim: Claim;
 };

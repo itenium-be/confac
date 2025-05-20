@@ -16,8 +16,8 @@ import './EmailForm.scss';
 
 type EmailFormProps = BaseInputProps<EmailModel> & {
   /** Attachments that are available for emailing */
-  attachmentsAvailable: string[],
-  textEditorReplacements?: ITextEditorCustomReplacement[]
+  attachmentsAvailable: string[];
+  textEditorReplacements?: ITextEditorCustomReplacement[];
 };
 
 export const EmailForm = ({value, onChange, attachmentsAvailable, textEditorReplacements}: EmailFormProps) => {
@@ -78,8 +78,8 @@ export const EmailForm = ({value, onChange, attachmentsAvailable, textEditorRepl
 };
 
 type EmailFormAttachmentsProps = {
-  expectedAttachments: string[],
-  attachmentsAvailable: string[],
+  expectedAttachments: string[];
+  attachmentsAvailable: string[];
 }
 
 

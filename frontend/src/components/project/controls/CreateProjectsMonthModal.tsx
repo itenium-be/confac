@@ -101,10 +101,10 @@ export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
 };
 
 
-type ToBeCreatedModel = {prj: FullProjectModel, selected: boolean};
+type ToBeCreatedModel = {prj: FullProjectModel; selected: boolean};
 
 
-const ToBeCreated = ({projects, setToBeCreated}: {projects: ToBeCreatedModel[], setToBeCreated: Function}) => {
+const ToBeCreated = ({projects, setToBeCreated}: {projects: ToBeCreatedModel[]; setToBeCreated: Function}) => {
   if (!projects.length) {
     return (
       <Row>
@@ -139,7 +139,7 @@ const ToBeCreated = ({projects, setToBeCreated}: {projects: ToBeCreatedModel[], 
 };
 
 
-const ProjectRow = ({project, onChange}: {project: ToBeCreatedModel, onChange: (e: boolean) => void}) => {
+const ProjectRow = ({project, onChange}: {project: ToBeCreatedModel; onChange: (e: boolean) => void}) => {
   return (
     <>
       <dt>

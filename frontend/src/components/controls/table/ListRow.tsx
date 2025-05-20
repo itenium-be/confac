@@ -2,8 +2,8 @@ import {IListCell, IList} from './table-models';
 
 
 type ListRowProps<TModel> = {
-  config: IList<TModel>,
-  model: TModel,
+  config: IList<TModel>;
+  model: TModel;
 }
 
 

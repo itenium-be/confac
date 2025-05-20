@@ -11,8 +11,8 @@ import {ClientModel} from '../../client/models/ClientModels';
 
 type ProjectSelectProps = {
   /** The project _id */
-  value: string | IProjectModel,
-  onChange: (projectId: string, project: IProjectModel) => void,
+  value: string | IProjectModel;
+  onChange: (projectId: string, project: IProjectModel) => void;
 }
 
 const ProjectSelectComponent = (props: ProjectSelectProps) => {

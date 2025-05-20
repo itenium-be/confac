@@ -2,7 +2,7 @@ import ReactSwitch from 'react-ios-switch';
 import {BaseInputProps} from './inputs/BaseInput';
 
 type SwitchProps = BaseInputProps<boolean> & {
-  onColor?: string,
+  onColor?: string;
 }
 
 export const Switch = ({value, onChange, label, style, ...props}: SwitchProps) => (

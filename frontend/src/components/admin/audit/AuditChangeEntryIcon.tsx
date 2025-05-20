@@ -1,7 +1,7 @@
 import { AuditChange } from './audit-models';
 
 /** Display an icon for the audit diff type */
-export const AuditChangeEntryIcon = (props: { diff: AuditChange; }) => {
+export const AuditChangeEntryIcon = (props: { diff: AuditChange }) => {
   const commonStyle = { marginRight: 8 };
   switch (props.diff.kind) {
     case 'A':

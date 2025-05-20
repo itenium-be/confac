@@ -4,7 +4,7 @@ import {t} from '../../utils';
 
 
 export type AttachmentDropzoneProps = {
-  onUpload: (file: File) => void,
+  onUpload: (file: File) => void;
   children?: React.ReactNode;
   className?: string | null;
   disabled?: boolean;

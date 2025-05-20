@@ -7,9 +7,9 @@ import {ITextEditorCustomReplacement} from '../../../invoice/invoice-replacement
 
 
 type TextEditorReplacementsProps = {
-  onChange?: (editorState: EditorState) => void,
-  editorState: EditorState,
-  replacements: ITextEditorCustomReplacement[]
+  onChange?: (editorState: EditorState) => void;
+  editorState: EditorState;
+  replacements: ITextEditorCustomReplacement[];
 }
 
 

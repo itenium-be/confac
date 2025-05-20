@@ -6,9 +6,9 @@ import { InvoiceFiltersSearch, InvoiceListFilters } from '../../controls/table/t
 
 
 type QuotationSearchProps = {
-  filterOptions: InvoiceFiltersSearch[],
-  onChange: (newFilter: InvoiceListFilters) => void,
-  filters: InvoiceListFilters,
+  filterOptions: InvoiceFiltersSearch[];
+  onChange: (newFilter: InvoiceListFilters) => void;
+  filters: InvoiceListFilters;
 }
 
 

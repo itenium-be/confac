@@ -8,13 +8,13 @@ import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
 export type ButtonSize = 'lg' | 'sm' | 'md';
 
 export type ButtonProps = {
-  onClick: Function | string,
+  onClick: Function | string;
   /** Full fa. ex: "far fa-xxx" */
-  icon?: string,
-  variant?: BootstrapVariant,
-  size?: ButtonSize,
-  children?: ChildrenType,
-  style?: React.CSSProperties,
+  icon?: string;
+  variant?: BootstrapVariant;
+  size?: ButtonSize;
+  children?: ChildrenType;
+  style?: React.CSSProperties;
   disabled?: boolean;
   className?: string;
   title?: string;

@@ -23,7 +23,7 @@ function buildAttachmentUrl(invoiceOrClient: IAttachment, type: 'pdf' | string) 
 export function updateAttachment(
   model: IAttachment,
   modelType: 'client' | 'invoice' | 'quotation',
-  {type, file}: {type: string, file: File},
+  {type, file}: {type: string; file: File},
 ) {
   return dispatch => {
     dispatch(busyToggle());
@@ -38,7 +38,7 @@ export function updateAttachment(
     // file.forEach(f => { req.attach(f.name, f); });
 
     req.then(res => {
-      let config: {type: string, key: string};
+      let config: {type: string; key: string};
       switch (modelType) {
         case 'client':
           config = {type: ACTION_TYPES.CLIENT_UPDATE, key: 'client'};
@@ -62,8 +62,8 @@ export function updateAttachment(
 export type ModelsWithAttachments = 'client' | 'invoice' | 'quotation' | 'config';
 
 export type AttachmentFormContext = {
-  modelType: ModelsWithAttachments,
-  id: string,
+  modelType: ModelsWithAttachments;
+  id: string;
   attachmentType: 'pdf' | string;
 }
 

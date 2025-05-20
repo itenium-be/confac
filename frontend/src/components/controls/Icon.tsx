@@ -27,27 +27,27 @@ export const Icon = EnhanceWithClaim(EnhanceIconWithCenter(
 
 export type IconProps = EnhanceWithClaimProps & {
   /** Full fa. ex: "far fa-xxx" */
-  fa?: string,
-  color?: string,
-  style?: React.CSSProperties,
+  fa?: string;
+  color?: string;
+  style?: React.CSSProperties;
   /**
    * string: A react-router link
    * or a function
    */
-  onClick?: string | Function,
+  onClick?: string | Function;
   /**
    * A link to outside React
    */
-  href?: string,
-  className?: string,
-  label?: string | React.ReactNode,
-  labelStyle?: React.CSSProperties,
-  title?: string,
-  size?: number,
-  history?: any,
-  center?: boolean,
-  dispatch?: any,
-  children?: any,
+  href?: string;
+  className?: string;
+  label?: string | React.ReactNode;
+  labelStyle?: React.CSSProperties;
+  title?: string;
+  size?: number;
+  history?: any;
+  center?: boolean;
+  dispatch?: any;
+  children?: any;
 }
 
 

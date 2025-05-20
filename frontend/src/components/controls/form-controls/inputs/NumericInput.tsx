@@ -6,7 +6,7 @@ type NumericInputProps = BaseInputProps<number> & {
    * Allow decimals
    * TODO: Remove this for FloatInput
    */
-  float?: boolean,
+  float?: boolean;
 }
 
 export const NumericInput = ({value, onChange, float = false, ...props}: NumericInputProps) => (

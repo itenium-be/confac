@@ -2,8 +2,8 @@ import {t} from '../../utils';
 import InvoiceModel, {calculateDaysWorked, DaysWorked, getWorkDaysInMonths} from '../models/InvoiceModel';
 
 type InvoiceWorkedDaysProps = {
-  invoices: InvoiceModel[],
-  display?: 'month' | 'client' | 'invoice',
+  invoices: InvoiceModel[];
+  display?: 'month' | 'client' | 'invoice';
 }
 
 

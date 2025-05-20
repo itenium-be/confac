@@ -68,7 +68,7 @@ export function invoiceReplacements(input: string, invoice: InvoiceModel): strin
 
 
   const dateRegex = /\{date:([^}]+)\}/g;
-  const datesToReplace: {needle: string, format: string}[] = [];
+  const datesToReplace: {needle: string; format: string}[] = [];
   let dateMatch = dateRegex.exec(str);
   while (dateMatch) {
     const dateFormat = dateMatch[1];

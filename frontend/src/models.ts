@@ -26,12 +26,12 @@ export enum Language {
 /** The model saved as client.attachments[], invoice.attachments[] etc */
 export type Attachment = {
   /** 'pdf' is the invoice pdf (for invoice/quotation) */
-  type: 'pdf' | 'TermsAndConditions' | string,
-  fileName: string,
-  originalFileName?: string,
-  fileType: string,
-  lastModifiedDate?: string,
-  desc?: string
+  type: 'pdf' | 'TermsAndConditions' | string;
+  fileName: string;
+  originalFileName?: string;
+  fileType: string;
+  lastModifiedDate?: string;
+  desc?: string;
 }
 
 export type CoreInvoiceAttachments = 'pdf' | 'xml';
@@ -48,32 +48,32 @@ export const ProformaInvoiceAttachmentType = 'Proforma Factuur';
  * TODO: Add the modelType here
  */
 export interface IAttachment {
-  _id: string,
-  attachments: Attachment[],
+  _id: string;
+  attachments: Attachment[];
   // getType: () => 'invoice' | 'quotation' | 'client',
 }
 
 export type AppState = {
-  isLoaded: boolean,
-  isBusy: boolean,
-  busyCount: number,
+  isLoaded: boolean;
+  isBusy: boolean;
+  busyCount: number;
   settings: {
     /** Default pagination size for ListRow */
-    listSize: number,
-  },
+    listSize: number;
+  };
   /** Last x months of data has been loaded */
-  lastMonthsDownloaded: number | null,
-  invoiceFilters: InvoiceFilters,
+  lastMonthsDownloaded: number | null;
+  invoiceFilters: InvoiceFilters;
   filters: {
-    consultants: ConsultantListFilters,
-    clients: ClientListFilters,
-    invoices: InvoiceListFilters,
-    projects: ProjectListFilters,
-    projectMonths: ProjectMonthListFilters,
-    users: UsersListFilters,
-    roles: RolesListFilters,
-    comments: CommentsListFilters,
-  },
+    consultants: ConsultantListFilters;
+    clients: ClientListFilters;
+    invoices: InvoiceListFilters;
+    projects: ProjectListFilters;
+    projectMonths: ProjectMonthListFilters;
+    users: UsersListFilters;
+    roles: RolesListFilters;
+    comments: CommentsListFilters;
+  };
 }
 
 export type NewRowFormConfig = {forceRow: boolean}
@@ -82,60 +82,60 @@ export type AnyFormConfig = string | NewRowFormConfig | FormConfig;
 
 export type FormConfig = {
   /** Technical React key, defaults to key */
-  reactKey?: string,
-  label?: string,
+  reactKey?: string;
+  label?: string;
   /** Full row title */
-  title?: string | {title: string, level: 2 | 3 | 4},
+  title?: string | {title: string; level: 2 | 3 | 4};
   /**
    * The property name of the model
    * Supports "dots" for deeper navigation
    * Optional when title has a value
    */
-  key?: string,
+  key?: string;
   /**
    * The React Component to use
    * Defaults to StringInput
    */
-  component?: React.ComponentType | StandardComponents | React.FunctionComponent<any>,
+  component?: React.ComponentType | StandardComponents | React.FunctionComponent<any>;
   /**
    * True: Do not show when creating the record
    * (ex: "slug" which is calculated when saving)
    */
-  updateOnly?: boolean,
+  updateOnly?: boolean;
   /**
    * Set specific Grid col amount
    * false to not generate a Col
    */
-  cols?: number | ColSize | ColSizes | false,
-  prefix?: InputIcons | React.ComponentType | string,
-  suffix?: InputIcons | React.ComponentType | string,
-  style?: CSSProperties,
+  cols?: number | ColSize | ColSizes | false;
+  prefix?: InputIcons | React.ComponentType | string;
+  suffix?: InputIcons | React.ComponentType | string;
+  style?: CSSProperties;
   /** Additional props passed to the component */
-  props?: {[key: string]: any},
+  props?: {[key: string]: any};
 }
 
 /** Grid Col size */
-export type ColSize = undefined | number | { span?: number, offset?: number };
+export type ColSize = undefined | number | { span?: number; offset?: number };
 
 /** Grid Col sizes */
 export type ColSizes = {
-  xs?: ColSize,
-  sm?: ColSize,
-  md?: ColSize,
-  lg?: ColSize,
-  xl?: ColSize,
+  xs?: ColSize;
+  sm?: ColSize;
+  md?: ColSize;
+  lg?: ColSize;
+  xl?: ColSize;
 }
 
 
 export type FullFormConfig = AnyFormConfig[] & {
-  addMissingProps?: boolean,
+  addMissingProps?: boolean;
 }
 
 
 export type InvoiceFiltersSearch = {
-  value: string | number,
-  label: string | number,
-  type: 'invoice-nr' | 'year' | 'client' | 'invoice_line' | 'manual_input',
+  value: string | number;
+  label: string | number;
+  type: 'invoice-nr' | 'year' | 'client' | 'invoice_line' | 'manual_input';
 }
 
 /**
@@ -145,18 +145,18 @@ export type InvoiceFiltersSearch = {
  * TODO: This needs to go by using a ListPage for the InvoiceList
  */
 export type InvoiceFilters = {
-  search: InvoiceFiltersSearch[],
-  groupedByMonth: boolean,
-  freeInvoice: string,
+  search: InvoiceFiltersSearch[];
+  groupedByMonth: boolean;
+  freeInvoice: string;
 }
 
 /**
  * Model used for the Select Components
  */
 export type SelectItem = {
-  label: string | number,
-  value: string | number,
-  className?: string,
+  label: string | number;
+  value: string | number;
+  className?: string;
 }
 
 export type BootstrapVariant = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | 'link'

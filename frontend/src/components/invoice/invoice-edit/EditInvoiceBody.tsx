@@ -10,8 +10,8 @@ import { InvoiceCreditNotas } from '../controls/InvoiceCreditNotas';
 import { InvoiceAttachmentsForm } from '../controls/InvoiceAttachmentsForm';
 
 export type EditInvoiceBodyProps = {
-  invoice: InvoiceModel,
-  onChange: (invoice: InvoiceModel) => void
+  invoice: InvoiceModel;
+  onChange: (invoice: InvoiceModel) => void;
 }
 
 

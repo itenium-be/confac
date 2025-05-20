@@ -6,12 +6,12 @@ import {t} from '../../../utils';
 
 
 type TemplatePickerProps = {
-  value: string,
-  onChange: Function,
+  value: string;
+  onChange: Function;
 }
 
 type TemplatePickerState = {
-  templates: string[],
+  templates: string[];
 }
 
 

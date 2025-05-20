@@ -47,7 +47,7 @@ export const EnhanceWithClaim = <P extends object>(Component: React.ComponentTyp
 
 
 type ClaimGuardProps = {
-  feature?: {key: string, claim: GenericClaim};
+  feature?: {key: string; claim: GenericClaim};
   claim?: Claim;
   children: any;
 }
@@ -62,7 +62,7 @@ export const ClaimGuard = ({feature, claim, children}: ClaimGuardProps) => {
 
 
 export type ClaimGuardSwitchProps = {
-  feature?: {key: string, claim: GenericClaim};
+  feature?: {key: string; claim: GenericClaim};
   children: ReactNode;
 }
 export const ClaimGuardSwitch = ({feature, children}: ClaimGuardSwitchProps) => {
@@ -91,7 +91,7 @@ function mapClaim(entity: string, claim: GenericClaim): Claim {
   return Claim[`${claim}-${entity}`];
 }
 
-function hasClaim(feature?: {key: string, claim: GenericClaim}, claim?: Claim): boolean {
+function hasClaim(feature?: {key: string; claim: GenericClaim}, claim?: Claim): boolean {
   if (feature) {
     const realClaim = mapClaim(feature.key, feature.claim);
     const claims = authService.getClaims();

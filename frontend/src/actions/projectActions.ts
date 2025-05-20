@@ -47,8 +47,8 @@ export function saveProject(project: IProjectModel, navigate?: any, after: 'to-l
 }
 
 export type SourceProjectData = {
-  projectId: string,
-  proforma?: ProjectProforma,
+  projectId: string;
+  proforma?: ProjectProforma;
 }
 
 

@@ -1,16 +1,16 @@
 import {Form, Col, Row} from 'react-bootstrap';
 
 export type EnhanceInputWithLabelProps = {
-  label?: string | Element | any,
+  label?: string | Element | any;
   /**
    * Defaults to the label
    */
-  placeholder?: string,
+  placeholder?: string;
   /**
    * False: Label above input
    * True: Label left of input
    */
-  inline?: boolean,
+  inline?: boolean;
 }
 
 // eslint-disable-next-line max-len

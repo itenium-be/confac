@@ -2,11 +2,11 @@ import {InputGroup} from 'react-bootstrap';
 import {formatDate} from '../utils';
 
 export type EnhanceInputWithAddonsProps = {
-  prefix?: string | React.ReactNode,
-  prefixOptions?: {type: 'text' | 'button'},
-  suffix?: string | React.ReactNode,
-  suffixOptions?: {type: 'text' | 'button'},
-  addOnMinWidth?: number,
+  prefix?: string | React.ReactNode;
+  prefixOptions?: {type: 'text' | 'button'};
+  suffix?: string | React.ReactNode;
+  suffixOptions?: {type: 'text' | 'button'};
+  addOnMinWidth?: number;
 }
 
 // eslint-disable-next-line max-len
@@ -41,8 +41,8 @@ type ReactNodeFn = any;
 
 export type EnhanceInputWithDisplayProps = {
   /** Display a label instead of an input */
-  display?: 'label' | undefined | ReactNodeFn,
-  value: any,
+  display?: 'label' | undefined | ReactNodeFn;
+  value: any;
 }
 
 // eslint-disable-next-line max-len

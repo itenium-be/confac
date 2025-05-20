@@ -4,7 +4,7 @@ import InvoiceModel from '../models/InvoiceModel';
 
 
 type InvoiceNumberCellProps = {
-  invoice: InvoiceModel,
+  invoice: InvoiceModel;
 }
 
 export const InvoiceNumberCell = ({invoice}: InvoiceNumberCellProps) => {

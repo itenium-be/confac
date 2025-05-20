@@ -4,17 +4,17 @@ import {t} from '../utils';
 
 
 type EnhanceWithConfirmationProps = {
-  onClick: Function,
+  onClick: Function;
   /** Confirmation dialog title */
-  title: string,
+  title: string;
   /** Confirmation dialog content */
-  children?: any,
+  children?: any;
   /** Button text */
-  componentChildren?: string,
+  componentChildren?: string;
 }
 
 type EnhanceWithConfirmationState = {
-  popupActive: boolean,
+  popupActive: boolean;
 }
 
 // eslint-disable-next-line max-len

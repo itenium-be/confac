@@ -17,9 +17,9 @@ import {Icon} from '../../controls/Icon';
 
 type ProjectMonthOrManualSelectProps = {
   /** The invoice.projectMonth */
-  value?: InvoiceProjectMonth,
-  onProjectMonthChange: (fullProjectMonth: FullProjectMonthModel) => void,
-  onManualChange: (consultant?: ConsultantModel, month?: Moment | null) => void,
+  value?: InvoiceProjectMonth;
+  onProjectMonthChange: (fullProjectMonth: FullProjectMonthModel) => void;
+  onManualChange: (consultant?: ConsultantModel, month?: Moment | null) => void;
   /** Currently selected Invoice */
   invoice?: InvoiceModel;
 }

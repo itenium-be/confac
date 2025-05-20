@@ -5,8 +5,8 @@ import { BaseSelect } from '../../controls/form-controls/select/BaseSelect';
 export type FilterValue = string | number;
 
 export type ClientFilterOption = {
-  label: string,
-  value: FilterValue
+  label: string;
+  value: FilterValue;
 }
 
 export type ClientSearchProps = {

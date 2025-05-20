@@ -3,8 +3,8 @@ import {ConfacState} from '../../../reducers/app-state';
 import {Button} from './Button';
 
 type ButtonWithClickOnceProps = {
-  isBusy: boolean,
-  disabled?: boolean,
+  isBusy: boolean;
+  disabled?: boolean;
 }
 
 const EnhanceButtonWithClickOnce = <P extends object>(Component: React.ComponentType<P>): React.FC<P & ButtonWithClickOnceProps> => (

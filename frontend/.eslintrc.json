@@ -81,7 +81,17 @@
     "react/no-unstable-nested-components": "error",
     "react/no-unused-prop-types": "error",
     "react/no-unused-state": "error",
-    "react/self-closing-comp": "error"
+    "react/self-closing-comp": "error",
+    "@typescript-eslint/member-delimiter-style": ["error", {
+      "multiline": {
+        "delimiter": "semi",
+        "requireLast": true
+      },
+      "singleline": {
+        "delimiter": "semi",
+        "requireLast": false
+      }
+    }]
   },
   "overrides": [
     {

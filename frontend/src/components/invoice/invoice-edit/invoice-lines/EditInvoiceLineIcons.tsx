@@ -4,11 +4,11 @@ import {Claim} from '../../../users/models/UserModel';
 
 
 type EditInvoiceLineIconsProps = {
-  lines: InvoiceLine[],
+  lines: InvoiceLine[];
   index: number;
   /** Allow 0 invoice lines? */
-  allowEmpty?: boolean,
-  onChange: (lines: InvoiceLine[]) => void,
+  allowEmpty?: boolean;
+  onChange: (lines: InvoiceLine[]) => void;
   claim?: Claim;
 }
 

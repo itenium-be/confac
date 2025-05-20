@@ -6,11 +6,11 @@ import {InvoiceLine, InvoiceLineActions} from '../../models/InvoiceLineModels';
 import InvoiceModel from '../../models/InvoiceModel';
 
 export type EditInvoiceLineProps = {
-  lines: InvoiceLine[],
-  onChange: (lines: InvoiceLine[]) => void,
-  index: number,
-  line: InvoiceLine,
-  invoice?: InvoiceModel,
+  lines: InvoiceLine[];
+  onChange: (lines: InvoiceLine[]) => void;
+  index: number;
+  line: InvoiceLine;
+  invoice?: InvoiceModel;
 }
 
 export const EditInvoiceDefaultLine = ({lines, invoice, index, onChange, line}: EditInvoiceLineProps) => {

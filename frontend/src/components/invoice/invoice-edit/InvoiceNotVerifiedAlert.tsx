@@ -13,13 +13,13 @@ import {Claim} from '../../users/models/UserModel';
 
 
 type InvoiceNotVerifiedAlertProps = {
-  invoice: InvoiceModel,
-  toggleInvoiceVerify: Function,
-  invoicePayDays: number,
+  invoice: InvoiceModel;
+  toggleInvoiceVerify: Function;
+  invoicePayDays: number;
 }
 
 type InvoiceNotVerifiedAlertState = {
-  dismissed: boolean
+  dismissed: boolean;
 }
 
 class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, InvoiceNotVerifiedAlertState> {

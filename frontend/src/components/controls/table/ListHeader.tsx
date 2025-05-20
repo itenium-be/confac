@@ -6,7 +6,7 @@ import { ListFilters, SortDirections } from './table-models';
 
 
 type ListHeaderProps<TModel> = {
-  feature: IFeature<TModel>
+  feature: IFeature<TModel>;
 }
 
 

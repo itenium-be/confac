@@ -8,7 +8,7 @@ import { AuditLog, AuditModelTypes } from './audit-models';
 import './audit.scss';
 
 /** tbody for 1 audit entry */
-export const AuditChangeEntry = ({ change, modelType }: { change: AuditLog; modelType: AuditModelTypes; }) => {
+export const AuditChangeEntry = ({ change, modelType }: { change: AuditLog; modelType: AuditModelTypes }) => {
   // TODO: ideally uses modelType to translate the diff.path that has changed
   const user = useSelector((state: ConfacState) => state.user.users.find(x => x.email === change.user));
 

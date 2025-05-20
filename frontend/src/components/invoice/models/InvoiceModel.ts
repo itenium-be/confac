@@ -11,15 +11,15 @@ import { holidaysService } from '../../../actions/holidays';
 
 
 export type InvoiceMoney = {
-  totalWithoutTax: number,
-  totalTax: number,
-  discount?: number | string,
-  total: number,
+  totalWithoutTax: number;
+  totalTax: number;
+  discount?: number | string;
+  total: number;
   totals: {
     // [x in EditClientRateType]: number // When create-react-app supports it
-    daily?: number,
-    hourly?: number,
-  }
+    daily?: number;
+    hourly?: number;
+  };
 }
 
 
@@ -232,7 +232,7 @@ export default class InvoiceModel implements IAttachment {
 }
 
 export type InvoiceModelProps = {
-  invoice: InvoiceModel
+  invoice: InvoiceModel;
 }
 
 
@@ -240,8 +240,8 @@ export type InvoiceModelProps = {
  * Days/hours worked
  */
 export type DaysWorked = {
-  daysWorked: number,
-  hoursWorked: number,
+  daysWorked: number;
+  hoursWorked: number;
 }
 
 
@@ -280,9 +280,9 @@ function daysCalc(invoice: InvoiceModel): DaysWorked {
 
 
 type GroupedInvoicesPerMonth = {
-  invoiceList: InvoiceModel[],
+  invoiceList: InvoiceModel[];
   /** Month in format: YYYYMM */
-  key: string,
+  key: string;
 }
 
 export function groupInvoicesPerMonth(invoices: InvoiceModel[]): GroupedInvoicesPerMonth[] {

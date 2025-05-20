@@ -3,8 +3,8 @@ import {SelectItem} from '../../../../models';
 import {t} from '../../../utils';
 
 export type Option = {
-  label: string,
-  value: string
+  label: string;
+  value: string;
 }
 
 export type SimpleCreatableSelectWithOptionsProps = {

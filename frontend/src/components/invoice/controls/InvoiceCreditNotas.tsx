@@ -14,8 +14,8 @@ import { ClaimGuard } from '../../enhancers/EnhanceWithClaim';
 
 
 export type InvoiceCreditNotasProps = {
-  model: InvoiceModel,
-  onChange: (invoice: InvoiceModel) => void,
+  model: InvoiceModel;
+  onChange: (invoice: InvoiceModel) => void;
 }
 
 export const InvoiceCreditNotas = ({model, onChange}: InvoiceCreditNotasProps) => {

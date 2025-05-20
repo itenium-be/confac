@@ -12,9 +12,9 @@ import { Button } from '../../controls/form-controls/Button';
 
 
 export type EditInvoiceFooterProps = {
-  initInvoice: InvoiceModel
-  invoice: InvoiceModel
-  setEmailModal: (emailTemplate: EmailTemplate) => void
+  initInvoice: InvoiceModel;
+  invoice: InvoiceModel;
+  setEmailModal: (emailTemplate: EmailTemplate) => void;
 }
 
 

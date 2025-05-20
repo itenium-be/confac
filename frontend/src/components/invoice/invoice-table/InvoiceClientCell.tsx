@@ -9,7 +9,7 @@ import {Icon} from '../../controls/Icon';
 
 
 type InvoiceClientCellProps = {
-  client: InvoiceClientModel | undefined,
+  client: InvoiceClientModel | undefined;
 }
 
 /** Link to a Client with option to open a Modal */

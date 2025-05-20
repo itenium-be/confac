@@ -3,10 +3,10 @@ import {IProjectModel} from '../models/IProjectModel';
 
 /** Calculated: Margin between Client/Partner for ProjectModel */
 type ProjectMarkup = {
-  totalClient: number,
-  amount: number,
+  totalClient: number;
+  amount: number;
   /** Currently the calculation for "margin" is used */
-  percentage: number,
+  percentage: number;
 }
 
 

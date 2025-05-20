@@ -14,11 +14,11 @@ export type ListSelectionItem<TModel> = TModel | TModel[]
 
 type ListSelectProps<TModel> = {
   /** List of available items */
-  data: TModel[],
+  data: TModel[];
   /** Currently selected items */
-  value: TModel[],
-  onChange: (selection: TModel[]) => void,
-  listSize?: number,
+  value: TModel[];
+  onChange: (selection: TModel[]) => void;
+  listSize?: number;
 }
 
 export const ListSelect = ({data, value, onChange, ...props}: ListSelectProps<InvoiceModel>) => {

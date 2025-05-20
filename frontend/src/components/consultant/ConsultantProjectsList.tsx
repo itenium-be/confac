@@ -26,9 +26,9 @@ import {Claim} from '../users/models/UserModel';
 import './ConsultantProjectsList.scss';
 
 type ConsultantProject = {
-  consultant: ConsultantModel,
-  project?: IProjectModel,
-  client?: ClientModel,
+  consultant: ConsultantModel;
+  project?: IProjectModel;
+  client?: ClientModel;
 }
 
 

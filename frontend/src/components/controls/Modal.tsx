@@ -13,26 +13,26 @@ export type ModalState = string | null | 'create';
 
 
 export type BaseModalProps = {
-  show: boolean,
-  onClose: () => void,
+  show: boolean;
+  onClose: () => void;
 }
 
 
 type ModalProps = BaseModalProps & {
   /** Optional confirm button */
-  onConfirm?: () => void,
+  onConfirm?: () => void;
   /**
    * Confirm button text
    * Defaults to "Save"
    */
-  confirmText?: string,
-  confirmVariant?: BootstrapVariant,
-  title: string | React.ReactNode,
-  extraButtons?: React.ReactNode,
-  children: any,
+  confirmText?: string;
+  confirmVariant?: BootstrapVariant;
+  title: string | React.ReactNode;
+  extraButtons?: React.ReactNode;
+  children: any;
   /** For custom sizing of the Modal etc */
-  dialogClassName?: string,
-  disableSave?: boolean
+  dialogClassName?: string;
+  disableSave?: boolean;
 }
 
 export const Modal = (props: ModalProps) => {

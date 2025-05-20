@@ -6,11 +6,11 @@ type BasicMathInputProps = BaseInputProps<number | undefined> & {
   /**
    * True: allow decimals
    */
-  float?: boolean,
+  float?: boolean;
   /**
    * Allow parsing 10:50 as time
    */
-  allowHours?: boolean,
+  allowHours?: boolean;
 }
 
 

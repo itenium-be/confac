@@ -7,9 +7,9 @@ import {EnhanceInputWithAddons, EnhanceInputWithAddonsProps,
 
 
 export type MinimalInputProps<T, TReturn = T> = {
-  value?: T,
-  onChange: (e: TReturn) => void,
-  disabled?: boolean,
+  value?: T;
+  onChange: (e: TReturn) => void;
+  disabled?: boolean;
 };
 
 
@@ -19,13 +19,13 @@ export type BaseInputProps<T, TReturn = T> =
   & EnhanceInputWithLabelProps
   & EnhanceInputWithDisplayProps
   & {
-  type?: 'textarea' | 'text' | 'number',
-  onBlur?: (e: any) => void,
-  placeholder?: string,
-  style?: React.CSSProperties,
-  autoFocus?: boolean,
+  type?: 'textarea' | 'text' | 'number';
+  onBlur?: (e: any) => void;
+  placeholder?: string;
+  style?: React.CSSProperties;
+  autoFocus?: boolean;
   /** ATTN: Technical debt: leakage of the FormConfig */
-  updateOnly?: boolean,
+  updateOnly?: boolean;
 }
 
 // eslint-disable-next-line react/prefer-stateless-function

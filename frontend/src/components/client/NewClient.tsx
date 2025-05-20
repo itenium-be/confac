@@ -13,7 +13,7 @@ import { Alert } from 'react-bootstrap';
 
 
 type NewClientProps = {
-  onChange: (client: ClientModel) => void,
+  onChange: (client: ClientModel) => void;
 }
 
 /**

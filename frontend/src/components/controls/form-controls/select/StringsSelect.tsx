@@ -4,13 +4,13 @@ import {t} from '../../../utils';
 import {BaseInputProps} from '../inputs/BaseInput';
 
 export type StringsSelectProps = BaseInputProps<string[]> & {
-  options: string[],
+  options: string[];
 }
 
 
 type OptionType = {
-  label: string,
-  value: string,
+  label: string;
+  value: string;
 }
 
 

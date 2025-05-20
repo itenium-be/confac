@@ -8,7 +8,7 @@ import {BaseInputProps} from '../inputs/BaseInput';
 export type PropertiesSelectProps = BaseInputProps<SelectItem[]>;
 
 export const PropertiesSelect = EnhanceInputWithLabel(class extends Component<PropertiesSelectProps> {
-  onChange(values: Array<SelectItem & { className?: string, __isNew__?: boolean }>) {
+  onChange(values: Array<SelectItem & { className?: string; __isNew__?: boolean }>) {
     const properties = (values || []).map(val => {
       const value = val;
       if (value.className) {

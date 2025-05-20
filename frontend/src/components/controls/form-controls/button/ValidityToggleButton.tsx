@@ -8,7 +8,7 @@ type ValidityToggleButtonProps = MinimalInputProps<boolean> & {
   /** True: Outline-Success/Danger. False Success/Danger bootstrap classes */
   outline?: boolean;
   /** Button tooltip */
-  title?: string | {on: string, off: string, disabled: string};
+  title?: string | {on: string; off: string; disabled: string};
   claim: Claim;
 };
 
