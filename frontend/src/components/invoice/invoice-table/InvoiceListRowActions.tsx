@@ -58,9 +58,9 @@ export const InvoiceListRowActions = ({invoice, small = false, buttons, hideEdit
       {(buttons?.includes('download') ?? true) && !small && (
         <InvoiceDownloadIcon invoice={invoice} fileType="pdf" />
       )}
-      {(buttons?.includes('preview') ?? true) &&
+      {(buttons?.includes('preview') ?? true) && (
         <InvoicePreviewIcon invoice={invoice} />
-      }
+      )}
 
       {(buttons?.includes('delete') ?? true) && !small && (
         <ConfirmedDeleteIcon

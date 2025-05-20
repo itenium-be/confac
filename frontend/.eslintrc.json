@@ -48,7 +48,8 @@
     "react/jsx-boolean-value": ["error", "never"],
     "react/jsx-closing-bracket-location": ["error"],
     "react/jsx-curly-brace-presence": ["error", "never"],
-    "react/jsx-curly-newline": ["error", "consistent"]
+    "react/jsx-curly-newline": ["error", "consistent"],
+    "react/jsx-curly-spacing": ["error"]
   },
   "overrides": [
     {
