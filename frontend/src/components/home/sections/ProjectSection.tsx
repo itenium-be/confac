@@ -3,7 +3,7 @@ import { ConsultantContractsList } from "../measurements/project/ConsultantContr
 export const ProjectSection = () => {
   return (
     <>
-    <ConsultantContractsList />
+      <ConsultantContractsList />
     </>
   );
 };

@@ -38,51 +38,51 @@ export const EditInvoiceLines = (
   const nrOfColumns = 6;
   return (
     <div className="edit-invoice-lines">
-    <Table size="sm">
-      <thead>
-        <tr>
-          <th style={{width: '1%'}}>&nbsp;</th>
-          <th style={{width: '30%'}}>{t('client.projectDesc')}</th>
-          <th style={{width: '10%'}}>{t('rates.type')}</th>
-          <th style={{width: '10%'}}>{t('rates.value')}</th>
-          <th style={{width: '10%'}}>{t('rates.rate')}</th>
-          <th style={{width: '10%'}}>{t('config.company.btw')}</th>
-          <th style={{width: '1%'}}>&nbsp;</th>
-        </tr>
-      </thead>
-      <DragDropContext onDragEnd={drag => onDragEnd(drag)}>
-        <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
-            <tbody ref={provided.innerRef}>
-              {(value || []).map((item, index) => (
-                <Draggable key={item.sort} draggableId={(typeof item.sort === 'number' ? item.sort : index).toString()} index={index}>
-                  {(providedInner, snapshotInner) => {
-                    const EditInvoiceLine = createEditInvoiceLine(item);
-                    return (
-                      <tr ref={providedInner.innerRef} {...providedInner.draggableProps} {...providedInner.dragHandleProps}>
-                        <td><DragAndDropIcon claim={claim} /></td>
-                        <EditInvoiceLine lines={value} index={index} onChange={onChange} line={item} invoice={invoice} />
-                        <EditInvoiceLineIcons claim={claim} lines={value} index={index} allowEmpty={allowEmpty} onChange={onChange} />
-                      </tr>
-                    );
-                  }}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </tbody>
-          )}
-        </Droppable>
-      </DragDropContext>
-      <ClaimGuard claim={claim}>
-        <tbody>
+      <Table size="sm">
+        <thead>
           <tr>
-            <td colSpan={nrOfColumns}>
-              <AddIcon onClick={() => onChange(InvoiceLineActions.addEmptyLine(value))} label={tp('.addLine')} size={1} />
-            </td>
+            <th style={{width: '1%'}}>&nbsp;</th>
+            <th style={{width: '30%'}}>{t('client.projectDesc')}</th>
+            <th style={{width: '10%'}}>{t('rates.type')}</th>
+            <th style={{width: '10%'}}>{t('rates.value')}</th>
+            <th style={{width: '10%'}}>{t('rates.rate')}</th>
+            <th style={{width: '10%'}}>{t('config.company.btw')}</th>
+            <th style={{width: '1%'}}>&nbsp;</th>
           </tr>
-        </tbody>
-      </ClaimGuard>
-    </Table>
+        </thead>
+        <DragDropContext onDragEnd={drag => onDragEnd(drag)}>
+          <Droppable droppableId="droppable">
+            {(provided, snapshot) => (
+              <tbody ref={provided.innerRef}>
+                {(value || []).map((item, index) => (
+                  <Draggable key={item.sort} draggableId={(typeof item.sort === 'number' ? item.sort : index).toString()} index={index}>
+                    {(providedInner, snapshotInner) => {
+                      const EditInvoiceLine = createEditInvoiceLine(item);
+                      return (
+                        <tr ref={providedInner.innerRef} {...providedInner.draggableProps} {...providedInner.dragHandleProps}>
+                          <td><DragAndDropIcon claim={claim} /></td>
+                          <EditInvoiceLine lines={value} index={index} onChange={onChange} line={item} invoice={invoice} />
+                          <EditInvoiceLineIcons claim={claim} lines={value} index={index} allowEmpty={allowEmpty} onChange={onChange} />
+                        </tr>
+                      );
+                    }}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </tbody>
+            )}
+          </Droppable>
+        </DragDropContext>
+        <ClaimGuard claim={claim}>
+          <tbody>
+            <tr>
+              <td colSpan={nrOfColumns}>
+                <AddIcon onClick={() => onChange(InvoiceLineActions.addEmptyLine(value))} label={tp('.addLine')} size={1} />
+              </td>
+            </tr>
+          </tbody>
+        </ClaimGuard>
+      </Table>
     </div>
   );
 };

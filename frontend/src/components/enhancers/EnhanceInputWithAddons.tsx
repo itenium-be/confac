@@ -14,17 +14,17 @@ export const EnhanceInputWithAddons = <P extends object>(ComposedComponent: Reac
   ({prefix, prefixOptions, suffix, suffixOptions, addOnMinWidth, ...props}: EnhanceInputWithAddonsProps & P) => {
   // ATTN: window.outerWidth is not part of the state, so a
   // rerender does not happen when the user resizes the window
-  if ((!addOnMinWidth || addOnMinWidth < window.outerWidth) && (prefix || suffix)) {
-    return (
-      <InputGroup>
-        {prefix ? <Addon add={prefix} options={prefixOptions} /> : null}
-        <ComposedComponent {...props as P} />
-        {suffix ? <Addon add={suffix} options={suffixOptions} /> : null}
-      </InputGroup>
-    );
-  }
-  return <ComposedComponent {...props as P} />;
-};
+    if ((!addOnMinWidth || addOnMinWidth < window.outerWidth) && (prefix || suffix)) {
+      return (
+        <InputGroup>
+          {prefix ? <Addon add={prefix} options={prefixOptions} /> : null}
+          <ComposedComponent {...props as P} />
+          {suffix ? <Addon add={suffix} options={suffixOptions} /> : null}
+        </InputGroup>
+      );
+    }
+    return <ComposedComponent {...props as P} />;
+  };
 
 
 const Addon = ({add, options}) => {

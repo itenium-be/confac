@@ -16,7 +16,7 @@ export const PhoneInput = ({value, onChange, ...props}: PhoneInputProps) => (
           <Icon fa="fa fa-phone" size={1} />
         </a>
       </InputGroup.Text>
-      )}
+    )}
     suffixOptions={{type: 'button'}}
   />
 );

@@ -18,7 +18,7 @@ export const InvoiceReplacementsInput = ({value, onChange, ...props}: InvoiceRep
           <Icon fa="fa fa-file-invoice" size={1} />
         </InputGroup.Text>
       </OverlayTrigger>
-      )}
+    )}
     suffixOptions={{type: 'button'}}
   />
 );

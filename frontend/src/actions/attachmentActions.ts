@@ -40,13 +40,13 @@ export function updateAttachment(
     req.then(res => {
       let config: {type: string, key: string};
       switch (modelType) {
-      case 'client':
-        config = {type: ACTION_TYPES.CLIENT_UPDATE, key: 'client'};
-        break;
-      case 'invoice':
-      case 'quotation':
-        config = {type: ACTION_TYPES.INVOICE_UPDATED, key: 'invoice'};
-        break;
+        case 'client':
+          config = {type: ACTION_TYPES.CLIENT_UPDATE, key: 'client'};
+          break;
+        case 'invoice':
+        case 'quotation':
+          config = {type: ACTION_TYPES.INVOICE_UPDATED, key: 'invoice'};
+          break;
       }
 
       const mergedModel = {...model, attachments: res.body.attachments};
@@ -70,15 +70,15 @@ export type AttachmentFormContext = {
 
 function getDispatchConfig(modelType: ModelsWithAttachments, body: any): any {
   switch (modelType) {
-  case 'config':
-    return {type: ACTION_TYPES.CONFIG_UPDATE, config: body};
+    case 'config':
+      return {type: ACTION_TYPES.CONFIG_UPDATE, config: body};
 
-  case 'client':
-    return {type: ACTION_TYPES.CLIENT_UPDATE, client: body};
+    case 'client':
+      return {type: ACTION_TYPES.CLIENT_UPDATE, client: body};
 
-  case 'invoice':
-  case 'quotation':
-    return {type: ACTION_TYPES.INVOICE_UPDATED, invoice: body};
+    case 'invoice':
+    case 'quotation':
+      return {type: ACTION_TYPES.INVOICE_UPDATED, invoice: body};
   }
 }
 

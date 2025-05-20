@@ -62,8 +62,8 @@ export const EditUser = () => {
       </Form>
       <StickyFooter claim={Claim.ManageUsers}>
         <BusyButton
-         className="tst-save-user"
-         onClick={() => dispatch(saveUser(user, undefined, navigate) as any)}
+          className="tst-save-user"
+          onClick={() => dispatch(saveUser(user, undefined, navigate) as any)}
           disabled={isButtonDisabled()}
         >
           {t('save')}

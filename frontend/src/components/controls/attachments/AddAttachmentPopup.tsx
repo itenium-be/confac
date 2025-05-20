@@ -53,27 +53,27 @@ const AddAttachmentPopupComponent = (props: AddAttachmentPopupProps) => {
       />
 
       {isModalOpen && (
-      <Popup title={t('invoice.attachmentsAdd')} buttons={buttons} onHide={() => setIsModalOpen(false)}>
-        <Form.Group style={{marginBottom: 12}}>
-          <Form.Label>{t('attachment.type')}</Form.Label>
-          <SimpleCreatableSelect
-            value={type}
-            options={props.attachmentTypes}
-            onChange={(text: string) => setType(text)}
-          />
-        </Form.Group>
+        <Popup title={t('invoice.attachmentsAdd')} buttons={buttons} onHide={() => setIsModalOpen(false)}>
+          <Form.Group style={{marginBottom: 12}}>
+            <Form.Label>{t('attachment.type')}</Form.Label>
+            <SimpleCreatableSelect
+              value={type}
+              options={props.attachmentTypes}
+              onChange={(text: string) => setType(text)}
+            />
+          </Form.Group>
 
-        {!canAddFile && type ? (
-          <Alert variant="danger">{t('attachment.typeExists')}</Alert>
-        ) : null}
+          {!canAddFile && type ? (
+            <Alert variant="danger">{t('attachment.typeExists')}</Alert>
+          ) : null}
 
-        {canAddFile && type
+          {canAddFile && type
         && (
-        <div style={{maxWidth: '50%'}}>
-          <AttachmentDropzone onUpload={(f: File) => setFile(f)} fileType={type} />
-        </div>
+          <div style={{maxWidth: '50%'}}>
+            <AttachmentDropzone onUpload={(f: File) => setFile(f)} fileType={type} />
+          </div>
         )}
-      </Popup>
+        </Popup>
       )}
     </>
   );

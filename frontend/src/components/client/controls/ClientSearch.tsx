@@ -18,13 +18,13 @@ export type ClientSearchProps = {
 
 
 export const ClientSearch = ({values, options, onChange, ...props}: ClientSearchProps) => {
-    return (
-      <BaseSelect
-        value={values}
-        onChange={(newOptions: SelectItem[]) => onChange((newOptions || []).map(o => o.value))}
-        options={options}
-        isClearable={false}
-        isMulti
-        {...props}
+  return (
+    <BaseSelect
+      value={values}
+      onChange={(newOptions: SelectItem[]) => onChange((newOptions || []).map(o => o.value))}
+      options={options}
+      isClearable={false}
+      isMulti
+      {...props}
     />
-);};
+  );};

@@ -202,11 +202,11 @@ export function getInvoiceColumns(config: InvoiceFeatureBuilderConfig): IListCel
     header: '',
     className: 'icons-cell',
     value: (i: InvoiceModel) =>
-    <InvoiceListRowActions
-      invoice={i}
-      buttons={config.buttons}
-      hideEdit={config.currentInvoice?.number === i.number}
-    />,
+      <InvoiceListRowActions
+        invoice={i}
+        buttons={config.buttons}
+        hideEdit={config.currentInvoice?.number === i.number}
+      />,
   }];
 
   const result = columns.filter(col => includedFields.includes(col.key));

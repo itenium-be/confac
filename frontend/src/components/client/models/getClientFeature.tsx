@@ -142,10 +142,10 @@ const getFilterOptions = (config: ClientFeatureBuilderConfig): ClientFilterOptio
     value: ct,
     label: t(`client.clienttypes.${ct}`)
   } as ClientFilterOption))
-  .concat(getInvoiceYears(config.invoices).map(y => ({
-    value: y,
-    label: y.toString()
-  })));
+    .concat(getInvoiceYears(config.invoices).map(y => ({
+      value: y,
+      label: y.toString()
+    })));
 };
 
 export const clientFeature = (config: ClientFeatureBuilderConfig): IFeature<ClientModel, ClientListFilters> => {
@@ -160,10 +160,10 @@ export const clientFeature = (config: ClientFeatureBuilderConfig): IFeature<Clie
     value: ct,
     label: t(`client.clienttypes.${ct}`)
   } as ClientFilterOption))
-  .concat(config.filters.years.map(y => ({
-    value: y,
-    label: y.toString()
-  })));
+    .concat(config.filters.years.map(y => ({
+      value: y,
+      label: y.toString()
+    })));
 
   feature.list.filter = {
     state: config.filters,

@@ -34,8 +34,8 @@ export function handleConfigSocketEvents(eventType: SocketEventTypes, eventPaylo
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:
         dispatch({
-            type: ACTION_TYPES.CONFIG_UPDATE,
-            config: eventPayload.entity,
+          type: ACTION_TYPES.CONFIG_UPDATE,
+          config: eventPayload.entity,
         });
         break;
       default:

@@ -22,7 +22,7 @@ export const InboundBadge = ({pending, totals}: TimesheetBadgeProps) => {
     <span className="badge rounded-pill bg-warning inbound-badges">
       <Tooltip title={totals.inboundNew && `<b>${t('projectMonth.inboundNew')}</b><br>${totals.inboundNew}`}>
         <i className="fa fa-inbox fa-1x">
-            <span>{totals.inboundNewCount}</span>
+          <span>{totals.inboundNewCount}</span>
         </i>
       </Tooltip>
 
@@ -35,8 +35,8 @@ export const InboundBadge = ({pending, totals}: TimesheetBadgeProps) => {
 
       <Tooltip
         title={totals.inboundPaid && `<b>${t('projectMonth.inboundPaid')}</b><br>${totals.inboundPaid}`}>
-       <i className="fa fa-coins fa-1x">
-        <span>{totals.inboundPaidCount}</span>
+        <i className="fa fa-coins fa-1x">
+          <span>{totals.inboundPaidCount}</span>
         </i>
       </Tooltip>
     </span>
