@@ -25,12 +25,12 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user:
     await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf' | 'xml'>>(CollectionNames.ATTACHMENTS).insertOne({
       _id: new ObjectID(createdInvoice._id),
       pdf: pdfBuffer,
-      xml: xmlBuffer
+      xml: xmlBuffer,
     });
   } else {
     await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf'>>(CollectionNames.ATTACHMENTS).insertOne({
       _id: new ObjectID(createdInvoice._id),
-      pdf: pdfBuffer
+      pdf: pdfBuffer,
     });
   }
 
@@ -54,7 +54,8 @@ const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMo
     .findOneAndUpdate({_id: new ObjectID(invoice._id)}, {$set: {attachments: updatedAttachmentDetails}}, {returnOriginal: false});
   const updatedInvoice = updateInvoiceResult.value;
 
-  const updateProjectMonthResult = await db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH).findOneAndUpdate({_id: projectMonthId}, {$set: {attachments: []}});
+  const updateProjectMonthResult = await db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH)
+    .findOneAndUpdate({_id: projectMonthId}, {$set: {attachments: []}});
   const updatedProjectMonth = updateProjectMonthResult.value;
 
   await db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).findOneAndDelete({_id: projectMonthId});
@@ -64,7 +65,10 @@ const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMo
 
 
 export const getInvoicesController = async (req: Request<void, void, void, {months: number}>, res: Response) => {
-  const getFrom = moment().subtract(req.query.months, 'months').startOf('month').format('YYYY-MM-DD');
+  const getFrom = moment()
+    .subtract(req.query.months, 'months')
+    .startOf('month')
+    .format('YYYY-MM-DD');
   const invoices = await req.db.collection(CollectionNames.INVOICES)
     .find({date: {$gte: getFrom}})
     .toArray();
@@ -135,11 +139,11 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
 
     await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateMany(
       {_id: {$in: linkedInvoiceIds}},
-      {$push: {creditNotas: createdInvoice._id.toString()}}
+      {$push: {creditNotas: createdInvoice._id.toString()}},
     );
 
-    linkedInvoices.forEach(invoice => {
-      invoice.creditNotas = [...(invoice.creditNotas || []), createdInvoice._id];
+    linkedInvoices.forEach(linkedInvoice => {
+      linkedInvoice.creditNotas = [...(linkedInvoice.creditNotas || []), createdInvoice._id]; // eslint-disable-line no-param-reassign
       emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, invoice._id, invoice, 'everyone');
     });
   }
@@ -201,7 +205,7 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
 
 
 export const verifyInvoiceController = async (req: ConfacRequest, res: Response) => {
-  const {id, verified}: { id: string; verified: boolean; } = req.body;
+  const {id, verified}: {id: string; verified: boolean} = req.body;
 
   const saveResult = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
     .findOneAndUpdate({_id: new ObjectID(id)}, {$set: {verified}}, {returnOriginal: true});
@@ -229,7 +233,7 @@ export const verifyInvoiceController = async (req: ConfacRequest, res: Response)
     let shouldUpdateProjectMonth = true;
     if (verified && invoice.creditNotas?.length) {
       const creditNotes = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
-        .find({_id: {$in: invoice.creditNotas.map(id => new ObjectID(id))}})
+        .find({_id: {$in: invoice.creditNotas.map(creditNotaId => new ObjectID(creditNotaId))}})
         .toArray();
 
       shouldUpdateProjectMonth = creditNotes.every(creditNote => creditNote.verified);
@@ -239,7 +243,13 @@ export const verifyInvoiceController = async (req: ConfacRequest, res: Response)
       const projectMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
         .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth.projectMonthId)}, {$set: {verified}}, {returnOriginal: false});
 
-      emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS_MONTH, invoice.projectMonth.projectMonthId, projectMonth.value);
+      emitEntityEvent(
+        req,
+        SocketEventTypes.EntityUpdated,
+        CollectionNames.PROJECTS_MONTH,
+        invoice.projectMonth.projectMonthId,
+        projectMonth.value,
+      );
 
       result.push({
         type: 'projectMonth',
@@ -255,13 +265,13 @@ export const verifyInvoiceController = async (req: ConfacRequest, res: Response)
 
 /** Hard invoice delete: There is no coming back from this one */
 export const deleteInvoiceController = async (req: ConfacRequest, res: Response) => {
-  const { id: invoiceId }: { id: string; } = req.body;
+  const {id: invoiceId}: {id: string} = req.body;
 
-  const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOne({ _id: new ObjectID(invoiceId) });
+  const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOne({_id: new ObjectID(invoiceId)});
 
   if (invoice?.projectMonth) {
     const invoiceAttachments: IAttachmentCollection | null = await req.db.collection(CollectionNames.ATTACHMENTS)
-      .findOne({ _id: new ObjectID(invoiceId) as ObjectID }, {
+      .findOne({_id: new ObjectID(invoiceId) as ObjectID}, {
         projection: {
           _id: false,
           pdf: false,
@@ -269,18 +279,18 @@ export const deleteInvoiceController = async (req: ConfacRequest, res: Response)
       });
 
     if (invoiceAttachments !== null && Object.keys(invoiceAttachments).length > 0) {
-      await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).updateOne({ _id: new ObjectID(invoice.projectMonth.projectMonthId) }, {
-        $set: { ...invoiceAttachments }
-      }, {
-        upsert: true
-      });
+      await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).updateOne(
+        {_id: new ObjectID(invoice.projectMonth.projectMonthId)},
+        {$set: {...invoiceAttachments}},
+        {upsert: true},
+      );
     }
 
     const projectMonthCollection = req.db.collection(CollectionNames.PROJECTS_MONTH);
     const attachments = invoice.attachments.filter(a => a.type !== 'pdf');
 
     const projectMonthId = new ObjectID(invoice.projectMonth.projectMonthId);
-    const updateProjectMonthResult = await projectMonthCollection.findOneAndUpdate({ _id: projectMonthId }, { $set: { attachments } });
+    const updateProjectMonthResult = await projectMonthCollection.findOneAndUpdate({_id: projectMonthId}, {$set: {attachments}});
     const updatedProjectMonth = updateProjectMonthResult.value;
     if (updatedProjectMonth) {
       emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS_MONTH, updatedProjectMonth._id, updatedProjectMonth);
@@ -295,17 +305,17 @@ export const deleteInvoiceController = async (req: ConfacRequest, res: Response)
 
     await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateMany(
       {_id: {$in: linkedInvoiceIds}},
-      {$pull: {creditNotas: invoice._id.toString()}}
+      {$pull: {creditNotas: invoice._id.toString()}},
     );
 
     linkedInvoices.forEach(toUpdate => {
-      toUpdate.creditNotas = toUpdate.creditNotas.filter(x => x !== invoice._id.toString());
+      toUpdate.creditNotas = toUpdate.creditNotas.filter(x => x !== invoice._id.toString()); // eslint-disable-line no-param-reassign
       emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, toUpdate._id, toUpdate, 'everyone');
     });
   }
 
-  await req.db.collection(CollectionNames.INVOICES).findOneAndDelete({ _id: new ObjectID(invoiceId) });
-  await req.db.collection(CollectionNames.ATTACHMENTS).findOneAndDelete({ _id: new ObjectID(invoiceId) });
+  await req.db.collection(CollectionNames.INVOICES).findOneAndDelete({_id: new ObjectID(invoiceId)});
+  await req.db.collection(CollectionNames.ATTACHMENTS).findOneAndDelete({_id: new ObjectID(invoiceId)});
   emitEntityEvent(req, SocketEventTypes.EntityDeleted, CollectionNames.INVOICES, new ObjectID(invoiceId), null);
 
   return res.send(invoiceId);
@@ -365,7 +375,6 @@ export const getInvoiceXmlController = async (req: Request, res: Response) => {
     .findOne({_id: new ObjectID(id)});
   if (invoiceAttachments && invoiceAttachments.xml) {
     return res.type('application/xml').send(invoiceAttachments.xml.toString());
-  } else {
-    return res.status(500).send('No xml found');
   }
+  return res.status(500).send('No xml found');
 };

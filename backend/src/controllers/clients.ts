@@ -29,7 +29,11 @@ export const saveClient = async (req: ConfacRequest, res: Response) => {
   if (_id) {
     client.audit = updateAudit(client.audit, req.user);
     const clientsCollection = req.db.collection<IClient>(CollectionNames.CLIENTS);
-    const {value: originalClient} = await clientsCollection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: client}, {returnOriginal: true});
+    const {value: originalClient} = await clientsCollection.findOneAndUpdate(
+      {_id: new ObjectID(_id)},
+      {$set: client},
+      {returnOriginal: true},
+    );
 
     await saveAudit(req, 'client', originalClient, client);
     const clientResponse = {_id, ...client};

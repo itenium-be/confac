@@ -1,15 +1,15 @@
 import {Request, Response} from 'express';
 import PDFMerge from 'pdf-merge';
 import sgMail from '@sendgrid/mail';
-import {MailData} from '@sendgrid/helpers/classes/mail';
+import {MailData} from '@sendgrid/helpers/classes/mail'; // eslint-disable-line import/no-extraneous-dependencies
 import fs from 'fs';
 import tmp from 'tmp';
 import {ObjectID} from 'mongodb';
 import {IAttachmentCollection, ISendGridAttachment} from '../models/attachments';
 import {IEmail} from '../models/clients';
 import {CollectionNames, IAttachment, SocketEventTypes} from '../models/common';
-import { emitEntityEvent } from './utils/entity-events';
-import { ConfacRequest } from '../models/technical';
+import {emitEntityEvent} from './utils/entity-events';
+import {ConfacRequest} from '../models/technical';
 
 
 type EmailAttachmentRequest = {
@@ -24,7 +24,7 @@ export const emailInvoiceController = async (req: Request<{id: number}, any, Ema
   const invoiceId = req.params.id;
   const email = req.body;
 
-  const attachmentTypes = email.attachments.map(a => a.type).reduce((acc: { [key: string]: number; }, cur) => {
+  const attachmentTypes = email.attachments.map(a => a.type).reduce((acc: {[key: string]: number}, cur) => {
     acc[cur] = 1;
     return acc;
   }, {});
@@ -32,11 +32,13 @@ export const emailInvoiceController = async (req: Request<{id: number}, any, Ema
     .collection(CollectionNames.ATTACHMENTS)
     .findOne({_id: new ObjectID(invoiceId)}, attachmentTypes);
 
-  if (!attachmentBuffers)
-    return res.status(500).send({message: "Couldn't find attachments!?"});
+  if (!attachmentBuffers) {
+    return res.status(500).send({message: 'Couldn\'t find attachments!?'});
+  }
 
-  if (email.combineAttachments && email.attachments.some(attachment => attachment.fileType !== 'application/pdf'))
+  if (email.combineAttachments && email.attachments.some(attachment => attachment.fileType !== 'application/pdf')) {
     return res.status(400).send({message: 'Emailing with combineAttachments=true: Can only merge pdfs'});
+  }
 
 
   const data = await req.db.collection('attachments_config').findOne({});
@@ -44,8 +46,9 @@ export const emailInvoiceController = async (req: Request<{id: number}, any, Ema
 
   const mailData = await buildInvoiceEmailData(email, attachmentBuffers, termsAndConditions);
   const emailRes = await sendEmail(res, mailData);
-  if (emailRes)
+  if (emailRes) {
     return emailRes;
+  }
 
   if (req.query.emailInvoiceOnly) {
     await sendInvoiceOnlyEmail(email, attachmentBuffers, req.query.emailInvoiceOnly);
@@ -62,7 +65,7 @@ export const emailInvoiceController = async (req: Request<{id: number}, any, Ema
       SocketEventTypes.EntityUpdated,
       CollectionNames.INVOICES,
       updatedInvoice.value._id,
-      {...updatedInvoice.value, lastEmail: lastEmailSent}
+      {...updatedInvoice.value, lastEmail: lastEmailSent},
     );
   }
 
@@ -74,7 +77,7 @@ export const emailInvoiceController = async (req: Request<{id: number}, any, Ema
 async function buildInvoiceEmailData(
   email: EmailRequest,
   attachmentBuffers: IAttachmentCollection,
-  termsAndConditions: Buffer
+  termsAndConditions: Buffer,
 ): Promise<MailData> {
 
   // Make sure the invoice is the first document in the array
@@ -125,6 +128,7 @@ async function buildInvoiceEmailData(
     fs.writeSync(termsCondFile.fd, termsAndConditions);
 
     const mergedInvoicePdf: Buffer = await PDFMerge([invoiceFile, termsCondFile].map(f => f.name));
+    // eslint-disable-next-line no-confusing-arrow
     sendGridAttachments = sendGridAttachments.map((att, idx) => idx === 0 ? {...att, content: mergedInvoicePdf} : att);
 
     invoiceFile.removeCallback();
@@ -178,8 +182,13 @@ async function sendEmail(res: Response, mailData: MailData): Promise<Response | 
 /**
  * Send email with only the invoice, not the timesheet etc
  * This email is sent only once
- **/
-async function sendInvoiceOnlyEmail(email: EmailRequest, attachmentBuffers: IAttachmentCollection, emailInvoiceOnly: string): Promise<void> {
+ * */
+async function sendInvoiceOnlyEmail(
+  email: EmailRequest,
+  attachmentBuffers: IAttachmentCollection,
+  emailInvoiceOnly: string,
+): Promise<void> {
+
   const attachment = email.attachments.find(x => x.type === 'pdf')!;
   const invoiceOnlyAttachments = [{
     content: attachmentBuffers[attachment.type].toString('base64'),
@@ -197,6 +206,6 @@ async function sendInvoiceOnlyEmail(email: EmailRequest, attachmentBuffers: IAtt
   };
 
   await sgMail.send(invoiceOnlyData, false).then(() => {
-    console.log(`emailInvoiceOnly sent to ${emailInvoiceOnly}`);
+    console.log(`emailInvoiceOnly sent to ${emailInvoiceOnly}`); // eslint-disable-line no-console
   });
 }

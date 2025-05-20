@@ -36,7 +36,6 @@ module.exports = {
     "max-len": [1, { "code": 140 }],
     "dot-notation": [1],
     "padded-blocks": [0],
-    "object-curly-newline": ["error", { "ImportDeclaration": "never" }],
     "no-plusplus": [0],
     "no-console": "warn",
     "arrow-parens": ["error", "as-needed"],
@@ -56,8 +55,8 @@ module.exports = {
     "@typescript-eslint/indent": ["error", 2],
     "object-property-newline": [0],
     "object-curly-newline": ["error", {
-      "ObjectExpression": { "multiline": true, "minProperties": 4 },
-      "ObjectPattern": { "multiline": true, "minProperties": 4 },
+      "ObjectExpression": { "multiline": true, "minProperties": 5 },
+      "ObjectPattern": { "multiline": true, "minProperties": 5 },
       "ImportDeclaration": { "multiline": true, "minProperties": 8 },
       "ExportDeclaration": { "multiline": true, "minProperties": 3 }
     }],

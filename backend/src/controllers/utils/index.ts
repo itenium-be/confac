@@ -34,7 +34,7 @@ export const convertHtmlToBuffer = (html: string): Promise<Buffer> => new Promis
   });
 });
 
-export const createHtml = (invoice: IInvoice): string | { error: string; } => {
+export const createHtml = (invoice: IInvoice): string | {error: string} => {
   /* eslint-disable no-param-reassign */
   invoice = JSON.parse(JSON.stringify(invoice));
   // if (Array.isArray(invoice.extraFields)) {

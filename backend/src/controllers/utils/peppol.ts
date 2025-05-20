@@ -103,7 +103,7 @@ export const createAccountingCustomerParty = (invoice: IInvoice, taxScheme: TaxS
 /**
  * https://docs.peppol.eu/poacc/billing/3.0/syntax/ubl-invoice/cac-LegalMonetaryTotal/
  */
-export const createLegalMonetaryTotal = (invoice: IInvoice, currency: {currencyID: string;}): LegalMonetaryTotal => {
+export const createLegalMonetaryTotal = (invoice: IInvoice, currency: {currencyID: string}): LegalMonetaryTotal => {
   const legalMonetaryTotal = new LegalMonetaryTotal({
     lineExtensionAmount: new UdtAmount(invoice.money.totalWithoutTax.toFixed(2), currency),
     taxInclusiveAmount: new UdtAmount(invoice.money.total.toFixed(2), currency),
@@ -114,7 +114,7 @@ export const createLegalMonetaryTotal = (invoice: IInvoice, currency: {currencyI
   return legalMonetaryTotal;
 };
 
-export const createTaxTotal = (invoice: IInvoice, taxCategory: TaxCategory, currency: {currencyID: string;}): TaxTotal => {
+export const createTaxTotal = (invoice: IInvoice, taxCategory: TaxCategory, currency: {currencyID: string}): TaxTotal => {
   /**
    * https://docs.peppol.eu/poacc/billing/3.0/syntax/ubl-invoice/cac-TaxTotal/
    */
@@ -235,7 +235,7 @@ export const createInvoiceLine = (
   invoice: IInvoice,
   line: IInvoiceLine,
   index: number,
-  currency: {currencyID: string;},
+  currency: {currencyID: string},
   classifiedTaxCategory: ClassifiedTaxCategory,
 ): InvoiceLine => {
   const defaultUnitCode = 'C62';

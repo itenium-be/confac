@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 
 if (process.env.NODE_ENV === 'development') {
-  console.log('Starting with NODE_ENV=development');
+  console.log('Starting with NODE_ENV=development'); // eslint-disable-line no-console
   dotenv.config();
 }
 

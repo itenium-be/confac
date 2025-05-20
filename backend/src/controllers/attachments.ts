@@ -6,8 +6,8 @@ import {IAttachmentCollection, IAttachmentModelConfig, attachmentModelsConfig, I
 import {CollectionNames, SocketEventTypes} from '../models/common';
 import {IInvoice} from '../models/invoices';
 import {IProjectMonthOverview, TimesheetCheckAttachmentType} from '../models/projectsMonth';
-import { emitEntityEvent } from './utils/entity-events';
-import { ConfacRequest } from '../models/technical';
+import {emitEntityEvent} from './utils/entity-events';
+import {ConfacRequest} from '../models/technical';
 
 
 const saveAttachment = async (req: Request, attachmentModelConfig: IAttachmentModelConfig, file: Express.Multer.File) => {
@@ -35,7 +35,7 @@ const saveAttachment = async (req: Request, attachmentModelConfig: IAttachmentMo
       SocketEventTypes.EntityUpdated,
       standardCollectionName,
       result._id,
-      result
+      result,
     );
   }
 
@@ -60,7 +60,8 @@ export const saveAttachmentController = async (req: Request, res: Response) => {
 
   if (attachmentModelConfig.standardCollectionName === CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW) {
     const month = id;
-    const inserted = await req.db.collection<IProjectMonthOverview>(CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW).findOneAndUpdate({month}, {
+    const projectMonthOverviewCollection = req.db.collection<IProjectMonthOverview>(CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW);
+    const inserted = await projectMonthOverviewCollection.findOneAndUpdate({month}, {
       $set: {
         [type]: file.buffer,
         fileDetails: {
@@ -95,9 +96,6 @@ export const saveAttachmentController = async (req: Request, res: Response) => {
 
 
 
-
-
-
 const deleteAttachment = async (id: string, type: string, req: Request, attachmentModelConfig: IAttachmentModelConfig) => {
   const {standardCollectionName, attachmentCollectionName} = attachmentModelConfig;
 
@@ -105,7 +103,11 @@ const deleteAttachment = async (id: string, type: string, req: Request, attachme
   const {_id, attachments} = data!;
 
   const updatedAttachments = attachments.filter(attachment => attachment.type !== type);
-  const inserted = await req.db.collection(standardCollectionName).findOneAndUpdate({_id}, {$set: {attachments: updatedAttachments}}, {returnOriginal: false});
+  const inserted = await req.db.collection(standardCollectionName).findOneAndUpdate(
+    {_id},
+    {$set: {attachments: updatedAttachments}},
+    {returnOriginal: false},
+  );
 
   const result = inserted.value;
   if (result) {
@@ -114,7 +116,7 @@ const deleteAttachment = async (id: string, type: string, req: Request, attachme
       SocketEventTypes.EntityUpdated,
       standardCollectionName,
       result._id,
-      result
+      result,
     );
   }
 
@@ -155,14 +157,8 @@ export const deleteAttachmentController = async (req: Request, res: Response) =>
 
 
 
-
-
-
-
-
-
 export const getAttachmentController = async (req: Request, res: Response) => {
-  const { id, model, type, fileName } = req.params;
+  const {id, model, type, fileName} = req.params;
   const attachmentModelConfig: IAttachmentModelConfig | undefined = attachmentModelsConfig.find(m => m.name === model);
 
   if (!attachmentModelConfig) {
@@ -230,14 +226,6 @@ export const getAttachmentController = async (req: Request, res: Response) => {
     .set('Content-Disposition', `inline;filename=${encodeURIComponent(fileName)}`)
     .send(attachmentBuffer);
 };
-
-
-
-
-
-
-
-
 
 
 

@@ -7,7 +7,7 @@ import {getTemplatesPath} from './utils';
 import {CollectionNames, SocketEventTypes, updateAudit} from '../models/common';
 import {ConfacRequest} from '../models/technical';
 import {saveAudit} from './utils/audit-logs';
-import { emitEntityEvent } from './utils/entity-events';
+import {emitEntityEvent} from './utils/entity-events';
 
 export const getCompanyConfig = async (req: Request, res: Response) => {
   const companyConfig: ICompanyConfig | null = await req.db.collection(CollectionNames.CONFIG).findOne({key: 'conf'});
@@ -21,14 +21,12 @@ export const getCompanyConfig = async (req: Request, res: Response) => {
 
 
 /** Unprotected route */
-export const getSecurityConfig = async (req: Request, res: Response) => {
-  return res.send({
-    googleClientId: appConfig.security.clientId,
-    jwtInterval: Math.floor(appConfig.jwt.expiresIn / 2),
-    env: appConfig.ENVIRONMENT,
-    tag: appConfig.tag,
-  });
-};
+export const getSecurityConfig = async (req: Request, res: Response) => res.send({
+  googleClientId: appConfig.security.clientId,
+  jwtInterval: Math.floor(appConfig.jwt.expiresIn / 2),
+  env: appConfig.ENVIRONMENT,
+  tag: appConfig.tag,
+});
 
 
 
@@ -63,7 +61,7 @@ export const getTemplates = (req: Request, res: Response) => {
 
 
 /** Get logs_audit for an entity */
-export const getAudit = async (req: Request<void, void, void, {model: string, modelId: number}>, res: Response) => {
+export const getAudit = async (req: Request<void, void, void, {model: string; modelId: number}>, res: Response) => {
   const logs = await req.db.collection('logs_audit')
     .find({model: req.query.model, modelId: new ObjectID(req.query.modelId)})
     .toArray();

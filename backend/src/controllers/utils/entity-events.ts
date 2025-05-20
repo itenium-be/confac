@@ -6,7 +6,7 @@ export function emitEntityEvent(
   req: ConfacRequest,
   eventType: SocketEventTypes,
   entityType: CollectionNames,
-  entityId: ObjectId | null,
+  entityId: ObjectId | null | string,
   entity: any | null,
   sendTo: 'everyone' | 'others' = 'others',
 ) {
@@ -25,7 +25,7 @@ export function emitEntityEvent(
 interface EntityEventPayload {
   entityType: string;
   entity: any;
-  entityId: ObjectId | null;
+  entityId: ObjectId | null | string;
   sourceSocketId: string | undefined;
   sourceUserAlias: string | undefined;
 }

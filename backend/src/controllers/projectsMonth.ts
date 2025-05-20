@@ -10,7 +10,10 @@ import {emitEntityEvent} from './utils/entity-events';
 
 export const getProjectsPerMonthController = async (req: Request, res: Response) => {
   const query = req.query as any;
-  const getFrom = moment().subtract(query.months, 'months').startOf('month').format('YYYY-MM-DD');
+  const getFrom = moment()
+    .subtract(query.months, 'months')
+    .startOf('month')
+    .format('YYYY-MM-DD');
   const projectsPerMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
     .find({month: {$gte: getFrom}})
     .toArray();
@@ -20,7 +23,10 @@ export const getProjectsPerMonthController = async (req: Request, res: Response)
 /** Returns only file details of a projects month attachment overview (all timesheets combined in one file) */
 export const getProjectsPerMonthOverviewController = async (req: Request, res: Response) => {
   const query = req.query as any;
-  const getFrom = moment().subtract(query.months, 'months').startOf('month').format('YYYY-MM-DD');
+  const getFrom = moment()
+    .subtract(query.months, 'months')
+    .startOf('month')
+    .format('YYYY-MM-DD');
   const projectsPerMonthOverview = await req.db.collection<IProjectMonthOverview>(CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW)
     .find({month: {$gte: getFrom}}, {projection: {[TimesheetCheckAttachmentType]: false}})
     .toArray();
@@ -32,8 +38,8 @@ const ProjectProformaOptions = ['no', 'inboundWithTax', 'inboundWithoutTax', 'ou
 type ProjectProforma = typeof ProjectProformaOptions[number];
 
 type SourceProjectData = {
-  projectId: string,
-  proforma: ProjectProforma,
+  projectId: string;
+  proforma: ProjectProforma;
 }
 
 
@@ -54,7 +60,7 @@ export const createProjectsMonthController = async (req: ConfacRequest, res: Res
       inbound: {
         nr: '',
         status: 'new',
-        proforma: !projectMonthSource.proforma || projectMonthSource.proforma === 'no' ? undefined : {status: 'new'} ,
+        proforma: !projectMonthSource.proforma || projectMonthSource.proforma === 'no' ? undefined : {status: 'new'},
       },
       timesheet: {validated: false},
       attachments: [],
@@ -78,7 +84,11 @@ export const patchProjectsMonthController = async (req: ConfacRequest, res: Resp
   if (_id) {
     projectMonth.audit = updateAudit(projectMonth.audit, req.user);
     const projMonthCollection = req.db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH);
-    const {value: originalProjectMonth} = await projMonthCollection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: projectMonth}, {returnOriginal: true});
+    const {value: originalProjectMonth} = await projMonthCollection.findOneAndUpdate(
+      {_id: new ObjectID(_id)},
+      {$set: projectMonth},
+      {returnOriginal: true},
+    );
     await saveAudit(req, 'projectMonth', originalProjectMonth, projectMonth);
     const projectMonthResponse = {_id, ...projectMonth};
     emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS_MONTH, projectMonthResponse._id, projectMonthResponse);
@@ -98,8 +108,8 @@ export const patchProjectsMonthController = async (req: ConfacRequest, res: Resp
 
 export const deleteProjectsMonthController = async (req: ConfacRequest, res: Response) => {
   const id = req.body.id;
-  await req.db.collection(CollectionNames.PROJECTS_MONTH).findOneAndDelete({ _id: new ObjectID(id) });
-  await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).findOneAndDelete({ _id: new ObjectID(id) });
+  await req.db.collection(CollectionNames.PROJECTS_MONTH).findOneAndDelete({_id: new ObjectID(id)});
+  await req.db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH).findOneAndDelete({_id: new ObjectID(id)});
   emitEntityEvent(req, SocketEventTypes.EntityDeleted, CollectionNames.PROJECTS_MONTH, id, null);
   return res.send(id);
 };
