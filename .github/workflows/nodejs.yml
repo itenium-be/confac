@@ -23,7 +23,7 @@ jobs:
         npm ci
         npm run build
         npm test --watchAll=false
-        npm run lint --max-warnings=5
+        npm run lint
       env:
         CI: true
 
