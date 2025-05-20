@@ -7,7 +7,9 @@
     "keyword-spacing": ["error", { "before": true }],
     "space-before-blocks": "error",
     "no-trailing-spaces": "error",
-    "no-multi-spaces": "error"
+    "no-multi-spaces": "error",
+    "no-multiple-empty-lines": ["error", { "max": 8, "maxEOF": 1 }],
+    "eol-last": ["error", "always"]
   },
   "overrides": [
     {

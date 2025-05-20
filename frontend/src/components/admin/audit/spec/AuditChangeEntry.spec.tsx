@@ -20,4 +20,3 @@ describe('AuditChangeEntry', () => {
 
 });
 
-
