@@ -17,7 +17,8 @@ export const UserSettings = () => {
         <NumericInput
           label={'Aantal records per pagina tonen'}
           value={listSize}
-          onChange={value => dispatch({ type: ACTION_TYPES.APP_SETTINGS_UPDATED, payload: { listSize: value } })} />
+          onChange={value => dispatch({ type: ACTION_TYPES.APP_SETTINGS_UPDATED, payload: { listSize: value } })}
+        />
       </div>
     </div>
   );

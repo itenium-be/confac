@@ -11,6 +11,7 @@ export const ClaimsSelect = ({ value, onChange, ...props }: ClaimsSelectProps) =
       value={value}
       onChange={onChange}
       options={Object.values(Claim)}
-      {...props} />
+      {...props}
+    />
   );
 };

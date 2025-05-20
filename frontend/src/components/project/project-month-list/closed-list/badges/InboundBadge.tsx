@@ -26,15 +26,13 @@ export const InboundBadge = ({pending, totals}: TimesheetBadgeProps) => {
         </i>
       </Tooltip>
 
-      <Tooltip
-        title={totals.inboundValidated && `<b>${t('projectMonth.inboundValidated')}</b><br>${totals.inboundValidated}`}>
+      <Tooltip title={totals.inboundValidated && `<b>${t('projectMonth.inboundValidated')}</b><br>${totals.inboundValidated}`}>
         <i className="fa fa-check fa-1x">
           <span>{totals.inboundValidatedCount}</span>
         </i>
       </Tooltip>
 
-      <Tooltip
-        title={totals.inboundPaid && `<b>${t('projectMonth.inboundPaid')}</b><br>${totals.inboundPaid}`}>
+      <Tooltip title={totals.inboundPaid && `<b>${t('projectMonth.inboundPaid')}</b><br>${totals.inboundPaid}`}>
         <i className="fa fa-coins fa-1x">
           <span>{totals.inboundPaidCount}</span>
         </i>

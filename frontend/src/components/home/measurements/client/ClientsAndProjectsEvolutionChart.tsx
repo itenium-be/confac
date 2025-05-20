@@ -12,7 +12,8 @@ export const ClientsAndProjectsEvolutionChart = ({ data }: ClientsAndProjectsEvo
       width={500}
       height={300}
       margin={{top: 10, right: 30, left: 0, bottom: 0,}}
-      data={data}>
+      data={data}
+    >
       <XAxis dataKey="month" />
       <YAxis allowDecimals={false} />
       <Tooltip />

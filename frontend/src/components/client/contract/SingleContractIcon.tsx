@@ -39,6 +39,7 @@ export const SingleContractIcon = ({ contract, contracts, style, tooltip, ...pro
       fa={fa}
       style={{marginRight: 8, ...ownStyle, ...style}}
       title={tooltip || t(globalTooltip)}
-      {...props} />
+      {...props}
+    />
   );
 };

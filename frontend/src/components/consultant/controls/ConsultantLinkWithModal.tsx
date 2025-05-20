@@ -44,7 +44,8 @@ export const ConsultantLinkWithModal = ({ consultant, showType }: ConsultantLink
         size={1}
         style={{marginLeft: 8, color: 'grey', visibility: hover ? 'unset' : 'hidden'}}
         onClick={() => setModal(true)}
-        fa="fa fa-external-link-alt" />
+        fa="fa fa-external-link-alt"
+      />
 
       {modal && (
         <ConsultantModal
@@ -54,7 +55,8 @@ export const ConsultantLinkWithModal = ({ consultant, showType }: ConsultantLink
             setModal(false);
             setHover(false);
           }}
-          onConfirm={(c: ConsultantModel) => dispatch(saveConsultant(c) as any)} />
+          onConfirm={(c: ConsultantModel) => dispatch(saveConsultant(c) as any)}
+        />
       )}
     </div>
   );

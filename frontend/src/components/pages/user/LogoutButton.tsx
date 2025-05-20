@@ -23,7 +23,8 @@ export const LogoutButton = () => {
   return (
     <Button
       variant="danger"
-      onClick={logout}>
+      onClick={logout}
+    >
       <Icon className="tst-logout" fa="fab fa-google" size={1} style={{paddingRight: 8}} />
       {t('user.logout')}
     </Button>

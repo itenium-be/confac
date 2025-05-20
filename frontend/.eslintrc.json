@@ -35,7 +35,18 @@
     "@typescript-eslint/no-shadow": "error",
     "jsx-quotes": ["error", "prefer-double"],
     "max-len": ["error", 160],
-    "react/jsx-closing-tag-location": [1, {"location": "tag-aligned"}]
+    "react/jsx-closing-tag-location": ["error", {"location": "tag-aligned"}],
+    "react/jsx-tag-spacing": ["error", {
+      "closingSlash": "never",
+      "beforeSelfClosing": "always",
+      "afterOpening": "never",
+      "beforeClosing": "never"
+    }],
+    "react/button-has-type": "error",
+    "react/void-dom-elements-no-children": "error",
+    // "react/destructuring-assignment": ["error", "always"]
+    "react/jsx-boolean-value": ["error", "never"],
+    "react/jsx-closing-bracket-location": ["error"]
   },
   "overrides": [
     {
