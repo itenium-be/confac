@@ -70,7 +70,8 @@ module.exports = {
         "arrow": {"before": true, "after": true}
       }
     }],
-    "@typescript-eslint/space-infix-ops": "error"
+    "@typescript-eslint/space-infix-ops": "error",
+    // "@stylistic/type-generic-spacing": "error" // TODO: need to upgrade for this one
   },
   settings: {
     "import/resolver": {

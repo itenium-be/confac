@@ -101,6 +101,7 @@
       }
     }],
     "@typescript-eslint/space-infix-ops": "error"
+    // "@stylistic/type-generic-spacing": "error" // TODO: need to upgrade for this one
   },
   "overrides": [
     {
