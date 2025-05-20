@@ -44,22 +44,20 @@ export const OpenedProjectsMonthsListToolbar = ({ feature }: OpenedProjectsMonth
 
   const allTimesheetsValidated = feature.list.data.every(x => x.details.timesheet.validated);
   return (
-    <>
-      <div className="projectMonths-toolbar">
-        <ToggleProjectMonthButton month={projectsMonthDetails.month.format('YYYY-MM')} toggleOpen={false} />
-        <h2>{displayMonthWithYear(projectsMonthDetails.month)}</h2>
-        {!allTimesheetsValidated && (
-          <AdvancedAttachmentDropzone
-            attachment={projectsMonthOverview && projectsMonthOverview.fileDetails}
-            onUpload={(f: File) => dispatch(projectsMonthOverviewUpload(f, projectsMonthDetails.month) as any)}
-            onDelete={() => (projectsMonthOverview ? dispatch(deleteProjectsMonthOverview(projectsMonthOverview._id) as any) : null)}
-            downloadUrl={createDownloadUrl}
-            dropzonePlaceholderText={t('projectMonth.sdWorxTimesheetUpload')}
-            viewFileTooltip={t('projectMonth.timesheetCheckDownloadTooltip')}
-            claim={Claim.EditProjectMonth}
-          />
-        )}
-      </div>
-    </>
+    <div className="projectMonths-toolbar">
+      <ToggleProjectMonthButton month={projectsMonthDetails.month.format('YYYY-MM')} toggleOpen={false} />
+      <h2>{displayMonthWithYear(projectsMonthDetails.month)}</h2>
+      {!allTimesheetsValidated && (
+        <AdvancedAttachmentDropzone
+          attachment={projectsMonthOverview && projectsMonthOverview.fileDetails}
+          onUpload={(f: File) => dispatch(projectsMonthOverviewUpload(f, projectsMonthDetails.month) as any)}
+          onDelete={() => (projectsMonthOverview ? dispatch(deleteProjectsMonthOverview(projectsMonthOverview._id) as any) : null)}
+          downloadUrl={createDownloadUrl}
+          dropzonePlaceholderText={t('projectMonth.sdWorxTimesheetUpload')}
+          viewFileTooltip={t('projectMonth.timesheetCheckDownloadTooltip')}
+          claim={Claim.EditProjectMonth}
+        />
+      )}
+    </div>
   );
 };

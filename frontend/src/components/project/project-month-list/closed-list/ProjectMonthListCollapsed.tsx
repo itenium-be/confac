@@ -28,21 +28,19 @@ export const ProjectMonthListCollapsed = ({month}: {month: string}) => {
   const hasInboundPending = totals.inboundPending.length !== 0;
 
   return (
-    <>
-      <h2 className="list-projectMonths-collapsed">
-        <ToggleProjectMonthButton month={month} toggleOpen />
-        <span className="month">{displayMonthWithYear(moment(month))}</span>
+    <h2 className="list-projectMonths-collapsed">
+      <ToggleProjectMonthButton month={month} toggleOpen />
+      <span className="month">{displayMonthWithYear(moment(month))}</span>
 
-        <span className="separate">
-          {allVerified ? VerifiedBadge : (
-            <>
-              <TimesheetBadge totals={totals} pending={hasTimesheetPending} />
-              <InboundBadge totals={totals} pending={hasInboundPending} />
-              <OutboundBadge totals={totals} />
-            </>
-          )}
-        </span>
-      </h2>
-    </>
+      <span className="separate">
+        {allVerified ? VerifiedBadge : (
+          <>
+            <TimesheetBadge totals={totals} pending={hasTimesheetPending} />
+            <InboundBadge totals={totals} pending={hasInboundPending} />
+            <OutboundBadge totals={totals} />
+          </>
+        )}
+      </span>
+    </h2>
   );
 };

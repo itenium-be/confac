@@ -99,25 +99,23 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
 
   return (
     <div className={cn('timesheet-cell')}>
-      <>
+      <BasicMathInput
+        value={timesheet.timesheet}
+        onChange={val => setTimesheet({...timesheet, timesheet: val})}
+        placeholder={t(`projectMonth.timesheet${timesheetConfig.rateType}`)}
+        display={timesheetValid && (() => <TimesheetTimeDisplay {...timesheetConfig} />)}
+        float
+      />
+
+      {projectConfig.timesheetCheck ? (
         <BasicMathInput
-          value={timesheet.timesheet}
-          onChange={val => setTimesheet({...timesheet, timesheet: val})}
-          placeholder={t(`projectMonth.timesheet${timesheetConfig.rateType}`)}
-          display={timesheetValid && (() => <TimesheetTimeDisplay {...timesheetConfig} />)}
+          value={timesheet.check}
+          onChange={val => setTimesheet({...timesheet, check: val})}
+          placeholder={t('projectMonth.timesheetCheck')}
+          display={timesheetValid && (() => <TimesheetTimeDisplay {...timesheetCheckConfig} />)}
           float
         />
-
-        {projectConfig.timesheetCheck ? (
-          <BasicMathInput
-            value={timesheet.check}
-            onChange={val => setTimesheet({...timesheet, check: val})}
-            placeholder={t('projectMonth.timesheetCheck')}
-            display={timesheetValid && (() => <TimesheetTimeDisplay {...timesheetCheckConfig} />)}
-            float
-          />
-        ) : <div />}
-      </>
+      ) : <div />}
 
       <div className="timesheet-actions">
         <ValidityToggleButton

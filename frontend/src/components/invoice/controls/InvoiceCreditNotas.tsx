@@ -65,18 +65,16 @@ export const InvoiceCreditNotas = ({model, onChange}: InvoiceCreditNotasProps) =
   };
 
   return (
-    <>
-      <div style={{marginBottom: '1rem'}}>
-        <h2>{t('invoice.creditNotas.title')}</h2>
-        <List feature={feature} />
+    <div style={{marginBottom: '1rem'}}>
+      <h2>{t('invoice.creditNotas.title')}</h2>
+      <List feature={feature} />
 
-        <ClaimGuard claim={Claim.ManageInvoices}>
-          <InvoiceCreditNotasModal
-            model={model}
-            onConfirm={saveCreditNotas}
-          />
-        </ClaimGuard>
-      </div>
-    </>
+      <ClaimGuard claim={Claim.ManageInvoices}>
+        <InvoiceCreditNotasModal
+          model={model}
+          onConfirm={saveCreditNotas}
+        />
+      </ClaimGuard>
+    </div>
   );
 };

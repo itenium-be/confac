@@ -33,4 +33,3 @@ export const ClientsAndProjectsEvolutionChart = ({ data }: ClientsAndProjectsEvo
     </LineChart>
   );
 };
-

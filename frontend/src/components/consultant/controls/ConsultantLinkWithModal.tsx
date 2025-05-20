@@ -31,11 +31,9 @@ export const ConsultantLinkWithModal = ({ consultant, showType }: ConsultantLink
       <ConsultantLink consultant={consultant} />
 
       {showType && (
-        <>
-          <small style={{paddingLeft: 6}}>
-            {`(${t(`consultant.types.${consultant.type}`).toLowerCase()})`}
-          </small>
-        </>
+        <small style={{paddingLeft: 6}}>
+          {`(${t(`consultant.types.${consultant.type}`).toLowerCase()})`}
+        </small>
       )}
 
       <Icon

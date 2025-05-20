@@ -42,4 +42,3 @@ export const BaseInput = EnhanceInputWithDisplay(EnhanceInputWithLabel(EnhanceIn
     );
   }
 })));
-

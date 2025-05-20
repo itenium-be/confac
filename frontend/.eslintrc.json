@@ -9,7 +9,7 @@
     "no-trailing-spaces": "error",
     "no-multi-spaces": "error",
     "no-mixed-spaces-and-tabs": "error",
-    "no-multiple-empty-lines": ["error", { "max": 8, "maxEOF": 1 }],
+    "no-multiple-empty-lines": ["error", { "max": 8, "maxEOF": 0 }],
     "eol-last": ["error", "always"],
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "no-tabs": "error",
@@ -53,7 +53,14 @@
     "react/jsx-equals-spacing": "error",
     "react/jsx-first-prop-new-line": ["error", "multiline"],
     "react/jsx-fragments": "error",
-    "react/jsx-key": "error"
+    "react/jsx-key": "error",
+    "react/jsx-no-constructed-context-values": "error",
+    "react/jsx-no-duplicate-props": "error",
+    // "react/jsx-no-leaked-render": "error" // https://github.com/jsx-eslint/eslint-plugin-react/issues/3292
+    "react/jsx-no-script-url": "error",
+    "react/jsx-no-target-blank": "error",
+    "react/jsx-no-useless-fragment": ["error", {"allowExpressions": true}],
+    "react/jsx-pascal-case": "error"
   },
   "overrides": [
     {

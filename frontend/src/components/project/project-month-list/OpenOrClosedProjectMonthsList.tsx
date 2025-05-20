@@ -22,9 +22,5 @@ export const OpenOrClosedProjectMonthsList = ({ month }: OpenOrClosedProjectMont
     return <OpenedProjectMonthsList month={month} />;
   }
 
-  return (
-    <>
-      <ProjectMonthListCollapsedMemo month={month} />
-    </>
-  );
+  return <ProjectMonthListCollapsedMemo month={month} />;
 };

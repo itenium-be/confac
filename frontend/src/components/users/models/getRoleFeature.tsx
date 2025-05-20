@@ -32,11 +32,7 @@ const RoleListConfig = (config: RoleFeatureBuilderConfig): IList<RoleModel, Role
   }, {
     key: 'buttons',
     header: {title: '', width: 110},
-    value: m => (
-      <>
-        <EditIcon onClick={`/roles/${m.name}`} style={{marginRight: 15}} size={1} />
-      </>
-    ),
+    value: m => <EditIcon onClick={`/roles/${m.name}`} style={{marginRight: 15}} size={1} />,
   }];
 
   return {

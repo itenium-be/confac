@@ -17,6 +17,4 @@ describe('AuditChangeEntry', () => {
     const modelType: AuditModelTypes = 'client';
     render(<AuditChangeEntry change={change} modelType={modelType} />);
   });
-
 });
-

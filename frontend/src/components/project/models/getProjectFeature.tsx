@@ -178,11 +178,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
   }, {
     key: 'buttons',
     header: {title: '', width: 110},
-    value: m => (
-      <>
-        <EditIcon onClick={`/projects/${m._id}`} style={{marginRight: 15}} size={1} />
-      </>
-    ),
+    value: m => <EditIcon onClick={`/projects/${m._id}`} style={{marginRight: 15}} size={1} />,
   }];
 
   return {
