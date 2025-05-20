@@ -1,4 +1,4 @@
-import {ObjectID} from 'bson';
+import {ObjectId} from 'bson';
 import {CollectionNames, SocketEventTypes} from '../../models/common';
 import {ConfacRequest} from '../../models/technical';
 
@@ -6,7 +6,7 @@ export function emitEntityEvent(
   req: ConfacRequest,
   eventType: SocketEventTypes,
   entityType: CollectionNames,
-  entityId: ObjectID | null,
+  entityId: ObjectId | null,
   entity: any | null,
   sendTo: 'everyone' | 'others' = 'others',
 ) {
@@ -25,7 +25,7 @@ export function emitEntityEvent(
 interface EntityEventPayload {
   entityType: string;
   entity: any;
-  entityId: ObjectID | null;
+  entityId: ObjectId | null;
   sourceSocketId: string | undefined;
   sourceUserAlias: string | undefined;
 }

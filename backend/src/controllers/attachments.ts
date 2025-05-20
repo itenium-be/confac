@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 import JSZip from 'jszip';
 import moment from 'moment';
-import {ObjectID, Db} from 'mongodb';
+import {ObjectID} from 'mongodb';
 import {IAttachmentCollection, IAttachmentModelConfig, attachmentModelsConfig, IAttachments} from '../models/attachments';
 import {CollectionNames, SocketEventTypes} from '../models/common';
 import {IInvoice} from '../models/invoices';

@@ -5,7 +5,6 @@
 import { Request, Response } from 'express';
 import { ConfacRequest } from '../../models/technical';
 import { IAudit } from '../../models/common';
-import { ObjectID } from 'mongodb'
 import { IClient } from '../../models/clients'
 import { Jwt } from '../../models/technical'
 import { saveClient } from '../clients';
