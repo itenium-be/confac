@@ -12,7 +12,7 @@ import {t} from '../../utils';
 /** Display Client Framework Agreement contract status from project.client.clientId */
 const ProjectClientContractStatusComponent = ({value, ...props}: BaseInputProps<string>) => {
   const clientId = value;
-  const client = useSelector((state: ConfacState) => state.clients.find(client => client._id === clientId));
+  const client = useSelector((state: ConfacState) => state.clients.find(c => c._id === clientId));
 
   if (!client)
     return null;

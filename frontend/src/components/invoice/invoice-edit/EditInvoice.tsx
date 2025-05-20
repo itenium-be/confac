@@ -87,12 +87,12 @@ const EditInvoice = () => {
         <Row>
           <EditInvoiceHeader
             invoice={invoice}
-            onChange={invoice => setInvoice(invoice)}
+            onChange={i => setInvoice(i)}
           />
         </Row>
         <EditInvoiceBody
           invoice={invoice}
-          onChange={invoice => setInvoice(invoice)}
+          onChange={i => setInvoice(i)}
         />
 
         {!!invoice._id && invoice.client && showEmailModal !== EmailTemplate.None && (

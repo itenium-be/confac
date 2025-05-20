@@ -174,7 +174,7 @@ export const clientFeature = (config: ClientFeatureBuilderConfig): IFeature<Clie
       <ClientSearch
         values={values}
         options={getFilterOptions(config)}
-        onChange={values => config.setFilters(createFilterByDescription(values))}
+        onChange={v => config.setFilters(createFilterByDescription(v))}
       />
     ),
   };

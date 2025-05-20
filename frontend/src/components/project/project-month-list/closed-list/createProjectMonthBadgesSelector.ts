@@ -46,7 +46,7 @@ export const createProjectMonthBadgesSelector = () => createSelector(
 
     const mapToConsultantNames = (arr: any[]) => arr
       .map(x => x.consultant)
-      .filter((val, index, arr) => arr.indexOf(val) === index)
+      .filter((val, index, filterArr) => filterArr.indexOf(val) === index)
       .join('<br>');
 
     const timesheetPending = projectMonths.filter(x => !x.timesheet.validated);

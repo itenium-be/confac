@@ -12,7 +12,7 @@ import { SocketEventTypes } from '../components/socketio/SocketEventTypes';
 import { Dispatch } from 'redux';
 
 
-export function saveClient(client: ClientModel, stayOnPage = false, callback?: (client: ClientModel) => void) {
+export function saveClient(client: ClientModel, stayOnPage = false, callback?: (c: ClientModel) => void) {
   return dispatch => {
     dispatch(busyToggle());
     return request.post(buildUrl('/clients'))

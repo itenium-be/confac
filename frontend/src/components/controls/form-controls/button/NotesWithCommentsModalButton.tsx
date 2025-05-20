@@ -108,7 +108,7 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, dis
             <>
               <TextEditor
                 value={commentAndNote.note}
-                onChange={value => onChange({...commentAndNote, note: value})}
+                onChange={v => onChange({...commentAndNote, note: v})}
               />
               <hr />
             </>
@@ -116,7 +116,7 @@ export const NotesWithCommentsModalButton = ({claim, value, onChange, title, dis
           {editComment ? (
             <TextEditor
               value={editComment.comment}
-              onChange={value => setEditComment({...editComment, comment: value})}
+              onChange={v => setEditComment({...editComment, comment: v})}
             />
           ) : (
             <CommentList

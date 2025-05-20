@@ -26,7 +26,9 @@
     "no-unreachable": "warn",
     "arrow-spacing": ["error", { "before": true, "after": true }],
     "no-useless-computed-key": "error",
-    "no-var": "error"
+    "no-var": "error",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error"
   },
   "overrides": [
     {
