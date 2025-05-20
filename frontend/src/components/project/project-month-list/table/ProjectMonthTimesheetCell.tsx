@@ -103,7 +103,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
         value={timesheet.timesheet}
         onChange={val => setTimesheet({...timesheet, timesheet: val})}
         placeholder={t(`projectMonth.timesheet${timesheetConfig.rateType}`)}
-        display={timesheetValid && (() => <TimesheetTimeDisplay {...timesheetConfig} />)}
+        display={timesheetValid && <TimesheetTimeDisplay {...timesheetConfig} />}
         float
       />
 
@@ -112,7 +112,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           value={timesheet.check}
           onChange={val => setTimesheet({...timesheet, check: val})}
           placeholder={t('projectMonth.timesheetCheck')}
-          display={timesheetValid && (() => <TimesheetTimeDisplay {...timesheetCheckConfig} />)}
+          display={timesheetValid && <TimesheetTimeDisplay {...timesheetCheckConfig} />}
           float
         />
       ) : <div />}

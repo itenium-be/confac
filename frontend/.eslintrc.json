@@ -60,7 +60,25 @@
     "react/jsx-no-script-url": "error",
     "react/jsx-no-target-blank": "error",
     "react/jsx-no-useless-fragment": ["error", {"allowExpressions": true}],
-    "react/jsx-pascal-case": "error"
+    "react/jsx-pascal-case": "error",
+    "react/jsx-props-no-multi-spaces": "error",
+    "react/jsx-props-no-spread-multi": "error",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/no-access-state-in-setstate": "error",
+    // "react/no-array-index-key": "error"
+    "react/no-children-prop": "error",
+    "react/no-danger-with-children": "error",
+    "react/no-danger": "warn",
+    "react/no-deprecated": "error",
+    "react/no-direct-mutation-state": "error",
+    "react/no-find-dom-node": "error",
+    "react/no-invalid-html-attribute": "error",
+    "react/no-is-mounted": "error",
+    "react/no-string-refs": "error",
+    "react/no-unknown-property": "error",
+    "react/no-unsafe": "warn",
+    "react/no-unstable-nested-components": "error"
   },
   "overrides": [
     {
