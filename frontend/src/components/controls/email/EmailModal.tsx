@@ -87,7 +87,7 @@ export const EmailModal = ({invoice, onClose, template, ...props}: EmailModalPro
       onConfirm={() => dispatch(sendEmail(client?.invoiceFileName || config.invoiceFileName, invoice, value, config.emailInvoiceOnly) as any)}
       confirmText={t('email.send')}
       confirmVariant="danger"
-      title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} template={template} />}
+      title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} />}
       {...props}
     >
       <EmailForm
@@ -107,7 +107,6 @@ export const EmailModal = ({invoice, onClose, template, ...props}: EmailModalPro
 type EmailModalTitleProps = {
   title: string,
   lastEmail: string,
-  template: EmailTemplate;
 }
 
 export const EmailModalTitle = ({title, lastEmail}: EmailModalTitleProps) => {
