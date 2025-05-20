@@ -16,7 +16,7 @@ export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButton
 
   return (
     <>
-      {!isNewInvoice && !invoice.isQuotation && invoice.client &&
+      {!isNewInvoice && !invoice.isQuotation && invoice.client && (
         <BusyButton
           claim={Claim.ManageInvoices}
           variant="light"
@@ -26,7 +26,7 @@ export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButton
         >
           {t('invoice.createCreditNota')}
         </BusyButton>
-      }
+      )}
       <BusyButton
         claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
         variant="light"

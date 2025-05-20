@@ -52,12 +52,12 @@ export const InvoiceListRowActions = ({invoice, small = false, buttons, hideEdit
           style={{marginRight: invoice.isQuotation ? undefined : -15}}
         />
       )}
-      {!hideEdit && (buttons?.includes('validate') ?? true) &&
+      {!hideEdit && (buttons?.includes('validate') ?? true) && (
         <InvoiceVerifyIconToggle claim={Claim.ValidateInvoices} invoice={invoice} toggleBusy={toggleBusy} />
-      }
-      {(buttons?.includes('download') ?? true) && !small &&
+      )}
+      {(buttons?.includes('download') ?? true) && !small && (
         <InvoiceDownloadIcon invoice={invoice} fileType="pdf" />
-      }
+      )}
       {(buttons?.includes('preview') ?? true) &&
         <InvoicePreviewIcon invoice={invoice} />
       }
