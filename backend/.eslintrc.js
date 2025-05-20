@@ -62,6 +62,13 @@ module.exports = {
     }],
     "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 3 }],
     "prefer-destructuring": [0],
+    "@typescript-eslint/type-annotation-spacing": ["error", {
+      "before": false,
+      "after": true,
+      "overrides": {
+        "arrow": {"before": true, "after": true}
+      }
+    }]
   },
   settings: {
     "import/resolver": {

@@ -129,7 +129,7 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
   };
 };
 
-const createFilterByDescription = (filters :FilterValue[]) => {
+const createFilterByDescription = (filters: FilterValue[]) => {
   return {
     types: filters.filter(f => ClientTypes.includes(f as ClientType)).map(f => f as ClientType),
     years: filters.filter(f => typeof f === 'number').map(f => f as number)

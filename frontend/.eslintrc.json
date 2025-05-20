@@ -92,7 +92,14 @@
         "requireLast": false
       }
     }],
-    "object-curly-spacing": [2, "never"]
+    "object-curly-spacing": [2, "never"],
+    "@typescript-eslint/type-annotation-spacing": ["error", {
+      "before": false,
+      "after": true,
+      "overrides": {
+        "arrow": {"before": true, "after": true}
+      }
+    }]
   },
   "overrides": [
     {

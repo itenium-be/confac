@@ -6,7 +6,7 @@ import {ListFilters, SortDirection, SortDirections} from './table-models';
 type ListHeaderCellProps = {
   width: string | undefined | number;
   columnName: string;
-  header:string;
+  header: string;
   filter: ListFilters;
   onSort?: (asc: boolean | undefined) => void;
 }
@@ -44,7 +44,7 @@ export const ListHeaderCell = ({width, columnName, header, filter, onSort}: List
   );
 };
 
-const switchDirection = (direction: SortDirection) : boolean | undefined => {
+const switchDirection = (direction: SortDirection): boolean | undefined => {
   if (direction === SortDirections.DESC) {
     return undefined;
   } else if (direction === undefined) {
