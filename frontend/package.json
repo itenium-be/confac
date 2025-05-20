@@ -6,9 +6,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!astronomia)/\"",
     "eject": "react-scripts eject",
-    "lint": "eslint --fix --ext js,ts,tsx src",
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "ci": "eslint --ext js,ts,tsx src && npm test --watchAll=false"
+    "lint": "eslint --ext js,ts,tsx src",
+    "fixup": "eslint --fix --ext js,ts,tsx src",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "dependencies": {
     "@itenium/date-holidays-be": "^1.0.0",
@@ -69,30 +69,35 @@
     "@types/superagent": "4.1.15",
     "@typescript-eslint/eslint-plugin": "5.43.0",
     "@typescript-eslint/parser": "5.43.0",
-    "eslint": "^8.28.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jasmine": "^4.1.3",
-    "eslint-plugin-jsx-a11y": "^6.6.1",
-    "eslint-plugin-react": "^7.31.11",
-    "lint-staged": "^13.0.3",
+    "eslint": "^8.56.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jest": "^23.6.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
     "react-scripts": "^5.0.1",
     "react-test-renderer": "^18.2.0",
     "sass": "^1.56.1",
     "source-map-explorer": "^2.5.3",
     "typescript": "4.9.3"
   },
-  "husky2": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged2": {
-    "./src/*.{js,ts,tsx}": [
-      "eslint --fix --ext js,ts,tsx src"
-    ]
-  },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app"
+    ],
+    "rules": {
+      "semi": [
+        "error",
+        "always"
+      ]
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts?(x)"
+        ],
+        "rules": {}
+      }
+    ]
   },
   "license": "MIT",
   "browserslist": {

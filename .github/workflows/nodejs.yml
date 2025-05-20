@@ -21,15 +21,16 @@ jobs:
       working-directory: ./frontend
       run: |
         npm ci
-        npm run build --if-present
-        npm run ci
+        npm run build
+        npm test --watchAll=false
+        npm run lint
       env:
         CI: true
 
     - name: backend build and test
       working-directory: ./backend
       run: |
-        npm install
+        npm ci
         npm test
         npm run lint
       env:
