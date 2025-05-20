@@ -34,7 +34,7 @@ export const ProjectsList = () => {
   };
 
   const downloadExcel = () => {
-    const projectDetails = projects.map(proj => {
+    const projectDetails = projects.filter(proj => proj.active).map(proj => {
       const markup = getProjectMarkup(proj.details);
       const partnerTariff = getFullTariffs(proj, 'partner');
       const clientTariff = getFullTariffs(proj, 'client');
@@ -56,9 +56,7 @@ export const ProjectsList = () => {
         contractProject: proj.details.contract?.status,
       };
     });
-    console.log('details', projectDetails);
     const mappedData = projectDetails.map(Object.values);
-    console.log('mapped', mappedData);
     dispatch(downloadProjectsExcel(mappedData) as any);
   };
 
