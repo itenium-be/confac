@@ -100,7 +100,7 @@ export const ClientsAndProjectsEvolution = () => {
   return (
     <Container>
       <Row>
-        <Link to={'/clients'}>
+        <Link to="/clients">
           <h5>
             {t('measurements.clientSection.clientsAndProjectsEvolution.title')}
           </h5>

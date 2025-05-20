@@ -22,7 +22,7 @@ export const ConsultantContractsList = () => {
   return (
     <Container>
       <Row>
-        <Link to={'/projects'}>
+        <Link to="/projects">
           <h5>{t('measurements.projectSection.consultantContracts.title')}</h5>
         </Link>
         <Table>
