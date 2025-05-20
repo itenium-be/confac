@@ -96,7 +96,7 @@ class AuthService implements IAuthService {
   }
 
   entryPathname = document.location.pathname;
-};
+}
 
 
 export const authService = new AuthService();

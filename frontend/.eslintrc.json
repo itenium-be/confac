@@ -10,7 +10,23 @@
     "no-multi-spaces": "error",
     "no-multiple-empty-lines": ["error", { "max": 8, "maxEOF": 1 }],
     "eol-last": ["error", "always"],
-    "indent": ["error", 2, { "SwitchCase": 1 }]
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    // "curly": ["error", "multi-line"]
+    "dot-notation": ["error", { "allowKeywords": true }],
+    "eqeqeq": ["error", "always", { "null": "ignore" }],
+    "no-lone-blocks": "error",
+    "no-octal": "error",
+    "no-redeclare": "error",
+    "no-self-compare": "error",
+    "yoda": "error",
+    "no-debugger": "warn",
+    "no-dupe-keys": "error",
+    "no-duplicate-case": "error",
+    "no-extra-semi": "error",
+    "no-unreachable": "warn",
+    "arrow-spacing": ["error", { "before": true, "after": true }],
+    "no-useless-computed-key": "error",
+    "no-var": "error"
   },
   "overrides": [
     {

@@ -11,8 +11,8 @@ import { baseUrl } from "../../config-front";
 function createSocketService() {
   const socket = io(baseUrl);
 
-  var socketId: undefined | string = undefined;
-  var initialized = false;
+  let socketId: undefined | string = undefined;
+  let initialized = false;
 
   socket.on("connect", () => {
     console.log(`Socketio: Connected to server with id=${socket.id}`);
@@ -24,10 +24,7 @@ function createSocketService() {
       return;
     }
 
-    function registerHandlerForEventType(
-      eventType: SocketEventTypes,
-      dispatch: Dispatch<any>
-    ) {
+    function registerHandlerForEventType(eventType: SocketEventTypes) {
       socket.on(eventType, (eventPayload) => {
         if (eventPayload.sourceSocketId === socketId) {
           // console.log("Socket.io: Event ignored => sourceSocketId is equal to current socket id.");
@@ -66,9 +63,9 @@ function createSocketService() {
       });
     }
 
-    registerHandlerForEventType(SocketEventTypes.EntityCreated, dispatch);
-    registerHandlerForEventType(SocketEventTypes.EntityUpdated, dispatch);
-    registerHandlerForEventType(SocketEventTypes.EntityDeleted, dispatch);
+    registerHandlerForEventType(SocketEventTypes.EntityCreated);
+    registerHandlerForEventType(SocketEventTypes.EntityUpdated);
+    registerHandlerForEventType(SocketEventTypes.EntityDeleted);
 
     initialized = true;
   }
@@ -91,7 +88,7 @@ function createSocketService() {
     entityId: string | null | undefined,
     entityType: string | null | undefined
   ) {
-    var unsubscriptions: (() => void)[] = [];
+    const unsubscriptions: (() => void)[] = [];
 
     function registerHandlerForToastEventType(eventType: SocketEventTypes) {
       const handleEvent = (msg: EntityEventPayload) => {
