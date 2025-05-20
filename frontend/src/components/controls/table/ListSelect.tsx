@@ -52,7 +52,7 @@ export const ListSelect = ({data, value, onChange, ...props}: ListSelectProps<In
               <CheckboxInput
                 value={value.map(i => i._id).includes(model._id)}
                 onChange={() => handleCheckboxChange(model)}
-                label=''
+                label=""
               />
             </td>
             <td>#{model.number}</td>

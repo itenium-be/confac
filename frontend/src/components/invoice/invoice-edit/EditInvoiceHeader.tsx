@@ -39,7 +39,7 @@ export const EditInvoiceHeader = ({invoice, onChange}: EditInvoiceHeaderProps) =
                 showNote
               />
               <DownloadInvoiceButton invoice={invoice} />
-              {!invoice?.isQuotation && <InvoiceDownloadIcon invoice={invoice} fileType='xml' style={{color: '#0062cc', marginLeft: 20}} />}
+              {!invoice?.isQuotation && <InvoiceDownloadIcon invoice={invoice} fileType="xml" style={{color: '#0062cc', marginLeft: 20}} />}
             </div>
           </div>
         )}

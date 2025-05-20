@@ -26,7 +26,7 @@ export const SelectWithCreateButton = ({claim, children, openCreateModal, create
     </div>
     <div style={{width: 120, position: 'relative'}}>
       <Button
-        className='tst-create'
+        className="tst-create"
         claim={{claim, or: 'disabled'}}
         onClick={openCreateModal}
         variant="light"

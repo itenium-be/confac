@@ -28,7 +28,8 @@
     "no-useless-computed-key": "error",
     "no-var": "error",
     "no-shadow": "off",
-    "@typescript-eslint/no-shadow": "error"
+    "@typescript-eslint/no-shadow": "error",
+    "jsx-quotes": ["error", "prefer-double"]
   },
   "overrides": [
     {

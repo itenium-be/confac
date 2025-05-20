@@ -138,7 +138,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
         </div>
       )}
       {fullProjectMonth.details.inbound.proforma && (
-        <div className='inbound-proforma'>
+        <div className="inbound-proforma">
           <span>{t('projectMonth.proformaTitle')}</span>
           <ProformaForecast fullProjectMonth={fullProjectMonth} />
           <span>{t(`project.proforma.${fullProjectMonth.project.projectMonthConfig.proforma}`)}</span>

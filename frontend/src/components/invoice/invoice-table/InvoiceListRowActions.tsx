@@ -56,7 +56,7 @@ export const InvoiceListRowActions = ({invoice, small = false, buttons, hideEdit
         <InvoiceVerifyIconToggle claim={Claim.ValidateInvoices} invoice={invoice} toggleBusy={toggleBusy} />
       }
       {(buttons?.includes('download') ?? true) && !small &&
-        <InvoiceDownloadIcon invoice={invoice} fileType='pdf' />
+        <InvoiceDownloadIcon invoice={invoice} fileType="pdf" />
       }
       {(buttons?.includes('preview') ?? true) &&
         <InvoicePreviewIcon invoice={invoice} />
