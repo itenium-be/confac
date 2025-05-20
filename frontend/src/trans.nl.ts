@@ -479,6 +479,7 @@ export const trans = {
     startDate: 'Start datum',
     endDate: 'Eind datum',
     forEndCustomer: 'Project is bij eindklant',
+    comments: 'Commentaar',
     deleteConfirm: {
       title: 'Project verwijderen',
       content: 'Project wordt definitief verwijderd.',

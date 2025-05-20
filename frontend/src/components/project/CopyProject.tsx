@@ -33,7 +33,8 @@ export const CopyProject = ({projectToCopy}: CopyProjectProps) => {
     _id: '',
     startDate: moment(projectToCopy.endDate).add(1, 'day'),
     endDate: undefined,
-    contract: {...projectToCopy.contract, status: ContractStatus.NoContract}
+    contract: {...projectToCopy.contract, status: ContractStatus.NoContract},
+    comments: [],
   };
   const [project, setProject] = useState<IProjectModel>(defaultProject);
   const dispatch = useDispatch();

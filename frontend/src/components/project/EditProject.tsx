@@ -21,6 +21,7 @@ import {Button} from '../controls/form-controls/Button';
 import {isDateIntervalValid} from '../controls/other/ProjectValidator';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
 import {getProjectFormConfig} from './models/ProjectFormConfig';
+import {NotesWithCommentsModalButton} from '../controls/form-controls/button/NotesWithCommentsModalButton';
 
 
 const ConfirmationButton = EnhanceWithConfirmation(Button);
@@ -134,7 +135,17 @@ export const EditProject = () => {
   return (
     <Container className="edit-container">
       <Row className="page-title-container">
-        <h1>{project._id ? t('project.project') : t('project.createNew')}</h1>
+        <h1>
+          {project._id ? t('project.project') : t('project.createNew')}
+          <NotesWithCommentsModalButton
+            claim={Claim.ManageProjects}
+            value={{comments: project.comments || []}}
+            onChange={val => setProject({...project, comments: val.comments})}
+            title={t('project.comments')}
+            style={{marginLeft: 6, marginBottom: 6}}
+            showNote={false}
+          />
+        </h1>
         <Audit model={project} modelType="project" />
       </Row>
       <Row>

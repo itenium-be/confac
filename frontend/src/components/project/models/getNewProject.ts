@@ -34,7 +34,8 @@ export const getNewProject = (): IProjectModel => ({
   },
   audit: {} as IAudit,
   forEndCustomer: false,
-  endCustomer: null
+  endCustomer: null,
+  comments: []
 });
 
 

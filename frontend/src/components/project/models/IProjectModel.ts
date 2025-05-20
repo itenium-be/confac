@@ -1,5 +1,5 @@
 import {Moment} from 'moment';
-import {IAudit, EditProjectRateType} from '../../../models';
+import {IAudit, EditProjectRateType, IComment} from '../../../models';
 import {ProjectMonthConfig} from './ProjectMonthModel';
 import {InvoiceLine} from '../../invoice/models/InvoiceLineModels';
 import {IContractModel} from '../../client/models/ContractModels';
@@ -17,6 +17,7 @@ export interface IProjectModel {
   client: ProjectClientModel;
   projectMonthConfig: ProjectMonthConfig;
   notes?: string;
+  comments: IComment[];
   contract: IContractModel;
   audit: IAudit;
   /** We invoice the client but the project is at an endCustomer */
