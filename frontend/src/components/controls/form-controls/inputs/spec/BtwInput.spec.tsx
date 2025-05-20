@@ -1,4 +1,4 @@
-import { t } from '../../../../utils';
+import {t} from '../../../../utils';
 import {parseBtw, formatBtw} from '../BtwInput';
 
 

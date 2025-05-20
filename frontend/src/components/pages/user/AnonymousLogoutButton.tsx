@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { authService } from '../../users/authService';
-import { Button } from '../../controls/form-controls/Button';
+import {useState} from 'react';
+import {Navigate} from 'react-router-dom';
+import {authService} from '../../users/authService';
+import {Button} from '../../controls/form-controls/Button';
 
 /** Logout button when deployed without security */
 export const AnonymousLogoutButton = () => {

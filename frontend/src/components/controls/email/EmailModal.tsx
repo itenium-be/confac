@@ -11,7 +11,7 @@ import {invoiceReplacements, getInvoiceReplacements} from '../../invoice/invoice
 import {ConfacState} from '../../../reducers/app-state';
 import {sendEmail} from '../../../actions/emailActions';
 import {ConfigModel} from '../../config/models/ConfigModel';
-import { ClientModel } from '../../client/models/ClientModels';
+import {ClientModel} from '../../client/models/ClientModels';
 
 
 export enum EmailTemplate {

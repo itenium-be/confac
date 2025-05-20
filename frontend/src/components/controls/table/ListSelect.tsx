@@ -2,9 +2,9 @@ import {useCallback, useState} from 'react';
 import {Table} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
 import {ConfacState} from '../../../reducers/app-state';
-import { Pagination } from './Pagination';
-import { CheckboxInput } from '../form-controls/inputs/CheckboxInput';
-import { formatDate, t } from '../../utils';
+import {Pagination} from './Pagination';
+import {CheckboxInput} from '../form-controls/inputs/CheckboxInput';
+import {formatDate, t} from '../../utils';
 import moment from 'moment';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
 

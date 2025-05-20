@@ -1,13 +1,13 @@
-import { MinimalInputProps } from '../form-controls/inputs/BaseInput';
-import { List } from '../table/List';
-import { CommentFeatureBuilderConfig, getCommentsFeature } from './CommentModel';
-import { Features } from '../feature/feature-models';
-import { CSSProperties, useState } from 'react';
-import { searchinize, t } from '../../utils';
-import { SearchStringInput } from '../form-controls/inputs/SearchStringInput';
-import { IComment } from '../../../models';
-import { Claim } from '../../users/models/UserModel';
-import { Button } from '../form-controls/Button';
+import {MinimalInputProps} from '../form-controls/inputs/BaseInput';
+import {List} from '../table/List';
+import {CommentFeatureBuilderConfig, getCommentsFeature} from './CommentModel';
+import {Features} from '../feature/feature-models';
+import {CSSProperties, useState} from 'react';
+import {searchinize, t} from '../../utils';
+import {SearchStringInput} from '../form-controls/inputs/SearchStringInput';
+import {IComment} from '../../../models';
+import {Claim} from '../../users/models/UserModel';
+import {Button} from '../form-controls/Button';
 
 
 type CommentsListProps = MinimalInputProps<IComment[]> & {

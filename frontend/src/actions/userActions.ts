@@ -6,10 +6,10 @@ import {t} from '../components/utils';
 import {catchHandler} from './utils/fetch';
 import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
-import { socketService } from '../components/socketio/SocketService';
-import { SocketEventTypes } from '../components/socketio/SocketEventTypes';
-import { Dispatch } from 'redux';
-import { EntityEventPayload } from '../components/socketio/EntityEventPayload';
+import {socketService} from '../components/socketio/SocketService';
+import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
+import {Dispatch} from 'redux';
+import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
 
 
 export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => void, navigate?: any) {

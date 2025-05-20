@@ -1,13 +1,13 @@
-import { createSelector } from 'reselect';
+import {createSelector} from 'reselect';
 import moment from 'moment';
-import { ConfacState } from '../../../reducers/app-state';
-import { FullProjectMonthModel } from '../models/FullProjectMonthModel';
-import { ProjectMonthModel } from '../models/ProjectMonthModel';
+import {ConfacState} from '../../../reducers/app-state';
+import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
+import {ProjectMonthModel} from '../models/ProjectMonthModel';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
-import { IProjectModel } from '../models/IProjectModel';
-import { ClientModel } from '../../client/models/ClientModels';
-import { ConsultantModel } from '../../consultant/models/ConsultantModel';
-import { mapToProjectMonth } from '../../hooks/useProjects';
+import {IProjectModel} from '../models/IProjectModel';
+import {ClientModel} from '../../client/models/ClientModels';
+import {ConsultantModel} from '../../consultant/models/ConsultantModel';
+import {mapToProjectMonth} from '../../hooks/useProjects';
 
 
 type ProjectMonthResolverState = {

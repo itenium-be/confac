@@ -3,9 +3,9 @@ import {authService} from '../../users/authService';
 import {Button} from '../../controls/form-controls/Button';
 import {Icon} from '../../controls/Icon';
 import {Claim} from '../../users/models/UserModel';
-import { AnonymousLogoutButton } from './AnonymousLogoutButton';
-import { LogoutButton } from './LogoutButton';
-import { UserSettings } from './UserSettings';
+import {AnonymousLogoutButton} from './AnonymousLogoutButton';
+import {LogoutButton} from './LogoutButton';
+import {UserSettings} from './UserSettings';
 
 /** Full user profile page */
 export const UserPage = () => {

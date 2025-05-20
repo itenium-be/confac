@@ -1,13 +1,13 @@
-import { useDispatch } from 'react-redux';
-import { Container, Row, Form, Alert } from 'react-bootstrap';
-import { t } from '../../utils';
-import { saveClient } from '../../../actions/clientActions';
-import { requiredClientProperties } from '../models/ClientConfig';
-import { ClientModel, ClientType } from '../models/ClientModels';
-import { NewClientForm } from '../NewClient';
-import { ArrayInput } from '../../controls/form-controls/inputs/ArrayInput';
-import { BaseModalProps, Modal } from '../../controls/Modal';
-import { useClientState } from '../client-helpers';
+import {useDispatch} from 'react-redux';
+import {Container, Row, Form, Alert} from 'react-bootstrap';
+import {t} from '../../utils';
+import {saveClient} from '../../../actions/clientActions';
+import {requiredClientProperties} from '../models/ClientConfig';
+import {ClientModel, ClientType} from '../models/ClientModels';
+import {NewClientForm} from '../NewClient';
+import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
+import {BaseModalProps, Modal} from '../../controls/Modal';
+import {useClientState} from '../client-helpers';
 
 
 type ClientModalProps = BaseModalProps & {
@@ -18,7 +18,7 @@ type ClientModalProps = BaseModalProps & {
 }
 
 
-export const ClientModal = ({ title, onConfirm, clientId, show, onClose, newClientTypes }: ClientModalProps) => {
+export const ClientModal = ({title, onConfirm, clientId, show, onClose, newClientTypes}: ClientModalProps) => {
   const dispatch = useDispatch();
   const {client, setClient, clientAlreadyExists, canSaveClient} = useClientState(clientId || 'create');
 
@@ -54,7 +54,7 @@ export const ClientModal = ({ title, onConfirm, clientId, show, onClose, newClie
               <ArrayInput
                 config={requiredClientProperties}
                 model={client}
-                onChange={value => setClient({ ...client, ...value })}
+                onChange={value => setClient({...client, ...value})}
                 tPrefix="client."
               />
             </Row>

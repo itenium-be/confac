@@ -1,15 +1,15 @@
-import { Row } from 'react-bootstrap';
-import { ClientsAndProjectsEvolutionChart } from './ClientsAndProjectsEvolutionChart';
-import { ClientsAndProjectsEvolutionList } from './ClientsAndProjectsEvolutionList';
-import { Container } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
-import { useState } from 'react';
-import moment, { Moment } from 'moment';
-import { useSelector } from 'react-redux';
-import { ConfacState } from '../../../../reducers/app-state';
-import { t } from '../../../utils';
-import { Link } from 'react-router-dom';
-import { PeriodPicker } from '../PeriodPicker';
+import {Row} from 'react-bootstrap';
+import {ClientsAndProjectsEvolutionChart} from './ClientsAndProjectsEvolutionChart';
+import {ClientsAndProjectsEvolutionList} from './ClientsAndProjectsEvolutionList';
+import {Container} from 'react-bootstrap';
+import {Col} from 'react-bootstrap';
+import {useState} from 'react';
+import moment, {Moment} from 'moment';
+import {useSelector} from 'react-redux';
+import {ConfacState} from '../../../../reducers/app-state';
+import {t} from '../../../utils';
+import {Link} from 'react-router-dom';
+import {PeriodPicker} from '../PeriodPicker';
 
 export interface ClientChartData {
   year: number;

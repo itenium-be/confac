@@ -1,13 +1,13 @@
-import { Moment } from 'moment';
-import { useSelector } from 'react-redux';
-import { ConfacState } from '../../reducers/app-state';
-import { ClientModel } from '../client/models/ClientModels';
-import { ConsultantModel } from '../consultant/models/ConsultantModel';
+import {Moment} from 'moment';
+import {useSelector} from 'react-redux';
+import {ConfacState} from '../../reducers/app-state';
+import {ClientModel} from '../client/models/ClientModels';
+import {ConsultantModel} from '../consultant/models/ConsultantModel';
 import InvoiceModel from '../invoice/models/InvoiceModel';
-import { FullProjectModel } from '../project/models/FullProjectModel';
-import { FullProjectMonthModel, IFullProjectMonthModel } from '../project/models/FullProjectMonthModel';
-import { IProjectModel } from '../project/models/IProjectModel';
-import { ProjectMonthModel } from '../project/models/ProjectMonthModel';
+import {FullProjectModel} from '../project/models/FullProjectModel';
+import {FullProjectMonthModel, IFullProjectMonthModel} from '../project/models/FullProjectMonthModel';
+import {IProjectModel} from '../project/models/IProjectModel';
+import {ProjectMonthModel} from '../project/models/ProjectMonthModel';
 
 
 export function useProjects(month?: Moment): FullProjectModel[] {

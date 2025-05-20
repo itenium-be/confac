@@ -3,8 +3,8 @@ import {Container} from 'react-bootstrap';
 import {ConfacState, ProjectMonthsListFilterOpenMonthsFormat} from '../../../reducers/app-state';
 import {Features} from '../../controls/feature/feature-models';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
-import { OpenOrClosedProjectMonthsList } from './OpenOrClosedProjectMonthsList';
-import { ProjectMonthsListToolbar } from './ProjectMonthsListToolbar';
+import {OpenOrClosedProjectMonthsList} from './OpenOrClosedProjectMonthsList';
+import {ProjectMonthsListToolbar} from './ProjectMonthsListToolbar';
 
 import './project-month-list.scss';
 

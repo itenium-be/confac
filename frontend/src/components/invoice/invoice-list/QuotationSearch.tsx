@@ -2,7 +2,7 @@ import {Component} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {SearchStringInput} from '../../controls/form-controls/inputs/SearchStringInput';
 import {InvoiceSearchSelect} from '../controls/InvoiceSearchSelect';
-import { InvoiceFiltersSearch, InvoiceListFilters } from '../../controls/table/table-models';
+import {InvoiceFiltersSearch, InvoiceListFilters} from '../../controls/table/table-models';
 
 
 type QuotationSearchProps = {

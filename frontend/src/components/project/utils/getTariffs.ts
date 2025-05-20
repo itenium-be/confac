@@ -1,5 +1,5 @@
 import {EditProjectRateType} from '../../../models';
-import { DefaultHoursInDay } from '../../client/models/getNewClient';
+import {DefaultHoursInDay} from '../../client/models/getNewClient';
 import {ProjectClientModel} from '../models/IProjectModel';
 
 

@@ -2,8 +2,8 @@ import {useSelector} from 'react-redux';
 import {formatDate, t} from '../../utils';
 import {IAudit} from '../../../models';
 import {ConfacState} from '../../../reducers/app-state';
-import { AuditModelTypes } from './audit-models';
-import { FullAudit } from './FullAudit';
+import {AuditModelTypes} from './audit-models';
+import {FullAudit} from './FullAudit';
 
 
 export type AuditProps = {

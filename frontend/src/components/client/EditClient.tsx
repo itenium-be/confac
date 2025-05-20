@@ -1,21 +1,21 @@
-import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { Container, Row, Form, Alert } from 'react-bootstrap';
-import { t } from '../utils';
-import { saveClient } from '../../actions/index';
-import { defaultClientProperties } from './models/ClientConfig';
-import { ClientModel } from './models/ClientModels';
-import { StickyFooter } from '../controls/other/StickyFooter';
-import { NewClient } from './NewClient';
-import { ArrayInput } from '../controls/form-controls/inputs/ArrayInput';
-import { BusyButton } from '../controls/form-controls/BusyButton';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
-import { ClientAttachmentsForm } from './controls/ClientAttachmentsForm';
-import { Audit } from '../admin/audit/Audit';
-import { Claim } from '../users/models/UserModel';
+import {useDispatch} from 'react-redux';
+import {useParams} from 'react-router-dom';
+import {Container, Row, Form, Alert} from 'react-bootstrap';
+import {t} from '../utils';
+import {saveClient} from '../../actions/index';
+import {defaultClientProperties} from './models/ClientConfig';
+import {ClientModel} from './models/ClientModels';
+import {StickyFooter} from '../controls/other/StickyFooter';
+import {NewClient} from './NewClient';
+import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
+import {BusyButton} from '../controls/form-controls/BusyButton';
+import {useDocumentTitle} from '../hooks/useDocumentTitle';
+import {ClientAttachmentsForm} from './controls/ClientAttachmentsForm';
+import {Audit} from '../admin/audit/Audit';
+import {Claim} from '../users/models/UserModel';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
-import { NotesWithCommentsModalButton } from '../controls/form-controls/button/NotesWithCommentsModalButton';
-import { useClientState } from './client-helpers';
+import {NotesWithCommentsModalButton} from '../controls/form-controls/button/NotesWithCommentsModalButton';
+import {useClientState} from './client-helpers';
 
 
 const EditClient = () => {

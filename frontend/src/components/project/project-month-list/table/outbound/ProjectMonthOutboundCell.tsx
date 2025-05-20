@@ -5,12 +5,12 @@ import {t} from '../../../../utils';
 import {ValidityToggleButton} from '../../../../controls/form-controls/button/ValidityToggleButton';
 import {StringInput} from '../../../../controls/form-controls/inputs/StringInput';
 import {useDebouncedSave} from '../../../../hooks/useDebounce';
-import { CreateInvoiceButton } from './CreateInvoiceButton';
-import { OutboundInvoice } from './OutboundInvoice';
-import { Claim } from '../../../../users/models/UserModel';
-import { useSelector } from 'react-redux';
-import { ConfacState } from '../../../../../reducers/app-state';
-import { getInvoiceDueDateStyle } from '../../../../invoice/invoice-table/getInvoiceListRowClass';
+import {CreateInvoiceButton} from './CreateInvoiceButton';
+import {OutboundInvoice} from './OutboundInvoice';
+import {Claim} from '../../../../users/models/UserModel';
+import {useSelector} from 'react-redux';
+import {ConfacState} from '../../../../../reducers/app-state';
+import {getInvoiceDueDateStyle} from '../../../../invoice/invoice-table/getInvoiceListRowClass';
 
 
 interface ProjectMonthOutboundCellProps {

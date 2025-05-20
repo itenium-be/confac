@@ -3,7 +3,7 @@ import cn from 'classnames';
 import {Tooltip} from './Tooltip';
 import t from '../../trans';
 import {EnhanceWithClaim, EnhanceWithClaimProps} from '../enhancers/EnhanceWithClaim';
-import { Claim } from '../users/models/UserModel';
+import {Claim} from '../users/models/UserModel';
 
 
 const EnhanceIconWithCenter = <P extends object>(EnhancedComponent: React.ComponentType<P>) => (

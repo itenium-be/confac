@@ -7,7 +7,7 @@ import {buildUrl} from './utils/buildUrl';
 import {failure} from './appActions';
 import {getProjectMonthsFilters} from '../reducers/app-state';
 import {Features} from '../components/controls/feature/feature-models';
-import { socketService } from '../components/socketio/SocketService';
+import {socketService} from '../components/socketio/SocketService';
 
 let counter: number;
 

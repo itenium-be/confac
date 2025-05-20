@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { socketService } from '../socketio/SocketService';
+import {useEffect} from 'react';
+import {socketService} from '../socketio/SocketService';
 
 function useEntityChangedToast(entityId: string | null | undefined, entityType: string | null | undefined = null) {
   useEffect(() => {

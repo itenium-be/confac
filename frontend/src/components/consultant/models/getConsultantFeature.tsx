@@ -6,7 +6,7 @@ import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/
 import {features} from '../../../trans';
 import {EditIcon} from '../../controls/Icon';
 import {DeleteIcon} from '../../controls/icons/DeleteIcon';
-import { ConsultantLinkWithModal } from '../controls/ConsultantLinkWithModal';
+import {ConsultantLinkWithModal} from '../controls/ConsultantLinkWithModal';
 import {Claim} from '../../users/models/UserModel';
 
 

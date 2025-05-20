@@ -1,6 +1,6 @@
 import moment from 'moment';
 import {IProjectModel, ProjectClientModel, ProjectEndCustomerModel} from './IProjectModel';
-import { ProjectMonthModel, getDefaultProjectMonthConfig, ProjectMonthInbound, ProjectMonthTimesheet } from './ProjectMonthModel';
+import {ProjectMonthModel, getDefaultProjectMonthConfig, ProjectMonthInbound, ProjectMonthTimesheet} from './ProjectMonthModel';
 import {IAudit} from '../../../models';
 import {getNewInvoiceLine} from '../../invoice/models/InvoiceLineModels';
 import {ContractStatus} from '../../client/models/ContractModels';

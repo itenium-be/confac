@@ -1,14 +1,14 @@
-import { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateAppFilters, patchProjectsMonth } from '../../../../actions';
-import { projectMonthFeature, ProjectMonthFeatureBuilderConfig } from '../../models/getProjectMonthFeature';
-import { Features } from '../../../controls/feature/feature-models';
-import { OpenedProjectsMonthsListToolbar } from './OpenedProjectsMonthsListToolbar';
-import { List } from '../../../controls/table/List';
-import { createFullProjectMonthsSelector } from '../createFullProjectMonthsSelector';
-import { ConfacState } from '../../../../reducers/app-state';
-import { createSelector } from 'reselect';
-import { ProjectMonthListFilters } from '../../../controls/table/table-models';
+import {useMemo} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {updateAppFilters, patchProjectsMonth} from '../../../../actions';
+import {projectMonthFeature, ProjectMonthFeatureBuilderConfig} from '../../models/getProjectMonthFeature';
+import {Features} from '../../../controls/feature/feature-models';
+import {OpenedProjectsMonthsListToolbar} from './OpenedProjectsMonthsListToolbar';
+import {List} from '../../../controls/table/List';
+import {createFullProjectMonthsSelector} from '../createFullProjectMonthsSelector';
+import {ConfacState} from '../../../../reducers/app-state';
+import {createSelector} from 'reselect';
+import {ProjectMonthListFilters} from '../../../controls/table/table-models';
 
 
 type OpenedProjectMonthsListProps = {
@@ -44,7 +44,7 @@ const createFiltersSelector = () => createSelector(
 
 
 /** A full open ProjectMonth with header + table */
-export const OpenedProjectMonthsList = ({ month }: OpenedProjectMonthsListProps) => {
+export const OpenedProjectMonthsList = ({month}: OpenedProjectMonthsListProps) => {
   const dispatch = useDispatch();
   const selectProjectMonths = useMemo(createFullProjectMonthsSelector, []);
   const projectMonths = useSelector((state) => selectProjectMonths(state, month));

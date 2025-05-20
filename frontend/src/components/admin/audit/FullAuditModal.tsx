@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import { t } from '../../utils';
-import { Table } from 'react-bootstrap';
-import { buildRequest, failure } from '../../../actions';
-import { Modal } from '../../controls/Modal';
-import { SearchStringInput } from '../../controls/form-controls/inputs/SearchStringInput';
-import { AuditProps } from './Audit';
-import { AuditLog } from './audit-models';
-import { AuditChangeEntry } from './AuditChangeEntry';
+import {useEffect, useState} from 'react';
+import {t} from '../../utils';
+import {Table} from 'react-bootstrap';
+import {buildRequest, failure} from '../../../actions';
+import {Modal} from '../../controls/Modal';
+import {SearchStringInput} from '../../controls/form-controls/inputs/SearchStringInput';
+import {AuditProps} from './Audit';
+import {AuditLog} from './audit-models';
+import {AuditChangeEntry} from './AuditChangeEntry';
 
 type FullAuditModalProps = AuditProps & {
   onClose: () => void;

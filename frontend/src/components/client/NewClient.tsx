@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { Container, Row, Form } from 'react-bootstrap';
-import { ClientModel, ClientType } from './models/ClientModels';
-import { t } from '../utils';
-import { BtwInput, BtwResponse } from '../controls/form-controls/inputs/BtwInput';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
-import { getNewClient } from './models/getNewClient';
-import { useSelector } from 'react-redux';
-import { ConfacState } from '../../reducers/app-state';
-import { countries } from '../controls/other/CountrySelect';
-import { btwResponseToModel, useClientAlreadyExists } from './client-helpers';
-import { Alert } from 'react-bootstrap';
+import {useState} from 'react';
+import {Container, Row, Form} from 'react-bootstrap';
+import {ClientModel, ClientType} from './models/ClientModels';
+import {t} from '../utils';
+import {BtwInput, BtwResponse} from '../controls/form-controls/inputs/BtwInput';
+import {useDocumentTitle} from '../hooks/useDocumentTitle';
+import {getNewClient} from './models/getNewClient';
+import {useSelector} from 'react-redux';
+import {ConfacState} from '../../reducers/app-state';
+import {countries} from '../controls/other/CountrySelect';
+import {btwResponseToModel, useClientAlreadyExists} from './client-helpers';
+import {Alert} from 'react-bootstrap';
 
 
 type NewClientProps = {
@@ -67,7 +67,7 @@ export const NewClientForm = ({onFinalize, fullWidth, newClientTypes}: NewClient
               if (btwResp && btwResp.valid) {
                 onFinalize(btwResponseToModel(config, btwResp, newClientTypes));
               } else {
-                onFinalize({...getNewClient(config), btw: newBtw, types: newClientTypes ?? [] });
+                onFinalize({...getNewClient(config), btw: newBtw, types: newClientTypes ?? []});
               }
             }}
             onBtwChange={newBtw => setBtwResponse(btwResponseToModel(config, newBtw, newClientTypes))}

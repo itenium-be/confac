@@ -1,5 +1,5 @@
-import { SelectItem } from '../../../models';
-import { BaseSelect } from '../../controls/form-controls/select/BaseSelect';
+import {SelectItem} from '../../../models';
+import {BaseSelect} from '../../controls/form-controls/select/BaseSelect';
 
 
 export type FilterValue = string | number;

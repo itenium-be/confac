@@ -1,14 +1,14 @@
 import request from 'superagent-bluebird-promise';
-import { catchHandler } from './utils/fetch';
-import { buildUrl } from './utils/buildUrl';
+import {catchHandler} from './utils/fetch';
+import {buildUrl} from './utils/buildUrl';
 import t from '../trans';
-import { ConsultantModel } from '../components/consultant/models/ConsultantModel';
-import { busyToggle, success } from './appActions';
-import { ACTION_TYPES } from './utils/ActionTypes';
-import { authService } from '../components/users/authService';
-import { socketService } from '../components/socketio/SocketService';
-import { EntityEventPayload } from '../components/socketio/EntityEventPayload';
-import { SocketEventTypes } from '../components/socketio/SocketEventTypes';
+import {ConsultantModel} from '../components/consultant/models/ConsultantModel';
+import {busyToggle, success} from './appActions';
+import {ACTION_TYPES} from './utils/ActionTypes';
+import {authService} from '../components/users/authService';
+import {socketService} from '../components/socketio/SocketService';
+import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
+import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
 
 export function saveConsultant(
   consultant: ConsultantModel,

@@ -11,9 +11,9 @@ import {NotesModalButton} from '../../controls/form-controls/button/NotesModalBu
 import {Claim} from '../../users/models/UserModel';
 import {ConfacState} from '../../../reducers/app-state';
 import {singleProjectMonthResolve} from '../../hooks/useProjects';
-import { useDispatch } from 'react-redux';
-import { saveProject } from '../../../actions';
-import { Icon } from '../../controls/Icon';
+import {useDispatch} from 'react-redux';
+import {saveProject} from '../../../actions';
+import {Icon} from '../../controls/Icon';
 
 
 import './ProjectMonthModal.scss';

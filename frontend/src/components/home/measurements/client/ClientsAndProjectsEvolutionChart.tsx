@@ -1,12 +1,12 @@
-import { Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
-import { ClientChartData } from './ClientsAndProjectsEvolution';
-import { t } from '../../../utils';
+import {Legend, Line, LineChart, Tooltip, XAxis, YAxis} from 'recharts';
+import {ClientChartData} from './ClientsAndProjectsEvolution';
+import {t} from '../../../utils';
 
 interface ClientsAndProjectsEvolutionChartProps {
   data: ClientChartData[];
 }
 
-export const ClientsAndProjectsEvolutionChart = ({ data }: ClientsAndProjectsEvolutionChartProps) => {
+export const ClientsAndProjectsEvolutionChart = ({data}: ClientsAndProjectsEvolutionChartProps) => {
   return (
     <LineChart
       width={500}

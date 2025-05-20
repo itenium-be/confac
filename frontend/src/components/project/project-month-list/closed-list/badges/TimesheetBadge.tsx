@@ -1,5 +1,5 @@
-import { t } from '../../../../utils';
-import { ProjectMonthBadgeTotals } from '../ProjectMonthBadgeTotals';
+import {t} from '../../../../utils';
+import {ProjectMonthBadgeTotals} from '../ProjectMonthBadgeTotals';
 import {Tooltip} from '../../../../controls/Tooltip';
 
 export type TimesheetBadgeProps = {
@@ -16,7 +16,7 @@ const TimeSheetOkBadge = (
 );
 
 /** ProjectMonth closed month Timesheet badge */
-export const TimesheetBadge = ({ pending, totals }: TimesheetBadgeProps) => {
+export const TimesheetBadge = ({pending, totals}: TimesheetBadgeProps) => {
   if (!pending) {
     return TimeSheetOkBadge;
   }

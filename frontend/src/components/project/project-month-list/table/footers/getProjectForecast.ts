@@ -1,8 +1,8 @@
 import moment from 'moment';
-import { FullProjectMonthModel } from '../../../models/FullProjectMonthModel';
-import { FullProjectModel } from '../../../models/FullProjectModel';
-import { getTariffs } from '../../../utils/getTariffs';
-import { holidaysService } from '../../../../../actions/holidays';
+import {FullProjectMonthModel} from '../../../models/FullProjectMonthModel';
+import {FullProjectModel} from '../../../models/FullProjectModel';
+import {getTariffs} from '../../../utils/getTariffs';
+import {holidaysService} from '../../../../../actions/holidays';
 
 
 export function getProjectForecast(models: Array<FullProjectModel | FullProjectMonthModel>, getFor: 'client' | 'partner', month?: moment.Moment) {
@@ -23,7 +23,7 @@ export function getProjectForecast(models: Array<FullProjectModel | FullProjectM
             return 0;
           }
 
-          const { tariff } = getTariffs(pm.project.partner);
+          const {tariff} = getTariffs(pm.project.partner);
           return tariff * pm.details.timesheet.timesheet;
         })
         .reduce((acc, cur) => acc + cur, 0);
@@ -34,7 +34,7 @@ export function getProjectForecast(models: Array<FullProjectModel | FullProjectM
           return 0;
         }
 
-        const { tariff } = getTariffs(pm.project.client);
+        const {tariff} = getTariffs(pm.project.client);
         return tariff * pm.details.timesheet.timesheet;
       })
       .reduce((acc, cur) => acc + cur, 0);

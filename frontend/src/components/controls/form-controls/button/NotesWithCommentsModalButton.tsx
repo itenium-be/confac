@@ -6,11 +6,11 @@ import {formatDate, t} from '../../../utils';
 import {BootstrapVariant, IComment, IModelComments} from '../../../../models';
 import {Claim} from '../../../users/models/UserModel';
 import {authService} from '../../../users/authService';
-import { CommentList } from '../../comments/CommentsList';
-import { Icon } from '../../Icon';
-import { TextEditor } from '../inputs/TextEditor';
-import { useSelector } from 'react-redux';
-import { ConfacState } from '../../../../reducers/app-state';
+import {CommentList} from '../../comments/CommentsList';
+import {Icon} from '../../Icon';
+import {TextEditor} from '../inputs/TextEditor';
+import {useSelector} from 'react-redux';
+import {ConfacState} from '../../../../reducers/app-state';
 
 
 type NotesWithCommentsModalButtonProps = MinimalInputProps<IModelComments> & {

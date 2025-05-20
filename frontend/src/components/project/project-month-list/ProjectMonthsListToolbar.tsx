@@ -1,12 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { updateAppFilters, patchProjectsMonth } from '../../../actions';
-import { ListPageHeader } from '../../controls/table/ListPage';
-import { projectMonthFeature, ProjectMonthFeatureBuilderConfig } from '../models/getProjectMonthFeature';
-import { LinkToButton } from '../../controls/form-controls/button/LinkToButton';
-import { CreateProjectsMonthModalButton } from '../controls/CreateProjectsMonthModal';
-import { Features } from '../../controls/feature/feature-models';
-import { Claim } from '../../users/models/UserModel';
-import { ConfacState } from '../../../reducers/app-state';
+import {useDispatch, useSelector} from 'react-redux';
+import {updateAppFilters, patchProjectsMonth} from '../../../actions';
+import {ListPageHeader} from '../../controls/table/ListPage';
+import {projectMonthFeature, ProjectMonthFeatureBuilderConfig} from '../models/getProjectMonthFeature';
+import {LinkToButton} from '../../controls/form-controls/button/LinkToButton';
+import {CreateProjectsMonthModalButton} from '../controls/CreateProjectsMonthModal';
+import {Features} from '../../controls/feature/feature-models';
+import {Claim} from '../../users/models/UserModel';
+import {ConfacState} from '../../../reducers/app-state';
 
 
 /** The top ProjectMonth page toolbar */

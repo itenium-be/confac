@@ -6,9 +6,9 @@ import {ListFooter} from './ListFooter';
 import {IFeature} from '../feature/feature-models';
 import {useSelector} from 'react-redux';
 import {ConfacState} from '../../../reducers/app-state';
-import { Pagination } from './Pagination';
-import { SortDirections } from './table-models';
-import { sortResult } from '../../utils';
+import {Pagination} from './Pagination';
+import {SortDirections} from './table-models';
+import {sortResult} from '../../utils';
 
 
 type ListProps = {

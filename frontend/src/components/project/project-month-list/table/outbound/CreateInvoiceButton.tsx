@@ -1,21 +1,21 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { FullProjectMonthModel } from '../../../models/FullProjectMonthModel';
-import { createInvoice, deleteProjectMonthAttachmentDetails } from '../../../../../actions';
-import { Icon } from '../../../../controls/Icon';
-import { t, moneyFormat } from '../../../../utils';
-import { ConfacState } from '../../../../../reducers/app-state';
-import { getNewInvoice, NewInvoiceType } from '../../../../invoice/models/getNewInvoice';
+import {useDispatch, useSelector} from 'react-redux';
+import {FullProjectMonthModel} from '../../../models/FullProjectMonthModel';
+import {createInvoice, deleteProjectMonthAttachmentDetails} from '../../../../../actions';
+import {Icon} from '../../../../controls/Icon';
+import {t, moneyFormat} from '../../../../utils';
+import {ConfacState} from '../../../../../reducers/app-state';
+import {getNewInvoice, NewInvoiceType} from '../../../../invoice/models/getNewInvoice';
 import InvoiceModel from '../../../../invoice/models/InvoiceModel';
-import { Claim } from '../../../../users/models/UserModel';
-import { ClaimGuard } from '../../../../enhancers/EnhanceWithClaim';
-import { InvoiceLine } from '../../../../invoice/models/InvoiceLineModels';
+import {Claim} from '../../../../users/models/UserModel';
+import {ClaimGuard} from '../../../../enhancers/EnhanceWithClaim';
+import {InvoiceLine} from '../../../../invoice/models/InvoiceLineModels';
 import {BusyButton} from '../../../../controls/form-controls/BusyButton';
 
 interface CreateInvoiceButtonProps {
   fullProjectMonth: FullProjectMonthModel;
 }
 
-export const CreateInvoiceButton = ({ fullProjectMonth }: CreateInvoiceButtonProps) => {
+export const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
   const dispatch = useDispatch();
   const state = useSelector((s: ConfacState) => s);
 

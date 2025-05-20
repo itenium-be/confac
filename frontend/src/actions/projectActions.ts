@@ -11,10 +11,10 @@ import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel'
 import {TimesheetCheckAttachmentType} from '../models';
 import {authService} from '../components/users/authService';
 import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
-import { socketService } from '../components/socketio/SocketService';
-import { EntityEventPayload } from '../components/socketio/EntityEventPayload';
-import { SocketEventTypes } from '../components/socketio/SocketEventTypes';
-import { store } from '../store';
+import {socketService} from '../components/socketio/SocketService';
+import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
+import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
+import {store} from '../store';
 import moment from 'moment';
 
 

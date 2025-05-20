@@ -1,5 +1,5 @@
-import { getRoles } from '../../../reducers';
-import { Claim } from '../models/UserModel';
+import {getRoles} from '../../../reducers';
+import {Claim} from '../models/UserModel';
 
 export function getFakeJwtToken(name: string) {
   return {

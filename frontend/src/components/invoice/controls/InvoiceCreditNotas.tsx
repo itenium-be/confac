@@ -1,16 +1,16 @@
 import InvoiceModel from '../models/InvoiceModel';
-import { t } from '../../utils';
-import { createInvoiceList } from '../models/getInvoiceFeature';
-import { List } from '../../controls/table/List';
-import { Claim } from '../../users/models/UserModel';
-import { ListSelectionItem } from '../../controls/table/ListSelect';
-import { InvoiceCreditNotasModal } from './InvoiceCreditNotasModal';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { ConfacState } from '../../../reducers/app-state';
-import { useDispatch } from 'react-redux';
-import { updateInvoiceRequest } from '../../../actions';
-import { ClaimGuard } from '../../enhancers/EnhanceWithClaim';
+import {t} from '../../utils';
+import {createInvoiceList} from '../models/getInvoiceFeature';
+import {List} from '../../controls/table/List';
+import {Claim} from '../../users/models/UserModel';
+import {ListSelectionItem} from '../../controls/table/ListSelect';
+import {InvoiceCreditNotasModal} from './InvoiceCreditNotasModal';
+import {useNavigate} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {ConfacState} from '../../../reducers/app-state';
+import {useDispatch} from 'react-redux';
+import {updateInvoiceRequest} from '../../../actions';
+import {ClaimGuard} from '../../enhancers/EnhanceWithClaim';
 
 
 export type InvoiceCreditNotasProps = {

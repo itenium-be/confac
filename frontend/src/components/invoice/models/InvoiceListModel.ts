@@ -5,7 +5,7 @@ import {searchClientFor} from '../../client/models/searchClientFor';
 import {t, searchinize, formatDate} from '../../utils';
 import {getMoney} from '../../controls/form-controls/inputs/BasicMathInput';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
-import { InvoiceFiltersSearch, InvoiceListFilters } from '../../controls/table/table-models';
+import {InvoiceFiltersSearch, InvoiceListFilters} from '../../controls/table/table-models';
 
 
 function transformFilters(search: InvoiceFiltersSearch[], freeText: string): TransformedInvoiceFilters {

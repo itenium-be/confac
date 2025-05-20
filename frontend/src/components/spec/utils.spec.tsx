@@ -1,4 +1,4 @@
-import { moneyFormat } from '../utils';
+import {moneyFormat} from '../utils';
 
 
 describe('moneyFormat', () => {

@@ -1,5 +1,5 @@
-import { FullFormConfig } from '../../../models';
-import { IProjectModel } from './IProjectModel';
+import {FullFormConfig} from '../../../models';
+import {IProjectModel} from './IProjectModel';
 
 
 export function getProjectFormConfig(project: IProjectModel): FullFormConfig {

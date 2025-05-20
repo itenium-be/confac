@@ -1,8 +1,8 @@
-import { t } from '../utils';
-import { Accordion } from 'react-bootstrap';
-import { ProjectSection } from './sections/ProjectSection';
-import { ClientSection } from './sections/ClientSection';
-import { InvoiceSection } from './sections/InvoiceSection';
+import {t} from '../utils';
+import {Accordion} from 'react-bootstrap';
+import {ProjectSection} from './sections/ProjectSection';
+import {ClientSection} from './sections/ClientSection';
+import {InvoiceSection} from './sections/InvoiceSection';
 
 export const MeasurementsAccordion = () => {
   return (

@@ -1,15 +1,15 @@
-import { Dispatch } from 'redux';
-import { io } from 'socket.io-client';
+import {Dispatch} from 'redux';
+import {io} from 'socket.io-client';
 import {
   handleClientSocketEvents, handleConfigSocketEvents, handleConsultantSocketEvents, handleInvoiceSocketEvents,
   handleProjectMonthSocketEvents, handleProjectSocketEvents,
 } from '../../actions';
-import { SocketEventTypes } from './SocketEventTypes';
-import { EntityEventPayload } from './EntityEventPayload';
-import { t } from '../utils';
-import { toast } from 'react-toastify';
-import { handleRoleSocketEvents, handleUserSocketEvents, } from '../../actions/userActions';
-import { baseUrl } from '../../config-front';
+import {SocketEventTypes} from './SocketEventTypes';
+import {EntityEventPayload} from './EntityEventPayload';
+import {t} from '../utils';
+import {toast} from 'react-toastify';
+import {handleRoleSocketEvents, handleUserSocketEvents,} from '../../actions/userActions';
+import {baseUrl} from '../../config-front';
 
 function createSocketService() {
   const socket = io(baseUrl);

@@ -4,9 +4,9 @@ import {Alert} from 'react-bootstrap';
 import {t} from '../../utils';
 import {authService} from '../../users/authService';
 import {buildRequest, initialLoad} from '../../../actions/initialLoad';
-import { Redirecter } from './Redirecter';
-import { AnonymousLogin } from './AnonymousLogin';
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import {Redirecter} from './Redirecter';
+import {AnonymousLogin} from './AnonymousLogin';
+import {GoogleLogin, GoogleOAuthProvider} from '@react-oauth/google';
 
 
 export const LoginPage = (props: any) => {

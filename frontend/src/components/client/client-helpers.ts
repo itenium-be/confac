@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { ClientModel, ClientType } from './models/ClientModels';
-import { t } from '../utils';
-import { BtwResponse, formatBtw} from '../controls/form-controls/inputs/BtwInput';
-import { getNewClient } from './models/getNewClient';
-import { ConfacState } from '../../reducers/app-state';
-import { ConfigModel } from '../config/models/ConfigModel';
-import { countries } from '../controls/other/CountrySelect';
-import { InvoiceLine } from '../invoice/models/InvoiceLineModels';
+import {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {ClientModel, ClientType} from './models/ClientModels';
+import {t} from '../utils';
+import {BtwResponse, formatBtw} from '../controls/form-controls/inputs/BtwInput';
+import {getNewClient} from './models/getNewClient';
+import {ConfacState} from '../../reducers/app-state';
+import {ConfigModel} from '../config/models/ConfigModel';
+import {countries} from '../controls/other/CountrySelect';
+import {InvoiceLine} from '../invoice/models/InvoiceLineModels';
 
 
 /** Returns a ClientModel with the data from the BTW lookup */

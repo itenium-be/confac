@@ -1,4 +1,4 @@
-import { ClientType } from './../../client/models/ClientModels';
+import {ClientType} from './../../client/models/ClientModels';
 
 /**
  * TODO: TModel has an untyped dependency on an _id property

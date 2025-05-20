@@ -1,4 +1,4 @@
-import { UserModel } from './UserModel';
+import {UserModel} from './UserModel';
 
 
 export type JwtModel = {

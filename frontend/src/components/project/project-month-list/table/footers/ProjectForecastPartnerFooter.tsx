@@ -1,15 +1,15 @@
 import moment from 'moment';
-import { t, moneyFormat } from '../../../../utils';
-import { FullProjectMonthModel } from '../../../models/FullProjectMonthModel';
-import { FullProjectModel } from '../../../models/FullProjectModel';
-import { getProjectForecast } from './getProjectForecast';
+import {t, moneyFormat} from '../../../../utils';
+import {FullProjectMonthModel} from '../../../models/FullProjectMonthModel';
+import {FullProjectModel} from '../../../models/FullProjectModel';
+import {getProjectForecast} from './getProjectForecast';
 
 type ProjectForecastPartnerFooterProps = {
   models: FullProjectModel[] | FullProjectMonthModel[];
   month?: moment.Moment;
 };
 
-export const ProjectForecastPartnerFooter = ({ models, month }: ProjectForecastPartnerFooterProps) => {
+export const ProjectForecastPartnerFooter = ({models, month}: ProjectForecastPartnerFooterProps) => {
   if (!models.length) {
     return null;
   }

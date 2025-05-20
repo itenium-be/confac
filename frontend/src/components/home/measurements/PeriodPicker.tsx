@@ -1,13 +1,13 @@
-import { MonthPicker } from '../../controls/form-controls/MonthPicker';
-import { t } from '../../utils';
-import { DateRange } from './client/ClientsAndProjectsEvolution';
+import {MonthPicker} from '../../controls/form-controls/MonthPicker';
+import {t} from '../../utils';
+import {DateRange} from './client/ClientsAndProjectsEvolution';
 
 interface PeriodPickerProps {
   dateRange: DateRange;
   setDateRange: (value: DateRange) => void;
 }
 
-export const PeriodPicker = ({ dateRange, setDateRange }: PeriodPickerProps) => {
+export const PeriodPicker = ({dateRange, setDateRange}: PeriodPickerProps) => {
   return (
     <>
       <MonthPicker

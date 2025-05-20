@@ -1,5 +1,5 @@
-import { useSelector } from 'react-redux';
-import { ConfacState } from '../../reducers/app-state';
+import {useSelector} from 'react-redux';
+import {ConfacState} from '../../reducers/app-state';
 
 type UserNameProps = {
   userId: string;

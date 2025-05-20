@@ -1,7 +1,7 @@
 import moment from 'moment';
 import InvoiceListModel from '../models/InvoiceListModel';
 import InvoiceModel from '../models/InvoiceModel';
-import { InvoiceListFilters } from '../../controls/table/table-models';
+import {InvoiceListFilters} from '../../controls/table/table-models';
 
 
 describe('InvoiceListModel', () => {

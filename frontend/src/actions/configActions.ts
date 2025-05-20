@@ -6,10 +6,10 @@ import t from '../trans';
 import {ConfigModel} from '../components/config/models/ConfigModel';
 import {busyToggle, success} from './appActions';
 import {authService} from '../components/users/authService';
-import { Dispatch } from 'redux';
-import { EntityEventPayload } from '../components/socketio/EntityEventPayload';
-import { SocketEventTypes } from '../components/socketio/SocketEventTypes';
-import { socketService } from '../components/socketio/SocketService';
+import {Dispatch} from 'redux';
+import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
+import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
+import {socketService} from '../components/socketio/SocketService';
 
 export function updateConfig(newConfig: ConfigModel) {
   return dispatch => {

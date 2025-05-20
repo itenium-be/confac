@@ -1,7 +1,7 @@
 import {Moment} from 'moment';
 import {ConsultantType} from '../../consultant/models/ConsultantModel';
 import {Attachment, IAudit, IComment} from '../../../models';
-import { ProjectProforma } from './IProjectModel';
+import {ProjectProforma} from './IProjectModel';
 
 /**
  * false: The invoice has not yet been verified

@@ -12,7 +12,7 @@ import {searchClientForList} from './searchClientFor';
 import {getInvoiceYears} from '../../invoice/models/InvoiceListModel';
 import {ClientEditIcon} from '../controls/ClientEditIcon';
 import {Claim} from '../../users/models/UserModel';
-import { ClientSearch, ClientFilterOption, FilterValue } from '../controls/ClientSearch';
+import {ClientSearch, ClientFilterOption, FilterValue} from '../controls/ClientSearch';
 
 
 export type ClientFeatureBuilderConfig = IFeatureBuilderConfig<ClientModel, ClientListFilters> & {

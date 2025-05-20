@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
-import { AuditChange } from '../audit-models';
-import { AuditChangeEntryIcon } from '../AuditChangeEntryIcon';
+import {AuditChange} from '../audit-models';
+import {AuditChangeEntryIcon} from '../AuditChangeEntryIcon';
 
 describe('AuditChangeEntryIcon', () => {
   it('creates a fa-plus for NEW entries', () => {

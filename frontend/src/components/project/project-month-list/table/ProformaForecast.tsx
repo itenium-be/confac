@@ -1,9 +1,9 @@
-import { useSelector } from 'react-redux';
-import { FullProjectMonthModel } from '../../models/FullProjectMonthModel';
-import { moneyFormat } from '../../../utils';
-import { ConfacState } from '../../../../reducers/app-state';
-import { getTariffs } from '../../utils/getTariffs';
-import { ToClipboardLabel } from '../../../controls/other/ToClipboardLabel';
+import {useSelector} from 'react-redux';
+import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
+import {moneyFormat} from '../../../utils';
+import {ConfacState} from '../../../../reducers/app-state';
+import {getTariffs} from '../../utils/getTariffs';
+import {ToClipboardLabel} from '../../../controls/other/ToClipboardLabel';
 
 
 type ProformaForecastProps = {
@@ -12,9 +12,9 @@ type ProformaForecastProps = {
 
 
 /** Expected inbound total invoice amount */
-export const ProformaForecast = ({ fullProjectMonth }: ProformaForecastProps) => {
+export const ProformaForecast = ({fullProjectMonth}: ProformaForecastProps) => {
   const tax = useSelector((state: ConfacState) => state.config.defaultInvoiceLines[0].tax);
-  const { timesheet } = fullProjectMonth.details;
+  const {timesheet} = fullProjectMonth.details;
   if (!timesheet.timesheet) {
     return <div />;
   }

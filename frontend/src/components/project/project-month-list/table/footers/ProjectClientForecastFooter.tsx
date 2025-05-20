@@ -1,9 +1,9 @@
 import moment from 'moment';
-import { Badge } from 'react-bootstrap';
-import { t, moneyFormat } from '../../../../utils';
-import { FullProjectMonthModel } from '../../../models/FullProjectMonthModel';
-import { FullProjectModel } from '../../../models/FullProjectModel';
-import { getProjectForecast } from './getProjectForecast';
+import {Badge} from 'react-bootstrap';
+import {t, moneyFormat} from '../../../../utils';
+import {FullProjectMonthModel} from '../../../models/FullProjectMonthModel';
+import {FullProjectModel} from '../../../models/FullProjectModel';
+import {getProjectForecast} from './getProjectForecast';
 
 type ProjectClientForecastFooterProps = {
   models: FullProjectModel[] | FullProjectMonthModel[];
@@ -11,7 +11,7 @@ type ProjectClientForecastFooterProps = {
 };
 
 
-export const ProjectClientForecastFooter = ({ models, month }: ProjectClientForecastFooterProps) => {
+export const ProjectClientForecastFooter = ({models, month}: ProjectClientForecastFooterProps) => {
   if (!models.length) {
     return null;
   }

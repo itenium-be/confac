@@ -13,7 +13,7 @@ import {TimesheetTimeConfig, getAmountInDays} from '../../../invoice/controls/In
 import {AttachmentUploadPreviewButtons} from '../../controls/AttachmentUploadPreviewButtons';
 import {SignedTimesheetAttachmentType} from '../../../../models';
 import {Claim} from '../../../users/models/UserModel';
-import { NotesWithCommentsModalButton } from '../../../controls/form-controls/button/NotesWithCommentsModalButton';
+import {NotesWithCommentsModalButton} from '../../../controls/form-controls/button/NotesWithCommentsModalButton';
 
 interface ProjectMonthTimesheetCellProps {
   fullProjectMonth: FullProjectMonthModel;
@@ -132,7 +132,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
         <NotesWithCommentsModalButton
           claim={Claim.EditProjectMonth}
           value={{note: timesheet.note, comments: timesheet.comments || []}}
-          onChange={val => saveTimesheet({...timesheet, note: val.note, comments: val.comments })}
+          onChange={val => saveTimesheet({...timesheet, note: val.note, comments: val.comments})}
           title={t('projectMonth.timesheetNote', {name: `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`})}
           showNote
         />

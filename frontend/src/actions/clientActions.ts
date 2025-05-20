@@ -6,10 +6,10 @@ import t from '../trans';
 import {ClientModel} from '../components/client/models/ClientModels';
 import {busyToggle, success} from './appActions';
 import {authService} from '../components/users/authService';
-import { socketService } from '../components/socketio/SocketService';
-import { EntityEventPayload } from '../components/socketio/EntityEventPayload';
-import { SocketEventTypes } from '../components/socketio/SocketEventTypes';
-import { Dispatch } from 'redux';
+import {socketService} from '../components/socketio/SocketService';
+import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
+import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
+import {Dispatch} from 'redux';
 
 
 export function saveClient(client: ClientModel, stayOnPage = false, callback?: (c: ClientModel) => void) {

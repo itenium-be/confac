@@ -35,7 +35,7 @@ export const InvoiceDownloadIcon = ({invoice, fileType, style, ...props}: Invoic
 };
 
 
-export const InvoicePreviewIcon = ({ invoice, ...props }: InvoiceModelProps & IconProps) => {
+export const InvoicePreviewIcon = ({invoice, ...props}: InvoiceModelProps & IconProps) => {
   const configInvoiceFileName = useSelector((state: ConfacState) => state.config.invoiceFileName);
   const defaultInvoiceFileName = invoice.client?.invoiceFileName || configInvoiceFileName;
   const fileType = invoice.isQuotation ? 'quotation' : 'invoice';

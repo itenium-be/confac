@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { StringInput } from '../../controls/form-controls/inputs/StringInput';
-import { Button } from '../../controls/form-controls/Button';
+import {useState} from 'react';
+import {StringInput} from '../../controls/form-controls/inputs/StringInput';
+import {Button} from '../../controls/form-controls/Button';
 
 type AnonymousLoginProps = {
   onLogin: (userName: string) => void;
@@ -8,7 +8,7 @@ type AnonymousLoginProps = {
 
 
 /** Login page when google security is disabled */
-export const AnonymousLogin = ({ onLogin }: AnonymousLoginProps) => {
+export const AnonymousLogin = ({onLogin}: AnonymousLoginProps) => {
   const [name, setName] = useState(localStorage.getItem('anonUser') || '');
   return (
     <>

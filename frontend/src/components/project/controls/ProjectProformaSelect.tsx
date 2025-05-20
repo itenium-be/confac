@@ -1,12 +1,12 @@
 import {BaseInputProps} from '../../controls/form-controls/inputs/BaseInput';
-import { t } from '../../utils';
-import { BaseSelect } from '../../controls/form-controls/select/BaseSelect';
-import { ProjectProformaOptions } from '../models/IProjectModel';
+import {t} from '../../utils';
+import {BaseSelect} from '../../controls/form-controls/select/BaseSelect';
+import {ProjectProformaOptions} from '../models/IProjectModel';
 
 type ProjectProformaSelectProps = BaseInputProps<string[]>
 
 
-export const ProjectProformaSelect = ({ value, onChange, ...props}: ProjectProformaSelectProps) => {
+export const ProjectProformaSelect = ({value, onChange, ...props}: ProjectProformaSelectProps) => {
   return (
     <BaseSelect
       value={{value: value, label: t(`project.proforma.${value || 'no'}`)}}

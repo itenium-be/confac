@@ -1,16 +1,16 @@
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
-import { IFeature } from '../../../controls/feature/feature-models';
-import { FullProjectMonthModel } from '../../models/FullProjectMonthModel';
-import { ProjectMonthListFilters } from '../../../controls/table/table-models';
-import { ConfacState } from '../../../../reducers/app-state';
-import { getDownloadUrl } from '../../../../actions/utils/download-helpers';
-import { displayMonthWithYear } from '../project-month-utils';
-import { AdvancedAttachmentDropzone } from '../../../controls/attachments/AdvancedAttachmentDropzone';
-import { projectsMonthOverviewUpload, deleteProjectsMonthOverview } from '../../../../actions';
-import { t } from '../../../utils';
-import { Claim } from '../../../users/models/UserModel';
-import { ToggleProjectMonthButton } from '../ToggleProjectMonthButton';
+import {IFeature} from '../../../controls/feature/feature-models';
+import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
+import {ProjectMonthListFilters} from '../../../controls/table/table-models';
+import {ConfacState} from '../../../../reducers/app-state';
+import {getDownloadUrl} from '../../../../actions/utils/download-helpers';
+import {displayMonthWithYear} from '../project-month-utils';
+import {AdvancedAttachmentDropzone} from '../../../controls/attachments/AdvancedAttachmentDropzone';
+import {projectsMonthOverviewUpload, deleteProjectsMonthOverview} from '../../../../actions';
+import {t} from '../../../utils';
+import {Claim} from '../../../users/models/UserModel';
+import {ToggleProjectMonthButton} from '../ToggleProjectMonthButton';
 
 type OpenedProjectsMonthsListToolbarProps = {
   feature: IFeature<FullProjectMonthModel, ProjectMonthListFilters>;
@@ -22,7 +22,7 @@ type OpenedProjectsMonthsListToolbarProps = {
  * - Button to close it
  * - Timesheet check dropzone
  **/
-export const OpenedProjectsMonthsListToolbar = ({ feature }: OpenedProjectsMonthsListToolbarProps) => {
+export const OpenedProjectsMonthsListToolbar = ({feature}: OpenedProjectsMonthsListToolbarProps) => {
   const projectsMonthOverviews = useSelector((state: ConfacState) => state.projectsMonthOverviews);
   const dispatch = useDispatch();
 
@@ -38,7 +38,7 @@ export const OpenedProjectsMonthsListToolbar = ({ feature }: OpenedProjectsMonth
     if (!projectsMonthOverview)
       return '';
 
-    const { _id, fileDetails } = projectsMonthOverview;
+    const {_id, fileDetails} = projectsMonthOverview;
     return getDownloadUrl('project_month_overview', _id, fileDetails.type, fileDetails.fileName, downloadType);
   };
 

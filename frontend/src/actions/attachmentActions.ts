@@ -50,7 +50,7 @@ export function updateAttachment(
       }
 
       const mergedModel = {...model, attachments: res.body.attachments};
-      dispatch({ type: config.type, [config.key]: mergedModel });
+      dispatch({type: config.type, [config.key]: mergedModel});
       success();
       return true;
     })

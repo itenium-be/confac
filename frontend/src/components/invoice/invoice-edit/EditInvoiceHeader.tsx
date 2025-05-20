@@ -1,13 +1,13 @@
-import { Col } from 'react-bootstrap';
+import {Col} from 'react-bootstrap';
 import InvoiceModel from '../models/InvoiceModel';
-import { Audit } from '../../admin/audit/Audit';
-import { EditInvoiceBadges } from './EditInvoiceBadges';
-import { NotesWithCommentsModalButton } from '../../controls/form-controls/button/NotesWithCommentsModalButton';
-import { Claim } from '../../users/models/UserModel';
-import { DownloadInvoiceButton } from './DownloadInvoiceButton';
-import { InvoiceDownloadIcon } from '../../controls/attachments/AttachmentDownloadIcon';
+import {Audit} from '../../admin/audit/Audit';
+import {EditInvoiceBadges} from './EditInvoiceBadges';
+import {NotesWithCommentsModalButton} from '../../controls/form-controls/button/NotesWithCommentsModalButton';
+import {Claim} from '../../users/models/UserModel';
+import {DownloadInvoiceButton} from './DownloadInvoiceButton';
+import {InvoiceDownloadIcon} from '../../controls/attachments/AttachmentDownloadIcon';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
-import { t } from '../../utils';
+import {t} from '../../utils';
 
 export type EditInvoiceHeaderProps = {
   invoice: InvoiceModel;

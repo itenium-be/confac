@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { t } from '../../utils';
-import { Icon } from '../../controls/Icon';
-import { FullAuditModal } from './FullAuditModal';
-import { AuditProps } from './Audit';
+import {useState} from 'react';
+import {t} from '../../utils';
+import {Icon} from '../../controls/Icon';
+import {FullAuditModal} from './FullAuditModal';
+import {AuditProps} from './Audit';
 
 /** Icon to open the FullAuditModal */
 export const FullAudit = (props: AuditProps) => {

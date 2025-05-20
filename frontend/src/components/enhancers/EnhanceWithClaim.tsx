@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, {ReactNode} from 'react';
 import {Claim, GenericClaim} from '../users/models/UserModel';
 import {authService} from '../users/authService';
 import {ChildrenType} from '../../models';
@@ -75,7 +75,7 @@ export const ClaimGuardSwitch = ({feature, children}: ClaimGuardSwitchProps) => 
   ) as React.ReactElement<ClaimGuardProps>[];
 
   for (const claimGuard of claimGuards) {
-    const { feature: guardFeature, claim, children: guardChildren } = claimGuard.props;
+    const {feature: guardFeature, claim, children: guardChildren} = claimGuard.props;
 
     if (hasClaim(guardFeature ?? feature, claim)) {
       return guardChildren;

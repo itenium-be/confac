@@ -9,10 +9,10 @@ import {EmailModal, EmailTemplate} from '../../controls/email/EmailModal';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import {useParams} from 'react-router-dom';
 import useEntityChangedToast from '../../hooks/useEntityChangedToast';
-import { EditInvoiceHeader } from './EditInvoiceHeader';
-import { EditInvoiceBody } from './EditInvoiceBody';
-import { EditInvoiceFooter } from './EditInvoiceFooter';
-import { getNewInvoice } from '../models/getNewInvoice';
+import {EditInvoiceHeader} from './EditInvoiceHeader';
+import {EditInvoiceBody} from './EditInvoiceBody';
+import {EditInvoiceFooter} from './EditInvoiceFooter';
+import {getNewInvoice} from '../models/getNewInvoice';
 
 
 import './EditInvoice.scss';

@@ -10,7 +10,7 @@ import {ListHeader} from '../../controls/table/ListHeader';
 import {IList} from '../../controls/table/table-models';
 import {getInvoiceListRowClass} from './getInvoiceListRowClass';
 import {ListFooter} from '../../controls/table/ListFooter';
-import { IFeature } from '../../controls/feature/feature-models';
+import {IFeature} from '../../controls/feature/feature-models';
 
 
 

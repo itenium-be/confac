@@ -1,13 +1,13 @@
-import { useMemo } from 'react';
+import {useMemo} from 'react';
 import moment from 'moment';
-import { displayMonthWithYear } from '../project-month-utils';
+import {displayMonthWithYear} from '../project-month-utils';
 import {t} from '../../../utils';
-import { TimesheetBadge } from './badges/TimesheetBadge';
-import { InboundBadge } from './badges/InboundBadge';
-import { OutboundBadge } from './badges/OutboundBadge';
-import { createProjectMonthBadgesSelector } from './createProjectMonthBadgesSelector';
-import { useSelector } from 'react-redux';
-import { ToggleProjectMonthButton } from '../ToggleProjectMonthButton';
+import {TimesheetBadge} from './badges/TimesheetBadge';
+import {InboundBadge} from './badges/InboundBadge';
+import {OutboundBadge} from './badges/OutboundBadge';
+import {createProjectMonthBadgesSelector} from './createProjectMonthBadgesSelector';
+import {useSelector} from 'react-redux';
+import {ToggleProjectMonthButton} from '../ToggleProjectMonthButton';
 
 
 const VerifiedBadge = (

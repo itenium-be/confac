@@ -7,7 +7,7 @@ import {Attachment, IAttachment, IAudit, IComment} from '../../../models';
 import {InvoiceLine} from './InvoiceLineModels';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
-import { holidaysService } from '../../../actions/holidays';
+import {holidaysService} from '../../../actions/holidays';
 
 
 export type InvoiceMoney = {

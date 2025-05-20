@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { ConsultantModel } from '../models/ConsultantModel';
-import { EditIcon, Icon } from '../../controls/Icon';
-import { t } from '../../utils';
-import { ConsultantModal } from './ConsultantModal';
-import { saveConsultant } from '../../../actions/consultantActions';
-import { ConsultantProps } from './ConsultantLink';
+import {useState} from 'react';
+import {Link} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {ConsultantModel} from '../models/ConsultantModel';
+import {EditIcon, Icon} from '../../controls/Icon';
+import {t} from '../../utils';
+import {ConsultantModal} from './ConsultantModal';
+import {saveConsultant} from '../../../actions/consultantActions';
+import {ConsultantProps} from './ConsultantLink';
 
 /** Consultant links to detail page and option to open details in modal */
-export const ConsultantIconLinks = ({ consultant }: ConsultantProps) => {
+export const ConsultantIconLinks = ({consultant}: ConsultantProps) => {
   const dispatch = useDispatch();
   const [modal, setModal] = useState<boolean>(false);
 

@@ -1,10 +1,10 @@
-import { useProjects } from '../../../hooks/useProjects';
-import { Table } from 'react-bootstrap';
-import { t } from '../../../utils';
-import { FullProjectModel } from '../../../project/models/FullProjectModel';
-import { Link } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
+import {useProjects} from '../../../hooks/useProjects';
+import {Table} from 'react-bootstrap';
+import {t} from '../../../utils';
+import {FullProjectModel} from '../../../project/models/FullProjectModel';
+import {Link} from 'react-router-dom';
+import {Container} from 'react-bootstrap';
+import {Row} from 'react-bootstrap';
 
 export enum ContractType {
   All,

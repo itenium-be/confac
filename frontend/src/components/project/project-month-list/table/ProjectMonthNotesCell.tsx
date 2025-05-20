@@ -3,7 +3,7 @@ import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
 import {patchProjectsMonth} from '../../../../actions';
 import {t} from '../../../utils';
 import {Claim} from '../../../users/models/UserModel';
-import { NotesWithCommentsModalButton } from '../../../controls/form-controls/button/NotesWithCommentsModalButton';
+import {NotesWithCommentsModalButton} from '../../../controls/form-controls/button/NotesWithCommentsModalButton';
 
 
 interface ProjectMonthNotesCellProps {

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import {useEffect, useRef} from 'react';
 // Let's pretend this <Counter> component is expensive to re-render so ...
 // ... we wrap with React.memo, but we're still seeing performance issues :/
 // So we add useWhyDidYouUpdate and check our console to see what's going on.
@@ -42,7 +42,7 @@ export function useWhyDidYouUpdate(name, props) {
   useEffect(() => {
     if (previousProps.current) {
       // Get all keys from previous and current props
-      const allKeys = Object.keys({ ...previousProps.current as any, ...props });
+      const allKeys = Object.keys({...previousProps.current as any, ...props});
       // Use this object to keep track of changed props
       const changesObj = {};
       // Iterate through keys

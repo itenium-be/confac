@@ -1,11 +1,11 @@
-import moment, { Moment } from 'moment';
-import { getNewConsultant } from '../../consultant/models/getNewConsultant';
-import { IProjectModel, ProjectStatus } from './IProjectModel';
-import { ConsultantModel } from '../../consultant/models/ConsultantModel';
-import { ClientModel } from '../../client/models/ClientModels';
-import { getNewClient } from '../../client/models/getNewClient';
-import { ContractStatus } from '../../client/models/ContractModels';
-import { ContractType } from '../../home/measurements/project/ConsultantContractsList';
+import moment, {Moment} from 'moment';
+import {getNewConsultant} from '../../consultant/models/getNewConsultant';
+import {IProjectModel, ProjectStatus} from './IProjectModel';
+import {ConsultantModel} from '../../consultant/models/ConsultantModel';
+import {ClientModel} from '../../client/models/ClientModels';
+import {getNewClient} from '../../client/models/getNewClient';
+import {ContractStatus} from '../../client/models/ContractModels';
+import {ContractType} from '../../home/measurements/project/ConsultantContractsList';
 
 
 

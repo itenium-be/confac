@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { isHoliday } from '@itenium/date-holidays-be';
+import {isHoliday} from '@itenium/date-holidays-be';
 
 type WorkDaysMonthCache = {[month: string]: number};
 

@@ -1,7 +1,7 @@
-import { createSelector } from 'reselect';
-import { ProjectMonthBadgeTotals } from './ProjectMonthBadgeTotals';
-import { ConfacState } from '../../../../reducers/app-state';
-import { shallowEqual } from 'react-redux';
+import {createSelector} from 'reselect';
+import {ProjectMonthBadgeTotals} from './ProjectMonthBadgeTotals';
+import {ConfacState} from '../../../../reducers/app-state';
+import {shallowEqual} from 'react-redux';
 
 
 const selectProjectsMonth = (state: ConfacState) => state.projectsMonth;
@@ -15,7 +15,7 @@ const selectAllData = createSelector(
   (projectsMonth, projects, consultants, clients) => ({
     projectsMonth, projects, consultants, clients
   }), {
-    memoizeOptions: { resultEqualityCheck: shallowEqual }
+    memoizeOptions: {resultEqualityCheck: shallowEqual}
   }
 );
 

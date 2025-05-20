@@ -91,7 +91,8 @@
         "delimiter": "semi",
         "requireLast": false
       }
-    }]
+    }],
+    "object-curly-spacing": [2, "never"]
   },
   "overrides": [
     {

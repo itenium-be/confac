@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { t } from '../../utils';
-import { authService } from '../../users/authService';
-import { googleLogout } from '@react-oauth/google';
-import { Button } from 'react-bootstrap';
-import { Icon } from '../../controls/Icon';
+import {useState} from 'react';
+import {Navigate} from 'react-router-dom';
+import {t} from '../../utils';
+import {authService} from '../../users/authService';
+import {googleLogout} from '@react-oauth/google';
+import {Button} from 'react-bootstrap';
+import {Icon} from '../../controls/Icon';
 
 /** Google logout button */
 export const LogoutButton = () => {

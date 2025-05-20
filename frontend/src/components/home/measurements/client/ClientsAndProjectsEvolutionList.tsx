@@ -1,13 +1,13 @@
-import { Table } from 'react-bootstrap';
-import { t } from '../../../utils';
-import { DateRange } from './ClientsAndProjectsEvolution';
+import {Table} from 'react-bootstrap';
+import {t} from '../../../utils';
+import {DateRange} from './ClientsAndProjectsEvolution';
 
 interface ClientsAndProjectsEvolutionListProps {
   dateRange: DateRange;
   clients: number;
   clientsWithProject: number;
 }
-export const ClientsAndProjectsEvolutionList = ({ dateRange, clients, clientsWithProject }: ClientsAndProjectsEvolutionListProps) => {
+export const ClientsAndProjectsEvolutionList = ({dateRange, clients, clientsWithProject}: ClientsAndProjectsEvolutionListProps) => {
   return (
     <Table>
       <thead>

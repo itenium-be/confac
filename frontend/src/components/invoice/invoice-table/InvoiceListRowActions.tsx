@@ -7,7 +7,7 @@ import {t} from '../../utils';
 import {deleteInvoice, updateInvoiceRequest} from '../../../actions';
 import {ConfirmedDeleteIcon} from '../../controls/icons/DeleteIcon';
 import {Claim} from '../../users/models/UserModel';
-import { NotesWithCommentsModalButton } from '../../controls/form-controls/button/NotesWithCommentsModalButton';
+import {NotesWithCommentsModalButton} from '../../controls/form-controls/button/NotesWithCommentsModalButton';
 
 
 export type InvoiceListRowAction = 'comment' | 'edit' | 'validate' | 'download' | 'preview' | 'delete';
@@ -32,7 +32,7 @@ export const InvoiceListRowActions = ({invoice, small = false, buttons, hideEdit
         <NotesWithCommentsModalButton
           claim={Claim.ManageInvoices}
           includeBorder={false}
-          value={{note: invoice.note, comments: invoice.comments || [] }}
+          value={{note: invoice.note, comments: invoice.comments || []}}
           onChange={val => {
             const updatedInvoice = new InvoiceModel(invoice.config, {
               ...invoice,

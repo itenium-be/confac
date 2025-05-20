@@ -1,14 +1,14 @@
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import moment from 'moment';
-import { formatDate, t } from '../../utils';
-import { ConfacState } from '../../../reducers/app-state';
-import { AuditChangeEntryIcon } from './AuditChangeEntryIcon';
-import { AuditLog, AuditModelTypes } from './audit-models';
+import {formatDate, t} from '../../utils';
+import {ConfacState} from '../../../reducers/app-state';
+import {AuditChangeEntryIcon} from './AuditChangeEntryIcon';
+import {AuditLog, AuditModelTypes} from './audit-models';
 
 import './audit.scss';
 
 /** tbody for 1 audit entry */
-export const AuditChangeEntry = ({ change, modelType }: { change: AuditLog; modelType: AuditModelTypes }) => {
+export const AuditChangeEntry = ({change, modelType}: { change: AuditLog; modelType: AuditModelTypes }) => {
   // TODO: ideally uses modelType to translate the diff.path that has changed
   const user = useSelector((state: ConfacState) => state.user.users.find(x => x.email === change.user));
 
@@ -16,8 +16,8 @@ export const AuditChangeEntry = ({ change, modelType }: { change: AuditLog; mode
     <tbody>
       <tr>
         <td colSpan={3} style={{fontWeight: 'bold'}}>
-          {t('audit.modifiedOn', { date: formatDate(change.date), hour: formatDate(change.date, 'H:mm') })}
-          {t('modifiedBy', { name: user?.alias || change.user })}
+          {t('audit.modifiedOn', {date: formatDate(change.date), hour: formatDate(change.date, 'H:mm')})}
+          {t('modifiedBy', {name: user?.alias || change.user})}
           <small>{' (' + moment(change.date).fromNow() + ')'}</small>
         </td>
       </tr>

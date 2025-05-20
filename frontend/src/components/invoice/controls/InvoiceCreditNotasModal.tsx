@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import { EditIcon } from '../../controls/Icon';
-import { t } from '../../utils';
+import {useEffect, useState} from 'react';
+import {EditIcon} from '../../controls/Icon';
+import {t} from '../../utils';
 import InvoiceModel from '../models/InvoiceModel';
-import { ListSelect, ListSelectionItem } from '../../controls/table/ListSelect';
-import { Modal } from '../../controls/Modal';
-import { SearchStringInput } from '../../controls/form-controls/inputs/SearchStringInput';
-import { useSelector } from 'react-redux';
-import { ConfacState } from '../../../reducers/app-state';
-import { searchInvoices } from '../models/getInvoiceFeature';
+import {ListSelect, ListSelectionItem} from '../../controls/table/ListSelect';
+import {Modal} from '../../controls/Modal';
+import {SearchStringInput} from '../../controls/form-controls/inputs/SearchStringInput';
+import {useSelector} from 'react-redux';
+import {ConfacState} from '../../../reducers/app-state';
+import {searchInvoices} from '../models/getInvoiceFeature';
 
 
 export type InvoiceCreditNotasModalProps = {

@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import moment from 'moment';
 import {InvoiceClientCell} from '../invoice-table/InvoiceClientCell';
 import {InvoiceNumberCell} from '../invoice-table/InvoiceNumberCell';
-import InvoiceModel, { calculateDaysWorked } from './InvoiceModel';
+import InvoiceModel, {calculateDaysWorked} from './InvoiceModel';
 import {formatDate, moneyFormat, searchinize} from '../../utils';
 import {IListCell, IListRow, ListFilters} from '../../controls/table/table-models';
 import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';

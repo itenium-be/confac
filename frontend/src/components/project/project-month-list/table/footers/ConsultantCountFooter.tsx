@@ -2,7 +2,7 @@
 import moment from 'moment';
 import {t} from '../../../../utils';
 import {ConsultantModel} from '../../../../consultant/models/ConsultantModel';
-import { holidaysService } from '../../../../../actions/holidays';
+import {holidaysService} from '../../../../../actions/holidays';
 
 
 const getConsultantTotals = (consultants: ConsultantModel[]) => {

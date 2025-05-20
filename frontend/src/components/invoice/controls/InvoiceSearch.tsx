@@ -8,7 +8,7 @@ import {downloadInvoicesZip, downloadInvoicesExcel} from '../../../actions';
 import InvoiceListModel from '../models/InvoiceListModel';
 import {Switch} from '../../controls/form-controls/Switch';
 import {Button} from '../../controls/form-controls/Button';
-import { InvoiceFiltersSearch, InvoiceListFilters } from '../../controls/table/table-models';
+import {InvoiceFiltersSearch, InvoiceListFilters} from '../../controls/table/table-models';
 
 
 type InvoiceSearchProps = {

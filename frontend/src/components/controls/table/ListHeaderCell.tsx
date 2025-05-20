@@ -1,7 +1,7 @@
 import useHover from '../../hooks/useHover';
-import { t } from '../../utils';
-import { SortIcon } from '../Icon';
-import { ListFilters, SortDirection, SortDirections } from './table-models';
+import {t} from '../../utils';
+import {SortIcon} from '../Icon';
+import {ListFilters, SortDirection, SortDirections} from './table-models';
 
 type ListHeaderCellProps = {
   width: string | undefined | number;

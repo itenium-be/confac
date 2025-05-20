@@ -1,7 +1,7 @@
-import { CSSProperties } from 'react';
-import { Icon } from '../../controls/Icon';
-import { t } from '../../utils';
-import { IContractModel, isFinalContractStatus } from '../models/ContractModels';
+import {CSSProperties} from 'react';
+import {Icon} from '../../controls/Icon';
+import {t} from '../../utils';
+import {IContractModel, isFinalContractStatus} from '../models/ContractModels';
 
 type SingleContractBadgeProps = {
   contract?: IContractModel;
@@ -10,7 +10,7 @@ type SingleContractBadgeProps = {
   tooltip?: string;
 };
 
-export const SingleContractIcon = ({ contract, contracts, style, tooltip, ...props }: SingleContractBadgeProps) => {
+export const SingleContractIcon = ({contract, contracts, style, tooltip, ...props}: SingleContractBadgeProps) => {
   if (!contract && !contracts) {
     return null;
   }
@@ -25,11 +25,11 @@ export const SingleContractIcon = ({ contract, contracts, style, tooltip, ...pro
 
   if (ok) {
     fa = 'fa fa-check';
-    ownStyle = { color: 'green' };
+    ownStyle = {color: 'green'};
     globalTooltip = 'contract.ok';
   } else {
     fa = 'fa fa-exclamation-triangle';
-    ownStyle = { color: 'red' };
+    ownStyle = {color: 'red'};
     globalTooltip = 'contract.nok';
   }
 

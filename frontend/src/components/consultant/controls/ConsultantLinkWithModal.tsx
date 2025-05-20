@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { ConsultantModel } from '../models/ConsultantModel';
-import { Icon } from '../../controls/Icon';
-import { t } from '../../utils';
-import { ConsultantModal } from './ConsultantModal';
-import { saveConsultant } from '../../../actions/consultantActions';
-import { ConsultantProps, ConsultantLink } from './ConsultantLink';
+import {useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {ConsultantModel} from '../models/ConsultantModel';
+import {Icon} from '../../controls/Icon';
+import {t} from '../../utils';
+import {ConsultantModal} from './ConsultantModal';
+import {saveConsultant} from '../../../actions/consultantActions';
+import {ConsultantProps, ConsultantLink} from './ConsultantLink';
 
 type ConsultantLinkWithModalProps = ConsultantProps & {
   /** Show the consultant type */
@@ -14,7 +14,7 @@ type ConsultantLinkWithModalProps = ConsultantProps & {
 /** Link to a Consultant with option to open a Modal */
 
 
-export const ConsultantLinkWithModal = ({ consultant, showType }: ConsultantLinkWithModalProps) => {
+export const ConsultantLinkWithModal = ({consultant, showType}: ConsultantLinkWithModalProps) => {
   const dispatch = useDispatch();
   const [hover, setHover] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);

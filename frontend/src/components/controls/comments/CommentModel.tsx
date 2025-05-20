@@ -1,14 +1,14 @@
-import { IComment } from '../../../models';
-import { Claim } from '../../users/models/UserModel';
-import { formatDate, t } from '../../utils';
-import { Features, IFeature } from '../feature/feature-models';
-import { EditIcon } from '../Icon';
-import { DeleteIcon } from '../icons/DeleteIcon';
-import { CommentsListFilters, IList, IListCell, ListFilters } from '../table/table-models';
-import { features } from '../../../trans';
+import {IComment} from '../../../models';
+import {Claim} from '../../users/models/UserModel';
+import {formatDate, t} from '../../utils';
+import {Features, IFeature} from '../feature/feature-models';
+import {EditIcon} from '../Icon';
+import {DeleteIcon} from '../icons/DeleteIcon';
+import {CommentsListFilters, IList, IListCell, ListFilters} from '../table/table-models';
+import {features} from '../../../trans';
 import moment from 'moment';
-import { authService } from '../../users/authService';
-import { UserName } from '../../users/UserName';
+import {authService} from '../../users/authService';
+import {UserName} from '../../users/UserName';
 
 
 export type CommentFeatureBuilderConfig = {

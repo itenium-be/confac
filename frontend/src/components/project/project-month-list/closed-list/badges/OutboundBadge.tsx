@@ -1,9 +1,9 @@
-import { t } from '../../../../utils';
-import { ProjectMonthBadgeTotals } from '../ProjectMonthBadgeTotals';
+import {t} from '../../../../utils';
+import {ProjectMonthBadgeTotals} from '../ProjectMonthBadgeTotals';
 import {Tooltip} from '../../../../controls/Tooltip';
 
 /** ProjectMonth closed month Outbound badge */
-export const OutboundBadge = ({ totals }: { totals: ProjectMonthBadgeTotals }) => {
+export const OutboundBadge = ({totals}: { totals: ProjectMonthBadgeTotals }) => {
   return (
     <Tooltip title={`<b>${t('projectMonth.outboundPaid')}</b><br>` + totals.unverified}>
       <span className="badge rounded-pill bg-warning">

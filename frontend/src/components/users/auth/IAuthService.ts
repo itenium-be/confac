@@ -1,7 +1,7 @@
-import { SetStateAction } from 'react';
-import { Dispatch } from 'redux';
-import { UserModel, Claim } from '../models/UserModel';
-import { JwtModel } from '../models/JwtModel';
+import {SetStateAction} from 'react';
+import {Dispatch} from 'redux';
+import {UserModel, Claim} from '../models/UserModel';
+import {JwtModel} from '../models/JwtModel';
 
 export interface IAuthService {
   loggedIn: () => boolean;

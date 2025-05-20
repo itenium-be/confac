@@ -41,7 +41,7 @@ import {ProjectMonthStatusSelect} from '../../../project/controls/ProjectMonthSt
 import {ContractStatusWithNotes} from '../../../client/contract/ContractStatusWithNotes';
 import {ProjectClientContractStatus} from '../../../project/controls/ProjectClientContractStatus';
 import {CountrySelect} from '../../other/CountrySelect';
-import { ProjectProformaSelect } from '../../../project/controls/ProjectProformaSelect';
+import {ProjectProformaSelect} from '../../../project/controls/ProjectProformaSelect';
 
 
 export function getComponent(col: FormConfig) {

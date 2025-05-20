@@ -7,10 +7,10 @@ import t from '../trans';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
 import {authService} from '../components/users/authService';
-import { socketService } from '../components/socketio/SocketService';
-import { EntityEventPayload } from '../components/socketio/EntityEventPayload';
-import { SocketEventTypes } from '../components/socketio/SocketEventTypes';
-import { Dispatch } from 'redux';
+import {socketService} from '../components/socketio/SocketService';
+import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
+import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
+import {Dispatch} from 'redux';
 
 
 function cleanViewModel(data: InvoiceModel): InvoiceModel {

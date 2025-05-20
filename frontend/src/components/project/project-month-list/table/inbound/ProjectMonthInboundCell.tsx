@@ -14,9 +14,9 @@ import {AttachmentUploadPreviewButtons} from '../../../controls/AttachmentUpload
 import {InboundInvoiceAttachmentType, ProformaInvoiceAttachmentType} from '../../../../../models';
 import {ToClipboardLabel} from '../../../../controls/other/ToClipboardLabel';
 import {ProjectMonthInboundStatusSelect} from '../../../controls/ProjectMonthInboundStatusSelect';
-import { ProformaForecast } from '../ProformaForecast';
-import { ProjectMonthProformaStatusSelect } from '../../../controls/ProjectMonthProformaStatusSelect';
-import { InboundAmountForecast } from './InboundAmountForecast';
+import {ProformaForecast} from '../ProformaForecast';
+import {ProjectMonthProformaStatusSelect} from '../../../controls/ProjectMonthProformaStatusSelect';
+import {InboundAmountForecast} from './InboundAmountForecast';
 
 
 interface ProjectMonthInboundCellProps {

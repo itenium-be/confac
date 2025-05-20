@@ -5,7 +5,7 @@ import {defaultConfig} from '../../config/models/getNewConfig';
 import {ConfigModel} from '../../config/models/ConfigModel';
 import {ClientModel} from '../../client/models/ClientModels';
 import {InvoiceLineActions} from '../models/InvoiceLineModels';
-import { InvoiceDateStrategy } from '../../../models';
+import {InvoiceDateStrategy} from '../../../models';
 
 // const DefaultHoursInDay = 8;
 

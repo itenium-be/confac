@@ -11,7 +11,7 @@ import {IProjectModel} from '../project/models/IProjectModel';
 import {formatDate, searchinize, t} from '../utils';
 import {IList, IListCell, ListFilters} from '../controls/table/table-models';
 import {ClientModel} from '../client/models/ClientModels';
-import { ConsultantLinkWithModal } from './controls/ConsultantLinkWithModal';
+import {ConsultantLinkWithModal} from './controls/ConsultantLinkWithModal';
 import {ConsultantCountFooter} from '../project/project-month-list/table/footers/ConsultantCountFooter';
 import {InvoiceClientCell} from '../invoice/invoice-table/InvoiceClientCell';
 import {ProjectClientTariff} from '../project/models/getProjectFeature';

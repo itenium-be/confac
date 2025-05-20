@@ -1,5 +1,5 @@
-import { t } from '../utils';
-import { MeasurementsAccordion } from './MeasurementsAccordion';
+import {t} from '../utils';
+import {MeasurementsAccordion} from './MeasurementsAccordion';
 
 import './Home.scss';
 

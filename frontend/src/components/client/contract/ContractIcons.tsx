@@ -1,7 +1,7 @@
 import {IProjectModel} from '../../project/models/IProjectModel';
 import {t} from '../../utils';
 import {ClientModel} from '../models/ClientModels';
-import { SingleContractIcon } from './SingleContractIcon';
+import {SingleContractIcon} from './SingleContractIcon';
 
 type ContractBadgeProps = {
   project?: IProjectModel;

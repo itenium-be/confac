@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import moment from 'moment';
-import { Button } from '../../../../controls/form-controls/Button';
-import { NotEmailedIcon, EmailedIcon } from '../../../../controls/Icon';
-import { t } from '../../../../utils';
+import {Button} from '../../../../controls/form-controls/Button';
+import {NotEmailedIcon, EmailedIcon} from '../../../../controls/Icon';
+import {t} from '../../../../utils';
 import InvoiceModel from '../../../../invoice/models/InvoiceModel';
-import { EmailModal, EmailTemplate } from '../../../../controls/email/EmailModal';
-import { Claim } from '../../../../users/models/UserModel';
-import { ClaimGuard, ClaimGuardSwitch } from '../../../../enhancers/EnhanceWithClaim';
+import {EmailModal, EmailTemplate} from '../../../../controls/email/EmailModal';
+import {Claim} from '../../../../users/models/UserModel';
+import {ClaimGuard, ClaimGuardSwitch} from '../../../../enhancers/EnhanceWithClaim';
 
 type InvoiceEmailProps = {
   invoice: InvoiceModel;
 };
 
-export const InvoiceEmail = ({ invoice }: InvoiceEmailProps) => {
+export const InvoiceEmail = ({invoice}: InvoiceEmailProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const emailIcon = !invoice.lastEmail ? (
