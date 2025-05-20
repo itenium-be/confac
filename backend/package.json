@@ -50,7 +50,6 @@
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
     "@types/body-parser": "^1.17.1",
-    "@types/bson": "^4.2.4",
     "@types/cors": "^2.8.6",
     "@types/deep-diff": "^1.0.2",
     "@types/errorhandler": "0.0.32",
