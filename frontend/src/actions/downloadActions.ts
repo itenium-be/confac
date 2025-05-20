@@ -77,6 +77,20 @@ export function downloadInvoicesExcel(ids: string[]) {
   };
 }
 
+export function downloadProjectsExcel(ids: any[]) {
+  return dispatch => {
+    request.post(buildUrl('/projects/excel'))
+      .responseType('blob')
+      .set('Authorization', authService.getBearer())
+      .send(ids)
+      .then(res => {
+        console.log('downloaded', res); // eslint-disable-line
+        const fileName = `projects-${moment().format('YYYY-MM-DD')}.csv`;
+        downloadAttachment(fileName, res.body);
+      });
+  };
+}
+
 
 export function downloadInvoicesZip(ids: string[]) {
   return dispatch => {

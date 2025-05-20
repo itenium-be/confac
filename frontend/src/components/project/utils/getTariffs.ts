@@ -1,5 +1,6 @@
 import {EditProjectRateType} from '../../../models';
 import {DefaultHoursInDay} from '../../client/models/getNewClient';
+import {FullProjectModel} from '../models/FullProjectModel';
 import {ProjectClientModel} from '../models/IProjectModel';
 
 
@@ -7,6 +8,26 @@ import {ProjectClientModel} from '../models/IProjectModel';
 export type ProjectClientTariff = {
   tariff: number;
   rateType: EditProjectRateType;
+}
+
+export function getFullTariffs(project: FullProjectModel, type: 'client' | 'partner') {
+  const projectClient = type === 'client' ? project.details.client : project.details.partner;
+  if (!projectClient?.clientId) {
+    return undefined;
+  }
+
+  const client = type === 'client' ? project.client : project.partner!;
+  const tariff = getTariffs(projectClient);
+  if (tariff.rateType === 'daily') {
+    return {
+      dailyRate: tariff.tariff,
+      hourlyRate: tariff.tariff / client.hoursInDay,
+    };
+  }
+  return {
+    dailyRate: tariff.tariff * client.hoursInDay,
+    hourlyRate: tariff.tariff,
+  };
 }
 
 

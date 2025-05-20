@@ -480,6 +480,7 @@ export const trans = {
     endDate: 'End date',
     forEndCustomer: 'Project is at end customer',
     comments: 'Comments',
+    listDownloadExcel: 'Download clients as Excel',
     deleteConfirm: {
       title: 'Delete project',
       content: 'Project will be permanently deleted.',
