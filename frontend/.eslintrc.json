@@ -4,7 +4,8 @@
   ],
   "rules": {
     "semi": ["error", "always"],
-    "keyword-spacing": ["error", { "before": true }]
+    "keyword-spacing": ["error", { "before": true }],
+    "space-before-blocks": "error"
   },
   "overrides": [
     {
