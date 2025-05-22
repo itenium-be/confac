@@ -68,7 +68,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
   const timesheetAmount = getAmountInDays(timesheetConfig);
   const canToggleValid = !(
     typeof timesheet.timesheet === 'number'
-    && (timesheetAmount === timesheet.check || timesheet.note || !projectConfig.timesheetCheck)
+    && (timesheetAmount === timesheet.check || timesheet.note || !projectConfig.timesheetCheck || timesheet.comments?.length)
   );
 
   const timesheetDetails = fullProjectMonth.invoice
