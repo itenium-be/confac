@@ -36,7 +36,7 @@ const Bridge = ({value = [getNewInvoiceLine()], onChange}: MinimalInputProps<Inv
 
 
 const defaultInvoiceLinesConfig: FullFormConfig = [
-  {key: 'price', label: 'project.client.tariff', component: 'basic-math', prefix: '€', cols: 2},
+  {key: 'price', label: 'project.client.tariff', component: 'basic-math', prefix: '€', cols: 2, props: {float: true}},
   {key: 'type', label: 'project.client.rateType', component: 'ProjectLineTypeSelect', cols: 2},
 ];
 
