@@ -356,14 +356,14 @@ export const trans = {
     createCreditNota: 'Create Credit Nota'
   },
   attachment: {
-    types: 'Bijlage types',
-    type: 'Type bijlage',
-    typeExists: 'Dit type bijlage bestaat reeds voor dit document.',
-    toggleEditForm: 'Bijlagen verwijderen',
-    deleteTitle: 'Bijlage verwijderen?',
-    deletePopup: 'De bijlage verwijderen?',
-    upload: 'Voeg een bestand toe',
-    noneUploaded: 'Er zijn nog geen bijlages toegevoegd.',
+    types: 'Attachment types',
+    type: 'Type of attachment',
+    typeExists: 'This attachment type already exists for this document.',
+    toggleEditForm: 'Delete attachments',
+    deleteTitle: 'Delete attachment?',
+    deletePopup: 'Delete this attachment?',
+    upload: 'Add a file',
+    noneUploaded: 'No attachment have been added.',
   },
   contract: {
     notes: 'Contract notitie',
@@ -404,12 +404,12 @@ export const trans = {
     activateTitle: 'Activate client',
     timeTitle: 'Invested',
     daysWorked: '{days} days',
-    title: 'Standaard factuurwaarden',
-    hoursInDay: 'Uren per dag',
-    defaultInvoiceLines: 'Standaard factuurlijn(en)',
-    defaultChangingOrderNr: 'Het bestelbon nr wijzigt voor elke factuur',
-    defaultInvoiceDateStrategy: 'Standaard factuurdatum',
-    invoiceFileName: 'Standaard factuur bestandsnaam',
+    title: 'Default invoice values',
+    hoursInDay: 'Hours per day',
+    defaultInvoiceLines: 'Default invoice line(s)',
+    defaultChangingOrderNr: 'The order nr changes for each invoice',
+    defaultInvoiceDateStrategy: 'Default invoice date',
+    invoiceFileName: 'Default invoice filename',
     viewDetails: 'Go to detail screen',
     frameworkAgreement: {
       title: 'Raamcontract',
@@ -493,7 +493,6 @@ export const trans = {
       thisContract: 'Werkopdracht',
       contracts: 'Contracten',
     },
-
     proforma: {
       no: 'No proforma invoice',
       inboundWithTax: 'From partner incl tax',
@@ -503,13 +502,13 @@ export const trans = {
     },
     partner: {
       clientId: 'Partner',
-      tariff: 'Tarif',
+      tariff: 'Tariff',
       rateType: 'Unit',
       ref: 'Reference',
     },
     client: {
       clientId: 'Client',
-      tariff: 'Client tarif',
+      tariff: 'Client tariff',
       rateType: 'Unit',
       ref: 'reference',
       advancedInvoicing: 'Set specific invoicing details',
@@ -554,8 +553,8 @@ export const trans = {
     },
     deleteConfirm: {
       title: 'Confirm deletion',
-      content: 'Deze record wordt zondermeer hard gedelete. Ik hoop dat je weet wat je aan het doen bent!',
-      toastr: 'Project maand record verwijderd',
+      content: 'This record will be hard deleted. I hope you know what you\'re doing!',
+      toastr: 'Project month record deleted',
     },
     props: {
       month: 'Month',
@@ -571,9 +570,9 @@ export const trans = {
         validated: 'Validated',
       },
       inbound: {
-        title: 'Ontvangen factuur van onderaannemer',
-        nr: 'Hun factuur nr',
-        dateReceived: 'Hun factuur ontvangen op',
+        title: 'Invoice from partner',
+        nr: 'Their invoice nr',
+        dateReceived: 'Received their invoice on',
         status: 'Status',
       },
     },
@@ -611,7 +610,7 @@ export const trans = {
     addNote: 'Add comment',
     forceVerified: 'Force handled without creating an invoice',
     validateTimesheet: 'Validate timesheet',
-    validateTimesheetDisabled: 'Timesheet kan pas gevalideerd worden als de twee getallen overeenkomen (consultants),<br>er een getal ingevuld is (externen) of er een commentaar is toegevoegd',
+    validateTimesheetDisabled: 'Timesheet can only be validated when the hours match (consultants),<br>a number has been filled in (externals) or a comment has been added',
     unvalidateTimesheet: 'Invalidate timesheet',
     viewTimesheet: 'View timesheet: {fileName}',
     viewInboundInvoice: 'View inbound invoice: {fileName}',
@@ -624,8 +623,8 @@ export const trans = {
   },
   controls: {
     // browser
-    popupBlockerTitle: 'Mislukt!? Popup blocker misschien?',
-    popupBlocker: 'Schakel de popupblocker voor deze pagina uit. Pdf preview is anders niet beschikbaar.',
+    popupBlockerTitle: 'Failed!? Popup blocker maybe?',
+    popupBlocker: 'Turn off popup blocker for this page. Or Pdf preview will not work.',
 
     // TODO: datepicker has some dutch labels in /controls/DatePicker.js
     today: 'Today',
@@ -637,7 +636,7 @@ export const trans = {
     addLabelText: 'Add "{value}"?',
     selectPlaceholder: 'Choose',
 
-    propertiesPlaceholder: 'Geef extra veldnamen in',
+    propertiesPlaceholder: 'Enter extra field names',
 
     clipboard: {
       success: 'Copied {text}!',
@@ -645,20 +644,20 @@ export const trans = {
     },
   },
   email: {
-    title: 'Factuur emailen',
-    prepareEmail: 'Email voorbereiden',
-    prepareEmailReminder: 'Email herinnering',
-    to: 'Naar',
-    toPlaceholder: 'Email adressen met ; scheiden',
+    title: 'Email invoice',
+    prepareEmail: 'Prepare email',
+    prepareEmailReminder: 'Email reminder',
+    to: 'To',
+    toPlaceholder: 'Separate email addresses with ;',
     cc: 'CC',
     bcc: 'BCC',
-    subject: 'Onderwerp',
-    send: 'Versturen',
-    attachments: 'Bijlagen',
-    sent: 'Email verstuurd',
-    lastEmail: 'Laatst verstuurd op {at} - {daysAgo}',
-    lastEmailDaysAgo: 'Laatste email {daysAgo}.',
-    notMailed: 'Mail nog niet verstuurd',
+    subject: 'Subject',
+    send: 'Send',
+    attachments: 'Attachments',
+    sent: 'Email sent',
+    lastEmail: 'Last sent on {at} - {daysAgo}',
+    lastEmailDaysAgo: 'Last email {daysAgo}.',
+    notMailed: 'Mail not yet sent',
   },
   user: {
     login: 'Sign in with Google',
@@ -697,13 +696,13 @@ export const trans = {
     users: 'Manage users',
   },
   measurements: {
-    from: 'Van',
-    to: 'Tot',
+    from: 'From',
+    to: 'Till',
     projectSection: {
       consultantContracts: {
         title: 'Consultant contracts',
         list: {
-          projectsWithoutContract: 'Projecten zonder contract',
+          projectsWithoutContract: 'Projects without contract',
           projectsWithoutWorkContract: 'Geen werkcontract',
           projectsWithoutFrameworkAgreements: 'Geen raamcontract',
         },
@@ -711,11 +710,11 @@ export const trans = {
     },
     clientSection: {
       clientsAndProjectsEvolution: {
-        title: 'Klanten- en projectenevolutie',
+        title: 'Client and project evolution',
         list: {
-          period: 'Periode',
-          clients: 'Klanten',
-          clientsWithProjects: 'Klanten met projecten',
+          period: 'Period',
+          clients: 'Clients',
+          clientsWithProjects: 'Clients with projects',
         }
       }
     },
