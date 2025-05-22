@@ -27,7 +27,7 @@ export const defaultClientProperties: FullFormConfig = [
   {forceRow: true},
   {key: 'defaultInvoiceDateStrategy', component: 'InvoiceDateStrategySelect'},
   {key: 'invoiceFileName', component: 'InvoiceReplacementsInput', cols: 8},
-  {key: 'hoursInDay', component: 'number', suffix: 'fa fa-hourglass-half'},
+  {key: 'hoursInDay', component: 'float', suffix: 'fa fa-hourglass-half'},
   {key: 'defaultChangingOrderNr', component: 'switch'},
 
   {title: {title: 'config.defaultInvoiceLines', level: 4}},
