@@ -47,10 +47,6 @@ export type EnhanceInputWithDisplayProps = {
 
 // eslint-disable-next-line max-len
 export const EnhanceInputWithDisplay = <P extends object>(ComposedComponent: React.ComponentType<P>) => ({display, ...props}: EnhanceInputWithDisplayProps & P) => {
-  if (typeof display === 'function') {
-    return display();
-  }
-
   if (display === 'label') {
     if (!props.value) {
       return <span>&nbsp;</span>;
@@ -65,6 +61,10 @@ export const EnhanceInputWithDisplay = <P extends object>(ComposedComponent: Rea
     }
 
     return <span>{props.value.toString()}</span>;
+  }
+
+  if (!!display) {
+    return display;
   }
 
   return <ComposedComponent {...props as P} />;
