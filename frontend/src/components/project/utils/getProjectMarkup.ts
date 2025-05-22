@@ -11,6 +11,7 @@ type ProjectMarkup = {
 
 
 export function getProjectMarkup(project: IProjectModel): ProjectMarkup {
+  // TODO: This doesn't take into account daily vs hourly
   const totalClient = project.client.defaultInvoiceLines.reduce((prev, cur) => prev + cur.price, 0);
 
   if (project.partner?.clientId) {

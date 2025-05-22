@@ -17,15 +17,19 @@ export function getFullTariffs(project: FullProjectModel, type: 'client' | 'part
   }
 
   const client = type === 'client' ? project.client : project.partner!;
+  let hoursInDay = client.hoursInDay;
+  if (type === 'client' && project.details.client.hoursInDay) {
+    hoursInDay = project.details.client.hoursInDay;
+  }
   const tariff = getTariffs(projectClient);
   if (tariff.rateType === 'daily') {
     return {
       dailyRate: tariff.tariff,
-      hourlyRate: tariff.tariff / client.hoursInDay,
+      hourlyRate: tariff.tariff / hoursInDay,
     };
   }
   return {
-    dailyRate: tariff.tariff * client.hoursInDay,
+    dailyRate: tariff.tariff * hoursInDay,
     hourlyRate: tariff.tariff,
   };
 }

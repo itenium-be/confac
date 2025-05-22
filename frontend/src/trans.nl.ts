@@ -512,6 +512,7 @@ export const trans = {
       rateType: 'Eenheid',
       ref: 'Referentie',
       advancedInvoicing: 'Specifieke facturatiedetails instellen',
+      hoursInDay: 'Uren per dag bij de klant',
     },
     endCustomer: {
       clientId: 'Eindklant',

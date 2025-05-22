@@ -41,6 +41,7 @@ export interface ProjectClientModel {
    * True: Allow full InvoiceLine[] configuration
    */
   advancedInvoicing: boolean;
+  hoursInDay?: number;
 }
 
 
