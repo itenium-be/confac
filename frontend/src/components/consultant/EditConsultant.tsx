@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form, Alert} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
@@ -18,12 +18,34 @@ import {useParams} from 'react-router-dom';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
 
 
+const useConsultantState = (consultantId: string) => {
+  const storeConsultant = useSelector((state: ConfacState) => state.consultants.find(x => x.slug === consultantId || x._id === consultantId));
+  const [consultant, setSimpleConsultant] = useState<ConsultantModel>(storeConsultant || getNewConsultant());
+
+  const setConsultant = (model: ConsultantModel) => {
+    setSimpleConsultant(model);
+  };
+
+  useEffect(() => {
+    if (storeConsultant) {
+      setConsultant(storeConsultant);
+    } else {
+      setConsultant(getNewConsultant());
+    }
+  }, [storeConsultant]);
+
+  return {
+    consultant,
+    setConsultant,
+  };
+};
+
+
 export const EditConsultant = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
-  const model = useSelector((state: ConfacState) => state.consultants.find(x => x.slug === params.id || x._id === params.id));
-  const [consultant, setConsultant] = useState<ConsultantModel>(model || getNewConsultant());
+  const {consultant, setConsultant} = useConsultantState(params.id);
   const consultantDuplicate = useSelector((state: ConfacState) => state.consultants
     .filter(x => x.email === consultant.email)
     .find(x => x.slug !== params.id && x._id !== params.id));
@@ -33,17 +55,13 @@ export const EditConsultant = () => {
   const docTitle = consultant._id ? 'consultantEdit' : 'consultantNew';
   useDocumentTitle(docTitle, {name: `${consultant.firstName} ${consultant.name}`});
 
-  if (model && !consultant._id) {
-    setConsultant(model);
-  }
-
   const buttonDisabled = !consultant.name || !consultant.firstName;
   return (
     <Container className="edit-container">
       <Form>
         <Row className="page-title-container">
           <h1>{consultant._id ? `${consultant.firstName} ${consultant.name}` : t('consultant.createNew')}</h1>
-          <Audit model={model} modelType="consultant" />
+          <Audit model={consultant} modelType="consultant" />
           {consultantDuplicate && consultant.email && <Alert variant="warning">{t('consultant.alreadyExists')}</Alert>}
         </Row>
         <Row>
