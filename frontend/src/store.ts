@@ -1,5 +1,4 @@
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
-import {routerReducer} from 'react-router-redux';
 import thunk from 'redux-thunk';
 import {app, config, invoices, clients, consultants, projects, projectsMonth, projectsMonthOverviews, users} from './reducers';
 
@@ -22,7 +21,6 @@ function configureStore(preloadedState = undefined) {
     projectsMonth,
     projectsMonthOverviews,
     user: users,
-    routing: routerReducer,
   });
 
   const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
