@@ -2,7 +2,7 @@ import {useSelector} from 'react-redux';
 import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
 import {moneyFormat} from '../../../utils';
 import {ConfacState} from '../../../../reducers/app-state';
-import {getTariffs} from '../../utils/getTariffs';
+import {addPartnerRate, getTariffs} from '../../utils/getTariffs';
 import {ToClipboardLabel} from '../../../controls/other/ToClipboardLabel';
 
 
@@ -26,11 +26,7 @@ export const ProformaForecast = ({fullProjectMonth}: ProformaForecastProps) => {
       return <div />;
     }
 
-    const tariff = getTariffs(fullProjectMonth.project.partner);
-    amount *= tariff.tariff;
-    if (tariff.rateType === 'hourly') {
-      amount /= fullProjectMonth.client.hoursInDay;
-    }
+    amount = addPartnerRate(amount, fullProjectMonth);
     if (proforma === 'inboundWithTax') {
       amount *= (1 + tax / 100);
     }
@@ -39,9 +35,6 @@ export const ProformaForecast = ({fullProjectMonth}: ProformaForecastProps) => {
   if (proforma === 'outboundWithTax' || proforma === 'outboundWithoutTax') {
     const tariff = getTariffs(fullProjectMonth.project.client);
     amount *= tariff.tariff;
-    if (tariff.rateType === 'hourly') {
-      amount /= fullProjectMonth.client.hoursInDay;
-    }
     if (proforma === 'outboundWithTax') {
       amount *= (1 + tax / 100);
     }

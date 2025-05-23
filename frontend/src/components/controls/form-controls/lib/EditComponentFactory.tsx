@@ -16,7 +16,7 @@ import {ClientTypeSelect} from '../../../client/controls/ClientTypeSelect';
 import {
   ClientSelectWithCreateModal, EndCustomerSelectWithCreateModal, PartnerSelectWithCreateModal,
 } from '../../../client/controls/ClientSelectWithCreateModal';
-import {FloatInput} from '../inputs/FloatInput';
+import {FloatInput, NullableFloatInput} from '../inputs/FloatInput';
 import {StringsSelect} from '../select/StringsSelect';
 import {BtwInput} from '../inputs/BtwInput';
 import {EmailInput} from '../inputs/EmailInput';
@@ -53,6 +53,7 @@ export function getComponent(col: FormConfig) {
     textarea: TextareaInput,
     switch: Switch,
     float: FloatInput,
+    nullableFloat: NullableFloatInput,
     bool: CheckboxInput,
     date: DatePicker,
     month: MonthPicker,

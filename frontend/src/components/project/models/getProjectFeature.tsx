@@ -3,7 +3,7 @@ import moment from 'moment';
 import {IList, IListCell, ProjectListFilters} from '../../controls/table/table-models';
 import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
-import {IProjectModel, ProjectClientModel, ProjectStatus} from './IProjectModel';
+import {ProjectClientModel, ProjectStatus} from './IProjectModel';
 import {FullProjectModel} from './FullProjectModel';
 import {t, formatDate, tariffFormat, searchinize} from '../../utils';
 import {EditIcon} from '../../controls/Icon';
@@ -12,8 +12,7 @@ import {ConsultantLinkWithModal} from '../../consultant/controls/ConsultantLinkW
 import {ConsultantCountFooter} from '../project-month-list/table/footers/ConsultantCountFooter';
 import {ProjectClientForecastFooter} from '../project-month-list/table/footers/ProjectClientForecastFooter';
 import {ProjectForecastPartnerFooter} from '../project-month-list/table/footers/ProjectForecastPartnerFooter';
-import {compareTariffs, getTariffs} from '../utils/getTariffs';
-import {getProjectMarkup} from '../utils/getProjectMarkup';
+import {getProjectMarkup, compareTariffs, getTariffs} from '../utils/getTariffs';
 import {ContractIcons} from '../../client/contract/ContractIcons';
 import {ProjectEndCustomerIcon} from '../controls/ProjectEndCustomerIcon';
 
@@ -94,12 +93,12 @@ export const ProjectClientTariff = ({projectClient}: {projectClient: ProjectClie
   );
 };
 
-export const ProjectMarkup = ({project}: {project: IProjectModel}) => {
-  if (!project.partner) {
+export const ProjectMarkup = ({project}: {project: FullProjectModel}) => {
+  if (!project.details.partner) {
     return null;
   }
 
-  const markup = getProjectMarkup(project);
+  const markup = getProjectMarkup({project: project.details, client: project.client});
   return (
     <div>
       <span>{tariffFormat(markup.amount)}</span>
@@ -161,8 +160,8 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
   }, {
     key: 'markup',
     header: 'projectMonth.markup',
-    value: p => <ProjectMarkup project={p.details} />,
-    sort: (p, p2) => getProjectMarkup(p2.details).amount - getProjectMarkup(p.details).amount
+    value: p => <ProjectMarkup project={p} />,
+    sort: (p, p2) => getProjectMarkup({project: p2.details, client: p2.client}).amount - getProjectMarkup({project: p.details, client: p.client}).amount
   // }, {
   //   key: 'clientRef',
   //   header: 'project.client.ref',

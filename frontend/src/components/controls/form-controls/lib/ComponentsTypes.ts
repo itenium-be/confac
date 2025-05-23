@@ -7,4 +7,5 @@ type CustomComponents = 'InvoiceLineTypeSelect' | 'ProjectLineTypeSelect' | 'Inv
   | 'ClientSelectWithCreateModal' | 'ContractStatusWithNotes' | 'ProjectClientContractStatus' | 'CountrySelect' | 'ProjectProformaSelect';
 
 export type StandardComponents = 'number' | 'text' | 'textarea' | 'basic-math' | 'switch' | 'month'
-  | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban' | 'TextEditor' | 'bool' | 'date';
+  | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban' | 'TextEditor' | 'bool' | 'date'
+  | 'nullableFloat';

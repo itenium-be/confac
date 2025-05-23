@@ -11,8 +11,7 @@ import {useProjects} from '../hooks/useProjects';
 import {Features} from '../controls/feature/feature-models';
 import {t} from '../utils';
 import {Button} from '../controls/form-controls/Button';
-import {getProjectMarkup} from './utils/getProjectMarkup';
-import {getFullTariffs} from './utils/getTariffs';
+import {getFullTariffs, getProjectMarkup} from './utils/getTariffs';
 
 
 import './ProjectsList.scss';
@@ -35,7 +34,7 @@ export const ProjectsList = () => {
 
   const downloadExcel = () => {
     const projectDetails = projects.filter(proj => proj.active).map(proj => {
-      const markup = getProjectMarkup(proj.details);
+      const markup = getProjectMarkup({project: proj.details, client: proj.client});
       const partnerTariff = getFullTariffs(proj, 'partner');
       const clientTariff = getFullTariffs(proj, 'client');
       return {

@@ -34,7 +34,7 @@ export function getProjectFormConfig(project: IProjectModel): FullFormConfig {
     {key: 'forEndCustomer', component: 'switch'},
     {forceRow: true},
     {key: 'projectMonthConfig.proforma', component: 'ProjectProformaSelect'},
-    {key: 'client.hoursInDay', component: 'float'},
+    {key: 'client.hoursInDay', component: 'nullableFloat'},
 
     {title: 'client.notes'},
     {key: 'notes', label: '', component: 'TextEditor', cols: 12},

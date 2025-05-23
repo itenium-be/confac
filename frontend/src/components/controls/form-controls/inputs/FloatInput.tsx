@@ -11,3 +11,16 @@ export const FloatInput = ({value, onChange, ...props}: FloatInputProps) => (
     {...props}
   />
 );
+
+
+
+type NullableFloatInputProps = BaseInputProps<number | undefined>
+
+export const NullableFloatInput = ({value, onChange, ...props}: NullableFloatInputProps) => (
+  <BaseInput
+    type="number"
+    value={value || ''}
+    onChange={e => onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))}
+    {...props}
+  />
+);
