@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router';
 import {t} from '../../utils';
 import {InvoiceClientModel} from '../models/ClientModels';
 import {EditIcon} from '../../controls/Icon';

@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router';
 import {useDispatch} from 'react-redux';
 import {ConsultantModel} from '../models/ConsultantModel';
 import {EditIcon, Icon} from '../../controls/Icon';

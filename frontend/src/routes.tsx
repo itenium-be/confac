@@ -1,7 +1,6 @@
 import {useEffect} from 'react';
-import {BrowserRouter, Route, Routes as Switch} from 'react-router-dom';
+import {createBrowserRouter, RouterProvider} from 'react-router';
 import {useDispatch} from 'react-redux';
-
 import {AppWithLayout} from './components/AppWithLayout';
 import EditInvoice from './components/invoice/invoice-edit/EditInvoice';
 import InvoiceList from './components/invoice/invoice-list/InvoiceList';
@@ -28,6 +27,43 @@ import {Home} from './components/home/Home';
 import {socketService} from './components/socketio/SocketService';
 
 
+const router = createBrowserRouter([
+  {path: '/invoices/create', element: <AppWithLayout Component={EditInvoice} />},
+  {path: '/invoices/:id', element: <AppWithLayout Component={EditInvoice} />},
+  {path: '/invoices', element: <AppWithLayout Component={InvoiceList} />},
+
+  {path: '/quotations/create', element: <AppWithLayout Component={EditInvoice} />},
+  {path: '/quotations/:id', element: <AppWithLayout Component={EditInvoice} />},
+  {path: '/quotations', element: <AppWithLayout Component={QuotationList} />},
+
+  {path: '/clients/create', element: <AppWithLayout Component={EditClient} />},
+  {path: '/clients/:id', element: <AppWithLayout Component={EditClient} />},
+  {path: '/clients', element: <AppWithLayout Component={ClientList} />},
+
+  {path: '/consultants/create', element: <AppWithLayout Component={EditConsultant} />},
+  {path: '/consultants/projects', element: <AppWithLayout Component={ConsultantProjectsList} />},
+  {path: '/consultants/:id', element: <AppWithLayout Component={EditConsultant} />},
+  {path: '/consultants', element: <AppWithLayout Component={ConsultantsList} />},
+
+  {path: '/monthly-invoicing', element: <AppWithLayout Component={ProjectMonthsLists} />},
+  {path: '/projects/:month/:projectMonthId', element: <AppWithLayout Component={EditProjectMonths} />},
+  {path: '/projects/create', element: <AppWithLayout Component={EditProject} />},
+  {path: '/projects/:id', element: <AppWithLayout Component={EditProject} />},
+  {path: '/projects', element: <AppWithLayout Component={ProjectsList} />},
+
+  {path: '/config', element: <AppWithLayout Component={EditConfig} />},
+  {path: '/admin', element: <AppWithLayout Component={EditAdmin} />},
+  {path: '/user', element: <AppWithLayout Component={UserPage} />},
+  {path: '/users/:id', element: <AppWithLayout Component={EditUser} />},
+  {path: '/users', element: <AppWithLayout Component={UsersList} />},
+  {path: '/roles/:id', element: <AppWithLayout Component={EditRole} />},
+  {path: '/login', element: <UnauthicatedAppLayout Component={LoginPage} />},
+
+  {path: '/', element: <AppWithLayout Component={ProjectMonthsLists} />},
+  {path: '/home', element: <AppWithLayout Component={Home} />},
+]);
+
+
 const Routes = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -35,46 +71,7 @@ const Routes = () => {
     socketService.initialize(dispatch);
   }, [dispatch]);
 
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/invoices/create" element={<AppWithLayout Component={EditInvoice} />} />
-        <Route path="/invoices/:id" element={<AppWithLayout Component={EditInvoice} />} />
-        <Route path="/invoices" element={<AppWithLayout Component={InvoiceList} />} />
-
-        <Route path="/quotations/create" element={<AppWithLayout Component={EditInvoice} />} />
-        <Route path="/quotations/:id" element={<AppWithLayout Component={EditInvoice} />} />
-        <Route path="/quotations" element={<AppWithLayout Component={QuotationList} />} />
-
-        <Route path="/clients/create" element={<AppWithLayout Component={EditClient} />} />
-        <Route path="/clients/:id" element={<AppWithLayout Component={EditClient} />} />
-        <Route path="/clients" element={<AppWithLayout Component={ClientList} />} />
-
-        <Route path="/consultants/create" element={<AppWithLayout Component={EditConsultant} />} />
-        <Route path="/consultants/projects" element={<AppWithLayout Component={ConsultantProjectsList} />} />
-        <Route path="/consultants/:id" element={<AppWithLayout Component={EditConsultant} />} />
-        <Route path="/consultants" element={<AppWithLayout Component={ConsultantsList} />} />
-
-        <Route path="/monthly-invoicing" element={<AppWithLayout Component={ProjectMonthsLists} />} />
-        <Route path="/projects/:month/:projectMonthId" element={<AppWithLayout Component={EditProjectMonths} />} />
-        <Route path="/projects/create" element={<AppWithLayout Component={EditProject} />} />
-        <Route path="/projects/:id" element={<AppWithLayout Component={EditProject} />} />
-        <Route path="/projects" element={<AppWithLayout Component={ProjectsList} />} />
-
-        <Route path="/config" element={<AppWithLayout Component={EditConfig} />} />
-        <Route path="/admin" element={<AppWithLayout Component={EditAdmin} />} />
-
-        <Route path="/user" element={<AppWithLayout Component={UserPage} />} />
-        <Route path="/users/:id" element={<AppWithLayout Component={EditUser} />} />
-        <Route path="/users" element={<AppWithLayout Component={UsersList} />} />
-        <Route path="/roles/:id" element={<AppWithLayout Component={EditRole} />} />
-        <Route path="/login" element={<UnauthicatedAppLayout Component={LoginPage} />} />
-
-        <Route path="/" element={<AppWithLayout Component={ProjectMonthsLists} />} />
-        <Route path="/home" element={<AppWithLayout Component={Home} />} />
-      </Switch>
-    </BrowserRouter>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default Routes;

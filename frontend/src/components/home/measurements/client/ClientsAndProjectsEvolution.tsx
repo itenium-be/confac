@@ -8,7 +8,7 @@ import moment, {Moment} from 'moment';
 import {useSelector} from 'react-redux';
 import {ConfacState} from '../../../../reducers/app-state';
 import {t} from '../../../utils';
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router';
 import {PeriodPicker} from '../PeriodPicker';
 
 export interface ClientChartData {

@@ -1,4 +1,4 @@
-import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router';
 import cn from 'classnames';
 import {Tooltip} from './Tooltip';
 import t from '../../trans';

@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useSelector} from 'react-redux';
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router';
 import t from '../../../trans';
 import {ClientModal} from '../../client/controls/ClientModal';
 import {ConfacState} from '../../../reducers/app-state';

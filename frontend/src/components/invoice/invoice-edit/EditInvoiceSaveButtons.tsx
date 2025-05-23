@@ -1,4 +1,4 @@
-import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router';
 import {t} from '../../utils';
 import InvoiceModel from '../models/InvoiceModel';
 import {BusyButton} from '../../controls/form-controls/BusyButton';

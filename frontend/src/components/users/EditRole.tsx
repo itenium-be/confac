@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router';
 import {ConfacState} from '../../reducers/app-state';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
@@ -13,7 +13,6 @@ import {defaultRoleProperties} from './models/UserConfig';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {saveRole} from '../../actions/userActions';
 import {Audit} from '../admin/audit/Audit';
-import {useParams} from 'react-router-dom';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
 
 

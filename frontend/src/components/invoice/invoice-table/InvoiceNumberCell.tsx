@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-one-expression-per-line */
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router';
 import InvoiceModel from '../models/InvoiceModel';
 
 

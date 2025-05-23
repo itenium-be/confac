@@ -1,5 +1,5 @@
 import {useSelector} from 'react-redux';
-import {Navigate} from 'react-router-dom';
+import {Navigate} from 'react-router';
 import App from './App';
 import {ConfacState} from '../reducers/app-state';
 import {LoadingPage} from './pages/LoadingPage';

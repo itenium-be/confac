@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
@@ -16,7 +16,6 @@ import {projectMonthFormProperties} from './models/ProjectFormConfig';
 import {useProjectsMonth} from '../hooks/useProjects';
 import {EnhanceWithConfirmation} from '../enhancers/EnhanceWithConfirmation';
 import {Button} from '../controls/form-controls/Button';
-import {useParams} from 'react-router-dom';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
 
 const ConfirmationButton = EnhanceWithConfirmation(Button);

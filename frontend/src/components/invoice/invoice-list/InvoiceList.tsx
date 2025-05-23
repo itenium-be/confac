@@ -14,7 +14,7 @@ import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {Claim} from '../../users/models/UserModel';
 import {useSelector} from 'react-redux';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router';
 import {useDispatch} from 'react-redux';
 import {InvoiceFeatureBuilderConfig} from '../models/getInvoiceFeature';
 import {Features} from '../../controls/feature/feature-models';

@@ -7,7 +7,7 @@ import {ConfacState} from '../../../reducers/app-state';
 import {StickyFooter} from '../../controls/other/StickyFooter';
 import {EmailModal, EmailTemplate} from '../../controls/email/EmailModal';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
-import {useParams} from 'react-router-dom';
+import {useParams} from 'react-router';
 import useEntityChangedToast from '../../hooks/useEntityChangedToast';
 import {EditInvoiceHeader} from './EditInvoiceHeader';
 import {EditInvoiceBody} from './EditInvoiceBody';
@@ -27,7 +27,7 @@ const useInvoiceState = (isQuotation: boolean) => {
   const storeInvoice = useSelector((state: ConfacState) => state.invoices
     // eslint-disable-next-line
     .filter(x => x.isQuotation == isQuotation) // == the property is not present for some legacy data
-    .find(x => x.number === parseInt(params.id, 10))
+    .find(x => x.number === parseInt(params.id ?? '', 10))
   );
 
   const newInvoice = getNewInvoice(config, invoices, clients, {isQuotation});

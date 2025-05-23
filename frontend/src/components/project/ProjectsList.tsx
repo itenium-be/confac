@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from 'react-redux';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router';
 import {ConfacState} from '../../reducers/app-state';
 import {downloadProjectsExcel, saveProject, updateAppFilters} from '../../actions';
 import {ListPage} from '../controls/table/ListPage';

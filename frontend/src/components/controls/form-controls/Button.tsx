@@ -1,4 +1,4 @@
-import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router';
 import {Button as ReactButton} from 'react-bootstrap';
 import {Icon} from '../Icon';
 import {BootstrapVariant, ChildrenType} from '../../../models';

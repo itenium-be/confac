@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router';
 import {useDispatch} from 'react-redux';
 import moment from 'moment';
 import {IProjectModel} from './models/IProjectModel';

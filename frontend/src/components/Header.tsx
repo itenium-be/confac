@@ -1,5 +1,5 @@
 import {Nav, Navbar, Dropdown, ButtonGroup} from 'react-bootstrap';
-import {Link as ReactLink, NavLink} from 'react-router-dom';
+import {Link as ReactLink, NavLink} from 'react-router';
 import {t} from './utils';
 import {AddIcon, Icon} from './controls/Icon';
 import {Claim} from './users/models/UserModel';

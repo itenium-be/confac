@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Navigate} from 'react-router-dom';
+import {Navigate} from 'react-router';
 import {t} from '../../utils';
 import {authService} from '../../users/authService';
 import {googleLogout} from '@react-oauth/google';

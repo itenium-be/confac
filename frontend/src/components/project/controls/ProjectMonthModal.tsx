@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-one-expression-per-line, max-len */
 import {useSelector} from 'react-redux';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router';
 import {FullProjectMonthModel} from '../models/FullProjectMonthModel';
 import {t} from '../../utils';
 import {Modal} from '../../controls/Modal';

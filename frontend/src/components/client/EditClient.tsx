@@ -1,5 +1,5 @@
 import {useDispatch} from 'react-redux';
-import {useParams} from 'react-router-dom';
+import {useParams} from 'react-router';
 import {Container, Row, Form, Alert} from 'react-bootstrap';
 import {t} from '../utils';
 import {saveClient} from '../../actions/index';
@@ -21,7 +21,7 @@ import {useClientState} from './client-helpers';
 const EditClient = () => {
   const params = useParams();
   const dispatch = useDispatch();
-  const {client, setClient, clientAlreadyExists, canSaveClient} = useClientState(params.id);
+  const {client, setClient, clientAlreadyExists, canSaveClient} = useClientState(params.id ?? '');
 
   useEntityChangedToast(client?._id);
   useDocumentTitle('clientEdit', {name: client?.name || ''});

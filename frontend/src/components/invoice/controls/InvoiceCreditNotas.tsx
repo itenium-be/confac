@@ -5,7 +5,7 @@ import {List} from '../../controls/table/List';
 import {Claim} from '../../users/models/UserModel';
 import {ListSelectionItem} from '../../controls/table/ListSelect';
 import {InvoiceCreditNotasModal} from './InvoiceCreditNotasModal';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router';
 import {useSelector} from 'react-redux';
 import {ConfacState} from '../../../reducers/app-state';
 import {useDispatch} from 'react-redux';

@@ -1,4 +1,4 @@
-import {Navigate} from 'react-router-dom';
+import {Navigate} from 'react-router';
 import {authService} from '../../users/authService';
 
 /** Redirect user after logging in */

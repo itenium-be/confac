@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router';
 import {t} from '../../../utils';
 import {Icon} from '../../Icon';
 import {ButtonSize} from '../Button';
