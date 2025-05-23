@@ -480,7 +480,10 @@ export const trans = {
     endDate: 'End date',
     forEndCustomer: 'Project is at end customer',
     comments: 'Comments',
-    listDownloadExcel: 'Download clients as Excel',
+    listDownloadExcel: 'Download projects as Excel',
+    listDownloadExcelTitle: 'Project Excel Downloaded',
+    listDownloadExcelMessage: 'Special characters problem: Load in Excel via: Data > From Text/CSV.'
+      + '\nDecimal numbers problem: Data > Get Data > Query Options > Regional Settings > English (US)',
     deleteConfirm: {
       title: 'Delete project',
       content: 'Project will be permanently deleted.',
