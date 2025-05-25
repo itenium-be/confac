@@ -1,6 +1,8 @@
 import {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {useBlocker} from 'react-router';
 import {ClientModel, ClientType} from './models/ClientModels';
+import {saveClient as dispatchSaveClient} from '../../actions/index';
 import {t} from '../utils';
 import {BtwResponse, formatBtw} from '../controls/form-controls/inputs/BtwInput';
 import {getNewClient} from './models/getNewClient';
@@ -39,14 +41,6 @@ export const useClientAlreadyExists = (client: ClientModel | null) => {
 
 
 
-function getNewClientState(client: ClientModel | undefined): ClientModel | null {
-  if (client) {
-    return JSON.parse(JSON.stringify(client));
-  }
-  return null;
-}
-
-
 const checkIfCanSaveClient = (client: ClientModel | null): boolean => {
   if (!client)
     return false;
@@ -69,10 +63,21 @@ const checkIfCanSaveClient = (client: ClientModel | null): boolean => {
 export const useClientState = (clientId: string) => {
   const config = useSelector((state: ConfacState) => state.config);
   const storeClient = useSelector((state: ConfacState) => state.clients.find(x => x.slug === clientId || x._id === clientId));
-  const [client, setSimpleClient] = useState(getNewClientState(storeClient));
+  const [client, setSimpleClient] = useState(storeClient ?? null);
   const clientAlreadyExists = useClientAlreadyExists(client);
+  const dispatch = useDispatch();
+
+  const [hasChanges, setHasChanges] = useState(false);
+  const blocker = useBlocker(({currentLocation, nextLocation}) => {
+    if (currentLocation.pathname === nextLocation.pathname) {
+      return false;
+    }
+
+    return hasChanges;
+  });
 
   const setClient = (newClient: ClientModel): void => {
+    setHasChanges(true);
     if (newClient.country && client?.country !== newClient.country && !client?.defaultInvoiceLines.length && newClient.country !== 'BE') {
       let btwRemark: string;
       switch (newClient.country) {
@@ -90,18 +95,26 @@ export const useClientState = (clientId: string) => {
     setSimpleClient(newClient);
   };
 
+  const saveClient = () => {
+    setHasChanges(false);
+    dispatch(dispatchSaveClient(client!) as any);
+  };
+
   useEffect(() => {
+    setHasChanges(false);
     if (storeClient) {
-      setClient(getNewClientState(storeClient)!);
+      setSimpleClient(storeClient);
     } else {
       setSimpleClient(null);
     }
-  }, [storeClient]); // eslint-disable-line
+  }, [storeClient]);
 
   return {
     client,
     setClient,
     clientAlreadyExists,
     canSaveClient: checkIfCanSaveClient(client) && (client?._id || !clientAlreadyExists),
+    blocker,
+    saveClient,
   };
 };

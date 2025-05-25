@@ -99,7 +99,13 @@ export const trans = {
     clients: 'Clients',
     projects: 'Projects',
     config: 'Config',
-    home: 'Home'
+    home: 'Home',
+    withChanges: {
+      title: 'There are unsaved changes',
+      message: 'You have unsaved changes. Are you sure you want to leave?',
+      yes: 'Yes, leave without saving',
+      no: 'No, stay on page',
+    }
   },
   titles: {
     config: 'Config',

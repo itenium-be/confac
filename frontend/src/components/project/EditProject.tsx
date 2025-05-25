@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Row, Form, Col} from 'react-bootstrap';
-import {useNavigate, useParams} from 'react-router';
+import {useBlocker, useNavigate, useParams} from 'react-router';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
-import {deleteProject, saveProject} from '../../actions';
+import {deleteProject, saveProject as dispatchSaveProject} from '../../actions';
 import {StickyFooter} from '../controls/other/StickyFooter';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {IProjectModel, ProjectClientInvoiceLine} from './models/IProjectModel';
@@ -22,6 +22,7 @@ import {isDateIntervalValid} from '../controls/other/ProjectValidator';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
 import {getProjectFormConfig} from './models/ProjectFormConfig';
 import {NotesWithCommentsModalButton} from '../controls/form-controls/button/NotesWithCommentsModalButton';
+import {ChangesModal} from '../controls/other/ChangesModal';
 
 
 const ConfirmationButton = EnhanceWithConfirmation(Button);
@@ -29,16 +30,28 @@ const ConfirmationButton = EnhanceWithConfirmation(Button);
 
 const useProjectState = () => {
   const params = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const storeProject = useSelector((state: ConfacState) => state.projects.find(c => c._id === params.id));
 
   const consultants = useSelector((state: ConfacState) => state.consultants);
   const [project, setSimpleProject] = useState<IProjectModel>(storeProject || getNewProject());
   const clients = useSelector((state: ConfacState) => state.clients);
 
+  const [hasChanges, setHasChanges] = useState(false);
+  const blocker = useBlocker(({currentLocation, nextLocation}) => {
+    if (currentLocation.pathname === nextLocation.pathname) {
+      return false;
+    }
+
+    return hasChanges;
+  });
+
   const hasProjectMonths = useSelector((state: ConfacState) => state.projectsMonth.some(pm => pm.projectId === params.id));
 
 
   useEffect(() => {
+    setHasChanges(false);
     if (storeProject) {
       setSimpleProject(storeProject);
     } else {
@@ -48,6 +61,7 @@ const useProjectState = () => {
 
 
   const setProject = (value: IProjectModel) => {
+    setHasChanges(true);
     const newProject = {...project, ...value};
 
     // Set ProjectMonth invoicing config based on the Client.ChangingOrderNr
@@ -101,10 +115,17 @@ const useProjectState = () => {
     setSimpleProject(newProject);
   };
 
+  const saveProject = () => {
+    setHasChanges(false);
+    dispatch(dispatchSaveProject(project, navigate) as any);
+  };
+
   return {
     project,
     setProject,
     canDelete: !hasProjectMonths,
+    blocker,
+    saveProject,
   };
 };
 
@@ -119,7 +140,7 @@ const useEditProjectTitle = (project: IProjectModel) => {
 export const EditProject = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {project, setProject, canDelete} = useProjectState();
+  const {project, setProject, canDelete, blocker, saveProject} = useProjectState();
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === project.client.clientId));
 
   useEntityChangedToast(project._id);
@@ -134,6 +155,7 @@ export const EditProject = () => {
 
   return (
     <Container className="edit-container">
+      <ChangesModal blocker={blocker} />
       <Row className="page-title-container">
         <h1>
           {project._id ? t('project.project') : t('project.createNew')}
@@ -181,7 +203,7 @@ export const EditProject = () => {
           {t('project.deleteConfirm.content')}
         </ConfirmationButton>
         {project.endDate && project._id && <CopyProject projectToCopy={project} />}
-        <BusyButton className="tst-save-project" onClick={() => dispatch(saveProject(project, navigate) as any)} disabled={isButtonDisabled}>
+        <BusyButton className="tst-save-project" onClick={saveProject} disabled={isButtonDisabled}>
           {t('save')}
         </BusyButton>
       </StickyFooter>

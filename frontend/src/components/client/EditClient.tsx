@@ -1,8 +1,6 @@
-import {useDispatch} from 'react-redux';
 import {useParams} from 'react-router';
 import {Container, Row, Form, Alert} from 'react-bootstrap';
 import {t} from '../utils';
-import {saveClient} from '../../actions/index';
 import {defaultClientProperties} from './models/ClientConfig';
 import {ClientModel} from './models/ClientModels';
 import {StickyFooter} from '../controls/other/StickyFooter';
@@ -16,12 +14,12 @@ import {Claim} from '../users/models/UserModel';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
 import {NotesWithCommentsModalButton} from '../controls/form-controls/button/NotesWithCommentsModalButton';
 import {useClientState} from './client-helpers';
+import {ChangesModal} from '../controls/other/ChangesModal';
 
 
 const EditClient = () => {
   const params = useParams();
-  const dispatch = useDispatch();
-  const {client, setClient, clientAlreadyExists, canSaveClient} = useClientState(params.id ?? '');
+  const {client, setClient, clientAlreadyExists, canSaveClient, blocker, saveClient} = useClientState(params.id ?? '');
 
   useEntityChangedToast(client?._id);
   useDocumentTitle('clientEdit', {name: client?.name || ''});
@@ -34,6 +32,7 @@ const EditClient = () => {
 
   return (
     <Container className="edit-container">
+      <ChangesModal blocker={blocker} />
       <Form>
         <Row>
           <h1 style={{marginBottom: 10}}>
@@ -66,7 +65,7 @@ const EditClient = () => {
       </Form>
       <StickyFooter claim={Claim.ManageClients}>
         <BusyButton
-          onClick={() => dispatch(saveClient(client) as any)}
+          onClick={saveClient}
           className="tst-save-client"
           disabled={!canSaveClient}
         >

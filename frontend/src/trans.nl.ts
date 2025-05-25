@@ -99,7 +99,13 @@ export const trans = {
     clients: 'Klanten',
     projects: 'Projecten',
     config: 'Config',
-    home: 'Home'
+    home: 'Home',
+    withChanges: {
+      title: 'Er zijn wijzigingen',
+      message: 'Er zijn onbewaarde wijzigingen. Ben je zeker dat je de pagina wil verlaten?',
+      yes: 'Ja, ga verder zonder bewaren',
+      no: 'Nee, blijf op de pagina',
+    }
   },
   titles: {
     config: 'Configuratie',

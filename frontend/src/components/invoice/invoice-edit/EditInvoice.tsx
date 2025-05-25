@@ -7,12 +7,13 @@ import {ConfacState} from '../../../reducers/app-state';
 import {StickyFooter} from '../../controls/other/StickyFooter';
 import {EmailModal, EmailTemplate} from '../../controls/email/EmailModal';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
-import {useParams} from 'react-router';
+import {useBlocker, useParams} from 'react-router';
 import useEntityChangedToast from '../../hooks/useEntityChangedToast';
 import {EditInvoiceHeader} from './EditInvoiceHeader';
 import {EditInvoiceBody} from './EditInvoiceBody';
 import {EditInvoiceFooter} from './EditInvoiceFooter';
 import {getNewInvoice} from '../models/getNewInvoice';
+import {ChangesModal} from '../../controls/other/ChangesModal';
 
 
 import './EditInvoice.scss';
@@ -35,7 +36,17 @@ const useInvoiceState = (isQuotation: boolean) => {
   const originalInvoice = storeInvoice ? storeModelInvoice : newInvoice;
   const [invoice, unpureSetInvoice] = useState<InvoiceModel>(originalInvoice);
 
+  const [hasChanges, setHasChanges] = useState(false);
+  const blocker = useBlocker(({currentLocation, nextLocation}) => {
+    if (currentLocation.pathname === nextLocation.pathname) {
+      return false;
+    }
+
+    return hasChanges;
+  });
+
   useEffect(() => {
+    setHasChanges(false);
     if (storeInvoice) {
       unpureSetInvoice(storeModelInvoice);
     } else {
@@ -63,12 +74,14 @@ const useInvoiceState = (isQuotation: boolean) => {
     // same reference and React does not re-render.
     unpureSetInvoice(invoiceModel);
     forceUpdate();
+    setHasChanges(true);
   };
 
   return {
     invoice,
     setInvoice,
     originalInvoice,
+    blocker,
   };
 };
 
@@ -76,13 +89,14 @@ const useInvoiceState = (isQuotation: boolean) => {
 const EditInvoice = () => {
   const isQuotation = window.location.pathname.startsWith('/quotations/');
   const [showEmailModal, setEmailModal] = useState<EmailTemplate>(EmailTemplate.None);
-  const {invoice, setInvoice, originalInvoice} = useInvoiceState(isQuotation);
+  const {invoice, setInvoice, originalInvoice, blocker} = useInvoiceState(isQuotation);
 
   // ATTN: invoice updated from somewhere else will now overwrite local changes
   useEntityChangedToast(invoice?._id);
 
   return (
     <Container className="edit-container">
+      <ChangesModal blocker={blocker} />
       <Form>
         <Row>
           <EditInvoiceHeader

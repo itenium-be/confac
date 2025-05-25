@@ -243,6 +243,8 @@ export const verifyInvoiceController = async (req: ConfacRequest, res: Response)
       const projectMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
         .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth.projectMonthId)}, {$set: {verified}}, {returnOriginal: false});
 
+      // TODO: projectMonth.value can be null here
+      //       When deleting a projectMonth, the invoice is not unlinked
       emitEntityEvent(
         req,
         SocketEventTypes.EntityUpdated,
