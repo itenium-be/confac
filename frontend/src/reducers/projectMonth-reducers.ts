@@ -28,7 +28,7 @@ export const projectsMonth = (state: ProjectMonthModel[] = [], action): ProjectM
     }
 
     case ACTION_TYPES.MODELS_UPDATED: {
-      const toUpdate = action.payload.filter(x => x.type === 'projectMonth');
+      const toUpdate = action.payload.filter(x => x.type === 'projectMonth' && !!x.model);
       const removeIds = toUpdate.map(x => x.model._id);
       const newState = state.filter(model => !removeIds.includes(model._id));
       toUpdate.forEach(model => newState.push(mapProject(model.model)));
