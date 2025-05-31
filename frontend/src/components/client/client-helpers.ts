@@ -4,12 +4,13 @@ import {useBlocker} from 'react-router';
 import {ClientModel, ClientType} from './models/ClientModels';
 import {saveClient as dispatchSaveClient} from '../../actions/index';
 import {t} from '../utils';
-import {BtwResponse, formatBtw} from '../controls/form-controls/inputs/BtwInput';
+import {BtwResponse} from '../controls/form-controls/inputs/BtwInput';
 import {getNewClient} from './models/getNewClient';
 import {ConfacState} from '../../reducers/app-state';
 import {ConfigModel} from '../config/models/ConfigModel';
 import {countries} from '../controls/other/CountrySelect';
 import {InvoiceLine} from '../invoice/models/InvoiceLineModels';
+import {formatBtw} from '../controls/form-controls/inputs/BtwInputHelpers';
 
 
 /** Returns a ClientModel with the data from the BTW lookup */

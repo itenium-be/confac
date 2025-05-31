@@ -9,9 +9,8 @@ import {EnhanceInputWithAddons} from '../../../enhancers/EnhanceInputWithAddons'
 import {t} from '../../../utils';
 import {Icon} from '../../Icon';
 import {buildRequest} from '../../../../actions/initialLoad';
+import {parseBtw, BtwInRequest, formatBtw} from './BtwInputHelpers';
 
-/** Default to this country code if none provided */
-const DefaultBtwCountry = 'BE';
 /** Spinning loader starts when > than this chars have been typed */
 const SmallestPossibleBtwLength = 8;
 
@@ -30,7 +29,6 @@ type BtwInputProps = BaseInputProps<string> & {
   onFinalize?: (btw: string, btwInfo?: BtwResponse) => void;
 }
 
-const BtwInRequest = t('taxRequest');
 
 const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}: BtwInputProps) => {
   const [inputValue, setInputValue] = useState(value || '');
@@ -137,40 +135,3 @@ export type BtwResponse = {
 async function fetchBtwInfo(btw: string): Promise<BtwResponse> {
   return (await fetch(buildRequest(`/clients/btw/${btw}`)).then(result => result.json())) as BtwResponse;
 }
-
-
-
-
-
-/**
- * Convert input to an unformatted Btw number
- */
-export function parseBtw(str: string): string {
-  if (!str) {
-    return '';
-  }
-
-  if (str === BtwInRequest) {
-    return str;
-  }
-
-  let btw = str.toUpperCase().replace(/[^0-9A-Z]/g, '');
-  if (!/^[A-Z]{2}/.test(btw)) {
-    btw = DefaultBtwCountry + btw;
-  }
-  if (!/^[A-Z]{2}[A-Z0-9]{8,12}$/.test(btw)) {
-    return btw;
-  }
-
-  if (btw.startsWith('BE') && btw.length < 12) {
-    btw = btw.slice(0, 2) + btw.slice(2).padStart(10, '0');
-  }
-
-  return btw;
-}
-
-/**
- * Formats to "BE 0123.456.789"
- * Expects input to be in "BE0123456789"
- */
-export const formatBtw = (str: string): string => str.replace(/(\w{2})(\d{4})(\d{3})(\d{3})/, '$1 $2.$3.$4');

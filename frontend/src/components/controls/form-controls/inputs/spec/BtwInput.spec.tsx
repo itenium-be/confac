@@ -1,5 +1,5 @@
 import {t} from '../../../../utils';
-import {parseBtw, formatBtw} from '../BtwInput';
+import {parseBtw, formatBtw} from '../BtwInputHelpers';
 
 
 // BE0123456789
