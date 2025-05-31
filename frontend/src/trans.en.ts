@@ -187,16 +187,16 @@ export const trans = {
     invoicePayDays: 'Payment terms (calendar days)',
     invoiceFileName: 'Default invoice filename',
     invoiceReplacements: {
-      title: 'Factuur substituties',
-      nr: 'Factuurnummer',
-      nrX: 'Factuurnummer prefixed met 0 tot X getallen',
-      date: 'Factuurdatum met FORMAT: jaar=YYYY, maand=MM, dag=DD (MomentJS)',
-      dateShort: 'Factuurdatum',
-      orderNr: 'Bestelbon nummer',
-      clientName: 'Naam klant',
-      consultantName: 'Naam consultant',
-      projectMonth: 'Project maand (MomentJS)',
-      projectMonthShort: 'Project maand',
+      title: 'Invoice substitutions',
+      nr: 'Invoice nr',
+      nrX: 'Invoice nr prefixed with 0 till x numbers',
+      date: 'Invoice date with FORMAT: year=YYYY, month=MM, day=DD (MomentJS)',
+      dateShort: 'Invoice date',
+      orderNr: 'Invoice ref',
+      clientName: 'Client name',
+      consultantName: 'Name consultant',
+      projectMonth: 'Project month (MomentJS)',
+      projectMonthShort: 'Project month',
       clearButton: 'Clear'
     },
     company: {
@@ -296,8 +296,8 @@ export const trans = {
     numberShort: 'Nr',
     discount: 'Discount',
     consultant: 'Consultant',
-    toggleProjectMonth: 'Switchen tussen "Project maand kiezen" en "Manueel datum en consultant kiezen"',
-    discountPlaceholder: 'Vaste korting (vb 250)/een percentage (vb 10%)',
+    toggleProjectMonth: 'Switch between "Choose project month" and "Choosing date and consultant manually"',
+    discountPlaceholder: 'Fixed discount (ex 250)/a percentage (ex 10%)',
     deleteTitle: 'Delete invoice',
     deletePopup: 'Delete invoice {number} ({client}) permanently?',
     deleteConfirm: 'Invoice deleted',
@@ -341,7 +341,7 @@ export const trans = {
     attachmentsDropzone: 'Drop a file or click here to upload an invoice attachment',
     attachmentsProposed: 'Upload {type}',
     attachmentViewTooltip: 'View {type}',
-    pdfTemplateNotFoundTitle: 'Pdf template niet gevonden!',
+    pdfTemplateNotFoundTitle: 'Pdf template not found!',
     pdfTemplateNotFound: 'The pdf template could not be found (check Config)',
     creditNotas: {
       title: 'Credit Notas',
@@ -353,12 +353,12 @@ export const trans = {
       withoutConsultant: 'Without consultant',
     },
     badRequest: {
-      nrExists: 'Nr {nr} kan niet gemaakt worden omdat nr {lastNr} reeds bestaat',
-      dateAfterExists: 'Factuur op {date} kan niet gemaakt worden om dat nr {lastNr} op {lastDate} gemaakt is',
+      nrExists: 'Nr {nr} cannot be made because nr {lastNr} already exists',
+      dateAfterExists: 'Invoice on {date} cannot be made because nr {lastNr} was made on {lastDate}',
     },
-    listAdvancedFilters: 'Meer filters',
-    listDownloadZip: 'Alle in de lijst zichtbare facturen downloaden (zip)',
-    listDownloadExcel: 'Alle in de lijst zichtbare Facturen exporteren als Excel rapport (csv)',
+    listAdvancedFilters: 'More filters',
+    listDownloadZip: 'Download all in the list visible invoices (zip)',
+    listDownloadExcel: 'Export all in the list visible invoices to Excel (csv)',
     createCreditNota: 'Create Credit Nota'
   },
   attachment: {
@@ -372,17 +372,17 @@ export const trans = {
     noneUploaded: 'No attachment have been added.',
   },
   contract: {
-    notes: 'Contract notitie',
-    ok: 'Contracten getekend',
-    nok: 'Contracten nog NIET getekend',
+    notes: 'Contract notites',
+    ok: 'Contracts signed',
+    nok: 'Contracts NOT signed',
     status: {
-      NoContract: 'Geen',
-      Sent: 'Verstuurd',
-      Verified: 'Geverifieerd',
-      WeSigned: 'Getekend (wij)',
-      TheySigned: 'Getekend (zij)',
-      BothSigned: 'Getekend (beide)',
-      NotNeeded: 'Niet nodig',
+      NoContract: 'None',
+      Sent: 'Sent',
+      Verified: 'Verified',
+      WeSigned: 'Signed (us)',
+      TheySigned: 'Signed (them)',
+      BothSigned: 'Signed (both)',
+      NotNeeded: 'Not needed',
     }
   },
   client: {
@@ -418,8 +418,8 @@ export const trans = {
     invoiceFileName: 'Default invoice filename',
     viewDetails: 'Go to detail screen',
     frameworkAgreement: {
-      title: 'Raamcontract',
-      contract: 'Status raamcontract',
+      title: 'Framework agreement',
+      contract: 'Status framework agreement',
       notes: 'Notes',
     },
     clienttypes: {
@@ -430,7 +430,7 @@ export const trans = {
     createNewModal: {
       partner: 'New partner',
       client: 'New client',
-      endCustomer: 'new end customer'
+      endCustomer: 'New end customer'
     },
     email: {
       to: 'To',
@@ -497,10 +497,10 @@ export const trans = {
     },
     contract: {
       title: 'Contracts',
-      projectTitle: 'Status contract werkopdracht',
-      frameworkAgreementTitle: 'Status contract raamcontract',
-      thisContract: 'Werkopdracht',
-      contracts: 'Contracten',
+      projectTitle: 'Status work order contract',
+      frameworkAgreementTitle: 'Status framework agreement',
+      thisContract: 'Work Order',
+      contracts: 'Contracts',
     },
     proforma: {
       no: 'No proforma invoice',
@@ -713,8 +713,8 @@ export const trans = {
         title: 'Consultant contracts',
         list: {
           projectsWithoutContract: 'Projects without contract',
-          projectsWithoutWorkContract: 'Geen werkcontract',
-          projectsWithoutFrameworkAgreements: 'Geen raamcontract',
+          projectsWithoutWorkContract: 'No work order',
+          projectsWithoutFrameworkAgreements: 'No framework agreement',
         },
       }
     },
@@ -730,11 +730,11 @@ export const trans = {
     },
     invoiceSection: {
       dueInvoicesList: {
-        title: 'Openstaande facturen',
+        title: 'Open invoices',
         list: {
-          ok: 'Factuur < {min} dagen open',
-          warning: 'Factuur {min} <= x <= {max} dagen open',
-          danger: 'Factuur {max} dagen open'
+          ok: 'Invoice < {min} days open',
+          warning: 'Invoice {min} <= x <= {max} days open',
+          danger: 'Invoice {max} days open'
         }
       }
     }
