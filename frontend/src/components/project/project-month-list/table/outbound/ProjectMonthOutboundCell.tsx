@@ -87,21 +87,21 @@ export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboun
   const invoiceList = [
     ...(fullProjectMonth.invoice.creditNotas || []),
     fullProjectMonth.invoice._id
-  ];
+  ]
+    .sort((a, b) => a.localeCompare(b))
+    .map(nbr => invoices.find(i => i._id === nbr))
+    .filter(i => i !== undefined);
 
+  const allVerified = invoiceList.every(i => getInvoiceDueDateStyle(i!) === undefined);
   return (
-    <>
-      {invoiceList
-        .sort((a, b) => a.localeCompare(b))
-        .map(nbr => invoices.find(i => i._id === nbr))
-        .filter(i => i !== undefined)
-        .map(i => (
-          <OutboundInvoice
-            key={i!.number}
-            invoice={i!}
-            style={getInvoiceDueDateStyle(i!)}
-          />
-        ))}
-    </>
+    <div className={allVerified ? 'all-verified' : undefined}>
+      {invoiceList.map(i => (
+        <OutboundInvoice
+          key={i!.number}
+          invoice={i!}
+          style={getInvoiceDueDateStyle(i!)}
+        />
+      ))}
+    </div>
   );
 };

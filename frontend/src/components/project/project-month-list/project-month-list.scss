@@ -309,7 +309,9 @@ $cell-padding: $cell-padding-amount;
     }
   }
 
-
+  .outbound-td:has(.all-verified) {
+    background-color: rgba(40, 167, 69, 0.2);
+  }
 
   // Outbound cell when invoice has been created
   .outbound-invoice-cell {

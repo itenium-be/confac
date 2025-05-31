@@ -7,7 +7,7 @@ export function getInvoiceListRowClass(invoice: InvoiceModel, invoicePayDays: nu
   return rowTableClassName;
 }
 
-export function getInvoiceDueDateStyle(invoice: InvoiceModel): React.CSSProperties {
+export function getInvoiceDueDateStyle(invoice: InvoiceModel): React.CSSProperties | undefined {
   const variant = getInvoiceDueDateVariant(invoice);
   switch (variant) {
     case 'danger':
@@ -17,7 +17,7 @@ export function getInvoiceDueDateStyle(invoice: InvoiceModel): React.CSSProperti
     case 'info':
       return {backgroundColor: '#cff4fc'};
     default:
-      return {backgroundColor: 'rgba(40, 167, 69, 0.2)'};
+      return undefined;
   }
 }
 
