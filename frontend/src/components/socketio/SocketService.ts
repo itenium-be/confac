@@ -30,7 +30,7 @@ function createSocketService() {
     function registerHandlerForEventType(eventType: SocketEventTypes) {
       socket.on(eventType, (eventPayload) => {
         if (eventPayload.sourceSocketId === socketId) {
-          // console.log("Socket.io: Event ignored => sourceSocketId is equal to current socket id.");
+          // console.log(`Socket.io: Event ignored => sourceSocketId ${eventPayload.sourceSocketId} == ${socketId}`);
           return;
         }
 

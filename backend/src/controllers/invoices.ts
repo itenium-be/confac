@@ -119,7 +119,7 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
 
   let createdInvoice = await createInvoice(invoice, req.db, pdfBuffer as Buffer, req.user);
 
-  if (invoice.projectMonth) {
+  if (invoice.projectMonth && !invoice.creditNotas?.length) {
     const projectMonthId = new ObjectID(invoice.projectMonth.projectMonthId);
     const {updatedInvoice, updatedProjectMonth} = await moveProjectMonthAttachmentsToInvoice(createdInvoice, projectMonthId, req.db);
     if (updatedProjectMonth) {
@@ -144,7 +144,7 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
 
     linkedInvoices.forEach(linkedInvoice => {
       linkedInvoice.creditNotas = [...(linkedInvoice.creditNotas || []), createdInvoice._id]; // eslint-disable-line no-param-reassign
-      emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, invoice._id, invoice, 'everyone');
+      emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, linkedInvoice._id, linkedInvoice, 'everyone');
     });
   }
 
@@ -271,12 +271,16 @@ export const deleteInvoiceController = async (req: ConfacRequest, res: Response)
 
   const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOne({_id: new ObjectID(invoiceId)});
 
-  if (invoice?.projectMonth) {
+  if (invoice?.projectMonth && !invoice?.creditNotas?.length) {
+    // ATTN: This is not completely correct for CreditNotas:
+    //       If the original invoice is deleted before the credit notas, this will not work
+    //       (but that doesn't really happen)
     const invoiceAttachments: IAttachmentCollection | null = await req.db.collection(CollectionNames.ATTACHMENTS)
-      .findOne({_id: new ObjectID(invoiceId) as ObjectID}, {
+      .findOne({_id: new ObjectID(invoiceId)}, {
         projection: {
           _id: false,
           pdf: false,
+          xml: false,
         },
       });
 
@@ -289,7 +293,7 @@ export const deleteInvoiceController = async (req: ConfacRequest, res: Response)
     }
 
     const projectMonthCollection = req.db.collection(CollectionNames.PROJECTS_MONTH);
-    const attachments = invoice.attachments.filter(a => a.type !== 'pdf');
+    const attachments = invoice.attachments.filter(a => a.type !== 'pdf' && a.type !== 'xml');
 
     const projectMonthId = new ObjectID(invoice.projectMonth.projectMonthId);
     const updateProjectMonthResult = await projectMonthCollection.findOneAndUpdate({_id: projectMonthId}, {$set: {attachments}});
