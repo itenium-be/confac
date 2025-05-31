@@ -93,9 +93,12 @@ export function singleProjectMonthResolve(state: ProjectMonthResolverState, proj
 }
 
 /** Can be used to do the resolving in legacy Component classes */
-export function projectMonthResolve(confacState: ProjectMonthResolverState): FullProjectMonthModel[] {
+export function projectMonthResolve(
+  confacState: ProjectMonthResolverState,
+  invoice?: InvoiceModel,
+): FullProjectMonthModel[] {
   return confacState.projectsMonth
-    .map(pm => mapToProjectMonth(confacState, pm))
+    .map(pm => mapToProjectMonth(confacState, pm, invoice))
     .filter(pm => !!pm) as FullProjectMonthModel[];
 }
 
