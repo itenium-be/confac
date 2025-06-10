@@ -38,7 +38,7 @@ export function getFullTariffs(project: FullProjectModel, type: 'client' | 'part
 
 export function getTariffs(projectClient: ProjectClientModel): ProjectClientTariff {
   return {
-    tariff: projectClient.defaultInvoiceLines.reduce((prev, cur) => prev + cur.price, 0),
+    tariff: projectClient.defaultInvoiceLines.reduce((prev, cur) => prev + (cur.price ?? 0), 0),
     rateType: projectClient.defaultInvoiceLines[0].type,
   };
 }
