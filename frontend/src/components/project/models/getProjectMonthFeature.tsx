@@ -95,17 +95,13 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
     key: 'inbound',
     value: p => <ProjectMonthInboundCell fullProjectMonth={p} />,
     className: p => {
-      if (!p.project.projectMonthConfig.inboundInvoice || p.details.inbound.status === 'paid' || p.details.verified === 'forced') {
+      const hasInboundInvoice = p.project.projectMonthConfig.inboundInvoice;
+      const inboundValidated = !hasInboundInvoice || p.details.inbound.status === 'paid';
+      const proformaValidated = !p.details.inbound.proforma || p.details.inbound.proforma.status === 'verified';
+      if (p.details.verified === 'forced' || (inboundValidated && proformaValidated)) {
         return 'validated';
       }
-
-      switch (p.details.inbound.status) {
-        case 'validated':
-          return 'table-warning';
-        case 'new':
-        default:
-          return undefined;
-      }
+      return undefined;
     },
     footer: (models: FullProjectMonthModel[]) => {
       if (!models.length) {

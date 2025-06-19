@@ -179,6 +179,10 @@ $cell-padding: $cell-padding-amount;
     background-color: rgba($success, .2);
   }
 
+  .warning {
+    background-color: rgb(255, 243, 205);
+  }
+
 
 
   /** The timesheet cell */
