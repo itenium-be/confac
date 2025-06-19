@@ -268,7 +268,7 @@ $cell-padding: $cell-padding-amount;
     }
   }
 
-  .validated > .inbound-proforma:first-child {
+  .inbound-proforma:first-child {
     // Inbound invoice with proform for a consultant
     padding-top: $cell-padding-amount;
   }
