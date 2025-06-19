@@ -622,7 +622,7 @@ export const trans = {
     validateTimesheet: 'Timesheet valideren',
     validateTimesheetDisabled: 'Timesheet kan pas gevalideerd worden als de twee getallen overeenkomen (consultants),<br>er een getal ingevuld is (externen) of er een commentaar is toegevoegd',
     unvalidateTimesheet: 'Timesheet invalideren',
-    viewTimesheet: 'Timesheet bekijken: {fileName}',
+    viewTimesheet: 'Timesheet opgeladen op {uploadDate} bekijken: {fileName}',
     viewInboundInvoice: 'Ontvangen factuur bekijken: {fileName}',
     viewProformaInvoice: 'Ontvangen proforma factuur bekijken: {fileName}',
     linkToDetails: 'Ga naar project',

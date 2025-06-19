@@ -1,5 +1,6 @@
 import {useDispatch} from 'react-redux';
 import cn from 'classnames';
+import moment from 'moment';
 import {ProjectMonthTimesheet} from '../../models/ProjectMonthModel';
 import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
 import {t} from '../../../utils';
@@ -140,7 +141,10 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           isUploadDisabled={fullProjectMonth.details.timesheet.validated}
           isPreviewDisabled={!hasTimesheetBeenUploaded}
           uploadTooltip={t('projectMonth.timesheetUpload')}
-          previewTooltip={t('projectMonth.viewTimesheet', {fileName: timesheetDetails ? timesheetDetails.fileName : ''})}
+          previewTooltip={t('projectMonth.viewTimesheet', {
+            fileName: timesheetDetails ? timesheetDetails.fileName : '',
+            uploadDate: timesheetDetails ? moment(timesheetDetails.lastModifiedDate).format('DD/MM/YYYY HH:mm') : '',
+          })}
           onUpload={f => {
             const fileName = timesheetFileName + f.name.substring(f.name.lastIndexOf('.'));
             return dispatch(projectMonthUpload(f, SignedTimesheetAttachmentType, fullProjectMonth, fileName) as any);

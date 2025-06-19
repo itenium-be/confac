@@ -622,7 +622,7 @@ export const trans = {
     validateTimesheet: 'Validate timesheet',
     validateTimesheetDisabled: 'Timesheet can only be validated when the hours match (consultants),<br>a number has been filled in (externals) or a comment has been added',
     unvalidateTimesheet: 'Invalidate timesheet',
-    viewTimesheet: 'View timesheet: {fileName}',
+    viewTimesheet: 'View timesheet uploaded on {uploadDate}: {fileName}',
     viewInboundInvoice: 'View inbound invoice: {fileName}',
     viewProformaInvoice: 'View proforma invoice: {fileName}',
     linkToDetails: 'Go to project',
