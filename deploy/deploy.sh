@@ -67,6 +67,7 @@ if [ "$key" = 'f' ]; then
 
   # Max one version per day
   git tag -f v$TAG
+  git push origin v$TAG --force
 
 elif [ "$key" = 'd' ]; then
   # Fast startup when there are no code changes
