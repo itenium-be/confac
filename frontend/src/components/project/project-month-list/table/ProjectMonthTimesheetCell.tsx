@@ -50,6 +50,9 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
   };
   const [timesheet, setTimesheet, saveTimesheet] = useDebouncedSave<ProjectMonthTimesheet>(defaultValue, dispatcher);
 
+  if (fullProjectMonth.details.verified === 'forced') {
+    return <div />;
+  }
 
   const projectConfig = fullProjectMonth.project.projectMonthConfig;
   const timesheetConfig: TimesheetTimeConfig = {
@@ -93,7 +96,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
     return getDownloadUrl('project_month', projectMonthId, SignedTimesheetAttachmentType, fileName, 'preview');
   };
 
-  const timesheetValid = timesheet.validated || fullProjectMonth.details.verified === 'forced';
+  const timesheetValid = timesheet.validated || fullProjectMonth.details.verified;
   const timesheetFileName = '{month}-{consultant}-Timesheet'
     .replace('{consultant}', `${fullProjectMonth.consultant.firstName} ${fullProjectMonth.consultant.name}`)
     .replace('{month}', fullProjectMonth.details.month.format('YYYY-MM'));
