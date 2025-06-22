@@ -32,7 +32,7 @@ export const ListPageHeader = ({feature, topToolbar}: ListPageProps) => (
     {feature.trans.createNew && (
       <ClaimGuard feature={{key: feature.key, claim: GenericClaim.Create}}>
         <Col lg={3} md={3}>
-          <Button variant="light" onClick={feature.nav('create')} icon="fa fa-plus">
+          <Button variant="light" onClick={feature.nav('create')} icon="fa fa-plus" data-testid="add">
             {t(feature.trans.createNew)}
           </Button>
         </Col>

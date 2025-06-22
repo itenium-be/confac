@@ -14,8 +14,8 @@ type LinkToButtonProps = EnhanceWithClaimProps & {
 }
 
 
-export const LinkToButton = EnhanceWithClaim(({to, label, size, variant}: LinkToButtonProps) => (
-  <Link to={to} className={`btn btn-${variant || 'light'} btn-${size || 'md'}`}>
+export const LinkToButton = EnhanceWithClaim(({to, label, size, variant, ...props}: LinkToButtonProps) => (
+  <Link to={to} className={`btn btn-${variant || 'light'} btn-${size || 'md'}`} {...props}>
     {t(label)}
     <Icon className="tst-link-to" fa="fa fa-arrow-right" size={1} style={{marginLeft: 8}} />
   </Link>

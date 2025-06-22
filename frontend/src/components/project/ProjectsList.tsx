@@ -69,7 +69,7 @@ export const ProjectsList = () => {
         className="tst-download-excel"
       />
       <LinkToButton claim={Claim.ViewConsultants} to="/consultants/projects" label="project.contractCheck" />
-      <LinkToButton claim={Claim.ViewConsultants} to="/consultants" label="consultant.title" />
+      <LinkToButton claim={Claim.ViewConsultants} to="/consultants" label="consultant.title" data-testid="consultants" />
     </>
   );
 
