@@ -19,6 +19,7 @@ export const EditInvoiceDefaultLine = ({lines, invoice, index, onChange, line}: 
       <StringInput
         value={line.desc}
         onChange={value => onChange(InvoiceLineActions.updateLine(lines, index, {desc: value}, invoice))}
+        data-testid="desc"
       />
     </td>,
     <td key="1">
@@ -26,6 +27,7 @@ export const EditInvoiceDefaultLine = ({lines, invoice, index, onChange, line}: 
         label={undefined}
         value={line.type}
         onChange={value => onChange(InvoiceLineActions.updateLine(lines, index, {type: value}, invoice))}
+        data-testid="type"
       />
     </td>,
     <td key="2">
@@ -34,6 +36,7 @@ export const EditInvoiceDefaultLine = ({lines, invoice, index, onChange, line}: 
         allowHours={line.type === 'hourly'}
         value={line.amount}
         onChange={value => onChange(InvoiceLineActions.updateLine(lines, index, {amount: value}, invoice))}
+        data-testid="amount"
       />
     </td>,
     <td key="3">
@@ -43,6 +46,7 @@ export const EditInvoiceDefaultLine = ({lines, invoice, index, onChange, line}: 
         float
         value={line.price}
         onChange={value => onChange(InvoiceLineActions.updateLine(lines, index, {price: value}, invoice))}
+        data-testid="price"
       />
     </td>,
     <td key="4">
@@ -52,6 +56,7 @@ export const EditInvoiceDefaultLine = ({lines, invoice, index, onChange, line}: 
         float
         value={line.tax}
         onChange={value => onChange(InvoiceLineActions.updateLine(lines, index, {tax: value}, invoice))}
+        data-testid="tax"
       />
     </td>,
   ];

@@ -52,9 +52,9 @@ export const Modal = (props: ModalProps) => {
         {props.children}
       </ReactModal.Body>
       <ReactModal.Footer>
-        <ReactButton onClick={props.onClose} variant="light">{t('close')}</ReactButton>
+        <ReactButton onClick={props.onClose} variant="light" data-testid="close">{t('close')}</ReactButton>
         {props.onConfirm ? (
-          <ReactButton onClick={onConfirm} variant={props.confirmVariant || 'success'} disabled={props.disableSave}>
+          <ReactButton onClick={onConfirm} variant={props.confirmVariant || 'success'} disabled={props.disableSave} data-testid="confirm">
             {props.confirmText || t('save')}
           </ReactButton>
         ) : null}

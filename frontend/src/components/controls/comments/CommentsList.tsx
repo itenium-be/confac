@@ -45,10 +45,10 @@ export const CommentList = ({value, onChange, claim, ...config}: CommentsListPro
   return (
     <>
       <div style={{display: 'flex', alignItems: 'start', whiteSpace: 'nowrap'}}>
-        <Button claim={claim} variant="light" onClick={config.onAddClicked} icon="fa fa-plus">
+        <Button claim={claim} variant="light" onClick={config.onAddClicked} icon="fa fa-plus" data-testid="add">
           {t('comment.addComment')}
         </Button>
-        <SearchStringInput value={needle} onChange={setNeedle} style={{marginLeft: 6}} />
+        <SearchStringInput value={needle} onChange={setNeedle} style={{marginLeft: 6}} data-testid="search" />
       </div>
       {data.length ? (
         <List feature={feature} {...config} />

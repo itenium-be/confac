@@ -10,15 +10,17 @@ type BaseSelectProps = {
   options: SelectItem[];
   isClearable?: boolean;
   isMulti?: boolean;
+  'data-testid'?: string;
 }
 
 
-export const BaseSelect = EnhanceInputWithLabel((props: BaseSelectProps) => (
+export const BaseSelect = EnhanceInputWithLabel(({'data-testid': testId, ...props}: BaseSelectProps) => (
   <Select
     noOptionsMessage={() => t('controls.noResultsText')}
     placeholder={t('controls.selectPlaceholder')}
     classNamePrefix="react-select"
     className="react-select-base"
+    aria-label={testId}
     {...props}
   />
 ));
