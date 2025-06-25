@@ -1,7 +1,7 @@
 import {FullFormConfig} from '../../../models';
 
 
-export const defaultClientProperties: FullFormConfig = [
+export const defaultClientProperties = [
   {title: {title: 'client.frameworkAgreement.title', level: 3}, label: ''},
   {key: 'frameworkAgreement', component: 'ContractStatusWithNotes', label: ''},
 
@@ -41,7 +41,7 @@ export const defaultClientProperties: FullFormConfig = [
   {key: 'email.subject', component: 'InvoiceReplacementsInput', cols: 12},
   {key: 'email.body', component: 'InvoiceReplacementsTextEditor', cols: 12, label: ''},
   {key: 'email.combineAttachments', component: 'bool'},
-];
+] as const;
 
 
 

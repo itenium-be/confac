@@ -15,6 +15,7 @@ import useEntityChangedToast from '../hooks/useEntityChangedToast';
 import {NotesWithCommentsModalButton} from '../controls/form-controls/button/NotesWithCommentsModalButton';
 import {useClientState} from './client-helpers';
 import {ChangesModal} from '../controls/other/ChangesModal';
+import {FullFormConfig} from '../../models';
 
 
 const EditClient = () => {
@@ -53,7 +54,7 @@ const EditClient = () => {
         </Row>
         <Row>
           <ArrayInput
-            config={defaultClientProperties}
+            config={defaultClientProperties as unknown as FullFormConfig}
             model={client}
             onChange={value => setClient({...client, ...value})}
             tPrefix="client."
