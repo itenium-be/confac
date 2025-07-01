@@ -63,6 +63,7 @@ const IconComponent = ({fa, onClick, href, dispatch, className, label, labelStyl
   let FinalIcon = (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <i
+      role={!!realClick ? 'button' : undefined}
       {...props}
       className={cn(fa, `fa-${size}x`, className, {clickable: !!onClick || !!href})}
       onClick={realClick}

@@ -78,7 +78,7 @@ const Header = () => (
           <>{t('project.createNew')}</>
         </Link>
 
-        <Dropdown.Toggle split variant="success" id="header-create-split" />
+        <Dropdown.Toggle split variant="success" id="header-create-split" aria-label="Other creations" />
         <Dropdown.Menu>
           <Link claim={Claim.ManageProjects} to="/projects/create" className="dropdown-item">
             {t('project.createNew')}
@@ -99,6 +99,7 @@ const Header = () => (
           color="#668014"
           onClick="/user"
           style={{marginLeft: 22, paddingTop: 3}}
+          aria-label="User details"
         />
       </Dropdown>
     </Navbar.Collapse>
