@@ -197,7 +197,8 @@ export const trans = {
       consultantName: 'Name consultant',
       projectMonth: 'Project month (MomentJS)',
       projectMonthShort: 'Project month',
-      clearButton: 'Clear'
+      clearButton: 'Clear',
+      creditNotes: 'Credit notes',
     },
     company: {
       title: 'Your company',
@@ -231,8 +232,8 @@ export const trans = {
       bcc: 'Default BCC',
       attachments: 'Default extra email attachments',
     },
-    emailCreditNotaSubject: 'Credit Nota: Default subject',
-    emailCreditNotaBody: 'Credit Nota: Default email',
+    emailCreditNotaSubject: 'Credit Note: Default subject',
+    emailCreditNotaBody: 'Credit Note: Default email',
     emailSignature: 'Default email signature',
     emailReminder: 'Email invoice reminder',
     emailReminderCc: 'Reminder CC',
@@ -346,7 +347,7 @@ export const trans = {
     pdfTemplateNotFoundTitle: 'Pdf template not found!',
     pdfTemplateNotFound: 'The pdf template could not be found (check Config)',
     creditNotas: {
-      title: 'Credit Notas',
+      title: 'Credit Notes',
       addLine: '(un)link invoices',
     },
     search: {
@@ -361,7 +362,7 @@ export const trans = {
     listAdvancedFilters: 'More filters',
     listDownloadZip: 'Download all in the list visible invoices (zip)',
     listDownloadExcel: 'Export all in the list visible invoices to Excel (csv)',
-    createCreditNota: 'Create Credit Nota'
+    createCreditNota: 'Create Credit Note'
   },
   attachment: {
     types: 'Attachment types',

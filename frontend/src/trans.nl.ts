@@ -197,7 +197,8 @@ export const trans = {
       consultantName: 'Naam consultant',
       projectMonth: 'Project maand (MomentJS)',
       projectMonthShort: 'Project maand',
-      clearButton: 'Clear'
+      clearButton: 'Clear',
+      creditNotes: 'Credit notas',
     },
     company: {
       title: 'Jouw bedrijfsgegevens',
