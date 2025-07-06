@@ -26,7 +26,7 @@ export const invoiceReplacementsPopoverConfig: ITextEditorCustomReplacement[] = 
 
 
 
-export function getInvoiceReplacements(invoice: InvoiceModel): ITextEditorCustomReplacement[] {
+export function getInvoiceReplacements(invoice: InvoiceModel, creditNotes: InvoiceModel[]): ITextEditorCustomReplacement[] {
   const result: ITextEditorCustomReplacement[] = [
     {code: '{{nr}}', desc: 'config.invoiceReplacements.nr'},
     {code: '{{formatDate date "DD/MM/YYYY"}}', desc: 'config.invoiceReplacements.dateShort'},
@@ -43,7 +43,7 @@ export function getInvoiceReplacements(invoice: InvoiceModel): ITextEditorCustom
   return result.map(replacement => ({
     code: t(replacement.desc),
     desc: '',
-    defaultValue: invoiceReplacements(replacement.code, invoice),
+    defaultValue: invoiceReplacements(replacement.code, invoice, creditNotes),
   }));
 }
 
@@ -51,7 +51,7 @@ export function getInvoiceReplacements(invoice: InvoiceModel): ITextEditorCustom
 
 Handlebars.registerHelper('formatDate', (date: moment.Moment, format: string) => {
   // Need to wrap moment instances for the locale change to have effect
-  return moment(date.toDate()).format(format);
+  return moment(date).format(format);
 });
 
 Handlebars.registerHelper('zero', (nr: number, amount: string) => {
@@ -60,7 +60,7 @@ Handlebars.registerHelper('zero', (nr: number, amount: string) => {
 });
 
 
-export function invoiceReplacements(input: string, invoice: InvoiceModel): string {
+export function invoiceReplacements(input: string, invoice: InvoiceModel, creditNotes?: InvoiceModel[]): string {
   const template = Handlebars.compile(input);
 
   const appLanguage = moment.locale();
@@ -76,7 +76,7 @@ export function invoiceReplacements(input: string, invoice: InvoiceModel): strin
     nr: invoice.number,
     date: invoice.date,
     projectMonth: invoice.projectMonth?.month || invoice.date,
-    creditNotes: invoice.creditNotas?.join(', '),
+    creditNotes: creditNotes?.map(x => x.number).join(', '),
   };
 
   const result = template(replacements);

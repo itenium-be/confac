@@ -198,7 +198,7 @@ export const trans = {
       projectMonth: 'Project month (MomentJS)',
       projectMonthShort: 'Project month',
       clearButton: 'Clear',
-      creditNotes: 'Credit notes',
+      creditNotes: 'Credit notes (only for email body)',
     },
     company: {
       title: 'Your company',

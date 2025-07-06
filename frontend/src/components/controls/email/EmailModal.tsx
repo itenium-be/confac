@@ -26,6 +26,7 @@ const getDefaultEmailValue = (
   client: ClientModel | undefined,
   template: EmailTemplate,
   config: ConfigModel,
+  creditNotes: InvoiceModel[],
 ): EmailModel => {
 
   const defaultEmail = config.email;
@@ -46,7 +47,7 @@ const getDefaultEmailValue = (
   }
 
   const finalValues = {...defaultEmail, ...emailValues};
-  finalValues.subject = invoiceReplacements(finalValues.subject, invoice);
+  finalValues.subject = invoiceReplacements(finalValues.subject, invoice, creditNotes);
   if (template === EmailTemplate.Reminder) {
     if (config.emailReminder) {
       finalValues.body = config.emailReminder;
@@ -61,7 +62,7 @@ const getDefaultEmailValue = (
     finalValues.subject = config.emailCreditNotaSubject;
     finalValues.body = config.emailCreditNotaBody;
   }
-  finalValues.body = invoiceReplacements(finalValues.body, invoice);
+  finalValues.body = invoiceReplacements(finalValues.body, invoice, creditNotes);
   finalValues.body += config.emailSignature;
 
   return getNewEmail(finalValues);
@@ -80,7 +81,13 @@ export const EmailModal = ({invoice, onClose, template, ...props}: EmailModalPro
   const dispatch = useDispatch();
   const config = useSelector((state: ConfacState) => state.config);
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === invoice.client._id));
-  const [value, setValue] = useState(getDefaultEmailValue(invoice, client, template, config));
+  const creditNotes = useSelector((state: ConfacState) => {
+    if (invoice.creditNotas?.length) {
+      return state.invoices.filter(x => invoice.creditNotas.includes(x._id));
+    }
+    return [];
+  });
+  const [value, setValue] = useState(getDefaultEmailValue(invoice, client, template, config, creditNotes));
 
   const attachmentsAvailable = invoice.attachments.map(a => a.type);
   return (
@@ -97,7 +104,7 @@ export const EmailModal = ({invoice, onClose, template, ...props}: EmailModalPro
         value={value}
         onChange={setValue}
         attachmentsAvailable={attachmentsAvailable}
-        textEditorReplacements={getInvoiceReplacements(invoice)}
+        textEditorReplacements={getInvoiceReplacements(invoice, creditNotes)}
       />
     </Modal>
   );
