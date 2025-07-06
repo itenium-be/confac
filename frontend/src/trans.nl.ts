@@ -231,6 +231,8 @@ export const trans = {
       bcc: 'Standaard BCC',
       attachments: 'Standaard extra email bijlagen',
     },
+    emailCreditNotaSubject: 'Credit Nota: Standaard onderwerp',
+    emailCreditNotaBody: 'Credit Nota: Standaard email',
     emailSignature: 'Standaard email signature',
     emailReminder: 'Email factuur herinnering',
     emailReminderCc: 'Herinnering CC',

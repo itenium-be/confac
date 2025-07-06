@@ -33,6 +33,8 @@ export const defaultConfig: ConfigModel = {
   emailReminder: '',
   emailReminderCc: '',
   emailReminderBcc: '',
+  emailCreditNotaSubject: '',
+  emailCreditNotaBody: '',
   emailInvoiceOnly: '',
   initialMonthLoad: null,
   language: defaultCommunicationLanguage,

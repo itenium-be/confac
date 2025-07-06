@@ -57,6 +57,9 @@ const getDefaultEmailValue = (
     if (config.emailReminderBcc && !client.email.bcc) {
       finalValues.bcc = config.emailReminderBcc;
     }
+  } else if (invoice.money.total < 0 && config.emailCreditNotaSubject) {
+    finalValues.subject = config.emailCreditNotaSubject;
+    finalValues.body = config.emailCreditNotaBody;
   }
   finalValues.body = invoiceReplacements(finalValues.body, invoice);
   finalValues.body += config.emailSignature;

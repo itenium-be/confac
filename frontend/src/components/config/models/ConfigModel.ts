@@ -25,6 +25,8 @@ export type ConfigModel = {
   emailReminder: string;
   emailReminderCc: string;
   emailReminderBcc: string;
+  emailCreditNotaSubject: string;
+  emailCreditNotaBody: string;
   /** Email address to email the invoice pdf (without timesheet) */
   emailInvoiceOnly: string;
   /** How many months to load at initialLoad */

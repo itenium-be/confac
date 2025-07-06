@@ -45,6 +45,8 @@ export const configDefinition: FullFormConfig = [
   {key: 'email.bcc', cols: 6, component: 'email'},
   {key: 'email.subject', cols: 12, component: 'InvoiceReplacementsInput'},
   {key: 'email.body', component: 'InvoiceReplacementsTextEditor', cols: 12},
+  {key: 'emailCreditNotaSubject', cols: 12, component: 'InvoiceReplacementsInput'},
+  {key: 'emailCreditNotaBody', component: 'InvoiceReplacementsTextEditor', cols: 12},
   {key: 'emailSignature', component: 'InvoiceReplacementsTextEditor', cols: 12},
   {key: 'emailReminder', component: 'InvoiceReplacementsTextEditor', cols: 12},
   {key: 'emailReminderCc', component: 'email', cols: 6},
