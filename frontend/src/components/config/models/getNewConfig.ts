@@ -36,7 +36,7 @@ export const defaultConfig: ConfigModel = {
   emailCreditNotaSubject: '',
   emailCreditNotaBody: '',
   emailInvoiceOnly: '',
-  initialMonthLoad: null,
+  initialMonthLoad: 12,
   language: defaultCommunicationLanguage,
   attachments: [],
   audit: {} as IAudit,

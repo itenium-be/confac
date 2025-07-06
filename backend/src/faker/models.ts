@@ -372,7 +372,7 @@ export const defaultConfig = {
   emailReminderCc: '',
   emailReminderBcc: '',
   emailInvoiceOnly: '',
-  initialMonthLoad: null,
+  initialMonthLoad: 12,
   language: 'en',
   attachments: [],
   audit: {},

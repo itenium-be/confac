@@ -30,7 +30,7 @@ export type ConfigModel = {
   /** Email address to email the invoice pdf (without timesheet) */
   emailInvoiceOnly: string;
   /** How many months to load at initialLoad */
-  initialMonthLoad: number | null;
+  initialMonthLoad: number;
   language: Language;
   /** ConditionsAndTerms */
   attachments: Attachment[];
