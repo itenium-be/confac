@@ -15,10 +15,11 @@ export type EditInvoiceFooterProps = {
   initInvoice: InvoiceModel;
   invoice: InvoiceModel;
   setEmailModal: (emailTemplate: EmailTemplate) => void;
+  acceptChanges: () => void;
 }
 
 
-export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal}: EditInvoiceFooterProps) => {
+export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptChanges}: EditInvoiceFooterProps) => {
   const dispatch = useDispatch();
   const invoices = useSelector((state: ConfacState) => state.invoices);
   const config = useSelector((state: ConfacState) => state.config);
@@ -52,6 +53,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal}: EditInv
         invoice={invoice}
         onClick={(type, navigate) => {
           if (type === 'create') {
+            acceptChanges();
             dispatch(createInvoice(invoice, navigate) as any);
           } if (type === 'preview') {
             dispatch(previewInvoice(invoice.client.invoiceFileName || config.invoiceFileName, invoice) as any);
