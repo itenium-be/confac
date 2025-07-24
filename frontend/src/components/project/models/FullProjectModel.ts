@@ -6,6 +6,7 @@ import {ClientModel} from '../../client/models/ClientModels';
 import {getNewClient} from '../../client/models/getNewClient';
 import {ContractStatus} from '../../client/models/ContractModels';
 import {ContractType} from '../../home/measurements/project/ConsultantContractsList';
+import {UserModel} from '../../users/models/UserModel';
 
 
 
@@ -34,14 +35,23 @@ export class FullProjectModel {
   partner?: ClientModel;
   /** ATTN: ProjectEndCustomerModel properties to be found in details.endCustomer */
   endCustomer?: ClientModel;
+  accountManager?: UserModel;
 
-  constructor(json: IProjectModel, month?: Moment, consultant?: ConsultantModel, client?: ClientModel, partner?: ClientModel, endCustomer?: ClientModel) {
+  constructor(
+    json: IProjectModel,
+    month?: Moment,
+    consultant?: ConsultantModel,
+    client?: ClientModel,
+    partner?: ClientModel,
+    endCustomer?: ClientModel,
+    accountManager?: UserModel) {
     this.details = json;
     this._month = month || moment();
     this.consultant = consultant || getNewConsultant();
     this.client = client || getNewClient();
     this.partner = partner;
     this.endCustomer = endCustomer;
+    this.accountManager = accountManager;
   }
 
 

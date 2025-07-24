@@ -10,6 +10,8 @@ export type ProjectProforma = typeof ProjectProformaOptions[number]
 
 export interface IProjectModel {
   _id: string;
+  /** UserId */
+  accountManager: string;
   consultantId: string;
   startDate: Moment;
   endDate?: Moment;

@@ -42,6 +42,7 @@ import {ContractStatusWithNotes} from '../../../client/contract/ContractStatusWi
 import {ProjectClientContractStatus} from '../../../project/controls/ProjectClientContractStatus';
 import {CountrySelect} from '../../other/CountrySelect';
 import {ProjectProformaSelect} from '../../../project/controls/ProjectProformaSelect';
+import {UserSelect} from '../../../users/UserSelect';
 
 
 export function getComponent(col: FormConfig) {
@@ -99,6 +100,7 @@ export function getComponent(col: FormConfig) {
     ProjectClientContractStatus,
     CountrySelect,
     ProjectProformaSelect,
+    UserSelect,
   };
 
 

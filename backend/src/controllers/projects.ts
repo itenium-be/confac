@@ -72,7 +72,7 @@ export const deleteProject = async (req: ConfacRequest, res: Response) => {
 const PROJECTS_EXCEL_HEADERS = [
   'Consultant', 'Consultant Type', 'Start datum', 'Eind datum', 'Onderaannemer',
   'Uurtarief', 'Dagtarief', 'Klant', 'Klant uurtarief', 'Klant dagtarief',
-  'Margin', 'Margin %', 'Eindklant', 'Raamcontract', 'Contract werkopdracht',
+  'Margin', 'Margin %', 'Eindklant', 'Account manager', 'Raamcontract', 'Contract werkopdracht',
 ];
 
 /** Create simple CSV output of the project._ids passed in the body */

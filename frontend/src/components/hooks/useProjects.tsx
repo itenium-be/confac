@@ -14,13 +14,15 @@ export function useProjects(month?: Moment): FullProjectModel[] {
   const projects = useSelector((state: ConfacState) => state.projects);
   const clients = useSelector((state: ConfacState) => state.clients);
   const consultants = useSelector((state: ConfacState) => state.consultants);
+  const users = useSelector((state: ConfacState) => state.user.users);
 
   return projects.map(project => {
     const consultant = consultants.find(x => x._id === project.consultantId);
     const client = clients.find(x => x._id === project.client.clientId);
     const partner = project.partner && clients.find(x => project.partner && x._id === project.partner.clientId);
     const endCustomer = !!project.endCustomer?.clientId ? clients.find(x => x._id === project.endCustomer!.clientId) : undefined;
-    return new FullProjectModel(project, month, consultant, client, partner, endCustomer);
+    const accountManager = project.accountManager ? users.find(x => x._id === project.accountManager) : undefined;
+    return new FullProjectModel(project, month, consultant, client, partner, endCustomer, accountManager);
   });
 }
 

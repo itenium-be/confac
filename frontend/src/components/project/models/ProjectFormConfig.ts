@@ -8,6 +8,8 @@ export function getProjectFormConfig(project: IProjectModel): FullFormConfig {
     {key: 'contract', component: 'ContractStatusWithNotes', label: 'project.contract.projectTitle'},
 
     {title: {title: 'project.detailsTitle', level: 2}},
+    {key: 'accountManager', component: 'UserSelect'},
+    {forceRow: true},
     {key: 'consultantId', component: 'ConsultantSelectWithCreateModal', cols: 5},
     {key: 'startDate', component: 'date', cols: 4},
     {key: 'endDate', component: 'date', cols: 3},

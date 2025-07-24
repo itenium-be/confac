@@ -51,6 +51,7 @@ export const ProjectsList = () => {
         margin: markup.amount,
         marginPercentage: markup.percentage.toFixed(0) + '%',
         endCustomer: proj.endCustomer?.name,
+        accountManager: proj.accountManager ? `${proj.accountManager.firstName} ${proj.accountManager.name}` : undefined,
         contractFramework: proj.client.frameworkAgreement?.status,
         contractProject: proj.details.contract?.status,
       };

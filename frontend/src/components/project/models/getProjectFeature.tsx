@@ -15,6 +15,7 @@ import {ProjectForecastPartnerFooter} from '../project-month-list/table/footers/
 import {getProjectMarkup, compareTariffs, getTariffs} from '../utils/getTariffs';
 import {ContractIcons} from '../../client/contract/ContractIcons';
 import {ProjectEndCustomerIcon} from '../controls/ProjectEndCustomerIcon';
+import {UserName} from '../../users/UserName';
 
 
 export type ProjectFeatureBuilderConfig = IFeatureBuilderConfig<FullProjectModel, ProjectListFilters>;
@@ -170,6 +171,10 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
   //       <ToClipboardLabel label={p.details.client.ref} />
   //     </Ellipsis>
   //   ),
+  }, {
+    key: 'accountManager',
+    header: 'project.accountManagerListHeader',
+    value: p => <UserName userId={p.details.accountManager} />,
   }, {
     key: 'contract',
     header: 'project.contract.contracts',

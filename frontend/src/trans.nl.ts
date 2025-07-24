@@ -482,6 +482,8 @@ export const trans = {
     month: 'Maand',
     newConsultant: 'Nieuwe consultant',
     showInactiveProjects: 'Toon inactieve projecten',
+    accountManager: 'Account Manager',
+    accountManagerListHeader: 'Manager',
     consultant: 'Consultant',
     consultantId: 'Consultant',
     consultantType: 'Type',

@@ -20,6 +20,7 @@ export const getNewProjectEndCustomer = (): ProjectEndCustomerModel => ({
 
 export const getNewProject = (): IProjectModel => ({
   _id: '',
+  accountManager: '',
   consultantId: '',
   startDate: null as unknown as moment.Moment,
   client: getNewProjectClient(),
