@@ -3,6 +3,7 @@ import {IProjectModel} from './IProjectModel';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ClientModel} from '../../client/models/ClientModels';
 import InvoiceModel from '../../invoice/models/InvoiceModel';
+import {UserModel} from '../../users/models/UserModel';
 
 /** ProjectMonthModel with _ids resolved */
 export class FullProjectMonthModel {
@@ -22,6 +23,7 @@ export class FullProjectMonthModel {
   partner?: ClientModel;
   endCustomer?: ClientModel;
   invoice?: InvoiceModel;
+  accountManager: UserModel | undefined;
 
   constructor(json: IFullProjectMonthModel) {
     this.details = json.details;
@@ -31,6 +33,7 @@ export class FullProjectMonthModel {
     this.partner = json.partner;
     this.endCustomer = json.endCustomer;
     this.invoice = json.invoice;
+    this.accountManager = json.accountManager;
   }
 }
 
@@ -44,4 +47,5 @@ export interface IFullProjectMonthModel {
   partner?: ClientModel;
   endCustomer?: ClientModel;
   invoice?: InvoiceModel;
+  accountManager: UserModel | undefined;
 }

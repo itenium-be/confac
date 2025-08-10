@@ -8,6 +8,7 @@ import {IProjectModel} from '../models/IProjectModel';
 import {ClientModel} from '../../client/models/ClientModels';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {mapToProjectMonth} from '../../hooks/useProjects';
+import {UserState} from '../../users/models/UserModel';
 
 
 type ProjectMonthResolverState = {
@@ -16,6 +17,7 @@ type ProjectMonthResolverState = {
   projects: IProjectModel[];
   clients: ClientModel[];
   consultants: ConsultantModel[];
+  user: UserState;
 }
 
 const selectProjectMonths = (state: ConfacState) => state.projectsMonth;
@@ -23,6 +25,7 @@ const selectProjects = (state: ConfacState) => state.projects;
 const selectConsultants = (state: ConfacState) => state.consultants;
 const selectClients = (state: ConfacState) => state.clients;
 const selectInvoices = (state: ConfacState) => state.invoices;
+const selectUser = (state: ConfacState) => state.user;
 
 
 export const createFullProjectMonthsSelector = () => createSelector(
@@ -32,11 +35,12 @@ export const createFullProjectMonthsSelector = () => createSelector(
     selectConsultants,
     selectClients,
     selectInvoices,
+    selectUser,
     (_, month: string) => month
   ],
-  (projectsMonth, projects, consultants, clients, invoices, month) => {
+  (projectsMonth, projects, consultants, clients, invoices, user, month) => {
     const context: ProjectMonthResolverState = {
-      projectsMonth, projects, consultants, clients, invoices
+      projectsMonth, projects, consultants, clients, invoices, user,
     };
     return projectsMonth
       .filter(x => x.month.isSame(moment(month), 'month'))

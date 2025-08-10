@@ -8,6 +8,7 @@ import {FullProjectModel} from '../project/models/FullProjectModel';
 import {FullProjectMonthModel, IFullProjectMonthModel} from '../project/models/FullProjectMonthModel';
 import {IProjectModel} from '../project/models/IProjectModel';
 import {ProjectMonthModel} from '../project/models/ProjectMonthModel';
+import {UserState} from '../users/models/UserModel';
 
 
 export function useProjects(month?: Moment): FullProjectModel[] {
@@ -54,6 +55,7 @@ type ProjectMonthResolverState = {
   projects: IProjectModel[];
   clients: ClientModel[];
   consultants: ConsultantModel[];
+  user: UserState;
 }
 
 
@@ -65,6 +67,7 @@ export function useProjectsMonths(): FullProjectMonthModel[] {
     projects: state.projects,
     clients: state.clients,
     consultants: state.consultants,
+    user: state.user,
   }));
   const result = confacState.projectsMonth.map(projectMonth => mapToProjectMonth(confacState, projectMonth));
   return result.filter(x => x !== null) as FullProjectMonthModel[];
@@ -135,6 +138,7 @@ export function mapToProjectMonth(
     partner: project.partner && confacState.clients.find(c => project.partner && c._id === project.partner.clientId),
     endCustomer: !!project.endCustomer?.clientId ? confacState.clients.find(c => c._id === project.endCustomer!.clientId) : undefined,
     invoice: invoice || confacState.invoices.find(i => i.projectMonth && i.projectMonth.projectMonthId === projectMonth._id),
+    accountManager: project.accountManager ? confacState.user.users.find(u => u._id === project.accountManager) : undefined,
   };
 
   return new FullProjectMonthModel(fullModel);

@@ -13,7 +13,6 @@ import {t} from '../../../utils';
 import {Claim} from '../../../users/models/UserModel';
 import {ToggleProjectMonthButton} from '../ToggleProjectMonthButton';
 import {Button} from '../../../controls/form-controls/Button';
-import {useProjects} from '../../../hooks/useProjects';
 import {getFullTariffs, getProjectMarkup} from '../../utils/getTariffs';
 import {IProjectModel} from '../../models/IProjectModel';
 
@@ -30,7 +29,6 @@ type OpenedProjectsMonthsListToolbarProps = {
 export const OpenedProjectsMonthsListToolbar = ({feature}: OpenedProjectsMonthsListToolbarProps) => {
   const projectsMonthOverviews = useSelector((state: ConfacState) => state.projectsMonthOverviews);
   const dispatch = useDispatch();
-  const projects = useProjects();
 
   if (!feature.list.data.length) {
     return null;
@@ -49,15 +47,15 @@ export const OpenedProjectsMonthsListToolbar = ({feature}: OpenedProjectsMonthsL
   };
 
   const downloadExcel = () => {
-    const projectDetails = projects.filter(proj => proj.active).sort((a, b) => a.consultantName.localeCompare(b.consultantName)).map(proj => {
-      const markup = getProjectMarkup({project: proj.details, client: proj.client});
-      const partnerTariff = getFullTariffs(proj, 'partner');
-      const clientTariff = getFullTariffs(proj, 'client');
+    const projectDetails = feature.list.data.map(proj => {
+      const markup = getProjectMarkup({project: proj.project, client: proj.client});
+      const partnerTariff = getFullTariffs(proj.project, proj.client, proj.partner, 'partner');
+      const clientTariff = getFullTariffs(proj.project, proj.client, proj.partner, 'client');
       return {
         consultant: proj.consultantName,
         consultantType: proj.consultant.type,
-        startDate: proj.details.startDate.format('YYYY-MM-DD'),
-        endDate: proj.details.endDate && proj.details.endDate.format('YYYY-MM-DD'),
+        startDate: proj.project.startDate.format('YYYY-MM-DD'),
+        endDate: proj.project.endDate && proj.project.endDate.format('YYYY-MM-DD'),
         partner: proj.partner?.name,
         partnerHourly: partnerTariff?.hourlyRate,
         partnerDaily: partnerTariff?.dailyRate,
@@ -69,14 +67,15 @@ export const OpenedProjectsMonthsListToolbar = ({feature}: OpenedProjectsMonthsL
         endCustomer: proj.endCustomer?.name,
         accountManager: proj.accountManager ? `${proj.accountManager.firstName} ${proj.accountManager.name}` : undefined,
         contractFramework: proj.client.frameworkAgreement?.status,
-        contractProject: proj.details.contract?.status,
-        ecCost: proj.details.ecCost,
+        contractProject: proj.project.contract?.status,
+        ecCost: proj.project.ecCost,
         month: projectsMonthDetails.month.format('MMMM YYYY'),
-        daysInContract: daysUnderContractInMonth(projectsMonthDetails.month, proj.details),
-        fictiveMarginDay: (clientTariff?.dailyRate ?? 0) - (proj.details.ecCost ?? 0),
+        daysInContract: daysUnderContractInMonth(projectsMonthDetails.month, proj.project),
+        daysTimesheet: proj.details.timesheet.timesheet,
+        fictiveMarginDay: (clientTariff?.dailyRate ?? 0) - (proj.project.ecCost ?? 0),
       };
     });
-    const mappedData = projectDetails.map(Object.values);
+    const mappedData = projectDetails.sort((a, b) => a.consultant.localeCompare(b.consultant)).map(Object.values);
     dispatch(downloadProjectsMonthsExcel(mappedData, projectsMonthDetails.month.format('YYYY-MM')) as any);
   };
 
@@ -114,7 +113,6 @@ function daysUnderContractInMonth(month: moment.Moment, details: IProjectModel):
 
   const effectiveStart = moment.max(details.startDate, monthStart);
   const effectiveEnd = details.endDate ? moment.min(details.endDate, monthEnd) : monthEnd;
-
 
   if (effectiveStart.isAfter(effectiveEnd)) {
     return 0;

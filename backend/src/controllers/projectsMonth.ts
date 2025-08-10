@@ -120,7 +120,7 @@ const PROJECTS_EXCEL_HEADERS = [
   'Consultant', 'Consultant Type', 'Start datum', 'Eind datum', 'Onderaannemer',
   'Uurtarief', 'Dagtarief', 'Klant', 'Klant uurtarief', 'Klant dagtarief',
   'Margin', 'Margin %', 'Eindklant', 'Account manager', 'Raamcontract', 'Contract werkopdracht',
-  'EC Dagkost', 'Maand', 'Dagen onder contract', 'Fictieve marge/dag',
+  'EC Dagkost', 'Maand', 'Dagen onder contract', 'Dagen timesheet', 'Fictieve marge/dag',
 ];
 
 /** Create simple CSV output of the data[][] passed in the body */

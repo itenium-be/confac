@@ -11,16 +11,16 @@ export type ProjectClientTariff = {
   rateType: EditProjectRateType;
 }
 
-export function getFullTariffs(project: FullProjectModel, type: 'client' | 'partner') {
-  const projectClient = type === 'client' ? project.details.client : project.details.partner;
+export function getFullTariffs(project: IProjectModel, client: ClientModel, partner: ClientModel | undefined, type: 'client' | 'partner') {
+  const projectClient = type === 'client' ? project.client : project.partner;
   if (!projectClient?.clientId) {
     return undefined;
   }
 
-  const client = type === 'client' ? project.client : project.partner!;
-  let hoursInDay = client.hoursInDay;
-  if (type === 'client' && project.details.client.hoursInDay) {
-    hoursInDay = project.details.client.hoursInDay;
+  const clientDetails = type === 'client' ? client : partner!;
+  let hoursInDay = clientDetails.hoursInDay;
+  if (type === 'client' && project.client.hoursInDay) {
+    hoursInDay = project.client.hoursInDay;
   }
   const tariff = getTariffs(projectClient);
   if (tariff.rateType === 'daily') {
@@ -33,6 +33,10 @@ export function getFullTariffs(project: FullProjectModel, type: 'client' | 'part
     dailyRate: tariff.tariff * hoursInDay,
     hourlyRate: tariff.tariff,
   };
+}
+
+export function getFullTariffsFromProject(project: FullProjectModel, type: 'client' | 'partner') {
+  return getFullTariffs(project.details, project.client, project.partner, type);
 }
 
 
