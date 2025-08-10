@@ -3,7 +3,7 @@ import {deleteProject, getProjects, saveProject, generateExcelForProjectsControl
 import {
   getProjectsPerMonthController, createProjectsMonthController,
   patchProjectsMonthController, getProjectsPerMonthOverviewController,
-  deleteProjectsMonthController, generateExcelForProjectsMonthController
+  deleteProjectsMonthController, generateExcelForProjectsMonthController,
 } from '../controllers/projectsMonth';
 
 const projectsRouter = Router();
