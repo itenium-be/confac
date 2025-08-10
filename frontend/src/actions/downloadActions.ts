@@ -79,15 +79,30 @@ export function downloadInvoicesExcel(ids: string[]) {
   };
 }
 
-export function downloadProjectsExcel(ids: any[]) {
+export function downloadProjectsExcel(data: any[][]) {
   return dispatch => {
     request.post(buildUrl('/projects/excel'))
       .responseType('blob')
       .set('Authorization', authService.getBearer())
-      .send(ids)
+      .send(data)
       .then(res => {
         console.log('downloaded', res); // eslint-disable-line
         const fileName = `projects-${moment().format('YYYY-MM-DD')}.csv`;
+        downloadAttachment(fileName, res.body);
+        success(t('project.listDownloadExcelMessage'), t('project.listDownloadExcelTitle'), false);
+      });
+  };
+}
+
+export function downloadProjectsMonthsExcel(data: any[][], projectMonth: string) {
+  return dispatch => {
+    request.post(buildUrl('/projects/month/excel'))
+      .responseType('blob')
+      .set('Authorization', authService.getBearer())
+      .send(data)
+      .then(res => {
+        console.log('downloaded', res); // eslint-disable-line
+        const fileName = `projects-${projectMonth}-${moment().format('YYYY-MM-DD')}.csv`;
         downloadAttachment(fileName, res.body);
         success(t('project.listDownloadExcelMessage'), t('project.listDownloadExcelTitle'), false);
       });

@@ -75,11 +75,11 @@ const PROJECTS_EXCEL_HEADERS = [
   'Margin', 'Margin %', 'Eindklant', 'Account manager', 'Raamcontract', 'Contract werkopdracht',
 ];
 
-/** Create simple CSV output of the project._ids passed in the body */
+/** Create simple CSV output of the data[][] passed in the body */
 export const generateExcelForProjectsController = async (req: Request, res: Response) => {
   const separator = ';';
   const excelHeader = `${PROJECTS_EXCEL_HEADERS.join(separator)}\r\n`;
-  const excelBody = req.body.map((record: any) => record.join(separator)).join('\r\n');
+  const excelBody = req.body.map((record: any[]) => record.join(separator)).join('\r\n');
   const excel = `${excelHeader}${excelBody}`;
   return res.send(excel);
 };

@@ -11,8 +11,9 @@ export function getProjectFormConfig(project: IProjectModel): FullFormConfig {
     {key: 'accountManager', component: 'UserSelect'},
     {forceRow: true},
     {key: 'consultantId', component: 'ConsultantSelectWithCreateModal', cols: 5},
-    {key: 'startDate', component: 'date', cols: 4},
-    {key: 'endDate', component: 'date', cols: 3},
+    {key: 'startDate', component: 'date', cols: 2},
+    {key: 'endDate', component: 'date', cols: 2},
+    {key: 'ecCost', component: 'basic-math', prefix: '€', props: {float: true}, cols: 3},
     {key: 'partner', label: '', component: 'EditProjectPartner', cols: false},
   ];
 

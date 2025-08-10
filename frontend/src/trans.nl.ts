@@ -489,6 +489,7 @@ export const trans = {
     consultantType: 'Type',
     startDate: 'Start datum',
     endDate: 'Eind datum',
+    ecCost: 'EC Kost',
     forEndCustomer: 'Project is bij eindklant',
     comments: 'Commentaar',
     listDownloadExcel: 'Download projecten als Excel',
@@ -635,6 +636,7 @@ export const trans = {
     selectLabel: 'Project maand',
     markup: 'Margin',
     proformaTitle: 'Proforma: ',
+    listDownloadExcel: 'Download commissie Excel',
   },
   controls: {
     // browser

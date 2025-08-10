@@ -113,3 +113,21 @@ export const deleteProjectsMonthController = async (req: ConfacRequest, res: Res
   emitEntityEvent(req, SocketEventTypes.EntityDeleted, CollectionNames.PROJECTS_MONTH, id, null);
   return res.send(id);
 };
+
+
+
+const PROJECTS_EXCEL_HEADERS = [
+  'Consultant', 'Consultant Type', 'Start datum', 'Eind datum', 'Onderaannemer',
+  'Uurtarief', 'Dagtarief', 'Klant', 'Klant uurtarief', 'Klant dagtarief',
+  'Margin', 'Margin %', 'Eindklant', 'Account manager', 'Raamcontract', 'Contract werkopdracht',
+  'EC Dagkost', 'Maand', 'Dagen onder contract', 'Fictieve marge/dag',
+];
+
+/** Create simple CSV output of the data[][] passed in the body */
+export const generateExcelForProjectsMonthController = async (req: Request, res: Response) => {
+  const separator = ';';
+  const excelHeader = `${PROJECTS_EXCEL_HEADERS.join(separator)}\r\n`;
+  const excelBody = req.body.map((record: any[]) => record.join(separator)).join('\r\n');
+  const excel = `${excelHeader}${excelBody}`;
+  return res.send(excel);
+};

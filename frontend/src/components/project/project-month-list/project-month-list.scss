@@ -70,6 +70,10 @@ $cell-padding: $cell-padding-amount;
     margin-left: 20px;
     margin-bottom: 0;
   }
+
+  > :last-child {
+    margin-left: auto;
+  }
 }
 
 

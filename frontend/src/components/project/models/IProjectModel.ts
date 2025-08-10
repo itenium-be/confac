@@ -15,6 +15,7 @@ export interface IProjectModel {
   consultantId: string;
   startDate: Moment;
   endDate?: Moment;
+  ecCost?: number;
   partner?: ProjectClientModel;
   client: ProjectClientModel;
   projectMonthConfig: ProjectMonthConfig;
