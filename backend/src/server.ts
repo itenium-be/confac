@@ -88,5 +88,12 @@ app.use((req: Request, res: Response) => res.sendFile('/home/public/index.html')
 
 server.listen(appConfig.server.port, () => {
   console.log(`Server connected to port ${appConfig.server.port}, running in a ${appConfig.ENVIRONMENT} environment.`);
-  console.log(appConfig);
+  const safeConfig: IConfig = {
+    ...appConfig,
+    db: {...appConfig.db, pwd: '***'},
+    email: {...appConfig.email, pass: '***'},
+    security: {...appConfig.security, secret: '***'},
+    jwt: {...appConfig.jwt, secret: '***'},
+  };
+  console.log(safeConfig);
 });
