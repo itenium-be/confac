@@ -14,7 +14,7 @@ export type IAttachmentCollection = {
   [attachmentKey: string]: Buffer;
 }
 
-export interface ISendGridAttachment {
+export interface IEmailAttachment {
   content: string;
   filename: string;
   type?: string;

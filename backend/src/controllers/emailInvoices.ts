@@ -1,15 +1,15 @@
 import {Request, Response} from 'express';
 import PDFMerge from 'pdf-merge';
-import sgMail from '@sendgrid/mail';
-import {MailData} from '@sendgrid/helpers/classes/mail'; // eslint-disable-line import/no-extraneous-dependencies
+import nodemailer from 'nodemailer';
 import fs from 'fs';
 import tmp from 'tmp';
 import {ObjectID} from 'mongodb';
-import {IAttachmentCollection, ISendGridAttachment} from '../models/attachments';
+import {IAttachmentCollection, IEmailAttachment} from '../models/attachments';
 import {IEmail} from '../models/clients';
 import {CollectionNames, IAttachment, SocketEventTypes} from '../models/common';
 import {emitEntityEvent} from './utils/entity-events';
 import {ConfacRequest} from '../models/technical';
+import config from '../config';
 
 
 type EmailAttachmentRequest = {
@@ -78,14 +78,14 @@ async function buildInvoiceEmailData(
   email: EmailRequest,
   attachmentBuffers: IAttachmentCollection,
   termsAndConditions: Buffer,
-): Promise<MailData> {
+): Promise<IEmailData> {
 
   // Make sure the invoice is the first document in the array
   // eslint-disable-next-line no-nested-ternary
   const attachments = email.attachments.sort((a, b) => (a.type === 'pdf' ? -1 : b.type === 'pdf' ? 1 : 0));
 
   // Combine Invoice PDF & Timesheet?
-  let sendGridAttachments: (Omit<ISendGridAttachment, 'content'> & {content: Buffer})[] = [];
+  let emailAttachments: (Omit<IEmailAttachment, 'content'> & {content: Buffer})[] = [];
   if (email.combineAttachments) {
     const files: tmp.FileResult[] = [];
     attachments.forEach(attachment => {
@@ -98,7 +98,7 @@ async function buildInvoiceEmailData(
 
     const invoiceAttachment = attachments.find(attachment => attachment.type === 'pdf');
     if (invoiceAttachment) {
-      sendGridAttachments = [{
+      emailAttachments = [{
         content: mergedPdfs,
         filename: invoiceAttachment.fileName,
         type: invoiceAttachment.fileType,
@@ -108,7 +108,7 @@ async function buildInvoiceEmailData(
     files.forEach(file => file.removeCallback());
 
   } else {
-    sendGridAttachments = attachments.map(attachment => ({
+    emailAttachments = attachments.map(attachment => ({
       content: attachmentBuffers[attachment.type],
       filename: attachment.fileName,
       type: attachment.fileType,
@@ -119,7 +119,7 @@ async function buildInvoiceEmailData(
 
   // Merge Terms & Conditions with the invoice pdf
   if (termsAndConditions) {
-    const invoiceBuffer = sendGridAttachments[0].content.buffer;
+    const invoiceBuffer = emailAttachments[0].content.buffer;
 
     const invoiceFile = tmp.fileSync();
     fs.writeSync(invoiceFile.fd, invoiceBuffer as Buffer);
@@ -129,13 +129,13 @@ async function buildInvoiceEmailData(
 
     const mergedInvoicePdf: Buffer = await PDFMerge([invoiceFile, termsCondFile].map(f => f.name));
     // eslint-disable-next-line no-confusing-arrow
-    sendGridAttachments = sendGridAttachments.map((att, idx) => idx === 0 ? {...att, content: mergedInvoicePdf} : att);
+    emailAttachments = emailAttachments.map((att, idx) => idx === 0 ? {...att, content: mergedInvoicePdf} : att);
 
     invoiceFile.removeCallback();
     termsCondFile.removeCallback();
   }
 
-  return {
+  const emailData: IEmailData = {
     to: email.to.split(';'),
     cc: email.cc?.split(';'),
     bcc: email.bcc?.split(';'),
@@ -143,35 +143,68 @@ async function buildInvoiceEmailData(
     subject: email.subject,
     // text: '',
     html: email.body,
-    attachments: sendGridAttachments.map(att => ({...att, content: att.content.toString('base64')})),
+    attachments: emailAttachments.map(att => ({...att, content: att.content.toString('base64')})),
   };
+  return emailData;
+}
+
+
+interface IEmailData {
+  to: string[];
+  cc: string[] | undefined;
+  bcc: string[] | undefined;
+  from: string;
+  subject: string;
+  html: string;
+  attachments: IEmailAttachment[];
 }
 
 
 
-
-
-
-async function sendEmail(res: Response, mailData: MailData): Promise<Response | null> {
+async function sendEmail(res: Response, mailData: IEmailData): Promise<Response | null> {
   try {
-    await sgMail.send(mailData as any, false).then(() => {
-      const tos = [mailData.to, mailData.cc, mailData.bcc].filter(x => !!x).join(', ');
-      const atts = mailData.attachments?.map((x: any) => x.filename);
-      // eslint-disable-next-line
-      console.log(`Mail sent successfully to ${tos}. Subject=${mailData.subject}. Attachments=${atts}`);
+    const transporter = nodemailer.createTransport({
+      host: config.email.host,
+      port: config.email.port,
+      secure: config.email.secure,
+      auth: {
+        user: config.email.user,
+        pass: config.email.pass,
+      },
     });
+
+    // transporter.verify((error, success) => {
+    //   if (error) {
+    //     console.log('Connection error:', error);
+    //   } else {
+    //     console.log('Server is ready to take our messages', success);
+    //   }
+    // });
+
+    console.log('emailing', mailData);
+
+    const info = await transporter.sendMail({
+      from: '"Itenium Finance" <wouter.van.schandevijl@itenium.be>',
+      to: 'woutervs@hotmail.com',
+      subject: mailData.subject,
+      // text: mailData.html,
+      html: mailData.html,
+    });
+
+    const tos = [mailData.to, mailData.cc, mailData.bcc].filter(x => !!x).join(', ');
+    const atts = mailData.attachments?.map((x: any) => x.filename);
+    // eslint-disable-next-line
+    console.log(`Mail sent with status: ${JSON.stringify(info)} to ${tos}. Subject=${mailData.subject}. Attachments=${atts}`);
+
+    if (info.rejected?.length) {
+      return res.status(400).send(info.response);
+    }
 
   } catch (err) {
     const error = err as any;
-    if (error.code === 401) {
-      // eslint-disable-next-line
-      console.log('SendGrid returned 401. API key not set?');
-      return res.status(400).send({message: 'Has the SendGrid API Key been set?'});
-    }
-
     // eslint-disable-next-line
-    console.log('SendGrid returned an error', error.response?.body);
-    return res.status(400).send(error.response?.body?.errors[0]);
+    console.log('Email error', error);
+    return res.status(400).send(error);
   }
 
   return null;

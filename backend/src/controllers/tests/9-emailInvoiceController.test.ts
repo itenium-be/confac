@@ -11,7 +11,7 @@ describe.skip('emailInvoiceController', () => {
     it('merges the config TermsAndConditions pdf last if there is one', () => {});
   });
 
-  describe('email sending with @sendgrid/mail', () => {
+  describe('email sending with nodemailer', () => {
     it('sets the correct from address', () => {});
     it('sends to the correct to/cc/bcc addresses', () => {});
     it('contains the expected attachment(s)', () => {});

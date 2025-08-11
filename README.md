@@ -50,14 +50,6 @@ cd deploy
 ```
 
 
-
-## Emailing
-
-Development: Set `SENDGRID_API_KEY` in `src/config/index.ts`  
-Production: Set `process.env.SENDGRID_API_KEY`  
-
-
-
 ## Server Dependencies
 
 Fonts need to be present in `/usr/share/fonts` for pdf text to be selectable.

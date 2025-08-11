@@ -18,7 +18,13 @@ const appConfig: IConfig = {
     port: +(process.env.PORT || 9000),
     basePath: process.env.SERVER_BASE_PATH || '',
   },
-  SENDGRID_API_KEY: process.env.SENDGRID_API_KEY || '',
+  email: {
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    user: process.env.EMAIL_USER || '',
+    pass: process.env.EMAIL_PASS || '',
+  },
   ENVIRONMENT: process.env.ENVIRONMENT || 'unset',
   tag: process.env.BUILD_VERSION || 'unset',
   ENABLE_ROOT_TEMPLATES: +(process.env.ENABLE_ROOT_TEMPLATES || 0),
@@ -51,7 +57,13 @@ export interface IConfig {
     port: number;
     basePath: string;
   };
-  SENDGRID_API_KEY: string;
+  email: {
+    host: string;
+    port: number;
+    secure: boolean;
+    user: string;
+    pass: string;
+  };
   ENVIRONMENT: 'development' | string;
   /** Version in format YYYY-MM-DD */
   tag: string;

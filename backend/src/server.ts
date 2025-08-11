@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import express, {Request, Response, NextFunction} from 'express';
 import bodyParser from 'body-parser';
-import sgMail from '@sendgrid/mail';
 import {MongoClient} from 'mongodb';
 import cors from 'cors';
 import {Server} from 'socket.io';
@@ -9,7 +8,7 @@ import http from 'http';
 
 import 'express-async-errors';
 
-import appConfig from './config';
+import appConfig, { IConfig } from './config';
 import appRouter from './routes';
 
 const app = express();
@@ -23,8 +22,6 @@ const corsOptions = {
 };
 
 const io = new Server(server, {cors: corsOptions});
-
-sgMail.setApiKey(appConfig.SENDGRID_API_KEY);
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
