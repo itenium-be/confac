@@ -102,7 +102,6 @@ async function buildInvoiceEmailData(
         content: mergedPdfs,
         filename: invoiceAttachment.fileName,
         type: invoiceAttachment.fileType,
-        disposition: 'attachment',
       }];
     }
     files.forEach(file => file.removeCallback());
@@ -112,7 +111,6 @@ async function buildInvoiceEmailData(
       content: attachmentBuffers[attachment.type],
       filename: attachment.fileName,
       type: attachment.fileType,
-      disposition: 'attachment',
     }));
   }
 
@@ -137,8 +135,8 @@ async function buildInvoiceEmailData(
 
   const emailData: IEmailData = {
     to: email.to.split(';'),
-    cc: email.cc?.split(';'),
-    bcc: email.bcc?.split(';'),
+    cc: email.cc?.split(';').filter(x => !!x),
+    bcc: email.bcc?.split(';').filter(x => !!x),
     from: email.from as string,
     subject: email.subject,
     // text: '',
@@ -150,9 +148,9 @@ async function buildInvoiceEmailData(
 
 
 interface IEmailData {
-  to: string[];
-  cc: string[] | undefined;
-  bcc: string[] | undefined;
+  to: string[] | string;
+  cc?: string[];
+  bcc?: string[];
   from: string;
   subject: string;
   html: string;
@@ -160,36 +158,52 @@ interface IEmailData {
 }
 
 
+async function sendEmailCore(mailData: IEmailData) {
+  const transporter = nodemailer.createTransport({
+    host: config.email.host,
+    port: config.email.port,
+    secure: config.email.secure,
+    auth: {
+      user: config.email.user,
+      pass: config.email.pass,
+    },
+  });
+
+  // transporter.verify((error, success) => {
+  //   if (error) {
+  //     console.log('Connection error:', error);
+  //   } else {
+  //     console.log('Server is ready to take our messages', success);
+  //   }
+  // });
+
+  const info = await transporter.sendMail({
+    // from: mailData.from,
+    from: '"Itenium Finance" <wouter.van.schandevijl@itenium.be>',
+    // to: 'woutervs@hotmail.com',
+    replyTo: 'finance@itenium.be',
+    to: mailData.to,
+    cc: mailData.cc,
+    bcc: mailData.bcc,
+    subject: mailData.subject,
+    // text: mailData.html,
+    html: mailData.html,
+    attachments: mailData.attachments.map(att => ({
+      filename: att.filename,
+      encoding: 'base64',
+      // contentType: att.type,
+      contentDisposition: 'attachment',
+      content: att.content,
+    })),
+  });
+
+  return info;
+}
+
 
 async function sendEmail(res: Response, mailData: IEmailData): Promise<Response | null> {
   try {
-    const transporter = nodemailer.createTransport({
-      host: config.email.host,
-      port: config.email.port,
-      secure: config.email.secure,
-      auth: {
-        user: config.email.user,
-        pass: config.email.pass,
-      },
-    });
-
-    // transporter.verify((error, success) => {
-    //   if (error) {
-    //     console.log('Connection error:', error);
-    //   } else {
-    //     console.log('Server is ready to take our messages', success);
-    //   }
-    // });
-
-    console.log('emailing', mailData);
-
-    const info = await transporter.sendMail({
-      from: '"Itenium Finance" <wouter.van.schandevijl@itenium.be>',
-      to: 'woutervs@hotmail.com',
-      subject: mailData.subject,
-      // text: mailData.html,
-      html: mailData.html,
-    });
+    const info = await sendEmailCore(mailData);
 
     const tos = [mailData.to, mailData.cc, mailData.bcc].filter(x => !!x).join(', ');
     const atts = mailData.attachments?.map((x: any) => x.filename);
@@ -201,10 +215,9 @@ async function sendEmail(res: Response, mailData: IEmailData): Promise<Response 
     }
 
   } catch (err) {
-    const error = err as any;
     // eslint-disable-next-line
-    console.log('Email error', error);
-    return res.status(400).send(error);
+    console.log('Email error', err);
+    return res.status(400).send(err);
   }
 
   return null;
@@ -223,11 +236,10 @@ async function sendInvoiceOnlyEmail(
 ): Promise<void> {
 
   const attachment = email.attachments.find(x => x.type === 'pdf')!;
-  const invoiceOnlyAttachments = [{
+  const invoiceOnlyAttachments: IEmailAttachment[] = [{
     content: attachmentBuffers[attachment.type].toString('base64'),
     filename: attachment.fileName,
     type: attachment.fileType,
-    disposition: 'attachment',
   }];
 
   const invoiceOnlyData = {
@@ -238,7 +250,8 @@ async function sendInvoiceOnlyEmail(
     attachments: invoiceOnlyAttachments,
   };
 
-  await sgMail.send(invoiceOnlyData, false).then(() => {
-    console.log(`emailInvoiceOnly sent to ${emailInvoiceOnly}`); // eslint-disable-line no-console
-  });
+  const info = await sendEmailCore(invoiceOnlyData);
+  if (info.rejected?.length) {
+    console.error(`FAILED to send PDF email only for: ${email.subject}`, info); // eslint-disable-line
+  }
 }
