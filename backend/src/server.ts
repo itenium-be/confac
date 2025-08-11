@@ -8,7 +8,7 @@ import http from 'http';
 
 import 'express-async-errors';
 
-import appConfig, { IConfig } from './config';
+import appConfig, {IConfig} from './config';
 import appRouter from './routes';
 
 const app = express();
