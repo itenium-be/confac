@@ -54,7 +54,11 @@ console.log = (...args) => { // eslint-disable-line no-console
 };
 
 console.error = (...args) => { // eslint-disable-line no-console
-  logger.error(args.join(' '));
+  if (args[0].includes('[MONGODB DRIVER] DeprecationWarning')) {
+    logger.warn(args.join(' '));
+  } else {
+    logger.error(args.join(' '));
+  }
 };
 
 console.warn = (...args) => { // eslint-disable-line no-console
