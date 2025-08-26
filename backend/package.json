@@ -46,7 +46,9 @@
     "socket.io": "^4.8.1",
     "tmp": "^0.2.1",
     "ubl-builder": "github:pipesanta/ubl-builder",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",

@@ -1,8 +1,10 @@
-import {Router} from 'express';
+import {Response, NextFunction, Router} from 'express';
 import jwt from 'express-jwt';
 import config from '../config';
+import {logger} from '../logger';
 
 
+import {ConfacRequest} from '../models/technical';
 import clientsRouter from './clients';
 import consultantsRouter from './consultants';
 import projectsRouter from './projects';
@@ -48,27 +50,61 @@ const fakeUserMiddleware = (req: any, res: any, next: any) => {
   next();
 };
 
+
+
+const useLogger = (req: any, res: Response, next: NextFunction) => {
+  const start = Date.now();
+
+  const confacReq = req as ConfacRequest;
+  const user = confacReq.user?.data?.alias ?? confacReq.user?.data?._id;
+  req.logger = logger.child({UserName: user || 'Anonymous'});
+
+  const baseLog = `${req.method} ${req.originalUrl.split('?')[0]}`;
+  let log = baseLog;
+
+  const hasQuery = req.query && Object.keys(req.query).length > 0;
+  if (hasQuery) {
+    log += ` - Query: ${JSON.stringify(req.query)}`;
+  }
+  if (req.body && Object.keys(req.body).length > 0) {
+    if (!hasQuery) {
+      log += ` - Body: ${JSON.stringify(req.body)}`;
+    } else {
+      log += `, Body: ${JSON.stringify(req.body)}`;
+    }
+  }
+  req.logger.info(log);
+
+  next();
+
+  const duration = Date.now() - start;
+  log = `${baseLog} in ${duration}ms`;
+  req.logger.info(log);
+};
+
+
+
 const withSecurity = !!config.security.clientId;
 if (withSecurity) {
-  console.log('Starting WITH security'); // eslint-disable-line
-  appRouter.use('/user', jwtMiddleware().unless({path: ['/api/user/login']}), userRouter);
-  appRouter.use('/clients', jwtMiddleware(), clientsRouter);
-  appRouter.use('/consultants', jwtMiddleware(), consultantsRouter);
-  appRouter.use('/projects', jwtMiddleware(), projectsRouter);
-  appRouter.use('/invoices', jwtMiddleware(), invoicesRouter);
-  appRouter.use('/config', jwtMiddleware().unless({path: ['/api/config/security']}), configRouter);
-  appRouter.use('/attachments', jwtMiddleware(), attachmentsRouter);
+  logger.info('Starting WITH security');
+  appRouter.use('/user', jwtMiddleware().unless({path: ['/api/user/login']}), useLogger, userRouter);
+  appRouter.use('/clients', jwtMiddleware(), useLogger, clientsRouter);
+  appRouter.use('/consultants', jwtMiddleware(), useLogger, consultantsRouter);
+  appRouter.use('/projects', jwtMiddleware(), useLogger, projectsRouter);
+  appRouter.use('/invoices', jwtMiddleware(), useLogger, invoicesRouter);
+  appRouter.use('/config', jwtMiddleware().unless({path: ['/api/config/security']}), useLogger, configRouter);
+  appRouter.use('/attachments', jwtMiddleware(), useLogger, attachmentsRouter);
 } else {
   appRouter.use(fakeUserMiddleware);
 
-  console.log('Starting WITHOUT security'); // eslint-disable-line
-  appRouter.use('/user', [], userRouter);
-  appRouter.use('/clients', [], clientsRouter);
-  appRouter.use('/consultants', [], consultantsRouter);
-  appRouter.use('/projects', [], projectsRouter);
-  appRouter.use('/invoices', [], invoicesRouter);
-  appRouter.use('/config', [], configRouter);
-  appRouter.use('/attachments', [], attachmentsRouter);
+  logger.warn('Starting WITHOUT security');
+  appRouter.use('/user', useLogger, userRouter);
+  appRouter.use('/clients', useLogger, clientsRouter);
+  appRouter.use('/consultants', useLogger, consultantsRouter);
+  appRouter.use('/projects', useLogger, projectsRouter);
+  appRouter.use('/invoices', useLogger, invoicesRouter);
+  appRouter.use('/config', useLogger, configRouter);
+  appRouter.use('/attachments', useLogger, attachmentsRouter);
 }
 
 

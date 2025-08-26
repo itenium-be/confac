@@ -10,6 +10,8 @@ import 'express-async-errors';
 
 import appConfig, {IConfig} from './config';
 import appRouter from './routes';
+import {logger} from './logger';
+
 
 const app = express();
 const server = http.createServer(app);
@@ -40,17 +42,18 @@ let connectionString: string;
 if (appConfig.db.user && appConfig.db.pwd) {
   connectionString = `mongodb://${appConfig.db.user}:${appConfig.db.pwd}@${appConfig.db.host}:${appConfig.db.port}/${appConfig.db.db}`;
 } else {
-  console.log('ATTN: Running against unsecured mongodb');
+  logger.warn('ATTN: Running against unsecured mongodb');
   connectionString = `mongodb://${appConfig.db.host}:${appConfig.db.port}/${appConfig.db.db}`;
 }
 
 const opts = {authSource: 'admin', useUnifiedTopology: true};
 let _MongoClient: MongoClient;
 MongoClient.connect(connectionString, opts).then(client => {
-  console.log('Successfully connected to the database!');
+  logger.info('Successfully connected to the database!');
   _MongoClient = client;
 })
-  .catch(err => console.log(`Could not connect to the database. More info: ${err}`));
+  .catch(err => logger.error(`Could not connect to the database. More info: ${err}`));
+
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   // TODO: fix race condition
@@ -61,33 +64,31 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 
 
-
-
 app.use('/api', appRouter);
 
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err.name === 'UnauthorizedError') {
-    console.log('UnauthorizedError', err);
+    logger.warn('UnauthorizedError', err);
     res.status(401).send({message: err.code});
     return;
   }
 
-  console.error(err);
+  logger.error(err);
   res.status(500).send({message: err.message, stack: err.stack});
 });
 
 
 
 // Serving the index.html for all 404s - only used when deployed:
-console.log('__dirname', __dirname); // === "/home"
+logger.info('__dirname', __dirname); // === "/home"
 app.use((req: Request, res: Response) => res.sendFile('/home/public/index.html'));
 // app.use((req: Request, res: Response) => res.sendFile('./public/index.html', {root: __dirname}));
 
 
 
 server.listen(appConfig.server.port, () => {
-  console.log(`Server connected to port ${appConfig.server.port}, running in a ${appConfig.ENVIRONMENT} environment.`);
+  logger.info(`Server connected to port ${appConfig.server.port}, running in a ${appConfig.ENVIRONMENT} environment.`);
   const safeConfig: IConfig = {
     ...appConfig,
     db: {...appConfig.db, pwd: '***'},
@@ -95,5 +96,5 @@ server.listen(appConfig.server.port, () => {
     security: {...appConfig.security, secret: '***'},
     jwt: {...appConfig.jwt, secret: '***'},
   };
-  console.log(safeConfig);
+  logger.info(safeConfig);
 });

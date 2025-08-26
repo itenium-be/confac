@@ -39,6 +39,10 @@ const appConfig: IConfig = {
     expiresIn: +(process.env.JWT_EXPIRES || 0) || (5 * 60 * 60), // 5 hours
     superUser: process.env.SUPERUSER || '',
   },
+  logging: {
+    fileDir: process.env.LOGGING_FILE || '',
+    lokiUrl: process.env.LOGGING_LOKI || '',
+  },
 };
 
 export default appConfig;
@@ -83,5 +87,9 @@ export interface IConfig {
     expiresIn: number;
     /** This email can login without an user.active record */
     superUser: string;
+  };
+  logging: {
+    fileDir: string;
+    lokiUrl: string;
   };
 }
