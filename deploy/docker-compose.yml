@@ -31,6 +31,7 @@ services:
     volumes:
       - "${TEMPLATE_PATH}:/templates"
       - "${FONT_PATH}:/usr/share/fonts"
+      - "${LOGGING_FILE}:/logs"
     ports:
       - "${APP_PORT}:7000"
     networks:
@@ -56,7 +57,7 @@ services:
       DEFAULT_ROLE: ${DEFAULT_ROLE}
       ENVIRONMENT: ${ENVIRONMENT}
       BUILD_VERSION: ${TAG}
-      LOGGING_FILE: ${LOGGING_FILE}
+      LOGGING_FILE: "/logs"
       LOGGING_LOKI: ${LOGGING_LOKI}
     depends_on:
       - mongo
