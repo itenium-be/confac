@@ -1,5 +1,6 @@
 import {Response, NextFunction, Router} from 'express';
 import jwt from 'express-jwt';
+import {v4 as uuidv4} from 'uuid';
 import config from '../config';
 import {logger} from '../logger';
 
@@ -57,14 +58,19 @@ const useLogger = (req: any, res: Response, next: NextFunction) => {
 
   const confacReq = req as ConfacRequest;
   const user = confacReq.user?.data?.alias ?? confacReq.user?.data?._id;
-  req.logger = logger.child({UserName: user || 'Anonymous'});
+  req.logger = logger.child({
+    UserName: user || 'Anonymous',
+    RequestId: req.headers['x-correlation-id'] || uuidv4(),
+  });
 
   const baseLog = `${req.method} ${req.originalUrl.split('?')[0]}`;
   let log = baseLog;
 
-  const hasQuery = req.query && Object.keys(req.query).length > 0;
+  const filteredQuery = {...req.query};
+  delete filteredQuery.token;
+  const hasQuery = filteredQuery && Object.keys(filteredQuery).length > 0;
   if (hasQuery) {
-    log += ` - Query: ${JSON.stringify(req.query)}`;
+    log += ` - Query: ${JSON.stringify(filteredQuery)}`;
   }
   if (req.body && Object.keys(req.body).length > 0) {
     if (!hasQuery) {
