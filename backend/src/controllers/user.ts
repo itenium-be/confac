@@ -20,7 +20,6 @@ export async function verify(token: string): Promise<string | IUser> {
     audience: config.security.clientId,
   });
   const payload: TokenPayload | undefined = ticket.getPayload();
-  // console.log('payload', payload);
   if (!payload) {
     return 'Invalid token';
   }
@@ -60,7 +59,9 @@ export const refreshToken = async (req: Request, res: Response) => {
 export const authUser = async (req: Request, res: Response) => {
   res.status(400);
 
-  const result = await verify(req.body.idToken).catch(console.error);
+  const result = await verify(req.body.idToken).catch(err => {
+    req.logger.error('authUser idToken verification error', err);
+  });
   if (typeof result === 'string' || !result) {
     return res.send({err: result || 'Unknown error'});
   }

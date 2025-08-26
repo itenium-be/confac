@@ -169,7 +169,7 @@ export const getNewInvoices = async (db: Db, config: any) => {
   const clients = await db.collection('clients').find().toArray();
 
   if (!projectMonths.length) {
-    console.log('No projectMonths found! Create some through the UI!'); // eslint-disable-line
+    console.log('No projectMonths found! Create some through the UI!');
     return [];
   }
 

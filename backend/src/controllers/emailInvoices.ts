@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 import fs from 'fs';
 import tmp from 'tmp';
 import {ObjectID} from 'mongodb';
+import {Logger} from 'winston';
 import {IAttachmentCollection, IEmailAttachment} from '../models/attachments';
 import {IEmail} from '../models/clients';
 import {CollectionNames, IAttachment, SocketEventTypes} from '../models/common';
@@ -45,13 +46,13 @@ export const emailInvoiceController = async (req: Request<{id: number}, any, Ema
   const termsAndConditions: Buffer = data?.TermsAndConditions?.buffer;
 
   const mailData = await buildInvoiceEmailData(email, attachmentBuffers, termsAndConditions);
-  const emailRes = await sendEmail(res, mailData);
+  const emailRes = await sendEmail(req.logger, res, mailData);
   if (emailRes) {
     return emailRes;
   }
 
   if (req.query.emailInvoiceOnly) {
-    await sendInvoiceOnlyEmail(email, attachmentBuffers, req.query.emailInvoiceOnly);
+    await sendInvoiceOnlyEmail(req.logger, email, attachmentBuffers, req.query.emailInvoiceOnly);
   }
 
   const lastEmailSent = new Date().toISOString();
@@ -201,22 +202,20 @@ async function sendEmailCore(mailData: IEmailData) {
 }
 
 
-async function sendEmail(res: Response, mailData: IEmailData): Promise<Response | null> {
+async function sendEmail(logger: Logger, res: Response, mailData: IEmailData): Promise<Response | null> {
   try {
     const info = await sendEmailCore(mailData);
 
     const tos = [mailData.to, mailData.cc, mailData.bcc].filter(x => !!x).join(', ');
     const atts = mailData.attachments?.map((x: any) => x.filename);
-    // eslint-disable-next-line
-    console.log(`Mail sent with status: ${JSON.stringify(info)} to ${tos}. Subject=${mailData.subject}. Attachments=${atts}`);
+    logger.info(`Mail sent with status: ${JSON.stringify(info)} to ${tos}. Subject=${mailData.subject}. Attachments=${atts}`);
 
     if (info.rejected?.length) {
       return res.status(400).send(info.response);
     }
 
   } catch (err) {
-    // eslint-disable-next-line
-    console.log('Email error', err);
+    logger.error('Email error', err);
     return res.status(400).send(err);
   }
 
@@ -230,6 +229,7 @@ async function sendEmail(res: Response, mailData: IEmailData): Promise<Response 
  * This email is sent only once
  * */
 async function sendInvoiceOnlyEmail(
+  logger: Logger,
   email: EmailRequest,
   attachmentBuffers: IAttachmentCollection,
   emailInvoiceOnly: string,
@@ -252,6 +252,6 @@ async function sendInvoiceOnlyEmail(
 
   const info = await sendEmailCore(invoiceOnlyData);
   if (info.rejected?.length) {
-    console.error(`FAILED to send PDF email only for: ${email.subject}`, info); // eslint-disable-line
+    logger.error(`FAILED to send PDF email only for: ${email.subject}`, info);
   }
 }

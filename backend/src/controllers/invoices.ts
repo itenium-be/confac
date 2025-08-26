@@ -111,7 +111,7 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
     }
   }
 
-  const pdfBuffer = await createPdf(invoice);
+  const pdfBuffer = await createPdf(req.logger, invoice);
 
   if (!Buffer.isBuffer(pdfBuffer) && pdfBuffer.error) {
     return res.status(500).send(pdfBuffer.error);
@@ -158,7 +158,7 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
   const {_id, ...invoice}: IInvoice = req.body;
 
   invoice.audit = updateAudit(invoice.audit, req.user);
-  const updatedPdfBuffer = await createPdf({_id, ...invoice});
+  const updatedPdfBuffer = await createPdf(req.logger, {_id, ...invoice});
 
   if (!Buffer.isBuffer(updatedPdfBuffer) && updatedPdfBuffer.error) {
     return res.status(500).send(updatedPdfBuffer.error);
@@ -333,7 +333,7 @@ export const deleteInvoiceController = async (req: ConfacRequest, res: Response)
 export const previewPdfInvoiceController = async (req: Request, res: Response) => {
   const invoice: IInvoice = req.body;
 
-  const pdfBuffer = await createPdf(invoice);
+  const pdfBuffer = await createPdf(req.logger, invoice);
 
   if (!Buffer.isBuffer(pdfBuffer) && pdfBuffer.error) {
     return res.status(500).send(pdfBuffer.error);

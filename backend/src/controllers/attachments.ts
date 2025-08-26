@@ -217,8 +217,7 @@ export const getAttachmentController = async (req: Request, res: Response) => {
 
   // Download the file
   if (!fileName) {
-    // eslint-disable-next-line no-console
-    console.log('Downloading a file without knowing the filename', req.params);
+    req.logger.info(`Downloading a file without knowing the filename for ${JSON.stringify(req.params)}`);
   }
 
   return res

@@ -80,8 +80,8 @@ export const createAccountingCustomerParty = (invoice: IInvoice, taxScheme: TaxS
 
   const cleanedVat = cleanVat(invoice.your.btw);
 
-  // eslint-disable-next-line
-  const customerEndpointScheme = ENDPOINT_SCHEMES.find(scheme => scheme.country === customerCountryAndCode?.country ? customerCountryAndCode.code : DEFAULT_COUNTRY_CODE);
+  const countryCode = customerCountryAndCode?.country ? customerCountryAndCode.code : DEFAULT_COUNTRY_CODE;
+  const customerEndpointScheme = ENDPOINT_SCHEMES.find(scheme => scheme.country === countryCode);
   const customerEndpointID = new UdtIdentifier(cleanedVat, {schemeID: customerEndpointScheme ? customerEndpointScheme.schemeID : ''});
 
   const customerParty = new Party({

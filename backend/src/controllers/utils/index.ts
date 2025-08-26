@@ -3,6 +3,7 @@ import pug from 'pug';
 import moment from 'moment';
 import {Invoice} from 'ubl-builder';
 import {TaxScheme} from 'ubl-builder/lib/ubl21/CommonAggregateComponents';
+import {Logger} from 'winston';
 import appConfig from '../../config';
 import locals from '../../pug-helpers';
 import {IInvoice} from '../../models/invoices';
@@ -24,17 +25,17 @@ import {
 const pdfOptions = {childProcessOptions: {env: {OPENSSL_CONF: '/dev/null'}}};
 
 
-export const convertHtmlToBuffer = (html: string): Promise<Buffer> => new Promise((resolve, reject) => {
+export const convertHtmlToBuffer = (logger: Logger, html: string): Promise<Buffer> => new Promise((resolve, reject) => {
   pdf.create(html, pdfOptions as any).toBuffer((err, buffer) => {
     if (err) {
-      console.log('convertHtmlToBuffer error', err); // eslint-disable-line
+      logger.error('convertHtmlToBuffer error', err);
       reject();
     }
     resolve(buffer);
   });
 });
 
-export const createHtml = (invoice: IInvoice): string | {error: string} => {
+export const createHtml = (logger: Logger, invoice: IInvoice): string | {error: string} => {
   /* eslint-disable no-param-reassign */
   invoice = JSON.parse(JSON.stringify(invoice));
   // if (Array.isArray(invoice.extraFields)) {
@@ -51,7 +52,7 @@ export const createHtml = (invoice: IInvoice): string | {error: string} => {
   try {
     generateHtmlTemplate = pug.compileFile(getTemplatesPath() + templateType);
   } catch (e) {
-    console.log('TemplateNotFound', e); // eslint-disable-line
+    logger.error('TemplateNotFound', e);
     return {error: 'TemplateNotFound'};
   }
 
@@ -64,14 +65,14 @@ export const createHtml = (invoice: IInvoice): string | {error: string} => {
   });
 };
 
-export const createPdf = (params: IInvoice) => {
-  const html = createHtml(params);
+export const createPdf = (logger: Logger, params: IInvoice) => {
+  const html = createHtml(logger, params);
 
   if (typeof html !== 'string' && html.error) {
     return html;
   }
 
-  const pdfBuffer = convertHtmlToBuffer(html as string);
+  const pdfBuffer = convertHtmlToBuffer(logger, html as string);
   return pdfBuffer;
 };
 

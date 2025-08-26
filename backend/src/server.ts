@@ -81,7 +81,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
 
 // Serving the index.html for all 404s - only used when deployed:
-logger.info('__dirname', __dirname); // === "/home"
+logger.info(`__dirname=${__dirname}`); // === "/home"
 app.use((req: Request, res: Response) => res.sendFile('/home/public/index.html'));
 // app.use((req: Request, res: Response) => res.sendFile('./public/index.html', {root: __dirname}));
 

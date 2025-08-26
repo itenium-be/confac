@@ -24,9 +24,7 @@ export const logger = winston.createLogger({
     service_name: 'confac-backend',
     app: 'confac',
     env: appConfig.ENVIRONMENT,
-    MachineName: os.hostname(), // 'nassimodo', // TODO: need to get this from config or something...
-    // RequestId
-    // UserName
+    MachineName: os.hostname(),
   },
   transports: [
     fileTransport,
