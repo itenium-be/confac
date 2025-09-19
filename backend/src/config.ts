@@ -18,6 +18,7 @@ const appConfig: IConfig = {
     port: +(process.env.PORT || 9000),
     basePath: process.env.SERVER_BASE_PATH || '',
   },
+  services: {excelCreator: process.env.EXCEL_SERVICE_URL || ''},
   email: {
     host: 'smtp.gmail.com',
     port: 465,
@@ -60,6 +61,9 @@ export interface IConfig {
     host: string;
     port: number;
     basePath: string;
+  };
+  services: {
+    excelCreator: string;
   };
   email: {
     host: string;

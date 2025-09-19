@@ -6,6 +6,7 @@ import {CollectionNames, createAudit, SocketEventTypes, updateAudit} from '../mo
 import {ConfacRequest} from '../models/technical';
 import {saveAudit} from './utils/audit-logs';
 import {emitEntityEvent} from './utils/entity-events';
+import config from '../config';
 
 
 export const getProjectsPerMonthController = async (req: Request, res: Response) => {
@@ -117,17 +118,54 @@ export const deleteProjectsMonthController = async (req: ConfacRequest, res: Res
 
 
 const PROJECTS_EXCEL_HEADERS = [
-  'Consultant', 'Consultant Type', 'Start datum', 'Eind datum', 'Onderaannemer',
-  'Uurtarief', 'Dagtarief', 'Klant', 'Klant uurtarief', 'Klant dagtarief',
-  'Margin', 'Margin %', 'Eindklant', 'Account manager', 'Raamcontract', 'Contract werkopdracht',
-  'EC Dagkost', 'Maand', 'Dagen onder contract', 'Dagen timesheet', 'Fictieve marge/dag',
+  {header: 'Consultant', type: 'String'},
+  {header: 'Consultant Type', type: 'String'},
+  {header: 'Start datum', type: 'Date'},
+  {header: 'Eind datum', type: 'Date'},
+  {header: 'Onderaannemer', type: 'String'},
+  {header: 'Uurtarief', type: 'Money'},
+  {header: 'Dagtarief', type: 'Money'},
+  {header: 'Klant', type: 'String'},
+  {header: 'Klant uurtarief', type: 'Money'},
+  {header: 'Klant dagtarief', type: 'Money'},
+  {header: 'Margin', type: 'Money'},
+  {header: 'Margin %', type: 'Percentage'},
+  {header: 'Eindklant', type: 'String'},
+  {header: 'Account manager', type: 'String'},
+  {header: 'Raamcontract', type: 'String'},
+  {header: 'Contract werkopdracht', type: 'String'},
+  {header: 'EC Dagkost', type: 'Money'},
+  {header: 'Maand', type: 'String'},
+  {header: 'Dagen onder contract', type: 'Integer'},
+  {header: 'Dagen timesheet', type: 'Decimal'},
+  {header: 'Fictieve marge/dag', type: 'Money'},
 ];
 
-/** Create simple CSV output of the data[][] passed in the body */
+/** Create Excel from the data[][] passed in the body */
 export const generateExcelForProjectsMonthController = async (req: Request, res: Response) => {
-  const separator = ';';
-  const excelHeader = `${PROJECTS_EXCEL_HEADERS.join(separator)}\r\n`;
-  const excelBody = req.body.map((record: any[]) => record.join(separator)).join('\r\n');
-  const excel = `${excelHeader}${excelBody}`;
-  return res.send(excel);
+  const excelBody = {
+    data: req.body,
+    config: {
+      fileName: 'commission',
+      sheetName: 'Project',
+      columns: PROJECTS_EXCEL_HEADERS,
+    },
+  };
+
+  const response = await fetch(`${config.services.excelCreator}/api/Excel`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    },
+    body: JSON.stringify(excelBody),
+  });
+
+  res.set({
+    'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'Content-Disposition': 'attachment; filename="result.xlsx"',
+  });
+
+  const buffer = await response.arrayBuffer();
+  return res.send(Buffer.from(buffer));
 };

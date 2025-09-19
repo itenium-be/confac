@@ -36,6 +36,8 @@ services:
       - "${APP_PORT}:7000"
     networks:
       - confacnet
+      - monitoring_monitoring
+      - forge-excel_excelnet
     environment:
       ENABLE_ROOT_TEMPLATES: 1
       SERVER_HOST: localhost
@@ -59,9 +61,14 @@ services:
       BUILD_VERSION: ${TAG}
       LOGGING_FILE: "/logs"
       LOGGING_LOKI: ${LOGGING_LOKI}
+      EXCEL_SERVICE_URL: ${EXCEL_SERVICE_URL}
     depends_on:
       - mongo
 
 networks:
   confacnet:
     driver: bridge
+  monitoring_monitoring:
+    external: ${LOGGING_LOKI_NETWORK:-false}
+  forge-excel_excelnet:
+    external: true

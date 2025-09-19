@@ -102,9 +102,8 @@ export function downloadProjectsMonthsExcel(data: any[][], projectMonth: string)
       .send(data)
       .then(res => {
         console.log('downloaded', res); // eslint-disable-line
-        const fileName = `projects-${projectMonth}-${moment().format('YYYY-MM-DD')}.csv`;
+        const fileName = `projects-${projectMonth}-${moment().format('YYYY-MM-DD')}.xlsx`;
         downloadAttachment(fileName, res.body);
-        success(t('project.listDownloadExcelMessage'), t('project.listDownloadExcelTitle'), false);
       });
   };
 }

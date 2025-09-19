@@ -63,7 +63,7 @@ export const OpenedProjectsMonthsListToolbar = ({feature}: OpenedProjectsMonthsL
         clientHourly: clientTariff?.hourlyRate,
         clientDaily: clientTariff?.dailyRate,
         margin: markup.amount,
-        marginPercentage: markup.percentage.toFixed(0) + '%',
+        marginPercentage: markup.percentage,
         endCustomer: proj.endCustomer?.name,
         accountManager: proj.accountManager ? `${proj.accountManager.firstName} ${proj.accountManager.name}` : undefined,
         contractFramework: proj.client.frameworkAgreement?.status,
