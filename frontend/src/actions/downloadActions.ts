@@ -8,8 +8,6 @@ import {ClientModel} from '../components/client/models/ClientModels';
 import {getInvoiceFileName, getDownloadUrl, previewPdf, downloadAttachment} from './utils/download-helpers';
 import {ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
 import {authService} from '../components/users/authService';
-import {success} from './appActions';
-import {t} from '../components/utils';
 
 
 export function getInvoiceDownloadUrl(
@@ -87,7 +85,7 @@ export function downloadProjectsExcel(data: any[][]) {
       .send(data)
       .then(res => {
         console.log('downloaded', res); // eslint-disable-line
-        const fileName = `projects-${moment().format('YYYY-MM-DD')}.csv`;
+        const fileName = `projects-${moment().format('YYYY-MM-DD')}.xlsx`;
         downloadAttachment(fileName, res.body);
       });
   };
