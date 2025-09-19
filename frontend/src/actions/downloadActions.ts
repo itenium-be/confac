@@ -89,7 +89,6 @@ export function downloadProjectsExcel(data: any[][]) {
         console.log('downloaded', res); // eslint-disable-line
         const fileName = `projects-${moment().format('YYYY-MM-DD')}.csv`;
         downloadAttachment(fileName, res.body);
-        success(t('project.listDownloadExcelMessage'), t('project.listDownloadExcelTitle'), false);
       });
   };
 }

@@ -493,9 +493,6 @@ export const trans = {
     forEndCustomer: 'Project is bij eindklant',
     comments: 'Commentaar',
     listDownloadExcel: 'Download projecten als Excel',
-    listDownloadExcelTitle: 'Projecten Excel Gedownload',
-    listDownloadExcelMessage: 'Speciale characters probleem: Inladen in Excel via: Data > From Text/CSV.'
-      + '\nKomma getallen probleem: Data > Get Data > Query Options > Regional Settings > English (US)',
     deleteConfirm: {
       title: 'Project verwijderen',
       content: 'Project wordt definitief verwijderd.',
