@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import fetch from 'node-fetch';
 import config from '../../config';
+import {logger} from '../../logger';
 
 
 type ColumnDef = {
@@ -15,24 +16,47 @@ export const generateExcel = async (req: Request, res: Response, sheetName: stri
     config: {
       fileName: sheetName,
       sheetName,
+      freezeColumns: 4,
       columns: columnDef,
     },
   };
 
-  const response = await fetch(`${config.services.excelCreator}/api/Excel`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    },
-    body: JSON.stringify(excelBody),
-  });
+  try {
+    const response = await fetch(`${config.services.excelCreator}/api/Excel`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      },
+      body: JSON.stringify(excelBody),
+    });
 
-  res.set({
-    'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'Content-Disposition': 'attachment; filename="result.xlsx"',
-  });
+    if (!response.ok) {
+      let errorMessage: string;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || JSON.stringify(errorData);
+      } catch {
+        errorMessage = await response.text();
+      }
 
-  const buffer = await response.arrayBuffer();
-  return res.send(Buffer.from(buffer));
+      logger.error(`Excel service returned ${response.status}: ${errorMessage}`);
+      return res.status(response.status).send(errorMessage);
+    }
+
+    res.set({
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': 'attachment; filename="result.xlsx"',
+    });
+
+    const buffer = await response.arrayBuffer();
+    return res.send(Buffer.from(buffer));
+
+  } catch (err: any) {
+    logger.error(err);
+    if (err.message.includes('fetch failed') || err.message.includes('NetworkError')) {
+      return res.status(503).send('Service unavailable');
+    }
+    return res.status(500).send('Internal server error');
+  }
 };

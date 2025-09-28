@@ -15,6 +15,7 @@ import {ToggleProjectMonthButton} from '../ToggleProjectMonthButton';
 import {Button} from '../../../controls/form-controls/Button';
 import {getFullTariffs, getProjectMarkup} from '../../utils/getTariffs';
 import {IProjectModel} from '../../models/IProjectModel';
+import {holidaysService} from '../../../../actions/holidays';
 
 type OpenedProjectsMonthsListToolbarProps = {
   feature: IFeature<FullProjectMonthModel, ProjectMonthListFilters>;
@@ -47,6 +48,7 @@ export const OpenedProjectsMonthsListToolbar = ({feature}: OpenedProjectsMonthsL
   };
 
   const downloadExcel = () => {
+    const billableDays = holidaysService.get(projectsMonthDetails.month);
     const projectDetails = feature.list.data.map(proj => {
       const markup = getProjectMarkup({project: proj.project, client: proj.client});
       const partnerTariff = getFullTariffs(proj.project, proj.client, proj.partner, 'partner');
@@ -73,6 +75,7 @@ export const OpenedProjectsMonthsListToolbar = ({feature}: OpenedProjectsMonthsL
         daysInContract: daysUnderContractInMonth(projectsMonthDetails.month, proj.project),
         daysTimesheet: proj.details.timesheet.timesheet,
         fictiveMarginDay: (clientTariff?.dailyRate ?? 0) - (proj.project.ecCost ?? 0),
+        billableDays,
       };
     });
     const mappedData = projectDetails.sort((a, b) => a.consultant.localeCompare(b.consultant)).map(Object.values);

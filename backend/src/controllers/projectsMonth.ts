@@ -141,6 +141,9 @@ export const generateExcelForProjectsMonthController = async (req: Request, res:
     {header: 'Dagen onder contract', type: 'Integer'},
     {header: 'Dagen timesheet', type: 'Decimal'},
     {header: 'Fictieve marge/dag', type: 'Money'},
+    {header: 'Billable werkdagen in de maand', type: 'Integer'},
+    {header: 'Contractuele billable dagen', type: 'Percentage', formula: '=S{row}/V{row}'},
+    {header: 'Marge', type: 'Money', formula: '=(J{row}-Q{row})*W{row}'},
   ];
   return generateExcel(req, res, 'Project', PROJECTS_EXCEL_HEADERS);
 };
