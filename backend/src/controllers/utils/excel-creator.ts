@@ -53,7 +53,7 @@ export const generateExcel = async (req: Request, res: Response, sheetName: stri
     return res.send(Buffer.from(buffer));
 
   } catch (err: any) {
-    logger.error(err);
+    logger.error(JSON.stringify(err));
     if (err.message.includes('fetch failed') || err.message.includes('NetworkError')) {
       return res.status(503).send('Service unavailable');
     }
