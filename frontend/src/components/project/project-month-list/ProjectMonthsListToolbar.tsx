@@ -7,6 +7,7 @@ import {CreateProjectsMonthModalButton} from '../controls/CreateProjectsMonthMod
 import {Features} from '../../controls/feature/feature-models';
 import {Claim} from '../../users/models/UserModel';
 import {ConfacState} from '../../../reducers/app-state';
+import {FreelancerOverviewDownloadButton} from '../FreelancerOverview/FreelancerOverviewDownloadButton';
 
 
 /** The top ProjectMonth page toolbar */
@@ -29,6 +30,7 @@ export const ProjectMonthsListToolbar = () => {
 
   const topToolbar = (
     <>
+      <FreelancerOverviewDownloadButton />
       <CreateProjectsMonthModalButton />
       <LinkToButton claim={Claim.ViewInvoices} to="/invoices" label="title" size="lg" variant="light" />
     </>

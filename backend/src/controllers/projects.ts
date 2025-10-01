@@ -90,5 +90,5 @@ export const generateExcelForProjectsController = async (req: Request, res: Resp
     {header: 'Raamcontract', type: 'String'},
     {header: 'Contract werkopdracht', type: 'String'},
   ];
-  return generateExcel(req, res, 'Project', PROJECTS_EXCEL_HEADERS);
+  return generateExcel(req, res, 'Project', PROJECTS_EXCEL_HEADERS, 0);
 };

@@ -634,6 +634,12 @@ export const trans = {
     markup: 'Margin',
     proformaTitle: 'Proforma: ',
     listDownloadExcel: 'Download commission Excel',
+    freelancerOverview: {
+      title: 'Download freelancer overview',
+      select: 'Select freelancer',
+      download: 'Download',
+      invoiceType: 'Purchase Invoice',
+    }
   },
   controls: {
     // browser

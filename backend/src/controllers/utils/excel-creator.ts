@@ -10,13 +10,13 @@ type ColumnDef = {
 };
 
 
-export const generateExcel = async (req: Request, res: Response, sheetName: string, columnDef: ColumnDef[]) => {
+export const generateExcel = async (req: Request, res: Response, sheetName: string, columnDef: ColumnDef[], freezeColumns: number) => {
   const excelBody = {
     data: req.body,
     config: {
       fileName: sheetName,
       sheetName,
-      freezeColumns: 4,
+      freezeColumns,
       columns: columnDef,
     },
   };

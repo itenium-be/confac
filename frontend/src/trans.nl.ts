@@ -634,6 +634,12 @@ export const trans = {
     markup: 'Margin',
     proformaTitle: 'Proforma: ',
     listDownloadExcel: 'Download commissie Excel',
+    freelancerOverview: {
+      title: 'Download freelancer overzicht',
+      select: 'Selecteer freelancer',
+      download: 'Downloaden',
+      invoiceType: 'Inkoopfactuur',
+    }
   },
   controls: {
     // browser

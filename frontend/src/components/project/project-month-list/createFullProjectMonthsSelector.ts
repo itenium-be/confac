@@ -27,6 +27,25 @@ const selectClients = (state: ConfacState) => state.clients;
 const selectInvoices = (state: ConfacState) => state.invoices;
 const selectUser = (state: ConfacState) => state.user;
 
+export const selectAllProjectMonths = createSelector(
+  [
+    selectProjectMonths,
+    selectProjects,
+    selectConsultants,
+    selectClients,
+    selectInvoices,
+    selectUser,
+  ],
+  (projectsMonth, projects, consultants, clients, invoices, user) => {
+    const context: ProjectMonthResolverState = {
+      projectsMonth, projects, consultants, clients, invoices, user,
+    };
+    return projectsMonth
+      .map(x => mapToProjectMonth(context, x))
+      .filter(x => x !== null) as FullProjectMonthModel[];
+  }
+);
+
 
 export const createFullProjectMonthsSelector = () => createSelector(
   [

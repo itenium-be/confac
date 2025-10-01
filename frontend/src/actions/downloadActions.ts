@@ -8,6 +8,7 @@ import {ClientModel} from '../components/client/models/ClientModels';
 import {getInvoiceFileName, getDownloadUrl, previewPdf, downloadAttachment} from './utils/download-helpers';
 import {ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
 import {authService} from '../components/users/authService';
+import {ConsultantModel} from '../components/consultant/models/ConsultantModel';
 
 
 export function getInvoiceDownloadUrl(
@@ -100,6 +101,25 @@ export function downloadProjectsMonthsExcel(data: any[][], projectMonth: string)
       .then(res => {
         console.log('downloaded', res); // eslint-disable-line
         const fileName = `projects-${projectMonth}-${moment().format('YYYY-MM-DD')}.xlsx`;
+        downloadAttachment(fileName, res.body);
+      });
+  };
+}
+
+export function downloadProjectsMonthsFreelancerExcel(data: any[][], freelancer?: ConsultantModel) {
+  return dispatch => {
+    request.post(buildUrl('/projects/month/freelancer-excel'))
+      .responseType('blob')
+      .set('Authorization', authService.getBearer())
+      .send(data)
+      .then(res => {
+        console.log('downloaded', res); // eslint-disable-line
+        let fileName: string;
+        if (freelancer) {
+          fileName = `freelancer-${freelancer.firstName}-${freelancer.name}-${moment().format('YYYY-MM-DD')}.xlsx`;
+        } else {
+          fileName = `freelancer-all-${moment().format('YYYY-MM-DD')}.xlsx`;
+        }
         downloadAttachment(fileName, res.body);
       });
   };

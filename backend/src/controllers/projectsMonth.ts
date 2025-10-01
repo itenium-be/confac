@@ -145,5 +145,28 @@ export const generateExcelForProjectsMonthController = async (req: Request, res:
     {header: 'Contractuele billable dagen', type: 'Percentage', formula: '=S{row}/V{row}'},
     {header: 'Marge', type: 'Money', formula: '=(J{row}-Q{row})*W{row}'},
   ];
-  return generateExcel(req, res, 'Project', PROJECTS_EXCEL_HEADERS);
+  return generateExcel(req, res, 'Project', PROJECTS_EXCEL_HEADERS, 4);
+};
+
+
+export const generateFreelancerExcel = async (req: Request, res: Response) => {
+  const EXCEL_HEADERS = [
+    {header: 'Freelancer', type: 'String'},
+    {header: 'Freelancer Type', type: 'String'},
+    {header: 'Klant', type: 'String'},
+    {header: 'Maand', type: 'String'},
+    {header: 'Type', type: 'String'},
+    {header: 'Timesheet', type: 'Decimal'},
+    {header: 'Project Prijs', type: 'Money'},
+    {header: 'Bedrag exclusief', type: 'Money', formula: '=F{row}*G{row}'},
+    {header: 'Btw', type: 'Percentage'},
+    {header: 'Bedrag inclusief', type: 'Money', formula: '=H{row}*(1+I{row})'},
+    {header: 'Factuur nr', type: 'String'},
+    {header: 'Factuur Datum', type: 'Date'},
+    {header: 'Factuur Status', type: 'String'},
+    {header: 'Project Start Datum', type: 'Date'},
+    {header: 'Project Eind datum', type: 'Date'},
+    {header: 'Account manager', type: 'String'},
+  ];
+  return generateExcel(req, res, 'Freelancer', EXCEL_HEADERS, 0);
 };
