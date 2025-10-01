@@ -72,7 +72,13 @@ const useLogger = (req: any, res: Response, next: NextFunction) => {
   if (hasQuery) {
     log += ` - Query: ${JSON.stringify(filteredQuery)}`;
   }
-  if (req.body && Object.keys(req.body).length > 0) {
+
+  const sensitiveEndpoints = [
+    '/api/user/login',
+    '/api/user/refresh',
+  ];
+
+  if (!sensitiveEndpoints.includes(req.originalUrl) && !req.originalUrl.includes('excel') && req.body && Object.keys(req.body).length > 0) {
     if (!hasQuery) {
       log += ` - Body: ${JSON.stringify(req.body)}`;
     } else {
