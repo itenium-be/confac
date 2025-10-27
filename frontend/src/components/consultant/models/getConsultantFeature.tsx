@@ -65,12 +65,17 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
     header: {title: '', width: 110},
     value: m => (
       <>
-        <EditIcon onClick={`/consultants/${m.slug || m._id}`} style={{marginRight: 15}} size={1} />
+        <EditIcon
+          onClick={`/consultants/${m.slug || m._id}`}
+          style={{marginRight: 15}} size={1}
+          data-testid={t('consultant-go-to-edit')}
+        />
         <DeleteIcon
           claim={Claim.ManageConsultants}
           onClick={() => config.save({...m, active: !m.active})}
           title={m.active ? t('feature.deactivateTitle') : t('feature.activateTitle')}
           size={1}
+          data-testid={t('consultant-toggle-active')}
         />
       </>
     ),
