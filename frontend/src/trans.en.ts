@@ -490,7 +490,7 @@ export const trans = {
     startDate: 'Start date',
     endDate: 'End date',
     ecCost: 'EC Cost',
-    forEndCustomer: 'Project is at end customer',
+    forEndCustomer: 'Project is via partner',
     comments: 'Comments',
     listDownloadExcel: 'Download projects as Excel',
     deleteConfirm: {
