@@ -12,7 +12,7 @@ button[disabled] {
 }
 
 .form-control {
-  &:hover {
+  &:hover:not(:disabled) {
     border-color: hsl(0, 0%, 70%);
   }
 
@@ -35,6 +35,10 @@ button[disabled] {
 
   .input-group-text {
     background-color: unset;
+
+    &.disabled {
+      background-color: #e9ecef;
+    }
 
     i.fa {
       color: $addon-icon-color;

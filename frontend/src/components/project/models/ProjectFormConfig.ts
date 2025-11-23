@@ -1,8 +1,12 @@
 import {FullFormConfig} from '../../../models';
 import {IProjectModel} from './IProjectModel';
+import {authService} from '../../users/authService';
+import {Claim} from '../../users/models/UserModel';
 
 
 export function getProjectFormConfig(project: IProjectModel): FullFormConfig {
+  const hasEcCostClaim = authService.getClaims().includes(Claim.ManageProjectsEcCost);
+
   const config: FullFormConfig = [
     {key: 'client.clientId', component: 'ProjectClientContractStatus', label: 'project.contract.frameworkAgreementTitle'},
     {key: 'contract', component: 'ContractStatusWithNotes', label: 'project.contract.projectTitle'},
@@ -13,7 +17,7 @@ export function getProjectFormConfig(project: IProjectModel): FullFormConfig {
     {key: 'consultantId', component: 'ConsultantSelectWithCreateModal', cols: 5},
     {key: 'startDate', component: 'date', cols: 2},
     {key: 'endDate', component: 'date', cols: 2},
-    {key: 'ecCost', component: 'basic-math', prefix: '€', props: {float: true}, cols: 3},
+    {key: 'ecCost', component: 'basic-math', prefix: '€', props: {float: true, disabled: !hasEcCostClaim}, cols: 3},
     {key: 'partner', label: '', component: 'EditProjectPartner', cols: false},
   ];
 

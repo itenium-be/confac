@@ -7,29 +7,30 @@ export type EnhanceInputWithAddonsProps = {
   suffix?: string | React.ReactNode;
   suffixOptions?: {type: 'text' | 'button'};
   addOnMinWidth?: number;
+  disabled?: boolean;
 }
 
 // eslint-disable-next-line max-len
 export const EnhanceInputWithAddons = <P extends object>(ComposedComponent: React.ComponentType<P>) =>
-  ({prefix, prefixOptions, suffix, suffixOptions, addOnMinWidth, ...props}: EnhanceInputWithAddonsProps & P) => {
+  ({prefix, prefixOptions, suffix, suffixOptions, addOnMinWidth, disabled, ...props}: EnhanceInputWithAddonsProps & P) => {
   // ATTN: window.outerWidth is not part of the state, so a
   // rerender does not happen when the user resizes the window
     if ((!addOnMinWidth || addOnMinWidth < window.outerWidth) && (prefix || suffix)) {
       return (
         <InputGroup>
-          {prefix ? <Addon add={prefix} options={prefixOptions} /> : null}
-          <ComposedComponent {...props as P} />
-          {suffix ? <Addon add={suffix} options={suffixOptions} /> : null}
+          {prefix ? <Addon add={prefix} options={prefixOptions} disabled={disabled} /> : null}
+          <ComposedComponent {...props as P} disabled={disabled} />
+          {suffix ? <Addon add={suffix} options={suffixOptions} disabled={disabled} /> : null}
         </InputGroup>
       );
     }
-    return <ComposedComponent {...props as P} />;
+    return <ComposedComponent {...props as P} disabled={disabled} />;
   };
 
 
-const Addon = ({add, options}) => {
+const Addon = ({add, options, disabled}) => {
   if (!options || options.type === 'text') {
-    return <InputGroup.Text>{add}</InputGroup.Text>;
+    return <InputGroup.Text className={disabled ? 'disabled' : undefined}>{add}</InputGroup.Text>;
   }
   return add;
 };
