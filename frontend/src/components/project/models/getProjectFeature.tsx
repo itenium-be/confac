@@ -134,7 +134,7 @@ const projectListConfig = (config: ProjectFeatureBuilderConfig): IList<FullProje
     sort: (p, p2) => (p.partner?.name ?? '').localeCompare(p2.partner?.name ?? '')
   }, {
     key: 'partnerTariff',
-    header: 'project.partner.tariff',
+    header: 'project.partner.tariffList',
     value: p => <ProjectClientTariff projectClient={p.details.partner} />,
     sort: (p, p2) => {
       if (!p.details.partner || !p2.details.partner)

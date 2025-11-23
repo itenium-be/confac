@@ -514,7 +514,8 @@ export const trans = {
     },
     partner: {
       clientId: 'Partner',
-      tariff: 'Tariff',
+      tariffList: 'Tariff',
+      tariff: 'Partner tariff',
       rateType: 'Unit',
       ref: 'Reference',
     },

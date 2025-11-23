@@ -514,7 +514,8 @@ export const trans = {
     },
     partner: {
       clientId: 'Onderaannemer',
-      tariff: 'Tarief',
+      tariffList: 'Tarief',
+      tariff: 'Onderaannemer tarief',
       rateType: 'Eenheid',
       ref: 'Referentie',
     },

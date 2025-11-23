@@ -7,7 +7,7 @@ import {getNewInvoiceLine, InvoiceLine} from '../../invoice/models/InvoiceLineMo
 import {DefaultHoursInDay} from '../../client/models/getNewClient';
 
 /** Map Tariff & RateType to the client/partner.defaultInvoiceLines[0].price/type */
-const Bridge = ({value = [getNewInvoiceLine()], onChange}: MinimalInputProps<InvoiceLine[]>) => {
+const Bridge = ({value = [getNewInvoiceLine()], onChange, tPrefix}: MinimalInputProps<InvoiceLine[]> & {tPrefix: string}) => {
   const realOnChange = (firstLine: InvoiceLine) => {
     const newArr = value.filter((v, i) => i !== 0);
     const originalLine = value.find((v, i) => i === 0)!;
@@ -23,22 +23,20 @@ const Bridge = ({value = [getNewInvoiceLine()], onChange}: MinimalInputProps<Inv
     onChange([firstLine, ...newArr]);
   };
 
+  const config: FullFormConfig = [
+    {key: 'price', label: tPrefix + 'tariff', component: 'basic-math', prefix: '€', cols: 2, props: {float: true}},
+    {key: 'type', label: tPrefix + 'rateType', component: 'ProjectLineTypeSelect', cols: 2},
+  ];
+
   return (
     <ArrayInput
-      config={defaultInvoiceLinesConfig}
+      config={config}
       onChange={lines => realOnChange(lines)}
       model={value[0]}
-      tPrefix="project.client."
+      tPrefix=""
     />
   );
 };
-
-
-
-const defaultInvoiceLinesConfig: FullFormConfig = [
-  {key: 'price', label: 'project.client.tariff', component: 'basic-math', prefix: '€', cols: 2, props: {float: true}},
-  {key: 'type', label: 'project.client.rateType', component: 'ProjectLineTypeSelect', cols: 2},
-];
 
 
 
@@ -48,7 +46,7 @@ type EditProjectClientProps = MinimalInputProps<ProjectClientModel>;
 
 const partnerConfig: FullFormConfig = [
   {key: 'clientId', component: 'PartnerSelectWithCreateModal', cols: 5},
-  {key: 'defaultInvoiceLines', label: '', component: Bridge, cols: false},
+  {key: 'defaultInvoiceLines', label: '', component: Bridge, cols: false, props: {tPrefix: 'project.partner.'}},
   {key: 'ref', component: 'text', cols: 3},
 ];
 
@@ -73,7 +71,7 @@ function getClientConfig(prjClient: ProjectClientModel, asEndCustomer: boolean):
 
   return [
     {key: 'clientId', component: clientIdComponent, cols: 5},
-    {key: 'defaultInvoiceLines', label: '', component: Bridge, cols: false},
+    {key: 'defaultInvoiceLines', label: '', component: Bridge, cols: false, props: {tPrefix: 'project.client.'}},
     {key: 'ref', component: 'text', cols: 3},
   ];
 }
