@@ -69,6 +69,8 @@ app.use('/api', appRouter);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err.name === 'UnauthorizedError') {
+    // TODO: when "UnauthorizedError: jwt expired" should check this on the frontend
+    //       and then redirect to the login page instead...
     logger.warn('UnauthorizedError', err);
     res.status(401).send({message: err.code});
     return;

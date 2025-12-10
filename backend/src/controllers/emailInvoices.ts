@@ -137,6 +137,8 @@ async function buildInvoiceEmailData(
   const emailData: IEmailData = {
     to: email.to.split(';'),
     cc: email.cc?.split(';').filter(x => !!x),
+    // TODO: dit zou niet werken?
+    // --> doe eens lokaal met een email van mij?
     bcc: email.bcc?.split(';').filter(x => !!x),
     from: email.from as string,
     subject: email.subject,
