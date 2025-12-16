@@ -63,13 +63,12 @@ export const projectMonthFormProperties: FullFormConfig = [
   {key: 'timesheet.validated', component: 'switch', cols: 12},
   {key: 'timesheet.timesheet', component: 'number', cols: 3},
   {key: 'timesheet.check', component: 'number', cols: 3},
-  {key: 'timesheet.note', component: 'textarea', cols: 6},
 
   {title: {title: 'projectMonth.props.inbound.title', level: HeaderSize}},
   {key: 'inbound.status', component: 'ProjectMonthInboundStatusSelect', cols: 2, style: {display: 'block'}},
   {key: 'inbound.nr', component: 'text', cols: 4},
   {key: 'inbound.dateReceived', component: 'date', cols: 4},
 
-  {title: {title: 'projectMonth.props.note', level: HeaderSize}},
-  {key: 'note', label: '', component: 'TextEditor', cols: 12, props: {height: 150}},
+  {title: {title: 'projectMonth.props.proforma.title', level: 4}},
+  {key: 'inbound.proforma.status', component: 'ProjectMonthProformaStatusSelect', cols: 2, style: {display: 'block'}},
 ];

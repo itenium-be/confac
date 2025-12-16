@@ -560,6 +560,8 @@ export const trans = {
     filterUnverified: 'Not validated only',
     proformaVerified: 'Validated: proforma invoice has been validated',
     ProformaNew: 'New: Proforma invoice not yet processed',
+    timesheetNotes: 'Timesheet notes',
+    invoiceNotes: 'Invoice notes',
     footer: {
       forecast: 'Forecast excl. tax',
       projecten: '{projects} projects',
@@ -588,6 +590,13 @@ export const trans = {
         nr: 'Their invoice nr',
         dateReceived: 'Received their invoice on',
         status: 'Status',
+        enableProforma: 'Use proforma invoice',
+        proforma: {
+          status: 'Proforma status',
+        },
+      },
+      proforma: {
+        title: 'Proforma',
       },
     },
     list: {
@@ -620,7 +629,7 @@ export const trans = {
     inboundValidated: 'Validated: timesheet and amount have been checked',
     outboundCreateInvoice: 'Create invoice',
     outboundCreateInvoiceTitle: 'Total excl: {totalWithoutTax}. Total incl: {total}',
-    note: 'Invoicing Stories',
+    note: 'Note and comments',
     addNote: 'Add comment',
     forceVerified: 'Force handled without creating an invoice',
     validateTimesheet: 'Validate timesheet',

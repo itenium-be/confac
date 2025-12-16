@@ -50,14 +50,22 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
 
         const realOnChange = (val: any): void => {
           if (key.includes('.')) {
-            if (key.indexOf('.') !== key.lastIndexOf('.')) {
-              console.error('Would need a deepMerge function for this to work!!'); // eslint-disable-line
-              failure(`Configuration? ${key}`);
-              return;
+            const keys = key.split('.');
+            if (keys.length === 2) {
+              const [key1, key2] = keys;
+              onChange({...model, [key1]: {...model[key1], [key2]: val}});
+            } else {
+              // Deep merge for nested paths like inbound.proforma.status
+              const updated = {...model};
+              let current: any = updated;
+              for (let i = 0; i < keys.length - 1; i++) {
+                const k = keys[i];
+                current[k] = {...current[k]};
+                current = current[k];
+              }
+              current[keys[keys.length - 1]] = val;
+              onChange(updated);
             }
-            const [key1, key2] = key.split('.');
-            onChange({...model, [key1]: {...model[key1], [key2]: val}});
-
           } else {
             onChange({...model, [key]: val});
           }

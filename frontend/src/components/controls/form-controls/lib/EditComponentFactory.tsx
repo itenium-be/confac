@@ -38,6 +38,7 @@ import {MonthPicker} from '../MonthPicker';
 import {ProjectSelect} from '../../../project/controls/ProjectSelect';
 import {ProjectMonthInboundStatusSelect} from '../../../project/controls/ProjectMonthInboundStatusSelect';
 import {ProjectMonthStatusSelect} from '../../../project/controls/ProjectMonthStatusSelect';
+import {ProjectMonthProformaStatusSelect} from '../../../project/controls/ProjectMonthProformaStatusSelect';
 import {ContractStatusWithNotes} from '../../../client/contract/ContractStatusWithNotes';
 import {ProjectClientContractStatus} from '../../../project/controls/ProjectClientContractStatus';
 import {CountrySelect} from '../../other/CountrySelect';
@@ -96,6 +97,7 @@ export function getComponent(col: FormConfig) {
     ClaimsSelect,
     ProjectMonthInboundStatusSelect,
     ProjectMonthStatusSelect,
+    ProjectMonthProformaStatusSelect,
     ContractStatusWithNotes,
     ProjectClientContractStatus,
     CountrySelect,

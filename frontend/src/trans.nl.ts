@@ -560,6 +560,8 @@ export const trans = {
     filterUnverified: 'Enkel niet gevalideerde',
     ProformaVerified: 'Gevalideerd: proforma factuur is gevalideerd',
     ProformaNew: 'Nieuw: Proforma factuur nog niet behandeld',
+    timesheetNotes: 'Timesheet notities',
+    invoiceNotes: 'Factuur notities',
     footer: {
       forecast: 'Forecast excl. btw',
       projecten: '{projects} projecten',
@@ -588,6 +590,13 @@ export const trans = {
         nr: 'Hun factuur nr',
         dateReceived: 'Hun factuur ontvangen op',
         status: 'Status',
+        enableProforma: 'Proforma factuur gebruiken',
+        proforma: {
+          status: 'Proforma status',
+        },
+      },
+      proforma: {
+        title: 'Proforma',
       },
     },
     list: {
