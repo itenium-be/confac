@@ -4,7 +4,6 @@ import {FormConfig, AnyFormConfig, ColSizes, ColSize} from '../../../../models';
 import {normalizeFormConfig} from '../lib/form-controls-util';
 import {getIconOrText, InputIcons} from '../lib/IconFactory';
 import {getComponent} from '../lib/EditComponentFactory';
-import {failure} from '../../../../actions';
 
 type ArrayInputProps = {
   config: AnyFormConfig[];
