@@ -13,6 +13,7 @@ import {EditProject} from './components/project/EditProject';
 import {ProjectsList} from './components/project/ProjectsList';
 import {ConsultantsList} from './components/consultant/ConsultantsList';
 import {ProjectMonthsLists} from './components/project/project-month-list/ProjectMonthsLists';
+import {InboundInvoicesList} from './components/project/inbound-invoices/InboundInvoicesList';
 import {LoginPage} from './components/pages/login/LoginPage';
 import {UnauthicatedAppLayout} from './components/pages/login/UnauthicatedAppLayout';
 import {UserPage} from './components/pages/user/UserPage';
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
   {path: '/consultants', element: <AppWithLayout Component={ConsultantsList} />},
 
   {path: '/monthly-invoicing', element: <AppWithLayout Component={ProjectMonthsLists} />},
+  {path: '/inbound-invoices', element: <AppWithLayout Component={InboundInvoicesList} />},
   {path: '/projects/:month/:projectMonthId', element: <AppWithLayout Component={EditProjectMonths} />},
   {path: '/projects/create', element: <AppWithLayout Component={EditProject} />},
   {path: '/projects/:id', element: <AppWithLayout Component={EditProject} />},

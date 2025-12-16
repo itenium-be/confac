@@ -94,6 +94,7 @@ export const trans = {
   },
   nav: {
     monthlyInvoicing: 'Invoicing',
+    inboundInvoices: 'Inbound invoices',
     invoices: 'Invoices',
     quotations: 'Quotations',
     clients: 'Clients',
@@ -478,6 +479,8 @@ export const trans = {
     detailsTitle: 'Project details',
     goToClient: 'Go to client',
     createNew: 'New project',
+    openModal: 'View project details',
+    openDetails: 'Go to project',
     newMonth: 'Add month',
     month: 'Month',
     newConsultant: 'New consultant',
@@ -649,7 +652,42 @@ export const trans = {
       select: 'Select freelancer',
       download: 'Download',
       invoiceType: 'Purchase Invoice',
-    }
+    },
+    inbound: {
+      status: {
+        new: 'New',
+        validated: 'Validated',
+        paid: 'Paid',
+      },
+    },
+    proforma: {
+      status: {
+        new: 'New',
+        verified: 'Verified',
+      },
+    },
+  },
+  inboundInvoices: {
+    title: 'Inbound invoices',
+    allConsultants: 'All consultants',
+    consultant: 'Consultant',
+    project: 'Project',
+    month: 'Month',
+    invoiceNr: 'Invoice nr',
+    invoiceDate: 'Invoice date',
+    status: 'Status',
+    proformaStatus: 'Proforma',
+    days: 'Days',
+    amountWithoutTax: 'Amount excl. tax',
+    amountWithTax: 'Amount incl. tax',
+    invoice: 'Invoice',
+    ourInvoice: 'Our invoice',
+    downloadInvoice: 'Download invoice',
+    downloadProforma: 'Download proforma',
+    viewProforma: 'View proforma',
+    viewTimesheet: 'View timesheet',
+    subtotal: 'Subtotal',
+    grandTotal: 'Grand total',
   },
   controls: {
     // browser
