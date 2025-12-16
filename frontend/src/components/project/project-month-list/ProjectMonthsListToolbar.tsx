@@ -32,6 +32,7 @@ export const ProjectMonthsListToolbar = () => {
     <>
       <FreelancerOverviewDownloadButton />
       <CreateProjectsMonthModalButton />
+      <LinkToButton claim={Claim.ViewProjectMonth} to="/inbound-invoices" label="inboundInvoices.title" size="lg" variant="light" />
       <LinkToButton claim={Claim.ViewInvoices} to="/invoices" label="title" size="lg" variant="light" />
     </>
   );

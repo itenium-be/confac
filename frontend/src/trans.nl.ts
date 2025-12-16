@@ -94,6 +94,7 @@ export const trans = {
   },
   nav: {
     monthlyInvoicing: 'Facturatie',
+    inboundInvoices: 'Ontvangen facturen',
     invoices: 'Facturen',
     quotations: 'Offertes',
     clients: 'Klanten',
@@ -478,6 +479,8 @@ export const trans = {
     detailsTitle: 'Project details',
     goToClient: 'Ga naar klant',
     createNew: 'Nieuw project',
+    openModal: 'Project details bekijken',
+    openDetails: 'Naar project',
     newMonth: 'Maand toevoegen',
     month: 'Maand',
     newConsultant: 'Nieuwe consultant',
@@ -640,7 +643,42 @@ export const trans = {
       select: 'Selecteer freelancer',
       download: 'Downloaden',
       invoiceType: 'Inkoopfactuur',
-    }
+    },
+    inbound: {
+      status: {
+        new: 'Nieuw',
+        validated: 'Gevalideerd',
+        paid: 'Betaald',
+      },
+    },
+    proforma: {
+      status: {
+        new: 'Nieuw',
+        verified: 'Geverifieerd',
+      },
+    },
+  },
+  inboundInvoices: {
+    title: 'Ontvangen facturen',
+    allConsultants: 'Alle consultants',
+    consultant: 'Consultant',
+    project: 'Project',
+    month: 'Maand',
+    invoiceNr: 'Factuur nr',
+    invoiceDate: 'Factuur datum',
+    status: 'Status',
+    proformaStatus: 'Proforma',
+    days: 'Dagen',
+    amountWithoutTax: 'Bedrag excl. btw',
+    amountWithTax: 'Bedrag incl. btw',
+    invoice: 'Factuur',
+    ourInvoice: 'Onze factuur',
+    downloadInvoice: 'Factuur downloaden',
+    downloadProforma: 'Proforma downloaden',
+    viewProforma: 'Proforma bekijken',
+    viewTimesheet: 'Timesheet bekijken',
+    subtotal: 'Subtotaal',
+    grandTotal: 'Totaal',
   },
   controls: {
     // browser
