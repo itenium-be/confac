@@ -18,7 +18,10 @@ const appConfig: IConfig = {
     port: +(process.env.PORT || 9000),
     basePath: process.env.SERVER_BASE_PATH || '',
   },
-  services: {excelCreator: process.env.EXCEL_SERVICE_URL || ''},
+  services: {
+    excelCreator: process.env.EXCEL_SERVICE_URL || '',
+    billitApiUrl: process.env.BILLIT_API_URL || 'https://api.sandbox.billit.be/v1',
+  },
   email: {
     host: 'smtp.gmail.com',
     port: 465,
@@ -64,6 +67,7 @@ export interface IConfig {
   };
   services: {
     excelCreator: string;
+    billitApiUrl: string;
   };
   email: {
     host: string;

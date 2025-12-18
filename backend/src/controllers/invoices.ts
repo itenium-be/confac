@@ -1,14 +1,17 @@
 import moment from 'moment';
 import {Request, Response} from 'express';
 import {ObjectID, Db} from 'mongodb';
+import fetch from 'node-fetch';
 import {IInvoice, INVOICE_EXCEL_HEADERS} from '../models/invoices';
 import {IAttachmentCollection} from '../models/attachments';
 import {createPdf, createXml} from './utils';
 import {CollectionNames, IAttachment, SocketEventTypes, createAudit, updateAudit} from '../models/common';
 import {IProjectMonth} from '../models/projectsMonth';
 import {ConfacRequest, Jwt} from '../models/technical';
+import {IClient} from '../models/clients';
 import {saveAudit} from './utils/audit-logs';
 import {emitEntityEvent} from './utils/entity-events';
+import config from '../config';
 
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
@@ -383,4 +386,68 @@ export const getInvoiceXmlController = async (req: Request, res: Response) => {
     return res.type('application/xml').send(invoiceAttachments.xml.toString());
   }
   return res.status(500).send('No xml found');
+};
+
+
+export const checkPeppolRegistrationController = async (req: ConfacRequest, res: Response) => {
+  const {id} = req.params;
+
+  // Fetch the invoice
+  const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
+    .findOne({_id: new ObjectID(id)});
+
+  if (!invoice) {
+    return res.status(404).send({message: 'Invoice not found'});
+  }
+
+  // Fetch the client
+  const client = await req.db.collection<IClient>(CollectionNames.CLIENTS)
+    .findOne({_id: new ObjectID(invoice.client._id)});
+
+  if (!client) {
+    return res.status(404).send({message: 'Client not found'});
+  }
+
+  // If peppolEnabled is already true, return early
+  if (client.peppolEnabled === true) {
+    return res.send({
+      peppolEnabled: true,
+      message: 'Client is already registered in Peppol',
+    });
+  }
+
+  // Call Billit API to check Peppol registration
+  try {
+    const vatNumber = client.btw.replace(/\s/g, '').replace(/\./g, '');
+    const billitUrl = `${config.services.billitApiUrl}/peppol/participantInformation/${vatNumber}`;
+
+    const response = await fetch(billitUrl);
+
+    if (!response.ok) {
+      return res.status(response.status).send({
+        message: 'Failed to check Peppol registration',
+        error: await response.text(),
+      });
+    }
+
+    const data: any = await response.json();
+
+    // Update client with the registered status (note: Billit API uses capital R)
+    const registered = data.Registered === true;
+
+    await req.db.collection<IClient>(CollectionNames.CLIENTS).updateOne(
+      {_id: new ObjectID(client._id)},
+      {$set: {peppolEnabled: registered}},
+    );
+
+    return res.send({
+      peppolEnabled: registered,
+      message: registered ? 'Client is registered in Peppol' : 'Client is not registered in Peppol',
+    });
+  } catch (error: any) {
+    return res.status(500).send({
+      message: 'Error checking Peppol registration',
+      error: error.message,
+    });
+  }
 };

@@ -179,6 +179,35 @@ export function deleteInvoice(invoice: InvoiceModel) {
   };
 }
 
+export function sendToPeppol(invoiceId: string) {
+  return (dispatch: Dispatch) => {
+    dispatch(busyToggle());
+    request.post(buildUrl(`/invoices/${invoiceId}/peppol`))
+      .set('Content-Type', 'application/json')
+      .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
+      .set('Accept', 'application/json')
+      .then(res => {
+        const data = res.body;
+
+        // Check for errors in the response
+        if (data.error) {
+          failure(data.message || t('invoice.peppolError'), t('invoice.peppolErrorTitle'));
+          return;
+        }
+
+        if (data.peppolEnabled) {
+          success(data.message || t('invoice.peppolSuccess'));
+        } else {
+          failure(data.message || t('invoice.peppolNotRegistered'), t('invoice.peppolNotRegisteredTitle'));
+        }
+      }, err => {
+        catchHandler(err);
+      })
+      .finally(() => dispatch(busyToggle()));
+  };
+}
+
 export function handleInvoiceSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
   return (dispatch: Dispatch) => {
     switch (eventType) {
