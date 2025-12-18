@@ -43,5 +43,6 @@ export interface IClient {
   notes: string;
   defaultInvoiceDateStrategy: string;
   email: IEmail;
+  peppolEnabled?: boolean;
   audit: IAudit;
 }
