@@ -20,7 +20,10 @@ const appConfig: IConfig = {
   },
   services: {
     excelCreator: process.env.EXCEL_SERVICE_URL || '',
-    billitApiUrl: process.env.BILLIT_API_URL || 'https://api.sandbox.billit.be/v1',
+    billitApiUrl: process.env.BILLIT_API_URL || '',
+    billitApiKey: process.env.BILLIT_API_KEY || '',
+    billitPartyId: process.env.BILLIT_PARTY_ID || '',
+    billitContextPartyId: process.env.BILLIT_CONTEXT_PARTY_ID || '',
   },
   email: {
     host: 'smtp.gmail.com',
@@ -68,6 +71,9 @@ export interface IConfig {
   services: {
     excelCreator: string;
     billitApiUrl: string;
+    billitApiKey: string;
+    billitPartyId: string;
+    billitContextPartyId: string;
   };
   email: {
     host: string;
