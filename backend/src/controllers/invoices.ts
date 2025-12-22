@@ -13,6 +13,7 @@ import {saveAudit} from './utils/audit-logs';
 import {emitEntityEvent} from './utils/entity-events';
 import config from '../config';
 import {logger} from '../logger';
+import {CreateOrderRequest} from '../services/billit';
 
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
@@ -416,8 +417,8 @@ export const checkPeppolRegistrationController = async (req: ConfacRequest, res:
   try {
     // Step 1: Create invoice at Billit
     const orderDate = moment(invoice.date).format('YYYY-MM-DD');
-    const billitOrder = {
-      OrderType: invoice.isQuotation ? 'Quotation' : 'Invoice',
+    const billitOrder: CreateOrderRequest = {
+      OrderType: 'Invoice',
       OrderDirection: 'Income',
       OrderNumber: invoice.number.toString(),
       OrderDate: orderDate,
@@ -426,12 +427,17 @@ export const checkPeppolRegistrationController = async (req: ConfacRequest, res:
         Name: client.name,
         VATNumber: client.btw,
         PartyType: 'Customer',
-        Address: {
-          Street: client.address || '',
-          City: client.city || '',
-          PostalCode: client.postalCode || '',
-          Country: client.country || 'BE',
-        },
+        Addresses: [
+          {
+            AddressType: 'InvoiceAddress',
+            Name: client.name,
+            Street: client.address || '',
+            StreetNumber: '',
+            City: client.city || '',
+            Zipcode: client.postalCode || '',
+            CountryCode: client.country || 'BE',
+          },
+        ],
       },
       OrderLines: invoice.lines.map(line => ({
         Quantity: line.amount,
@@ -441,13 +447,13 @@ export const checkPeppolRegistrationController = async (req: ConfacRequest, res:
       })),
     };
 
-    const createInvoiceResponse = await fetch(`${config.services.billitApiUrl}/orders`, {
+    const createInvoiceResponse = await fetch(`${config.services.billit.apiUrl}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ApiKey: config.services.billitApiKey,
-        partyID: config.services.billitPartyId,
-        contextPartyID: config.services.billitContextPartyId,
+        ApiKey: config.services.billit.apiKey,
+        partyID: config.services.billit.partyId,
+        contextPartyID: config.services.billit.contextPartyId,
         'Idempotency-Key': invoice.number.toString(),
       },
       body: JSON.stringify(billitOrder),
@@ -470,7 +476,7 @@ export const checkPeppolRegistrationController = async (req: ConfacRequest, res:
     // If not already known to be Peppol-enabled, check with Billit API
     if (peppolEnabled !== true) {
       const vatNumber = client.btw.replace(/\s/g, '').replace(/\./g, '');
-      const peppolResponse = await fetch(`${config.services.billitApiUrl}/peppol/participantInformation/${vatNumber}`, {headers: {Authorization: `Bearer ${config.services.billitApiKey}`}});
+      const peppolResponse = await fetch(`${config.services.billit.apiUrl}/peppol/participantInformation/${vatNumber}`);
 
       if (!peppolResponse.ok) {
         return res.status(peppolResponse.status).send({
@@ -499,13 +505,13 @@ export const checkPeppolRegistrationController = async (req: ConfacRequest, res:
       OrderIDs: [parseInt(billitOrderId, 10)],
     };
 
-    const sendInvoiceResponse = await fetch(`${config.services.billitApiUrl}/orders/commands/send`, {
+    const sendInvoiceResponse = await fetch(`${config.services.billit.apiUrl}/orders/commands/send`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ApiKey: config.services.billitApiKey,
-        partyID: config.services.billitPartyId,
-        contextPartyID: config.services.billitContextPartyId,
+        ApiKey: config.services.billit.apiKey,
+        partyID: config.services.billit.partyId,
+        contextPartyID: config.services.billit.contextPartyId,
         'Idempotency-Key': invoice.number.toString(),
       },
       body: JSON.stringify(sendInvoicePayload),

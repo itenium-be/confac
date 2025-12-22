@@ -20,10 +20,12 @@ const appConfig: IConfig = {
   },
   services: {
     excelCreator: process.env.EXCEL_SERVICE_URL || '',
-    billitApiUrl: process.env.BILLIT_API_URL || '',
-    billitApiKey: process.env.BILLIT_API_KEY || '',
-    billitPartyId: process.env.BILLIT_PARTY_ID || '',
-    billitContextPartyId: process.env.BILLIT_CONTEXT_PARTY_ID || '',
+    billit: {
+      apiUrl: process.env.BILLIT_API_URL || '',
+      apiKey: process.env.BILLIT_API_KEY || '',
+      partyId: process.env.BILLIT_PARTY_ID || '',
+      contextPartyId: process.env.BILLIT_CONTEXT_PARTY_ID || '',
+    },
   },
   email: {
     host: 'smtp.gmail.com',
@@ -70,10 +72,12 @@ export interface IConfig {
   };
   services: {
     excelCreator: string;
-    billitApiUrl: string;
-    billitApiKey: string;
-    billitPartyId: string;
-    billitContextPartyId: string;
+    billit: {
+      apiUrl: string;
+      apiKey: string;
+      partyId: string;
+      contextPartyId: string;
+    };
   };
   email: {
     host: string;
