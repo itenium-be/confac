@@ -6,6 +6,7 @@ import {SendInvoiceRequest} from '../orders/sendinvoice';
 import {logger} from '../../../logger';
 import {ApiConfig} from '../api-config';
 import {GetParticipantInformationResponse} from '../peppol/getparticipantinformation';
+import {testApiConfig} from './api-config.fixture';
 
 jest.mock('node-fetch');
 
@@ -21,12 +22,7 @@ const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
 
 describe('ApiClient', () => {
   let apiClient: ApiClient;
-  const apiConfig: ApiConfig = {
-    apiUrl: 'https://api.test.billit.be/v1',
-    apiKey: 'test-api-key',
-    partyId: '12345',
-    contextPartyId: '12345',
-  };
+  const apiConfig: ApiConfig = testApiConfig;
 
   beforeEach(() => {
     apiClient = new ApiClient(apiConfig);
