@@ -6,7 +6,7 @@ import {OrderDirection} from './order-direction';
 export interface CreateOrderRequest {
   OrderType: OrderType;
   OrderDirection: OrderDirection;
-  OrderNumber: string;
+  OrderNumber?: string;
   OrderDate: string; // YYYY-MM-DD format
   ExpiryDate: string; // YYYY-MM-DD format
   Reference?: string;
