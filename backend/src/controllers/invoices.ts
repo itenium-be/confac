@@ -391,7 +391,7 @@ export const getInvoiceXmlController = async (req: Request, res: Response) => {
 };
 
 
-export const checkPeppolRegistrationController = async (req: ConfacRequest, res: Response) => {
+export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Response) => {
   const {id} = req.params;
 
   console.log('========================================'); // eslint-disable-line
