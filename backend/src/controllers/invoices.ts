@@ -1,7 +1,6 @@
 import moment from 'moment';
 import {Request, Response} from 'express';
 import {ObjectID, Db} from 'mongodb';
-import fetch from 'node-fetch';
 import {IInvoice, INVOICE_EXCEL_HEADERS} from '../models/invoices';
 import {IAttachmentCollection} from '../models/attachments';
 import {createPdf, createXml} from './utils';
@@ -13,7 +12,8 @@ import {saveAudit} from './utils/audit-logs';
 import {emitEntityEvent} from './utils/entity-events';
 import config from '../config';
 import {logger} from '../logger';
-import {CreateOrderRequest} from '../services/billit';
+import {ApiClient as BillitApiClient, CreateOrderRequest, TransportType} from '../services/billit';
+import {GetParticipantInformationResponse} from '../services/billit/peppol/getparticipantinformation';
 
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
@@ -415,9 +415,17 @@ export const checkPeppolRegistrationController = async (req: ConfacRequest, res:
   }
 
   try {
+    // Initialize Billit client
+    const billitApiClient: BillitApiClient = new BillitApiClient({
+      apiUrl: config.services.billit.apiUrl,
+      apiKey: config.services.billit.apiKey,
+      partyId: config.services.billit.partyId,
+      contextPartyId: config.services.billit.contextPartyId,
+    });
+
     // Step 1: Create invoice at Billit
-    const orderDate = moment(invoice.date).format('YYYY-MM-DD');
-    const billitOrder: CreateOrderRequest = {
+    const orderDate: string = moment(invoice.date).format('YYYY-MM-DD');
+    const createOrderRequest: CreateOrderRequest = {
       OrderType: 'Invoice',
       OrderDirection: 'Income',
       OrderNumber: invoice.number.toString(),
@@ -443,31 +451,11 @@ export const checkPeppolRegistrationController = async (req: ConfacRequest, res:
         Quantity: line.amount,
         UnitPriceExcl: line.price,
         Description: line.desc,
-        VATPercentage: line.tax, // Default VAT percentage, adjust if needed
+        VATPercentage: line.tax,
       })),
     };
 
-    const createInvoiceResponse = await fetch(`${config.services.billit.apiUrl}/orders`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ApiKey: config.services.billit.apiKey,
-        partyID: config.services.billit.partyId,
-        contextPartyID: config.services.billit.contextPartyId,
-        'Idempotency-Key': invoice.number.toString(),
-      },
-      body: JSON.stringify(billitOrder),
-    });
-
-    if (!createInvoiceResponse.ok) {
-      const errorText = await createInvoiceResponse.text();
-      return res.status(createInvoiceResponse.status).send({
-        message: 'Failed to create invoice at Billit',
-        error: errorText,
-      });
-    }
-
-    const billitOrderId = await createInvoiceResponse.text(); // Returns the OrderID
+    const orderId: string = await billitApiClient.createOrder(createOrderRequest, invoice.number.toString());
 
     // Step 2: Determine peppolEnabled status
     let peppolEnabled = client.peppolEnabled;
@@ -476,19 +464,8 @@ export const checkPeppolRegistrationController = async (req: ConfacRequest, res:
     // If not already known to be Peppol-enabled, check with Billit API
     if (peppolEnabled !== true) {
       const vatNumber = client.btw.replace(/\s/g, '').replace(/\./g, '');
-      const peppolResponse = await fetch(`${config.services.billit.apiUrl}/peppol/participantInformation/${vatNumber}`);
-
-      if (!peppolResponse.ok) {
-        return res.status(peppolResponse.status).send({
-          message: 'Failed to check Peppol registration',
-          error: await peppolResponse.text(),
-        });
-      }
-
-      const peppolData: any = await peppolResponse.json();
-
-      // Update client with the registered status (note: Billit API uses capital R)
-      peppolEnabled = peppolData.Registered === true;
+      const peppolResponse: GetParticipantInformationResponse = await billitApiClient.getParticipantInformation(vatNumber);
+      peppolEnabled = peppolResponse.Registered === true;
 
       await req.db.collection<IClient>(CollectionNames.CLIENTS).updateOne(
         {_id: new ObjectID(client._id)},
@@ -499,42 +476,23 @@ export const checkPeppolRegistrationController = async (req: ConfacRequest, res:
     }
 
     // Step 3: Send the sales invoice with appropriate transport type
-    const transportType = peppolEnabled ? 'Peppol' : 'SMTP';
-    const sendInvoicePayload = {
-      TransportType: transportType,
-      OrderIDs: [parseInt(billitOrderId, 10)],
-    };
-
-    const sendInvoiceResponse = await fetch(`${config.services.billit.apiUrl}/orders/commands/send`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ApiKey: config.services.billit.apiKey,
-        partyID: config.services.billit.partyId,
-        contextPartyID: config.services.billit.contextPartyId,
-        'Idempotency-Key': invoice.number.toString(),
+    const transportType: TransportType = peppolEnabled ? 'Peppol' : 'SMTP';
+    await billitApiClient.sendInvoice(
+      {
+        TransportType: transportType,
+        OrderIDs: [parseInt(orderId, 10)],
       },
-      body: JSON.stringify(sendInvoicePayload),
-    });
-
-    if (!sendInvoiceResponse.ok) {
-      const errorText = await sendInvoiceResponse.text();
-      return res.status(sendInvoiceResponse.status).send({
-        message: `Invoice created at Billit (ID: ${billitOrderId}) but failed to send via ${transportType}`,
-        error: errorText,
-      });
-    }
-
-    logger.info(`Invoice ${billitOrderId} sent via ${transportType}`);
+      invoice.number.toString(),
+    );
 
     // Step 4: Return appropriate message
     let message: string;
     if (peppolEnabled) {
       message = wasAlreadyRegistered
-        ? `Invoice created at Billit (ID: ${billitOrderId}) and sent via Peppol. Client is already registered in Peppol.`
-        : `Invoice created at Billit (ID: ${billitOrderId}) and sent via Peppol. Client is registered in Peppol.`;
+        ? `Invoice created at Billit (ID: ${orderId}) and sent via Peppol. Client is already registered in Peppol.`
+        : `Invoice created at Billit (ID: ${orderId}) and sent via Peppol. Client is registered in Peppol.`;
     } else {
-      message = `Invoice created at Billit (ID: ${billitOrderId}) and sent via email. Client is not registered in Peppol.`;
+      message = `Invoice created at Billit (ID: ${orderId}) and sent via email. Client is not registered in Peppol.`;
     }
 
     return res.send({
@@ -542,6 +500,7 @@ export const checkPeppolRegistrationController = async (req: ConfacRequest, res:
       message,
     });
   } catch (error: any) {
+    logger.error('Error processing Peppol request:', error);
     return res.status(500).send({
       message: 'Error processing Peppol request',
       error: error.message,
