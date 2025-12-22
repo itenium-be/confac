@@ -1,5 +1,5 @@
 import {Customer} from './customer';
-import {OrderLine} from './order-line';
+import {OrderLine} from './orderline';
 import {OrderType} from './order-type';
 import {OrderDirection} from './order-direction';
 
