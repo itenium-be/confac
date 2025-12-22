@@ -12,8 +12,9 @@ import {saveAudit} from './utils/audit-logs';
 import {emitEntityEvent} from './utils/entity-events';
 import config from '../config';
 import {logger} from '../logger';
-import {ApiClient as BillitApiClient, CreateOrderRequest, TransportType} from '../services/billit';
+import {CreateOrderRequest, TransportType, ApiClient as BillitApiClient} from '../services/billit';
 import {GetParticipantInformationResponse} from '../services/billit/peppol/getparticipantinformation';
+import {fromConfig as createBillitApiClientFromConfig} from './api-client.factory';
 
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
@@ -415,13 +416,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
   }
 
   try {
-    // Initialize Billit client
-    const billitApiClient: BillitApiClient = new BillitApiClient({
-      apiUrl: config.services.billit.apiUrl,
-      apiKey: config.services.billit.apiKey,
-      partyId: config.services.billit.partyId,
-      contextPartyId: config.services.billit.contextPartyId,
-    });
+    const billitApiClient: BillitApiClient = createBillitApiClientFromConfig(config);
 
     // Step 1: Create invoice at Billit
     const orderDate: string = moment(invoice.date).format('YYYY-MM-DD');
