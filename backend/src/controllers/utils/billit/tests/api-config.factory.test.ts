@@ -1,7 +1,7 @@
 import {fromConfig} from '../api-config.factory';
-import {IConfig} from '../../config';
+import {IConfig} from '../../../../config';
 import {testConfig} from './config.fixture';
-import {ApiConfig} from '../../services/billit';
+import {ApiConfig} from '../../../../services/billit';
 
 describe('fromConfig', () => {
   const config: IConfig = {

@@ -1,6 +1,6 @@
 import {fromConfig} from '../api-client.factory';
-import {ApiClient} from '../../services/billit';
-import {IConfig} from '../../config';
+import {ApiClient} from '../../../../services/billit';
+import {IConfig} from '../../../../config';
 import {testConfig} from './config.fixture';
 
 describe('fromConfig', () => {

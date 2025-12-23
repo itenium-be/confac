@@ -1,5 +1,5 @@
-import {IConfig} from '../config';
-import {ApiConfig} from '../services/billit';
+import {IConfig} from '../../../config';
+import {ApiConfig} from '../../../services/billit';
 
 export function fromConfig(config: IConfig): ApiConfig {
   const {apiUrl, apiKey, partyId, contextPartyId} = config.services.billit;

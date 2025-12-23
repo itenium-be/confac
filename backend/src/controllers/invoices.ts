@@ -12,10 +12,9 @@ import {saveAudit} from './utils/audit-logs';
 import {emitEntityEvent} from './utils/entity-events';
 import config from '../config';
 import {logger} from '../logger';
-import {CreateOrderRequest, TransportType, ApiClient as BillitApiClient} from '../services/billit';
+import {CreateOrderRequest, TransportType, ApiClient} from '../services/billit';
 import {GetParticipantInformationResponse} from '../services/billit/peppol/getparticipantinformation';
-import {fromConfig as createBillitApiClientFromConfig} from './api-client.factory';
-import {fromInvoice as createOrderRequestFromInvoice} from './create-order-request.factory';
+import {ApiClientFactory, CreateOrderRequestFactory} from './utils/billit';
 
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
@@ -417,11 +416,11 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
   }
 
   try {
-    const billitApiClient: BillitApiClient = createBillitApiClientFromConfig(config);
+    const apiClient: ApiClient = ApiClientFactory.fromConfig(config);
 
     // Step 1: Create invoice at Billit
-    const createOrderRequest: CreateOrderRequest = createOrderRequestFromInvoice(invoice);
-    const orderId: string = await billitApiClient.createOrder(createOrderRequest, invoice.number.toString());
+    const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(invoice);
+    const orderId: string = await apiClient.createOrder(createOrderRequest, invoice.number.toString());
 
     // Step 2: Determine peppolEnabled status
     let peppolEnabled = client.peppolEnabled;
@@ -430,7 +429,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     // If not already known to be Peppol-enabled, check with Billit API
     if (peppolEnabled !== true) {
       const vatNumber = client.btw.replace(/\s/g, '').replace(/\./g, '');
-      const peppolResponse: GetParticipantInformationResponse = await billitApiClient.getParticipantInformation(vatNumber);
+      const peppolResponse: GetParticipantInformationResponse = await apiClient.getParticipantInformation(vatNumber);
       peppolEnabled = peppolResponse.Registered === true;
 
       await req.db.collection<IClient>(CollectionNames.CLIENTS).updateOne(
@@ -443,7 +442,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
 
     // Step 3: Send the sales invoice with appropriate transport type
     const transportType: TransportType = peppolEnabled ? 'Peppol' : 'SMTP';
-    await billitApiClient.sendInvoice(
+    await apiClient.sendInvoice(
       {
         TransportType: transportType,
         OrderIDs: [parseInt(orderId, 10)],

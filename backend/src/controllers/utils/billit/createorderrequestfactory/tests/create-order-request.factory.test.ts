@@ -1,7 +1,7 @@
 import moment from 'moment';
 import {fromInvoice} from '../create-order-request.factory';
-import {CreateOrderRequest} from '../../services/billit';
-import {IInvoice} from '../../models/invoices';
+import {CreateOrderRequest} from '../../../../../services/billit';
+import {IInvoice} from '../../../../../models/invoices';
 import {someInvoice} from './invoice.fixture';
 
 describe('fromInvoiceAndClient', () => {

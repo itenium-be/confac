@@ -1,5 +1,5 @@
 import {ObjectID} from 'mongodb';
-import {IInvoice} from '../../models/invoices';
+import {IInvoice} from '../../../../../models/invoices';
 import {someClient as client} from './client.fixture';
 import {someAudit as audit} from './audit.fixture';
 

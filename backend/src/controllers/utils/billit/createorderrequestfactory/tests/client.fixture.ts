@@ -1,5 +1,5 @@
 import {ObjectID} from 'mongodb';
-import {IClient} from '../../models/clients';
+import {IClient} from '../../../../../models/clients';
 import {someAudit as audit} from './audit.fixture';
 
 export const someClient: IClient = {

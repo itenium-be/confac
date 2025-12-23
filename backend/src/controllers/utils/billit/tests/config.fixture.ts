@@ -1,4 +1,4 @@
-import {IConfig} from '../../config';
+import {IConfig} from '../../../../config';
 
 export const testConfig: IConfig = {
   db: {
