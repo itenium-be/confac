@@ -1,4 +1,4 @@
-import {InvoiceLine} from '../../../../../../models/invoices';
+import {InvoiceLine} from '../../../../../models/invoices';
 
 export const someInvoiceLine: InvoiceLine = {
   desc: 'Consulting Services',

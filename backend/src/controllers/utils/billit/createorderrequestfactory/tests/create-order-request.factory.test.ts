@@ -3,6 +3,7 @@ import {fromInvoice} from '../create-order-request.factory';
 import {CreateOrderRequest} from '../../../../../services/billit';
 import {IInvoice} from '../../../../../models/invoices';
 import {someInvoice} from './invoice.fixture';
+import {someInvoiceLine} from './invoice-line.fixture';
 
 describe('fromInvoiceAndClient', () => {
   it('should create CreateOrderRequest for invoice with full client data', () => {
@@ -23,17 +24,17 @@ describe('fromInvoiceAndClient', () => {
       orderNr: 'PO-2024-001',
       lines: [
         {
+          ...someInvoiceLine,
           desc: 'Consulting Services',
           amount: 10,
-          type: 'daily',
           price: 100,
           tax: 21,
           sort: 0,
         },
         {
+          ...someInvoiceLine,
           desc: 'Development Work',
           amount: 5,
-          type: 'daily',
           price: 150,
           tax: 21,
           sort: 1,
