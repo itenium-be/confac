@@ -1,5 +1,6 @@
 import {OrderLine} from '../../../../services/billit';
-import {IInvoice, InvoiceLine} from '../../../../models/invoices';
+import {IInvoice} from '../../../../models/invoices';
+import {fromInvoiceLine} from './order-line.factory';
 
 /**
  * Creates OrderLines from an IInvoice
@@ -8,25 +9,4 @@ import {IInvoice, InvoiceLine} from '../../../../models/invoices';
  */
 export function fromInvoice(invoice: IInvoice): OrderLine[] {
   return invoice.lines.map(line => fromInvoiceLine(line));
-}
-
-/**
- * Creates an OrderLine from an InvoiceLine
- * @param invoiceLine The invoice line to convert
- * @returns An OrderLine object ready to be sent to Billit API
- */
-function fromInvoiceLine(invoiceLine: InvoiceLine): OrderLine {
-  const {
-    amount: Quantity,
-    price: UnitPriceExcl,
-    desc: Description,
-    tax: VATPercentage,
-  } = invoiceLine;
-
-  return {
-    Quantity,
-    UnitPriceExcl,
-    Description,
-    VATPercentage,
-  };
 }
