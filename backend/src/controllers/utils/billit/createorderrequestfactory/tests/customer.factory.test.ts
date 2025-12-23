@@ -1,7 +1,7 @@
 import {fromClient} from '../customer.factory';
 import {Customer} from '../../../../../services/billit';
 import {IClient} from '../../../../../models/clients';
-import {someClient} from './client.fixture';
+import {someClient} from '../../tests/client.fixture';
 
 describe('fromClient', () => {
   it('should create Customer from client with full data', () => {

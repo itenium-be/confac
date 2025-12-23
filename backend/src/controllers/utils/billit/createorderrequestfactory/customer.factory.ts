@@ -1,5 +1,6 @@
 import {IClient} from '../../../../models/clients';
 import {Customer} from '../../../../services/billit';
+import {fromClient as getVatNumber} from '../vat-number.factory';
 
 export function fromClient(client: IClient): Customer {
   const {
@@ -26,10 +27,4 @@ export function fromClient(client: IClient): Customer {
       },
     ],
   };
-}
-
-function getVatNumber(client: IClient): string {
-  return client.btw
-    .replace(/\s/g, '') // Strip spaces
-    .replace(/\./g, ''); // Strip dots
 }

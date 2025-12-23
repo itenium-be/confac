@@ -14,7 +14,7 @@ import config from '../config';
 import {logger} from '../logger';
 import {CreateOrderRequest, TransportType, ApiClient} from '../services/billit';
 import {GetParticipantInformationResponse} from '../services/billit/peppol/getparticipantinformation';
-import {ApiClientFactory, CreateOrderRequestFactory} from './utils/billit';
+import {ApiClientFactory, CreateOrderRequestFactory, VatNumberFactory} from './utils/billit';
 
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
@@ -428,7 +428,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
 
     // If not already known to be Peppol-enabled, check with Billit API
     if (peppolEnabled !== true) {
-      const vatNumber = client.btw.replace(/\s/g, '').replace(/\./g, '');
+      const vatNumber: string = VatNumberFactory.fromClient(client);
       const peppolResponse: GetParticipantInformationResponse = await apiClient.getParticipantInformation(vatNumber);
       peppolEnabled = peppolResponse.Registered === true;
 

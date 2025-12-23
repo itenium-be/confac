@@ -1,7 +1,7 @@
 import {ObjectID} from 'mongodb';
 import {IInvoice} from '../../../../../models/invoices';
-import {someClient as client} from './client.fixture';
-import {someAudit as audit} from './audit.fixture';
+import {someClient as client} from '../../tests/client.fixture';
+import {someAudit as audit} from '../../tests/audit.fixture';
 
 export const someInvoice: IInvoice = {
   _id: new ObjectID('507f1f77bcf86cd799439012'),

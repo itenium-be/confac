@@ -1,4 +1,4 @@
-import {IAudit} from '../../../../../models/common';
+import {IAudit} from '../../../../models/common';
 
 export const someAudit: IAudit = {
   createdOn: '2024-01-01T00:00:00.000Z',
