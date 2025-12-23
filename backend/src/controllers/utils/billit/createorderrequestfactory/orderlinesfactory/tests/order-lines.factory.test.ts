@@ -2,6 +2,7 @@ import {fromInvoice} from '../order-lines.factory';
 import {OrderLine} from '../../../../../../services/billit';
 import {IInvoice} from '../../../../../../models/invoices';
 import {someInvoice} from '../../tests/invoice.fixture';
+import {someInvoiceLine} from './invoice-line.fixture';
 
 describe('fromInvoice', () => {
   it('should create OrderLines from invoice with multiple lines', () => {
@@ -9,17 +10,17 @@ describe('fromInvoice', () => {
       ...someInvoice,
       lines: [
         {
+          ...someInvoiceLine,
           desc: 'Consulting Services',
           amount: 10,
-          type: 'daily',
           price: 100,
           tax: 21,
           sort: 0,
         },
         {
+          ...someInvoiceLine,
           desc: 'Development Work',
           amount: 5,
-          type: 'daily',
           price: 150,
           tax: 21,
           sort: 1,
@@ -52,12 +53,11 @@ describe('fromInvoice', () => {
       ...someInvoice,
       lines: [
         {
+          ...someInvoiceLine,
           desc: 'Consulting Services',
           amount: 10,
-          type: 'daily',
           price: 100,
           tax: 21,
-          sort: 0,
         },
       ],
     };
