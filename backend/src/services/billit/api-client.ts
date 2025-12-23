@@ -22,7 +22,7 @@ export class ApiClient {
     request: CreateOrderRequest,
     idempotencyKey: string,
   ): Promise<string> {
-    const response = await fetch(`${this.config.apiUrl}/orders`, {
+    const response: fetch.Response = await fetch(`${this.config.apiUrl}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -35,12 +35,12 @@ export class ApiClient {
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
+      const errorText: string = await response.text();
       logger.error(`Billit createOrder failed: ${response.status} - ${errorText}`);
       throw new Error(`Failed to create order at Billit: ${errorText}`);
     }
 
-    const orderId = await response.text();
+    const orderId: string = await response.text();
     logger.info(`Billit order created successfully: ${orderId}`);
     return orderId;
   }
@@ -51,7 +51,7 @@ export class ApiClient {
    * @param idempotencyKey Unique key to ensure idempotent requests
    */
   async sendInvoice(request: SendInvoiceRequest, idempotencyKey: string): Promise<void> {
-    const response = await fetch(`${this.config.apiUrl}/orders/commands/send`, {
+    const response: fetch.Response = await fetch(`${this.config.apiUrl}/orders/commands/send`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -79,12 +79,12 @@ export class ApiClient {
    * @returns The Peppol participant information response
    */
   async getParticipantInformation(vatNumber: string): Promise<GetParticipantInformationResponse> {
-    const response = await fetch(
+    const response: fetch.Response = await fetch(
       `${this.config.apiUrl}/peppol/participantInformation/${vatNumber}`,
     );
 
     if (!response.ok) {
-      const errorText = await response.text();
+      const errorText: string = await response.text();
       logger.error(`Billit getParticipantInformation failed: ${response.status} - ${errorText}`);
       throw new Error(`Failed to check Peppol registration: ${errorText}`);
     }
