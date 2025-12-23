@@ -3,6 +3,7 @@ import {CreateOrderRequest} from '../../../../services/billit';
 import {IInvoice} from '../../../../models/invoices';
 import {fromClient as createCustomerFromClient} from './customer.factory';
 import {fromInvoice as createOrderLinesFromInvoice} from './orderlinesfactory';
+import {fromInvoice as createPaymentReferenceFromInvoice} from './payment-reference.factory';
 
 /**
  * Creates a CreateOrderRequest from an IInvoice
@@ -30,28 +31,8 @@ export function fromInvoice(invoice: IInvoice): CreateOrderRequest {
     ExpiryDate: moment().add(14, 'days').format('YYYY-MM-DD'), // 14 days from now, TODO: Make configurable
     Reference,
     Currency: 'EUR',
-    PaymentReference: generatePaymentReference(number),
+    PaymentReference: createPaymentReferenceFromInvoice(invoice),
     Customer: createCustomerFromClient(client),
     OrderLines: createOrderLinesFromInvoice(invoice),
   };
-}
-
-/**
- * Generates a Belgian structured payment reference
- * Format: +++nnn/nnnn/nnnnn+++
- */
-function generatePaymentReference(invoiceNumber: number): string {
-  // Pad invoice number to 10 digits
-  const paddedNumber: string = invoiceNumber.toString().padStart(10, '0');
-
-  // Split into parts: nnn/nnnn/nnnnn (3/4/5 digits before check digits)
-  const part1: string = paddedNumber.substring(0, 3);
-  const part2: string = paddedNumber.substring(3, 7);
-  const part3: string = paddedNumber.substring(7, 10);
-
-  // Calculate modulo 97 check digits
-  const baseNumber: number = parseInt(paddedNumber, 10);
-  const checkDigits: string = (baseNumber % 97).toString().padStart(2, '0');
-
-  return `+++${part1}/${part2}/${part3}${checkDigits}+++`;
 }
