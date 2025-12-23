@@ -1,7 +1,8 @@
 import moment from 'moment/moment';
-import {CreateOrderRequest, OrderLine} from '../../../../services/billit';
-import {IInvoice, InvoiceLine} from '../../../../models/invoices';
+import {CreateOrderRequest} from '../../../../services/billit';
+import {IInvoice} from '../../../../models/invoices';
 import {fromClient as createCustomerFromClient} from './customer.factory';
+import {fromInvoice as createOrderLinesFromInvoice} from './order-lines.factory';
 
 /**
  * Creates a CreateOrderRequest from an IInvoice
@@ -31,7 +32,7 @@ export function fromInvoice(invoice: IInvoice): CreateOrderRequest {
     Currency: 'EUR',
     PaymentReference: generatePaymentReference(number),
     Customer: createCustomerFromClient(client),
-    OrderLines: getOrderLines(invoice),
+    OrderLines: createOrderLinesFromInvoice(invoice),
   };
 }
 
@@ -53,26 +54,4 @@ function generatePaymentReference(invoiceNumber: number): string {
   const checkDigits: string = (baseNumber % 97).toString().padStart(2, '0');
 
   return `+++${part1}/${part2}/${part3}${checkDigits}+++`;
-}
-
-function getOrderLines(invoice: IInvoice): OrderLine[] {
-  return invoice.lines.map(
-    line => getOrderLine(line),
-  );
-}
-
-function getOrderLine(invoiceLine: InvoiceLine): OrderLine {
-  const {
-    amount: Quantity,
-    price: UnitPriceExcl,
-    desc: Description,
-    tax: VATPercentage,
-  } = invoiceLine;
-
-  return {
-    Quantity,
-    UnitPriceExcl,
-    Description,
-    VATPercentage,
-  };
 }
