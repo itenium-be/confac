@@ -1,7 +1,7 @@
 import moment from 'moment/moment';
-import {CreateOrderRequest, Customer, OrderLine} from '../../../../services/billit';
+import {CreateOrderRequest, OrderLine} from '../../../../services/billit';
 import {IInvoice, InvoiceLine} from '../../../../models/invoices';
-import {IClient} from '../../../../models/clients';
+import {fromClient as createCustomerFromClient} from './customer.factory';
 
 /**
  * Creates a CreateOrderRequest from an IInvoice
@@ -30,7 +30,7 @@ export function fromInvoice(invoice: IInvoice): CreateOrderRequest {
     Reference,
     Currency: 'EUR',
     PaymentReference: generatePaymentReference(number),
-    Customer: getCustomer(client),
+    Customer: createCustomerFromClient(client),
     OrderLines: getOrderLines(invoice),
   };
 }
@@ -53,39 +53,6 @@ function generatePaymentReference(invoiceNumber: number): string {
   const checkDigits: string = (baseNumber % 97).toString().padStart(2, '0');
 
   return `+++${part1}/${part2}/${part3}${checkDigits}+++`;
-}
-
-function getCustomer(client: IClient): Customer {
-  const {
-    name: Name,
-    address,
-    city: City,
-    postalCode: Zipcode,
-    country: CountryCode,
-  } = client;
-
-  return {
-    Name,
-    VATNumber: getVatNumber(client),
-    PartyType: 'Customer',
-    Addresses: [
-      {
-        AddressType: 'InvoiceAddress',
-        Name,
-        Street: address,
-        // StreetNumber: '', TODO: Split street and street number from address
-        City,
-        Zipcode,
-        CountryCode,
-      },
-    ],
-  };
-}
-
-function getVatNumber(client: IClient): string {
-  return client.btw
-    .replace(/\s/g, '') // Strip spaces
-    .replace(/\./g, ''); // Strip dots
 }
 
 function getOrderLines(invoice: IInvoice): OrderLine[] {
