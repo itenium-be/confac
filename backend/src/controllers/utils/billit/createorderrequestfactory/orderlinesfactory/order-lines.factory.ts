@@ -1,5 +1,5 @@
-import {OrderLine} from '../../../../services/billit';
-import {IInvoice} from '../../../../models/invoices';
+import {OrderLine} from '../../../../../services/billit';
+import {IInvoice} from '../../../../../models/invoices';
 import {fromInvoiceLine} from './order-line.factory';
 
 /**

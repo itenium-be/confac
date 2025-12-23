@@ -1,7 +1,7 @@
 import {fromInvoice} from '../order-lines.factory';
-import {OrderLine} from '../../../../../services/billit';
-import {IInvoice} from '../../../../../models/invoices';
-import {someInvoice} from './invoice.fixture';
+import {OrderLine} from '../../../../../../services/billit';
+import {IInvoice} from '../../../../../../models/invoices';
+import {someInvoice} from '../../tests/invoice.fixture';
 
 describe('fromInvoice', () => {
   it('should create OrderLines from invoice with multiple lines', () => {

@@ -2,7 +2,7 @@ import moment from 'moment/moment';
 import {CreateOrderRequest} from '../../../../services/billit';
 import {IInvoice} from '../../../../models/invoices';
 import {fromClient as createCustomerFromClient} from './customer.factory';
-import {fromInvoice as createOrderLinesFromInvoice} from './order-lines.factory';
+import {fromInvoice as createOrderLinesFromInvoice} from './orderlinesfactory';
 
 /**
  * Creates a CreateOrderRequest from an IInvoice
