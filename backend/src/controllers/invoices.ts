@@ -15,6 +15,7 @@ import {logger} from '../logger';
 import {CreateOrderRequest, TransportType, ApiClient as BillitApiClient} from '../services/billit';
 import {GetParticipantInformationResponse} from '../services/billit/peppol/getparticipantinformation';
 import {fromConfig as createBillitApiClientFromConfig} from './api-client.factory';
+import {fromInvoice as createOrderRequestFromInvoice} from './create-order-request.factory';
 
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
@@ -419,37 +420,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     const billitApiClient: BillitApiClient = createBillitApiClientFromConfig(config);
 
     // Step 1: Create invoice at Billit
-    const orderDate: string = moment(invoice.date).format('YYYY-MM-DD');
-    const createOrderRequest: CreateOrderRequest = {
-      OrderType: 'Invoice',
-      OrderDirection: 'Income',
-      OrderNumber: invoice.number.toString(),
-      OrderDate: orderDate,
-      ExpiryDate: orderDate,
-      Customer: {
-        Name: client.name,
-        VATNumber: client.btw,
-        PartyType: 'Customer',
-        Addresses: [
-          {
-            AddressType: 'InvoiceAddress',
-            Name: client.name,
-            Street: client.address || '',
-            StreetNumber: '',
-            City: client.city || '',
-            Zipcode: client.postalCode || '',
-            CountryCode: client.country || 'BE',
-          },
-        ],
-      },
-      OrderLines: invoice.lines.map(line => ({
-        Quantity: line.amount,
-        UnitPriceExcl: line.price,
-        Description: line.desc,
-        VATPercentage: line.tax,
-      })),
-    };
-
+    const createOrderRequest: CreateOrderRequest = createOrderRequestFromInvoice(invoice);
     const orderId: string = await billitApiClient.createOrder(createOrderRequest, invoice.number.toString());
 
     // Step 2: Determine peppolEnabled status
