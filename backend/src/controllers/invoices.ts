@@ -423,6 +423,13 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     let idempotencyKey: string = `create-order-${invoice.number.toString()}`;
     const orderId: string = await apiClient.createOrder(createOrderRequest, idempotencyKey);
 
+    // Save billitOrderId to invoice
+    await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
+      {_id: new ObjectID(invoice._id)},
+      {$set: {billitOrderId: parseInt(orderId, 10)}},
+    );
+    invoice.billitOrderId = parseInt(orderId, 10);
+
     // Step 2: Determine peppolEnabled status
     let peppolEnabled: boolean;
     let wasAlreadyRegistered = false;
@@ -469,11 +476,14 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
 
     // Step 3: Send the sales invoice with appropriate transport type
     const transportType: TransportType = peppolEnabled ? 'Peppol' : 'SMTP';
+    if (!invoice.billitOrderId) {
+      throw new Error(`Billit order id is not present on invoice ${invoice.number}.`);
+    }
     idempotencyKey = `send-invoice-${invoice.number.toString()}`;
     await apiClient.sendInvoice(
       {
         TransportType: transportType,
-        OrderIDs: [parseInt(orderId, 10)],
+        OrderIDs: [invoice.billitOrderId],
       },
       idempotencyKey,
     );
