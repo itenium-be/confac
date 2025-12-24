@@ -21,7 +21,7 @@ export class ApiClient {
   async createOrder(
     request: CreateOrderRequest,
     idempotencyKey: string,
-  ): Promise<string> {
+  ): Promise<number> {
     const response: fetch.Response = await fetch(`${this.config.apiUrl}/orders`, {
       method: 'POST',
       headers: {
@@ -40,7 +40,8 @@ export class ApiClient {
       throw new Error(`Failed to create order at Billit: ${errorText}`);
     }
 
-    const orderId: string = await response.text();
+    const orderIdText: string = await response.text();
+    const orderId: number = parseInt(orderIdText, 10);
     logger.info(`Billit order created successfully: ${orderId}`);
     return orderId;
   }

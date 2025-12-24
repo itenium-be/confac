@@ -422,13 +422,13 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(invoice);
     let idempotencyKey: string = `create-order-${invoice.number.toString()}`;
     try {
-      const orderId: string = await apiClient.createOrder(createOrderRequest, idempotencyKey);
+      const orderId: number = await apiClient.createOrder(createOrderRequest, idempotencyKey);
       // Save billitOrderId to invoice
       await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
         {_id: new ObjectID(invoice._id)},
-        {$set: {billitOrderId: parseInt(orderId, 10)}},
+        {$set: {billitOrderId: orderId}},
       );
-      invoice.billitOrderId = parseInt(orderId, 10);
+      invoice.billitOrderId = orderId;
     } catch (error: any) {
       if (error?.message?.includes('Idempotent token already exists')) {
         logger.info(`Idempotent token '${idempotencyKey}' already exists, order (${invoice.billitOrderId}) for invoice (${invoice.number}) was already created.`);

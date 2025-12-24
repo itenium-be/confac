@@ -71,13 +71,13 @@ describe('ApiClient', () => {
     };
 
     it('should create an order successfully', async () => {
-      const orderId: string = '123456';
+      const orderId: number = 123456;
       mockFetch.mockResolvedValueOnce({
         ok: true,
         text: () => Promise.resolve(orderId),
       } as any);
 
-      const result = await apiClient.createOrder(createOrderRequest, '2024-001');
+      const result: number = await apiClient.createOrder(createOrderRequest, '2024-001');
 
       expect(result).toEqual(orderId);
       expect(mockFetch).toHaveBeenCalledWith(
