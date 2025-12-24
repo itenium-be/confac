@@ -423,21 +423,47 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     const orderId: string = await apiClient.createOrder(createOrderRequest, invoice.number.toString());
 
     // Step 2: Determine peppolEnabled status
-    let peppolEnabled = client.peppolEnabled;
+    let peppolEnabled: boolean;
     let wasAlreadyRegistered = false;
+    let needsInvoiceUpdate = false;
 
-    // If not already known to be Peppol-enabled, check with Billit API
-    if (peppolEnabled !== true) {
+    if (invoice.client.peppolEnabled === true) {
+      // Invoice already knows client is Peppol-enabled
+      peppolEnabled = true;
+      wasAlreadyRegistered = true;
+    } else if (client.peppolEnabled === true) {
+      // Client is Peppol-enabled, sync to invoice
+      peppolEnabled = true;
+      wasAlreadyRegistered = true;
+      needsInvoiceUpdate = true;
+    } else {
+      // Neither invoice nor client know - check with Billit API
       const vatNumber: string = VatNumberFactory.fromClient(client);
       const peppolResponse: GetParticipantInformationResponse = await apiClient.getParticipantInformation(vatNumber);
-      peppolEnabled = peppolResponse.Registered === true;
+      peppolEnabled = peppolResponse.Registered;
 
-      await req.db.collection<IClient>(CollectionNames.CLIENTS).updateOne(
-        {_id: new ObjectID(client._id)},
-        {$set: {peppolEnabled}},
+      // Update client if there was a change
+      if (client.peppolEnabled !== peppolEnabled) {
+        await req.db.collection<IClient>(CollectionNames.CLIENTS).updateOne(
+          {_id: new ObjectID(client._id)},
+          {$set: {peppolEnabled}},
+        );
+        client.peppolEnabled = peppolEnabled;
+      }
+
+      // Check if invoice needs update
+      if (invoice.client.peppolEnabled !== peppolEnabled) {
+        needsInvoiceUpdate = true;
+      }
+    }
+
+    // Update invoice if needed
+    if (needsInvoiceUpdate) {
+      await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
+        {_id: new ObjectID(invoice._id)},
+        {$set: {'client.peppolEnabled': peppolEnabled}},
       );
-    } else {
-      wasAlreadyRegistered = true;
+      invoice.client.peppolEnabled = peppolEnabled;
     }
 
     // Step 3: Send the sales invoice with appropriate transport type
