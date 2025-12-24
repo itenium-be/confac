@@ -421,14 +421,21 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     // Step 1: Create invoice at Billit
     const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(invoice);
     let idempotencyKey: string = `create-order-${invoice.number.toString()}`;
-    const orderId: string = await apiClient.createOrder(createOrderRequest, idempotencyKey);
-
-    // Save billitOrderId to invoice
-    await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
-      {_id: new ObjectID(invoice._id)},
-      {$set: {billitOrderId: parseInt(orderId, 10)}},
-    );
-    invoice.billitOrderId = parseInt(orderId, 10);
+    try {
+      const orderId: string = await apiClient.createOrder(createOrderRequest, idempotencyKey);
+      // Save billitOrderId to invoice
+      await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
+        {_id: new ObjectID(invoice._id)},
+        {$set: {billitOrderId: parseInt(orderId, 10)}},
+      );
+      invoice.billitOrderId = parseInt(orderId, 10);
+    } catch (error: any) {
+      if (error?.message?.includes('Idempotent token already exists')) {
+        logger.info(`Idempotent token '${idempotencyKey}' already exists, order (${invoice.billitOrderId}) for invoice (${invoice.number}) was already created.`);
+      } else {
+        throw error;
+      }
+    }
 
     // Step 2: Determine peppolEnabled status
     let peppolEnabled: boolean;
@@ -480,22 +487,31 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
       throw new Error(`Billit order id is not present on invoice ${invoice.number}.`);
     }
     idempotencyKey = `send-invoice-${invoice.number.toString()}`;
-    await apiClient.sendInvoice(
-      {
-        TransportType: transportType,
-        OrderIDs: [invoice.billitOrderId],
-      },
-      idempotencyKey,
-    );
+
+    try {
+      await apiClient.sendInvoice(
+        {
+          TransportType: transportType,
+          OrderIDs: [invoice.billitOrderId],
+        },
+        idempotencyKey,
+      );
+    } catch (error: any) {
+      if (error?.message?.includes('Idempotent token already exists')) {
+        logger.info(`Idempotent token '${idempotencyKey}' already exists, invoice (${invoice.number}) for order (${invoice.billitOrderId}) was already sent.`);
+      } else {
+        throw error;
+      }
+    }
 
     // Step 4: Return appropriate message
     let message: string;
     if (peppolEnabled) {
       message = wasAlreadyRegistered
-        ? `Invoice created at Billit (ID: ${orderId}) and sent via Peppol. Client is already registered in Peppol.`
-        : `Invoice created at Billit (ID: ${orderId}) and sent via Peppol. Client is registered in Peppol.`;
+        ? `Invoice created at Billit (ID: ${invoice.billitOrderId}) and sent via Peppol. Client is already registered in Peppol.`
+        : `Invoice created at Billit (ID: ${invoice.billitOrderId}) and sent via Peppol. Client is registered in Peppol.`;
     } else {
-      message = `Invoice created at Billit (ID: ${orderId}) and sent via email. Client is not registered in Peppol.`;
+      message = `Invoice created at Billit (ID: ${invoice.billitOrderId}) and sent via email. Client is not registered in Peppol.`;
     }
 
     return res.send({
