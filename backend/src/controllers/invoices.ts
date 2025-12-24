@@ -420,7 +420,8 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
 
     // Step 1: Create invoice at Billit
     const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(invoice);
-    const orderId: string = await apiClient.createOrder(createOrderRequest, invoice.number.toString());
+    let idempotencyKey: string = `create-order-${invoice.number.toString()}`;
+    const orderId: string = await apiClient.createOrder(createOrderRequest, idempotencyKey);
 
     // Step 2: Determine peppolEnabled status
     let peppolEnabled: boolean;
@@ -468,12 +469,13 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
 
     // Step 3: Send the sales invoice with appropriate transport type
     const transportType: TransportType = peppolEnabled ? 'Peppol' : 'SMTP';
+    idempotencyKey = `send-invoice-${invoice.number.toString()}`;
     await apiClient.sendInvoice(
       {
         TransportType: transportType,
         OrderIDs: [parseInt(orderId, 10)],
       },
-      invoice.number.toString(),
+      idempotencyKey,
     );
 
     // Step 4: Return appropriate message
