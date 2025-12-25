@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import {ConfacState} from '../../../reducers/app-state';
 import {Claim} from '../../users/models/UserModel';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
-import {createInvoice, previewInvoice, syncCreditNotas, updateInvoiceRequest} from '../../../actions';
+import {createInvoice, previewInvoice, syncCreditNotas, updateInvoiceRequest, sendToPeppol} from '../../../actions';
 import {getNewClonedInvoice} from '../models/getNewInvoice';
 import {t} from '../../utils';
 import {Button} from '../../controls/form-controls/Button';
@@ -29,6 +29,15 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
     <>
       {!invoice.isNew && invoice.client && (
         <>
+          <Button
+            claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
+            variant="light"
+            icon="fas fa-paper-plane"
+            onClick={() => dispatch(sendToPeppol(invoice._id) as any)}
+            className="tst-send-peppol"
+          >
+            {t('invoice.peppolSend')}
+          </Button>
           <Button
             claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
             variant={invoice?.verified || invoice?.lastEmail ? 'outline-danger' : 'light'}

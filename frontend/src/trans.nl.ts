@@ -363,7 +363,13 @@ export const trans = {
     listAdvancedFilters: 'Meer filters',
     listDownloadZip: 'Alle in de lijst zichtbare facturen downloaden (zip)',
     listDownloadExcel: 'Alle in de lijst zichtbare Facturen exporteren als Excel rapport (csv)',
-    createCreditNota: 'Creditnota aanmaken'
+    createCreditNota: 'Creditnota aanmaken',
+    peppolSend: 'Versturen naar Peppol',
+    peppolSuccess: 'Klant is geregistreerd in Peppol',
+    peppolNotRegistered: 'Klant is niet geregistreerd in Peppol',
+    peppolNotRegisteredTitle: 'Peppol registratie',
+    peppolError: 'Er is een fout opgetreden bij het controleren van de Peppol registratie',
+    peppolErrorTitle: 'Peppol fout'
   },
   attachment: {
     types: 'Bijlage types',

@@ -7,8 +7,14 @@ import {createPdf, createXml} from './utils';
 import {CollectionNames, IAttachment, SocketEventTypes, createAudit, updateAudit} from '../models/common';
 import {IProjectMonth} from '../models/projectsMonth';
 import {ConfacRequest, Jwt} from '../models/technical';
+import {IClient} from '../models/clients';
 import {saveAudit} from './utils/audit-logs';
 import {emitEntityEvent} from './utils/entity-events';
+import config from '../config';
+import {logger} from '../logger';
+import {CreateOrderRequest, TransportType, ApiClient} from '../services/billit';
+import {GetParticipantInformationResponse} from '../services/billit/peppol/getparticipantinformation';
+import {ApiClientFactory, CreateOrderRequestFactory, VatNumberFactory} from './utils/billit';
 
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
@@ -383,4 +389,140 @@ export const getInvoiceXmlController = async (req: Request, res: Response) => {
     return res.type('application/xml').send(invoiceAttachments.xml.toString());
   }
   return res.status(500).send('No xml found');
+};
+
+
+export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Response) => {
+  const {id} = req.params;
+
+  console.log('========================================'); // eslint-disable-line
+  console.log('PEPPOL ENDPOINT CALLED - Invoice ID:', id); // eslint-disable-line
+  console.log('========================================'); // eslint-disable-line
+
+  // Fetch the invoice
+  const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
+    .findOne({_id: new ObjectID(id)});
+
+  if (!invoice) {
+    return res.status(404).send({message: 'Invoice not found'});
+  }
+
+  // Fetch the client
+  const client = await req.db.collection<IClient>(CollectionNames.CLIENTS)
+    .findOne({_id: new ObjectID(invoice.client._id)});
+
+  if (!client) {
+    return res.status(404).send({message: 'Client not found'});
+  }
+
+  try {
+    const apiClient: ApiClient = ApiClientFactory.fromConfig(config);
+
+    // Step 1: Create invoice at Billit
+    const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(invoice);
+    let idempotencyKey: string = `create-order-${invoice.number.toString()}`;
+    try {
+      const orderId: number = await apiClient.createOrder(createOrderRequest, idempotencyKey);
+      // Save billitOrderId to invoice
+      await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
+        {_id: new ObjectID(invoice._id)},
+        {$set: {billitOrderId: orderId}},
+      );
+      invoice.billitOrderId = orderId;
+    } catch (error: any) {
+      if (error?.message?.includes('Idempotent token already exists')) {
+        logger.info(`Idempotent token '${idempotencyKey}' already exists, order (${invoice.billitOrderId}) for invoice (${invoice.number}) was already created.`);
+      } else {
+        throw error;
+      }
+    }
+
+    // Step 2: Determine peppolEnabled status
+    let peppolEnabled: boolean;
+    let wasAlreadyRegistered = false;
+    let needsInvoiceUpdate = false;
+
+    if (invoice.client.peppolEnabled === true) {
+      // Invoice already knows client is Peppol-enabled
+      peppolEnabled = true;
+      wasAlreadyRegistered = true;
+    } else if (client.peppolEnabled === true) {
+      // Client is Peppol-enabled, sync to invoice
+      peppolEnabled = true;
+      wasAlreadyRegistered = true;
+      needsInvoiceUpdate = true;
+    } else {
+      // Neither invoice nor client know - check with Billit API
+      const vatNumber: string = VatNumberFactory.fromClient(client);
+      const peppolResponse: GetParticipantInformationResponse = await apiClient.getParticipantInformation(vatNumber);
+      peppolEnabled = peppolResponse.Registered;
+
+      // Update client if there was a change
+      if (client.peppolEnabled !== peppolEnabled) {
+        await req.db.collection<IClient>(CollectionNames.CLIENTS).updateOne(
+          {_id: new ObjectID(client._id)},
+          {$set: {peppolEnabled}},
+        );
+        client.peppolEnabled = peppolEnabled;
+      }
+
+      // Check if invoice needs update
+      if (invoice.client.peppolEnabled !== peppolEnabled) {
+        needsInvoiceUpdate = true;
+      }
+    }
+
+    // Update invoice if needed
+    if (needsInvoiceUpdate) {
+      await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
+        {_id: new ObjectID(invoice._id)},
+        {$set: {'client.peppolEnabled': peppolEnabled}},
+      );
+      invoice.client.peppolEnabled = peppolEnabled;
+    }
+
+    // Step 3: Send the sales invoice with appropriate transport type
+    const transportType: TransportType = peppolEnabled ? 'Peppol' : 'SMTP';
+    if (!invoice.billitOrderId) {
+      throw new Error(`Billit order id is not present on invoice ${invoice.number}.`);
+    }
+    idempotencyKey = `send-invoice-${invoice.number.toString()}`;
+
+    try {
+      await apiClient.sendInvoice(
+        {
+          TransportType: transportType,
+          OrderIDs: [invoice.billitOrderId],
+        },
+        idempotencyKey,
+      );
+    } catch (error: any) {
+      if (error?.message?.includes('Idempotent token already exists')) {
+        logger.info(`Idempotent token '${idempotencyKey}' already exists, invoice (${invoice.number}) for order (${invoice.billitOrderId}) was already sent.`);
+      } else {
+        throw error;
+      }
+    }
+
+    // Step 4: Return appropriate message
+    let message: string;
+    if (peppolEnabled) {
+      message = wasAlreadyRegistered
+        ? `Invoice created at Billit (ID: ${invoice.billitOrderId}) and sent via Peppol. Client is already registered in Peppol.`
+        : `Invoice created at Billit (ID: ${invoice.billitOrderId}) and sent via Peppol. Client is registered in Peppol.`;
+    } else {
+      message = `Invoice created at Billit (ID: ${invoice.billitOrderId}) and sent via email. Client is not registered in Peppol.`;
+    }
+
+    return res.send({
+      peppolEnabled,
+      message,
+    });
+  } catch (error: any) {
+    logger.error('Error processing Peppol request:', error);
+    return res.status(500).send({
+      message: 'Error processing Peppol request',
+      error: error.message,
+    });
+  }
 };

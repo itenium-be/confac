@@ -71,6 +71,7 @@ export interface IInvoice {
   money: IInvoiceMoney;
   audit: IAudit;
   creditNotas: string[];
+  billitOrderId?: number;
 }
 
 export const INVOICE_EXCEL_HEADERS = [
