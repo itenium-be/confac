@@ -1,5 +1,6 @@
-import {SendInvoiceRequest, TransportType} from '../../../../services/billit';
+import {SendInvoiceRequest} from '../../../../services/billit';
 import {IInvoice} from '../../../../models/invoices';
+import {fromInvoice as getTransportType} from './transport-type.factory';
 
 export function fromInvoice(invoice: IInvoice): SendInvoiceRequest {
   const {billitOrderId, number} = invoice;
@@ -10,8 +11,4 @@ export function fromInvoice(invoice: IInvoice): SendInvoiceRequest {
     TransportType: getTransportType(invoice),
     OrderIDs: [billitOrderId],
   };
-}
-
-function getTransportType(invoice: IInvoice): TransportType {
-  return invoice.client.peppolEnabled === true ? 'Peppol' : 'SMTP';
 }
