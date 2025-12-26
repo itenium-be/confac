@@ -12,7 +12,7 @@ import {saveAudit} from './utils/audit-logs';
 import {emitEntityEvent} from './utils/entity-events';
 import config from '../config';
 import {logger} from '../logger';
-import {CreateOrderRequest, TransportType, ApiClient} from '../services/billit';
+import {CreateOrderRequest, TransportType, ApiClient, SendInvoiceRequest} from '../services/billit';
 import {GetParticipantInformationResponse} from '../services/billit/peppol/getparticipantinformation';
 import {ApiClientFactory, CreateOrderRequestFactory, VatNumberFactory} from './utils/billit';
 
@@ -486,14 +486,15 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     if (!invoice.billitOrderId) {
       throw new Error(`Billit order id is not present on invoice ${invoice.number}.`);
     }
+    const sendInvoiceRequest: SendInvoiceRequest = {
+      TransportType: transportType,
+      OrderIDs: [invoice.billitOrderId],
+    };
     idempotencyKey = `send-invoice-${invoice.number.toString()}`;
 
     try {
       await apiClient.sendInvoice(
-        {
-          TransportType: transportType,
-          OrderIDs: [invoice.billitOrderId],
-        },
+        sendInvoiceRequest,
         idempotencyKey,
       );
     } catch (error: any) {
