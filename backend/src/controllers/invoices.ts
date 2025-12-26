@@ -12,9 +12,9 @@ import {saveAudit} from './utils/audit-logs';
 import {emitEntityEvent} from './utils/entity-events';
 import config from '../config';
 import {logger} from '../logger';
-import {CreateOrderRequest, TransportType, ApiClient} from '../services/billit';
+import {CreateOrderRequest, ApiClient, SendInvoiceRequest} from '../services/billit';
 import {GetParticipantInformationResponse} from '../services/billit/peppol/getparticipantinformation';
-import {ApiClientFactory, CreateOrderRequestFactory, VatNumberFactory} from './utils/billit';
+import {ApiClientFactory, CreateOrderRequestFactory, SendInvoiceRequestFactory, VatNumberFactory} from './utils/billit';
 
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
@@ -482,20 +482,11 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     }
 
     // Step 3: Send the sales invoice with appropriate transport type
-    const transportType: TransportType = peppolEnabled ? 'Peppol' : 'SMTP';
-    if (!invoice.billitOrderId) {
-      throw new Error(`Billit order id is not present on invoice ${invoice.number}.`);
-    }
+    const sendInvoiceRequest: SendInvoiceRequest = SendInvoiceRequestFactory.fromInvoice(invoice);
     idempotencyKey = `send-invoice-${invoice.number.toString()}`;
 
     try {
-      await apiClient.sendInvoice(
-        {
-          TransportType: transportType,
-          OrderIDs: [invoice.billitOrderId],
-        },
-        idempotencyKey,
-      );
+      await apiClient.sendInvoice(sendInvoiceRequest, idempotencyKey);
     } catch (error: any) {
       if (error?.message?.includes('Idempotent token already exists')) {
         logger.info(`Idempotent token '${idempotencyKey}' already exists, invoice (${invoice.number}) for order (${invoice.billitOrderId}) was already sent.`);
