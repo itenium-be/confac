@@ -5,6 +5,8 @@ import {fromClient as createCustomerFromClient} from './customer.factory';
 import {fromInvoice as createOrderLinesFromInvoice} from './orderlinesfactory';
 import {fromInvoice as createPaymentReferenceFromInvoice} from './payment-reference.factory';
 
+const InvoiceExpirationInDays = 14;
+
 /**
  * Creates a CreateOrderRequest from an IInvoice
  * @param invoice The invoice to convert
@@ -28,7 +30,7 @@ export function fromInvoice(invoice: IInvoice): CreateOrderRequest {
     OrderDirection: 'Income',
     OrderNumber: number.toString(),
     OrderDate: moment(date).format('YYYY-MM-DD'),
-    ExpiryDate: moment().add(14, 'days').format('YYYY-MM-DD'), // 14 days from now, TODO: Make configurable
+    ExpiryDate: moment().add(InvoiceExpirationInDays, 'days').format('YYYY-MM-DD'),
     Reference,
     Currency: 'EUR',
     PaymentReference: createPaymentReferenceFromInvoice(invoice),
