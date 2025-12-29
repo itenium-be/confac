@@ -423,6 +423,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     let idempotencyKey: string = `create-order-${invoice.number.toString()}`;
     try {
       const orderId: number = await apiClient.createOrder(createOrderRequest, idempotencyKey);
+
       // Save billitOrderId to invoice
       await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
         {_id: new ObjectID(invoice._id)},
@@ -440,19 +441,11 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     // Step 2: Determine peppolEnabled status
     let peppolEnabled: boolean;
     let wasAlreadyRegistered = false;
-    let needsInvoiceUpdate = false;
 
-    if (invoice.client.peppolEnabled === true) {
-      // Invoice already knows client is Peppol-enabled
+    if (client.peppolEnabled) {
       peppolEnabled = true;
       wasAlreadyRegistered = true;
-    } else if (client.peppolEnabled === true) {
-      // Client is Peppol-enabled, sync to invoice
-      peppolEnabled = true;
-      wasAlreadyRegistered = true;
-      needsInvoiceUpdate = true;
     } else {
-      // Neither invoice nor client know - check with Billit API
       const vatNumber: string = VatNumberFactory.fromClient(client);
       const peppolResponse: GetParticipantInformationResponse = await apiClient.getParticipantInformation(vatNumber);
       peppolEnabled = peppolResponse.Registered;
@@ -464,11 +457,6 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
           {$set: {peppolEnabled}},
         );
         client.peppolEnabled = peppolEnabled;
-      }
-
-      // Check if invoice needs update
-      if (invoice.client.peppolEnabled !== peppolEnabled) {
-        needsInvoiceUpdate = true;
       }
     }
 

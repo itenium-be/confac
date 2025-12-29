@@ -52,6 +52,10 @@ export default class InvoiceModel implements IAttachment {
   discount: string;
   attachments: Attachment[];
   isQuotation: boolean;
+  /**
+   * Before Peppol, this was the time the email was sent
+   * After peppol this is when the invoice was sent to the peppol network
+   **/
   lastEmail: string;
   audit: IAudit;
   lines: InvoiceLine[] = [];
