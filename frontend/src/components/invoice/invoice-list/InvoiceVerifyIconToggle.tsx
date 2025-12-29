@@ -20,6 +20,7 @@ export const InvoiceVerifyIconToggle = EnhanceWithClaim(({invoice, toggleBusy, .
 
   const daysPassed = moment().diff(invoice.audit.createdOn, 'days');
   const title = invoice.status === 'Paid' ? t('invoice.unverifyActionTooltip') : t('invoice.verifyActionTooltip', {days: daysPassed});
+  console.log('InvoiceVerifyIconToggle', invoice);
   return (
     <BusyInvoiceStatusIcon
       withoutStoreBusy={!toggleBusy}

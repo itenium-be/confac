@@ -9,11 +9,13 @@ type InvoiceStatusIconProps = IconProps & {
   status: InvoiceStatus;
 }
 
-export const statusConfig: Record<InvoiceStatus, {icon: string; color: string; translationKey: string}> = {
-  Draft: {icon: 'fa fa-file', color: 'gray', translationKey: 'invoice.status.draft'},
-  ToSend: {icon: 'fa fa-paper-plane', color: 'orange', translationKey: 'invoice.status.toSend'},
-  ToPay: {icon: 'fa fa-clock', color: 'blue', translationKey: 'invoice.status.toPay'},
-  Paid: {icon: 'fa fa-check-circle', color: 'green', translationKey: 'invoice.status.paid'},
+type IconConfig = {icon: string; color: string; translationKey: string};
+
+export const statusConfig: Record<InvoiceStatus, IconConfig> = {
+  Draft: {icon: 'far fa-clipboard', color: 'black', translationKey: 'invoice.status.draft'},
+  ToSend: {icon: 'far fa-paper-plane', color: 'black', translationKey: 'invoice.status.toSend'},
+  ToPay: {icon: 'far fa-clock', color: '#CC1100', translationKey: 'invoice.status.toPay'},
+  Paid: {icon: 'far fa-check-circle', color: 'green', translationKey: 'invoice.status.paid'},
 };
 
 export const InvoiceStatusIcon = ({status, title, ...props}: InvoiceStatusIconProps) => {
