@@ -3,14 +3,13 @@ import {ObjectID, Db} from 'mongodb';
 import moment from 'moment';
 import {IInvoice, INVOICE_EXCEL_HEADERS} from '../models/invoices';
 import {IAttachmentCollection} from '../models/attachments';
-import {createPdf, createXml} from './utils';
+import {createPdf} from './utils';
 import {CollectionNames, createAudit, IAttachment, SocketEventTypes, updateAudit} from '../models/common';
 import {IProjectMonth} from '../models/projectsMonth';
 import {ConfacRequest, Jwt} from '../models/technical';
 import {IClient} from '../models/clients';
 import {saveAudit} from './utils/audit-logs';
 import {emitEntityEvent} from './utils/entity-events';
-import {isPeppolActive} from './utils/peppol-helpers';
 import config from '../config';
 import {logger} from '../logger';
 import {ApiClient, Attachment, CreateOrderRequest, SendInvoiceRequest} from '../services/billit';
@@ -24,23 +23,10 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user:
   });
 
   const [createdInvoice] = inserted.ops;
-
-  const peppolActive = await isPeppolActive(db);
-  const shouldCreateXml = !invoice.isQuotation && !peppolActive;
-
-  if (shouldCreateXml) {
-    const xmlBuffer = Buffer.from(createXml(createdInvoice, pdfBuffer));
-    await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf' | 'xml'>>(CollectionNames.ATTACHMENTS).insertOne({
-      _id: new ObjectID(createdInvoice._id),
-      pdf: pdfBuffer,
-      xml: xmlBuffer,
-    });
-  } else {
-    await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf'>>(CollectionNames.ATTACHMENTS).insertOne({
-      _id: new ObjectID(createdInvoice._id),
-      pdf: pdfBuffer,
-    });
-  }
+  await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf'>>(CollectionNames.ATTACHMENTS).insertOne({
+    _id: new ObjectID(createdInvoice._id),
+    pdf: pdfBuffer,
+  });
 
   return createdInvoice;
 };
@@ -177,12 +163,6 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
       .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {pdf: updatedPdfBuffer}});
   }
 
-  if (!invoice.isQuotation) {
-    const updateXmlBuffer = Buffer.from(createXml({_id, ...invoice}, updatedPdfBuffer as Buffer));
-    await req.db.collection<IAttachment>(CollectionNames.ATTACHMENTS)
-      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {xml: updateXmlBuffer}});
-  }
-
   if (!invoice.projectMonth) {
     // Makes sure projectMonth is overwritten in the db if already present there
     invoice.projectMonth = undefined;
@@ -288,7 +268,6 @@ export const deleteInvoiceController = async (req: ConfacRequest, res: Response)
         projection: {
           _id: false,
           pdf: false,
-          xml: false,
         },
       });
 
@@ -301,7 +280,7 @@ export const deleteInvoiceController = async (req: ConfacRequest, res: Response)
     }
 
     const projectMonthCollection = req.db.collection(CollectionNames.PROJECTS_MONTH);
-    const attachments = invoice.attachments.filter(a => a.type !== 'pdf' && a.type !== 'xml');
+    const attachments = invoice.attachments.filter(a => a.type !== 'pdf');
 
     const projectMonthId = new ObjectID(invoice.projectMonth.projectMonthId);
     const updateProjectMonthResult = await projectMonthCollection.findOneAndUpdate({_id: projectMonthId}, {$set: {attachments}});
@@ -380,17 +359,6 @@ export const generateExcelForInvoicesController = async (req: Request, res: Resp
   const excel = `${excelHeader}${excelBody}`;
 
   return res.send(excel);
-};
-
-
-export const getInvoiceXmlController = async (req: Request, res: Response) => {
-  const {id} = req.params;
-  const invoiceAttachments: IAttachmentCollection | null = await req.db.collection(CollectionNames.ATTACHMENTS)
-    .findOne({_id: new ObjectID(id)});
-  if (invoiceAttachments && invoiceAttachments.xml) {
-    return res.type('application/xml').send(invoiceAttachments.xml.toString());
-  }
-  return res.status(500).send('No xml found');
 };
 
 

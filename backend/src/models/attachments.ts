@@ -7,8 +7,6 @@ export type IAttachmentCollection = {
   _id: any; // Set to any to avoid TS error: https://github.com/Microsoft/TypeScript/issues/8597
   /** The invoice pdf */
   pdf: Buffer;
-  /** The invoice xml */
-  xml: Buffer;
 } & { // <-- to avoid TypeScript error
   /** User uploaded attachments */
   [attachmentKey: string]: Buffer;

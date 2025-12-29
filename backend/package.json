@@ -28,7 +28,6 @@
     "express-async-errors": "^3.1.1",
     "express-jwt": "^5.3.3",
     "express-unless": "^0.5.0",
-    "fast-xml-parser": "^4.4.0",
     "google-auth-library": "^6.0.0",
     "html-pdf": "^2.1.0",
     "jsonwebtoken": "^8.5.1",
@@ -45,7 +44,6 @@
     "slugify": "^1.1.0",
     "socket.io": "^4.8.1",
     "tmp": "^0.2.1",
-    "ubl-builder": "github:pipesanta/ubl-builder",
     "uuid": "^10.0.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"

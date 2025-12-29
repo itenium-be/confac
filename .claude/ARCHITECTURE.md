@@ -21,7 +21,7 @@
 
 ## 1. System Overview
 
-CONFAC is a full-stack web application designed for managing consultants, clients, projects, and invoices. It features real-time collaboration, PDF/XML invoice generation, and electronic invoicing (Peppol) support.
+CONFAC is a full-stack web application designed for managing consultants, clients, projects, and invoices. It features real-time collaboration, PDF invoice generation, and electronic invoicing (Peppol) support.
 
 ### High-Level Architecture
 
@@ -70,7 +70,7 @@ graph TB
 - **State Management**: Redux (Frontend) + MongoDB (Backend)
 - **Real-time Sync**: Multi-user collaboration via Socket.io events
 - **Security**: OAuth 2.0 + JWT + Role-Based Access Control (RBAC)
-- **Document Generation**: PDF (html-pdf), XML (UBL 2.1), Excel (external service)
+- **Document Generation**: PDF (html-pdf), Excel (external service)
 
 ---
 
@@ -142,7 +142,6 @@ graph LR
         C4[Email Controller]
         C5[Auth Controller]
         C6[PDF Generator]
-        C7[XML Generator]
     end
 
     subgraph "Layer 3: Models"
@@ -203,14 +202,13 @@ Defines HTTP endpoints and applies middleware:
 **Location**: `backend/src/controllers/`
 
 Handles request processing and orchestration:
-- **Invoice Controller**: CRUD, PDF/XML generation, verification
+- **Invoice Controller**: CRUD, PDF generation, verification
 - **Project Controllers**: Project management, monthly billing, timesheets
 - **Client/Consultant Controllers**: Entity management
 - **Email Controller**: Invoice delivery, PDF merging, attachment handling
 - **Auth Controller**: Google OAuth, JWT generation, role management
 - **Utility Controllers**:
   - PDF generation (html-pdf + Pug templates)
-  - XML generation (UBL 2.1 for Peppol)
   - Excel generation (external service integration)
   - Socket.io event emission
   - Audit logging
@@ -500,7 +498,6 @@ sequenceDiagram
     participant Controller
     participant Pug as Pug Engine
     participant PDF as html-pdf
-    participant XML as UBL Builder
     participant MongoDB
     participant Email
 
@@ -512,20 +509,17 @@ sequenceDiagram
     Pug->>Controller: HTML String
     Controller->>PDF: convertHtmlToBuffer(html)
     PDF->>Controller: PDF Buffer
-    Controller->>XML: Generate UBL 2.1 XML
-    XML->>Controller: XML String
     Controller->>MongoDB: Save PDF Attachment
-    Controller->>MongoDB: Save XML Attachment
     Controller->>MongoDB: Update Invoice<br/>(verified: true)
     MongoDB->>Controller: Success
-    Controller->>Frontend: {invoiceNumber, pdfPath, xmlPath}
+    Controller->>Frontend: {invoiceNumber, pdfPath}
     Frontend->>User: Show Success + Download
 
     opt Send Email
         User->>Frontend: Click "Send Email"
         Frontend->>Controller: POST /api/emailInvoices
         Controller->>MongoDB: Fetch Attachments
-        Controller->>Email: Send via Gmail SMTP<br/>(PDF + XML + T&C)
+        Controller->>Email: Send via Gmail SMTP<br/>(PDF + T&C)
         Email->>Controller: Sent
         Controller->>MongoDB: Update lastEmail
         Controller->>Frontend: Success
@@ -694,7 +688,7 @@ graph TB
 
     subgraph "E-Invoicing"
         Peppol[Peppol Network<br/>UBL 2.1 Standard]
-        Backend -->|Generate XML| Peppol
+        Backend -->| Peppol
         Note[UBL Builder Library]
         Backend --> Note
     end
@@ -721,7 +715,7 @@ graph TB
 - **Purpose**: Invoice email delivery
 - **Configuration**: EMAIL_USER, EMAIL_PASS (app-specific password)
 - **Features**:
-  - PDF/XML attachment
+  - PDF attachment
   - PDF merging (PDFtk)
   - Terms & conditions attachment
   - Email tracking (lastEmail timestamp)
@@ -977,7 +971,6 @@ erDiagram
     PROJECTS ||--o{ PROJECTS_MONTH : monthly_tracking
     PROJECTS ||--o{ INVOICES : generates
 
-    INVOICES ||--o{ ATTACHMENTS : has_pdf_xml
     PROJECTS_MONTH ||--o{ ATTACHMENTS_PROJECT_MONTH : has_files
 
     CONFIG ||--|| USERS : system_settings
@@ -1128,7 +1121,7 @@ CONFAC demonstrates a well-architected full-stack system with:
 2. **Modern Technology Stack**: TypeScript, React 18, Express, MongoDB
 3. **Real-time Collaboration**: Socket.io for multi-user synchronization
 4. **Secure Authentication**: OAuth 2.0 + JWT + RBAC
-5. **Document Generation**: PDF (Pug + html-pdf), XML (UBL 2.1)
+5. **Document Generation**: PDF (Pug + html-pdf)
 6. **Containerized Deployment**: Docker Compose with environment-based config
 7. **External Integrations**: Gmail, Excel service, Grafana Loki, Peppol
 8. **Audit Trail**: Comprehensive change tracking

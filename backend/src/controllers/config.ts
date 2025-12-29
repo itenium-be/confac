@@ -68,6 +68,3 @@ export const getAudit = async (req: Request<void, void, void, {model: string; mo
 
   return res.send(logs);
 };
-
-export const DEFAULT_CURRENCY = 'EUR';
-export const DEFAULT_COUNTRY_CODE = 'BE';

@@ -2,14 +2,13 @@ import {Router} from 'express';
 import {emailInvoiceController} from '../controllers/emailInvoices';
 import {
   getInvoicesController, createInvoiceController, previewPdfInvoiceController, deleteInvoiceController,
-  updateInvoiceController, generateExcelForInvoicesController, getInvoiceXmlController, verifyInvoiceController,
+  updateInvoiceController, generateExcelForInvoicesController, verifyInvoiceController,
   sendInvoiceToPeppolController,
 } from '../controllers/invoices';
 
 const invoicesRouter = Router();
 
 invoicesRouter.get('/', getInvoicesController);
-invoicesRouter.get('/xml/:id', getInvoiceXmlController);
 
 invoicesRouter.post('/', createInvoiceController as any);
 invoicesRouter.post('/email/:id', emailInvoiceController);

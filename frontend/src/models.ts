@@ -34,7 +34,7 @@ export type Attachment = {
   desc?: string;
 }
 
-export type CoreInvoiceAttachments = 'pdf' | 'xml';
+export type CoreInvoiceAttachments = 'pdf';
 
 
 /** Duplicated on backend */

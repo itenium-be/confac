@@ -165,11 +165,6 @@ export const getAttachmentController = async (req: Request, res: Response) => {
     return res.status(501).send('Model type not supported');
   }
 
-
-  if (model === 'invoice' && type === 'xml') {
-    return res.status(400).send('Peppol UBL XML are done via Billit');
-  }
-
   const attachment = await req.db
     .collection(attachmentModelConfig.attachmentCollectionName)
     .findOne({_id: new ObjectID(id)});

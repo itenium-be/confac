@@ -26,7 +26,6 @@ The application handles:
 - **PDF Merging**: pdf-merge (requires PDFtk server dependency)
 - **Email**: nodemailer with Gmail SMTP
 - **Real-time**: Socket.IO 4.8 for live updates
-- **XML Generation**: fast-xml-parser for e-invoice creation
 - **Logging**: winston with daily file rotation
 
 ### Frontend
@@ -56,7 +55,6 @@ The application handles:
 ### 1. Invoice Management (`/invoices`)
 - Create, edit, view invoices and quotations
 - Generate professional PDFs using customizable Pug templates
-- Generate EU-compliant e-invoice XML (Peppol BIS Billing 3.0 standard)
 - Support for multiple line item types:
   - Hourly rates
   - Daily rates
@@ -65,7 +63,7 @@ The application handles:
   - Sections (headers)
   - Other custom types
 - Discount and tax handling (VAT)
-- Multiple attachment support (PDF, XML, custom files)
+- Multiple attachment support (PDF, custom files)
 - Email integration to send invoices directly
 - Invoice status tracking
 
@@ -204,13 +202,6 @@ confac/
 - Rollback: `cd deploy && npm run down`
 - MongoDB credentials are read automatically from the `.env` file
 
-### E-Invoice Compliance
-- Generated XML follows **Peppol BIS Billing 3.0** standard
-- EU regulation for electronic invoicing
-- Validation tool: https://ecosio.com/en/peppol-and-xml-document-validator/
-- Use ruleset: "OpenPeppol UBL Invoice (2023.11) (aka BIS Billing 3.0.16)"
-- Documentation: https://docs.peppol.eu/poacc/billing/3.0
-
 ### PDF Generation
 - Templates located in `backend/public/templates/`
 - Written in Pug templating language
@@ -290,8 +281,7 @@ confac/
 3. Choose invoice type (invoice vs quotation)
 4. Add line items (hours, days, expenses)
 5. Preview PDF
-6. Generate XML e-invoice (optional)
-7. Save and optionally send via email
+6. Save and optionally send via email
 
 ### Monthly Invoicing Process
 1. Navigate to `/monthly-invoicing`
