@@ -394,9 +394,9 @@ export const getInvoiceXmlController = async (req: Request, res: Response) => {
 export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Response) => {
   const {id} = req.params;
 
-  console.log('========================================'); // eslint-disable-line
-  console.log('PEPPOL ENDPOINT CALLED - Invoice ID:', id); // eslint-disable-line
-  console.log('========================================'); // eslint-disable-line
+  logger.info('================================================================================');
+  logger.info(`SEND INVOICE TO PEPPOL ENDPOINT CALLED - Invoice ID: ${id}`);
+  logger.info('================================================================================');
 
   // Fetch the invoice
   const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
