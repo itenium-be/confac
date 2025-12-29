@@ -34,7 +34,7 @@ export function getInvoiceDueDateVariant(
   /** Primary: Expiration date due in this many days. */
   const WatchDays = 5;
 
-  if (invoice.verified) {
+  if (invoice.status === 'Paid') {
     return '';
   }
 

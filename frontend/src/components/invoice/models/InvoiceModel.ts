@@ -38,6 +38,8 @@ export type InvoiceBillitModel = {
   orderId?: number;
 }
 
+export type InvoiceStatus = 'Draft' | 'ToSend' | 'ToPay' | 'Paid';
+
 
 
 /**
@@ -54,7 +56,7 @@ export default class InvoiceModel implements IAttachment {
   projectMonth?: InvoiceProjectMonth;
   date: moment.Moment;
   orderNr: string;
-  verified: boolean;
+  status: InvoiceStatus;
   discount: string;
   attachments: Attachment[];
   isQuotation: boolean;
@@ -83,7 +85,7 @@ export default class InvoiceModel implements IAttachment {
     this.projectMonth = obj.projectMonth;
     this.date = obj.date;
     this.orderNr = obj.orderNr || '';
-    this.verified = obj.verified || false;
+    this.status = obj.status || 'Draft';
     this.discount = obj.discount;
     this.attachments = obj.attachments || [{type: 'pdf', desc: 'Factuur pdf'}, {type: 'xml', desc: 'PEPPOL xml'}];
     this.isQuotation = obj.isQuotation || false;

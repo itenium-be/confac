@@ -126,7 +126,7 @@ export function toggleInvoiceVerify(data: InvoiceModel, toggleBusy = true) {
       .set('Authorization', authService.getBearer())
       .set('x-socket-id', socketService.socketId)
       .set('Accept', 'application/json')
-      .send({id: data._id, verified: !data.verified})
+      .send({id: data._id, status: data.status === 'Paid' ? 'ToPay' : 'Paid'})
       .then(res => {
         if (res) {
           dispatch({
@@ -135,7 +135,7 @@ export function toggleInvoiceVerify(data: InvoiceModel, toggleBusy = true) {
           });
         }
 
-        success(data.verified ? t('invoice.isNotVerifiedConfirm') : t('invoice.isVerifiedConfirm'));
+        success(data.status === 'Paid' ? t('invoice.isNotVerifiedConfirm') : t('invoice.isVerifiedConfirm'));
       })
       .catch(catchHandler)
       .then(() => {

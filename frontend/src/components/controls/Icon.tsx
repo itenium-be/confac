@@ -134,4 +134,22 @@ export const EmailedIcon = ({...props}) => (
   </Icon>
 );
 
+export const NotPeppoledIcon = ({...props}) => (
+  <ClaimSpan
+    claim={claims => claims.includes(Claim.EmailInvoices) || claims.includes(Claim.ViewEmailInvoices)}
+    className="fa-stack fa-2x tst-not-peppol"
+    {...props}
+  >
+    <i className="fas fa-file-invoice fa-stack-1x" />
+    <Icon fa="fas fa-ban fa-stack-2x" size={1} title={t('invoice.peppolNotSent')} color="#CC1100" />
+  </ClaimSpan>
+);
+
+export const PeppoledIcon = ({...props}) => (
+  <Icon fa="fa-stack fa-2x tst-peppol-success" {...props}>
+    <i className="fas fa-file-invoice fa-stack-1x" />
+    <Icon fa="fas fa-check fa-stack-2x" size={1} color="green" />
+  </Icon>
+);
+
 export const SortIcon = ({...props}: IconProps) => <Icon className="tst-sort" {...props} />;

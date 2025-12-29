@@ -161,7 +161,7 @@ export default class InvoiceListModel {
 
 
       if (otherFilter === 'unverifiedOnly') {
-        invoices = invoices.filter(i => !i.verified);
+        invoices = invoices.filter(i => i.status !== 'Paid');
         return;
       }
 

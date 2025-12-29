@@ -2,7 +2,7 @@ import {Col} from 'react-bootstrap';
 import {t} from '../../utils';
 import InvoiceModel from '../models/InvoiceModel';
 import {NumericInput} from '../../controls/form-controls/inputs/NumericInput';
-import {VerifyIcon} from '../../controls/icons/VerifyIcon';
+import {InvoiceStatusIcon} from '../../controls/icons/InvoiceStatusIcon';
 import {StringInput} from '../../controls/form-controls/inputs/StringInput';
 import {DatePicker} from '../../controls/form-controls/DatePicker';
 
@@ -17,7 +17,7 @@ export const EditInvoiceDetails = ({invoice, onChange}: EditInvoiceDetailsProps)
     <>
       <Col sm={5}>
         <NumericInput
-          prefix={invoice.verified && <VerifyIcon style={{fontSize: 16}} title={t('invoice.isVerified')} />}
+          prefix={!invoice.isNew && <InvoiceStatusIcon status={invoice.status} style={{fontSize: 16}} />}
           label={tp('.number')}
           value={invoice.number}
           onChange={value => onChange('number', value)}

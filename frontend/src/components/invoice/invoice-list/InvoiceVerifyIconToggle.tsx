@@ -3,7 +3,7 @@ import moment from 'moment';
 import t from '../../../trans';
 import {toggleInvoiceVerify} from '../../../actions/index';
 import InvoiceModel from '../models/InvoiceModel';
-import {BusyVerifyIcon} from '../../controls/icons/VerifyIcon';
+import {BusyInvoiceStatusIcon} from '../../controls/icons/InvoiceStatusIcon';
 import {EnhanceWithClaim, EnhanceWithClaimProps} from '../../enhancers/EnhanceWithClaim';
 
 
@@ -19,9 +19,9 @@ export const InvoiceVerifyIconToggle = EnhanceWithClaim(({invoice, toggleBusy, .
   }
 
   const daysPassed = moment().diff(invoice.audit.createdOn, 'days');
-  const title = invoice.verified ? t('invoice.unverifyActionTooltip') : t('invoice.verifyActionTooltip', {days: daysPassed});
+  const title = invoice.status === 'Paid' ? t('invoice.unverifyActionTooltip') : t('invoice.verifyActionTooltip', {days: daysPassed});
   return (
-    <BusyVerifyIcon
+    <BusyInvoiceStatusIcon
       withoutStoreBusy={!toggleBusy}
       model={invoice}
       style={{marginLeft: 8}}

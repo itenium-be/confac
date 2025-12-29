@@ -25,7 +25,7 @@ const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMon
     if (prj.details.verified)
       return false;
 
-    if (prj.invoice?.verified && (!prj.project.projectMonthConfig.inboundInvoice || prj.details.inbound.status === 'paid'))
+    if (prj.invoice?.status === 'Paid' && (!prj.project.projectMonthConfig.inboundInvoice || prj.details.inbound.status === 'paid'))
       return false;
   }
 

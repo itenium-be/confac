@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import {useSelector} from 'react-redux';
 import {Link} from 'react-router';
 import moment from 'moment';
 import {InvoiceClientCell} from '../invoice-table/InvoiceClientCell';
@@ -7,7 +8,7 @@ import InvoiceModel, {calculateDaysWorked} from './InvoiceModel';
 import {formatDate, moneyFormat, searchinize} from '../../utils';
 import {IListCell, IListRow, ListFilters} from '../../controls/table/table-models';
 import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
-import {NotEmailedIcon, Icon} from '../../controls/Icon';
+import {NotEmailedIcon, NotPeppoledIcon, Icon} from '../../controls/Icon';
 import {InvoiceListRowAction, InvoiceListRowActions} from '../invoice-table/InvoiceListRowActions';
 import {getInvoiceListRowClass} from '../invoice-table/getInvoiceListRowClass';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
@@ -16,6 +17,13 @@ import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/
 import {features} from '../../../trans';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ProjectMonthModal} from '../../project/controls/ProjectMonthModal';
+import {ConfacState} from '../../../reducers/app-state';
+
+const InvoiceNotSentIcon = ({invoice, style}: {invoice: InvoiceModel; style?: React.CSSProperties}) => {
+  const peppolPivotDate = useSelector((state: ConfacState) => state.config.peppolPivotDate);
+  const usePeppol = moment(invoice.audit?.createdOn).isSameOrAfter(peppolPivotDate, 'day');
+  return usePeppol ? <NotPeppoledIcon style={style} /> : <NotEmailedIcon style={style} />;
+};
 
 
 export type InvoiceFeatureBuilderConfig = IFeatureBuilderConfig<InvoiceModel, ListFilters> & {
@@ -191,7 +199,7 @@ export function getInvoiceColumns(config: InvoiceFeatureBuilderConfig): IListCel
     style: {textAlign: 'right', whiteSpace: 'nowrap'},
     value: (invoice: InvoiceModel) => (
       <>
-        {!invoice.verified && !invoice.lastEmail && <NotEmailedIcon style={{marginRight: 6, fontSize: 12}} />}
+        {invoice.status !== 'Paid' && !invoice.lastEmail && <InvoiceNotSentIcon invoice={invoice} style={{marginRight: 6, fontSize: 12}} />}
         {moneyFormat(invoice.money.total)}
       </>
     ),

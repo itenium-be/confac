@@ -50,6 +50,8 @@ export interface InvoiceProjectMonth {
 }
 
 
+export type InvoiceStatus = 'Draft' | 'ToSend' | 'ToPay' | 'Paid';
+
 export interface IInvoice {
   _id: ObjectID;
   number: number;
@@ -58,7 +60,7 @@ export interface IInvoice {
   projectMonth?: InvoiceProjectMonth;
   date: string;
   orderNr: string;
-  verified: boolean;
+  status: InvoiceStatus;
   fileName: string;
   discount: string;
   attachments: IAttachment[];

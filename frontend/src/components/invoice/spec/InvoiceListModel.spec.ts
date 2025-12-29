@@ -12,10 +12,10 @@ describe('InvoiceListModel', () => {
     } as InvoiceListFilters;
     const today = () => moment().startOf('day');
     const invoices = [
-      {date: today(), verified: true} as InvoiceModel,
-      {date: today().subtract(1, 'days'), verified: true} as InvoiceModel,
-      {date: today().subtract(2, 'days'), verified: true} as InvoiceModel,
-      {date: today().subtract(3, 'days'), verified: true} as InvoiceModel,
+      {date: today(), status: 'Paid'} as InvoiceModel,
+      {date: today().subtract(1, 'days'), status: 'Paid'} as InvoiceModel,
+      {date: today().subtract(2, 'days'), status: 'Paid'} as InvoiceModel,
+      {date: today().subtract(3, 'days'), status: 'Paid'} as InvoiceModel,
     ];
     const vm = new InvoiceListModel(invoices, [], [], filters, false);
 
@@ -31,7 +31,7 @@ describe('InvoiceListModel', () => {
       groupedByMonth: false,
     } as InvoiceListFilters;
     const invoices = [
-      {date: moment().subtract(3, 'days'), verified: false} as InvoiceModel,
+      {date: moment().subtract(3, 'days'), status: 'ToPay'} as InvoiceModel,
     ];
     const vm = new InvoiceListModel(invoices, [], [], filters, true);
 

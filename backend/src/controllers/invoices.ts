@@ -193,21 +193,21 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
 
 
 export const verifyInvoiceController = async (req: ConfacRequest, res: Response) => {
-  const {id, verified}: {id: string; verified: boolean} = req.body;
+  const {id, status}: {id: string; status: 'ToPay' | 'Paid'} = req.body;
 
   const saveResult = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
-    .findOneAndUpdate({_id: new ObjectID(id)}, {$set: {verified}}, {returnOriginal: true});
+    .findOneAndUpdate({_id: new ObjectID(id)}, {$set: {status}}, {returnOriginal: true});
 
   if (!saveResult?.value) {
     return res.status(404).send('Invoice not found');
   }
 
-  if (saveResult.value.verified === verified) {
+  if (saveResult.value.status === status) {
     return res.status(200).send();
   }
 
   const originalInvoice = saveResult.value;
-  const invoice = {...originalInvoice, verified};
+  const invoice = {...originalInvoice, status};
   await saveAudit(req, 'invoice', originalInvoice, invoice);
 
   const result: Array<any> = [{
@@ -217,6 +217,8 @@ export const verifyInvoiceController = async (req: ConfacRequest, res: Response)
 
   emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, invoice._id, invoice);
 
+  // Update projectMonth.verified based on invoice status (Paid = verified)
+  const verified = status === 'Paid';
   if (invoice?.projectMonth?.projectMonthId) {
     let shouldUpdateProjectMonth = true;
     if (verified && invoice.creditNotas?.length) {
@@ -224,7 +226,7 @@ export const verifyInvoiceController = async (req: ConfacRequest, res: Response)
         .find({_id: {$in: invoice.creditNotas.map(creditNotaId => new ObjectID(creditNotaId))}})
         .toArray();
 
-      shouldUpdateProjectMonth = creditNotes.every(creditNote => creditNote.verified);
+      shouldUpdateProjectMonth = creditNotes.every(creditNote => creditNote.status === 'Paid');
     }
 
     if (shouldUpdateProjectMonth) {
@@ -433,9 +435,10 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
 
         await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
           {_id: new ObjectID(invoice._id)},
-          {$set: {billit: {orderId}}},
+          {$set: {billit: {orderId}, status: 'ToSend'}},
         );
         invoice.billit = {orderId};
+        invoice.status = 'ToSend';
       } catch (error: any) {
         if (error?.message?.includes('Idempotent token already exists')) {
           logger.info(`IdempotencyKey already exists for InvoiceNr=${invoice.number}, billitId=${invoice.billit?.orderId}`);
@@ -478,7 +481,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
 
       const updatedInvoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOneAndUpdate(
         {_id: new ObjectID(invoice._id)},
-        {$set: {lastEmail: sentToPeppol}},
+        {$set: {lastEmail: sentToPeppol, status: 'ToPay'}},
       );
       if (updatedInvoice.ok && updatedInvoice.value) {
         emitEntityEvent(
@@ -486,7 +489,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
           SocketEventTypes.EntityUpdated,
           CollectionNames.INVOICES,
           updatedInvoice.value._id,
-          {...updatedInvoice.value, lastEmail: sentToPeppol},
+          {...updatedInvoice.value, lastEmail: sentToPeppol, status: 'ToPay'},
           'everyone',
         );
       }

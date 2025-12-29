@@ -121,7 +121,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
         <>
           <Button
             claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
-            variant={invoice?.verified || invoice?.lastEmail ? 'outline-danger' : 'light'}
+            variant={invoice?.status === 'Paid' || invoice?.lastEmail ? 'outline-danger' : 'light'}
             icon="far fa-envelope"
             onClick={() => setEmailModal(EmailTemplate.InitialEmail)}
             className="tst-open-email-initial"
@@ -130,7 +130,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
           </Button>
           <Button
             claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
-            variant={invoice?.verified || !invoice?.lastEmail ? 'outline-danger' : 'light'}
+            variant={invoice?.status === 'Paid' || !invoice?.lastEmail ? 'outline-danger' : 'light'}
             icon="far fa-envelope"
             onClick={() => setEmailModal(EmailTemplate.Reminder)}
             className="tst-open-email-reminder"

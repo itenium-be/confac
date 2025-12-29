@@ -6,7 +6,7 @@ import {t} from '../../utils';
 import {toggleInvoiceVerify} from '../../../actions/index';
 import InvoiceModel from '../models/InvoiceModel';
 import {ConfacState} from '../../../reducers/app-state';
-import {NotEmailedIcon} from '../../controls/Icon';
+import {NotEmailedIcon, NotPeppoledIcon} from '../../controls/Icon';
 import {BusyButton} from '../../controls/form-controls/BusyButton';
 import {getInvoiceDueDateVariant} from '../invoice-table/getInvoiceListRowClass';
 import {Claim} from '../../users/models/UserModel';
@@ -16,6 +16,7 @@ type InvoiceNotVerifiedAlertProps = {
   invoice: InvoiceModel;
   toggleInvoiceVerify: Function;
   invoicePayDays: number;
+  peppolPivotDate: moment.Moment;
 }
 
 type InvoiceNotVerifiedAlertState = {
@@ -30,7 +31,7 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
 
   render() {
     const { invoice, toggleInvoiceVerify } = this.props; // eslint-disable-line
-    if (this.state.dismissed || invoice.isNew || invoice.verified || invoice.isQuotation) {
+    if (this.state.dismissed || invoice.isNew || invoice.status === 'Paid' || invoice.isQuotation) {
       return null;
     }
 
@@ -42,7 +43,9 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
         <Alert variant={variant} onClose={() => this.setState({dismissed: true})} dismissible>
 
           {!invoice.lastEmail && (
-            <NotEmailedIcon style={{marginRight: 10, fontSize: 13, marginTop: -6}} />
+            moment(invoice.audit?.createdOn).isSameOrAfter(this.props.peppolPivotDate, 'day')
+              ? <NotPeppoledIcon style={{marginRight: 10, fontSize: 13, marginTop: -6}} />
+              : <NotEmailedIcon style={{marginRight: 10, fontSize: 13, marginTop: -6}} />
           )}
 
           <BusyButton
@@ -75,5 +78,5 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
 }
 
 export default connect(
-  (state: ConfacState) => ({invoicePayDays: state.config.invoicePayDays}), {toggleInvoiceVerify},
+  (state: ConfacState) => ({invoicePayDays: state.config.invoicePayDays, peppolPivotDate: state.config.peppolPivotDate}), {toggleInvoiceVerify},
 )(InvoiceNotVerifiedAlert);
