@@ -1,6 +1,6 @@
-import moment from 'moment';
 import {Request, Response} from 'express';
 import {ObjectID, Db} from 'mongodb';
+import moment from 'moment';
 import {IInvoice, INVOICE_EXCEL_HEADERS} from '../models/invoices';
 import {IAttachmentCollection} from '../models/attachments';
 import {createPdf, createXml} from './utils';
@@ -10,6 +10,7 @@ import {ConfacRequest, Jwt} from '../models/technical';
 import {IClient} from '../models/clients';
 import {saveAudit} from './utils/audit-logs';
 import {emitEntityEvent} from './utils/entity-events';
+import {isPeppolActive} from './utils/peppol-helpers';
 import config from '../config';
 import {logger} from '../logger';
 import {ApiClient, Attachment, CreateOrderRequest, SendInvoiceRequest} from '../services/billit';
@@ -24,10 +25,8 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user:
 
   const [createdInvoice] = inserted.ops;
 
-  const dbConfig = await db.collection(CollectionNames.CONFIG).findOne({key: 'conf'});
-  const peppolPivotDate = dbConfig?.peppolPivotDate || '2026-01-01';
-  const isPeppolActive = moment().isSameOrAfter(peppolPivotDate, 'day');
-  const shouldCreateXml = !invoice.isQuotation && !isPeppolActive;
+  const peppolActive = await isPeppolActive(db);
+  const shouldCreateXml = !invoice.isQuotation && !peppolActive;
 
   if (shouldCreateXml) {
     const xmlBuffer = Buffer.from(createXml(createdInvoice, pdfBuffer));

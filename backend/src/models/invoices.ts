@@ -81,8 +81,6 @@ export interface IInvoice {
 export interface IInvoiceBillit {
   /** The Billit order ID, returned after creating the order in Billit */
   orderId?: number;
-  /** UUID for downloading the UBL XML */
-  ublUuid?: string;
 }
 
 export const INVOICE_EXCEL_HEADERS = [

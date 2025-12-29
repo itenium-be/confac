@@ -19,8 +19,9 @@ export const InvoiceDownloadIcon = ({invoice, fileType, style, ...props}: Invoic
   const url = getInvoiceDownloadUrl(defaultInvoiceFileName, invoice, fileType, 'download');
   const attachment = invoice.attachments.find(a => a.type === fileType);
 
-  if (!attachment) {
-    // Example: Peppol XML for old invoices
+  if (!attachment || fileType === 'xml') {
+    // attachment is undefined for Peppol XML for old invoices
+    // But since we're now working with Billit never show this
     return null;
   }
 

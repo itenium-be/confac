@@ -4,6 +4,8 @@ import {CreateOrderRequest} from './orders/createorder';
 import {SendInvoiceRequest} from './orders/sendinvoice';
 import {GetParticipantInformationResponse} from './peppol/getparticipantinformation';
 import {ApiConfig} from './api-config';
+import {SavedAttachment} from './orders/createorder/attachment/attachment';
+import {BillitOrder} from './orders/createorder/create-order.request';
 
 export class ApiClient {
   private config: ApiConfig;
@@ -13,9 +15,7 @@ export class ApiClient {
   }
 
   /**
-   * Creates an order (invoice or quotation) at Billit
-   * @param request The order creation request
-   * @param idempotencyKey Unique key to ensure idempotent requests
+   * Creates an order at Billit
    * @returns The Billit order ID
    */
   async createOrder(
@@ -47,9 +47,7 @@ export class ApiClient {
   }
 
   /**
-   * Sends an invoice via specified transport type
-   * @param request The send invoice request
-   * @param idempotencyKey Unique key to ensure idempotent requests
+   * Sends an existing Billit invoice via specified transport type to Peppol
    */
   async sendInvoice(request: SendInvoiceRequest, idempotencyKey: string): Promise<void> {
     const response: fetch.Response = await fetch(`${this.config.apiUrl}/orders/commands/send`, {
@@ -93,5 +91,44 @@ export class ApiClient {
     const data: GetParticipantInformationResponse = await response.json();
     logger.info(`Peppol registration checked for VAT ${vatNumber}: ${data.Registered ? 'registered' : 'not registered'}`);
     return data;
+  }
+
+  async getOrder(billitOrderId: number): Promise<BillitOrder> {
+    const response: fetch.Response = await fetch(`${this.config.apiUrl}/orders/${billitOrderId}`, {
+      method: 'GET',
+      headers: {
+        ApiKey: this.config.apiKey,
+        PartyID: this.config.partyId,
+        ContextPartyID: this.config.contextPartyId,
+      },
+    });
+
+    if (!response.ok) {
+      const errorText: string = await response.text();
+      logger.error(`Billit getOrder failed: ${response.status} - ${errorText}`);
+      throw new Error(`Failed to get order from Billit: ${errorText}`);
+    }
+
+    return response.json();
+  }
+
+  /** Gets a file by its generated UUID */
+  async getFile(fileId: string): Promise<SavedAttachment> {
+    const response: fetch.Response = await fetch(`${this.config.apiUrl}/files/${fileId}`, {
+      method: 'GET',
+      headers: {
+        ApiKey: this.config.apiKey,
+        PartyID: this.config.partyId,
+        ContextPartyID: this.config.contextPartyId,
+      },
+    });
+
+    if (!response.ok) {
+      const errorText: string = await response.text();
+      logger.error(`Billit getFile failed: ${response.status} - ${errorText}`);
+      throw new Error(`Failed to get file from Billit: ${errorText}`);
+    }
+
+    return response.json();
   }
 }

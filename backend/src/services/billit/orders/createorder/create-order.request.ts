@@ -3,8 +3,13 @@ import {OrderLine} from './orderline';
 import {OrderType} from './order-type';
 import {OrderDirection} from './order-direction';
 import {Attachment} from './attachment';
+import {SavedAttachment} from './attachment/attachment';
 
-export interface CreateOrderRequest {
+export type BillitOrder = Omit<CreateOrderRequest, 'Attachments'> & {
+  Attachments: SavedAttachment[];
+};
+
+export type CreateOrderRequest = {
   OrderType: OrderType;
   OrderDirection: OrderDirection;
   OrderNumber?: string;

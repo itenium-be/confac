@@ -1,4 +1,4 @@
-import {Express, Request, Response} from 'express';
+import {Request, Response} from 'express';
 import JSZip from 'jszip';
 import moment from 'moment';
 import {ObjectID} from 'mongodb';
@@ -163,6 +163,11 @@ export const getAttachmentController = async (req: Request, res: Response) => {
 
   if (!attachmentModelConfig) {
     return res.status(501).send('Model type not supported');
+  }
+
+
+  if (model === 'invoice' && type === 'xml') {
+    return res.status(400).send('Peppol UBL XML are done via Billit');
   }
 
   const attachment = await req.db
