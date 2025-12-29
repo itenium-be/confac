@@ -4,7 +4,7 @@ import {ObjectID, Db} from 'mongodb';
 import {IInvoice, INVOICE_EXCEL_HEADERS} from '../models/invoices';
 import {IAttachmentCollection} from '../models/attachments';
 import {createPdf, createXml} from './utils';
-import {CollectionNames, IAttachment, SocketEventTypes, createAudit, updateAudit} from '../models/common';
+import {CollectionNames, createAudit, IAttachment, SocketEventTypes, updateAudit} from '../models/common';
 import {IProjectMonth} from '../models/projectsMonth';
 import {ConfacRequest, Jwt} from '../models/technical';
 import {IClient} from '../models/clients';
@@ -12,10 +12,9 @@ import {saveAudit} from './utils/audit-logs';
 import {emitEntityEvent} from './utils/entity-events';
 import config from '../config';
 import {logger} from '../logger';
-import {CreateOrderRequest, ApiClient, SendInvoiceRequest} from '../services/billit';
+import {ApiClient, Attachment, CreateOrderRequest, SendInvoiceRequest} from '../services/billit';
 import {GetParticipantInformationResponse} from '../services/billit/peppol/getparticipantinformation';
 import {ApiClientFactory, CreateOrderRequestFactory, SendInvoiceRequestFactory, VatNumberFactory} from './utils/billit';
-
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
   const inserted = await db.collection<IInvoice>(CollectionNames.INVOICES).insertOne({
@@ -420,6 +419,37 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
 
     // Step 1: Create invoice at Billit
     const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(invoice);
+
+    // Add attachments to CreateOrderRequest
+    const getBillitAttachments = async (): Promise<Attachment[]> => {
+      const attachmentPromises: Promise<Attachment>[] = invoice.attachments
+        .filter(attachment => attachment.type.toLowerCase() === 'getekende timesheet')
+        .map(
+          invoiceAttachment => toBillitAttachment(invoiceAttachment),
+        );
+      return Promise.all(attachmentPromises);
+    };
+
+    const toBillitAttachment = async (invoiceAttachment: IAttachment): Promise<Attachment> => {
+      const {
+        fileName: FileName,
+        type,
+      } = invoiceAttachment;
+
+      const attachment = await req.db
+        .collection(CollectionNames.ATTACHMENTS)
+        .findOne({_id: new ObjectID(invoice._id)});
+
+      const buffer: Buffer = attachment[type].buffer;
+      const FileContent: string = buffer.toString('base64');
+
+      return {
+        FileName,
+        FileContent,
+      };
+    };
+    createOrderRequest.Attachments = await getBillitAttachments();
+
     let idempotencyKey: string = `create-order-${invoice.number.toString()}`;
     try {
       const orderId: number = await apiClient.createOrder(createOrderRequest, idempotencyKey);
