@@ -376,7 +376,8 @@ export const trans = {
     peppolConfirmSend: 'Do you want to send this invoice to Peppol?',
     peppolSignedTimesheet: 'Signed timesheet',
     peppolTransportType: 'Transport method',
-    peppolEmailTo: 'Email to'
+    peppolEmailTo: 'Email to',
+    peppolSentOn: 'Sent to Peppol on'
   },
   attachment: {
     types: 'Attachment types',

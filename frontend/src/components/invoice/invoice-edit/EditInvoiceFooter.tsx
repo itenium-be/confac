@@ -31,7 +31,13 @@ type PeppolModalProps = {
 
 const PeppolModal = ({invoice, client, onClose, onConfirm}: PeppolModalProps) => {
   const hasSignedTimesheet = invoice.attachments.some(a => a.type === SignedTimesheetAttachmentType);
-  const isPeppolEnabled = client?.peppolEnabled === true;
+  const isPeppolEnabled = !!client?.peppolEnabled;
+  const alreadySent = !!invoice.lastEmail;
+
+  let transportType = isPeppolEnabled ? 'Peppol' : 'Email';
+  if (client?.peppolEnabled === undefined) {
+    transportType = '???';
+  }
 
   return (
     <Modal
@@ -41,6 +47,9 @@ const PeppolModal = ({invoice, client, onClose, onConfirm}: PeppolModalProps) =>
       confirmText={t('invoice.peppolSend')}
       title={t('invoice.peppolSend')}
     >
+      {alreadySent && (
+        <p style={{marginBottom: 0}}><strong>{t('invoice.peppolSentOn')}:</strong> {moment(invoice.lastEmail).format('DD/MM/YYYY HH:mm')}</p>
+      )}
       {invoice.billitOrderId && (
         <p><strong>{t('invoice.peppolBillitOrderId')}:</strong> {invoice.billitOrderId}</p>
       )}
@@ -50,8 +59,8 @@ const PeppolModal = ({invoice, client, onClose, onConfirm}: PeppolModalProps) =>
       </p>
       <p>
         <strong>{t('invoice.peppolTransportType')}:</strong>{' '}
-        {isPeppolEnabled ? 'Peppol' : 'Email'}
-        {!isPeppolEnabled && (
+        {transportType}
+        {transportType === 'Email' && (
           <><br /><strong>{t('invoice.peppolEmailTo')}:</strong> {client?.email?.to}</>
         )}
       </p>
@@ -77,8 +86,6 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
   const clients = useSelector((state: ConfacState) => state.clients);
   const [peppolModalOpen, setPeppolModalOpen] = useState(false);
 
-  const alreadySentToPeppol = !!invoice.lastEmail;
-
   return (
     <>
       {peppolModalOpen && (
@@ -92,12 +99,10 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
       {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && (
         <Button
           claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
-          variant="light"
+          variant={invoice.lastEmail ? 'outline-danger' : 'light'}
           icon="fas fa-paper-plane"
           onClick={() => setPeppolModalOpen(true)}
           className="tst-send-peppol"
-          disabled={alreadySentToPeppol}
-          title={alreadySentToPeppol ? `${t('invoice.peppolAlreadySent')} (Id=${invoice.billitOrderId})` : undefined}
         >
           {t('invoice.peppolSend')}
         </Button>

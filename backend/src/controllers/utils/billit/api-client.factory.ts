@@ -7,5 +7,5 @@ export function fromConfig(config: IConfig): ApiClient {
   // TODO: do return the actual API again...
   const apiConfig: ApiConfig = createApiConfigFromConfig(config);
   // return new ApiClient(apiConfig);
-  return new MockApiClient();
+  return new MockApiClient(apiConfig);
 }

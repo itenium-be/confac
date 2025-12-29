@@ -376,7 +376,8 @@ export const trans = {
     peppolConfirmSend: 'Wil je deze factuur versturen naar Peppol?',
     peppolSignedTimesheet: 'Getekende timesheet',
     peppolTransportType: 'Verzendmethode',
-    peppolEmailTo: 'Email naar'
+    peppolEmailTo: 'Email naar',
+    peppolSentOn: 'Verstuurd naar Peppol op'
   },
   attachment: {
     types: 'Bijlage types',
