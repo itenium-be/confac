@@ -5,7 +5,7 @@ import {fromClient as createCustomerFromClient} from './customer.factory';
 import {fromInvoice as createOrderLinesFromInvoice} from './orderlinesfactory';
 import {fromInvoice as createPaymentReferenceFromInvoice} from './payment-reference.factory';
 
-const InvoiceExpirationInDays = 14;
+const InvoiceExpirationInDays: number = 14;
 
 /**
  * Creates a CreateOrderRequest from an IInvoice

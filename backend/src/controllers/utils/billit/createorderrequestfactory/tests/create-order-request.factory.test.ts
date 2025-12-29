@@ -5,7 +5,7 @@ import {IInvoice} from '../../../../../models/invoices';
 import {someInvoice} from './invoice.fixture';
 import {someInvoiceLine} from './invoice-line.fixture';
 
-describe('fromInvoiceAndClient', () => {
+describe('fromInvoice', () => {
   it('should create CreateOrderRequest for invoice with full client data', () => {
     const invoice: IInvoice = {
       ...someInvoice,
