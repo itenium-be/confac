@@ -394,8 +394,6 @@ export const getInvoiceXmlController = async (req: Request, res: Response) => {
 export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Response) => {
   const {id} = req.params;
 
-  logger.info(`SEND INVOICE TO PEPPOL ENDPOINT CALLED - Invoice ID: ${id}`);
-
   // Fetch the invoice
   const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
     .findOne({_id: new ObjectID(id)});
@@ -414,6 +412,8 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
   if (!client) {
     return res.status(400).send({message: 'Client not found'});
   }
+
+  logger.info(`SEND INVOICE TO PEPPOL - Invoice Nr=${invoice.number} ID: ${id}`);
 
   try {
     const apiClient: ApiClient = ApiClientFactory.fromConfig(config);

@@ -364,7 +364,19 @@ export const trans = {
     listAdvancedFilters: 'More filters',
     listDownloadZip: 'Download all in the list visible invoices (zip)',
     listDownloadExcel: 'Export all in the list visible invoices to Excel (csv)',
-    createCreditNota: 'Create Credit Note'
+    createCreditNota: 'Create Credit Note',
+    peppolSend: 'Send to Peppol',
+    peppolSuccess: 'Client is registered in Peppol',
+    peppolNotRegistered: 'Client is not registered in Peppol',
+    peppolNotRegisteredTitle: 'Peppol registration',
+    peppolError: 'An error occurred while checking the Peppol registration',
+    peppolErrorTitle: 'Peppol error',
+    peppolAlreadySent: 'Already sent to Peppol',
+    peppolBillitOrderId: 'Billit Order ID',
+    peppolConfirmSend: 'Do you want to send this invoice to Peppol?',
+    peppolSignedTimesheet: 'Signed timesheet',
+    peppolTransportType: 'Transport method',
+    peppolEmailTo: 'Email to'
   },
   attachment: {
     types: 'Attachment types',

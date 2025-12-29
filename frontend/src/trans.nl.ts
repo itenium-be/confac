@@ -370,7 +370,13 @@ export const trans = {
     peppolNotRegistered: 'Klant is niet geregistreerd in Peppol',
     peppolNotRegisteredTitle: 'Peppol registratie',
     peppolError: 'Er is een fout opgetreden bij het controleren van de Peppol registratie',
-    peppolErrorTitle: 'Peppol fout'
+    peppolErrorTitle: 'Peppol fout',
+    peppolAlreadySent: 'Reeds verstuurd naar Peppol',
+    peppolBillitOrderId: 'Billit Order ID',
+    peppolConfirmSend: 'Wil je deze factuur versturen naar Peppol?',
+    peppolSignedTimesheet: 'Getekende timesheet',
+    peppolTransportType: 'Verzendmethode',
+    peppolEmailTo: 'Email naar'
   },
   attachment: {
     types: 'Bijlage types',
