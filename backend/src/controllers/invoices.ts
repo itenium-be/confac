@@ -394,16 +394,17 @@ export const getInvoiceXmlController = async (req: Request, res: Response) => {
 export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Response) => {
   const {id} = req.params;
 
-  logger.info('================================================================================');
   logger.info(`SEND INVOICE TO PEPPOL ENDPOINT CALLED - Invoice ID: ${id}`);
-  logger.info('================================================================================');
 
   // Fetch the invoice
   const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
     .findOne({_id: new ObjectID(id)});
 
   if (!invoice) {
-    return res.status(404).send({message: 'Invoice not found'});
+    return res.status(400).send({message: 'Invoice not found'});
+  }
+  if (invoice.lastEmail) {
+    return res.status(400).send({message: 'Invoice was already sent to Peppol'});
   }
 
   // Fetch the client
@@ -411,7 +412,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     .findOne({_id: new ObjectID(invoice.client._id)});
 
   if (!client) {
-    return res.status(404).send({message: 'Client not found'});
+    return res.status(400).send({message: 'Client not found'});
   }
 
   try {
@@ -423,18 +424,13 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     // Add attachments to CreateOrderRequest
     const getBillitAttachments = async (): Promise<Attachment[]> => {
       const attachmentPromises: Promise<Attachment>[] = invoice.attachments
-        .filter(attachment => attachment.type.toLowerCase() === 'getekende timesheet')
-        .map(
-          invoiceAttachment => toBillitAttachment(invoiceAttachment),
-        );
+        .filter(attachment => attachment.type === 'Getekende timesheet')
+        .map(invoiceAttachment => toBillitAttachment(invoiceAttachment));
       return Promise.all(attachmentPromises);
     };
 
     const toBillitAttachment = async (invoiceAttachment: IAttachment): Promise<Attachment> => {
-      const {
-        fileName: FileName,
-        type,
-      } = invoiceAttachment;
+      const {fileName: FileName, type} = invoiceAttachment;
 
       const attachment = await req.db
         .collection(CollectionNames.ATTACHMENTS)
@@ -443,90 +439,84 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
       const buffer: Buffer = attachment[type].buffer;
       const FileContent: string = buffer.toString('base64');
 
-      return {
-        FileName,
-        FileContent,
-      };
+      return {FileName, FileContent};
     };
     createOrderRequest.Attachments = await getBillitAttachments();
 
-    let idempotencyKey: string = `create-order-${invoice.number.toString()}`;
-    try {
-      const orderId: number = await apiClient.createOrder(createOrderRequest, idempotencyKey);
+    if (!invoice.billitOrderId) {
+      try {
+        const orderId: number = await apiClient.createOrder(createOrderRequest, `create-order-${invoice.number.toString()}`);
 
-      // Save billitOrderId to invoice
-      await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
-        {_id: new ObjectID(invoice._id)},
-        {$set: {billitOrderId: orderId}},
-      );
-      invoice.billitOrderId = orderId;
-    } catch (error: any) {
-      if (error?.message?.includes('Idempotent token already exists')) {
-        logger.info(`Idempotent token '${idempotencyKey}' already exists, order (${invoice.billitOrderId}) for invoice (${invoice.number}) was already created.`);
-      } else {
-        throw error;
+        // Save billitOrderId to invoice
+        await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
+          {_id: new ObjectID(invoice._id)},
+          {$set: {billitOrderId: orderId}},
+        );
+        invoice.billitOrderId = orderId;
+      } catch (error: any) {
+        if (error?.message?.includes('Idempotent token already exists')) {
+          logger.info(`IdempotencyKey already exists for InvoiceNr=${invoice.number}, billitId=${invoice.billitOrderId}`);
+        } else {
+          logger.error(`sendInvoice error "${error?.message}": ${JSON.stringify(error)} for #${invoice.number}`);
+          throw error;
+        }
       }
     }
 
     // Step 2: Determine peppolEnabled status
-    let peppolEnabled: boolean;
-    let wasAlreadyRegistered = false;
-
-    if (client.peppolEnabled) {
-      peppolEnabled = true;
-      wasAlreadyRegistered = true;
-    } else {
+    if (!client.peppolEnabled) {
       const vatNumber: string = VatNumberFactory.fromClient(client);
       const peppolResponse: GetParticipantInformationResponse = await apiClient.getParticipantInformation(vatNumber);
-      peppolEnabled = peppolResponse.Registered;
+      client.peppolEnabled = peppolResponse.Registered;
 
-      // Update client if there was a change
-      if (client.peppolEnabled !== peppolEnabled) {
+      if (client.peppolEnabled) {
         await req.db.collection<IClient>(CollectionNames.CLIENTS).updateOne(
           {_id: new ObjectID(client._id)},
-          {$set: {peppolEnabled}},
+          {$set: {peppolEnabled: true}},
         );
-        client.peppolEnabled = peppolEnabled;
+        emitEntityEvent(
+          req,
+          SocketEventTypes.EntityUpdated,
+          CollectionNames.CLIENTS,
+          client._id,
+          {...client, peppolEnabled: true},
+        );
       }
-    }
-
-    // Update invoice if needed
-    if (needsInvoiceUpdate) {
-      await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
-        {_id: new ObjectID(invoice._id)},
-        {$set: {'client.peppolEnabled': peppolEnabled}},
-      );
-      invoice.client.peppolEnabled = peppolEnabled;
     }
 
     // Step 3: Send the sales invoice with appropriate transport type
     const sendInvoiceRequest: SendInvoiceRequest = SendInvoiceRequestFactory.fromInvoice(invoice);
-    idempotencyKey = `send-invoice-${invoice.number.toString()}`;
+    const idempotencyKey = `send-invoice-${invoice.number.toString()}`;
 
     try {
+      const sentToPeppol = new Date().toISOString();
       await apiClient.sendInvoice(sendInvoiceRequest, idempotencyKey);
+
+      const updatedInvoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOneAndUpdate(
+        {_id: new ObjectID(invoice._id)},
+        {$set: {lastEmail: sentToPeppol}},
+      );
+      if (updatedInvoice.ok && updatedInvoice.value) {
+        emitEntityEvent(
+          req,
+          SocketEventTypes.EntityUpdated,
+          CollectionNames.INVOICES,
+          updatedInvoice.value._id,
+          {...updatedInvoice.value, lastEmail: sentToPeppol},
+        );
+      }
+
     } catch (error: any) {
       if (error?.message?.includes('Idempotent token already exists')) {
-        logger.info(`Idempotent token '${idempotencyKey}' already exists, invoice (${invoice.number}) for order (${invoice.billitOrderId}) was already sent.`);
+        logger.info(`Idempotent '${idempotencyKey}' already exists, invoiceNr=${invoice.number}, billitId=${invoice.billitOrderId}`);
       } else {
+        logger.error(`sendInvoice error "${error?.message}": ${JSON.stringify(error)} for #${invoice.number}`);
         throw error;
       }
     }
 
-    // Step 4: Return appropriate message
-    let message: string;
-    if (peppolEnabled) {
-      message = wasAlreadyRegistered
-        ? `Invoice created at Billit (ID: ${invoice.billitOrderId}) and sent via Peppol. Client is already registered in Peppol.`
-        : `Invoice created at Billit (ID: ${invoice.billitOrderId}) and sent via Peppol. Client is registered in Peppol.`;
-    } else {
-      message = `Invoice created at Billit (ID: ${invoice.billitOrderId}) and sent via email. Client is not registered in Peppol.`;
-    }
+    return res.send({peppolEnabled: client.peppolEnabled, message: 'Invoice sent to Peppol'});
 
-    return res.send({
-      peppolEnabled,
-      message,
-    });
   } catch (error: any) {
     logger.error('Error processing Peppol request:', error);
     return res.status(500).send({
