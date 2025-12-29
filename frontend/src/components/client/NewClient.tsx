@@ -81,7 +81,7 @@ export const NewClientForm = ({onFinalize, fullWidth, newClientTypes}: NewClient
               <Alert variant="danger">{t('client.alreadyExists', {btw: btwResponse.btw})}</Alert>
             )}
             <h3>{btwResponse.name}</h3>
-            <div>{btwResponse.address}</div>
+            <div>{btwResponse.street} {btwResponse.streetNr}{btwResponse.streetBox ? `/${btwResponse.streetBox}` : ''}</div>
             <div>{btwResponse.postalCode} {btwResponse.city}</div>
             <div>{countries.find(x => x.value === btwResponse.country)?.label || btwResponse.country}</div>
           </div>

@@ -46,7 +46,7 @@ html
 		.their-company
 			strong #{client.name}
 
-			div #{client.address}
+			div #{client.street} #{client.streetNr} #{client.streetBox ? '/' + client.streetBox : ''}
 			div #{client.postalCode} #{client.city}
 			div #{client.telephone}
 			div #{client.btw}

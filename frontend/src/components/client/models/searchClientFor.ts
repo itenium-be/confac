@@ -8,7 +8,7 @@ export const searchClientFor = (model: InvoiceClientModel, input: string): boole
   }
 
   const text = searchinize(input);
-  if (searchinize(`${model.name} ${model.address} ${model.postalCode} ${model.city}`).includes(text)) {
+  if (searchinize(`${model.name} ${model.street} ${model.streetNr} ${model.postalCode} ${model.city}`).includes(text)) {
     return true;
   }
 

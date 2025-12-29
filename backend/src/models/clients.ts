@@ -29,7 +29,9 @@ export interface IClient {
   slug: string;
   active: boolean;
   name: string;
-  address: string;
+  street: string;
+  streetNr: string;
+  streetBox: string;
   city: string;
   postalCode: string;
   country: string;

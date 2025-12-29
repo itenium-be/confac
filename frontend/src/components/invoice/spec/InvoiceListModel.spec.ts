@@ -49,7 +49,9 @@ describe('InvoiceListModel', () => {
 
     const emptyClient = {
       city: '',
-      address: '',
+      street: '',
+      streetNr: '',
+      streetBox: '',
     };
 
     const invoices = [

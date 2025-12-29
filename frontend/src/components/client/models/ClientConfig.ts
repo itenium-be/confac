@@ -10,7 +10,9 @@ export const defaultClientProperties = [
   {key: 'btw', component: 'btw'},
   {key: 'types', component: 'ClientTypeSelect'},
 
-  {key: 'address', cols: 3},
+  {key: 'street', cols: 3},
+  {key: 'streetNr', cols: 2},
+  {key: 'streetBox', cols: 1},
   {key: 'postalCode', cols: 3},
   {key: 'city', cols: 3},
   {key: 'country', component: 'CountrySelect', cols: 3},
@@ -55,7 +57,9 @@ export const requiredClientProperties: FullFormConfig = [
   {key: 'types', component: 'ClientTypeSelect', cols: 8},
   {key: 'country', component: 'CountrySelect'},
 
-  {key: 'address'},
+  {key: 'street'},
+  {key: 'streetNr'},
+  {key: 'streetBox'},
   {key: 'postalCode'},
   {key: 'city'},
 

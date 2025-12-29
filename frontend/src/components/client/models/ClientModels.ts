@@ -13,7 +13,9 @@ export type InvoiceClientModel = {
   _id: string;
   name: string;
   slug: string;
-  address: string;
+  street: string;
+  streetNr: string;
+  streetBox: string;
   city: string;
   postalCode: string;
   country: string;

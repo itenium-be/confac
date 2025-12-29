@@ -5,7 +5,6 @@ import {EditInvoiceBadges} from './EditInvoiceBadges';
 import {NotesWithCommentsModalButton} from '../../controls/form-controls/button/NotesWithCommentsModalButton';
 import {Claim} from '../../users/models/UserModel';
 import {DownloadInvoiceButton} from './DownloadInvoiceButton';
-import {InvoiceDownloadIcon} from '../../controls/attachments/AttachmentDownloadIcon';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
 import {t} from '../../utils';
 

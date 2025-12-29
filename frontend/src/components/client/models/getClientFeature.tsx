@@ -80,14 +80,14 @@ const clientListConfig = (config: ClientFeatureBuilderConfig): IList<ClientModel
     header: 'client.contact',
     value: client => (
       <>
-        <span>{client.address}</span>
+        <span>{client.street} {client.streetNr}{client.streetBox ? `/${client.streetBox}` : ''}</span>
         <br />
         <span>{client.postalCode} {client.city}</span>
         <br />
         <span>{client.telephone}</span>
       </>
     ),
-    sort: (c1, c2) => c1.address.localeCompare(c2.address)
+    sort: (c1, c2) => c1.street.localeCompare(c2.street)
   }, {
     key: 'time-invested',
     header: 'client.timeTitle',
