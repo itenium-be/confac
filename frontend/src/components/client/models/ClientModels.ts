@@ -43,5 +43,6 @@ export type ClientModel = InvoiceClientModel & IAttachment & {
   defaultChangingOrderNr: boolean;
   defaultInvoiceLines: InvoiceLine[];
   frameworkAgreement: IContractModel;
+  peppolEnabled?: boolean;
   audit: IAudit;
 };

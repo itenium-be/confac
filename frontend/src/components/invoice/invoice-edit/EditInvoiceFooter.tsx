@@ -2,6 +2,7 @@ import {useDispatch} from 'react-redux';
 import {EmailTemplate} from '../../controls/email/EmailModal';
 import InvoiceModel from '../models/InvoiceModel';
 import {useSelector} from 'react-redux';
+import moment from 'moment';
 import {ConfacState} from '../../../reducers/app-state';
 import {Claim} from '../../users/models/UserModel';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
@@ -9,6 +10,12 @@ import {createInvoice, previewInvoice, syncCreditNotas, updateInvoiceRequest, se
 import {getNewClonedInvoice} from '../models/getNewInvoice';
 import {t} from '../../utils';
 import {Button} from '../../controls/form-controls/Button';
+import {ConfigModel} from '../../config/models/ConfigModel';
+
+function shouldUsePeppol(invoice: InvoiceModel, config: ConfigModel): boolean {
+  const invoiceCreatedOn = moment(invoice.audit.createdOn);
+  return invoiceCreatedOn.isSameOrAfter(config.peppolPivotDate, 'day');
+}
 
 
 export type EditInvoiceFooterProps = {
@@ -27,17 +34,19 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
 
   return (
     <>
-      {!invoice.isNew && invoice.client && (
+      {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && (
+        <Button
+          claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
+          variant="light"
+          icon="fas fa-paper-plane"
+          onClick={() => dispatch(sendToPeppol(invoice._id) as any)}
+          className="tst-send-peppol"
+        >
+          {t('invoice.peppolSend')}
+        </Button>
+      )}
+      {!invoice.isNew && invoice.client && !shouldUsePeppol(invoice, config) && (
         <>
-          <Button
-            claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
-            variant="light"
-            icon="fas fa-paper-plane"
-            onClick={() => dispatch(sendToPeppol(invoice._id) as any)}
-            className="tst-send-peppol"
-          >
-            {t('invoice.peppolSend')}
-          </Button>
           <Button
             claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
             variant={invoice?.verified || invoice?.lastEmail ? 'outline-danger' : 'light'}
