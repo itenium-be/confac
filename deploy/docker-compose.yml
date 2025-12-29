@@ -62,6 +62,9 @@ services:
       LOGGING_FILE: "/logs"
       LOGGING_LOKI: ${LOGGING_LOKI}
       EXCEL_SERVICE_URL: ${EXCEL_SERVICE_URL}
+      BILLIT_API_URL: ${BILLIT_API_URL}
+      BILLIT_API_KEY: ${BILLIT_API_KEY}
+      BILLIT_PARTY_ID: ${BILLIT_PARTY_ID}
     depends_on:
       - mongo
 

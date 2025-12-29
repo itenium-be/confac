@@ -24,7 +24,7 @@ const appConfig: IConfig = {
       apiUrl: process.env.BILLIT_API_URL || '',
       apiKey: process.env.BILLIT_API_KEY || '',
       partyId: process.env.BILLIT_PARTY_ID || '',
-      contextPartyId: process.env.BILLIT_CONTEXT_PARTY_ID || '',
+      contextPartyId: process.env.BILLIT_PARTY_ID || '',
     },
   },
   email: {
