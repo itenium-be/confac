@@ -179,7 +179,7 @@ export function deleteInvoice(invoice: InvoiceModel) {
   };
 }
 
-export function sendToPeppol(invoiceId: string) {
+export function sendToPeppol(invoiceId: string, pdfFileName: string) {
   return (dispatch: Dispatch) => {
     dispatch(busyToggle());
     request.post(buildUrl(`/invoices/${invoiceId}/peppol`))
@@ -187,6 +187,7 @@ export function sendToPeppol(invoiceId: string) {
       .set('Authorization', authService.getBearer())
       .set('x-socket-id', socketService.socketId)
       .set('Accept', 'application/json')
+      .send({pdfFileName})
       .then(res => {
         const data = res.body;
 
@@ -196,11 +197,7 @@ export function sendToPeppol(invoiceId: string) {
           return;
         }
 
-        if (data.peppolEnabled) {
-          success(data.message || t('invoice.peppolSuccess'));
-        } else {
-          failure(data.message || t('invoice.peppolNotRegistered'), t('invoice.peppolNotRegisteredTitle'));
-        }
+        success(data.message || t('invoice.peppolSuccess'));
       }, err => {
         catchHandler(err);
       })

@@ -8,4 +8,5 @@ export interface Customer {
   PartyType?: PartyType;
   Identifiers?: Identifier[];
   Addresses?: Address[];
+  Email?: string;
 }

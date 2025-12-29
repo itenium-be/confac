@@ -17,4 +17,5 @@ export interface CreateOrderRequest {
   Customer: Customer;
   OrderLines: OrderLine[];
   Attachments?: Attachment[];
+  OrderPDF?: Attachment;
 }

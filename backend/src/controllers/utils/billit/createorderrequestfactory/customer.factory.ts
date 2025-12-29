@@ -3,28 +3,22 @@ import {Customer} from '../../../../services/billit';
 import {fromClient as getVatNumber} from '../vat-number.factory';
 
 export function fromClient(client: IClient): Customer {
-  const {
-    name: Name,
-    address,
-    city: City,
-    postalCode: Zipcode,
-    country: CountryCode,
-  } = client;
-
   return {
-    Name,
+    Name: client.name,
     VATNumber: getVatNumber(client),
     PartyType: 'Customer',
     Addresses: [
       {
         AddressType: 'InvoiceAddress',
-        Name,
-        Street: address,
+        Name: client.name,
+        Street: client.address,
         // StreetNumber: '', TODO: Split street and street number from address
-        City,
-        Zipcode,
-        CountryCode,
+        // Box: '',
+        City: client.city,
+        Zipcode: client.postalCode,
+        CountryCode: client.country,
       },
     ],
+    Email: client.email.to,
   };
 }

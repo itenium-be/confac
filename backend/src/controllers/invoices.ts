@@ -393,6 +393,7 @@ export const getInvoiceXmlController = async (req: Request, res: Response) => {
 
 export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Response) => {
   const {id} = req.params;
+  const {pdfFileName} = req.body;
 
   // Fetch the invoice
   const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
@@ -401,9 +402,9 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
   if (!invoice) {
     return res.status(400).send({message: 'Invoice not found'});
   }
-  if (invoice.lastEmail) {
-    return res.status(400).send({message: 'Invoice was already sent to Peppol'});
-  }
+  // if (invoice.lastEmail) {
+  //   return res.status(400).send({message: 'Invoice was already sent to Peppol'});
+  // }
 
   // Fetch the client
   const client = await req.db.collection<IClient>(CollectionNames.CLIENTS)
@@ -421,7 +422,24 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     // Step 1: Create invoice at Billit
     const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(invoice);
 
-    // Add attachments to CreateOrderRequest
+    // Fetch attachments from DB
+    const attachmentDoc = await req.db
+      .collection(CollectionNames.ATTACHMENTS)
+      .findOne({_id: new ObjectID(invoice._id)});
+
+    // Add PDF to CreateOrderRequest
+    if (attachmentDoc?.pdf) {
+      const pdfBuffer: Buffer = attachmentDoc.pdf.buffer;
+      const orderPdf: Attachment = {
+        FileID: invoice._id.toString(),
+        FileName: pdfFileName || `invoice-${invoice.number}.pdf`,
+        MimeType: 'application/pdf',
+        FileContent: pdfBuffer.toString('base64'),
+      };
+      createOrderRequest.OrderPDF = orderPdf;
+    }
+
+    // Add other attachments to CreateOrderRequest
     const getBillitAttachments = async (): Promise<Attachment[]> => {
       const attachmentPromises: Promise<Attachment>[] = invoice.attachments
         .filter(attachment => attachment.type === 'Getekende timesheet')
@@ -430,16 +448,13 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     };
 
     const toBillitAttachment = async (invoiceAttachment: IAttachment): Promise<Attachment> => {
-      const {fileName: FileName, type} = invoiceAttachment;
-
-      const attachment = await req.db
-        .collection(CollectionNames.ATTACHMENTS)
-        .findOne({_id: new ObjectID(invoice._id)});
-
-      const buffer: Buffer = attachment[type].buffer;
-      const FileContent: string = buffer.toString('base64');
-
-      return {FileName, FileContent};
+      const buffer: Buffer = attachmentDoc[invoiceAttachment.type].buffer;
+      return {
+        FileID: `${invoice._id.toString()}-timesheet`,
+        FileName: invoiceAttachment.fileName,
+        MimeType: invoiceAttachment.fileType,
+        FileContent: buffer.toString('base64'),
+      };
     };
     createOrderRequest.Attachments = await getBillitAttachments();
 
@@ -515,7 +530,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
       }
     }
 
-    return res.send({peppolEnabled: client.peppolEnabled, message: 'Invoice sent to Peppol'});
+    return res.status(200).send({message: 'Invoice sent to Peppol'});
 
   } catch (error: any) {
     logger.error('Error processing Peppol request:', error);

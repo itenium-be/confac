@@ -15,6 +15,8 @@ import {ConfigModel} from '../../config/models/ConfigModel';
 import {Modal} from '../../controls/Modal';
 import {SignedTimesheetAttachmentType} from '../../../models';
 import {ClientModel} from '../../client/models/ClientModels';
+import {getInvoiceFileName} from '../../../actions/utils/download-helpers';
+import {Icon} from '../../controls/Icon';
 
 function shouldUsePeppol(invoice: InvoiceModel, config: ConfigModel): boolean {
   const invoiceCreatedOn = moment(invoice.audit.createdOn);
@@ -55,7 +57,11 @@ const PeppolModal = ({invoice, client, onClose, onConfirm}: PeppolModalProps) =>
       )}
       <p>
         <strong>{t('invoice.peppolSignedTimesheet')}:</strong>{' '}
-        {hasSignedTimesheet ? t('yes') : t('no')}
+        <Icon
+          fa={hasSignedTimesheet ? 'fa fa-check' : 'fa fa-times'}
+          color={hasSignedTimesheet ? 'green' : 'red'}
+          size={1}
+        />
       </p>
       <p>
         <strong>{t('invoice.peppolTransportType')}:</strong>{' '}
@@ -93,7 +99,11 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
           invoice={invoice}
           client={clients.find(c => c._id === invoice.client._id)}
           onClose={() => setPeppolModalOpen(false)}
-          onConfirm={() => dispatch(sendToPeppol(invoice._id) as any)}
+          onConfirm={() => {
+            const fileNameTemplate = invoice.client.invoiceFileName || config.invoiceFileName;
+            const pdfFileName = getInvoiceFileName(fileNameTemplate, invoice, 'pdf');
+            dispatch(sendToPeppol(invoice._id, pdfFileName) as any);
+          }}
         />
       )}
       {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && (
