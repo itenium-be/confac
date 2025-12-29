@@ -56,7 +56,7 @@ const PeppolModal = ({invoice, client, onClose, onConfirm}: PeppolModalProps) =>
         )}
       </p>
       <hr />
-      <p>{t('invoice.peppolConfirmSend')}</p>
+      {t('invoice.peppolConfirmSend')}
     </Modal>
   );
 };
