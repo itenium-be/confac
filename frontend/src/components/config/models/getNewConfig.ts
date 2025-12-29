@@ -1,6 +1,7 @@
 import {ConfigModel} from './ConfigModel';
 import {Language, IAudit} from '../../../models';
 import {InvoiceLineActions} from '../../invoice/models/InvoiceLineModels';
+import moment from 'moment';
 
 export const defaultCommunicationLanguage = Language.en;
 
@@ -37,6 +38,7 @@ export const defaultConfig: ConfigModel = {
   emailCreditNotaBody: '',
   emailInvoiceOnly: '',
   initialMonthLoad: 12,
+  peppolPivotDate: moment.utc('2026-01-01'),
   language: defaultCommunicationLanguage,
   attachments: [],
   audit: {} as IAudit,

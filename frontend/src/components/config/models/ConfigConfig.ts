@@ -36,6 +36,7 @@ export const configDefinition: FullFormConfig = [
 
   {title: 'config.otherTitle'},
   {key: 'initialMonthLoad', component: 'number'},
+  {key: 'peppolPivotDate', component: 'date'},
 
 
   {title: 'config.email.title'},

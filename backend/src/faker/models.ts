@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies, prefer-template, no-console */
 import {faker} from '@faker-js/faker';
+import moment from 'moment';
 import {Db} from 'mongodb';
 import slugify from 'slugify';
 
@@ -373,6 +374,7 @@ export const defaultConfig = {
   emailReminderBcc: '',
   emailInvoiceOnly: '',
   initialMonthLoad: 12,
+  peppolPivotDate: moment.utc('2026-01-01'),
   language: 'en',
   attachments: [],
   audit: {},

@@ -245,6 +245,7 @@ export const trans = {
     audit: 'Audit',
     otherTitle: 'Andere instellingen',
     initialMonthLoad: 'Aantal maanden die worden geladen bij startup',
+    peppolPivotDate: 'Peppol activatie datum',
   },
   audit: {
     openFullAuditModel: 'Volledige audit openen',

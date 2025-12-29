@@ -15,13 +15,19 @@ import {Claim} from '../users/models/UserModel';
 import {GenericAttachmentDropzone} from '../controls/attachments/GenericAttachmentDropzone';
 import {ClaimGuard} from '../enhancers/EnhanceWithClaim';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
+import {mapConfig} from '../../reducers';
+
+function cloneConfig(config: ConfigModel) {
+  const clone = JSON.parse(JSON.stringify(config));
+  return mapConfig(clone);
+}
 
 
 const EditConfig = () => {
   useDocumentTitle('config');
   const dispatch = useDispatch();
   const config = useSelector((state: ConfacState) => state.config);
-  const [state, setState] = useState<ConfigModel>(JSON.parse(JSON.stringify(config)));
+  const [state, setState] = useState<ConfigModel>(cloneConfig(config));
 
   useEntityChangedToast(config._id);
 

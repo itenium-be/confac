@@ -245,6 +245,7 @@ export const trans = {
     audit: 'Audit',
     otherTitle: 'Other settings',
     initialMonthLoad: 'Initial months loaded at startup',
+    peppolPivotDate: 'Peppol pivot date',
   },
   audit: {
     openFullAuditModel: 'Open full audit',

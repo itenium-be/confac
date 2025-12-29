@@ -1,3 +1,4 @@
+import {Moment} from 'moment';
 import {InvoiceDateStrategy, Language, IAudit, Attachment} from '../../../models';
 import {EmailModel} from '../../controls/email/EmailModels';
 import {InvoiceLine} from '../../invoice/models/InvoiceLineModels';
@@ -31,6 +32,8 @@ export type ConfigModel = {
   emailInvoiceOnly: string;
   /** How many months to load at initialLoad */
   initialMonthLoad: number;
+  /** Before this date confac creates invoices, after it's done with peppol */
+  peppolPivotDate: Moment;
   language: Language;
   /** ConditionsAndTerms */
   attachments: Attachment[];
