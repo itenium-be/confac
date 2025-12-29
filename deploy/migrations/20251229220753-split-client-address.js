@@ -75,8 +75,10 @@ function parseAddress(address) {
 
 module.exports = {
   async up(db) {
+    // Process clients collection
     const clients = await db.collection('clients').find({ address: { $exists: true } }).toArray();
 
+    console.log('=== Processing clients ===\n');
     for (const client of clients) {
       const { street, streetNr, streetBox } = parseAddress(client.address);
 
@@ -92,11 +94,36 @@ module.exports = {
         }
       );
     }
+    console.log(`Processed ${clients.length} clients\n`);
 
-    console.log(`\nProcessed ${clients.length} clients`);
+    // Process invoices collection (client.address embedded in invoice)
+    const invoices = await db.collection('invoices').find({ 'client.address': { $exists: true } }).toArray();
+
+    console.log('=== Processing invoices ===\n');
+    for (const invoice of invoices) {
+      const { street, streetNr, streetBox } = parseAddress(invoice.client.address);
+
+      console.log(`Invoice #${invoice.number} client "${invoice.client.name}" with "${invoice.client.address}"`);
+      console.log(`"${street}", Nr="${streetNr}", Box="${streetBox}"`);
+      console.log();
+
+      await db.collection('invoices').updateOne(
+        { _id: invoice._id },
+        {
+          $set: {
+            'client.street': street,
+            'client.streetNr': streetNr,
+            'client.streetBox': streetBox
+          },
+          $unset: { 'client.address': '' }
+        }
+      );
+    }
+    console.log(`Processed ${invoices.length} invoices\n`);
   },
 
   async down(db) {
+    // Rollback clients
     const clients = await db.collection('clients').find({
       $or: [
         { street: { $exists: true } },
@@ -120,6 +147,38 @@ module.exports = {
         {
           $set: { address: address.trim() },
           $unset: { street: '', streetNr: '', streetBox: '' }
+        }
+      );
+    }
+
+    // Rollback invoices
+    const invoices = await db.collection('invoices').find({
+      $or: [
+        { 'client.street': { $exists: true } },
+        { 'client.streetNr': { $exists: true } },
+        { 'client.streetBox': { $exists: true } }
+      ]
+    }).toArray();
+
+    for (const invoice of invoices) {
+      const { street = '', streetNr = '', streetBox = '' } = invoice.client || {};
+      let address = street;
+      if (streetNr) {
+        address += ` ${streetNr}`;
+        if (streetBox) {
+          address += `/${streetBox}`;
+        }
+      }
+
+      await db.collection('invoices').updateOne(
+        { _id: invoice._id },
+        {
+          $set: { 'client.address': address.trim() },
+          $unset: {
+            'client.street': '',
+            'client.streetNr': '',
+            'client.streetBox': ''
+          }
         }
       );
     }
