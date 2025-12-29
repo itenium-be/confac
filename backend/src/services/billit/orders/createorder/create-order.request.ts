@@ -2,6 +2,7 @@ import {Customer} from './customer';
 import {OrderLine} from './orderline';
 import {OrderType} from './order-type';
 import {OrderDirection} from './order-direction';
+import {Attachment} from './attachment';
 
 export interface CreateOrderRequest {
   OrderType: OrderType;
@@ -15,4 +16,5 @@ export interface CreateOrderRequest {
   PaymentReference?: string;
   Customer: Customer;
   OrderLines: OrderLine[];
+  Attachments?: Attachment[];
 }
