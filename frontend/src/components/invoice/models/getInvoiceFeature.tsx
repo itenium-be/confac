@@ -8,7 +8,7 @@ import InvoiceModel, {calculateDaysWorked} from './InvoiceModel';
 import {formatDate, moneyFormat, searchinize} from '../../utils';
 import {IListCell, IListRow, ListFilters} from '../../controls/table/table-models';
 import {InvoiceWorkedDays} from '../invoice-list/InvoiceWorkedDays';
-import {NotEmailedIcon, NotPeppoledIcon, Icon} from '../../controls/Icon';
+import {NotEmailedIcon, Icon} from '../../controls/Icon';
 import {InvoiceListRowAction, InvoiceListRowActions} from '../invoice-table/InvoiceListRowActions';
 import {getInvoiceListRowClass} from '../invoice-table/getInvoiceListRowClass';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
@@ -22,7 +22,10 @@ import {ConfacState} from '../../../reducers/app-state';
 const InvoiceNotSentIcon = ({invoice, style}: {invoice: InvoiceModel; style?: React.CSSProperties}) => {
   const peppolPivotDate = useSelector((state: ConfacState) => state.config.peppolPivotDate);
   const usePeppol = moment(invoice.audit?.createdOn).isSameOrAfter(peppolPivotDate, 'day');
-  return usePeppol ? <NotPeppoledIcon style={style} /> : <NotEmailedIcon style={style} />;
+  if (usePeppol) {
+    return null;
+  }
+  return <NotEmailedIcon style={style} />;
 };
 
 
