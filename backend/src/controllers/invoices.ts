@@ -24,8 +24,12 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user:
 
   const [createdInvoice] = inserted.ops;
 
+  const dbConfig = await db.collection(CollectionNames.CONFIG).findOne({key: 'conf'});
+  const peppolPivotDate = dbConfig?.peppolPivotDate || '2026-01-01';
+  const isPeppolActive = moment().isSameOrAfter(peppolPivotDate, 'day');
+  const shouldCreateXml = !invoice.isQuotation && !isPeppolActive;
 
-  if (!invoice.isQuotation) {
+  if (shouldCreateXml) {
     const xmlBuffer = Buffer.from(createXml(createdInvoice, pdfBuffer));
     await db.collection<Pick<IAttachmentCollection, '_id' | 'pdf' | 'xml'>>(CollectionNames.ATTACHMENTS).insertOne({
       _id: new ObjectID(createdInvoice._id),
