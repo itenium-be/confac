@@ -1,11 +1,8 @@
 import {useNavigate} from 'react-router';
-import {useSelector} from 'react-redux';
-import moment from 'moment';
 import {t} from '../../utils';
 import InvoiceModel from '../models/InvoiceModel';
 import {BusyButton} from '../../controls/form-controls/BusyButton';
 import {Claim} from '../../users/models/UserModel';
-import {ConfacState} from '../../../reducers/app-state';
 
 type EditInvoiceSaveButtonsComponentProps = {
   invoice: InvoiceModel;
@@ -14,12 +11,8 @@ type EditInvoiceSaveButtonsComponentProps = {
 
 export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButtonsComponentProps) => {
   const navigate = useNavigate();
-  const config = useSelector((state: ConfacState) => state.config);
   const isNewInvoice = invoice.isNew;
   const tp = (transKey: string): string => t(invoice.getType() + transKey);
-
-  const isAfterPivotDate = moment().isSameOrAfter(config.peppolPivotDate, 'day');
-  const showPreview = !isAfterPivotDate || invoice.isQuotation;
 
   return (
     <>
@@ -34,17 +27,15 @@ export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButton
           {t('invoice.createCreditNota')}
         </BusyButton>
       )}
-      {showPreview && (
-        <BusyButton
-          claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
-          variant="light"
-          onClick={() => onClick('preview', navigate)}
-          icon="far fa-eye"
-          className="tst-preview-invoice"
-        >
-          {t('invoice.preview')}
-        </BusyButton>
-      )}
+      <BusyButton
+        claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
+        variant="light"
+        onClick={() => onClick('preview', navigate)}
+        icon="far fa-eye"
+        className="tst-preview-invoice"
+      >
+        {t('invoice.preview')}
+      </BusyButton>
       <BusyButton
         className="tst-save-invoice"
         claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}

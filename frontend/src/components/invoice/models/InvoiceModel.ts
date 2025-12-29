@@ -33,6 +33,14 @@ export interface InvoiceProjectMonth {
 }
 
 
+export type InvoiceBillitModel = {
+  /** The Billit order ID, returned after creating the order in Billit */
+  orderId?: number;
+  /** UUID for downloading the UBL XML */
+  ublUuid?: string;
+}
+
+
 
 /**
  * The only invoice model
@@ -63,7 +71,7 @@ export default class InvoiceModel implements IAttachment {
   note: string;
   comments: IComment[];
   creditNotas: string[];
-  billitOrderId?: number;
+  billit?: InvoiceBillitModel;
 
   get isNew(): boolean {
     return this._id === undefined;
@@ -91,7 +99,7 @@ export default class InvoiceModel implements IAttachment {
     this.audit = obj.audit;
     this._config = config;
     this.creditNotas = obj.creditNotas || [];
-    this.billitOrderId = obj.billitOrderId;
+    this.billit = obj.billit;
   }
 
   get config(): ConfigModel {

@@ -65,6 +65,7 @@ describe('fromInvoice', () => {
             CountryCode: 'BE',
           },
         ],
+        Email: 'to@someone.com',
       },
       OrderLines: [
         {
@@ -82,7 +83,8 @@ describe('fromInvoice', () => {
       ],
     };
 
-    const actual: CreateOrderRequest = fromInvoice(invoice);
+    const client = {...invoice.client, email: {to: 'to@someone.com', subject: '', body: '', attachments: []}};
+    const actual: CreateOrderRequest = fromInvoice(invoice, client);
 
     expect(actual).toEqual(expected);
   });

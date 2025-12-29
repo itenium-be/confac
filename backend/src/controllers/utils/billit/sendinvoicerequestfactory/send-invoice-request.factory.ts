@@ -3,12 +3,11 @@ import {IInvoice} from '../../../../models/invoices';
 import {fromInvoice as getTransportType} from './transport-type.factory';
 
 export function fromInvoice(invoice: IInvoice): SendInvoiceRequest {
-  const {billitOrderId, number} = invoice;
-  if (!billitOrderId) {
-    throw new Error(`Billit order id is not present on invoice ${number}.`);
+  if (!invoice.billit?.orderId) {
+    throw new Error(`Billit order id is not present on invoice ${invoice.number}.`);
   }
   return {
     TransportType: getTransportType(invoice),
-    OrderIDs: [billitOrderId],
+    OrderIDs: [invoice.billit.orderId],
   };
 }

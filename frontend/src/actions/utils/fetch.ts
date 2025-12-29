@@ -40,7 +40,7 @@ export function catchHandler(err) {
     if (err.body) {
       console.error('InternalServerError', err.body.message);
       failure(err.body.message, 'InternalServerError', 5000);
-      console.error('Stack Trace', err.body.stack.replace(/↵/g, '\n'));
+      console.error('Stack Trace', err.body.stack?.replace(/↵/g, '\n'));
 
     } else {
       console.error('InternalServerError', err.res.error);

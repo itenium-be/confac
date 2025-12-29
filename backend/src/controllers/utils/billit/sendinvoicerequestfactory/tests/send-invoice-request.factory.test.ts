@@ -8,7 +8,7 @@ describe('fromInvoice', () => {
     const invoice: IInvoice = {
       ...someInvoice,
       number: 2024001,
-      billitOrderId: 12345,
+      billit: {orderId: 12345},
       client: {
         ...someInvoice.client,
         peppolEnabled: true,
@@ -29,7 +29,7 @@ describe('fromInvoice', () => {
     const invoice: IInvoice = {
       ...someInvoice,
       number: 2024002,
-      billitOrderId: 67890,
+      billit: {orderId: 67890},
       client: {
         ...someInvoice.client,
         peppolEnabled: false,
@@ -50,7 +50,7 @@ describe('fromInvoice', () => {
     const invoice: IInvoice = {
       ...someInvoice,
       number: 2024002,
-      billitOrderId: 67890,
+      billit: {orderId: 67890},
       client: {
         ...someInvoice.client,
         peppolEnabled: undefined,
@@ -67,16 +67,14 @@ describe('fromInvoice', () => {
     expect(actual).toEqual(expected);
   });
 
-  it('should throw error when billitOrderId is not present', () => {
+  it('should throw error when billit.orderId is not present', () => {
     const invoice: IInvoice = {
       ...someInvoice,
       number: 2024003,
-      billitOrderId: undefined,
+      billit: {orderId: undefined},
     };
 
-    expect(
-      () => fromInvoice(invoice),
-    ).toThrow(
+    expect(() => fromInvoice(invoice)).toThrow(
       'Billit order id is not present on invoice 2024003.',
     );
   });

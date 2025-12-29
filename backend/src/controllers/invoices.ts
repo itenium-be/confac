@@ -420,7 +420,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     const apiClient: ApiClient = ApiClientFactory.fromConfig(config);
 
     // Step 1: Create invoice at Billit
-    const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(invoice);
+    const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(invoice, client);
 
     // Fetch attachments from DB
     const attachmentDoc = await req.db
@@ -431,7 +431,6 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     if (attachmentDoc?.pdf) {
       const pdfBuffer: Buffer = attachmentDoc.pdf.buffer;
       const orderPdf: Attachment = {
-        FileID: invoice._id.toString(),
         FileName: pdfFileName || `invoice-${invoice.number}.pdf`,
         MimeType: 'application/pdf',
         FileContent: pdfBuffer.toString('base64'),
@@ -450,7 +449,6 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     const toBillitAttachment = async (invoiceAttachment: IAttachment): Promise<Attachment> => {
       const buffer: Buffer = attachmentDoc[invoiceAttachment.type].buffer;
       return {
-        FileID: `${invoice._id.toString()}-timesheet`,
         FileName: invoiceAttachment.fileName,
         MimeType: invoiceAttachment.fileType,
         FileContent: buffer.toString('base64'),
@@ -458,19 +456,18 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     };
     createOrderRequest.Attachments = await getBillitAttachments();
 
-    if (!invoice.billitOrderId) {
+    if (!invoice.billit?.orderId) {
       try {
         const orderId: number = await apiClient.createOrder(createOrderRequest, `create-order-${invoice.number.toString()}`);
 
-        // Save billitOrderId to invoice
         await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
           {_id: new ObjectID(invoice._id)},
-          {$set: {billitOrderId: orderId}},
+          {$set: {billit: {orderId}}},
         );
-        invoice.billitOrderId = orderId;
+        invoice.billit = {orderId};
       } catch (error: any) {
         if (error?.message?.includes('Idempotent token already exists')) {
-          logger.info(`IdempotencyKey already exists for InvoiceNr=${invoice.number}, billitId=${invoice.billitOrderId}`);
+          logger.info(`IdempotencyKey already exists for InvoiceNr=${invoice.number}, billitId=${invoice.billit?.orderId}`);
         } else {
           logger.error(`sendInvoice error "${error?.message}": ${JSON.stringify(error)} for #${invoice.number}`);
           throw error;
@@ -495,6 +492,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
           CollectionNames.CLIENTS,
           client._id,
           {...client, peppolEnabled: true},
+          'everyone',
         );
       }
     }
@@ -518,12 +516,13 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
           CollectionNames.INVOICES,
           updatedInvoice.value._id,
           {...updatedInvoice.value, lastEmail: sentToPeppol},
+          'everyone',
         );
       }
 
     } catch (error: any) {
       if (error?.message?.includes('Idempotent token already exists')) {
-        logger.info(`Idempotent '${idempotencyKey}' already exists, invoiceNr=${invoice.number}, billitId=${invoice.billitOrderId}`);
+        logger.info(`Idempotent '${idempotencyKey}' already exists, invoiceNr=${invoice.number}, billitId=${invoice.billit?.orderId}`);
       } else {
         logger.error(`sendInvoice error "${error?.message}": ${JSON.stringify(error)} for #${invoice.number}`);
         throw error;

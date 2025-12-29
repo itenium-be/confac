@@ -4,21 +4,17 @@ import {IInvoice} from '../../../../models/invoices';
 import {fromClient as createCustomerFromClient} from './customer.factory';
 import {fromInvoice as createOrderLinesFromInvoice} from './orderlinesfactory';
 import {fromInvoice as createPaymentReferenceFromInvoice} from './payment-reference.factory';
+import {IClient} from '../../../../models/clients';
 
 const InvoiceExpirationInDays: number = 14;
 
-/**
- * Creates a CreateOrderRequest from an IInvoice
- * @param invoice The invoice to convert
- * @returns A CreateOrderRequest object ready to be sent to Billit API
- */
-export function fromInvoice(invoice: IInvoice): CreateOrderRequest {
+/** Create a Billit CreateOrderRequest */
+export function fromInvoice(invoice: IInvoice, client: IClient): CreateOrderRequest {
   const {
     isQuotation,
     number,
     date,
     orderNr: Reference,
-    client,
   } = invoice;
 
   if (isQuotation) {

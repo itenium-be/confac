@@ -52,8 +52,8 @@ const PeppolModal = ({invoice, client, onClose, onConfirm}: PeppolModalProps) =>
       {alreadySent && (
         <p style={{marginBottom: 0}}><strong>{t('invoice.peppolSentOn')}:</strong> {moment(invoice.lastEmail).format('DD/MM/YYYY HH:mm')}</p>
       )}
-      {invoice.billitOrderId && (
-        <p><strong>{t('invoice.peppolBillitOrderId')}:</strong> {invoice.billitOrderId}</p>
+      {invoice.billit?.orderId && (
+        <p><strong>{t('invoice.peppolBillitOrderId')}:</strong> {invoice.billit?.orderId}</p>
       )}
       <p>
         <strong>{t('invoice.peppolSignedTimesheet')}:</strong>{' '}
