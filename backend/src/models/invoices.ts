@@ -78,6 +78,8 @@ export interface IInvoice {
   audit: IAudit;
   creditNotas: string[];
   billit?: IInvoiceBillit;
+  /** Belgian structured payment reference: +++nnn/nnnn/nnnnn+++ */
+  paymentReference: string;
 }
 
 export interface IInvoiceBillit {

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import {getNewClient} from '../../client/models/getNewClient';
-import InvoiceModel, {calculateDaysWorked, getWorkDaysInMonths} from '../models/InvoiceModel';
+import InvoiceModel, {calculateDaysWorked, calculatePaymentReference, getWorkDaysInMonths} from '../models/InvoiceModel';
 import {defaultConfig} from '../../config/models/getNewConfig';
 import {ConfigModel} from '../../config/models/ConfigModel';
 import {ClientModel} from '../../client/models/ClientModels';
@@ -275,5 +275,68 @@ describe('Invoice date new month from the 22th', () => {
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2024-01-01');
+  });
+});
+
+describe('calculatePaymentReference', () => {
+  describe('without projectMonth', () => {
+    it('should use 000 for YMM when no projectMonth', () => {
+      const result = calculatePaymentReference(1, undefined);
+      expect(result).toMatch(/^\+\+\+000\//);
+    });
+
+    it('should calculate correct reference for invoice number 1', () => {
+      const result = calculatePaymentReference(1, undefined);
+      expect(result).toBe('+++000/0001/0003+++');
+    });
+
+    it('should calculate correct reference for invoice number 9999', () => {
+      const result = calculatePaymentReference(9999, undefined);
+      expect(result).toBe('+++000/9999/0024+++');
+    });
+  });
+
+  describe('with projectMonth', () => {
+    it('should use YMM from projectMonth (January 2024)', () => {
+      const projectMonth = moment('2024-01-15');
+      const result = calculatePaymentReference(1, projectMonth);
+      expect(result).toMatch(/^\+\+\+401\//);
+    });
+
+    it('should calculate correct reference for invoice 42 in March 2024', () => {
+      const projectMonth = moment('2024-03-15');
+      const result = calculatePaymentReference(42, projectMonth);
+      expect(result).toBe('+++403/0042/0046+++');
+    });
+  });
+
+  describe('invoice number overflow (>9999)', () => {
+    it('should handle invoice number 10000', () => {
+      const result = calculatePaymentReference(10000, undefined);
+      expect(result).toBe('+++000/1000/0090+++');
+    });
+
+    it('should handle invoice number 12345', () => {
+      const result = calculatePaymentReference(12345, undefined);
+      expect(result).toBe('+++000/1234/5066+++');
+    });
+
+    it('should handle large invoice number with projectMonth', () => {
+      const projectMonth = moment('2024-06-15');
+      const result = calculatePaymentReference(15678, projectMonth);
+      expect(result).toBe('+++406/1567/8029+++');
+    });
+
+    it('should handle invoice number 123456', () => {
+      const result = calculatePaymentReference(123456, undefined);
+      expect(result).toBe('+++000/1234/5672+++');
+    });
+  });
+
+  describe('mod 97 edge cases', () => {
+    it('should use 97 when mod 97 result is 0', () => {
+      const result = calculatePaymentReference(97, undefined);
+      expect(result).toBe('+++000/0097/0097+++');
+    });
   });
 });

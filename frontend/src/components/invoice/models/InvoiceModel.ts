@@ -72,10 +72,20 @@ export default class InvoiceModel implements IAttachment {
   comments: IComment[];
   creditNotas: string[];
   billit?: InvoiceBillitModel;
+  paymentReference: string;
 
   get isNew(): boolean {
     return this._id === undefined;
   }
+
+  /**
+   * Whether the payment reference can still be updated.
+   * Once status is ToPay or Paid, it should remain fixed.
+   */
+  get canUpdatePaymentReference(): boolean {
+    return this.status === 'Draft' || this.status === 'ToSend';
+  }
+
 
   constructor(config: ConfigModel, obj: any = {}) {
     this._id = obj._id;
@@ -100,6 +110,17 @@ export default class InvoiceModel implements IAttachment {
     this._config = config;
     this.creditNotas = obj.creditNotas || [];
     this.billit = obj.billit;
+    this.paymentReference = obj.paymentReference || calculatePaymentReference(this.number, this.projectMonth?.month);
+  }
+
+  /**
+   * Recalculates and updates the payment reference if allowed.
+   * Should be called when invoice number or projectMonth changes.
+   */
+  updatePaymentReference(): void {
+    if (this.canUpdatePaymentReference) {
+      this.paymentReference = calculatePaymentReference(this.number, this.projectMonth?.month);
+    }
   }
 
   get config(): ConfigModel {
@@ -162,11 +183,15 @@ export default class InvoiceModel implements IAttachment {
     if (calcMoneys) {
       this.money = this._calculateMoneys();
     }
+    if (key === 'number') {
+      this.updatePaymentReference();
+    }
   }
 
   setProjectMonth(fpm?: FullProjectMonthModel): void {
     if (!fpm) {
       this.projectMonth = undefined;
+      this.updatePaymentReference();
       return;
     }
 
@@ -176,11 +201,13 @@ export default class InvoiceModel implements IAttachment {
       consultantId: fpm.consultant._id,
       consultantName: `${fpm.consultant.firstName} ${fpm.consultant.name}`,
     };
+    this.updatePaymentReference();
   }
 
   setManualProjectMonth(consultant?: ConsultantModel, month?: Moment): void {
     if (!consultant && !month) {
       this.projectMonth = undefined;
+      this.updatePaymentReference();
       return;
     }
 
@@ -190,6 +217,7 @@ export default class InvoiceModel implements IAttachment {
       consultantId: consultant?._id,
       consultantName: consultant ? `${consultant.firstName} ${consultant.name}` : undefined,
     };
+    this.updatePaymentReference();
   }
 
 
@@ -332,4 +360,37 @@ export function calculateDaysWorked(invoices: InvoiceModel[]): DaysWorked {
   }), {daysWorked: 0, hoursWorked: 0});
 
   return invoiceDayTotals;
+}
+
+
+/**
+ * Calculates a Belgian structured payment reference.
+ * Format: +++YMM/nnnn/XXcc+++
+ * - YMM: last digit of year + 2 digit month from projectMonth (or 000 if no projectMonth)
+ * - nnnn: invoice number (4 digits, padded with zeros)
+ * - XX: overflow if invoiceNr > 9999 (otherwise 00)
+ * - cc: check digits (mod 97)
+ */
+export function calculatePaymentReference(invoiceNumber: number, projectMonth?: moment.Moment): string {
+  let ymm = '000';
+  if (projectMonth) {
+    const projectMonthMoment = moment(projectMonth);
+    const year = projectMonthMoment.year() % 10;
+    const month = (projectMonthMoment.month() + 1).toString().padStart(2, '0');
+    ymm = `${year}${month}`;
+  }
+
+  const invoiceStr = invoiceNumber.toString().padStart(4, '0');
+  const mainPart = invoiceStr.substring(0, 4);
+  const overflowStr = invoiceStr.length > 4 ? invoiceStr.substring(4) : '';
+  const overflow = overflowStr.padEnd(2, '0');
+
+  const baseNumber = parseInt(`${ymm}${mainPart}${overflow}`, 10);
+  let checkDigits = baseNumber % 97;
+  if (checkDigits === 0) {
+    checkDigits = 97;
+  }
+  const checkDigitsStr = checkDigits.toString().padStart(2, '0');
+
+  return `+++${ymm}/${mainPart}/${overflow}${checkDigitsStr}+++`;
 }

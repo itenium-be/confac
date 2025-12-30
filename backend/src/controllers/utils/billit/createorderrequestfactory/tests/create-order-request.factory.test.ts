@@ -12,6 +12,7 @@ describe('fromInvoice', () => {
       number: 2024001,
       date: '2024-12-23T00:00:00.000Z',
       isQuotation: false,
+      paymentReference: '+++000/2024/00196+++',
       client: {
         ...someInvoice.client,
         name: 'Test Company BV',

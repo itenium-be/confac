@@ -63,7 +63,7 @@ export const getInvoicesController = async (req: Request<void, void, void, {mont
     .subtract(req.query.months, 'months')
     .startOf('month')
     .format('YYYY-MM-DD');
-  const invoices = await req.db.collection(CollectionNames.INVOICES)
+  const invoices = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
     .find({date: {$gte: getFrom}})
     .toArray();
   return res.send(invoices);

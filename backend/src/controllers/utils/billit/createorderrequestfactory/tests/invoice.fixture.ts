@@ -57,4 +57,5 @@ export const someInvoice: IInvoice = {
   },
   audit,
   creditNotas: [],
+  paymentReference: '+++000/2024/00196+++',
 };

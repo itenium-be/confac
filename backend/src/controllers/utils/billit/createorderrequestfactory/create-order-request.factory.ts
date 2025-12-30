@@ -3,7 +3,6 @@ import {CreateOrderRequest} from '../../../../services/billit';
 import {IInvoice} from '../../../../models/invoices';
 import {fromClient as createCustomerFromClient} from './customer.factory';
 import {fromInvoice as createOrderLinesFromInvoice} from './orderlinesfactory';
-import {fromInvoice as createPaymentReferenceFromInvoice} from './payment-reference.factory';
 import {IClient} from '../../../../models/clients';
 
 const InvoiceExpirationInDays: number = 14;
@@ -15,6 +14,7 @@ export function fromInvoice(invoice: IInvoice, client: IClient): CreateOrderRequ
     number,
     date,
     orderNr: Reference,
+    paymentReference,
   } = invoice;
 
   if (isQuotation) {
@@ -29,7 +29,7 @@ export function fromInvoice(invoice: IInvoice, client: IClient): CreateOrderRequ
     ExpiryDate: moment().add(InvoiceExpirationInDays, 'days').format('YYYY-MM-DD'),
     Reference,
     Currency: 'EUR',
-    PaymentReference: createPaymentReferenceFromInvoice(invoice),
+    PaymentReference: paymentReference,
     Customer: createCustomerFromClient(client),
     OrderLines: createOrderLinesFromInvoice(invoice),
   };
