@@ -6,12 +6,31 @@ import {GetParticipantInformationResponse} from './peppol/getparticipantinformat
 import {ApiConfig} from './api-config';
 import {SavedAttachment} from './orders/createorder/attachment/attachment';
 import {BillitOrder} from './orders/createorder/create-order.request';
+import {ErrorsResponse} from './errors/errors.response';
 
 export class ApiClient {
   private config: ApiConfig;
 
   constructor(config: ApiConfig) {
     this.config = config;
+  }
+
+  /**
+   * Parses error response and attaches errors array if present
+   */
+  private parseErrorResponse(errorText: string): {message: string; errors?: ErrorsResponse['errors']} {
+    try {
+      const parsed = JSON.parse(errorText);
+      if (parsed && Array.isArray(parsed.errors)) {
+        return {
+          message: errorText,
+          errors: parsed.errors,
+        };
+      }
+    } catch {
+      // Not JSON or doesn't match ErrorsResponse format
+    }
+    return {message: errorText};
   }
 
   /**
@@ -37,7 +56,13 @@ export class ApiClient {
     if (!response.ok) {
       const errorText: string = await response.text();
       logger.error(`Billit createOrder failed: ${response.status} - ${errorText}`);
-      throw new Error(`Failed to create order at Billit: ${errorText}`);
+
+      const parsedError = this.parseErrorResponse(errorText);
+      const error: any = new Error(`Failed to create order at Billit: ${parsedError.message}`);
+      if (parsedError.errors) {
+        error.billitErrors = parsedError.errors;
+      }
+      throw error;
     }
 
     const orderIdText: string = await response.text();
@@ -65,7 +90,13 @@ export class ApiClient {
     if (!response.ok) {
       const errorText = await response.text();
       logger.error(`Billit sendInvoice failed: ${response.status} - ${errorText}`);
-      throw new Error(`Failed to send invoice via ${request.TransportType}: ${errorText}`);
+
+      const parsedError = this.parseErrorResponse(errorText);
+      const error: any = new Error(`Failed to send invoice via ${request.TransportType}: ${parsedError.message}`);
+      if (parsedError.errors) {
+        error.billitErrors = parsedError.errors;
+      }
+      throw error;
     }
 
     logger.info(`Invoice(s) ${request.OrderIDs.join(', ')} sent via ${request.TransportType}`);
@@ -85,7 +116,13 @@ export class ApiClient {
     if (!response.ok) {
       const errorText: string = await response.text();
       logger.error(`Billit getParticipantInformation failed: ${response.status} - ${errorText}`);
-      throw new Error(`Failed to check Peppol registration: ${errorText}`);
+
+      const parsedError = this.parseErrorResponse(errorText);
+      const error: any = new Error(`Failed to check Peppol registration: ${parsedError.message}`);
+      if (parsedError.errors) {
+        error.billitErrors = parsedError.errors;
+      }
+      throw error;
     }
 
     const data: GetParticipantInformationResponse = await response.json();
@@ -106,7 +143,13 @@ export class ApiClient {
     if (!response.ok) {
       const errorText: string = await response.text();
       logger.error(`Billit getOrder failed: ${response.status} - ${errorText}`);
-      throw new Error(`Failed to get order from Billit: ${errorText}`);
+
+      const parsedError = this.parseErrorResponse(errorText);
+      const error: any = new Error(`Failed to get order from Billit: ${parsedError.message}`);
+      if (parsedError.errors) {
+        error.billitErrors = parsedError.errors;
+      }
+      throw error;
     }
 
     return response.json();
@@ -126,7 +169,13 @@ export class ApiClient {
     if (!response.ok) {
       const errorText: string = await response.text();
       logger.error(`Billit getFile failed: ${response.status} - ${errorText}`);
-      throw new Error(`Failed to get file from Billit: ${errorText}`);
+
+      const parsedError = this.parseErrorResponse(errorText);
+      const error: any = new Error(`Failed to get file from Billit: ${parsedError.message}`);
+      if (parsedError.errors) {
+        error.billitErrors = parsedError.errors;
+      }
+      throw error;
     }
 
     return response.json();

@@ -199,7 +199,16 @@ export function sendToPeppol(invoiceId: string, pdfFileName: string) {
 
         success(data.message || t('invoice.peppolSuccess'));
       }, err => {
-        catchHandler(err);
+        // Handle errors with detailed error information from Billit API
+        if (err.status === 500 && err.body?.errors && Array.isArray(err.body.errors) && err.body.errors.length > 0) {
+          const errorList = err.body.errors
+            .map(e => `${e.Code}${e.Description ? `: ${e.Description}` : ''}`)
+            .join('\n');
+          const errorMsg = `${err.body.message || err.body.error || t('invoice.peppolError')}\n\n${errorList}`;
+          failure(errorMsg, t('invoice.peppolErrorTitle'), 5000);
+        } else {
+          catchHandler(err);
+        }
       })
       .finally(() => dispatch(busyToggle()));
   };

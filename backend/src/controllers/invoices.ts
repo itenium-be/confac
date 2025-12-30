@@ -519,9 +519,16 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
 
   } catch (error: any) {
     logger.error('Error processing Peppol request:', error);
-    return res.status(500).send({
+    const errorResponse: any = {
       message: 'Error processing Peppol request',
       error: error.message,
-    });
+    };
+
+    // Include Billit API errors if present
+    if (error.billitErrors && Array.isArray(error.billitErrors)) {
+      errorResponse.errors = error.billitErrors;
+    }
+
+    return res.status(500).send(errorResponse);
   }
 };
