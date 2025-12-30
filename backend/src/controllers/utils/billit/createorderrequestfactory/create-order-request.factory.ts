@@ -1,5 +1,5 @@
 import moment from 'moment/moment';
-import {CreateOrderRequest} from '../../../../services/billit';
+import {ContractDocumentReference, CreateOrderRequest} from '../../../../services/billit';
 import {IInvoice, InvoiceProjectMonth} from '../../../../models/invoices';
 import {fromClient as createCustomerFromClient} from './customer.factory';
 import {fromInvoice as createOrderLinesFromInvoice} from './orderlinesfactory';
@@ -82,6 +82,11 @@ export function fromInvoice(invoice: IInvoice, client: IClient, project?: IProje
   const orderDescription = getOrderDescription(projectMonth);
   const {periodFrom, periodTill} = getOrderPeriod(projectMonth, project);
 
+  let contractDocumentReference: ContractDocumentReference[] | undefined;
+  if (project?.client?.ref) {
+    contractDocumentReference = [{ID: project.client.ref}];
+  }
+
   return {
     // OrderID: invoice.billit.orderId,
     OrderType: 'Invoice',
@@ -97,6 +102,7 @@ export function fromInvoice(invoice: IInvoice, client: IClient, project?: IProje
     InternalInfo: orderDescription,
     Currency: 'EUR',
     PaymentReference: paymentReference,
+    ContractDocumentReference: contractDocumentReference,
     Customer: createCustomerFromClient(client),
     OrderLines: createOrderLinesFromInvoice(invoice),
   };

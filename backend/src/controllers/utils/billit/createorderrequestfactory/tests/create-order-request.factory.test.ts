@@ -234,4 +234,53 @@ describe('fromInvoice', () => {
     expect(actual.PeriodFrom).toBe('2024-12-01');
     expect(actual.PeriodTill).toBe('2024-12-31');
   });
+
+  it('should set ContractDocumentReference when project.client.ref exists', () => {
+    const invoice: IInvoice = {
+      ...someInvoice,
+      projectMonth: {
+        projectMonthId: 'pm-123',
+        month: '2024-12-01T00:00:00.000Z',
+        consultantId: 'cons-123',
+        consultantName: 'John Doe',
+      },
+    };
+
+    const project = {
+      startDate: '2024-01-01T00:00:00.000Z',
+      client: {
+        clientId: 'client-123',
+        defaultInvoiceLines: [],
+        ref: 'CONTRACT-2024-001',
+      },
+    };
+
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as any);
+
+    expect(actual.ContractDocumentReference).toEqual([{ID: 'CONTRACT-2024-001'}]);
+  });
+
+  it('should not set ContractDocumentReference when project.client.ref is empty', () => {
+    const invoice: IInvoice = {
+      ...someInvoice,
+      projectMonth: {
+        projectMonthId: 'pm-123',
+        month: '2024-12-01T00:00:00.000Z',
+        consultantId: 'cons-123',
+        consultantName: 'John Doe',
+      },
+    };
+
+    const project = {
+      startDate: '2024-01-01T00:00:00.000Z',
+      client: {
+        clientId: 'client-123',
+        defaultInvoiceLines: [],
+      },
+    };
+
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as any);
+
+    expect(actual.ContractDocumentReference).toBeUndefined();
+  });
 });

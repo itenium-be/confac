@@ -9,6 +9,10 @@ export type BillitOrder = Omit<CreateOrderRequest, 'Attachments'> & {
   Attachments: SavedAttachment[];
 };
 
+export type ContractDocumentReference = {
+  ID: string;
+};
+
 export type CreateOrderRequest = {
   OrderType: OrderType;
   OrderDirection: OrderDirection;
@@ -23,6 +27,7 @@ export type CreateOrderRequest = {
   InternalInfo?: string;
   Currency?: string;
   PaymentReference?: string;
+  ContractDocumentReference?: ContractDocumentReference[];
   Customer: Customer;
   OrderLines: OrderLine[];
   Attachments?: Attachment[];
