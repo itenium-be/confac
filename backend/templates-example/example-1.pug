@@ -113,6 +113,11 @@ html
 						td(colspan="4") BTW 21 %
 						td € #{numberFormat(money.totalTax)}
 
+					if money.discount
+						tr
+							td(colspan="4") Korting #{typeof money.discount === 'string' && money.discount.endsWith('%') ? money.discount : ''}
+							td - € #{numberFormat(money.totalWithoutTax + money.totalTax - money.total)}
+
 					tr
 						td(colspan="4")
 							strong Totaal te voldoen
