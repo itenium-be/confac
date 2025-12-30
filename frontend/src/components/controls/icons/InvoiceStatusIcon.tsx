@@ -1,3 +1,4 @@
+import {CSSProperties} from 'react';
 import {connect} from 'react-redux';
 import {IconProps, Icon} from '../Icon';
 import {ConfacState} from '../../../reducers/app-state';
@@ -7,18 +8,19 @@ import t from '../../../trans';
 
 type InvoiceStatusIconProps = IconProps & {
   status: InvoiceStatus;
+  style?: CSSProperties;
 }
 
 type IconConfig = {icon: string; color: string; translationKey: string};
 
 export const statusConfig: Record<InvoiceStatus, IconConfig> = {
-  Draft: {icon: 'far fa-clipboard', color: 'black', translationKey: 'invoice.status.draft'},
-  ToSend: {icon: 'far fa-paper-plane', color: 'black', translationKey: 'invoice.status.toSend'},
-  ToPay: {icon: 'far fa-clock', color: '#CC1100', translationKey: 'invoice.status.toPay'},
-  Paid: {icon: 'far fa-check-circle', color: 'green', translationKey: 'invoice.status.paid'},
+  Draft: {icon: 'far fa-clipboard', color: 'black', translationKey: 'invoice.status.Draft'},
+  ToSend: {icon: 'far fa-paper-plane', color: 'black', translationKey: 'invoice.status.ToSend'},
+  ToPay: {icon: 'far fa-clock', color: 'black', translationKey: 'invoice.status.ToPay'},
+  Paid: {icon: 'far fa-check-circle', color: 'green', translationKey: 'invoice.status.Paid'},
 };
 
-export const InvoiceStatusIcon = ({status, title, ...props}: InvoiceStatusIconProps) => {
+export const InvoiceStatusIcon = ({status, title, style, ...props}: InvoiceStatusIconProps) => {
   const config = statusConfig[status];
   return (
     <Icon
@@ -27,6 +29,7 @@ export const InvoiceStatusIcon = ({status, title, ...props}: InvoiceStatusIconPr
       color={config.color}
       title={title || t(config.translationKey)}
       {...props}
+      style={style}
     />
   );
 };

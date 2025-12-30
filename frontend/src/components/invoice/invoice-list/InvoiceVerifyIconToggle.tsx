@@ -1,9 +1,10 @@
+import {CSSProperties} from 'react';
 import {useDispatch} from 'react-redux';
 import moment from 'moment';
 import t from '../../../trans';
 import {toggleInvoiceVerify} from '../../../actions/index';
 import InvoiceModel from '../models/InvoiceModel';
-import {BusyInvoiceStatusIcon} from '../../controls/icons/InvoiceStatusIcon';
+import {BusyInvoiceStatusIcon, InvoiceStatusIcon} from '../../controls/icons/InvoiceStatusIcon';
 import {EnhanceWithClaim, EnhanceWithClaimProps} from '../../enhancers/EnhanceWithClaim';
 
 
@@ -18,15 +19,37 @@ export const InvoiceVerifyIconToggle = EnhanceWithClaim(({invoice, toggleBusy, .
     return null;
   }
 
+  const isClickable = invoice.status === 'ToPay' || invoice.status === 'Paid';
   const daysPassed = moment().diff(invoice.audit.createdOn, 'days');
-  const title = invoice.status === 'Paid' ? t('invoice.unverifyActionTooltip') : t('invoice.verifyActionTooltip', {days: daysPassed});
-  console.log('InvoiceVerifyIconToggle', invoice);
+
+  let title: string;
+  let style: CSSProperties = {marginLeft: 8};
+  if (invoice.status === 'Paid') {
+    title = t('invoice.unverifyActionTooltip');
+  } else if (invoice.status === 'ToPay') {
+    title = t('invoice.verifyActionTooltip', {days: daysPassed});
+  } else {
+    title = t(`invoice.status.${invoice.status}`);
+    style = invoice.status === 'Draft' ? {marginLeft: 10, marginRight: 4} : {marginLeft: 8};
+  }
+
+  if (isClickable) {
+    return (
+      <BusyInvoiceStatusIcon
+        withoutStoreBusy={!toggleBusy}
+        model={invoice}
+        style={{...style, cursor: 'pointer'}}
+        onClick={() => dispatch(toggleInvoiceVerify(invoice, toggleBusy) as any)}
+        title={title}
+        {...props}
+      />
+    );
+  }
+
   return (
-    <BusyInvoiceStatusIcon
-      withoutStoreBusy={!toggleBusy}
-      model={invoice}
-      style={{marginLeft: 8}}
-      onClick={() => dispatch(toggleInvoiceVerify(invoice, toggleBusy) as any)}
+    <InvoiceStatusIcon
+      status={invoice.status}
+      style={{...style, opacity: 0.2}}
       title={title}
       {...props}
     />

@@ -31,7 +31,7 @@ class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, In
 
   render() {
     const { invoice, toggleInvoiceVerify } = this.props; // eslint-disable-line
-    if (this.state.dismissed || invoice.isNew || invoice.status === 'Paid' || invoice.isQuotation) {
+    if (this.state.dismissed || invoice.isNew || ['Paid', 'Draft', 'ToSend'].includes(invoice.status) || invoice.isQuotation) {
       return null;
     }
 
