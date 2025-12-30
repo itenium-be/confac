@@ -352,7 +352,7 @@ export const generateExcelForInvoicesController = async (req: Request, res: Resp
     invoice.money.totalWithoutTax.toString().replace('.', ','),
     invoice.money.totalTax.toString().replace('.', ','),
     invoice.money.total.toString().replace('.', ','),
-    invoice.verified,
+    invoice.status,
     invoice.money.discount!.toString().replace('.', ','),
     `"${invoice.lines[0].desc}"`,
     invoice._id,
