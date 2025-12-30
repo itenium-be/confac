@@ -58,6 +58,8 @@ describe('fromInvoice', () => {
       InternalInfo: undefined,
       Currency: 'EUR',
       PaymentReference: '+++000/2024/00196+++',
+      PaymentDiscountPercentage: undefined,
+      PaymentDiscountAmount: undefined,
       ContractDocumentReference: undefined,
       Customer: {
         Name: 'Test Company BV',
@@ -286,5 +288,60 @@ describe('fromInvoice', () => {
     const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as any);
 
     expect(actual.ContractDocumentReference).toBeUndefined();
+  });
+
+  it('should set already calculated PaymentDiscountAmount for percentage discount (and not PaymentDiscountPercentage)', () => {
+    const invoice: IInvoice = {
+      ...someInvoice,
+      discount: '10%',
+      money: {
+        totalWithoutTax: 1000,
+        totalTax: 210,
+        discount: '10%',
+        total: 1089,
+        totals: {daily: 1000},
+      },
+    };
+
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient);
+
+    expect(actual.PaymentDiscountPercentage).toBeUndefined();
+    expect(actual.PaymentDiscountAmount).toBe(121);
+  });
+
+  it('should set PaymentDiscountAmount for absolute discount', () => {
+    const invoice: IInvoice = {
+      ...someInvoice,
+      discount: '500',
+      money: {
+        totalWithoutTax: 1000,
+        totalTax: 210,
+        discount: 500,
+        total: 710,
+        totals: {daily: 1000},
+      },
+    };
+
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient);
+
+    expect(actual.PaymentDiscountPercentage).toBeUndefined();
+    expect(actual.PaymentDiscountAmount).toBe(500);
+  });
+
+  it('should not set discount fields when discount is empty', () => {
+    const invoice: IInvoice = {
+      ...someInvoice,
+      money: {
+        totalWithoutTax: 1000,
+        totalTax: 210,
+        total: 1210,
+        totals: {daily: 1000},
+      },
+    };
+
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient);
+
+    expect(actual.PaymentDiscountPercentage).toBeUndefined();
+    expect(actual.PaymentDiscountAmount).toBeUndefined();
   });
 });

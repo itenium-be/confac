@@ -27,6 +27,8 @@ export type CreateOrderRequest = {
   InternalInfo?: string;
   Currency?: string;
   PaymentReference?: string;
+  PaymentDiscountPercentage?: number;
+  PaymentDiscountAmount?: number;
   ContractDocumentReference?: ContractDocumentReference[];
   Customer: Customer;
   OrderLines: OrderLine[];

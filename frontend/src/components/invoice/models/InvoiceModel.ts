@@ -14,6 +14,10 @@ export type InvoiceMoney = {
   totalWithoutTax: number;
   totalTax: number;
   discount?: number | string;
+  /**
+   * The total amount, including tax with
+   * discount, if any, already subtracted
+   */
   total: number;
   totals: {
     // [x in EditClientRateType]: number // When create-react-app supports it

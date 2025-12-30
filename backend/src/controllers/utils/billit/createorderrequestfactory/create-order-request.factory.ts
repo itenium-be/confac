@@ -31,6 +31,25 @@ type OrderPeriod = {
   periodTill?: string;
 };
 
+type PaymentDiscount = {
+  PaymentDiscountPercentage?: number;
+  PaymentDiscountAmount?: number;
+};
+
+function getPaymentDiscount(invoice: IInvoice): PaymentDiscount {
+  if (!invoice.money.discount) {
+    return {};
+  }
+
+  // Discount is already calculated, take that exact amount so that
+  // we do not duplicate the calculation done on the frontend.
+  const discount = invoice.money.totalWithoutTax + invoice.money.totalTax - invoice.money.total;
+  return {
+    PaymentDiscountPercentage: undefined,
+    PaymentDiscountAmount: discount,
+  };
+}
+
 function getOrderPeriod(projectMonth?: InvoiceProjectMonth, project?: IProject): OrderPeriod {
   if (!projectMonth?.month) {
     return {};
@@ -81,6 +100,7 @@ export function fromInvoice(invoice: IInvoice, client: IClient, project?: IProje
 
   const orderDescription = getOrderDescription(projectMonth);
   const {periodFrom, periodTill} = getOrderPeriod(projectMonth, project);
+  const {PaymentDiscountPercentage, PaymentDiscountAmount} = getPaymentDiscount(invoice);
 
   let contractDocumentReference: ContractDocumentReference[] | undefined;
   if (project?.client?.ref) {
@@ -102,6 +122,8 @@ export function fromInvoice(invoice: IInvoice, client: IClient, project?: IProje
     InternalInfo: orderDescription,
     Currency: 'EUR',
     PaymentReference: paymentReference,
+    PaymentDiscountPercentage,
+    PaymentDiscountAmount,
     ContractDocumentReference: contractDocumentReference,
     Customer: createCustomerFromClient(client),
     OrderLines: createOrderLinesFromInvoice(invoice),
