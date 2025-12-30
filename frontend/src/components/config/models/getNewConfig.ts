@@ -24,7 +24,7 @@ export const defaultConfig: ConfigModel = {
     templateQuotation: 'example-1.pug',
   },
   defaultClient: null,
-  invoiceFileName: '{date:YYYY-MM} {nr:4} - {clientName}',
+  invoiceFileName: ' {{formatDate date "YYYY-MM-DD"}} {{zero nr 4}} - {{clientName}}',
   defaultInvoiceLines: InvoiceLineActions.addEmptyLine([]),
   attachmentTypes: [],
   defaultInvoiceDateStrategy: 'prev-month-last-day',

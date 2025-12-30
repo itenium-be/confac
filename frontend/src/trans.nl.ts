@@ -286,7 +286,6 @@ export const trans = {
     createTitle: 'Nieuwe factuur maken',
     editTitle: 'Factuur details',
     fileName: 'Pdf bestandsnaam factuur',
-    fileNamePlaceHolder: '{date:YYYY-MM-DD} {nr:4} {orderNr}',
     createNew: 'Nieuwe factuur',
     amount: 'Facturen',
     amountOne: '1 factuur',

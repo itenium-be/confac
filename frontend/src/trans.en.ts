@@ -286,7 +286,6 @@ export const trans = {
     createTitle: 'New invoice',
     editTitle: 'Invoice details',
     fileName: 'Pdf filename invocie',
-    fileNamePlaceHolder: '{date:YYYY-MM-DD} {nr:4} {orderNr}',
     createNew: 'New invoice',
     amount: 'Invoices',
     amountOne: '1 invoice',

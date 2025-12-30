@@ -45,17 +45,19 @@ function getSomeInvoice() {
       _id: '587a678885fcd847588cf087',
       active: true,
       name: 'Apple',
-      address: '1 Infinite Loop',
-      city: 'Cupertino, CA 95014',
-      telephone: '(408) 996–1010',
+      street: 'Infinite Loop',
+      streetNr: '1',
+      postalCode: 'CA 95014',
+      city: 'Cupertino',
+      telephone: '(408) 996-1010',
       btw: '',
-      invoiceFileName: '{date:YYYY-MM} {nr:4} - ',
+      invoiceFileName: ' {{formatDate date "YYYY-MM"}} {{zero nr 4}} - ',
       rate: {
         type: 'hourly',
         hoursInDay: 8,
         value: 100,
-        description: 'osx²'
-      }
+        description: 'osx²',
+      },
     },
     your: {
       template: 'example-1.pug',
@@ -68,28 +70,28 @@ function getSomeInvoice() {
       bic: '',
       telephone: '',
       email: '',
-      website: ''
+      website: '',
     },
     date: '',
     orderNr: 'ytjtyj',
-    verified: true,
+    status: 'Paid',
     lines: [
       {
         type: 'hourly',
         desc: 'osx²',
         amount: 10,
-        price: 100
+        price: 100,
       }, {
         type: 'daily',
         desc: 'kubernetes',
         amount: 1,
-        price: 50
-      }
+        price: 50,
+      },
     ],
     money: {
       totalWithoutTax: 1050,
       totalTax: 220.5,
-      total: 1270.5
-    }
+      total: 1270.5,
+    },
   };
 }
