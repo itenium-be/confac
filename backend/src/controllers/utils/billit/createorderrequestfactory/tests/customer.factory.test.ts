@@ -33,6 +33,7 @@ describe('fromClient', () => {
         },
       ],
       Email: 'client@example.com',
+      Language: 'NL',
     };
 
     const actual: Customer = fromClient(client);

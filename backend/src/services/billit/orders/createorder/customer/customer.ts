@@ -9,4 +9,5 @@ export interface Customer {
   Identifiers?: Identifier[];
   Addresses?: Address[];
   Email?: string;
+  Language?: string;
 }

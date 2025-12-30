@@ -12,6 +12,7 @@ export const someClient: IClient = {
   streetBox: '',
   city: 'Brussels',
   postalCode: '1000',
+  language: 'nl',
   country: 'BE',
   telephone: '+32 2 123 45 67',
   btw: 'BE0123456789',

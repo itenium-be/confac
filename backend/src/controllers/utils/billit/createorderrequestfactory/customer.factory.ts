@@ -20,5 +20,6 @@ export function fromClient(client: IClient): Customer {
       },
     ],
     Email: client.email.to,
+    Language: client.language?.toUpperCase() || 'EN',
   };
 }

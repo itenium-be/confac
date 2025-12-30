@@ -76,6 +76,7 @@ describe('fromInvoice', () => {
           },
         ],
         Email: 'to@someone.com',
+        Language: 'NL',
       },
       OrderLines: [
         {

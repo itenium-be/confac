@@ -35,6 +35,7 @@ export interface IClient {
   city: string;
   postalCode: string;
   country: string;
+  language: Language;
   telephone: string;
   btw: string;
   invoiceFileName: string;
@@ -48,3 +49,5 @@ export interface IClient {
   peppolEnabled?: boolean;
   audit: IAudit;
 }
+
+export type Language = 'nl' | 'en' | 'fr';
