@@ -9,5 +9,11 @@ export interface Customer {
   Identifiers?: Identifier[];
   Addresses?: Address[];
   Email?: string;
-  Language?: string;
+  /**
+   * We have only defined email templates for NL / EN
+   * If we send a different Language then Billit uses
+   * AI to translate the email (the automatic English
+   * translation was just wrong...)
+   */
+  Language?: 'NL' | 'EN';
 }
