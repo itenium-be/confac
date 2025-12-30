@@ -2,6 +2,7 @@ import {ObjectID} from 'mongodb';
 import {IInvoice} from '../../../../../models/invoices';
 import {someClient as client} from '../../tests/client.fixture';
 import {someAudit as audit} from '../../tests/audit.fixture';
+import {IClient} from '../../../../../models/clients';
 
 export const someInvoice: IInvoice = {
   _id: new ObjectID('507f1f77bcf86cd799439012'),
@@ -58,4 +59,9 @@ export const someInvoice: IInvoice = {
   audit,
   creditNotas: [],
   paymentReference: '+++000/2024/00196+++',
+};
+
+export const someClient: IClient = {
+  ...someInvoice.client,
+  email: {to: 'to@someone.com', subject: '', body: '', attachments: []},
 };

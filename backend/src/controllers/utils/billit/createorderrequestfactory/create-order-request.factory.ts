@@ -26,8 +26,46 @@ function getOrderDescription(projectMonth?: InvoiceProjectMonth): string | undef
   return parts.length > 0 ? parts.join(' - ') : undefined;
 }
 
+type OrderPeriod = {
+  periodFrom?: string;
+  periodTill?: string;
+};
+
+function getOrderPeriod(projectMonth?: InvoiceProjectMonth, project?: IProject): OrderPeriod {
+  if (!projectMonth?.month) {
+    return {};
+  }
+
+  const month = moment(projectMonth.month);
+  const startOfMonth = month.clone().startOf('month');
+  const endOfMonth = month.clone().endOf('month');
+
+  let periodFrom = startOfMonth;
+  let periodTill = endOfMonth;
+
+  if (project) {
+    const projectStart = moment(project.startDate);
+    const projectEnd = project.endDate ? moment(project.endDate) : null;
+
+    // If project started in this month, use project start date
+    if (projectStart.isSameOrAfter(startOfMonth) && projectStart.isSameOrBefore(endOfMonth)) {
+      periodFrom = projectStart;
+    }
+
+    // If project ended in this month, use project end date
+    if (projectEnd && projectEnd.isSameOrAfter(startOfMonth) && projectEnd.isSameOrBefore(endOfMonth)) {
+      periodTill = projectEnd;
+    }
+  }
+
+  return {
+    periodFrom: periodFrom.format('YYYY-MM-DD'),
+    periodTill: periodTill.format('YYYY-MM-DD'),
+  };
+}
+
 /** Create a Billit CreateOrderRequest */
-export function fromInvoice(invoice: IInvoice, client: IClient): CreateOrderRequest {
+export function fromInvoice(invoice: IInvoice, client: IClient, project?: IProject): CreateOrderRequest {
   const {
     isQuotation,
     number,
@@ -42,13 +80,17 @@ export function fromInvoice(invoice: IInvoice, client: IClient): CreateOrderRequ
   }
 
   const orderDescription = getOrderDescription(projectMonth);
+  const {periodFrom, periodTill} = getOrderPeriod(projectMonth, project);
 
   return {
+    // OrderID: invoice.billit.orderId,
     OrderType: 'Invoice',
     OrderDirection: 'Income',
     OrderNumber: number.toString(),
     OrderDate: moment(date).format('YYYY-MM-DD'),
     ExpiryDate: moment().add(InvoiceExpirationInDays, 'days').format('YYYY-MM-DD'),
+    PeriodFrom: periodFrom,
+    PeriodTill: periodTill,
     Reference,
     OrderTitle: orderDescription,
     Comments: orderDescription,

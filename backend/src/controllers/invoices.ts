@@ -15,6 +15,7 @@ import {logger} from '../logger';
 import {ApiClient, Attachment, CreateOrderRequest, SendInvoiceRequest} from '../services/billit';
 import {GetParticipantInformationResponse} from '../services/billit/peppol/getparticipantinformation';
 import {ApiClientFactory, CreateOrderRequestFactory, SendInvoiceRequestFactory, VatNumberFactory} from './utils/billit';
+import {IProject} from '../models/projects';
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
   const inserted = await db.collection<IInvoice>(CollectionNames.INVOICES).insertOne({
@@ -392,8 +393,18 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
   try {
     const apiClient: ApiClient = ApiClientFactory.fromConfig(config);
 
+    let project: IProject | undefined;
+    if (invoice.projectMonth?.projectMonthId) {
+      const projectMonth = await req.db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH)
+        .findOne({_id: new ObjectID(invoice.projectMonth.projectMonthId)});
+      if (projectMonth) {
+        project = await req.db.collection(CollectionNames.PROJECTS)
+          .findOne({_id: new ObjectID(projectMonth.projectId)});
+      }
+    }
+
     // Step 1: Create invoice at Billit
-    const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(invoice, client);
+    const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(invoice, client, project);
 
     // Fetch attachments from DB
     const attachmentDoc = await req.db

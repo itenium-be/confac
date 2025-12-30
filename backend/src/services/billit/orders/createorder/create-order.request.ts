@@ -15,6 +15,8 @@ export type CreateOrderRequest = {
   OrderNumber?: string;
   OrderDate: string; // YYYY-MM-DD format
   ExpiryDate: string; // YYYY-MM-DD format
+  PeriodFrom?: string; // YYYY-MM-DD format
+  PeriodTill?: string; // YYYY-MM-DD format
   Reference?: string;
   OrderTitle?: string;
   Comments?: string;

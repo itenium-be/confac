@@ -2,7 +2,7 @@ import moment from 'moment';
 import {fromInvoice} from '../create-order-request.factory';
 import {CreateOrderRequest} from '../../../../../services/billit';
 import {IInvoice} from '../../../../../models/invoices';
-import {someInvoice} from './invoice.fixture';
+import {someInvoice, someClient} from './invoice.fixture';
 import {someInvoiceLine} from './invoice-line.fixture';
 
 describe('fromInvoice', () => {
@@ -50,6 +50,8 @@ describe('fromInvoice', () => {
       OrderNumber: '2024001',
       OrderDate: '2024-12-23',
       ExpiryDate: moment().add(30, 'days').format('YYYY-MM-DD'),
+      PeriodFrom: undefined,
+      PeriodTill: undefined,
       Reference: 'PO-2024-001',
       OrderTitle: undefined,
       Comments: undefined,
@@ -90,8 +92,7 @@ describe('fromInvoice', () => {
       ],
     };
 
-    const client = {...invoice.client, email: {to: 'to@someone.com', subject: '', body: '', attachments: []}};
-    const actual: CreateOrderRequest = fromInvoice(invoice, client);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient);
 
     expect(actual).toEqual(expected);
   });
@@ -99,21 +100,15 @@ describe('fromInvoice', () => {
   it('should set OrderTitle, Comments and InternalInfo from projectMonth', () => {
     const invoice: IInvoice = {
       ...someInvoice,
-      number: 2024001,
-      date: '2024-12-23T00:00:00.000Z',
-      isQuotation: false,
-      paymentReference: '+++412/2024/00137+++',
       projectMonth: {
         projectMonthId: 'pm-123',
         month: '2024-12-01T00:00:00.000Z',
         consultantId: 'cons-123',
         consultantName: 'John Doe',
       },
-      lines: [someInvoiceLine],
     };
 
-    const client = {...invoice.client, email: {to: 'to@someone.com', subject: '', body: '', attachments: []}};
-    const actual: CreateOrderRequest = fromInvoice(invoice, client);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient);
 
     expect(actual.OrderTitle).toBe('2024-12 - John Doe');
     expect(actual.Comments).toBe('2024-12 - John Doe');
@@ -123,24 +118,120 @@ describe('fromInvoice', () => {
   it('should handle projectMonth with only month (no consultant)', () => {
     const invoice: IInvoice = {
       ...someInvoice,
-      number: 2024001,
-      date: '2024-12-23T00:00:00.000Z',
-      isQuotation: false,
-      paymentReference: '+++412/2024/00137+++',
       projectMonth: {
         projectMonthId: 'pm-123',
         month: '2024-12-01T00:00:00.000Z',
         consultantId: '',
         consultantName: '',
       },
-      lines: [someInvoiceLine],
     };
 
-    const client = {...invoice.client, email: {to: 'to@someone.com', subject: '', body: '', attachments: []}};
-    const actual: CreateOrderRequest = fromInvoice(invoice, client);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient);
 
     expect(actual.OrderTitle).toBe('2024-12');
     expect(actual.Comments).toBe('2024-12');
     expect(actual.InternalInfo).toBe('2024-12');
+  });
+
+  it('should set PeriodFrom and PeriodTill to full month without project', () => {
+    const invoice: IInvoice = {
+      ...someInvoice,
+      projectMonth: {
+        projectMonthId: 'pm-123',
+        month: '2024-12-01T00:00:00.000Z',
+        consultantId: 'cons-123',
+        consultantName: 'John Doe',
+      },
+    };
+
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient);
+
+    expect(actual.PeriodFrom).toBe('2024-12-01');
+    expect(actual.PeriodTill).toBe('2024-12-31');
+  });
+
+  it('should use project startDate when project started in the month', () => {
+    const invoice: IInvoice = {
+      ...someInvoice,
+      projectMonth: {
+        projectMonthId: 'pm-123',
+        month: '2024-12-01T00:00:00.000Z',
+        consultantId: 'cons-123',
+        consultantName: 'John Doe',
+      },
+    };
+
+    const project = {startDate: '2024-12-15T00:00:00.000Z'};
+
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as any);
+
+    expect(actual.PeriodFrom).toBe('2024-12-15');
+    expect(actual.PeriodTill).toBe('2024-12-31');
+  });
+
+  it('should use project endDate when project ended in the month', () => {
+    const invoice: IInvoice = {
+      ...someInvoice,
+      projectMonth: {
+        projectMonthId: 'pm-123',
+        month: '2024-12-01T00:00:00.000Z',
+        consultantId: 'cons-123',
+        consultantName: 'John Doe',
+      },
+    };
+
+    const project = {
+      startDate: '2024-01-01T00:00:00.000Z',
+      endDate: '2024-12-20T00:00:00.000Z',
+    };
+
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as any);
+
+    expect(actual.PeriodFrom).toBe('2024-12-01');
+    expect(actual.PeriodTill).toBe('2024-12-20');
+  });
+
+  it('should use both project startDate and endDate when project started and ended in the month', () => {
+    const invoice: IInvoice = {
+      ...someInvoice,
+      projectMonth: {
+        projectMonthId: 'pm-123',
+        month: '2024-12-01T00:00:00.000Z',
+        consultantId: 'cons-123',
+        consultantName: 'John Doe',
+      },
+    };
+
+    const project = {
+      startDate: '2024-12-10T00:00:00.000Z',
+      endDate: '2024-12-20T00:00:00.000Z',
+    };
+
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as any);
+
+    expect(actual.PeriodFrom).toBe('2024-12-10');
+    expect(actual.PeriodTill).toBe('2024-12-20');
+  });
+
+  it('should use full month when project started/ended before/after', () => {
+    const invoice: IInvoice = {
+      ...someInvoice,
+      projectMonth: {
+        projectMonthId: 'pm-123',
+        month: '2024-12-01T00:00:00.000Z',
+        consultantId: 'cons-123',
+        consultantName: 'John Doe',
+      },
+    };
+
+    const project = {
+      startDate: '2024-11-10T00:00:00.000Z',
+      endDate: '2025-01-20T00:00:00.000Z',
+    };
+
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as any);
+
+    expect(actual.PeriodFrom).toBe('2024-12-01');
+    expect(actual.PeriodTill).toBe('2024-12-31');
   });
 });
