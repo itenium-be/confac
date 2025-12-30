@@ -444,12 +444,14 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
       try {
         const orderId: number = await apiClient.createOrder(createOrderRequest, `create-order-${invoice.number.toString()}`);
 
+        const updatedAudit = updateAudit(invoice.audit, req.user);
         await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
           {_id: new ObjectID(invoice._id)},
-          {$set: {billit: {orderId}, status: 'ToSend'}},
+          {$set: {billit: {orderId}, status: 'ToSend', audit: updatedAudit}},
         );
         invoice.billit = {orderId};
         invoice.status = 'ToSend';
+        invoice.audit = updatedAudit;
       } catch (error: any) {
         if (error?.message?.includes('Idempotent token already exists')) {
           logger.info(`IdempotencyKey already exists for InvoiceNr=${invoice.number}, billitId=${invoice.billit?.orderId}`);
@@ -490,9 +492,10 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
       const sentToPeppol = new Date().toISOString();
       await apiClient.sendInvoice(sendInvoiceRequest, idempotencyKey);
 
+      const sentAudit = updateAudit(invoice.audit, req.user);
       const updatedInvoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOneAndUpdate(
         {_id: new ObjectID(invoice._id)},
-        {$set: {lastEmail: sentToPeppol, status: 'ToPay'}},
+        {$set: {lastEmail: sentToPeppol, status: 'ToPay', audit: sentAudit}},
       );
       if (updatedInvoice.ok && updatedInvoice.value) {
         emitEntityEvent(
@@ -500,7 +503,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
           SocketEventTypes.EntityUpdated,
           CollectionNames.INVOICES,
           updatedInvoice.value._id,
-          {...updatedInvoice.value, lastEmail: sentToPeppol, status: 'ToPay'},
+          {...updatedInvoice.value, lastEmail: sentToPeppol, status: 'ToPay', audit: sentAudit},
           'everyone',
         );
       }
