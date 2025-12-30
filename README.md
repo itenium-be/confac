@@ -77,6 +77,17 @@ cd backend
 npm run faker
 ```
 
+## Peppol
+
+- Sandbox:
+  - [API](https://api.sandbox.billit.be/)
+  - [UI](https://my.sandbox.billit.be/)
+- Production:
+  - [API](https://api.billit.be/)
+  - [UI](https://my.billit.be/)
+
+
+
 
 ## Template testing
 
