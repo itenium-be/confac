@@ -12,7 +12,7 @@ import {saveAudit} from './utils/audit-logs';
 import {emitEntityEvent} from './utils/entity-events';
 import config from '../config';
 import {logger} from '../logger';
-import {ApiClient, Attachment, CreateOrderRequest, SendInvoiceRequest} from '../services/billit';
+import {ApiClient, Attachment, BillitError, CreateOrderRequest, SendInvoiceRequest} from '../services/billit';
 import {GetParticipantInformationResponse} from '../services/billit/peppol/getparticipantinformation';
 import {ApiClientFactory, CreateOrderRequestFactory, SendInvoiceRequestFactory, VatNumberFactory} from './utils/billit';
 import {IProject} from '../models/projects';
@@ -525,7 +525,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     };
 
     // Include Billit API errors if present
-    if (error.billitErrors && Array.isArray(error.billitErrors)) {
+    if (error instanceof BillitError) {
       errorResponse.errors = error.billitErrors;
     }
 

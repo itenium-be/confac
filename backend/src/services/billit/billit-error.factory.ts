@@ -1,4 +1,5 @@
 import {ErrorsResponse} from './errors/errors.response';
+import {BillitError} from './billit-error';
 
 export class BillitErrorFactory {
   /**
@@ -24,10 +25,12 @@ export class BillitErrorFactory {
    */
   static createError(errorText: string, message: string): Error {
     const parsedError = this.parseErrorResponse(errorText);
-    const error: any = new Error(`${message}: ${parsedError.message}`);
+    const fullMessage = `${message}: ${parsedError.message}`;
+
     if (parsedError.errors) {
-      error.billitErrors = parsedError.errors;
+      return new BillitError(fullMessage, parsedError.errors);
     }
-    return error;
+
+    return new Error(fullMessage);
   }
 }
