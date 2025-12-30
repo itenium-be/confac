@@ -140,14 +140,14 @@ export const NotPeppoledIcon = ({...props}) => (
     className="fa-stack fa-2x tst-not-peppol"
     {...props}
   >
-    <i className="far fa-paper-plane fa-stack-1x" />
+    <i className="far fa-paper-plane fa-stack-1x" style={{color: 'black'}} />
     <Icon fa="fas fa-ban fa-stack-2x" size={1} title={t('invoice.peppolNotSent')} color="#CC1100" />
   </ClaimSpan>
 );
 
 export const PeppoledIcon = ({...props}) => (
   <Icon fa="fa-stack fa-2x tst-peppol-success" {...props}>
-    <i className="far fa-paper-plane fa-stack-1x" />
+    <i className="far fa-paper-plane fa-stack-1x" style={{color: 'black'}} />
     <Icon fa="fas fa-check fa-stack-2x" size={1} color="green" />
   </Icon>
 );
