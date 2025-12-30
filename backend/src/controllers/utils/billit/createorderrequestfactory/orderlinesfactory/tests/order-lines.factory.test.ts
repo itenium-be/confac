@@ -32,12 +32,14 @@ describe('fromInvoice', () => {
       {
         Quantity: 10,
         UnitPriceExcl: 100,
+        Unit: 'DAY',
         Description: 'Consulting Services',
         VATPercentage: 21,
       },
       {
         Quantity: 5,
         UnitPriceExcl: 150,
+        Unit: 'DAY',
         Description: 'Development Work',
         VATPercentage: 21,
       },
@@ -66,6 +68,7 @@ describe('fromInvoice', () => {
       {
         Quantity: 10,
         UnitPriceExcl: 100,
+        Unit: 'DAY',
         Description: 'Consulting Services',
         VATPercentage: 21,
       },

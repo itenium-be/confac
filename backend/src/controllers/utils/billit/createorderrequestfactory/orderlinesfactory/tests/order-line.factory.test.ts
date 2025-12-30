@@ -6,16 +6,18 @@ import {someInvoiceLine} from '../../tests/invoice-line.fixture';
 describe('fromInvoiceLine', () => {
   it('should create OrderLine from invoice line with all fields', () => {
     const invoiceLine: InvoiceLine = {
-      ...someInvoiceLine,
+      sort: 0,
       desc: 'Consulting Services',
       amount: 10,
       price: 100,
       tax: 21,
+      type: 'daily',
     };
 
     const expected: OrderLine = {
       Quantity: 10,
       UnitPriceExcl: 100,
+      Unit: 'DAY',
       Description: 'Consulting Services',
       VATPercentage: 21,
     };
@@ -27,16 +29,18 @@ describe('fromInvoiceLine', () => {
 
   it('should handle decimal prices and quantities', () => {
     const invoiceLine: InvoiceLine = {
-      ...someInvoiceLine,
+      sort: 0,
       desc: 'Partial Day',
       amount: 0.5,
       price: 75.25,
       tax: 21,
+      type: 'hourly',
     };
 
     const expected: OrderLine = {
       Quantity: 0.5,
       UnitPriceExcl: 75.25,
+      Unit: 'HUR',
       Description: 'Partial Day',
       VATPercentage: 21,
     };
@@ -44,5 +48,45 @@ describe('fromInvoiceLine', () => {
     const actual: OrderLine = fromInvoiceLine(invoiceLine);
 
     expect(actual).toEqual(expected);
+  });
+
+  it('should map all unit types correctly', () => {
+    const testCases = [
+      {type: 'daily', expectedUnit: 'DAY'},
+      {type: 'hourly', expectedUnit: 'HUR'},
+      {type: 'km', expectedUnit: 'KMT'},
+      {type: 'items', expectedUnit: 'NAR'},
+      {type: 'other', expectedUnit: 'C62'},
+    ] as const;
+
+    testCases.forEach(({type, expectedUnit}) => {
+      const invoiceLine: InvoiceLine = {
+        ...someInvoiceLine,
+        type,
+      };
+
+      const actual: OrderLine = fromInvoiceLine(invoiceLine);
+
+      expect(actual.Unit).toBe(expectedUnit);
+    });
+  });
+
+  it('should return undefined Unit, Quantity, UnitPriceExcl, and VATPercentage for section type', () => {
+    const invoiceLine: InvoiceLine = {
+      sort: 0,
+      desc: 'UK is VAT Excempt',
+      type: 'section',
+      amount: 1,
+      price: 100,
+      tax: 21,
+    };
+
+    const actual: OrderLine = fromInvoiceLine(invoiceLine);
+
+    expect(actual.Unit).toBeUndefined();
+    expect(actual.Quantity).toBeUndefined();
+    expect(actual.UnitPriceExcl).toBeUndefined();
+    expect(actual.VATPercentage).toBeUndefined();
+    expect(actual.Description).toBe('UK is VAT Excempt');
   });
 });
