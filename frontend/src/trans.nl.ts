@@ -748,6 +748,7 @@ export const trans = {
     sent: 'Email verstuurd',
     lastEmail: 'Laatst verstuurd op {at} - {daysAgo}',
     lastEmailDaysAgo: 'Laatste email {daysAgo}.',
+    lastPeppolDaysAgo: '{daysAgo} naar Peppol gestuurd.',
     notMailed: 'Mail nog niet verstuurd',
   },
   user: {

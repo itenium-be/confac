@@ -41,12 +41,15 @@ const PeppolModal = ({invoice, client, onClose, onConfirm}: PeppolModalProps) =>
     transportType = '???';
   }
 
+  const isResend = invoice.status === 'ToPay' || invoice.status === 'Paid';
+
   return (
     <Modal
       show
       onClose={onClose}
       onConfirm={onConfirm}
       confirmText={t('invoice.peppolSend')}
+      confirmVariant={isResend ? 'danger' : 'success'}
       title={t('invoice.peppolSend')}
     >
       {alreadySent && (

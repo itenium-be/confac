@@ -1,5 +1,5 @@
-import {Component} from 'react';
-import {connect} from 'react-redux';
+import {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import {Alert} from 'react-bootstrap';
 import {t} from '../../utils';
@@ -14,69 +14,59 @@ import {Claim} from '../../users/models/UserModel';
 
 type InvoiceNotVerifiedAlertProps = {
   invoice: InvoiceModel;
-  toggleInvoiceVerify: Function;
-  invoicePayDays: number;
-  peppolPivotDate: moment.Moment;
 }
 
-type InvoiceNotVerifiedAlertState = {
-  dismissed: boolean;
-}
+const InvoiceNotVerifiedAlert = ({invoice}: InvoiceNotVerifiedAlertProps) => {
+  const dispatch = useDispatch();
+  const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
+  const peppolPivotDate = useSelector((state: ConfacState) => state.config.peppolPivotDate);
+  const [dismissed, setDismissed] = useState(false);
 
-class InvoiceNotVerifiedAlert extends Component<InvoiceNotVerifiedAlertProps, InvoiceNotVerifiedAlertState> {
-  constructor(props: InvoiceNotVerifiedAlertProps) {
-    super(props);
-    this.state = {dismissed: false};
+  if (dismissed || invoice.isNew || ['Paid', 'Draft', 'ToSend'].includes(invoice.status) || invoice.isQuotation) {
+    return null;
   }
 
-  render() {
-    const { invoice, toggleInvoiceVerify } = this.props; // eslint-disable-line
-    if (this.state.dismissed || invoice.isNew || ['Paid', 'Draft', 'ToSend'].includes(invoice.status) || invoice.isQuotation) {
-      return null;
-    }
+  const variant = getInvoiceDueDateVariant(invoice, invoicePayDays) as any;
+  const daysOpen = moment().diff(invoice.audit.createdOn, 'days');
 
+  return (
+    <div>
+      <Alert variant={variant} onClose={() => setDismissed(true)} dismissible>
 
-    const variant = getInvoiceDueDateVariant(invoice, this.props.invoicePayDays) as any;
-    const daysOpen = moment().diff(invoice.audit.createdOn, 'days');
-    return (
-      <div>
-        <Alert variant={variant} onClose={() => this.setState({dismissed: true})} dismissible>
+        {!invoice.lastEmail && (
+          moment(invoice.audit?.createdOn).isSameOrAfter(peppolPivotDate, 'day')
+            ? <NotPeppoledIcon style={{marginRight: 10, fontSize: 13, marginTop: -6}} />
+            : <NotEmailedIcon style={{marginRight: 10, fontSize: 13, marginTop: -6}} />
+        )}
 
-          {!invoice.lastEmail && (
-            moment(invoice.audit?.createdOn).isSameOrAfter(this.props.peppolPivotDate, 'day')
-              ? <NotPeppoledIcon style={{marginRight: 10, fontSize: 13, marginTop: -6}} />
-              : <NotEmailedIcon style={{marginRight: 10, fontSize: 13, marginTop: -6}} />
+        <BusyButton
+          claim={Claim.ValidateInvoices}
+          variant={variant}
+          onClick={() => dispatch(toggleInvoiceVerify(invoice) as any)}
+          size="sm"
+          style={{marginTop: -5, marginRight: 10, textTransform: 'uppercase'}}
+          className="tst-verify-invoice"
+        >
+          {t('invoice.verifyAction')}
+        </BusyButton>
+
+        {t('invoice.isNotVerified')}
+
+        <small style={{marginLeft: 6}}>
+          {t('invoice.notVerifiedFor', {days: daysOpen})}
+          {invoice.lastEmail && (
+            <>
+              {' '}
+              {moment(invoice.audit?.createdOn).isSameOrAfter(peppolPivotDate, 'day')
+                ? t('email.lastPeppolDaysAgo', {daysAgo: moment(invoice.lastEmail).fromNow()})
+                : t('email.lastEmailDaysAgo', {daysAgo: moment(invoice.lastEmail).fromNow()})}
+            </>
           )}
+        </small>
 
-          <BusyButton
-            claim={Claim.ValidateInvoices}
-            variant={variant}
-            onClick={() => toggleInvoiceVerify(invoice)}
-            size="sm"
-            style={{marginTop: -5, marginRight: 10, textTransform: 'uppercase'}}
-            className="tst-verify-invoice"
-          >
-            {t('invoice.verifyAction')}
-          </BusyButton>
+      </Alert>
+    </div>
+  );
+};
 
-          {t('invoice.isNotVerified')}
-
-          <small style={{marginLeft: 6}}>
-            {t('invoice.notVerifiedFor', {days: daysOpen})}
-            {invoice.lastEmail && (
-              <>
-                {' '}
-                {t('email.lastEmailDaysAgo', {daysAgo: moment(invoice.lastEmail).fromNow()})}
-              </>
-            )}
-          </small>
-
-        </Alert>
-      </div>
-    );
-  }
-}
-
-export default connect(
-  (state: ConfacState) => ({invoicePayDays: state.config.invoicePayDays, peppolPivotDate: state.config.peppolPivotDate}), {toggleInvoiceVerify},
-)(InvoiceNotVerifiedAlert);
+export default InvoiceNotVerifiedAlert;
