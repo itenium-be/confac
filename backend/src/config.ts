@@ -49,7 +49,7 @@ const appConfig: IConfig = {
     superUser: process.env.SUPERUSER || '',
   },
   logging: {
-    fileDir: process.env.LOGGING_FILE || '',
+    fileDir: process.env.LOGGING_FILE || 'logs',
     lokiUrl: process.env.LOGGING_LOKI || '',
   },
 };
