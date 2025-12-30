@@ -8,7 +8,8 @@ describe('fromClient', () => {
     const client: IClient = {
       ...someClient,
       name: 'Test Company BV',
-      address: 'Main Street 5',
+      street: 'Main Street',
+      streetNr: '5',
       city: 'Brussels',
       postalCode: '1000',
       country: 'BE',
@@ -23,12 +24,15 @@ describe('fromClient', () => {
         {
           AddressType: 'InvoiceAddress',
           Name: 'Test Company BV',
-          Street: 'Main Street 5',
+          Street: 'Main Street',
+          StreetNumber: '5',
+          Box: '',
           City: 'Brussels',
           Zipcode: '1000',
           CountryCode: 'BE',
         },
       ],
+      Email: 'client@example.com',
     };
 
     const actual: Customer = fromClient(client);

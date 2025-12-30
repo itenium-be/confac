@@ -11,9 +11,9 @@ export function fromClient(client: IClient): Customer {
       {
         AddressType: 'InvoiceAddress',
         Name: client.name,
-        Street: client.address,
-        // StreetNumber: '', TODO: Split street and street number from address
-        // Box: '',
+        Street: client.street,
+        StreetNumber: client.streetNr,
+        Box: client.streetBox,
         City: client.city,
         Zipcode: client.postalCode,
         CountryCode: client.country,

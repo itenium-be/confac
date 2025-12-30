@@ -24,7 +24,7 @@ export const someInvoice: IInvoice = {
     website: 'www.mycompany.be',
   },
   orderNr: 'PO-2024-001',
-  verified: false,
+  status: 'Paid',
   fileName: 'invoice-2024-001.pdf',
   discount: '0',
   attachments: [],
