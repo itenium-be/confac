@@ -49,8 +49,11 @@ describe('fromInvoice', () => {
       OrderDirection: 'Income',
       OrderNumber: '2024001',
       OrderDate: '2024-12-23',
-      ExpiryDate: moment().add(14, 'days').format('YYYY-MM-DD'),
+      ExpiryDate: moment().add(30, 'days').format('YYYY-MM-DD'),
       Reference: 'PO-2024-001',
+      OrderTitle: undefined,
+      Comments: undefined,
+      InternalInfo: undefined,
       Currency: 'EUR',
       PaymentReference: '+++000/2024/00196+++',
       Customer: {
@@ -91,5 +94,53 @@ describe('fromInvoice', () => {
     const actual: CreateOrderRequest = fromInvoice(invoice, client);
 
     expect(actual).toEqual(expected);
+  });
+
+  it('should set OrderTitle, Comments and InternalInfo from projectMonth', () => {
+    const invoice: IInvoice = {
+      ...someInvoice,
+      number: 2024001,
+      date: '2024-12-23T00:00:00.000Z',
+      isQuotation: false,
+      paymentReference: '+++412/2024/00137+++',
+      projectMonth: {
+        projectMonthId: 'pm-123',
+        month: '2024-12-01T00:00:00.000Z',
+        consultantId: 'cons-123',
+        consultantName: 'John Doe',
+      },
+      lines: [someInvoiceLine],
+    };
+
+    const client = {...invoice.client, email: {to: 'to@someone.com', subject: '', body: '', attachments: []}};
+    const actual: CreateOrderRequest = fromInvoice(invoice, client);
+
+    expect(actual.OrderTitle).toBe('2024-12 - John Doe');
+    expect(actual.Comments).toBe('2024-12 - John Doe');
+    expect(actual.InternalInfo).toBe('2024-12 - John Doe');
+  });
+
+  it('should handle projectMonth with only month (no consultant)', () => {
+    const invoice: IInvoice = {
+      ...someInvoice,
+      number: 2024001,
+      date: '2024-12-23T00:00:00.000Z',
+      isQuotation: false,
+      paymentReference: '+++412/2024/00137+++',
+      projectMonth: {
+        projectMonthId: 'pm-123',
+        month: '2024-12-01T00:00:00.000Z',
+        consultantId: '',
+        consultantName: '',
+      },
+      lines: [someInvoiceLine],
+    };
+
+    const client = {...invoice.client, email: {to: 'to@someone.com', subject: '', body: '', attachments: []}};
+    const actual: CreateOrderRequest = fromInvoice(invoice, client);
+
+    expect(actual.OrderTitle).toBe('2024-12');
+    expect(actual.Comments).toBe('2024-12');
+    expect(actual.InternalInfo).toBe('2024-12');
   });
 });

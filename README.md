@@ -85,7 +85,9 @@ npm run faker
 - Production:
   - [API](https://api.billit.be/)
   - [UI](https://my.billit.be/)
-
+- [Swagger](https://api.billit.be/swagger/ui/index)
+- [Docs](https://docs.billit.be/)
+- [AccessPoint Docs](https://docs.accesspoint.billit.eu/)
 
 
 

@@ -17,6 +17,8 @@ export type CreateOrderRequest = {
   ExpiryDate: string; // YYYY-MM-DD format
   Reference?: string;
   OrderTitle?: string;
+  Comments?: string;
+  InternalInfo?: string;
   Currency?: string;
   PaymentReference?: string;
   Customer: Customer;
