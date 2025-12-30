@@ -77,8 +77,9 @@ cd backend
 npm run faker
 ```
 
-## Peppol
+## Billit (Peppol)
 
+- [Billit Status](https://status.billit.be/)
 - Sandbox:
   - [API](https://api.sandbox.billit.be/)
   - [UI](https://my.sandbox.billit.be/)
