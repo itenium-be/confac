@@ -34,6 +34,18 @@ export class ApiClient {
   }
 
   /**
+   * Throws an error with Billit errors attached if present in the response
+   */
+  private throwBillitError(errorText: string, message: string): never {
+    const parsedError = this.parseErrorResponse(errorText);
+    const error: any = new Error(`${message}: ${parsedError.message}`);
+    if (parsedError.errors) {
+      error.billitErrors = parsedError.errors;
+    }
+    throw error;
+  }
+
+  /**
    * Creates an order at Billit
    * @returns The Billit order ID
    */
@@ -56,13 +68,7 @@ export class ApiClient {
     if (!response.ok) {
       const errorText: string = await response.text();
       logger.error(`Billit createOrder failed: ${response.status} - ${errorText}`);
-
-      const parsedError = this.parseErrorResponse(errorText);
-      const error: any = new Error(`Failed to create order at Billit: ${parsedError.message}`);
-      if (parsedError.errors) {
-        error.billitErrors = parsedError.errors;
-      }
-      throw error;
+      this.throwBillitError(errorText, 'Failed to create order at Billit');
     }
 
     const orderIdText: string = await response.text();
@@ -90,13 +96,7 @@ export class ApiClient {
     if (!response.ok) {
       const errorText = await response.text();
       logger.error(`Billit sendInvoice failed: ${response.status} - ${errorText}`);
-
-      const parsedError = this.parseErrorResponse(errorText);
-      const error: any = new Error(`Failed to send invoice via ${request.TransportType}: ${parsedError.message}`);
-      if (parsedError.errors) {
-        error.billitErrors = parsedError.errors;
-      }
-      throw error;
+      this.throwBillitError(errorText, `Failed to send invoice via ${request.TransportType}`);
     }
 
     logger.info(`Invoice(s) ${request.OrderIDs.join(', ')} sent via ${request.TransportType}`);
@@ -116,13 +116,7 @@ export class ApiClient {
     if (!response.ok) {
       const errorText: string = await response.text();
       logger.error(`Billit getParticipantInformation failed: ${response.status} - ${errorText}`);
-
-      const parsedError = this.parseErrorResponse(errorText);
-      const error: any = new Error(`Failed to check Peppol registration: ${parsedError.message}`);
-      if (parsedError.errors) {
-        error.billitErrors = parsedError.errors;
-      }
-      throw error;
+      this.throwBillitError(errorText, 'Failed to check Peppol registration');
     }
 
     const data: GetParticipantInformationResponse = await response.json();
@@ -143,13 +137,7 @@ export class ApiClient {
     if (!response.ok) {
       const errorText: string = await response.text();
       logger.error(`Billit getOrder failed: ${response.status} - ${errorText}`);
-
-      const parsedError = this.parseErrorResponse(errorText);
-      const error: any = new Error(`Failed to get order from Billit: ${parsedError.message}`);
-      if (parsedError.errors) {
-        error.billitErrors = parsedError.errors;
-      }
-      throw error;
+      this.throwBillitError(errorText, 'Failed to get order from Billit');
     }
 
     return response.json();
@@ -169,13 +157,7 @@ export class ApiClient {
     if (!response.ok) {
       const errorText: string = await response.text();
       logger.error(`Billit getFile failed: ${response.status} - ${errorText}`);
-
-      const parsedError = this.parseErrorResponse(errorText);
-      const error: any = new Error(`Failed to get file from Billit: ${parsedError.message}`);
-      if (parsedError.errors) {
-        error.billitErrors = parsedError.errors;
-      }
-      throw error;
+      this.throwBillitError(errorText, 'Failed to get file from Billit');
     }
 
     return response.json();
