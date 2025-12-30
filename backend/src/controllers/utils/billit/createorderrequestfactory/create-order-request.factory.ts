@@ -5,7 +5,7 @@ import {fromClient as createCustomerFromClient} from './customer.factory';
 import {fromInvoice as createOrderLinesFromInvoice} from './orderlinesfactory';
 import {IClient} from '../../../../models/clients';
 
-const InvoiceExpirationInDays: number = 14;
+const InvoiceExpirationInDays: number = 30;
 
 /** Create a Billit CreateOrderRequest */
 export function fromInvoice(invoice: IInvoice, client: IClient): CreateOrderRequest {
