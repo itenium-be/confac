@@ -479,7 +479,6 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
           CollectionNames.CLIENTS,
           client._id,
           {...client, peppolEnabled: true},
-          'everyone',
         );
       }
     }
@@ -504,7 +503,6 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
           CollectionNames.INVOICES,
           updatedInvoice.value._id,
           {...updatedInvoice.value, lastEmail: sentToPeppol, status: 'ToPay', audit: sentAudit},
-          'everyone',
         );
       }
 
