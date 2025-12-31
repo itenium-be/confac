@@ -4,7 +4,7 @@ import {ConfacRequest} from '../../models/technical';
 
 export async function saveAudit(
   req: ConfacRequest,
-  model: string,
+  model: 'client' | 'config' | 'consultant' | 'invoice' | 'project' | 'projectMonth' | 'user' | 'role',
   originalValue: any,
   newValue: any,
   extraExcludes?: string[],

@@ -37,8 +37,8 @@ export type MessageWebhookRequest = {
 export const WebhookUser: Jwt = {
   data: {
     _id: 'Billit',
-    email: '',
-    firstName: '',
+    email: 'Billit',
+    firstName: 'Billit',
     name: 'Billit',
     alias: 'Billit',
     active: true,

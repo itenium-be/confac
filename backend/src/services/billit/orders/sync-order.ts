@@ -1,8 +1,10 @@
 import {ObjectID} from 'mongodb';
+import diff from 'deep-diff';
 import {IInvoice, IInvoiceBillit, InvoiceStatus} from '../../../models/invoices';
 import {CollectionNames, SocketEventTypes, updateAudit} from '../../../models/common';
 import {ConfacRequest} from '../../../models/technical';
 import {emitEntityEvent} from '../../../controllers/utils/entity-events';
+import {saveAudit} from '../../../controllers/utils/audit-logs';
 import {logger} from '../../../logger';
 import {ApiClientFactory} from '../../../controllers/utils/billit';
 import config from '../../../config';
@@ -25,6 +27,13 @@ export async function syncBillitOrder(req: ConfacRequest, billitOrderId: number)
   const newBillit = mapBillitOrderToInvoiceBillit(billitOrder);
 
   const statusChanged = invoice.status !== newStatus;
+  const billitChanged = !!diff(invoice.billit, newBillit);
+
+  if (!statusChanged && !billitChanged) {
+    logger.info(`syncBillitOrder: No changes for invoice #${invoice.number}`);
+    return invoice;
+  }
+
   if (statusChanged) {
     logger.info(`syncBillitOrder: Updating invoice #${invoice.number} status from ${invoice.status} to ${newStatus}`);
   }
@@ -37,6 +46,8 @@ export async function syncBillitOrder(req: ConfacRequest, billitOrderId: number)
   );
 
   if (updatedInvoice.ok && updatedInvoice.value) {
+    await saveAudit(req, 'invoice', invoice, updatedInvoice.value);
+
     emitEntityEvent(
       req,
       SocketEventTypes.EntityUpdated,
