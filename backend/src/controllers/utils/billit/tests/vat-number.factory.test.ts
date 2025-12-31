@@ -3,6 +3,17 @@ import {IClient} from '../../../../models/clients';
 import {someClient} from './client.fixture';
 
 describe('fromClient', () => {
+  it('should return undefined when VAT is pending', () => {
+    const client: IClient = {
+      ...someClient,
+      btw: 'btw in aanvraag',
+    };
+
+    const actual: string | undefined = fromClient(client);
+
+    expect(actual).toBeUndefined();
+  });
+
   it('should remove spaces and dots from VAT number', () => {
     const client: IClient = {
       ...someClient,
@@ -10,7 +21,7 @@ describe('fromClient', () => {
     };
     const expected: string = 'BE0123456789';
 
-    const actual: string = fromClient(client);
+    const actual: string | undefined = fromClient(client);
 
     expect(actual).toBe(expected);
   });
@@ -22,7 +33,7 @@ describe('fromClient', () => {
     };
     const expected: string = 'BE0123456789';
 
-    const actual: string = fromClient(client);
+    const actual: string | undefined = fromClient(client);
 
     expect(actual).toBe(expected);
   });
@@ -34,7 +45,7 @@ describe('fromClient', () => {
     };
     const expected: string = 'BE0123456789';
 
-    const actual: string = fromClient(client);
+    const actual: string | undefined = fromClient(client);
 
     expect(actual).toBe(expected);
   });
@@ -46,7 +57,7 @@ describe('fromClient', () => {
     };
     const expected: string = 'BE0123456789';
 
-    const actual: string = fromClient(client);
+    const actual: string | undefined = fromClient(client);
 
     expect(actual).toBe(expected);
   });
@@ -58,7 +69,7 @@ describe('fromClient', () => {
     };
     const expected: string = 'NL123456789B01';
 
-    const actual: string = fromClient(client);
+    const actual: string | undefined = fromClient(client);
 
     expect(actual).toBe(expected);
   });
@@ -70,7 +81,7 @@ describe('fromClient', () => {
     };
     const expected: string = 'FR12345678901';
 
-    const actual: string = fromClient(client);
+    const actual: string | undefined = fromClient(client);
 
     expect(actual).toBe(expected);
   });
@@ -82,7 +93,7 @@ describe('fromClient', () => {
     };
     const expected: string = '';
 
-    const actual: string = fromClient(client);
+    const actual: string | undefined = fromClient(client);
 
     expect(actual).toBe(expected);
   });
