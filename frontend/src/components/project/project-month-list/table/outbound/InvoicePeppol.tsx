@@ -68,7 +68,6 @@ export const InvoicePeppol = ({invoice}: InvoicePeppolProps) => {
             onClose={() => setShowStatusModal(false)}
             onRefresh={() => {
               dispatch(refreshPeppolStatus(invoice._id) as any);
-              setShowStatusModal(false);
             }}
           />
         )}

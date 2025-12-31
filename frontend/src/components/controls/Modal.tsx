@@ -27,6 +27,10 @@ type ModalProps = BaseModalProps & {
    */
   confirmText?: string;
   confirmVariant?: BootstrapVariant;
+  /** Optional icon class for confirm button (e.g. "fas fa-sync") */
+  confirmIcon?: string;
+  /** If true, modal stays open after confirm (default: false) */
+  stayOpenOnConfirm?: boolean;
   title: string | React.ReactNode;
   extraButtons?: React.ReactNode;
   children: any;
@@ -40,7 +44,9 @@ export const Modal = (props: ModalProps) => {
     if (props.onConfirm) {
       props.onConfirm();
     }
-    props.onClose();
+    if (!props.stayOpenOnConfirm) {
+      props.onClose();
+    }
   };
 
   return (
@@ -55,6 +61,7 @@ export const Modal = (props: ModalProps) => {
         <ReactButton onClick={props.onClose} variant="light" data-testid="close">{t('close')}</ReactButton>
         {props.onConfirm ? (
           <ReactButton onClick={onConfirm} variant={props.confirmVariant || 'success'} disabled={props.disableSave} data-testid="confirm">
+            {props.confirmIcon && <i className={props.confirmIcon} style={{marginRight: 6}} />}
             {props.confirmText || t('save')}
           </ReactButton>
         ) : null}

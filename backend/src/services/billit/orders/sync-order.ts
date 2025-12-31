@@ -11,17 +11,28 @@ import config from '../../../config';
 import {BillitOrder, BillitOrderStatus} from './createorder';
 
 /** Fetch the Order from Billit and sync with our Invoice */
-export async function syncBillitOrder(req: ConfacRequest, billitOrderId: number): Promise<IInvoice | null> {
-  const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
-    .findOne({'billit.orderId': billitOrderId});
+export async function syncBillitOrder(req: ConfacRequest, invoiceOrOrderId: number | IInvoice): Promise<IInvoice | null> {
+  let invoice: IInvoice | null;
 
-  if (!invoice) {
-    logger.error(`syncBillitOrder: No invoice found for billitOrderId=${billitOrderId}`);
+  if (typeof invoiceOrOrderId === 'number') {
+    invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
+      .findOne({'billit.orderId': invoiceOrOrderId});
+
+    if (!invoice) {
+      logger.error(`syncBillitOrder: No invoice found for billitOrderId=${invoiceOrOrderId}`);
+      return null;
+    }
+  } else {
+    invoice = invoiceOrOrderId;
+  }
+
+  if (!invoice.billit?.orderId) {
+    logger.error(`syncBillitOrder: Invoice #${invoice.number} has no billit.orderId`);
     return null;
   }
 
   const apiClient = ApiClientFactory.fromConfig(config);
-  const billitOrder = await apiClient.getOrder(billitOrderId);
+  const billitOrder = await apiClient.getOrder(invoice.billit.orderId);
 
   const newStatus = mapBillitStatusToInvoiceStatus(billitOrder.OrderStatus);
   const newBillit = mapBillitOrderToInvoiceBillit(billitOrder);
@@ -54,7 +65,6 @@ export async function syncBillitOrder(req: ConfacRequest, billitOrderId: number)
       CollectionNames.INVOICES,
       updatedInvoice.value._id,
       updatedInvoice.value,
-      'everyone',
     );
     return updatedInvoice.value;
   }

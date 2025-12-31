@@ -223,11 +223,12 @@ export function refreshPeppolStatus(invoiceId: string) {
       .set('x-socket-id', socketService.socketId)
       .set('Accept', 'application/json')
       .then(res => {
-        const data = res.body;
-        if (data.error) {
-          failure(data.message || t('invoice.peppolError'), t('invoice.peppolErrorTitle'));
+        const invoice = res.body;
+        if (invoice.error) {
+          failure(invoice.message || t('invoice.peppolError'), t('invoice.peppolErrorTitle'));
           return;
         }
+        dispatch({type: ACTION_TYPES.INVOICE_UPDATED, invoice});
         success(t('invoice.peppolStatusRefreshed'));
       }, err => {
         catchHandler(err);

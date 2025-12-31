@@ -59,7 +59,6 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
           onClose={() => setShowStatusModal(false)}
           onRefresh={() => {
             dispatch(refreshPeppolStatus(invoice._id) as any);
-            setShowStatusModal(false);
           }}
         />
       )}

@@ -377,9 +377,9 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
   if (!invoice) {
     return res.status(400).send({message: 'Invoice not found'});
   }
-  // if (invoice.lastEmail) {
-  //   return res.status(400).send({message: 'Invoice was already sent to Peppol'});
-  // }
+  if (invoice.status === 'Paid' || invoice.status === 'ToPay') {
+    return res.status(400).send({message: 'Invoice was already sent to Peppol'});
+  }
 
   // Fetch the client
   const client = await req.db.collection<IClient>(CollectionNames.CLIENTS)
@@ -550,11 +550,8 @@ export const refreshPeppolStatusController = async (req: ConfacRequest, res: Res
   }
 
   try {
-    const updatedInvoice = await syncBillitOrder(req, invoice.billit.orderId);
-    if (updatedInvoice) {
-      return res.status(200).send({message: 'Peppol status refreshed'});
-    }
-    return res.status(200).send({message: 'No changes'});
+    const updatedInvoice = await syncBillitOrder(req, invoice);
+    return res.status(200).send(updatedInvoice);
   } catch (error: any) {
     logger.error('Error refreshing Peppol status:', error);
     return res.status(500).send({message: 'Error refreshing Peppol status', error: error.message});

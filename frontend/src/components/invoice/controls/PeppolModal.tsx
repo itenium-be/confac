@@ -116,6 +116,8 @@ export const PeppolStatusModal = ({invoice, onClose, onRefresh}: PeppolStatusMod
     onConfirm={onRefresh}
     confirmText={t('invoice.peppolRefreshStatus')}
     confirmVariant="light"
+    confirmIcon="fas fa-sync"
+    stayOpenOnConfirm
     title={t('invoice.peppolStatus')}
   >
     <BillitOrderInfo invoice={invoice} />
