@@ -81,9 +81,30 @@ export interface IInvoice {
   paymentReference: string;
 }
 
+export interface IInvoiceBillitDeliveryDetails {
+  date: string;
+  info: string;
+  delivered: boolean;
+  status: string;
+}
+
+export interface IInvoiceBillitMessage {
+  description: string;
+  fileId: string;
+  creationDate: string;
+  transportType: string;
+  success: boolean;
+  trials: number;
+  destination: string;
+  messageDirection: string;
+}
+
 export interface IInvoiceBillit {
   /** The Billit order ID, returned after creating the order in Billit */
   orderId?: number;
+  /** Current Peppol/Email delivery details */
+  delivery?: IInvoiceBillitDeliveryDetails;
+  messages?: IInvoiceBillitMessage[];
 }
 
 export const INVOICE_EXCEL_HEADERS = [

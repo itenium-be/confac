@@ -8,10 +8,34 @@ import {InvoiceStatus} from '../../../../models/invoices';
 
 export type BillitOrderStatus = InvoiceStatus;
 
+export type BillitDocumentDeliveryStatus = 'Pending' | 'Sent' | 'Delivered' | 'Failed';
+
+export type BillitDocumentDeliveryDetails = {
+  DocumentDeliveryDate: string;
+  DocumentDeliveryInfo: string;
+  IsDocumentDelivered: boolean;
+  DocumentDeliveryStatus: BillitDocumentDeliveryStatus;
+};
+
+export type BillitMessageDirection = 'Incoming' | 'Outgoing';
+
+export type BillitMessage = {
+  Description: string;
+  FileID: string;
+  CreationDate: string;
+  TransportType: string;
+  Success: boolean;
+  Trials: number;
+  Destination: string;
+  MessageDirection: BillitMessageDirection;
+};
+
 export type BillitOrder = Omit<CreateOrderRequest, 'Attachments'> & {
   OrderID: number;
   OrderStatus: BillitOrderStatus;
   Attachments: SavedAttachment[];
+  CurrentDocumentDeliveryDetails?: BillitDocumentDeliveryDetails;
+  Messages?: BillitMessage[];
 };
 
 export type ContractDocumentReference = {
