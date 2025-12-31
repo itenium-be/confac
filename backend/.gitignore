@@ -8,3 +8,4 @@ templates/
 !.env.sample
 globalConfig.json
 coverage
+*.log
