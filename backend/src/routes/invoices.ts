@@ -3,7 +3,7 @@ import {emailInvoiceController} from '../controllers/emailInvoices';
 import {
   getInvoicesController, createInvoiceController, previewPdfInvoiceController, deleteInvoiceController,
   updateInvoiceController, generateExcelForInvoicesController, verifyInvoiceController,
-  sendInvoiceToPeppolController,
+  sendInvoiceToPeppolController, refreshPeppolStatusController,
 } from '../controllers/invoices';
 
 const invoicesRouter = Router();
@@ -15,6 +15,7 @@ invoicesRouter.post('/email/:id', emailInvoiceController);
 invoicesRouter.post('/preview', previewPdfInvoiceController);
 invoicesRouter.post('/excel', generateExcelForInvoicesController);
 invoicesRouter.post('/:id/peppol', sendInvoiceToPeppolController as any);
+invoicesRouter.post('/:id/peppol/refresh', refreshPeppolStatusController as any);
 
 invoicesRouter.put('/', updateInvoiceController as any);
 invoicesRouter.put('/verify', verifyInvoiceController as any);

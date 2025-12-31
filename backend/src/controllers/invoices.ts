@@ -16,6 +16,7 @@ import {ApiClient, Attachment, BillitError, CreateOrderRequest, SendInvoiceReque
 import {GetParticipantInformationResponse} from '../services/billit/peppol/getparticipantinformation';
 import {ApiClientFactory, CreateOrderRequestFactory, SendInvoiceRequestFactory, VatNumberFactory} from './utils/billit';
 import {IProject} from '../models/projects';
+import {syncBillitOrder} from '../services/billit/orders/sync-order';
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
   const inserted = await db.collection<IInvoice>(CollectionNames.INVOICES).insertOne({
@@ -530,5 +531,32 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     }
 
     return res.status(500).send(errorResponse);
+  }
+};
+
+
+export const refreshPeppolStatusController = async (req: ConfacRequest, res: Response) => {
+  const {id} = req.params;
+
+  const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
+    .findOne({_id: new ObjectID(id)});
+
+  if (!invoice) {
+    return res.status(400).send({message: 'Invoice not found'});
+  }
+
+  if (!invoice.billit?.orderId) {
+    return res.status(400).send({message: 'Invoice has no Billit order'});
+  }
+
+  try {
+    const updatedInvoice = await syncBillitOrder(req, invoice.billit.orderId);
+    if (updatedInvoice) {
+      return res.status(200).send({message: 'Peppol status refreshed'});
+    }
+    return res.status(200).send({message: 'No changes'});
+  } catch (error: any) {
+    logger.error('Error refreshing Peppol status:', error);
+    return res.status(500).send({message: 'Error refreshing Peppol status', error: error.message});
   }
 };

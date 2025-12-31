@@ -214,6 +214,28 @@ export function sendToPeppol(invoiceId: string, pdfFileName: string) {
   };
 }
 
+export function refreshPeppolStatus(invoiceId: string) {
+  return (dispatch: Dispatch) => {
+    dispatch(busyToggle());
+    request.post(buildUrl(`/invoices/${invoiceId}/peppol/refresh`))
+      .set('Content-Type', 'application/json')
+      .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
+      .set('Accept', 'application/json')
+      .then(res => {
+        const data = res.body;
+        if (data.error) {
+          failure(data.message || t('invoice.peppolError'), t('invoice.peppolErrorTitle'));
+          return;
+        }
+        success(t('invoice.peppolStatusRefreshed'));
+      }, err => {
+        catchHandler(err);
+      })
+      .finally(() => dispatch(busyToggle.off()));
+  };
+}
+
 export function handleInvoiceSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
   return (dispatch: Dispatch) => {
     switch (eventType) {

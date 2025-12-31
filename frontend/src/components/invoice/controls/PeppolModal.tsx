@@ -7,6 +7,18 @@ import {ClientModel} from '../../client/models/ClientModels';
 import InvoiceModel, {InvoiceBillitDeliveryDetails, InvoiceBillitMessage} from '../models/InvoiceModel';
 
 
+const BillitOrderInfo = ({invoice}: {invoice: InvoiceModel}) => (
+  <>
+    {invoice.lastEmail && (
+      <p style={{marginBottom: 0}}><strong>{t('invoice.peppolSentOn')}:</strong> {moment(invoice.lastEmail).format('DD/MM/YYYY HH:mm')}</p>
+    )}
+    {invoice.billit?.orderId && (
+      <p><strong>{t('invoice.peppolBillitOrderId')}:</strong> {invoice.billit.orderId}</p>
+    )}
+  </>
+);
+
+
 const BillitDeliveryDetails = ({delivery}: {delivery: InvoiceBillitDeliveryDetails}) => (
   <div style={{marginBottom: 8}}>
     <strong>{t('invoice.peppolDelivery')}:</strong>
@@ -28,7 +40,7 @@ const BillitMessages = ({messages}: {messages: InvoiceBillitMessage[]}) => (
         <div><strong>{msg.transportType}</strong> → {msg.destination}</div>
         <div style={{fontSize: '0.9em', color: '#666'}}>
           {moment(msg.creationDate).format('DD/MM/YYYY HH:mm')}
-          {!!msg.description && <>- {msg.description}</>}
+          {!!msg.description && <> - {msg.description}</>}
         </div>
         <div>
           {msg.success ? (
@@ -43,24 +55,21 @@ const BillitMessages = ({messages}: {messages: InvoiceBillitMessage[]}) => (
 );
 
 
-type PeppolModalProps = {
+type SendToPeppolModalProps = {
   invoice: InvoiceModel;
   client: ClientModel | undefined;
   onClose: () => void;
   onConfirm: () => void;
 }
 
-export const PeppolModal = ({invoice, client, onClose, onConfirm}: PeppolModalProps) => {
+export const SendToPeppolModal = ({invoice, client, onClose, onConfirm}: SendToPeppolModalProps) => {
   const hasSignedTimesheet = invoice.attachments.some(a => a.type === SignedTimesheetAttachmentType);
   const isPeppolEnabled = !!client?.peppolEnabled;
-  const alreadySent = !!invoice.lastEmail;
 
   let transportType = isPeppolEnabled ? 'Peppol' : 'Email';
   if (client?.peppolEnabled === undefined) {
     transportType = '???';
   }
-
-  const isResend = invoice.status === 'ToPay' || invoice.status === 'Paid';
 
   return (
     <Modal
@@ -68,21 +77,10 @@ export const PeppolModal = ({invoice, client, onClose, onConfirm}: PeppolModalPr
       onClose={onClose}
       onConfirm={onConfirm}
       confirmText={t('invoice.peppolSend')}
-      confirmVariant={isResend ? 'danger' : 'success'}
+      confirmVariant="success"
       title={t('invoice.peppolSend')}
     >
-      {alreadySent && (
-        <p style={{marginBottom: 0}}><strong>{t('invoice.peppolSentOn')}:</strong> {moment(invoice.lastEmail).format('DD/MM/YYYY HH:mm')}</p>
-      )}
-      {invoice.billit?.orderId && (
-        <p><strong>{t('invoice.peppolBillitOrderId')}:</strong> {invoice.billit?.orderId}</p>
-      )}
-      {invoice.billit?.delivery && (
-        <BillitDeliveryDetails delivery={invoice.billit.delivery} />
-      )}
-      {invoice.billit?.messages && invoice.billit.messages.length > 0 && (
-        <BillitMessages messages={invoice.billit.messages} />
-      )}
+      <BillitOrderInfo invoice={invoice} />
       <p>
         <strong>{t('invoice.peppolSignedTimesheet')}:</strong>{' '}
         <Icon
@@ -103,3 +101,29 @@ export const PeppolModal = ({invoice, client, onClose, onConfirm}: PeppolModalPr
     </Modal>
   );
 };
+
+
+type PeppolStatusModalProps = {
+  invoice: InvoiceModel;
+  onClose: () => void;
+  onRefresh: () => void;
+}
+
+export const PeppolStatusModal = ({invoice, onClose, onRefresh}: PeppolStatusModalProps) => (
+  <Modal
+    show
+    onClose={onClose}
+    onConfirm={onRefresh}
+    confirmText={t('invoice.peppolRefreshStatus')}
+    confirmVariant="light"
+    title={t('invoice.peppolStatus')}
+  >
+    <BillitOrderInfo invoice={invoice} />
+    {invoice.billit?.delivery && (
+      <BillitDeliveryDetails delivery={invoice.billit.delivery} />
+    )}
+    {invoice.billit?.messages && invoice.billit.messages.length > 0 && (
+      <BillitMessages messages={invoice.billit.messages} />
+    )}
+  </Modal>
+);

@@ -393,7 +393,10 @@ export const trans = {
     peppolMessages: 'Berichten',
     peppolMessageSuccess: 'Succesvol',
     peppolMessagePending: 'In behandeling',
-    peppolMessageTrials: 'pogingen'
+    peppolMessageTrials: 'pogingen',
+    peppolStatus: 'Peppol Status',
+    peppolRefreshStatus: 'Status Vernieuwen',
+    peppolStatusRefreshed: 'Peppol status vernieuwd'
   },
   attachment: {
     types: 'Bijlage types',

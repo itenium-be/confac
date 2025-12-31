@@ -8,8 +8,8 @@ import InvoiceModel from '../../../../invoice/models/InvoiceModel';
 import {Claim} from '../../../../users/models/UserModel';
 import {ClaimGuard, ClaimGuardSwitch} from '../../../../enhancers/EnhanceWithClaim';
 import {ConfacState} from '../../../../../reducers/app-state';
-import {PeppolModal} from '../../../../invoice/controls/PeppolModal';
-import {sendToPeppol} from '../../../../../actions';
+import {SendToPeppolModal, PeppolStatusModal} from '../../../../invoice/controls/PeppolModal';
+import {sendToPeppol, refreshPeppolStatus} from '../../../../../actions';
 import {getInvoiceFileName} from '../../../../../actions/utils/download-helpers';
 
 type InvoicePeppolProps = {
@@ -18,7 +18,8 @@ type InvoicePeppolProps = {
 
 export const InvoicePeppol = ({invoice}: InvoicePeppolProps) => {
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showSendModal, setShowSendModal] = useState(false);
+  const [showStatusModal, setShowStatusModal] = useState(false);
   const clients = useSelector((state: ConfacState) => state.clients);
   const config = useSelector((state: ConfacState) => state.config);
 
@@ -41,19 +42,33 @@ export const InvoicePeppol = ({invoice}: InvoicePeppolProps) => {
   return (
     <ClaimGuardSwitch>
       <ClaimGuard claim={Claim.EmailInvoices}>
-        <Button className="tst-open-peppol" onClick={() => setShowModal(true)} variant="link">
+        <Button
+          className="tst-open-peppol"
+          onClick={() => isSent ? setShowStatusModal(true) : setShowSendModal(true)}
+          variant="link"
+        >
           {peppolIcon}
         </Button>
-        {showModal && (
-          <PeppolModal
+        {showSendModal && (
+          <SendToPeppolModal
             invoice={invoice}
             client={client}
-            onClose={() => setShowModal(false)}
+            onClose={() => setShowSendModal(false)}
             onConfirm={() => {
               const fileNameTemplate = invoice.client.invoiceFileName || config.invoiceFileName;
               const pdfFileName = getInvoiceFileName(fileNameTemplate, invoice, 'pdf');
               dispatch(sendToPeppol(invoice._id, pdfFileName) as any);
-              setShowModal(false);
+              setShowSendModal(false);
+            }}
+          />
+        )}
+        {showStatusModal && (
+          <PeppolStatusModal
+            invoice={invoice}
+            onClose={() => setShowStatusModal(false)}
+            onRefresh={() => {
+              dispatch(refreshPeppolStatus(invoice._id) as any);
+              setShowStatusModal(false);
             }}
           />
         )}

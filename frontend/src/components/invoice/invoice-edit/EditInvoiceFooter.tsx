@@ -6,13 +6,13 @@ import InvoiceModel from '../models/InvoiceModel';
 import {ConfacState} from '../../../reducers/app-state';
 import {Claim} from '../../users/models/UserModel';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
-import {createInvoice, previewInvoice, syncCreditNotas, updateInvoiceRequest, sendToPeppol} from '../../../actions';
+import {createInvoice, previewInvoice, syncCreditNotas, updateInvoiceRequest, sendToPeppol, refreshPeppolStatus} from '../../../actions';
 import {getNewClonedInvoice} from '../models/getNewInvoice';
 import {t} from '../../utils';
 import {Button} from '../../controls/form-controls/Button';
 import {ConfigModel} from '../../config/models/ConfigModel';
 import {getInvoiceFileName} from '../../../actions/utils/download-helpers';
-import {PeppolModal} from '../controls/PeppolModal';
+import {SendToPeppolModal, PeppolStatusModal} from '../controls/PeppolModal';
 
 function shouldUsePeppol(invoice: InvoiceModel, config: ConfigModel): boolean {
   const invoiceCreatedOn = moment(invoice.audit.createdOn);
@@ -33,31 +33,56 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
   const invoices = useSelector((state: ConfacState) => state.invoices);
   const config = useSelector((state: ConfacState) => state.config);
   const clients = useSelector((state: ConfacState) => state.clients);
-  const [peppolModalOpen, setPeppolModalOpen] = useState(false);
+  const [showSendModal, setShowSendModal] = useState(false);
+  const [showStatusModal, setShowStatusModal] = useState(false);
+
+  const isSentStatus = invoice.status === 'ToPay' || invoice.status === 'Paid';
 
   return (
     <>
-      {peppolModalOpen && (
-        <PeppolModal
+      {showSendModal && (
+        <SendToPeppolModal
           invoice={invoice}
           client={clients.find(c => c._id === invoice.client._id)}
-          onClose={() => setPeppolModalOpen(false)}
+          onClose={() => setShowSendModal(false)}
           onConfirm={() => {
             const fileNameTemplate = invoice.client.invoiceFileName || config.invoiceFileName;
             const pdfFileName = getInvoiceFileName(fileNameTemplate, invoice, 'pdf');
             dispatch(sendToPeppol(invoice._id, pdfFileName) as any);
+            setShowSendModal(false);
           }}
         />
       )}
-      {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && (
+      {showStatusModal && (
+        <PeppolStatusModal
+          invoice={invoice}
+          onClose={() => setShowStatusModal(false)}
+          onRefresh={() => {
+            dispatch(refreshPeppolStatus(invoice._id) as any);
+            setShowStatusModal(false);
+          }}
+        />
+      )}
+      {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && !isSentStatus && (
         <Button
           claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
-          variant={invoice.status === 'Paid' || invoice.status === 'ToPay' ? 'outline-danger' : 'light'}
+          variant="light"
           icon="fas fa-paper-plane"
-          onClick={() => setPeppolModalOpen(true)}
+          onClick={() => setShowSendModal(true)}
           className="tst-send-peppol"
         >
           {t('invoice.peppolSend')}
+        </Button>
+      )}
+      {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && isSentStatus && (
+        <Button
+          claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
+          variant="light"
+          icon="fas fa-paper-plane"
+          onClick={() => setShowStatusModal(true)}
+          className="tst-peppol-status"
+        >
+          {t('invoice.peppolStatus')}
         </Button>
       )}
       {!invoice.isNew && invoice.client && !shouldUsePeppol(invoice, config) && (
