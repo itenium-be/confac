@@ -13,6 +13,7 @@ import invoicesRouter from './invoices';
 import configRouter from './config';
 import attachmentsRouter from './attachments';
 import userRouter from './user';
+import billitWebhooksRouters from './billitWebhooks';
 
 const appRouter = Router();
 
@@ -118,6 +119,8 @@ if (withSecurity) {
   appRouter.use('/config', useLogger, configRouter);
   appRouter.use('/attachments', useLogger, attachmentsRouter);
 }
+
+appRouter.use('/billit/webhooks', useLogger, billitWebhooksRouters);
 
 
 
