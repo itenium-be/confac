@@ -116,7 +116,12 @@ export class ApiClient {
   /**
    * Updates the OrderStatus of an existing Billit order
    */
-  async patchOrderStatus(billitOrderId: number, status: BillitOrderStatus): Promise<void> {
+  async patchOrderStatus(billitOrderId: number, status: 'ToPay' | 'Paid'): Promise<void> {
+    const body = {
+      Paid: status === 'Paid',
+      PaidDate: status === 'Paid' ? new Date().toISOString() : null,
+    };
+
     const response: fetch.Response = await fetch(`${this.config.apiUrl}/orders/${billitOrderId}`, {
       method: 'PATCH',
       headers: {
@@ -125,7 +130,7 @@ export class ApiClient {
         PartyID: this.config.partyId,
         ContextPartyID: this.config.contextPartyId,
       },
-      body: JSON.stringify({OrderStatus: status}),
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
