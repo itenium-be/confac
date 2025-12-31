@@ -1,7 +1,7 @@
 import {fromInvoice} from '../send-invoice-request.factory';
 import {SendInvoiceRequest} from '../../../../../services/billit';
 import {IInvoice} from '../../../../../models/invoices';
-import {someInvoice} from '../../createorderrequestfactory/tests/invoice.fixture';
+import {someClient, someInvoice} from '../../createorderrequestfactory/tests/invoice.fixture';
 
 describe('fromInvoice', () => {
   it('should create SendInvoiceRequest with transport type Peppol when client is Peppol enabled', () => {
@@ -9,10 +9,6 @@ describe('fromInvoice', () => {
       ...someInvoice,
       number: 2024001,
       billit: {orderId: 12345},
-      client: {
-        ...someInvoice.client,
-        peppolEnabled: true,
-      },
     };
 
     const expected: SendInvoiceRequest = {
@@ -20,7 +16,7 @@ describe('fromInvoice', () => {
       OrderIDs: [12345],
     };
 
-    const actual: SendInvoiceRequest = fromInvoice(invoice);
+    const actual: SendInvoiceRequest = fromInvoice(invoice, {...someClient, peppolEnabled: true});
 
     expect(actual).toEqual(expected);
   });
@@ -41,7 +37,7 @@ describe('fromInvoice', () => {
       OrderIDs: [67890],
     };
 
-    const actual: SendInvoiceRequest = fromInvoice(invoice);
+    const actual: SendInvoiceRequest = fromInvoice(invoice, {...someClient, peppolEnabled: false});
 
     expect(actual).toEqual(expected);
   });
@@ -62,7 +58,7 @@ describe('fromInvoice', () => {
       OrderIDs: [67890],
     };
 
-    const actual: SendInvoiceRequest = fromInvoice(invoice);
+    const actual: SendInvoiceRequest = fromInvoice(invoice, someClient);
 
     expect(actual).toEqual(expected);
   });
@@ -74,7 +70,7 @@ describe('fromInvoice', () => {
       billit: {orderId: undefined},
     };
 
-    expect(() => fromInvoice(invoice)).toThrow(
+    expect(() => fromInvoice(invoice, someClient)).toThrow(
       'Billit order id is not present on invoice 2024003.',
     );
   });
