@@ -34,6 +34,10 @@ export const PeppolUnitLineCodes: UnitCodes[] = [
 
 /** Check and sync the peppolEnabled status for a client. */
 export async function syncClientPeppolStatus(req: ConfacRequest, client: IClient): Promise<IClient> {
+  if (client.peppolEnabled === true) {
+    return client;
+  }
+
   const apiClient: ApiClient = ApiClientFactory.fromConfig(config);
   const vatNumber = VatNumberFactory.fromClient(client);
   const peppolResponse = await apiClient.getParticipantInformation(vatNumber);

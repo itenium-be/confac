@@ -69,7 +69,10 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
           variant="light"
           icon="fas fa-paper-plane"
           onClick={() => {
-            dispatch(syncClientPeppolStatus(invoice.client._id) as any);
+            const client = clients.find(c => c._id === invoice.client._id);
+            if (client?.peppolEnabled !== true) {
+              dispatch(syncClientPeppolStatus(invoice.client._id) as any);
+            }
             setShowSendModal(true);
           }}
           className="tst-send-peppol"

@@ -48,7 +48,9 @@ export const InvoicePeppol = ({invoice}: InvoicePeppolProps) => {
             if (isSent) {
               setShowStatusModal(true);
             } else {
-              dispatch(syncClientPeppolStatus(invoice.client._id) as any);
+              if (client?.peppolEnabled !== true) {
+                dispatch(syncClientPeppolStatus(invoice.client._id) as any);
+              }
               setShowSendModal(true);
             }
           }}
