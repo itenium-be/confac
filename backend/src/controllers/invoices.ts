@@ -453,7 +453,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
         invoice.status = 'ToSend';
         invoice.audit = updatedAudit;
       } catch (error: any) {
-        if (error instanceof BillitError && error.hasErrorCode('Idempotent token already exists')) {
+        if (error instanceof BillitError && error.isIdempotentTokenAlreadyExistsError()) {
           logger.info(`IdempotencyKey already exists for InvoiceNr=${invoice.number}, billitId=${invoice.billit?.orderId}`);
         } else {
           logger.error(`sendInvoice error "${error?.message}": ${JSON.stringify(error)} for #${invoice.number}`);
@@ -507,7 +507,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
       }
 
     } catch (error: any) {
-      if (error instanceof BillitError && error.hasErrorCode('Idempotent token already exists')) {
+      if (error instanceof BillitError && error.isIdempotentTokenAlreadyExistsError()) {
         logger.info(`Idempotent '${idempotencyKey}' already exists, invoiceNr=${invoice.number}, billitId=${invoice.billit?.orderId}`);
       } else {
         logger.error(`sendInvoice error "${error?.message}": ${JSON.stringify(error)} for #${invoice.number}`);

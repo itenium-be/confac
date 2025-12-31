@@ -276,68 +276,46 @@ describe('BillitError', () => {
     });
   });
 
-  describe('hasErrorCode', () => {
-    it('should return true when error code exists', () => {
+  describe('isIdempotentTokenAlreadyExistsError', () => {
+    it('should return true when error contains idempotent token error code', () => {
       const billitError: BillitError = new BillitError('Test error', [
-        {Code: 'ERR001', Description: 'First error'},
-        {Code: 'ERR002', Description: 'Second error'},
-        {Code: 'ERR003', Description: 'Third error'},
+        {Code: 'Idempotent token already exists'},
       ]);
 
-      expect(billitError.hasErrorCode('ERR001')).toBe(true);
-      expect(billitError.hasErrorCode('ERR002')).toBe(true);
-      expect(billitError.hasErrorCode('ERR003')).toBe(true);
+      expect(billitError.isIdempotentTokenAlreadyExistsError()).toBe(true);
     });
 
-    it('should return false when error code does not exist', () => {
+    it('should return true with case variations', () => {
       const billitError: BillitError = new BillitError('Test error', [
-        {Code: 'ERR001', Description: 'First error'},
-        {Code: 'ERR002', Description: 'Second error'},
+        {Code: 'IDEMPOTENT TOKEN ALREADY EXISTS'},
       ]);
 
-      expect(billitError.hasErrorCode('ERR003')).toBe(false);
-      expect(billitError.hasErrorCode('ERR999')).toBe(false);
-      expect(billitError.hasErrorCode('NONEXISTENT')).toBe(false);
+      expect(billitError.isIdempotentTokenAlreadyExistsError()).toBe(true);
+    });
+
+    it('should return false when error does not contain idempotent token error code', () => {
+      const billitError: BillitError = new BillitError('Test error', [
+        {Code: 'ERR001', Description: 'Different error'},
+        {Code: 'ERR002', Description: 'Another error'},
+      ]);
+
+      expect(billitError.isIdempotentTokenAlreadyExistsError()).toBe(false);
     });
 
     it('should return false when errors array is empty', () => {
       const billitError: BillitError = new BillitError('Test error', []);
 
-      expect(billitError.hasErrorCode('ERR001')).toBe(false);
+      expect(billitError.isIdempotentTokenAlreadyExistsError()).toBe(false);
     });
 
-    it('should be case-insensitive', () => {
+    it('should return true when idempotent error is among other errors', () => {
       const billitError: BillitError = new BillitError('Test error', [
-        {Code: 'ERR001'},
+        {Code: 'ERR001', Description: 'First error'},
+        {Code: 'Idempotent token already exists'},
+        {Code: 'ERR003', Description: 'Third error'},
       ]);
 
-      expect(billitError.hasErrorCode('ERR001')).toBe(true);
-      expect(billitError.hasErrorCode('err001')).toBe(true);
-      expect(billitError.hasErrorCode('Err001')).toBe(true);
-      expect(billitError.hasErrorCode('eRr001')).toBe(true);
-    });
-
-    it('should handle multiple errors with same code', () => {
-      const billitError: BillitError = new BillitError('Test error', [
-        {Code: 'ERR001', Description: 'First occurrence'},
-        {Code: 'ERR001', Description: 'Second occurrence'},
-        {Code: 'ERR002', Description: 'Different error'},
-      ]);
-
-      expect(billitError.hasErrorCode('ERR001')).toBe(true);
-      expect(billitError.hasErrorCode('ERR002')).toBe(true);
-    });
-
-    it('should handle special characters in error codes', () => {
-      const billitError: BillitError = new BillitError('Test error', [
-        {Code: 'ERR-001'},
-        {Code: 'ERR_002'},
-        {Code: 'ERR.003'},
-      ]);
-
-      expect(billitError.hasErrorCode('ERR-001')).toBe(true);
-      expect(billitError.hasErrorCode('ERR_002')).toBe(true);
-      expect(billitError.hasErrorCode('ERR.003')).toBe(true);
+      expect(billitError.isIdempotentTokenAlreadyExistsError()).toBe(true);
     });
   });
 });

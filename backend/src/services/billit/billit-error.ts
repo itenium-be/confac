@@ -20,8 +20,15 @@ export class BillitError extends Error {
   /**
    * Check if this error contains a specific error code (case-insensitive)
    */
-  hasErrorCode(code: string): boolean {
+  private hasErrorCode(code: string): boolean {
     const lowerCode = code.toLowerCase();
     return this.billitErrors.some(err => err.Code.toLowerCase() === lowerCode);
+  }
+
+  /**
+   * Check if this is an idempotent token already exists error
+   */
+  isIdempotentTokenAlreadyExistsError(): boolean {
+    return this.hasErrorCode('Idempotent token already exists');
   }
 }
