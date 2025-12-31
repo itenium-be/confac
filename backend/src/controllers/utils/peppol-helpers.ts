@@ -38,8 +38,13 @@ export async function syncClientPeppolStatus(req: ConfacRequest, client: IClient
     return client;
   }
 
+  const vatNumber: string | undefined = VatNumberFactory.fromClient(client);
+  if (!vatNumber) {
+    return client;
+  }
+
   const apiClient: ApiClient = ApiClientFactory.fromConfig(config);
-  const vatNumber = VatNumberFactory.fromClient(client);
+
   const peppolResponse = await apiClient.getParticipantInformation(vatNumber);
   const peppolEnabled = peppolResponse.Registered;
 
