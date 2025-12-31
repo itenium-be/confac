@@ -212,6 +212,17 @@ export const verifyInvoiceController = async (req: ConfacRequest, res: Response)
   const invoice = {...originalInvoice, status};
   await saveAudit(req, 'invoice', originalInvoice, invoice);
 
+  // Sync status back to Billit if the invoice has a Billit order
+  if (invoice.billit?.orderId) {
+    try {
+      const apiClient = ApiClientFactory.fromConfig(config);
+      await apiClient.patchOrderStatus(invoice.billit.orderId, status);
+    } catch (error: any) {
+      logger.error(`Failed to patch Billit order status for invoice #${invoice.number}: ${error?.message}`);
+      // Don't fail the whole request if Billit sync fails
+    }
+  }
+
   const result: Array<any> = [{
     type: 'invoice',
     model: invoice,

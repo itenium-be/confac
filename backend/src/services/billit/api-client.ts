@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import {logger} from '../../logger';
-import {CreateOrderRequest} from './orders/createorder';
+import {CreateOrderRequest, BillitOrderStatus} from './orders/createorder';
 import {SendInvoiceRequest} from './orders/sendinvoice';
 import {GetParticipantInformationResponse} from './peppol/getparticipantinformation';
 import {ApiConfig} from './api-config';
@@ -111,6 +111,30 @@ export class ApiClient {
     }
 
     return response.json();
+  }
+
+  /**
+   * Updates the OrderStatus of an existing Billit order
+   */
+  async patchOrderStatus(billitOrderId: number, status: BillitOrderStatus): Promise<void> {
+    const response: fetch.Response = await fetch(`${this.config.apiUrl}/orders/${billitOrderId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        ApiKey: this.config.apiKey,
+        PartyID: this.config.partyId,
+        ContextPartyID: this.config.contextPartyId,
+      },
+      body: JSON.stringify({OrderStatus: status}),
+    });
+
+    if (!response.ok) {
+      const errorText: string = await response.text();
+      logger.error(`Billit patchOrderStatus failed: ${response.status} - ${errorText}`);
+      throw BillitErrorFactory.createError(errorText, 'Failed to patch order status at Billit');
+    }
+
+    logger.info(`Billit order ${billitOrderId} status updated to ${status}`);
   }
 
   /** Gets a file by its generated UUID */
