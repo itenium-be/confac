@@ -9,7 +9,7 @@ import {Claim} from '../../../../users/models/UserModel';
 import {ClaimGuard, ClaimGuardSwitch} from '../../../../enhancers/EnhanceWithClaim';
 import {ConfacState} from '../../../../../reducers/app-state';
 import {SendToPeppolModal, PeppolStatusModal} from '../../../../invoice/controls/PeppolModal';
-import {sendToPeppol, refreshPeppolStatus} from '../../../../../actions';
+import {sendToPeppol, refreshPeppolStatus, syncClientPeppolStatus} from '../../../../../actions';
 import {getInvoiceFileName} from '../../../../../actions/utils/download-helpers';
 
 type InvoicePeppolProps = {
@@ -44,7 +44,14 @@ export const InvoicePeppol = ({invoice}: InvoicePeppolProps) => {
       <ClaimGuard claim={Claim.EmailInvoices}>
         <Button
           className="tst-open-peppol"
-          onClick={() => isSent ? setShowStatusModal(true) : setShowSendModal(true)}
+          onClick={() => {
+            if (isSent) {
+              setShowStatusModal(true);
+            } else {
+              dispatch(syncClientPeppolStatus(invoice.client._id) as any);
+              setShowSendModal(true);
+            }
+          }}
           variant="link"
         >
           {peppolIcon}

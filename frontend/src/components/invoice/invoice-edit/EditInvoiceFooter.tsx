@@ -6,7 +6,8 @@ import InvoiceModel from '../models/InvoiceModel';
 import {ConfacState} from '../../../reducers/app-state';
 import {Claim} from '../../users/models/UserModel';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
-import {createInvoice, previewInvoice, syncCreditNotas, updateInvoiceRequest, sendToPeppol, refreshPeppolStatus} from '../../../actions';
+import {createInvoice, previewInvoice, syncCreditNotas, updateInvoiceRequest,
+  sendToPeppol, refreshPeppolStatus, syncClientPeppolStatus} from '../../../actions';
 import {getNewClonedInvoice} from '../models/getNewInvoice';
 import {t} from '../../utils';
 import {Button} from '../../controls/form-controls/Button';
@@ -67,7 +68,10 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
           claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
           variant="light"
           icon="fas fa-paper-plane"
-          onClick={() => setShowSendModal(true)}
+          onClick={() => {
+            dispatch(syncClientPeppolStatus(invoice.client._id) as any);
+            setShowSendModal(true);
+          }}
           className="tst-send-peppol"
         >
           {t('invoice.peppolSend')}

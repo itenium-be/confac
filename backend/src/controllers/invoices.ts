@@ -13,8 +13,8 @@ import {emitEntityEvent} from './utils/entity-events';
 import config from '../config';
 import {logger} from '../logger';
 import {ApiClient, Attachment, BillitError, CreateOrderRequest, SendInvoiceRequest} from '../services/billit';
-import {GetParticipantInformationResponse} from '../services/billit/peppol/getparticipantinformation';
-import {ApiClientFactory, CreateOrderRequestFactory, SendInvoiceRequestFactory, VatNumberFactory} from './utils/billit';
+import {ApiClientFactory, CreateOrderRequestFactory, SendInvoiceRequestFactory} from './utils/billit';
+import {syncClientPeppolStatus} from './utils/peppol-helpers';
 import {IProject} from '../models/projects';
 import {syncBillitOrder} from '../services/billit/orders/sync-order';
 
@@ -464,28 +464,10 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     }
 
     // Step 2: Determine peppolEnabled status
-    if (!client.peppolEnabled) {
-      const vatNumber: string = VatNumberFactory.fromClient(client);
-      const peppolResponse: GetParticipantInformationResponse = await apiClient.getParticipantInformation(vatNumber);
-      client.peppolEnabled = peppolResponse.Registered;
-
-      if (client.peppolEnabled) {
-        await req.db.collection<IClient>(CollectionNames.CLIENTS).updateOne(
-          {_id: new ObjectID(client._id)},
-          {$set: {peppolEnabled: true}},
-        );
-        emitEntityEvent(
-          req,
-          SocketEventTypes.EntityUpdated,
-          CollectionNames.CLIENTS,
-          client._id,
-          {...client, peppolEnabled: true},
-        );
-      }
-    }
+    const updatedClient = await syncClientPeppolStatus(req, client);
 
     // Step 3: Send the sales invoice with appropriate transport type
-    const sendInvoiceRequest: SendInvoiceRequest = SendInvoiceRequestFactory.fromInvoice(invoice);
+    const sendInvoiceRequest: SendInvoiceRequest = SendInvoiceRequestFactory.fromInvoice(invoice, updatedClient);
     const idempotencyKey = `send-invoice-${invoice.number.toString()}`;
 
     try {
@@ -555,5 +537,25 @@ export const refreshPeppolStatusController = async (req: ConfacRequest, res: Res
   } catch (error: any) {
     logger.error('Error refreshing Peppol status:', error);
     return res.status(500).send({message: 'Error refreshing Peppol status', error: error.message});
+  }
+};
+
+
+export const syncClientPeppolStatusController = async (req: ConfacRequest, res: Response) => {
+  const {clientId} = req.params;
+
+  const client = await req.db.collection<IClient>(CollectionNames.CLIENTS)
+    .findOne({_id: new ObjectID(clientId)});
+
+  if (!client) {
+    return res.status(400).send({message: 'Client not found'});
+  }
+
+  try {
+    const updatedClient = await syncClientPeppolStatus(req, client);
+    return res.status(200).send(updatedClient);
+  } catch (error: any) {
+    logger.error('Error syncing client peppol status:', error);
+    return res.status(500).send({message: 'Error syncing client peppol status', error: error.message});
   }
 };

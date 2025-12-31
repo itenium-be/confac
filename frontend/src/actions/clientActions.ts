@@ -53,3 +53,25 @@ export function handleClientSocketEvents(eventType: SocketEventTypes, eventPaylo
     }
   };
 }
+
+export function syncClientPeppolStatus(clientId: string) {
+  return (dispatch: Dispatch) => {
+    dispatch(busyToggle());
+    request.post(buildUrl(`/clients/${clientId}/peppol/sync`))
+      .set('Content-Type', 'application/json')
+      .set('Authorization', authService.getBearer())
+      .set('x-socket-id', socketService.socketId)
+      .then(res => {
+        if (res.body.message) {
+          return;
+        }
+
+        dispatch({
+          type: ACTION_TYPES.CLIENT_UPDATE,
+          client: res.body,
+        });
+      })
+      .catch(catchHandler)
+      .finally(() => dispatch(busyToggle.off()));
+  };
+}
