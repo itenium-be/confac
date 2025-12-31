@@ -4,8 +4,13 @@ import {OrderType} from './order-type';
 import {OrderDirection} from './order-direction';
 import {Attachment} from './attachment';
 import {SavedAttachment} from './attachment/attachment';
+import {InvoiceStatus} from '../../../../models/invoices';
+
+export type BillitOrderStatus = InvoiceStatus;
 
 export type BillitOrder = Omit<CreateOrderRequest, 'Attachments'> & {
+  OrderID: number;
+  OrderStatus: BillitOrderStatus;
   Attachments: SavedAttachment[];
 };
 

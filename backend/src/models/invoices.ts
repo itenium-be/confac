@@ -1,7 +1,6 @@
 import {ObjectID} from 'mongodb';
 import {IClient} from './clients';
 import {IAttachment, IAudit} from './common';
-import {EditClientRateType} from './projects';
 
 export interface IInvoiceMoney {
   totalWithoutTax: number;

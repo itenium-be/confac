@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import {logger} from '../../logger';
+import {Jwt} from '../../models/technical';
 
 export type OrderWebhookRequest = {
   UpdatedEntityID: number;
@@ -12,9 +13,40 @@ export type MessageWebhookRequest = {
   UpdatedEntityID: number;
   UpdatedEntityType: 'Message';
   WebhookUpdateTypeTC: 'U' | 'I';
-  /** In all tests this was just an empty object */
-  EntityDetail: {};
+  /**
+   * In all tests this was just an empty object
+   * Should be filled in, see README-BillitWebHooks.md
+   */
+  EntityDetail: {
+    OrderID: number;
+    Description: string;
+    FileID: string;
+    CreationDate: string; // DD/MM/YYYY
+    TransportType: 'Peppol' | 'SDI' | 'Email';
+    /** VAT number (?) */
+    Destination: string;
+    MessageDirection: 'Incoming' | 'Outgoing';
+    MessageAdditionalInformation: {
+      EInvoiceFlowState: 'Sent' | 'Delivered' | 'Accepted' | 'Refused';
+      AdditionalFlowStateInformation: string;
+    };
+  };
 }
+
+/** Fake user for updating Audit from Billit Webhook */
+export const WebhookUser: Jwt = {
+  data: {
+    _id: 'Billit',
+    email: '',
+    firstName: '',
+    name: 'Billit',
+    alias: 'Billit',
+    active: true,
+  },
+  iat: 0,
+  exp: 0,
+};
+
 
 const webhookSecrets = {
   orderCreated: process.env.BILLIT_WEBHOOK_ORDER_CREATED_SECRET || '',

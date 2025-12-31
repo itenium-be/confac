@@ -38,24 +38,22 @@ Message
 
 ```json
 {  
-    "UpdatedEntityID": 100, //(MessageID)  
-    "UpdatedEntityType": "Message",  
-    "WebhookUpdateTypeTC": "U",  
-    "EntityDetail" :  
-    {  
-        "OrderID" : 2000,  
-        "Description" : "Description",  
-        "FileID" : "GUID-GUID-GUID",  
-        "CreationDate" : "31/01/2000",  
-        "TransportType" : "Peppol", //(Peppol, SDI, Email,...),  
-        "Destination" : "BE1234568",  
-        "MessageDirection" : "Incoming",  
-        "MessageAdditionalInformation" :  
-        {  
-            "EInvoiceFlowState": "Refused", //Sent,Delivered,Accepted,Refused  
-            "AdditionalFlowStateInformation": "No Valid VAT"  
-        }  
-    }  
+  "UpdatedEntityID": 100, //(MessageID)
+  "UpdatedEntityType": "Message",
+  "WebhookUpdateTypeTC": "U",
+  "EntityDetail": {
+    "OrderID": 2000,
+    "Description": "Description",
+    "FileID": "GUID-GUID-GUID",
+    "CreationDate": "31/01/2000",
+    "TransportType": "Peppol", //(Peppol, SDI, Email,...),
+    "Destination": "BE1234568",
+    "MessageDirection": "Incoming",
+    "MessageAdditionalInformation": {
+      "EInvoiceFlowState": "Refused", //Sent,Delivered,Accepted,Refuse
+      "AdditionalFlowStateInformation": "No Valid VAT"
+    }
+  }
 }
 ```
 
