@@ -15,6 +15,19 @@ export class ApiClient {
     this.config = config;
   }
 
+  private getHeaders(idempotencyKey?: string): Record<string, string> {
+    const headers: Record<string, string> = {
+      ApiKey: this.config.apiKey,
+      PartyID: this.config.partyId,
+      ContextPartyID: this.config.contextPartyId,
+    };
+    if (idempotencyKey) {
+      headers['Content-Type'] = 'application/json';
+      headers['Idempotency-Key'] = idempotencyKey;
+    }
+    return headers;
+  }
+
   /**
    * Creates an order at Billit
    * @returns The Billit order ID
@@ -25,13 +38,7 @@ export class ApiClient {
   ): Promise<number> {
     const response: fetch.Response = await fetch(`${this.config.apiUrl}/orders`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ApiKey: this.config.apiKey,
-        PartyID: this.config.partyId,
-        ContextPartyID: this.config.contextPartyId,
-        'Idempotency-Key': idempotencyKey,
-      },
+      headers: this.getHeaders(idempotencyKey),
       body: JSON.stringify(request),
     });
 
@@ -53,13 +60,7 @@ export class ApiClient {
   async sendInvoice(request: SendInvoiceRequest, idempotencyKey: string): Promise<void> {
     const response: fetch.Response = await fetch(`${this.config.apiUrl}/orders/commands/send`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ApiKey: this.config.apiKey,
-        PartyID: this.config.partyId,
-        ContextPartyID: this.config.contextPartyId,
-        'Idempotency-Key': idempotencyKey,
-      },
+      headers: this.getHeaders(idempotencyKey),
       body: JSON.stringify(request),
     });
 
@@ -97,11 +98,7 @@ export class ApiClient {
   async getOrder(billitOrderId: number): Promise<BillitOrder> {
     const response: fetch.Response = await fetch(`${this.config.apiUrl}/orders/${billitOrderId}`, {
       method: 'GET',
-      headers: {
-        ApiKey: this.config.apiKey,
-        PartyID: this.config.partyId,
-        ContextPartyID: this.config.contextPartyId,
-      },
+      headers: this.getHeaders(),
     });
 
     if (!response.ok) {
@@ -117,11 +114,7 @@ export class ApiClient {
   async getFile(fileId: string): Promise<SavedAttachment> {
     const response: fetch.Response = await fetch(`${this.config.apiUrl}/files/${fileId}`, {
       method: 'GET',
-      headers: {
-        ApiKey: this.config.apiKey,
-        PartyID: this.config.partyId,
-        ContextPartyID: this.config.contextPartyId,
-      },
+      headers: this.getHeaders(),
     });
 
     if (!response.ok) {
