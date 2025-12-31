@@ -103,6 +103,119 @@ describe('calculating money (taxes and totals)', () => {
       });
     });
   });
+
+
+  describe('rounding order line totals', () => {
+    it('should round line totals to 2 decimal places', () => {
+      const vm = createViewModel();
+      vm.setLines([
+        {type: 'daily', amount: 1.5, tax: 21, price: 333.33, desc: '', sort: 0},
+      ]);
+
+      // 1.5 * 333.33 = 499.995, should round to 500.00
+      expect(vm.money.totalWithoutTax).toBe(500);
+      expect(vm.money.totalTax).toBe(105); // 500 * 0.21 = 105
+      expect(vm.money.total).toBe(605);
+    });
+
+    it('should round down when value is below .5', () => {
+      const vm = createViewModel();
+      vm.setLines([
+        {type: 'daily', amount: 1, tax: 21, price: 100.444, desc: '', sort: 0},
+      ]);
+
+      // 1 * 100.444 = 100.444, should round to 100.44
+      expect(vm.money.totalWithoutTax).toBe(100.44);
+      // Tax is calculated on rounded line total: 100.44 * 0.21 = 21.0924 (not rounded in totalTax)
+      expect(vm.money.totalTax).toBeCloseTo(21.09, 2);
+      expect(vm.money.total).toBe(121.53);
+    });
+
+    it('should round up when value is at or above .5', () => {
+      const vm = createViewModel();
+      vm.setLines([
+        {type: 'daily', amount: 1, tax: 21, price: 100.445, desc: '', sort: 0},
+      ]);
+
+      // 1 * 100.445 = 100.445, should round to 100.45
+      expect(vm.money.totalWithoutTax).toBe(100.45);
+      // Tax is calculated on rounded line total: 100.45 * 0.21 = 21.0945 (not rounded in totalTax)
+      expect(vm.money.totalTax).toBeCloseTo(21.09, 2);
+      expect(vm.money.total).toBe(121.54);
+    });
+
+    it('should round each line independently before summing', () => {
+      const vm = createViewModel();
+      vm.setLines([
+        {type: 'daily', amount: 1, tax: 21, price: 100.445, desc: '', sort: 0},
+        {type: 'daily', amount: 1, tax: 21, price: 200.446, desc: '', sort: 0},
+      ]);
+
+      // Line 1: 1 * 100.445 = 100.445, rounds to 100.45
+      // Line 2: 1 * 200.446 = 200.446, rounds to 200.45
+      // Total without tax: 100.45 + 200.45 = 300.90
+      expect(vm.money.totalWithoutTax).toBe(300.90);
+      // Tax: (100.45 * 0.21) + (200.45 * 0.21) = 21.0945 + 42.0945 = 63.189
+      expect(vm.money.totalTax).toBeCloseTo(63.19, 2);
+      expect(vm.money.total).toBe(364.09);
+    });
+
+    it('should round final total after discount is applied', () => {
+      const vm = createViewModel();
+      vm.discount = '10%';
+      vm.setLines([
+        {type: 'daily', amount: 1, tax: 21, price: 100.33, desc: '', sort: 0},
+      ]);
+
+      // Line: 1 * 100.33 = 100.33
+      // Tax: 100.33 * 0.21 = 21.0693
+      // Total before discount: 100.33 + 21.0693 = 121.3993
+      // After 10% discount: 121.3993 * 0.9 = 109.25937
+      // Should round to 109.26
+      expect(vm.money.total).toBe(109.26);
+    });
+
+    it('should handle multiple lines with different tax rates', () => {
+      const vm = createViewModel();
+      vm.setLines([
+        {type: 'daily', amount: 1.5, tax: 21, price: 100.555, desc: '', sort: 0},
+        {type: 'hourly', amount: 2.3, tax: 6, price: 50.445, desc: '', sort: 0},
+      ]);
+
+      // Line 1: 1.5 * 100.555 = 150.8325, rounds to 150.83
+      // Line 2: 2.3 * 50.445 = 116.0235, rounds to 116.02
+      // Total without tax: 150.83 + 116.02 = 266.85
+      expect(vm.money.totalWithoutTax).toBe(266.85);
+
+      // Tax line 1: 150.83 * 0.21 = 31.6743
+      // Tax line 2: 116.02 * 0.06 = 6.9612
+      // Total tax: 31.6743 + 6.9612 = 38.6355
+      expect(vm.money.totalTax).toBeCloseTo(38.64, 2);
+      expect(vm.money.total).toBe(305.49);
+    });
+
+    it('should handle very small amounts that round to zero', () => {
+      const vm = createViewModel();
+      vm.setLines([
+        {type: 'daily', amount: 0.001, tax: 21, price: 1, desc: '', sort: 0},
+      ]);
+
+      // 0.001 * 1 = 0.001, rounds to 0.00
+      expect(vm.money.totalWithoutTax).toBe(0);
+      expect(vm.money.totalTax).toBe(0);
+      expect(vm.money.total).toBe(0);
+    });
+
+    it('should handle edge case with 0.005 rounding', () => {
+      const vm = createViewModel();
+      vm.setLines([
+        {type: 'daily', amount: 1, tax: 0, price: 1.005, desc: '', sort: 0},
+      ]);
+
+      // 1 * 1.005 = 1.005, should round to 1.01 (round half away from zero)
+      expect(vm.money.totalWithoutTax).toBe(1.01);
+    });
+  });
 });
 
 

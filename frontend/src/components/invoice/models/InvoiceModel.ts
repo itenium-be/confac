@@ -265,15 +265,22 @@ export default class InvoiceModel implements IAttachment {
       return InvoiceModel.emptyMoney();
     }
 
+    // Round to 2 decimal places using standard rounding (round half away from zero)
+    // Add small epsilon to handle floating point precision issues
+    const round = (value: number): number => {
+      const epsilon = 1e-10;
+      return Math.round((value + epsilon) * 100) / 100;
+    };
+
     const relevantLines = this._lines.filter(line => line.type !== 'section');
-    const totalWithoutTax = relevantLines.reduce((prev, cur) => prev + cur.amount * cur.price, 0);
-    const totalTax = relevantLines.reduce((prev, cur) => prev + (cur.amount * cur.price * cur.tax) / 100, 0);
+    const totalWithoutTax = relevantLines.reduce((prev, cur) => prev + round(cur.amount * cur.price), 0);
+    const totalTax = relevantLines.reduce((prev, cur) => prev + (round(cur.amount * cur.price) * cur.tax) / 100, 0);
     let total = totalWithoutTax + totalTax;
     const totalsPerLineType = relevantLines.reduce((acc, cur) => {
       if (!acc[cur.type]) {
         acc[cur.type] = 0;
       }
-      acc[cur.type] += cur.amount * cur.price;
+      acc[cur.type] += round(cur.amount * cur.price);
       return acc;
     }, {});
 
@@ -294,7 +301,7 @@ export default class InvoiceModel implements IAttachment {
       totalWithoutTax,
       totalTax,
       discount: calcDiscount,
-      total,
+      total: round(total),
       totals: totalsPerLineType,
     };
   }
