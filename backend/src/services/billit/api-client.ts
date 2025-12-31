@@ -115,6 +115,7 @@ export class ApiClient {
 
   /**
    * Updates the OrderStatus of an existing Billit order
+   * Patchable properties: https://docs.billit.be/docs/patchable-properties
    */
   async patchOrderStatus(billitOrderId: number, status: 'ToPay' | 'Paid'): Promise<void> {
     const body = {
