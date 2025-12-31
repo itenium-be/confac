@@ -210,7 +210,7 @@ export function sendToPeppol(invoiceId: string, pdfFileName: string) {
           catchHandler(err);
         }
       })
-      .finally(() => dispatch(busyToggle()));
+      .finally(() => dispatch(busyToggle.off()));
   };
 }
 
