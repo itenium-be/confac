@@ -1,3 +1,10 @@
+fieldset:disabled {
+  input:not(.react-select__input),
+  textarea {
+    background-color: white !important;
+  }
+}
+
 .dotted-cells-container {
   > div {
     &:first-child {

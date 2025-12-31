@@ -108,6 +108,7 @@ const EditInvoice = () => {
         <EditInvoiceBody
           invoice={invoice}
           onChange={i => setInvoice(i)}
+          disabled={invoice.status !== 'Draft'}
         />
 
         {!!invoice._id && invoice.client && showEmailModal !== EmailTemplate.None && (

@@ -12,60 +12,63 @@ import {InvoiceAttachmentsForm} from '../controls/InvoiceAttachmentsForm';
 export type EditInvoiceBodyProps = {
   invoice: InvoiceModel;
   onChange: (invoice: InvoiceModel) => void;
+  disabled?: boolean;
 }
 
 
-export const EditInvoiceBody = ({invoice, onChange}: EditInvoiceBodyProps) => {
+export const EditInvoiceBody = ({invoice, onChange, disabled}: EditInvoiceBodyProps) => {
   return (
     <>
-      <Row>
-        <Col sm={6}>
-          <EditInvoiceClient
-            invoice={invoice}
-            onChange={val => {
-              invoice.setClient(val);
+      <fieldset disabled={disabled} style={disabled ? {pointerEvents: 'none'} : undefined}>
+        <Row>
+          <Col sm={6}>
+            <EditInvoiceClient
+              invoice={invoice}
+              onChange={val => {
+                invoice.setClient(val);
+                onChange(invoice);
+              }}
+            />
+          </Col>
+
+          <Col sm={6}>
+            <Row>
+              <EditInvoiceDetails
+                invoice={invoice}
+                onChange={(fieldName: string, value: any) => {
+                  invoice.updateField(fieldName, value, true);
+                  onChange(invoice);
+                }}
+              />
+            </Row>
+            <Row>
+              <ProjectMonthOrManualSelect
+                value={invoice.projectMonth}
+                onProjectMonthChange={fpm => {
+                  invoice.setProjectMonth(fpm);
+                  onChange(invoice);
+                }}
+                onManualChange={(consultant, month) => {
+                  invoice.setManualProjectMonth(consultant, month || undefined);
+                  onChange(invoice);
+                }}
+                invoice={invoice}
+              />
+            </Row>
+          </Col>
+        </Row>
+        <Row style={{marginTop: 8}}>
+          <EditInvoiceLines
+            claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
+            value={invoice.lines}
+            onChange={m => {
+              invoice.setLines(m);
               onChange(invoice);
             }}
+            translationPrefix={invoice.getType()}
           />
-        </Col>
-
-        <Col sm={6}>
-          <Row>
-            <EditInvoiceDetails
-              invoice={invoice}
-              onChange={(fieldName: string, value: any) => {
-                invoice.updateField(fieldName, value, true);
-                onChange(invoice);
-              }}
-            />
-          </Row>
-          <Row>
-            <ProjectMonthOrManualSelect
-              value={invoice.projectMonth}
-              onProjectMonthChange={fpm => {
-                invoice.setProjectMonth(fpm);
-                onChange(invoice);
-              }}
-              onManualChange={(consultant, month) => {
-                invoice.setManualProjectMonth(consultant, month || undefined);
-                onChange(invoice);
-              }}
-              invoice={invoice}
-            />
-          </Row>
-        </Col>
-      </Row>
-      <Row style={{marginTop: 8}}>
-        <EditInvoiceLines
-          claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.ManageInvoices}
-          value={invoice.lines}
-          onChange={m => {
-            invoice.setLines(m);
-            onChange(invoice);
-          }}
-          translationPrefix={invoice.getType()}
-        />
-      </Row>
+        </Row>
+      </fieldset>
       <InvoiceAttachmentsForm model={invoice} />
       <Row>
         <InvoiceCreditNotas
