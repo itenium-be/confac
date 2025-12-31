@@ -16,4 +16,12 @@ export class BillitError extends Error {
       Error.captureStackTrace(this, BillitError);
     }
   }
+
+  /**
+   * Check if this error contains a specific error code (case-insensitive)
+   */
+  hasErrorCode(code: string): boolean {
+    const lowerCode = code.toLowerCase();
+    return this.billitErrors.some(err => err.Code.toLowerCase() === lowerCode);
+  }
 }
