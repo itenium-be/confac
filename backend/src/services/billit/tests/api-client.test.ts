@@ -1,6 +1,7 @@
 // Mock node-fetch before imports
 import fetch from 'node-fetch';
 import {ApiClient} from '../api-client';
+import {BillitError} from '../billit-error';
 import {CreateOrderRequest} from '../orders/createorder';
 import {SendInvoiceRequest} from '../orders/sendinvoice';
 import {logger} from '../../../logger';
@@ -125,6 +126,48 @@ describe('ApiClient', () => {
         expect.objectContaining({headers: expect.objectContaining({'Idempotency-Key': 'unique-key-123'})}),
       );
     });
+
+    it('should throw BillitError when API returns ErrorsResponse format', async () => {
+      const errorsResponse = JSON.stringify({
+        errors: [
+          {Code: 'ERR001', Description: 'Invalid VAT number'},
+          {Code: 'ERR002', Description: 'Missing required field'},
+        ],
+      });
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        text: () => Promise.resolve(errorsResponse),
+      } as any);
+
+      try {
+        await apiClient.createOrder(createOrderRequest, '2024-001');
+        fail('Expected BillitError to be thrown');
+      } catch (error) {
+        expect(error).toBeInstanceOf(BillitError);
+        expect((error as BillitError).billitErrors).toEqual([
+          {Code: 'ERR001', Description: 'Invalid VAT number'},
+          {Code: 'ERR002', Description: 'Missing required field'},
+        ]);
+      }
+    });
+
+    it('should throw regular Error when response is not ErrorsResponse format', async () => {
+      const errorMessage: string = 'Plain text error';
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        text: () => Promise.resolve(errorMessage),
+      } as any);
+
+      try {
+        await apiClient.createOrder(createOrderRequest, '2024-001');
+      } catch (error) {
+        expect(error).toBeInstanceOf(Error);
+        expect(error).not.toBeInstanceOf(BillitError);
+        expect((error as Error).message).toContain(errorMessage);
+      }
+    });
   });
 
   describe('sendInvoice', () => {
@@ -215,6 +258,32 @@ describe('ApiClient', () => {
         expect.objectContaining({body: JSON.stringify(request)}),
       );
     });
+
+    it('should throw BillitError when API returns ErrorsResponse format', async () => {
+      const request: SendInvoiceRequest = {
+        TransportType: 'Peppol',
+        OrderIDs: [123456],
+      };
+      const errorsResponse = JSON.stringify({
+        errors: [
+          {Code: 'SEND001', Description: 'Invalid transport configuration'},
+        ],
+      });
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        text: () => Promise.resolve(errorsResponse),
+      } as any);
+
+      try {
+        await apiClient.sendInvoice(request, 'key');
+      } catch (error) {
+        expect(error).toBeInstanceOf(BillitError);
+        expect((error as BillitError).billitErrors).toEqual([
+          {Code: 'SEND001', Description: 'Invalid transport configuration'},
+        ]);
+      }
+    });
   });
 
   describe('getParticipantInformation', () => {
@@ -293,6 +362,28 @@ describe('ApiClient', () => {
       expect(mockFetch).toHaveBeenCalledWith(
         expect.any(String),
       );
+    });
+
+    it('should throw BillitError when API returns ErrorsResponse format', async () => {
+      const errorsResponse = JSON.stringify({
+        errors: [
+          {Code: 'VAT001', Description: 'VAT number format is invalid'},
+        ],
+      });
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        text: () => Promise.resolve(errorsResponse),
+      } as any);
+
+      try {
+        await apiClient.getParticipantInformation('INVALID');
+      } catch (error) {
+        expect(error).toBeInstanceOf(BillitError);
+        expect((error as BillitError).billitErrors).toEqual([
+          {Code: 'VAT001', Description: 'VAT number format is invalid'},
+        ]);
+      }
     });
   });
 
