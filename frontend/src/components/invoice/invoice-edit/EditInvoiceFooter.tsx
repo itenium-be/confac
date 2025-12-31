@@ -97,6 +97,17 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
           {t('invoice.deletePopup', {number: invoice.number, client: invoice.client.name})}
         </Popup>
       )}
+      {canDeleteInvoice && (
+        <Button
+          claim={Claim.ManageInvoices}
+          variant="danger"
+          icon="fa fa-trash"
+          onClick={() => setShowDeleteModal(true)}
+          className="tst-delete-invoice"
+        >
+          {t('delete')}
+        </Button>
+      )}
       {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && !isSentStatus && (
         <Button
           claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
@@ -165,17 +176,6 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
           }
         }}
       />
-      {canDeleteInvoice && (
-        <Button
-          claim={Claim.ManageInvoices}
-          variant="danger"
-          icon="fa fa-trash"
-          onClick={() => setShowDeleteModal(true)}
-          className="tst-delete-invoice"
-        >
-          {t('delete')}
-        </Button>
-      )}
     </>
   );
 };
