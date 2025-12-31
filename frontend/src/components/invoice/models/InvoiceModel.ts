@@ -37,9 +37,30 @@ export interface InvoiceProjectMonth {
 }
 
 
+export type InvoiceBillitDeliveryDetails = {
+  date: string;
+  info: string;
+  delivered: boolean;
+  status: string;
+}
+
+export type InvoiceBillitMessage = {
+  description: string;
+  fileId: string;
+  creationDate: string;
+  transportType: string;
+  success: boolean;
+  trials: number;
+  destination: string;
+  messageDirection: string;
+}
+
 export type InvoiceBillitModel = {
   /** The Billit order ID, returned after creating the order in Billit */
   orderId?: number;
+  /** Current Peppol/Email delivery details */
+  delivery?: InvoiceBillitDeliveryDetails;
+  messages?: InvoiceBillitMessage[];
 }
 
 export type InvoiceStatus = 'Draft' | 'ToSend' | 'ToPay' | 'Paid';

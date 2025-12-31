@@ -139,6 +139,7 @@ export const trans = {
   cancel: 'Cancel',
   delete: 'Delete',
   add: 'Add',
+  yes: 'Yes',
   no: 'No',
   close: 'Close',
   view: 'Details',
@@ -383,7 +384,16 @@ export const trans = {
     peppolSignedTimesheet: 'Signed timesheet',
     peppolTransportType: 'Transport method',
     peppolEmailTo: 'Email to',
-    peppolSentOn: 'Sent to Peppol on'
+    peppolSentOn: 'Sent to Peppol on',
+    peppolDelivery: 'Delivery',
+    peppolDeliveryStatus: 'Status',
+    peppolDeliveryDate: 'Date',
+    peppolDeliveryDelivered: 'Delivered',
+    peppolDeliveryInfo: 'Info',
+    peppolMessages: 'Messages',
+    peppolMessageSuccess: 'Successful',
+    peppolMessagePending: 'Pending',
+    peppolMessageTrials: 'trials'
   },
   attachment: {
     types: 'Attachment types',

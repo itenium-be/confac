@@ -30,6 +30,10 @@ export const messageCreatedWebhook = async (req: ConfacRequest, res: Response) =
   validateSignature('messageCreated', <string>req.headers['billit-signature'], body);
   req.user = WebhookUser;
 
+  if (body.EntityDetail?.OrderID) {
+    await syncBillitOrder(req, body.EntityDetail.OrderID);
+  }
+
   return res.status(200).send();
 };
 
@@ -38,6 +42,10 @@ export const messageUpdatedWebhook = async (req: ConfacRequest, res: Response) =
   const body: MessageWebhookRequest = req.body;
   validateSignature('messageUpdated', <string>req.headers['billit-signature'], body);
   req.user = WebhookUser;
+
+  if (body.EntityDetail?.OrderID) {
+    await syncBillitOrder(req, body.EntityDetail.OrderID);
+  }
 
   return res.status(200).send();
 };
