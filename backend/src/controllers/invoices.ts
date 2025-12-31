@@ -12,7 +12,7 @@ import {saveAudit} from './utils/audit-logs';
 import {emitEntityEvent} from './utils/entity-events';
 import config from '../config';
 import {logger} from '../logger';
-import {ApiClient, Attachment, CreateOrderRequest, SendInvoiceRequest} from '../services/billit';
+import {ApiClient, Attachment, BillitError, CreateOrderRequest, SendInvoiceRequest} from '../services/billit';
 import {GetParticipantInformationResponse} from '../services/billit/peppol/getparticipantinformation';
 import {ApiClientFactory, CreateOrderRequestFactory, SendInvoiceRequestFactory, VatNumberFactory} from './utils/billit';
 import {IProject} from '../models/projects';
@@ -453,7 +453,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
         invoice.status = 'ToSend';
         invoice.audit = updatedAudit;
       } catch (error: any) {
-        if (error?.message?.includes('Idempotent token already exists')) {
+        if (error instanceof BillitError && error.isIdempotentTokenAlreadyExistsError()) {
           logger.info(`IdempotencyKey already exists for InvoiceNr=${invoice.number}, billitId=${invoice.billit?.orderId}`);
         } else {
           logger.error(`sendInvoice error "${error?.message}": ${JSON.stringify(error)} for #${invoice.number}`);
@@ -507,7 +507,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
       }
 
     } catch (error: any) {
-      if (error?.message?.includes('Idempotent token already exists')) {
+      if (error instanceof BillitError && error.isIdempotentTokenAlreadyExistsError()) {
         logger.info(`Idempotent '${idempotencyKey}' already exists, invoiceNr=${invoice.number}, billitId=${invoice.billit?.orderId}`);
       } else {
         logger.error(`sendInvoice error "${error?.message}": ${JSON.stringify(error)} for #${invoice.number}`);
@@ -519,9 +519,16 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
 
   } catch (error: any) {
     logger.error('Error processing Peppol request:', error);
-    return res.status(500).send({
+    const errorResponse: any = {
       message: 'Error processing Peppol request',
       error: error.message,
-    });
+    };
+
+    // Include Billit API errors if present
+    if (error instanceof BillitError) {
+      errorResponse.errors = error.billitErrors;
+    }
+
+    return res.status(500).send(errorResponse);
   }
 };

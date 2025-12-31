@@ -6,6 +6,7 @@ import {GetParticipantInformationResponse} from './peppol/getparticipantinformat
 import {ApiConfig} from './api-config';
 import {SavedAttachment} from './orders/createorder/attachment/attachment';
 import {BillitOrder} from './orders/createorder/create-order.request';
+import {BillitErrorFactory} from './billit-error.factory';
 
 export class ApiClient {
   private config: ApiConfig;
@@ -37,7 +38,7 @@ export class ApiClient {
     if (!response.ok) {
       const errorText: string = await response.text();
       logger.error(`Billit createOrder failed: ${response.status} - ${errorText}`);
-      throw new Error(`Failed to create order at Billit: ${errorText}`);
+      throw BillitErrorFactory.createError(errorText, 'Failed to create order at Billit');
     }
 
     const orderIdText: string = await response.text();
@@ -65,7 +66,7 @@ export class ApiClient {
     if (!response.ok) {
       const errorText = await response.text();
       logger.error(`Billit sendInvoice failed: ${response.status} - ${errorText}`);
-      throw new Error(`Failed to send invoice via ${request.TransportType}: ${errorText}`);
+      throw BillitErrorFactory.createError(errorText, `Failed to send invoice via ${request.TransportType}`);
     }
 
     logger.info(`Invoice(s) ${request.OrderIDs.join(', ')} sent via ${request.TransportType}`);
@@ -85,7 +86,7 @@ export class ApiClient {
     if (!response.ok) {
       const errorText: string = await response.text();
       logger.error(`Billit getParticipantInformation failed: ${response.status} - ${errorText}`);
-      throw new Error(`Failed to check Peppol registration: ${errorText}`);
+      throw BillitErrorFactory.createError(errorText, 'Failed to check Peppol registration');
     }
 
     const data: GetParticipantInformationResponse = await response.json();
@@ -106,7 +107,7 @@ export class ApiClient {
     if (!response.ok) {
       const errorText: string = await response.text();
       logger.error(`Billit getOrder failed: ${response.status} - ${errorText}`);
-      throw new Error(`Failed to get order from Billit: ${errorText}`);
+      throw BillitErrorFactory.createError(errorText, 'Failed to get order from Billit');
     }
 
     return response.json();
@@ -126,7 +127,7 @@ export class ApiClient {
     if (!response.ok) {
       const errorText: string = await response.text();
       logger.error(`Billit getFile failed: ${response.status} - ${errorText}`);
-      throw new Error(`Failed to get file from Billit: ${errorText}`);
+      throw BillitErrorFactory.createError(errorText, 'Failed to get file from Billit');
     }
 
     return response.json();
