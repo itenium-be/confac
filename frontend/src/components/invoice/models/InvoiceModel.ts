@@ -274,8 +274,31 @@ export default class InvoiceModel implements IAttachment {
 
     const relevantLines = this._lines.filter(line => line.type !== 'section');
     const totalWithoutTax = relevantLines.reduce((prev, cur) => prev + round(cur.amount * cur.price), 0);
-    const totalTax = relevantLines.reduce((prev, cur) => prev + (round(cur.amount * cur.price) * cur.tax) / 100, 0);
-    let total = totalWithoutTax + totalTax;
+
+    // Tax calculation following Billit's method:
+    // 1. Group lines by tax rate
+    // 2. Sum rounded line totals within each tax group
+    // 3. Calculate total with tax for each group: subtotal * (1 + tax rate)
+    // 4. Round each group's total (minimizes rounding errors)
+    // 5. Sum all rounded group totals to get final total
+    // See: https://docs.billit.be/docs/calculations
+    const taxGroups = relevantLines.reduce((acc, cur) => {
+      const taxRate = cur.tax;
+      if (!acc[taxRate]) {
+        acc[taxRate] = 0;
+      }
+      acc[taxRate] += round(cur.amount * cur.price);
+      return acc;
+    }, {} as {[key: number]: number});
+
+    let total = Object.keys(taxGroups).reduce((prev, taxRateKey) => {
+      const taxRate = Number(taxRateKey);
+      const subtotal = taxGroups[taxRate];
+      const groupTotalWithTax = round(subtotal * (1 + taxRate / 100));
+      return prev + groupTotalWithTax;
+    }, 0);
+
+    const totalTax = round(total - totalWithoutTax);
     const totalsPerLineType = relevantLines.reduce((acc, cur) => {
       if (!acc[cur.type]) {
         acc[cur.type] = 0;
