@@ -102,6 +102,33 @@ describe('calculating money (taxes and totals)', () => {
         hourly: 1000,
       });
     });
+
+    it('should match totalWithoutTax when summing all line types', () => {
+      const vm = createViewModel();
+      vm.setLines([
+        {type: 'daily', amount: 1.5, tax: 21, price: 100.555, desc: '', sort: 0},
+        {type: 'hourly', amount: 2.3, tax: 6, price: 50.445, desc: '', sort: 0},
+        {type: 'other', amount: 1, tax: 0, price: 25.999, desc: '', sort: 0},
+      ]);
+
+      // Verify that summing all totals per type equals totalWithoutTax
+      const sumOfTotals = Object.values(vm.money.totals).reduce((a, b) => a + b, 0);
+      expect(sumOfTotals).toBe(vm.money.totalWithoutTax);
+    });
+
+    it('should ignore section lines in totals per type', () => {
+      const vm = createViewModel();
+      vm.setLines([
+        {type: 'section', amount: 999, tax: 21, price: 999, desc: '', sort: 0},
+        {type: 'daily', amount: 1, tax: 21, price: 100, desc: '', sort: 0},
+        {type: 'hourly', amount: 2, tax: 21, price: 50, desc: '', sort: 0},
+      ]);
+
+      expect(vm.money.totals).toEqual({
+        daily: 100,
+        hourly: 100,
+      });
+    });
   });
 
 
