@@ -1,13 +1,18 @@
 import pdf from 'html-pdf';
 import pug from 'pug';
 import {Logger} from 'winston';
+import {Db, ObjectID} from 'mongodb';
 import appConfig from '../../config';
 import locals from '../../pug-helpers';
 import {IInvoice} from '../../models/invoices';
+import {CollectionNames} from '../../models/common';
 
 // See: https://github.com/marcbachmann/node-html-pdf/issues/531
 const pdfOptions = {childProcessOptions: {env: {OPENSSL_CONF: '/dev/null'}}};
 
+interface IInvoiceWithCreditNotaNumbers extends IInvoice {
+  creditNotaNumbers?: number[];
+}
 
 export const convertHtmlToBuffer = (logger: Logger, html: string): Promise<Buffer> => new Promise((resolve, reject) => {
   pdf.create(html, pdfOptions as any).toBuffer((err, buffer) => {
@@ -19,7 +24,7 @@ export const convertHtmlToBuffer = (logger: Logger, html: string): Promise<Buffe
   });
 });
 
-export const createHtml = (logger: Logger, invoice: IInvoice): string | {error: string} => {
+export const createHtml = (logger: Logger, invoice: IInvoiceWithCreditNotaNumbers): string | {error: string} => {
   /* eslint-disable no-param-reassign */
   invoice = JSON.parse(JSON.stringify(invoice));
   // if (Array.isArray(invoice.extraFields)) {
@@ -49,8 +54,21 @@ export const createHtml = (logger: Logger, invoice: IInvoice): string | {error: 
   });
 };
 
-export const createPdf = (logger: Logger, params: IInvoice) => {
-  const html = createHtml(logger, params);
+export const createPdf = async (logger: Logger, invoice: IInvoice, db: Db) => {
+  let invoiceForPdf: IInvoiceWithCreditNotaNumbers = invoice;
+
+  if (invoice.creditNotas?.length) {
+    const linkedInvoiceIds = invoice.creditNotas.map(id => new ObjectID(id));
+    const linkedInvoices = await db.collection<IInvoice>(CollectionNames.INVOICES)
+      .find({_id: {$in: linkedInvoiceIds}})
+      .toArray();
+    invoiceForPdf = {
+      ...invoice,
+      creditNotaNumbers: linkedInvoices.map(i => i.number),
+    };
+  }
+
+  const html = createHtml(logger, invoiceForPdf);
 
   if (typeof html !== 'string' && html.error) {
     return html;
