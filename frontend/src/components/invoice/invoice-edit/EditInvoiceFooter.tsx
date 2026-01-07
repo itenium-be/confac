@@ -12,6 +12,7 @@ import {createInvoice, previewInvoice, syncCreditNotas, updateInvoiceRequest,
 import {getNewClonedInvoice} from '../models/getNewInvoice';
 import {t} from '../../utils';
 import {Button} from '../../controls/form-controls/Button';
+import {BusyButton} from '../../controls/form-controls/BusyButton';
 import {ConfigModel} from '../../config/models/ConfigModel';
 import {getInvoiceFileName} from '../../../actions/utils/download-helpers';
 import {SendToPeppolModal, PeppolStatusModal} from '../controls/PeppolModal';
@@ -98,7 +99,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
         </Popup>
       )}
       {canDeleteInvoice && (
-        <Button
+        <BusyButton
           claim={Claim.ManageInvoices}
           variant="danger"
           icon="fa fa-trash"
@@ -106,10 +107,10 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
           className="tst-delete-invoice"
         >
           {t('delete')}
-        </Button>
+        </BusyButton>
       )}
       {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && !isSentStatus && (
-        <Button
+        <BusyButton
           claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
           variant="light"
           icon="fas fa-paper-plane"
@@ -123,7 +124,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
           className="tst-send-peppol"
         >
           {t('invoice.peppolSend')}
-        </Button>
+        </BusyButton>
       )}
       {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && isSentStatus && (
         <Button
