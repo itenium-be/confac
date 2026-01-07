@@ -488,11 +488,12 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
         invoice.audit = updatedAudit;
       } catch (error: any) {
         if (error instanceof BillitError && error.isIdempotentTokenAlreadyExistsError()) {
+          // Another process is still executing the apiClient.createOrder, we'll just send OK back
           logger.info(`IdempotencyKey already exists for InvoiceNr=${invoice.number}, billitId=${invoice.billit?.orderId}`);
-        } else {
-          logger.error(`sendInvoice error "${error?.message}": ${JSON.stringify(error)} for #${invoice.number}`);
-          throw error;
+          return res.status(200).send({message: 'Invoice sent to Peppol'});
         }
+        logger.error(`sendInvoice error "${error?.message}": ${JSON.stringify(error)} for #${invoice.number}`);
+        throw error;
       }
     }
 
