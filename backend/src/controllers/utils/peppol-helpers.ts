@@ -12,9 +12,14 @@ import config from '../../config';
 
 const DEFAULT_PEPPOL_PIVOT_DATE = '2026-01-01';
 
-export async function isPeppolActive(db: Db): Promise<boolean> {
+export async function getPeppolPivotDate(db: Db): Promise<moment.Moment> {
   const dbConfig = await db.collection(CollectionNames.CONFIG).findOne({key: 'conf'});
   const peppolPivotDate = dbConfig?.peppolPivotDate || DEFAULT_PEPPOL_PIVOT_DATE;
+  return moment(peppolPivotDate);
+}
+
+export async function isPeppolActive(db: Db): Promise<boolean> {
+  const peppolPivotDate = await getPeppolPivotDate(db);
   return moment().isSameOrAfter(peppolPivotDate, 'day');
 }
 

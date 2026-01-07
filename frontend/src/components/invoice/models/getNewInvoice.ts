@@ -80,6 +80,9 @@ export const getNewClonedInvoice = (
     comments: [],
     attachments: undefined,
     lastEmail: undefined,
+    status: 'Draft',
+    billit: undefined,
+    paymentReference: undefined,
   });
 
   return creditNota;

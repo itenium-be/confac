@@ -1,1 +1,1 @@
-export {fromInvoice} from './create-order-request.factory';
+export {fromInvoice, CreditNoteOptions} from './create-order-request.factory';

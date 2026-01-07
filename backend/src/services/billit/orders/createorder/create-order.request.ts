@@ -59,6 +59,8 @@ export type CreateOrderRequest = {
   PaymentDiscountPercentage?: number;
   PaymentDiscountAmount?: number;
   ContractDocumentReference?: ContractDocumentReference[];
+  /** For CreditNotes: the invoice number this credit note is about */
+  AboutInvoiceNumber?: string;
   Customer: Customer;
   OrderLines: OrderLine[];
   Attachments?: Attachment[];

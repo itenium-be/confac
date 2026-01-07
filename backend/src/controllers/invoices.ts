@@ -14,7 +14,8 @@ import config from '../config';
 import {logger} from '../logger';
 import {ApiClient, Attachment, BillitError, CreateOrderRequest, SendInvoiceRequest} from '../services/billit';
 import {ApiClientFactory, CreateOrderRequestFactory, SendInvoiceRequestFactory} from './utils/billit';
-import {syncClientPeppolStatus} from './utils/peppol-helpers';
+import {getPeppolPivotDate, syncClientPeppolStatus} from './utils/peppol-helpers';
+import {CreditNoteOptions} from './utils/billit/createorderrequestfactory';
 import {IProject} from '../models/projects';
 import {syncBillitOrder} from '../services/billit/orders/sync-order';
 
@@ -415,8 +416,20 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
       }
     }
 
+    // For credit notes: fetch the original invoice and peppol pivot date
+    let creditNoteOptions: CreditNoteOptions | undefined;
+    if (invoice.creditNotas?.length) {
+      const originalInvoiceId = invoice.creditNotas[0];
+      const originalInvoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
+        .findOne({_id: new ObjectID(originalInvoiceId)});
+      if (originalInvoice) {
+        const peppolPivotDate = await getPeppolPivotDate(req.db);
+        creditNoteOptions = {originalInvoice, peppolPivotDate};
+      }
+    }
+
     // Step 1: Create invoice at Billit
-    const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(invoice, client, project);
+    const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(invoice, client, project, creditNoteOptions);
 
     // Fetch attachments from DB
     const attachmentDoc = await req.db

@@ -1,4 +1,4 @@
-import moment from 'moment/moment';
+import moment, {Moment} from 'moment/moment';
 import {ContractDocumentReference, CreateOrderRequest} from '../../../../services/billit';
 import {IInvoice, InvoiceProjectMonth} from '../../../../models/invoices';
 import {fromClient as createCustomerFromClient} from './customer.factory';
@@ -7,6 +7,13 @@ import {IClient} from '../../../../models/clients';
 import {IProject} from '../../../../models/projects';
 
 const InvoiceExpirationInDays: number = 30;
+
+export type CreditNoteOptions = {
+  /** The original invoice that this credit note is for */
+  originalInvoice: IInvoice;
+  /** The peppol pivot date from config */
+  peppolPivotDate: Moment;
+};
 
 function getOrderDescription(projectMonth?: InvoiceProjectMonth): string | undefined {
   if (!projectMonth) {
@@ -84,7 +91,12 @@ function getOrderPeriod(projectMonth?: InvoiceProjectMonth, project?: IProject):
 }
 
 /** Create a Billit CreateOrderRequest */
-export function fromInvoice(invoice: IInvoice, client: IClient, project?: IProject): CreateOrderRequest {
+export function fromInvoice(
+  invoice: IInvoice,
+  client: IClient,
+  project?: IProject,
+  creditNoteOptions?: CreditNoteOptions,
+): CreateOrderRequest {
   const {
     isQuotation,
     number,
@@ -92,12 +104,14 @@ export function fromInvoice(invoice: IInvoice, client: IClient, project?: IProje
     orderNr: Reference,
     paymentReference,
     projectMonth,
+    creditNotas,
   } = invoice;
 
   if (isQuotation) {
     throw new Error('Quotation unsupported.');
   }
 
+  const isCreditNote = creditNotas?.length > 0;
   const orderDescription = getOrderDescription(projectMonth);
   const {periodFrom, periodTill} = getOrderPeriod(projectMonth, project);
   const {PaymentDiscountPercentage, PaymentDiscountAmount} = getPaymentDiscount(invoice);
@@ -107,9 +121,18 @@ export function fromInvoice(invoice: IInvoice, client: IClient, project?: IProje
     contractDocumentReference = [{ID: project.client.ref}];
   }
 
+  // For credit notes: set AboutInvoiceNumber only if original invoice was created on or after peppol pivot date
+  let aboutInvoiceNumber: string | undefined;
+  if (isCreditNote && creditNoteOptions) {
+    const {originalInvoice, peppolPivotDate} = creditNoteOptions;
+    const originalCreatedOn = moment(originalInvoice.audit?.createdOn);
+    if (originalCreatedOn.isSameOrAfter(peppolPivotDate, 'day')) {
+      aboutInvoiceNumber = originalInvoice.number.toString();
+    }
+  }
+
   return {
-    // OrderID: invoice.billit.orderId,
-    OrderType: 'Invoice',
+    OrderType: isCreditNote ? 'CreditNote' : 'Invoice',
     OrderDirection: 'Income',
     OrderNumber: number.toString(),
     OrderDate: moment(date).format('YYYY-MM-DD'),
@@ -125,6 +148,7 @@ export function fromInvoice(invoice: IInvoice, client: IClient, project?: IProje
     PaymentDiscountPercentage,
     PaymentDiscountAmount,
     ContractDocumentReference: contractDocumentReference,
+    AboutInvoiceNumber: aboutInvoiceNumber,
     Customer: createCustomerFromClient(client),
     OrderLines: createOrderLinesFromInvoice(invoice),
   };
