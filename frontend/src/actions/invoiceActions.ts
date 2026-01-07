@@ -191,10 +191,16 @@ export function sendToPeppol(invoiceId: string, pdfFileName: string) {
       .then(res => {
         const data = res.body;
 
-        // Check for errors in the response
         if (data.error) {
           failure(data.message || t('invoice.peppolError'), t('invoice.peppolErrorTitle'));
           return;
+        }
+
+        if (data.invoice) {
+          dispatch({type: ACTION_TYPES.INVOICE_UPDATED, invoice: data.invoice});
+        }
+        if (data.client) {
+          dispatch({type: ACTION_TYPES.CLIENT_UPDATE, client: data.client});
         }
 
         success(data.message || t('invoice.peppolSuccess'));

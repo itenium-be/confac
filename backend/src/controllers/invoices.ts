@@ -461,6 +461,8 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
           {_id: new ObjectID(invoice._id)},
           {$set: {billit: {orderId}, status: 'ToSend', audit: updatedAudit}},
         );
+        const updatedInvoiceForAudit = {...invoice, billit: {orderId}, status: 'ToSend', audit: updatedAudit};
+        await saveAudit(req, 'invoice', invoice, updatedInvoiceForAudit);
         invoice.billit = {orderId};
         invoice.status = 'ToSend';
         invoice.audit = updatedAudit;
@@ -481,6 +483,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     const sendInvoiceRequest: SendInvoiceRequest = SendInvoiceRequestFactory.fromInvoice(invoice, updatedClient);
     const idempotencyKey = `send-invoice-${invoice.number.toString()}`;
 
+    let finalInvoice: IInvoice = invoice;
     try {
       const sentToPeppol = new Date().toISOString();
       await apiClient.sendInvoice(sendInvoiceRequest, idempotencyKey);
@@ -489,14 +492,18 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
       const updatedInvoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOneAndUpdate(
         {_id: new ObjectID(invoice._id)},
         {$set: {lastEmail: sentToPeppol, status: 'ToPay', audit: sentAudit}},
+        {returnOriginal: true},
       );
       if (updatedInvoice.ok && updatedInvoice.value) {
+        const newInvoice = {...updatedInvoice.value, lastEmail: sentToPeppol, status: 'ToPay' as const, audit: sentAudit};
+        finalInvoice = newInvoice;
+        await saveAudit(req, 'invoice', updatedInvoice.value, newInvoice);
         emitEntityEvent(
           req,
           SocketEventTypes.EntityUpdated,
           CollectionNames.INVOICES,
           updatedInvoice.value._id,
-          {...updatedInvoice.value, lastEmail: sentToPeppol, status: 'ToPay', audit: sentAudit},
+          newInvoice,
         );
       }
 
@@ -509,7 +516,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
       }
     }
 
-    return res.status(200).send({message: 'Invoice sent to Peppol'});
+    return res.status(200).send({message: 'Invoice sent to Peppol', invoice: finalInvoice, client: updatedClient});
 
   } catch (error: any) {
     logger.error('Error processing Peppol request:', error);
