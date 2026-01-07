@@ -97,23 +97,15 @@ export function fromInvoice(
   project?: IProject,
   creditNoteOptions?: CreditNoteOptions,
 ): CreateOrderRequest {
-  const {
-    isQuotation,
-    number,
-    date,
-    orderNr: Reference,
-    paymentReference,
-    projectMonth,
-    creditNotas,
-  } = invoice;
-
-  if (isQuotation) {
+  if (invoice.isQuotation) {
     throw new Error('Quotation unsupported.');
   }
 
-  const isCreditNote = creditNotas?.length > 0;
-  const orderDescription = getOrderDescription(projectMonth);
-  const {periodFrom, periodTill} = getOrderPeriod(projectMonth, project);
+  const hasLinkedInvoice = invoice.creditNotas?.length > 0;
+  const isCreditNote = hasLinkedInvoice && invoice.money.total < 0;
+
+  const orderDescription = getOrderDescription(invoice.projectMonth);
+  const {periodFrom, periodTill} = getOrderPeriod(invoice.projectMonth, project);
   const {PaymentDiscountPercentage, PaymentDiscountAmount} = getPaymentDiscount(invoice);
 
   let contractDocumentReference: ContractDocumentReference[] | undefined;
@@ -121,9 +113,9 @@ export function fromInvoice(
     contractDocumentReference = [{ID: project.client.ref}];
   }
 
-  // For credit notes: set AboutInvoiceNumber only if original invoice was created on or after peppol pivot date
+  // Set AboutInvoiceNumber for linked invoices if original invoice was created on or after peppol pivot date
   let aboutInvoiceNumber: string | undefined;
-  if (isCreditNote && creditNoteOptions) {
+  if (hasLinkedInvoice && creditNoteOptions) {
     const {originalInvoice, peppolPivotDate} = creditNoteOptions;
     const originalCreatedOn = moment(originalInvoice.audit?.createdOn);
     if (originalCreatedOn.isSameOrAfter(peppolPivotDate, 'day')) {
@@ -131,25 +123,28 @@ export function fromInvoice(
     }
   }
 
+  console.log(`invoice creditNote=${isCreditNote} for invoice nr ${aboutInvoiceNumber}`);
+  console.log('orderLines', JSON.stringify(createOrderLinesFromInvoice(invoice, isCreditNote)[0]));
+
   return {
     OrderType: isCreditNote ? 'CreditNote' : 'Invoice',
     OrderDirection: 'Income',
-    OrderNumber: number.toString(),
-    OrderDate: moment(date).format('YYYY-MM-DD'),
+    OrderNumber: invoice.number.toString(),
+    OrderDate: moment(invoice.date).format('YYYY-MM-DD'),
     ExpiryDate: moment().add(InvoiceExpirationInDays, 'days').format('YYYY-MM-DD'),
     PeriodFrom: periodFrom,
     PeriodTill: periodTill,
-    Reference,
+    Reference: invoice.orderNr,
     OrderTitle: orderDescription,
     Comments: orderDescription,
     InternalInfo: orderDescription,
     Currency: 'EUR',
-    PaymentReference: paymentReference,
+    PaymentReference: invoice.paymentReference,
     PaymentDiscountPercentage,
     PaymentDiscountAmount,
     ContractDocumentReference: contractDocumentReference,
     AboutInvoiceNumber: aboutInvoiceNumber,
     Customer: createCustomerFromClient(client),
-    OrderLines: createOrderLinesFromInvoice(invoice),
+    OrderLines: createOrderLinesFromInvoice(invoice, isCreditNote),
   };
 }

@@ -5,8 +5,9 @@ import {fromInvoiceLine} from './order-line.factory';
 /**
  * Creates OrderLines from an IInvoice
  * @param invoice The invoice containing the lines to convert
+ * @param invertAmounts If true, multiply amounts by -1 (for credit notes with negative amounts)
  * @returns An array of OrderLine objects ready to be sent to Billit API
  */
-export function fromInvoice(invoice: IInvoice): OrderLine[] {
-  return invoice.lines.map(line => fromInvoiceLine(line));
+export function fromInvoice(invoice: IInvoice, invertAmounts = false): OrderLine[] {
+  return invoice.lines.map(line => fromInvoiceLine(line, invertAmounts));
 }
