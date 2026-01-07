@@ -105,6 +105,8 @@ export interface IInvoiceBillit {
   /** Current Peppol/Email delivery details */
   delivery?: IInvoiceBillitDeliveryDetails;
   messages?: IInvoiceBillitMessage[];
+  /** For credit notes: the invoice number this credit note references (sent to Billit as AboutInvoiceNumber) */
+  aboutInvoiceNumber?: number;
 }
 
 export const INVOICE_EXCEL_HEADERS = [

@@ -380,6 +380,7 @@ export const trans = {
     peppolErrorTitle: 'Peppol fout',
     peppolAlreadySent: 'Reeds verstuurd naar Peppol',
     peppolBillitOrderId: 'Billit Order ID',
+    peppolAboutInvoiceNumber: 'Creditnota voor factuur',
     peppolConfirmSend: 'Wil je deze factuur versturen naar Peppol?',
     peppolSignedTimesheet: 'Getekende timesheet',
     peppolTransportType: 'Verzendmethode',

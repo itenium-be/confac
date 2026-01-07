@@ -13,7 +13,10 @@ const BillitOrderInfo = ({invoice}: {invoice: InvoiceModel}) => (
       <p style={{marginBottom: 0}}><strong>{t('invoice.peppolSentOn')}:</strong> {moment(invoice.lastEmail).format('DD/MM/YYYY HH:mm')}</p>
     )}
     {invoice.billit?.orderId && (
-      <p><strong>{t('invoice.peppolBillitOrderId')}:</strong> {invoice.billit.orderId}</p>
+      <p style={{marginBottom: 0}}><strong>{t('invoice.peppolBillitOrderId')}:</strong> {invoice.billit.orderId}</p>
+    )}
+    {invoice.billit?.aboutInvoiceNumber && (
+      <p><strong>{t('invoice.peppolAboutInvoiceNumber')}:</strong> {invoice.billit.aboutInvoiceNumber}</p>
     )}
   </>
 );

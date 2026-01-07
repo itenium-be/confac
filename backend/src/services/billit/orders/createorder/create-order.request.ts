@@ -6,7 +6,7 @@ import {Attachment} from './attachment';
 import {SavedAttachment} from './attachment/attachment';
 import {InvoiceStatus} from '../../../../models/invoices';
 
-export type BillitOrderStatus = InvoiceStatus;
+export type BillitOrderStatus = InvoiceStatus | 'Credited';
 
 export type BillitDocumentDeliveryStatus = 'Pending' | 'Sent' | 'Delivered' | 'Failed';
 

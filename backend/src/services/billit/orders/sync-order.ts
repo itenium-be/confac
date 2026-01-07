@@ -35,7 +35,7 @@ export async function syncBillitOrder(req: ConfacRequest, invoiceOrOrderId: numb
   const billitOrder = await apiClient.getOrder(invoice.billit.orderId);
 
   const newStatus = mapBillitStatusToInvoiceStatus(billitOrder.OrderStatus);
-  const newBillit = mapBillitOrderToInvoiceBillit(billitOrder);
+  const newBillit = mapBillitOrderToInvoiceBillit(billitOrder, invoice.billit.aboutInvoiceNumber);
 
   const statusChanged = invoice.status !== newStatus;
   const billitChanged = !!diff(invoice.billit, newBillit);
@@ -82,13 +82,15 @@ function mapBillitStatusToInvoiceStatus(billitStatus: BillitOrderStatus): Invoic
     case 'ToPay':
       return 'ToPay';
     case 'Paid':
+    case 'Credited':
       return 'Paid';
     default:
+      logger.warn(`ATTN: unexpected Billit invoice status ${billitStatus}`);
       return 'ToPay';
   }
 }
 
-function mapBillitOrderToInvoiceBillit(billitOrder: BillitOrder): IInvoiceBillit {
+function mapBillitOrderToInvoiceBillit(billitOrder: BillitOrder, aboutInvoiceNumber?: number): IInvoiceBillit {
   return {
     orderId: billitOrder.OrderID,
     delivery: billitOrder.CurrentDocumentDeliveryDetails ? {
@@ -107,5 +109,6 @@ function mapBillitOrderToInvoiceBillit(billitOrder: BillitOrder): IInvoiceBillit
       destination: msg.Destination,
       messageDirection: msg.MessageDirection,
     })),
+    aboutInvoiceNumber,
   };
 }

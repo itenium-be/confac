@@ -61,6 +61,8 @@ export type InvoiceBillitModel = {
   /** Current Peppol/Email delivery details */
   delivery?: InvoiceBillitDeliveryDetails;
   messages?: InvoiceBillitMessage[];
+  /** For credit notes: the invoice number this credit note references */
+  aboutInvoiceNumber?: number;
 }
 
 export type InvoiceStatus = 'Draft' | 'ToSend' | 'ToPay' | 'Paid';

@@ -123,9 +123,6 @@ export function fromInvoice(
     }
   }
 
-  console.log(`invoice creditNote=${isCreditNote} for invoice nr ${aboutInvoiceNumber}`);
-  console.log('orderLines', JSON.stringify(createOrderLinesFromInvoice(invoice, isCreditNote)[0]));
-
   return {
     OrderType: isCreditNote ? 'CreditNote' : 'Invoice',
     OrderDirection: 'Income',

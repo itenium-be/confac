@@ -419,7 +419,10 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     // For credit notes: fetch the original invoice and peppol pivot date
     let creditNoteOptions: CreditNoteOptions | undefined;
     if (invoice.creditNotas?.length) {
-      const originalInvoiceId = invoice.creditNotas[0];
+      // If multiple linked invoices and this is a credit note (negative amount), take the last one
+      const originalInvoiceId = invoice.creditNotas.length > 1 && invoice.money.total < 0
+        ? invoice.creditNotas[invoice.creditNotas.length - 1]
+        : invoice.creditNotas[0];
       const originalInvoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
         .findOne({_id: new ObjectID(originalInvoiceId)});
       if (originalInvoice) {
@@ -470,13 +473,17 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
         const orderId: number = await apiClient.createOrder(createOrderRequest, `create-order-${invoice.number.toString()}`);
 
         const updatedAudit = updateAudit(invoice.audit, req.user);
+        const aboutInvoiceNumber = createOrderRequest.AboutInvoiceNumber
+          ? parseInt(createOrderRequest.AboutInvoiceNumber, 10)
+          : undefined;
+        const newBillit = {orderId, aboutInvoiceNumber};
         await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
           {_id: new ObjectID(invoice._id)},
-          {$set: {billit: {orderId}, status: 'ToSend', audit: updatedAudit}},
+          {$set: {billit: newBillit, status: 'ToSend', audit: updatedAudit}},
         );
-        const updatedInvoiceForAudit = {...invoice, billit: {orderId}, status: 'ToSend', audit: updatedAudit};
+        const updatedInvoiceForAudit = {...invoice, billit: newBillit, status: 'ToSend', audit: updatedAudit};
         await saveAudit(req, 'invoice', invoice, updatedInvoiceForAudit);
-        invoice.billit = {orderId};
+        invoice.billit = newBillit;
         invoice.status = 'ToSend';
         invoice.audit = updatedAudit;
       } catch (error: any) {

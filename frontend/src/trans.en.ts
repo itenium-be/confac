@@ -380,6 +380,7 @@ export const trans = {
     peppolErrorTitle: 'Peppol error',
     peppolAlreadySent: 'Already sent to Peppol',
     peppolBillitOrderId: 'Billit Order ID',
+    peppolAboutInvoiceNumber: 'Credit note for invoice',
     peppolConfirmSend: 'Do you want to send this invoice to Peppol?',
     peppolSignedTimesheet: 'Signed timesheet',
     peppolTransportType: 'Transport method',
