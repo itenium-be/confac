@@ -24,7 +24,9 @@ const BillitDeliveryDetails = ({delivery}: {delivery: InvoiceBillitDeliveryDetai
     <strong>{t('invoice.peppolDelivery')}:</strong>
     <ul style={{marginBottom: 0, paddingLeft: 20}}>
       <li><strong>{t('invoice.peppolDeliveryStatus')}:</strong> {delivery.status}</li>
-      <li><strong>{t('invoice.peppolDeliveryDate')}:</strong> {moment(delivery.date).format('DD/MM/YYYY HH:mm')}</li>
+      {!!delivery.date && (
+        <li><strong>{t('invoice.peppolDeliveryDate')}:</strong> {moment(delivery.date).format('DD/MM/YYYY HH:mm')}</li>
+      )}
       <li><strong>{t('invoice.peppolDeliveryDelivered')}:</strong> {delivery.delivered ? t('yes') : t('no')}</li>
       {delivery.info && <li><strong>{t('invoice.peppolDeliveryInfo')}:</strong> {delivery.info}</li>}
     </ul>
