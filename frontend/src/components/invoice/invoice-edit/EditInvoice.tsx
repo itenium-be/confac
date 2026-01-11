@@ -1,6 +1,7 @@
 import {useEffect, useReducer, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
+import moment from 'moment';
 import {t} from '../../utils';
 import InvoiceModel from '../models/InvoiceModel';
 import {ConfacState} from '../../../reducers/app-state';
@@ -92,6 +93,9 @@ const EditInvoice = () => {
   const isQuotation = window.location.pathname.startsWith('/quotations/');
   const [showEmailModal, setEmailModal] = useState<EmailTemplate>(EmailTemplate.None);
   const {invoice, setInvoice, originalInvoice, blocker, hasChanges, acceptChanges} = useInvoiceState(isQuotation);
+  const config = useSelector((state: ConfacState) => state.config);
+
+  const isBeforePeppolPivot = moment(invoice.audit.createdOn).isBefore(config.peppolPivotDate, 'day');
 
   // ATTN: invoice updated from somewhere else will now overwrite local changes
   useEntityChangedToast(invoice?._id);
@@ -109,7 +113,7 @@ const EditInvoice = () => {
         <EditInvoiceBody
           invoice={invoice}
           onChange={i => setInvoice(i)}
-          disabled={invoice.status !== 'Draft'}
+          disabled={invoice.status !== 'Draft' && !isBeforePeppolPivot}
         />
 
         {!!invoice._id && invoice.client && showEmailModal !== EmailTemplate.None && (
