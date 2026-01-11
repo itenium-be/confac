@@ -1,7 +1,6 @@
 import {CSSProperties} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
-import t from '../../../trans';
 import {toggleInvoiceVerify} from '../../../actions/index';
 import InvoiceModel from '../models/InvoiceModel';
 import {BusyInvoiceStatusIcon, InvoiceStatusIcon, getInvoiceStatusTooltip} from '../../controls/icons/InvoiceStatusIcon';
