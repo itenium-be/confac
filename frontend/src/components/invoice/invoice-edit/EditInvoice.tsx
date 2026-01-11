@@ -82,6 +82,7 @@ const useInvoiceState = (isQuotation: boolean) => {
     setInvoice,
     originalInvoice,
     blocker,
+    hasChanges,
     acceptChanges: () => setHasChanges(false),
   };
 };
@@ -90,7 +91,7 @@ const useInvoiceState = (isQuotation: boolean) => {
 const EditInvoice = () => {
   const isQuotation = window.location.pathname.startsWith('/quotations/');
   const [showEmailModal, setEmailModal] = useState<EmailTemplate>(EmailTemplate.None);
-  const {invoice, setInvoice, originalInvoice, blocker, acceptChanges} = useInvoiceState(isQuotation);
+  const {invoice, setInvoice, originalInvoice, blocker, hasChanges, acceptChanges} = useInvoiceState(isQuotation);
 
   // ATTN: invoice updated from somewhere else will now overwrite local changes
   useEntityChangedToast(invoice?._id);
@@ -124,6 +125,7 @@ const EditInvoice = () => {
           <EditInvoiceFooter
             invoice={invoice}
             initInvoice={originalInvoice}
+            hasChanges={hasChanges}
             acceptChanges={acceptChanges}
             setEmailModal={setEmailModal}
           />

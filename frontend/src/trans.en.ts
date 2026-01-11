@@ -382,6 +382,8 @@ export const trans = {
     peppolBillitOrderId: 'Billit Order ID',
     peppolAboutInvoiceNumber: 'Credit note for invoice',
     peppolConfirmSend: 'Do you want to send this invoice to Peppol?',
+    peppolSaveFirstTitle: 'Unsaved changes',
+    peppolSaveFirstMessage: 'Please save your changes before sending to Peppol.',
     peppolSignedTimesheet: 'Signed timesheet',
     peppolTransportType: 'Transport method',
     peppolEmailTo: 'Email to',

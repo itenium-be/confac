@@ -1,6 +1,7 @@
 import {Button as ReactButton, Modal as ReactModal} from 'react-bootstrap';
 import {t} from '../utils';
 import {BootstrapVariant} from '../../models';
+import {BusyButton} from './form-controls/BusyButton';
 
 
 
@@ -31,6 +32,8 @@ type ModalProps = BaseModalProps & {
   confirmIcon?: string;
   /** If true, modal stays open after confirm (default: false) */
   stayOpenOnConfirm?: boolean;
+  /** If true, use BusyButton for confirm (disabled when app is busy) */
+  busyConfirm?: boolean;
   title: string | React.ReactNode;
   extraButtons?: React.ReactNode;
   children: any;
@@ -60,10 +63,16 @@ export const Modal = (props: ModalProps) => {
       <ReactModal.Footer>
         <ReactButton onClick={props.onClose} variant="light" data-testid="close">{t('close')}</ReactButton>
         {props.onConfirm ? (
-          <ReactButton onClick={onConfirm} variant={props.confirmVariant || 'success'} disabled={props.disableSave} data-testid="confirm">
-            {props.confirmIcon && <i className={props.confirmIcon} style={{marginRight: 6}} />}
-            {props.confirmText || t('save')}
-          </ReactButton>
+          props.busyConfirm ? (
+            <BusyButton onClick={onConfirm} variant={props.confirmVariant || 'success'} disabled={props.disableSave} icon={props.confirmIcon}>
+              {props.confirmText || t('save')}
+            </BusyButton>
+          ) : (
+            <ReactButton onClick={onConfirm} variant={props.confirmVariant || 'success'} disabled={props.disableSave} data-testid="confirm">
+              {props.confirmIcon && <i className={props.confirmIcon} style={{marginRight: 6}} />}
+              {props.confirmText || t('save')}
+            </ReactButton>
+          )
         ) : null}
         {props.extraButtons}
       </ReactModal.Footer>

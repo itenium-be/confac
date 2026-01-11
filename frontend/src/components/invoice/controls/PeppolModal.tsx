@@ -83,6 +83,7 @@ export const SendToPeppolModal = ({invoice, client, onClose, onConfirm}: SendToP
       onConfirm={onConfirm}
       confirmText={t('invoice.peppolSend')}
       confirmVariant="success"
+      busyConfirm
       title={t('invoice.peppolSend')}
     >
       <BillitOrderInfo invoice={invoice} />

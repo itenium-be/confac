@@ -27,12 +27,13 @@ function shouldUsePeppol(invoice: InvoiceModel, config: ConfigModel): boolean {
 export type EditInvoiceFooterProps = {
   initInvoice: InvoiceModel;
   invoice: InvoiceModel;
+  hasChanges: boolean;
   setEmailModal: (emailTemplate: EmailTemplate) => void;
   acceptChanges: () => void;
 }
 
 
-export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptChanges}: EditInvoiceFooterProps) => {
+export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailModal, acceptChanges}: EditInvoiceFooterProps) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const invoices = useSelector((state: ConfacState) => state.invoices);
@@ -41,6 +42,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
   const [showSendModal, setShowSendModal] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showSaveFirstModal, setShowSaveFirstModal] = useState(false);
 
   const isSentStatus = invoice.status === 'ToPay' || invoice.status === 'Paid';
 
@@ -98,6 +100,32 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
           {t('invoice.deletePopup', {number: invoice.number, client: invoice.client.name})}
         </Popup>
       )}
+      {showSaveFirstModal && (
+        <Popup
+          title={t('invoice.peppolSaveFirstTitle')}
+          buttons={[
+            {text: t('close'), onClick: () => setShowSaveFirstModal(false), variant: 'light'},
+            {
+              text: t('save'),
+              onClick: () => {
+                dispatch(syncCreditNotas(invoice, initInvoice.creditNotas, invoices) as any);
+                dispatch(updateInvoiceRequest(invoice, undefined, false) as any);
+                acceptChanges();
+                setShowSaveFirstModal(false);
+                const client = clients.find(c => c._id === invoice.client._id);
+                if (client?.peppolEnabled !== true) {
+                  dispatch(syncClientPeppolStatus(invoice.client._id) as any);
+                }
+                setShowSendModal(true);
+              },
+              variant: 'primary',
+            },
+          ] as PopupButton[]}
+          onHide={() => setShowSaveFirstModal(false)}
+        >
+          {t('invoice.peppolSaveFirstMessage')}
+        </Popup>
+      )}
       {canDeleteInvoice && (
         <BusyButton
           claim={Claim.ManageInvoices}
@@ -115,6 +143,10 @@ export const EditInvoiceFooter = ({invoice, initInvoice, setEmailModal, acceptCh
           variant="light"
           icon="fas fa-paper-plane"
           onClick={() => {
+            if (hasChanges) {
+              setShowSaveFirstModal(true);
+              return;
+            }
             const client = clients.find(c => c._id === invoice.client._id);
             if (client?.peppolEnabled !== true) {
               dispatch(syncClientPeppolStatus(invoice.client._id) as any);
