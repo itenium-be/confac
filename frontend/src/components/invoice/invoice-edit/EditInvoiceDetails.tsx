@@ -17,7 +17,7 @@ export const EditInvoiceDetails = ({invoice, onChange}: EditInvoiceDetailsProps)
     <>
       <Col sm={5}>
         <NumericInput
-          prefix={!invoice.isNew && <InvoiceStatusIcon status={invoice.status} style={{fontSize: 16}} />}
+          prefix={!invoice.isNew && <InvoiceStatusIcon invoice={invoice} style={{fontSize: 16}} />}
           label={tp('.number')}
           value={invoice.number}
           onChange={value => onChange('number', value)}

@@ -87,8 +87,9 @@ const IconComponent = ({fa, onClick, href, dispatch, className, label, labelStyl
     // TODO: Not sure if the above still holds: changed tooltip from react-tooltip to rc-tooltip
     //       --> Probably the inline div was added for the previous Tooltip to work?
     // Peformance: The tooltips take quite some rendering time: 500ms for 5k+ icons
+    // pointerEvents: 'auto' ensures tooltips work even when inside a disabled fieldset with pointerEvents: 'none'
     return (
-      <div style={{display: 'inline'}}>
+      <div style={{display: 'inline', pointerEvents: 'auto'}}>
         <Tooltip title={title}>
           {FinalIcon}
         </Tooltip>
