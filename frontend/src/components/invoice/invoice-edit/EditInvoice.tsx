@@ -95,7 +95,9 @@ const EditInvoice = () => {
   const {invoice, setInvoice, originalInvoice, blocker, hasChanges, acceptChanges} = useInvoiceState(isQuotation);
   const config = useSelector((state: ConfacState) => state.config);
 
-  const isBeforePeppolPivot = moment(invoice.audit.createdOn).isBefore(config.peppolPivotDate, 'day');
+  const isBeforePeppolPivot = invoice.audit?.createdOn
+    ? moment(invoice.audit.createdOn).isBefore(config.peppolPivotDate, 'day')
+    : false;
 
   // ATTN: invoice updated from somewhere else will now overwrite local changes
   useEntityChangedToast(invoice?._id);
