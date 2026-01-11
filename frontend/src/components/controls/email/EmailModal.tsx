@@ -18,6 +18,7 @@ export enum EmailTemplate {
   None,
   InitialEmail,
   Reminder,
+  PeppolDuplicate,
 }
 
 
@@ -57,6 +58,13 @@ const getDefaultEmailValue = (
     }
     if (config.emailReminderBcc && !client.email.bcc) {
       finalValues.bcc = config.emailReminderBcc;
+    }
+  } else if (template === EmailTemplate.PeppolDuplicate) {
+    if (config.emailPeppolDuplicateSubject) {
+      finalValues.subject = invoiceReplacements(config.emailPeppolDuplicateSubject, invoice, creditNotes);
+    }
+    if (config.emailPeppolDuplicateBody) {
+      finalValues.body = config.emailPeppolDuplicateBody;
     }
   } else if (invoice.money.total < 0 && config.emailCreditNotaSubject) {
     finalValues.subject = invoiceReplacements(config.emailCreditNotaSubject, invoice, creditNotes);

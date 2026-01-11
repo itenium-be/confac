@@ -48,6 +48,11 @@ export const configDefinition: FullFormConfig = [
   {key: 'email.body', component: 'InvoiceReplacementsTextEditor', cols: 12},
   {key: 'emailCreditNotaSubject', cols: 12, component: 'InvoiceReplacementsInput'},
   {key: 'emailCreditNotaBody', component: 'InvoiceReplacementsTextEditor', cols: 12},
+
+  {title: {title: 'config.emailPeppolDuplicate.title', level: 4}},
+  {key: 'emailPeppolDuplicateSubject', cols: 12, component: 'InvoiceReplacementsInput'},
+  {key: 'emailPeppolDuplicateBody', component: 'InvoiceReplacementsTextEditor', cols: 12},
+
   {key: 'emailSignature', component: 'InvoiceReplacementsTextEditor', cols: 12},
   {key: 'emailReminder', component: 'InvoiceReplacementsTextEditor', cols: 12},
   {key: 'emailReminderCc', component: 'email', cols: 6},

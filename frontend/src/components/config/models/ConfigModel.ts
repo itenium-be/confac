@@ -28,6 +28,10 @@ export type ConfigModel = {
   emailReminderBcc: string;
   emailCreditNotaSubject: string;
   emailCreditNotaBody: string;
+  /** Peppol Duplicate: subject for sending invoice+timesheet by email after peppol */
+  emailPeppolDuplicateSubject: string;
+  /** Peppol Duplicate: body for sending invoice+timesheet by email after peppol */
+  emailPeppolDuplicateBody: string;
   /** Email address to email the invoice pdf (without timesheet) */
   emailInvoiceOnly: string;
   /** How many months to load at initialLoad */

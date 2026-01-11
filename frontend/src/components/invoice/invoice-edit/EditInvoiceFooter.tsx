@@ -159,15 +159,26 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
         </BusyButton>
       )}
       {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && isSentStatus && (
-        <Button
-          claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
-          variant="light"
-          icon="fas fa-paper-plane"
-          onClick={() => setShowStatusModal(true)}
-          className="tst-peppol-status"
-        >
-          {t('invoice.peppolStatus')}
-        </Button>
+        <>
+          <Button
+            claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
+            variant="light"
+            icon="fas fa-paper-plane"
+            onClick={() => setShowStatusModal(true)}
+            className="tst-peppol-status"
+          >
+            {t('invoice.peppolStatus')}
+          </Button>
+          <Button
+            claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
+            variant="light"
+            icon="far fa-envelope"
+            onClick={() => setEmailModal(EmailTemplate.PeppolDuplicate)}
+            className="tst-open-email-peppol-duplicate"
+          >
+            {t('email.preparePeppolDuplicate')}
+          </Button>
+        </>
       )}
       {!invoice.isNew && invoice.client && !shouldUsePeppol(invoice, config) && (
         <>

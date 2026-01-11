@@ -33,5 +33,12 @@ export interface ICompanyConfig {
   email: IEmail;
   emailSignature: string;
   emailReminder: string;
+  emailReminderCc: string;
+  emailReminderBcc: string;
+  emailCreditNotaSubject: string;
+  emailCreditNotaBody: string;
+  emailPeppolDuplicateSubject: string;
+  emailPeppolDuplicateBody: string;
+  emailInvoiceOnly: string;
   audit: IAudit;
 }

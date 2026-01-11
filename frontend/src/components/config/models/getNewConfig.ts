@@ -36,6 +36,8 @@ export const defaultConfig: ConfigModel = {
   emailReminderBcc: '',
   emailCreditNotaSubject: '',
   emailCreditNotaBody: '',
+  emailPeppolDuplicateSubject: '',
+  emailPeppolDuplicateBody: '',
   emailInvoiceOnly: '',
   initialMonthLoad: 12,
   peppolPivotDate: moment.utc('2026-01-01'),
