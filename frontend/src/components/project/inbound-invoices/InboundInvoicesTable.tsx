@@ -10,6 +10,7 @@ import {InboundInvoiceAttachmentType, ProformaInvoiceAttachmentType, SignedTimes
 import {Link} from 'react-router';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ProjectLinkWithModal} from '../controls/ProjectLinkWithModal';
+import InvoiceModel from '../../invoice/models/InvoiceModel';
 
 interface InboundInvoicesTableProps {
   projectMonths: FullProjectMonthModel[];
@@ -25,6 +26,7 @@ interface GroupedInvoices {
 
 export const InboundInvoicesTable = ({projectMonths}: InboundInvoicesTableProps) => {
   const tax = useSelector((state: ConfacState) => state.config.defaultInvoiceLines[0].tax);
+  const allInvoices = useSelector((state: ConfacState) => state.invoices);
 
   // Group by consultant
   const groupedByConsultant = projectMonths.reduce((acc, pm) => {
@@ -200,9 +202,24 @@ export const InboundInvoicesTable = ({projectMonths}: InboundInvoicesTableProps)
                       </td>
                       <td>
                         {pm.invoice && (
-                          <Link to={`/invoices/${pm.invoice._id}`}>
-                            #{pm.invoice.number}
-                          </Link>
+                          <>
+                            {pm.invoice.creditNotas?.length > 0 ? (
+                              [pm.invoice, ...pm.invoice.creditNotas
+                                .map(id => allInvoices.find(inv => inv._id === id))
+                                .filter((inv): inv is InvoiceModel => inv !== undefined)]
+                                .sort((a, b) => a.number - b.number)
+                                .map((inv, idx, arr) => (
+                                  <span key={inv._id}>
+                                    <Link to={`/invoices/${inv._id}`}>#{inv.number}</Link>
+                                    {idx < arr.length - 1 && ', '}
+                                  </span>
+                                ))
+                            ) : (
+                              <Link to={`/invoices/${pm.invoice._id}`}>
+                                #{pm.invoice.number}
+                              </Link>
+                            )}
+                          </>
                         )}
                       </td>
                     </tr>
