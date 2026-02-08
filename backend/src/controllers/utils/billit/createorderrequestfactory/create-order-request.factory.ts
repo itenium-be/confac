@@ -5,6 +5,7 @@ import {fromClient as createCustomerFromClient} from './customer.factory';
 import {fromInvoice as createOrderLinesFromInvoice} from './orderlinesfactory';
 import {IClient} from '../../../../models/clients';
 import {IProject} from '../../../../models/projects';
+import {IConsultant} from '../../../../models/consultants';
 
 const InvoiceExpirationInDays: number = 30;
 
@@ -95,6 +96,7 @@ export function fromInvoice(
   invoice: IInvoice,
   client: IClient,
   project?: IProject,
+  consultant?: IConsultant,
   creditNoteOptions?: CreditNoteOptions,
 ): CreateOrderRequest {
   if (invoice.isQuotation) {
@@ -142,6 +144,9 @@ export function fromInvoice(
     ContractDocumentReference: contractDocumentReference,
     AboutInvoiceNumber: aboutInvoiceNumber,
     Customer: createCustomerFromClient(client),
-    OrderLines: createOrderLinesFromInvoice(invoice, isCreditNote),
+    OrderLines: createOrderLinesFromInvoice(invoice, {
+      invertAmounts: isCreditNote,
+      accountingCode: consultant?.accountingCode,
+    }),
   };
 }

@@ -6,4 +6,8 @@ export interface OrderLine {
   DescriptionExtended?: string;
   Reference?: string;
   VATPercentage?: number;
+  /** ExactOnline: kostendrager */
+  AnalyticCostBearer?: string;
+  /** ExactOnline: kostenplaats */
+  AnalyticCostCenter?: string;
 }

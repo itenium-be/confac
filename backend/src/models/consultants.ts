@@ -10,5 +10,6 @@ export interface IConsultant {
   email: string;
   telephone: string;
   active: boolean;
+  accountingCode?: string;
   audit: IAudit;
 }

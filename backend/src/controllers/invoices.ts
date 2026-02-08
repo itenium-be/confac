@@ -17,6 +17,7 @@ import {ApiClientFactory, CreateOrderRequestFactory, SendInvoiceRequestFactory} 
 import {getPeppolPivotDate, syncClientPeppolStatus} from './utils/peppol-helpers';
 import {CreditNoteOptions} from './utils/billit/createorderrequestfactory';
 import {IProject} from '../models/projects';
+import {IConsultant} from '../models/consultants';
 import {syncBillitOrder} from '../services/billit/orders/sync-order';
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
@@ -408,12 +409,17 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     const apiClient: ApiClient = ApiClientFactory.fromConfig(config);
 
     let project: IProject | undefined;
+    let consultant: IConsultant | undefined;
     if (invoice.projectMonth?.projectMonthId) {
       const projectMonth = await req.db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH)
         .findOne({_id: new ObjectID(invoice.projectMonth.projectMonthId)});
       if (projectMonth) {
-        project = await req.db.collection(CollectionNames.PROJECTS)
+        project = await req.db.collection<IProject>(CollectionNames.PROJECTS)
           .findOne({_id: new ObjectID(projectMonth.projectId)});
+        if (project) {
+          consultant = await req.db.collection<IConsultant>(CollectionNames.CONSULTANTS)
+            .findOne({_id: new ObjectID(project.consultantId)}) ?? undefined;
+        }
       }
     }
 
@@ -433,7 +439,13 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     }
 
     // Step 1: Create invoice at Billit
-    const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(invoice, client, project, creditNoteOptions);
+    const createOrderRequest: CreateOrderRequest = CreateOrderRequestFactory.fromInvoice(
+      invoice,
+      client,
+      project,
+      consultant,
+      creditNoteOptions,
+    );
 
     // Fetch attachments from DB
     const attachmentDoc = await req.db
