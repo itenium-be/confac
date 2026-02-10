@@ -71,6 +71,50 @@ describe('fromInvoiceLine', () => {
     });
   });
 
+  it('should use projectMonth description format when projectMonth is provided', () => {
+    const invoiceLine: InvoiceLine = {
+      sort: 0,
+      desc: 'Consulting Services',
+      amount: 10,
+      price: 100,
+      tax: 21,
+      type: 'daily',
+    };
+
+    const actual: OrderLine = fromInvoiceLine(invoiceLine, {
+      projectMonth: {
+        projectMonthId: '123',
+        month: '2026-01-15',
+        consultantId: '456',
+        consultantName: 'Tom Boonen',
+      },
+    });
+
+    expect(actual.Description).toBe('Consultancy - 1/26 - Tom Boonen');
+  });
+
+  it('should fall back to line.desc when projectMonth has no consultantName', () => {
+    const invoiceLine: InvoiceLine = {
+      sort: 0,
+      desc: 'Consulting Services',
+      amount: 10,
+      price: 100,
+      tax: 21,
+      type: 'daily',
+    };
+
+    const actual: OrderLine = fromInvoiceLine(invoiceLine, {
+      projectMonth: {
+        projectMonthId: '123',
+        month: '2026-01-15',
+        consultantId: '456',
+        consultantName: '',
+      },
+    });
+
+    expect(actual.Description).toBe('Consulting Services');
+  });
+
   it('should return undefined Unit, Quantity, UnitPriceExcl, and VATPercentage for section type', () => {
     const invoiceLine: InvoiceLine = {
       sort: 0,

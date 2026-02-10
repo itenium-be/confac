@@ -79,6 +79,41 @@ describe('fromInvoice', () => {
     expect(actual).toEqual(expected);
   });
 
+  it('should use projectMonth description only for the first line', () => {
+    const invoice: IInvoice = {
+      ...someInvoice,
+      projectMonth: {
+        projectMonthId: '123',
+        month: '2026-01-15',
+        consultantId: '456',
+        consultantName: 'Tom Boonen',
+      },
+      lines: [
+        {
+          ...someInvoiceLine,
+          desc: 'Consulting Services',
+          amount: 10,
+          price: 100,
+          tax: 21,
+          sort: 0,
+        },
+        {
+          ...someInvoiceLine,
+          desc: 'Travel Expenses',
+          amount: 200,
+          price: 1,
+          tax: 21,
+          sort: 1,
+        },
+      ],
+    };
+
+    const actual: OrderLine[] = fromInvoice(invoice);
+
+    expect(actual[0].Description).toBe('Consultancy - 1/26 - Tom Boonen');
+    expect(actual[1].Description).toBe('Travel Expenses');
+  });
+
   it('should create empty OrderLines array from invoice with no lines', () => {
     const invoice: IInvoice = {
       ...someInvoice,
