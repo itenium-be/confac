@@ -306,9 +306,9 @@ export async function insertAdminRole(db: Db) {
 }
 
 
-export const getNewProjectMonths = async (db: Db, config: ProjectConfig) => {
+export const getNewProjectMonths = async (db: Db, _config: ProjectConfig) => {
   const clients = await db.collection('clients').find().toArray();
-  const clientIds = clients.map(x => x._id);
+  const _clientIds = clients.map(x => x._id);
 
   console.log('insert new ProjectMonths -- Oopsie, not implemented!!');
 

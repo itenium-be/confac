@@ -69,7 +69,7 @@ if (appConfig.logging.lokiUrl) {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(payload),
       });
-    } catch (error: any) {} // eslint-disable-line no-empty
+    } catch {} // eslint-disable-line no-empty
   };
 
   logger.on('data', sendToLoki);

@@ -4,13 +4,13 @@
 // https://github.com/nodkz/mongodb-memory-server
 // https://github.com/shelfio/jest-mongodb (not used here)
 
-import {Request, Response} from 'express';
+import {Response} from 'express';
 import {Db, MongoClient} from 'mongodb';
 // import {MongoMemoryServer} from 'mongodb-memory-server';
 import {SocketServerMock} from 'socket.io-mock-ts';
 import {IAudit} from '../../models/common';
 import {Jwt, ConfacRequest} from '../../models/technical';
-import {saveConsultant} from '../consultants';
+// import {saveConsultant} from '../consultants';
 import {IConsultant} from '../../models/consultants';
 
 const fakeUser: Jwt = {
@@ -25,7 +25,7 @@ const fakeConsultant: Partial<IConsultant> = {
   audit: {} as IAudit,
 };
 
-const createFakeRequestAndResponse = (db: Db, consultant: Partial<IConsultant> | null = null) => {
+const _createFakeRequestAndResponse = (db: Db, consultant: Partial<IConsultant> | null = null) => {
   const req = {
     user: fakeUser,
     body: {...fakeConsultant, ...(consultant || {})},
@@ -42,8 +42,8 @@ const createFakeRequestAndResponse = (db: Db, consultant: Partial<IConsultant> |
 
 describe('consultants controller :: saveConsultant', () => {
   // let mongoServer: MongoMemoryServer;
-  let connection: MongoClient;
-  let db: Db;
+  let _connection: MongoClient;
+  let _db: Db;
 
   beforeAll(async () => {
     // Setting up the in-memory mongo:

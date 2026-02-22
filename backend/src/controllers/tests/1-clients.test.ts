@@ -2,7 +2,7 @@
 // Test an async (req, res) Express function
 // With manual Express mocks
 
-import {Request, Response} from 'express';
+import {Response} from 'express';
 import {SocketServerMock} from 'socket.io-mock-ts';
 import {ConfacRequest, Jwt} from '../../models/technical';
 import {IAudit} from '../../models/common';
@@ -30,7 +30,7 @@ const fakeClient: Partial<IClient> = {
 };
 
 
-const fakeDb = {collection: (colName: string) => ({insertOne: (client: any) => Promise.resolve({ops: [client]})})};
+const fakeDb = {collection: (_colName: string) => ({insertOne: (client: any) => Promise.resolve({ops: [client]})})};
 
 
 describe('clients controller :: saveClient creation', () => {

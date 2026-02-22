@@ -35,8 +35,7 @@ export const getProjectsPerMonthOverviewController = async (req: Request, res: R
 };
 
 
-const ProjectProformaOptions = ['no', 'inboundWithTax', 'inboundWithoutTax', 'outboundWithTax', 'outboundWithoutTax'] as const;
-type ProjectProforma = typeof ProjectProformaOptions[number];
+type ProjectProforma = 'no' | 'inboundWithTax' | 'inboundWithoutTax' | 'outboundWithTax' | 'outboundWithoutTax';
 
 type SourceProjectData = {
   projectId: string;

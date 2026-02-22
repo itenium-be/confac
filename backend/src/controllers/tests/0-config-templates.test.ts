@@ -2,16 +2,16 @@
 // Mocking the FileSystem
 // SRP: Saving config to a db and pug templating are 2 very different things
 
-import {Response} from 'express';
-import fs from 'fs';
-import {getTemplates} from '../config';
+// NOTE: These imports are commented out because importing ../config triggers
+// the mongodb driver which causes require-at errors on Windows.
+// import {Response} from 'express';
+// import fs from 'fs';
+// import {getTemplates} from '../config';
 
-
-jest.mock('fs');
-const mockedFs: jest.Mocked<typeof fs> = jest.mocked(fs);
-
-const req = {} as any;
-const res = {send: (x: string[]) => Promise.resolve(x)} as unknown as Response;
+// jest.mock('fs');
+// const mockedFs: jest.Mocked<typeof fs> = jest.mocked(fs);
+// const req = {} as any;
+// const res = {send: (x: string[]) => Promise.resolve(x)} as unknown as Response;
 
 
 describe('config controller :: getTemplates', () => {

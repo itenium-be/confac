@@ -1,9 +1,9 @@
 // Exercises 0: Basic
 // Jest Mocks for google-auth-library
 
-import {OAuth2Client} from 'google-auth-library';
+import type {OAuth2Client as _OAuth2Client} from 'google-auth-library';
 import {verify} from '../user';
-import config, {IConfig} from '../../config';
+import config from '../../config';
 
 let payload: any = null;
 
@@ -15,7 +15,6 @@ jest.mock('../../config', () => ({
     defaultRole: 'string',
   },
 }));
-const mockedConfig: jest.Mocked<IConfig> = jest.mocked(config);
 
 jest.mock('google-auth-library', () => {
   class FakeOAuth2Client {

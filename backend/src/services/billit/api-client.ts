@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import {logger} from '../../logger';
-import {CreateOrderRequest, BillitOrderStatus} from './orders/createorder';
+import {CreateOrderRequest} from './orders/createorder';
 import {SendInvoiceRequest} from './orders/sendinvoice';
 import {GetParticipantInformationResponse} from './peppol/getparticipantinformation';
 import {ApiConfig} from './api-config';
