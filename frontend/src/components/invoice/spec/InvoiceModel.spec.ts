@@ -1,3 +1,4 @@
+import {vi} from 'vitest';
 import moment from 'moment';
 import {getNewClient} from '../../client/models/getNewClient';
 import InvoiceModel, {calculateDaysWorked, calculatePaymentReference, getWorkDaysInMonths} from '../models/InvoiceModel';
@@ -459,7 +460,7 @@ function createViewModelWithDateStrategy(strat: InvoiceDateStrategy) {
 describe('Invoice date new month from the 22th', () => {
   it('Should be 31 may when date is 10 june', () => {
     const vm = createViewModelWithDateStrategy('new-month-from-22th');
-    Date.now = jest.fn().mockReturnValue(new Date('2024-06-10T00:00:00.000Z'));
+    Date.now = vi.fn().mockReturnValue(new Date('2024-06-10T00:00:00.000Z'));
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2024-05-31');
@@ -467,7 +468,7 @@ describe('Invoice date new month from the 22th', () => {
 
   it('Should be 31 december when date is 10 januari', () => {
     const vm = createViewModelWithDateStrategy('new-month-from-22th');
-    Date.now = jest.fn().mockReturnValue(new Date('2024-01-10T00:00:00.000Z'));
+    Date.now = vi.fn().mockReturnValue(new Date('2024-01-10T00:00:00.000Z'));
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2023-12-31');
@@ -475,7 +476,7 @@ describe('Invoice date new month from the 22th', () => {
 
   it('Should be 30 june month when date is 30 june', () => {
     const vm = createViewModelWithDateStrategy('new-month-from-22th');
-    Date.now = jest.fn().mockReturnValue(new Date('2024-06-30T00:00:00.000Z'));
+    Date.now = vi.fn().mockReturnValue(new Date('2024-06-30T00:00:00.000Z'));
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2024-06-30');
@@ -483,7 +484,7 @@ describe('Invoice date new month from the 22th', () => {
 
   it('Should be 29 februari month when date is 29 februari', () => {
     const vm = createViewModelWithDateStrategy('new-month-from-22th');
-    Date.now = jest.fn().mockReturnValue(new Date('2024-02-29T00:00:00.000Z'));
+    Date.now = vi.fn().mockReturnValue(new Date('2024-02-29T00:00:00.000Z'));
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2024-02-29');
@@ -491,7 +492,7 @@ describe('Invoice date new month from the 22th', () => {
 
   it('Should be 31 januari month when date is 31 januari', () => {
     const vm = createViewModelWithDateStrategy('new-month-from-22th');
-    Date.now = jest.fn().mockReturnValue(new Date('2024-01-31T00:00:00.000Z'));
+    Date.now = vi.fn().mockReturnValue(new Date('2024-01-31T00:00:00.000Z'));
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2024-01-31');
@@ -499,7 +500,7 @@ describe('Invoice date new month from the 22th', () => {
 
   it('Should be 1 june month when date is 22 june', () => {
     const vm = createViewModelWithDateStrategy('new-month-from-22th');
-    Date.now = jest.fn().mockReturnValue(new Date('2024-06-22T00:00:00.000Z'));
+    Date.now = vi.fn().mockReturnValue(new Date('2024-06-22T00:00:00.000Z'));
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2024-06-01');
@@ -507,7 +508,7 @@ describe('Invoice date new month from the 22th', () => {
 
   it('Should be 1 januari month when date is 22 januari', () => {
     const vm = createViewModelWithDateStrategy('new-month-from-22th');
-    Date.now = jest.fn().mockReturnValue(new Date('2024-01-22T00:00:00.000Z'));
+    Date.now = vi.fn().mockReturnValue(new Date('2024-01-22T00:00:00.000Z'));
     vm.setClient(undefined);
 
     expect(vm.date.format('YYYY-MM-DD')).toBe('2024-01-01');

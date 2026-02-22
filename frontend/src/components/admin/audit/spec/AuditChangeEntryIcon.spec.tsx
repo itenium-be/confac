@@ -11,7 +11,7 @@ describe('AuditChangeEntryIcon', () => {
 <i
   className="fa fa-plus"
   style={
-    Object {
+    {
       "marginRight": 8,
     }
   }
@@ -27,7 +27,7 @@ describe('AuditChangeEntryIcon', () => {
 <i
   className="fa fa-trash"
   style={
-    Object {
+    {
       "color": "red",
       "marginRight": 8,
     }

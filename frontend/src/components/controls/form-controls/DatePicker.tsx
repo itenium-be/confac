@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import {useState} from 'react';
 import moment from 'moment';
 import ReactDatePicker from 'react-datepicker';
