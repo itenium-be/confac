@@ -1,0 +1,127 @@
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import globals from 'globals';
+
+export default tseslint.config(
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    files: ['**/*.{ts,tsx,js,jsx}'],
+    plugins: {
+      react,
+      'react-hooks': reactHooks,
+    },
+    languageOptions: {
+      ecmaVersion: 2020,
+      sourceType: 'module',
+      globals: {
+        ...globals.browser,
+        ...globals.es2020,
+        ...globals.node,
+      },
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+    rules: {
+      // React rules
+      ...react.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
+      'react/jsx-closing-tag-location': ['error', { location: 'tag-aligned' }],
+      'react/jsx-tag-spacing': ['error', {
+        closingSlash: 'never',
+        beforeSelfClosing: 'always',
+        afterOpening: 'never',
+        beforeClosing: 'never',
+      }],
+      'react/button-has-type': 'error',
+      'react/void-dom-elements-no-children': 'error',
+      'react/jsx-boolean-value': ['error', 'never'],
+      'react/jsx-closing-bracket-location': ['error'],
+      'react/jsx-curly-brace-presence': ['error', 'never'],
+      'react/jsx-curly-newline': ['error', 'consistent'],
+      'react/jsx-curly-spacing': ['error'],
+      'react/jsx-equals-spacing': 'error',
+      'react/jsx-first-prop-new-line': ['error', 'multiline'],
+      'react/jsx-fragments': 'error',
+      'react/jsx-key': 'error',
+      'react/jsx-no-constructed-context-values': 'error',
+      'react/jsx-no-duplicate-props': 'error',
+      'react/jsx-no-script-url': 'error',
+      'react/jsx-no-target-blank': 'error',
+      'react/jsx-no-useless-fragment': ['error', { allowExpressions: true }],
+      'react/jsx-pascal-case': 'error',
+      'react/jsx-props-no-multi-spaces': 'error',
+      'react/jsx-uses-react': 'error',
+      'react/jsx-uses-vars': 'error',
+      'react/no-access-state-in-setstate': 'error',
+      'react/no-children-prop': 'error',
+      'react/no-danger-with-children': 'error',
+      'react/no-deprecated': 'error',
+      'react/no-direct-mutation-state': 'error',
+      'react/no-find-dom-node': 'error',
+      'react/no-invalid-html-attribute': 'error',
+      'react/no-is-mounted': 'error',
+      'react/no-string-refs': 'error',
+      'react/no-unknown-property': 'error',
+      'react/no-unstable-nested-components': 'error',
+      'react/no-unused-prop-types': 'error',
+      'react/no-unused-state': 'error',
+      'react/self-closing-comp': 'error',
+
+      // Formatting rules
+      semi: ['error', 'always'],
+      'keyword-spacing': ['error', { before: true }],
+      'space-before-blocks': 'error',
+      'no-trailing-spaces': 'error',
+      'no-multi-spaces': 'error',
+      'no-mixed-spaces-and-tabs': 'error',
+      'no-multiple-empty-lines': ['error', { max: 8, maxEOF: 0 }],
+      'eol-last': ['error', 'always'],
+      indent: ['error', 2, { SwitchCase: 1 }],
+      'no-tabs': 'error',
+      'quote-props': ['error', 'as-needed', { keywords: false, unnecessary: true, numbers: false }],
+      quotes: ['error', 'single', { avoidEscape: true }],
+      'object-curly-spacing': [2, 'never'],
+      'jsx-quotes': ['error', 'prefer-double'],
+      'max-len': ['error', 160],
+
+      // Code quality rules
+      'dot-notation': ['error', { allowKeywords: true }],
+      eqeqeq: ['error', 'always', { null: 'ignore' }],
+      'no-lone-blocks': 'error',
+      'no-octal': 'error',
+      'no-redeclare': 'error',
+      'no-self-compare': 'error',
+      yoda: 'error',
+      'no-debugger': 'warn',
+      'no-dupe-keys': 'error',
+      'no-duplicate-case': 'error',
+      'no-extra-semi': 'error',
+      'no-unreachable': 'warn',
+      'arrow-spacing': ['error', { before: true, after: true }],
+      'no-useless-computed-key': 'error',
+      'no-var': 'error',
+
+      // TypeScript rules
+      'no-shadow': 'off',
+      '@typescript-eslint/no-shadow': 'error',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    },
+  },
+  {
+    ignores: ['build/**', 'node_modules/**'],
+  }
+);
