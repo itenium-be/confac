@@ -5,7 +5,7 @@ type ITiming = {
 }
 
 
-let timings: {[key: string]: ITiming} = {};
+const timings: {[key: string]: ITiming} = {};
 
 
 export function callback(

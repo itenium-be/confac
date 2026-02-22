@@ -25,7 +25,7 @@ type AttachmentsFormProps = {
   createDownloadUrl: (downloadType: 'download' | 'preview', att: Attachment) => string;
 }
 
-export const _AttachmentsForm = (props: AttachmentsFormProps) => {
+export const AttachmentsFormComponent = (props: AttachmentsFormProps) => {
   const dispatch = useDispatch();
   const {model, modelType, createDownloadUrl} = props;
 
@@ -61,7 +61,7 @@ export const _AttachmentsForm = (props: AttachmentsFormProps) => {
   );
 };
 
-export const AttachmentsForm = connect(null, {updateAttachment, deleteAttachment})(_AttachmentsForm);
+export const AttachmentsForm = connect(null, {updateAttachment, deleteAttachment})(AttachmentsFormComponent);
 
 
 function mapModelType(modelType: keyof AttachmentModelTypes): Claim {
