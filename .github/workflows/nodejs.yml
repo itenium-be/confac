@@ -1,4 +1,4 @@
-name: Node CI
+name: CI
 
 on: [push]
 
@@ -7,19 +7,8 @@ jobs:
 
     runs-on: ubuntu-22.04
 
-    strategy:
-      matrix:
-        node-version: [22.x]
-
     steps:
     - uses: actions/checkout@v4
-
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: backend/package-lock.json
 
     - name: Setup Bun
       uses: oven-sh/setup-bun@v2
@@ -39,8 +28,8 @@ jobs:
     - name: backend build and test
       working-directory: ./backend
       run: |
-        npm ci
-        npm test
-        npm run lint
+        bun install --frozen-lockfile
+        bun run test
+        bun run lint
       env:
         CI: true

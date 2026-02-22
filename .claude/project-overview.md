@@ -17,7 +17,7 @@ The application handles:
 ## Technology Stack
 
 ### Backend
-- **Runtime**: Node.js 16.10.0 (locked due to production server requirements)
+- **Package Manager**: Bun
 - **Language**: TypeScript 4.3
 - **Framework**: Express.js 4.17
 - **Database**: MongoDB 3.5.8 (could upgrade to 4.4.1 max - VAX constraint on production)
@@ -175,9 +175,8 @@ confac/
 ## Important Technical Details
 
 ### Version Lock-In
-- **Node.js 16.10.0** - Locked due to production server requirements
-- **TypeScript 4.3** (backend) - Compatibility with Node 16
-- **MongoDB 3.5.8** (driver version) with Docker image 3.6.3 - Could upgrade to max 4.4.1 (production server lacks VAX instruction set required by newer versions)
+- **TypeScript 4.3** (backend)
+- **MongoDB 3.5.8** (driver version) with Docker image 3.6.3 - Could upgrade to max 4.4.1 (production server lacks AVX instruction set required by newer versions)
 - Later MongoDB versions would require breaking changes (e.g., ObjectId vs ObjectID) and @types/mongodb would no longer be necessary
 
 ### External Dependencies
@@ -197,11 +196,11 @@ confac/
 
 ### Database Migrations
 - Managed via `migrate-mongo` in the `/deploy` directory
-- First time setup: `cd deploy && npm install`
-- Create new migration: `cd deploy && npm run create some-name`
-- Execute migrations: `cd deploy && npm run up`
+- First time setup: `cd deploy && bun install`
+- Create new migration: `cd deploy && bun run create some-name`
+- Execute migrations: `cd deploy && bun run up`
 - On production server: `cd deploy && ./migrate.sh`
-- Rollback: `cd deploy && npm run down`
+- Rollback: `cd deploy && bun run down`
 - MongoDB credentials are read automatically from the `.env` file
 
 ### PDF Generation
@@ -248,15 +247,15 @@ confac/
 
 4. Install dependencies:
    ```bash
-   cd backend && npm install
+   cd backend && bun install
    cd ../frontend && bun install
-   cd ../deploy && npm install  # Required for database migrations
+   cd ../deploy && bun install  # Required for database migrations
    ```
 
 5. Start development servers:
    ```bash
    # Terminal 1 - Backend
-   cd backend && npm start
+   cd backend && bun start
 
    # Terminal 2 - Frontend
    cd frontend && bun start
@@ -316,24 +315,24 @@ Production deployment handled via `deploy/deploy.sh` script:
 
 ```bash
 # Start dev environment
-npm start                    # Both frontend and backend
+bun start                    # Both frontend and backend
 
 # Database migrations
 cd deploy
-npm run create migration-name
-npm run up
-npm run down
+bun run create migration-name
+bun run up
+bun run down
 
 # Generate test data
 cd backend
-npm run faker
+bun run faker
 
 # Template compilation
 gulp build
 gulp watch
 
-# Run tests (if available)
-npm test
+# Run tests
+bun test
 ```
 
 ## Key Business Concepts

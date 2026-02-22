@@ -1,1 +1,3 @@
-cd frontend && bun run build && bun run test -- --run
+ROOT="$(git rev-parse --show-toplevel)"
+(cd "$ROOT/frontend" && bun run build && bun run test -- --run)
+(cd "$ROOT/backend" && bun run lint)

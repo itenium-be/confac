@@ -3,17 +3,17 @@ confac
 
 ## Version Lock-In
 
-We're locked into these versions (for the backend):  
-Node **v16.10.0**, TypeScript v4.3 and mongodb **v3.5.8**  
+We're locked into these versions (for the backend):
+TypeScript v4.3 and mongodb **v3.5.8**
 - Could attempt to upgrade mongodb to v4.4.1
-- This is the lastest version of mongo that does not require VAX which our production server doesn't have
+- This is the latest version of mongo that does not require AVX which our production server doesn't have
 - For later versions of mongo the @types/mongodb is no longer necessary but there are breaking changes
   - ex: ObjectId -> ObjectID
 
 
 ## Starting DEV
 
-- Backend: `npm install` followed by `npm start`
+- Backend: `bun install` followed by `bun start`
 - Frontend: `bun install` followed by `bun start`
 
 ### Backend
@@ -26,8 +26,8 @@ Create a development `.env` file to change the default config.
 cd backend
 cp .env.sample .env
 cp -r templates-example templates
-npm install
-npm start
+bun install
+bun start
 ```
 
 ## MongoDb
@@ -41,9 +41,9 @@ docker run -id -p 27017:27017 -e "MONGO_INITDB_ROOT_USERNAME=admin" -e "MONGO_IN
 
 ```sh
 cd deploy
-npm install
-npm run create some-name
-npm run up
+bun install
+bun run create some-name
+bun run up
 
 # Or on server:
 cd deploy
@@ -75,7 +75,7 @@ Mongo db credentials are read automatically from the env file.
 
 ```sh
 cd backend
-npm run faker
+bun run faker
 ```
 
 ## Billit (Peppol)
