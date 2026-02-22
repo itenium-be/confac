@@ -72,7 +72,7 @@ export const EditProjectMonths = () => {
           }
         };
       } else {
-        const {proforma, ...inboundWithoutProforma} = prev.inbound;
+        const {proforma: _proforma, ...inboundWithoutProforma} = prev.inbound;
         return {
           ...prev,
           inbound: inboundWithoutProforma

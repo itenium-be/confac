@@ -7,7 +7,7 @@ import {SelectItem} from '../../../../models';
 type ExtraFieldsInputProps = BaseInputProps<SelectItem[]>;
 
 
-export const ExtraFieldsInput = ({value, onChange, ...props}: ExtraFieldsInputProps) => {
+export const ExtraFieldsInput = ({value, onChange, ..._props}: ExtraFieldsInputProps) => {
   const updater = (updateLabel: string, newText: string): void => {
     onChange((value || []).map(col => {
       if (col.label === updateLabel) {

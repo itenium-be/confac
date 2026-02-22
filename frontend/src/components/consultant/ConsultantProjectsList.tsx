@@ -157,7 +157,7 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
 const consultantFeature = (config: ConsultantFeatureBuilderConfig): IFeature<ConsultantProject, ListFilters> => {
   const feature: IFeature<ConsultantProject, ListFilters> = {
     key: Features.consultants,
-    nav: m => '/consultants/create',
+    nav: _m => '/consultants/create',
     trans: features.consultant as any,
     list: consultantListConfig(config),
   };

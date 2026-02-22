@@ -3,7 +3,7 @@ import {cellsToFooterCells} from '../table/ListFooter';
 
 
 function createCell(footer?: string): IListCell<any> {
-  return {header: '', key: footer || '', footer, value: m => ''};
+  return {header: '', key: footer || '', footer, value: _m => ''};
 }
 
 
@@ -13,7 +13,7 @@ function createListModel(cells: IListCell<any>[]): IList<any> {
       cells,
     },
     data: [],
-    sorter: (a, b) => 0,
+    sorter: (_a, _b) => 0,
   };
   return listModel;
 }

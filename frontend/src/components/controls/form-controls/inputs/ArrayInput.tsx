@@ -19,7 +19,7 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
   return (
     <>
       {result.map((col: FormConfig, index: number) => {
-        const {key, reactKey, label, cols, component, suffix, prefix, title, props, ...restProps} = col;
+        const {key, reactKey, label, cols, component: _component, suffix, prefix, title, props, ...restProps} = col;
         const colSizes = getColSizes(cols);
 
         if (!key) {

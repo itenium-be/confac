@@ -7,7 +7,7 @@ type InvoiceAmountLabelProps = {
   isQuotation: boolean;
 }
 
-export const InvoiceAmountLabel = ({invoices, isQuotation, ...props}: InvoiceAmountLabelProps) => {
+export const InvoiceAmountLabel = ({invoices, isQuotation, ..._props}: InvoiceAmountLabelProps) => {
   const type = isQuotation ? 'quotation' : 'invoice';
   if (invoices.length === 1) {
     return <span>{t(type + '.amountOne')}</span>;
@@ -21,7 +21,7 @@ type InvoicesSummaryProps = {
 }
 
 
-export const InvoicesSummary = ({invoices, ...props}: InvoicesSummaryProps) => {
+export const InvoicesSummary = ({invoices, ..._props}: InvoicesSummaryProps) => {
   const moneys = invoices.map(i => i.money);
   const money = moneys.reduce((a, b) => ({
     totalWithoutTax: a.totalWithoutTax + b.totalWithoutTax,

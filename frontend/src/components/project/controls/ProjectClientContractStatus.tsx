@@ -10,7 +10,7 @@ import {t} from '../../utils';
 
 
 /** Display Client Framework Agreement contract status from project.client.clientId */
-const ProjectClientContractStatusComponent = ({value, ...props}: BaseInputProps<string>) => {
+const ProjectClientContractStatusComponent = ({value, ..._props}: BaseInputProps<string>) => {
   const clientId = value;
   const client = useSelector((state: ConfacState) => state.clients.find(c => c._id === clientId));
 
@@ -24,7 +24,7 @@ const ProjectClientContractStatusComponent = ({value, ...props}: BaseInputProps<
       {client.frameworkAgreement.notes && (
         <NotesModalButton
           value={client.frameworkAgreement.notes}
-          onChange={val => {}}
+          onChange={_val => {}}
           title={t('projectMonth.note')}
           style={{marginRight: 8, marginTop: -8}}
         />

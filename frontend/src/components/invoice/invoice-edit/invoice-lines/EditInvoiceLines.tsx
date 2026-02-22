@@ -52,11 +52,11 @@ export const EditInvoiceLines = (
         </thead>
         <DragDropContext onDragEnd={drag => onDragEnd(drag)}>
           <Droppable droppableId="droppable">
-            {(provided, snapshot) => (
+            {(provided, _snapshot) => (
               <tbody ref={provided.innerRef}>
                 {(value || []).map((item, index) => (
                   <Draggable key={item.sort} draggableId={(typeof item.sort === 'number' ? item.sort : index).toString()} index={index}>
-                    {(providedInner, snapshotInner) => {
+                    {(providedInner, _snapshotInner) => {
                       const EditInvoiceLine = createEditInvoiceLine(item);
                       return (
                         <tr ref={providedInner.innerRef} {...providedInner.draggableProps} {...providedInner.dragHandleProps}>

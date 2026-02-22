@@ -101,7 +101,7 @@ export function deleteProjectsMonth(id: string, navigate: any) {
       .set('Authorization', authService.getBearer())
       .set('x-socket-id', socketService.socketId)
       .send({id})
-      .then(res => {
+      .then(_res => {
         console.log('projectMonth deleted', id);
         dispatch({
           type: ACTION_TYPES.PROJECTS_MONTH_DELETE,
@@ -126,7 +126,7 @@ export function deleteProject(id: string, navigate: any) {
       .set('Authorization', authService.getBearer())
       .set('x-socket-id', socketService.socketId)
       .send({id})
-      .then(res => {
+      .then(_res => {
         console.log('project deleted', id);
         dispatch({
           type: ACTION_TYPES.PROJECT_DELETE,
@@ -233,7 +233,7 @@ export function deleteProjectsMonthOverview(id: string) {
       .set('x-socket-id', socketService.socketId)
       ;
 
-    req.then(response => {
+    req.then(_response => {
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_OVERVIEWS_DELETE,
         projectsMonthOverviewId: id,

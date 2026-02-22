@@ -11,7 +11,7 @@ export type SimpleCreatableSelectProps = {
 };
 
 
-export const SimpleCreatableSelect = ({options, value, onChange, isClearable = false, ...props}: SimpleCreatableSelectProps) => {
+export const SimpleCreatableSelect = ({options, value, onChange, isClearable = false, ..._props}: SimpleCreatableSelectProps) => {
   const opts = options.map((itm: string) => ({
     label: itm,
     value: itm,

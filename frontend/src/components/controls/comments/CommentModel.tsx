@@ -103,7 +103,7 @@ const userCanManageComment = (claims: Claim[], commentAuthor: string): boolean =
 export const getCommentsFeature = (config: CommentFeatureBuilderConfig): IFeature<IComment, CommentsListFilters> => {
   const feature: IFeature<IComment, CommentsListFilters> = {
     key: Features.comments,
-    nav: m => '',
+    nav: _m => '',
     trans: features.comments as any,
     list: commentListConfig(config),
   };

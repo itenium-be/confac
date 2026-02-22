@@ -38,7 +38,7 @@ export const InvoiceCreditNotas = ({model, onChange}: InvoiceCreditNotasProps) =
     data: creditNotas,
     save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate) as any),
     filters: {},
-    setFilters: f => {},
+    setFilters: _f => {},
     disableFilters: true,
     invoicesTotalOnly: true,
     includedFields: [

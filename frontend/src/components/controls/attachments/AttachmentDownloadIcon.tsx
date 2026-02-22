@@ -53,7 +53,7 @@ type AttachmentPreviewIconProps = {
   title?: string;
 }
 
-export const AttachmentPreviewIcon = ({previewUrl, attachment, ...props}: AttachmentPreviewIconProps) => (
+export const AttachmentPreviewIcon = ({previewUrl, attachment: _attachment, ...props}: AttachmentPreviewIconProps) => (
   <Icon title={t(props.title || 'invoice.viewPdf')} href={previewUrl} size={1} fa="far fa-eye" {...props} />
 );
 

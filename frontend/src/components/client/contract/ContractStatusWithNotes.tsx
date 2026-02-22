@@ -30,7 +30,7 @@ const ContractStatusSelect = ({value, label, ...props}: BaseInputProps<ContractS
 
 
 
-const ContractStatusWithNotesComponent = ({value, label, onChange, ...props}: BaseInputProps<IContractModel>) => {
+const ContractStatusWithNotesComponent = ({value, label: _label, onChange, ..._props}: BaseInputProps<IContractModel>) => {
   const contract = value as IContractModel;
   return (
     <div style={{display: 'flex'}}>

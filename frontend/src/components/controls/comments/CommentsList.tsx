@@ -19,7 +19,7 @@ type CommentsListProps = MinimalInputProps<IComment[]> & {
 };
 
 
-export const CommentList = ({value, onChange, claim, ...config}: CommentsListProps) => {
+export const CommentList = ({value, onChange: _onChange, claim, ...config}: CommentsListProps) => {
   const [needle, setNeedle] = useState<string>('');
 
   let data = value || [];

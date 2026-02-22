@@ -52,7 +52,7 @@ export type IconProps = EnhanceWithClaimProps & {
 }
 
 
-const IconComponent = ({fa, onClick, href, dispatch, className, label, labelStyle, title, size = 2, children, ...props}: IconProps) => {
+const IconComponent = ({fa, onClick, href, dispatch: _dispatch, className, label, labelStyle, title, size = 2, children, ...props}: IconProps) => {
   const navigate = useNavigate();
   let realClick: any = onClick;
   if (typeof onClick === 'string') {

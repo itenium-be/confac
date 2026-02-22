@@ -165,7 +165,7 @@ export function deleteInvoice(invoice: InvoiceModel) {
       .set('Authorization', authService.getBearer())
       .set('x-socket-id', socketService.socketId)
       .send({id: invoice._id})
-      .then(res => {
+      .then(_res => {
         console.log('invoice deleted', invoice);
         dispatch({
           type: ACTION_TYPES.INVOICE_DELETED,

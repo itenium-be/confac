@@ -130,7 +130,7 @@ const projectListConfig = (config: ProjectMonthFeatureBuilderConfig): IList<Full
       return <ProjectClientForecastFooter models={models} month={models[0].details.month} />;
     },
     sort: (p, p2) => (p.invoice?.number ?? 0) - (p2.invoice?.number ?? 0),
-    className: p => 'outbound-td',
+    className: _p => 'outbound-td',
   }, {
     key: 'notes',
     value: p => <ProjectMonthNotesCell fullProjectMonth={p} />,

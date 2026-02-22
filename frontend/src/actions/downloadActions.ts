@@ -46,7 +46,7 @@ export function getProjectMonthOverviewDownloadUrl(
 
 
 export function previewInvoice(fileName: string, data: InvoiceModel) {
-  return dispatch => {
+  return _dispatch => {
     request.post(buildUrl('/invoices/preview'))
       .set('Authorization', authService.getBearer())
       .responseType('blob')
@@ -65,7 +65,7 @@ export function previewInvoice(fileName: string, data: InvoiceModel) {
 
 
 export function downloadInvoicesExcel(ids: string[]) {
-  return dispatch => {
+  return _dispatch => {
     request.post(buildUrl('/invoices/excel'))
       .responseType('blob')
       .set('Authorization', authService.getBearer())
@@ -79,7 +79,7 @@ export function downloadInvoicesExcel(ids: string[]) {
 }
 
 export function downloadProjectsExcel(data: any[][]) {
-  return dispatch => {
+  return _dispatch => {
     request.post(buildUrl('/projects/excel'))
       .responseType('blob')
       .set('Authorization', authService.getBearer())
@@ -93,7 +93,7 @@ export function downloadProjectsExcel(data: any[][]) {
 }
 
 export function downloadProjectsMonthsExcel(data: any[][], projectMonth: string) {
-  return dispatch => {
+  return _dispatch => {
     request.post(buildUrl('/projects/month/excel'))
       .responseType('blob')
       .set('Authorization', authService.getBearer())
@@ -107,7 +107,7 @@ export function downloadProjectsMonthsExcel(data: any[][], projectMonth: string)
 }
 
 export function downloadProjectsMonthsFreelancerExcel(data: any[][], freelancer?: ConsultantModel) {
-  return dispatch => {
+  return _dispatch => {
     request.post(buildUrl('/projects/month/freelancer-excel'))
       .responseType('blob')
       .set('Authorization', authService.getBearer())
@@ -127,7 +127,7 @@ export function downloadProjectsMonthsFreelancerExcel(data: any[][], freelancer?
 
 
 export function downloadInvoicesZip(ids: string[]) {
-  return dispatch => {
+  return _dispatch => {
     request.post(buildUrl('/attachments'))
       .responseType('blob')
       .set('Authorization', authService.getBearer())

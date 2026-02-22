@@ -11,7 +11,7 @@ type DatePickerProps = BaseInputProps<moment.Moment | null> & {
 
 
 export const MonthPicker = (props: DatePickerProps) => {
-  const {onChange, ...rest} = props;
+  const {onChange: _onChange, ...rest} = props;
   return (
     <DatePicker
       dateFormat="MMMM - yyyy"

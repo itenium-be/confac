@@ -31,7 +31,7 @@ export type BaseInputProps<T, TReturn = T> =
 
 class BaseInputComponent extends Component<BaseInputProps<any>> {
   render() {
-    const {type, updateOnly, ...props} = this.props;
+    const {type, updateOnly: _updateOnly, ...props} = this.props;
     return (
       <FormControl
         type={type === 'textarea' ? 'text' : type}
