@@ -1,4 +1,4 @@
-@import '../../../styles/variables.scss';
+@use '../../../styles/variables' as *;
 
 $in-cell-margin: 12px;
 $cell-padding-amount: 8px;

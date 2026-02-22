@@ -1,3 +1,13 @@
+// @use rules must be at the top of the file
+@use 'styles/variables' as *;
+@use 'styles/html';
+@use 'styles/rc-tooltip';
+@use 'styles/toastr';
+@use 'styles/forms';
+@use 'styles/list';
+@use 'styles/user';
+@use 'styles/custom';
+
 // @media (min-width: 576px) { }
 // @media (min-width: 768px) { }
 // @media (min-width: 992px) { }
@@ -14,16 +24,6 @@ body {
 @import '../node_modules/react-datepicker/dist/react-datepicker.css';
 // react-ios-switch has an empty bundle.css, no import needed
 @import '../node_modules/react-toastify/dist/ReactToastify.css';
-
-@import 'styles/variables';
-@import 'styles/html';
-
-@import 'styles/rc-tooltip';
-@import 'styles/toastr';
-@import 'styles/forms';
-@import 'styles/list';
-@import 'styles/user';
-@import 'styles/custom';
 
 
 .clickable {
@@ -127,7 +127,6 @@ small.created-on {
     }
   }
 }
-
 
 
 
