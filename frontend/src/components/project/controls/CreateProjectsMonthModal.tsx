@@ -90,7 +90,7 @@ export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
             <MonthPicker
               label={t('projectMonth.createProjects.selectMonth')}
               value={date}
-              onChange={value => {value && setDate(value); value && setForceReload(true);}}
+              onChange={value => { if (value) { setDate(value); setForceReload(true); } }}
             />
           </Row>
           {newProjects && <ToBeCreated projects={data} setToBeCreated={setToBeCreated} />}

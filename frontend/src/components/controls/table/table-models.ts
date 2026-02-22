@@ -5,7 +5,7 @@ import {ClientType} from './../../client/models/ClientModels';
  *
  * A simple table with filters and action buttons
  */
-export interface IList<TModel, TFilterModel extends ListFilters = {}, TTag = {}> {
+export interface IList<TModel, TFilterModel extends ListFilters = ListFilters, TTag = Record<string, unknown>> {
   /** Defaults to featureTrans.key.listTitle */
   listTitle?: () => string;
   /** Config for rows and cells */

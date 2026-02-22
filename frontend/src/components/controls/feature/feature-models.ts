@@ -12,7 +12,7 @@ export enum Features {
 }
 
 
-export interface IFeature<TModel, TFilterModel extends ListFilters = {}> {
+export interface IFeature<TModel, TFilterModel extends ListFilters = ListFilters> {
   /**
    * Unique key that matches the keys in the store
    * */

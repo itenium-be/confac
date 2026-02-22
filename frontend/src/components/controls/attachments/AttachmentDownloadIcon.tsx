@@ -9,7 +9,7 @@ import {ConfacState} from '../../../reducers/app-state';
 
 type InvoiceDownloadIconProps = InvoiceModelProps & {
   fileType: CoreInvoiceAttachments;
-  style?: {};
+  style?: React.CSSProperties;
 }
 
 
