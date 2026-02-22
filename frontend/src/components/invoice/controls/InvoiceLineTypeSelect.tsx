@@ -28,7 +28,7 @@ export function getAmountInDays({amount, rateType, hoursInDay}: TimesheetTimeCon
 }
 
 
-export const InvoiceLineTypeSelect = ({value = 'daily', label, ...props}: BaseInputProps<EditClientRateType>) => (
+export const InvoiceLineTypeSelect = ({value = 'daily', label, onChange, ...props}: BaseInputProps<EditClientRateType>) => (
   <SimpleSelect
     transFn={(key: string) => t(`rates.types.${key}`)}
     value={value}
@@ -36,13 +36,14 @@ export const InvoiceLineTypeSelect = ({value = 'daily', label, ...props}: BaseIn
     isClearable={false}
     label={label}
     placeholder=""
+    onChange={val => onChange(val as EditClientRateType)}
     {...props}
   />
 );
 
 
 
-export const ProjectLineTypeSelect = ({value = 'daily', label, ...props}: BaseInputProps<EditProjectRateType>) => (
+export const ProjectLineTypeSelect = ({value = 'daily', label, onChange, ...props}: BaseInputProps<EditProjectRateType>) => (
   <SimpleSelect
     transFn={(key: string) => t(`rates.types.${key}`)}
     value={value}
@@ -50,6 +51,7 @@ export const ProjectLineTypeSelect = ({value = 'daily', label, ...props}: BaseIn
     isClearable={false}
     label={label}
     placeholder=""
+    onChange={val => onChange(val as EditProjectRateType)}
     {...props}
   />
 );

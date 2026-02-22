@@ -8,7 +8,7 @@ import {DatePicker} from '../../controls/form-controls/DatePicker';
 
 type EditInvoiceDetailsProps = {
   invoice: InvoiceModel;
-  onChange: (value: any) => void;
+  onChange: (fieldName: string, value: any) => void;
 }
 
 export const EditInvoiceDetails = ({invoice, onChange}: EditInvoiceDetailsProps) => {

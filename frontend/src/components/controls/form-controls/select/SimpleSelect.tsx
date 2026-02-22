@@ -28,7 +28,7 @@ class SimpleSelectComponent extends Component<SimpleSelectProps> {
       <BaseSelect
         value={{label: trans(value), value}}
         options={opts}
-        onChange={(itm: SelectItem) => onChange(itm.value)}
+        onChange={(itm: SelectItem) => onChange(itm.value as string)}
         isClearable={isClearable}
         isMulti={false}
         {...props}

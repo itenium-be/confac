@@ -49,7 +49,7 @@ export const AdvancedAttachmentDropzone = (
               <ConfirmedDeleteIcon
                 claim={claim}
                 title={t('attachment.deleteTitle')}
-                onClick={() => onDelete(attachment)}
+                onClick={() => onDelete!()}
                 size={1}
               >
                 {t('attachment.deletePopup')}

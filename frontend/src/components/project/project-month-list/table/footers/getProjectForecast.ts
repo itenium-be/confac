@@ -55,11 +55,18 @@ export function getProjectForecast(models: Array<FullProjectModel | FullProjectM
   };
 
   const isProjectModel = !((models[0] as FullProjectMonthModel).project);
-  const totalGetter = isProjectModel ? getTotalsProject : getTotalsProjectModel;
+
+  if (isProjectModel) {
+    return {
+      consultants: getTotalsProject(result.consultants as FullProjectModel[]),
+      externals: getTotalsProject(result.externals as FullProjectModel[]),
+      managers: getTotalsProject(result.managers as FullProjectModel[]),
+    };
+  }
 
   return {
-    consultants: totalGetter(result.consultants),
-    externals: totalGetter(result.externals),
-    managers: totalGetter(result.managers),
+    consultants: getTotalsProjectModel(result.consultants as FullProjectMonthModel[]),
+    externals: getTotalsProjectModel(result.externals as FullProjectMonthModel[]),
+    managers: getTotalsProjectModel(result.managers as FullProjectMonthModel[]),
   };
 }

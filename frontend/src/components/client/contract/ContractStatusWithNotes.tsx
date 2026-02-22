@@ -16,7 +16,7 @@ const options = [
 ];
 
 
-const ContractStatusSelect = ({value, label, ...props}: BaseInputProps<ContractStatus>) => (
+const ContractStatusSelect = ({value, label, onChange, ...props}: BaseInputProps<ContractStatus>) => (
   <SimpleSelect
     transFn={(key: string) => t(`contract.status.${key}`)}
     value={value}
@@ -24,6 +24,7 @@ const ContractStatusSelect = ({value, label, ...props}: BaseInputProps<ContractS
     isClearable={false}
     label={label}
     placeholder=""
+    onChange={val => onChange(val as ContractStatus)}
     {...props}
   />
 );
@@ -38,7 +39,7 @@ const ContractStatusWithNotesComponent = ({value, label: _label, onChange, ..._p
         <ContractStatusSelect
           label={undefined}
           value={contract.status}
-          onChange={val => onChange({...value, status: val})}
+          onChange={val => onChange({...value, status: val as ContractStatus})}
         />
       </div>
       <NotesModalButton

@@ -6,7 +6,7 @@ import {ConsultantTypes, ConsultantType} from '../models/ConsultantModel';
 type ConsultantTypeSelectProps = BaseInputProps<ConsultantType>
 
 export const ConsultantTypeSelect = (props: ConsultantTypeSelectProps) => {
-  const {value, label, ...rest} = props;
+  const {value, label, onChange, ...rest} = props;
 
   return (
     <SimpleSelect
@@ -15,6 +15,7 @@ export const ConsultantTypeSelect = (props: ConsultantTypeSelectProps) => {
       options={ConsultantTypes}
       label={label}
       isClearable={false}
+      onChange={val => onChange(val as ConsultantType)}
       {...rest}
     />
   );
