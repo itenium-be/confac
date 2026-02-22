@@ -9,6 +9,10 @@
     <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
     <title>confac</title>
+    <script>
+      // Polyfill for packages that expect Node.js globals (draft-js, fbjs)
+      window.global = window;
+    </script>
   </head>
   <body>
     <div id="root"></div>
