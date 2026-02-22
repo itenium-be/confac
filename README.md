@@ -13,7 +13,8 @@ Node **v16.10.0**, TypeScript v4.3 and mongodb **v3.5.8**
 
 ## Starting DEV
 
-front/back: `npm install` followed by `npm start`
+- Backend: `npm install` followed by `npm start`
+- Frontend: `bun install` followed by `bun start`
 
 ### Backend
 

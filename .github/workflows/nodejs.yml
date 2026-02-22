@@ -13,21 +13,26 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: |
-          frontend/package-lock.json
-          backend/package-lock.json
+        cache-dependency-path: backend/package-lock.json
+
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: latest
+
     - name: frontend build and test
       working-directory: ./frontend
       run: |
-        npm ci
-        npm run build
-        npm test -- --run
-        npm run lint
+        bun install --frozen-lockfile
+        bun run build
+        bun run test -- --run
+        bun run lint
       env:
         CI: true
 

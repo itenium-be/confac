@@ -29,8 +29,10 @@ The application handles:
 - **Logging**: winston with daily file rotation
 
 ### Frontend
-- **Framework**: React 18.2.0
-- **Language**: TypeScript 4.9.3
+- **Package Manager**: Bun
+- **Framework**: React 18.3.1
+- **Build Tool**: Vite 5
+- **Language**: TypeScript 5
 - **State Management**: Redux with Redux Thunk middleware
 - **Routing**: React Router 7.6
 - **UI Components**: React Bootstrap 2.6.0
@@ -247,7 +249,7 @@ confac/
 4. Install dependencies:
    ```bash
    cd backend && npm install
-   cd ../frontend && npm install
+   cd ../frontend && bun install
    cd ../deploy && npm install  # Required for database migrations
    ```
 
@@ -257,7 +259,7 @@ confac/
    cd backend && npm start
 
    # Terminal 2 - Frontend
-   cd frontend && npm start
+   cd frontend && bun start
    ```
 
 ### Test Data Generation
