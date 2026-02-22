@@ -63,7 +63,7 @@ const IconComponent = ({fa, onClick, href, dispatch, className, label, labelStyl
 
   let FinalIcon = (
     <i
-      role={!!realClick ? 'button' : undefined}
+      role={realClick ? 'button' : undefined}
       {...props}
       className={cn(fa, `fa-${size}x`, className, {clickable: !!onClick || !!href})}
       onClick={realClick}

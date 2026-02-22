@@ -21,7 +21,7 @@ export function useProjects(month?: Moment): FullProjectModel[] {
     const consultant = consultants.find(x => x._id === project.consultantId);
     const client = clients.find(x => x._id === project.client.clientId);
     const partner = project.partner && clients.find(x => project.partner && x._id === project.partner.clientId);
-    const endCustomer = !!project.endCustomer?.clientId ? clients.find(x => x._id === project.endCustomer!.clientId) : undefined;
+    const endCustomer = project.endCustomer?.clientId ? clients.find(x => x._id === project.endCustomer!.clientId) : undefined;
     const accountManager = project.accountManager ? users.find(x => x._id === project.accountManager) : undefined;
     return new FullProjectModel(project, month, consultant, client, partner, endCustomer, accountManager);
   });
@@ -136,7 +136,7 @@ export function mapToProjectMonth(
     consultant,
     client,
     partner: project.partner && confacState.clients.find(c => project.partner && c._id === project.partner.clientId),
-    endCustomer: !!project.endCustomer?.clientId ? confacState.clients.find(c => c._id === project.endCustomer!.clientId) : undefined,
+    endCustomer: project.endCustomer?.clientId ? confacState.clients.find(c => c._id === project.endCustomer!.clientId) : undefined,
     invoice: invoice || confacState.invoices.find(i => i.projectMonth && i.projectMonth.projectMonthId === projectMonth._id),
     accountManager: project.accountManager ? confacState.user.users.find(u => u._id === project.accountManager) : undefined,
   };

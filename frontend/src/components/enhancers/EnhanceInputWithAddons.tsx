@@ -67,7 +67,7 @@ export const EnhanceInputWithDisplay = <P extends object>(ComposedComponent: Rea
       return <span>{props.value.toString()}</span>;
     }
 
-    if (!!display) {
+    if (display) {
       return display;
     }
 
