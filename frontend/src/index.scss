@@ -12,7 +12,7 @@ body {
 // Bootstrap & FontAwesome & Lato (font) are loaded in index.html
 
 @import '../node_modules/react-datepicker/dist/react-datepicker.css';
-@import '../node_modules/react-ios-switch/build/bundle.css';
+// react-ios-switch has an empty bundle.css, no import needed
 @import '../node_modules/react-toastify/dist/ReactToastify.css';
 
 @import 'styles/variables';
