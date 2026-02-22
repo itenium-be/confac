@@ -7,9 +7,11 @@ type ButtonWithClickOnceProps = {
   disabled?: boolean;
 }
 
-const EnhanceButtonWithClickOnce = <P extends object>(Component: React.ComponentType<P>): React.FC<P & ButtonWithClickOnceProps> => (
-  {isBusy, disabled, ...props}: ButtonWithClickOnceProps,
-) => <Component {...props as P} disabled={isBusy || disabled} />;
+const EnhanceButtonWithClickOnce = <P extends object>(Component: React.ComponentType<P>): React.FC<P & ButtonWithClickOnceProps> => {
+  const ButtonWithClickOnce = ({isBusy, disabled, ...props}: ButtonWithClickOnceProps) =>
+    <Component {...props as P} disabled={isBusy || disabled} />;
+  return ButtonWithClickOnce;
+};
 
 
 

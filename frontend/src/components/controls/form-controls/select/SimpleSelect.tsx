@@ -14,7 +14,7 @@ export type SimpleSelectProps = {
 
 
 // eslint-disable-next-line react/prefer-stateless-function
-export const SimpleSelect = EnhanceInputWithLabel(class extends Component<SimpleSelectProps> {
+class SimpleSelectComponent extends Component<SimpleSelectProps> {
   render() {
     const {transFn, options, value, onChange, isClearable, ...props} = this.props;
     const trans = (transKey: string): string => (transFn ? transFn(transKey) : transKey);
@@ -35,4 +35,6 @@ export const SimpleSelect = EnhanceInputWithLabel(class extends Component<Simple
       />
     );
   }
-});
+}
+
+export const SimpleSelect = EnhanceInputWithLabel(SimpleSelectComponent);

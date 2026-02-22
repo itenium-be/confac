@@ -10,7 +10,7 @@ type OpenOrClosedProjectMonthsListProps = {
 };
 
 
-const ProjectMonthListCollapsedMemo = memo(({month}: {month: string}) => {
+const ProjectMonthListCollapsedMemo = memo(function ProjectMonthListCollapsedMemo({month}: {month: string}) {
   // console.log(`memo rendered ${month}`, new Date().toLocaleTimeString());
   return <ProjectMonthListCollapsed month={month} />;
 });

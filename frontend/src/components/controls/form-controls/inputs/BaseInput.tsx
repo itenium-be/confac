@@ -29,7 +29,7 @@ export type BaseInputProps<T, TReturn = T> =
 }
 
 // eslint-disable-next-line react/prefer-stateless-function
-export const BaseInput = EnhanceInputWithDisplay(EnhanceInputWithLabel(EnhanceInputWithAddons(class extends Component<BaseInputProps<any>> {
+class BaseInputComponent extends Component<BaseInputProps<any>> {
   render() {
     const {type, updateOnly, ...props} = this.props;
     return (
@@ -41,4 +41,6 @@ export const BaseInput = EnhanceInputWithDisplay(EnhanceInputWithLabel(EnhanceIn
       />
     );
   }
-})));
+}
+
+export const BaseInput = EnhanceInputWithDisplay(EnhanceInputWithLabel(EnhanceInputWithAddons(BaseInputComponent)));

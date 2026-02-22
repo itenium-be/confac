@@ -12,7 +12,7 @@ type InvoiceSearchSelectProps = {
 }
 
 
-export const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component<InvoiceSearchSelectProps> {
+class InvoiceSearchSelectComponent extends Component<InvoiceSearchSelectProps> {
   onChange(value: InvoiceFiltersSearch[] | null) {
     if (value === null) {
       this.props.onChange([]);
@@ -53,4 +53,6 @@ export const InvoiceSearchSelect = EnhanceInputWithLabel(class extends Component
       />
     );
   }
-});
+}
+
+export const InvoiceSearchSelect = EnhanceInputWithLabel(InvoiceSearchSelectComponent);

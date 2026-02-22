@@ -6,17 +6,18 @@ import {EnhanceWithClaim, EnhanceWithClaimProps} from '../enhancers/EnhanceWithC
 import {Claim} from '../users/models/UserModel';
 
 
-const EnhanceIconWithCenter = <P extends object>(EnhancedComponent: React.ComponentType<P>) => (
-  {center, ...props}: {center?: boolean} & P,
-) => {
-  if (center) {
-    return (
-      <div style={{textAlign: 'center'}}>
-        <EnhancedComponent {...props as P} />
-      </div>
-    );
-  }
-  return <EnhancedComponent {...props as P} />;
+const EnhanceIconWithCenter = <P extends object>(EnhancedComponent: React.ComponentType<P>) => {
+  const IconWithCenter = ({center, ...props}: {center?: boolean} & P) => {
+    if (center) {
+      return (
+        <div style={{textAlign: 'center'}}>
+          <EnhancedComponent {...props as P} />
+        </div>
+      );
+    }
+    return <EnhancedComponent {...props as P} />;
+  };
+  return IconWithCenter;
 };
 
 

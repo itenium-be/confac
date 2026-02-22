@@ -11,10 +11,10 @@ export type EnhanceInputWithAddonsProps = {
 }
 
 // eslint-disable-next-line max-len
-export const EnhanceInputWithAddons = <P extends object>(ComposedComponent: React.ComponentType<P>) =>
-  ({prefix, prefixOptions, suffix, suffixOptions, addOnMinWidth, disabled, ...props}: EnhanceInputWithAddonsProps & P) => {
-  // ATTN: window.outerWidth is not part of the state, so a
-  // rerender does not happen when the user resizes the window
+export const EnhanceInputWithAddons = <P extends object>(ComposedComponent: React.ComponentType<P>) => {
+  const InputWithAddons = ({prefix, prefixOptions, suffix, suffixOptions, addOnMinWidth, disabled, ...props}: EnhanceInputWithAddonsProps & P) => {
+    // ATTN: window.outerWidth is not part of the state, so a
+    // rerender does not happen when the user resizes the window
     if ((!addOnMinWidth || addOnMinWidth < window.outerWidth) && (prefix || suffix)) {
       return (
         <InputGroup>
@@ -26,6 +26,8 @@ export const EnhanceInputWithAddons = <P extends object>(ComposedComponent: Reac
     }
     return <ComposedComponent {...props as P} disabled={disabled} />;
   };
+  return InputWithAddons;
+};
 
 
 const Addon = ({add, options, disabled}) => {
@@ -47,26 +49,29 @@ export type EnhanceInputWithDisplayProps = {
 }
 
 // eslint-disable-next-line max-len
-export const EnhanceInputWithDisplay = <P extends object>(ComposedComponent: React.ComponentType<P>) => ({display, ...props}: EnhanceInputWithDisplayProps & P) => {
-  if (display === 'label') {
-    if (!props.value) {
-      return <span>&nbsp;</span>;
+export const EnhanceInputWithDisplay = <P extends object>(ComposedComponent: React.ComponentType<P>) => {
+  const InputWithDisplay = ({display, ...props}: EnhanceInputWithDisplayProps & P) => {
+    if (display === 'label') {
+      if (!props.value) {
+        return <span>&nbsp;</span>;
+      }
+
+      if (typeof props.value === 'string') {
+        return <span>{props.value}</span>;
+      }
+
+      if (typeof props.value.toDate === 'function') {
+        return <span>{formatDate(props.value)}</span>;
+      }
+
+      return <span>{props.value.toString()}</span>;
     }
 
-    if (typeof props.value === 'string') {
-      return <span>{props.value}</span>;
+    if (!!display) {
+      return display;
     }
 
-    if (typeof props.value.toDate === 'function') {
-      return <span>{formatDate(props.value)}</span>;
-    }
-
-    return <span>{props.value.toString()}</span>;
-  }
-
-  if (!!display) {
-    return display;
-  }
-
-  return <ComposedComponent {...props as P} />;
+    return <ComposedComponent {...props as P} />;
+  };
+  return InputWithDisplay;
 };
