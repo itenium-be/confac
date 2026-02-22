@@ -7,7 +7,7 @@ import {ClientEditIcon} from './ClientEditIcon';
 
 type ClientDetailsProps = {
   client: InvoiceClientModel;
-  onOpenDetails: Function;
+  onOpenDetails: () => void;
   onOpenDetailsTitle: string;
 }
 

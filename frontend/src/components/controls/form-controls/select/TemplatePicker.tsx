@@ -7,7 +7,7 @@ import {t} from '../../../utils';
 
 type TemplatePickerProps = {
   value: string;
-  onChange: Function;
+  onChange: (value: string) => void;
 }
 
 type TemplatePickerState = {

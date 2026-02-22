@@ -6,7 +6,7 @@ import {t} from '../../../utils';
 export type SimpleCreatableSelectProps = {
   options: string[];
   value: string;
-  onChange: Function;
+  onChange: (value: string) => void;
   isClearable?: boolean;
 };
 

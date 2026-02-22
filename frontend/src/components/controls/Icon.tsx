@@ -35,7 +35,7 @@ export type IconProps = EnhanceWithClaimProps & {
    * string: A react-router link
    * or a function
    */
-  onClick?: string | Function;
+  onClick?: string | (() => void);
   /**
    * A link to outside React
    */

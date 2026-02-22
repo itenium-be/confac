@@ -7,7 +7,7 @@ import {BaseSelect} from './BaseSelect';
 export type SimpleSelectProps = {
   value: any;
   options: string[];
-  onChange: Function;
+  onChange: (value: string) => void;
   transFn?: (key: string) => string;
   isClearable: boolean;
 };

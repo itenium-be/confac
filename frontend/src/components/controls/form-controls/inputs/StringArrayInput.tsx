@@ -5,7 +5,7 @@ import {t} from '../../../utils';
 type StringArrayInputProps = {
   keys: string[];
   model: any;
-  onChange: Function;
+  onChange: (value: any) => void;
   tPrefix: string;
 }
 

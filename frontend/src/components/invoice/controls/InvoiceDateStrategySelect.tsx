@@ -6,7 +6,7 @@ import {InvoiceDateStrategy} from '../../../models';
 
 type InvoiceDateStrategySelectProps = {
   value: InvoiceDateStrategy;
-  onChange: Function;
+  onChange: (value: string) => void;
 }
 
 export const InvoiceDateStrategySelect = ({value = 'prev-month-last-day', ...props}: InvoiceDateStrategySelectProps) => (

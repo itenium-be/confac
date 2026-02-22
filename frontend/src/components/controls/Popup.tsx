@@ -7,7 +7,7 @@ import {BusyButton} from './form-controls/BusyButton';
 
 export type PopupButton = {
   text: string;
-  onClick: Function;
+  onClick: () => void;
   variant?: BootstrapVariant;
   busy?: boolean;
   disabled?: boolean;

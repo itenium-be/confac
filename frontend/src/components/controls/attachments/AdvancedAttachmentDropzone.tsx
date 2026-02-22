@@ -12,7 +12,7 @@ import './attachments.scss';
 type AttachmentFormProps = {
   attachment?: Attachment;
   downloadUrl: (downloadType: 'download' | 'preview', att: Attachment) => string;
-  onDelete?: Function;
+  onDelete?: () => void;
   onUpload?: (file: File) => void;
   dropzonePlaceholderText?: string;
   viewFileTooltip?: string;

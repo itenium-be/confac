@@ -25,7 +25,7 @@ function getHeader(size: number): any {
 
 
 type HeaderWithEditIconProps = IconProps & {
-  onEditClick?: Function;
+  onEditClick?: () => void;
   editIconVisible?: boolean;
   children?: React.ReactNode;
 }

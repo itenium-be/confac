@@ -4,7 +4,7 @@ import {t} from '../utils';
 
 
 type EnhanceWithConfirmationProps = {
-  onClick: Function;
+  onClick: () => void;
   /** Confirmation dialog title */
   title: string;
   /** Confirmation dialog content */

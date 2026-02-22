@@ -10,7 +10,7 @@ export type Option = {
 export type SimpleCreatableSelectWithOptionsProps = {
   options: Option[];
   value: string;
-  onChange: Function;
+  onChange: (value: string) => void;
   isClearable?: boolean;
   'data-testid'?: string;
 };

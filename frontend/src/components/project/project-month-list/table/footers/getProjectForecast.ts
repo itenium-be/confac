@@ -55,7 +55,7 @@ export function getProjectForecast(models: Array<FullProjectModel | FullProjectM
   };
 
   const isProjectModel = !((models[0] as FullProjectMonthModel).project);
-  const totalGetter: Function = isProjectModel ? getTotalsProject : getTotalsProjectModel;
+  const totalGetter = isProjectModel ? getTotalsProject : getTotalsProjectModel;
 
   return {
     consultants: totalGetter(result.consultants),

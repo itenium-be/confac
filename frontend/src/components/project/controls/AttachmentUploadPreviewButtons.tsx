@@ -8,7 +8,7 @@ type AttachmentUploadPreviewButtonsProps = {
   isPreviewDisabled: boolean;
   uploadTooltip: string;
   previewTooltip: string;
-  onUpload: (f: File) => Function;
+  onUpload: (f: File) => void;
   downloadUrl: string;
 }
 
