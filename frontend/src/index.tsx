@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom/client';
 import {defaultLocale} from './components/utils';
 
 
-if (process.env.NODE_ENV !== 'production') {
-  document.title += ` - ${process.env.NODE_ENV || '???'}`;
+if (import.meta.env.MODE !== 'production') {
+  document.title += ` - ${import.meta.env.MODE || '???'}`;
 }
 
 

@@ -1,4 +1,4 @@
-const urlPrefix = require('../../config-front').backend;
+import {backend as urlPrefix} from '../../config-front';
 
 export function buildUrl(url: string): string {
   return urlPrefix + url;

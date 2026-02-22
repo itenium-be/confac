@@ -1,4 +1,4 @@
-// / <reference types="react-scripts" />
+/// <reference types="vite/client" />
 
 declare module 'use-debounce';
 declare module 'react-bootstrap';

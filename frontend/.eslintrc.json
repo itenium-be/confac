@@ -1,7 +1,28 @@
 {
   "extends": [
-    "react-app"
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
   ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "env": {
+    "browser": true,
+    "es2020": true,
+    "node": true
+  },
   "rules": {
     "semi": ["error", "always"],
     "keyword-spacing": ["error", { "before": true }],
@@ -15,7 +36,6 @@
     "no-tabs": "error",
     "quote-props": ["error", "as-needed", { "keywords": false, "unnecessary": true, "numbers": false }],
     "quotes": ["error", "single", { "avoidEscape": true }],
-    // "curly": ["error", "multi-line"]
     "dot-notation": ["error", { "allowKeywords": true }],
     "eqeqeq": ["error", "always", { "null": "ignore" }],
     "no-lone-blocks": "error",
@@ -44,7 +64,6 @@
     }],
     "react/button-has-type": "error",
     "react/void-dom-elements-no-children": "error",
-    // "react/destructuring-assignment": ["error", "always"]
     "react/jsx-boolean-value": ["error", "never"],
     "react/jsx-closing-bracket-location": ["error"],
     "react/jsx-curly-brace-presence": ["error", "never"],
@@ -56,7 +75,6 @@
     "react/jsx-key": "error",
     "react/jsx-no-constructed-context-values": "error",
     "react/jsx-no-duplicate-props": "error",
-    // "react/jsx-no-leaked-render": "error" // https://github.com/jsx-eslint/eslint-plugin-react/issues/3292
     "react/jsx-no-script-url": "error",
     "react/jsx-no-target-blank": "error",
     "react/jsx-no-useless-fragment": ["error", {"allowExpressions": true}],
@@ -66,10 +84,8 @@
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react/no-access-state-in-setstate": "error",
-    // "react/no-array-index-key": "error"
     "react/no-children-prop": "error",
     "react/no-danger-with-children": "error",
-    // "react/no-danger": "warn", // TODO: CI fails on warnings
     "react/no-deprecated": "error",
     "react/no-direct-mutation-state": "error",
     "react/no-find-dom-node": "error",
@@ -77,11 +93,12 @@
     "react/no-is-mounted": "error",
     "react/no-string-refs": "error",
     "react/no-unknown-property": "error",
-    // "react/no-unsafe": "warn", // TODO: CI fails on warnings
     "react/no-unstable-nested-components": "error",
     "react/no-unused-prop-types": "error",
     "react/no-unused-state": "error",
     "react/self-closing-comp": "error",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
     "@typescript-eslint/member-delimiter-style": ["error", {
       "multiline": {
         "delimiter": "semi",
@@ -100,8 +117,9 @@
         "arrow": {"before": true, "after": true}
       }
     }],
-    "@typescript-eslint/space-infix-ops": "error"
-    // "@stylistic/type-generic-spacing": "error" // TODO: need to upgrade for this one
+    "@typescript-eslint/space-infix-ops": "error",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
   },
   "overrides": [
     {
