@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "node scripts/dev.mjs",
-    "start": "node scripts/dev.mjs",
-    "build": "node scripts/build.mjs",
+    "dev": "vite",
+    "start": "vite",
+    "build": "tsc && vite build",
     "typecheck": "tsc",
     "preview": "vite preview",
     "test": "vitest",
