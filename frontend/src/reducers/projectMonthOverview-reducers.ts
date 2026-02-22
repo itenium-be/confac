@@ -1,7 +1,8 @@
 import {ACTION_TYPES} from '../actions';
 import {ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
+import {Action} from '../types/redux';
 
-export const projectsMonthOverviews = (state: ProjectMonthOverviewModel[] = [], action): ProjectMonthOverviewModel[] => {
+export const projectsMonthOverviews = (state: ProjectMonthOverviewModel[] = [], action: Action): ProjectMonthOverviewModel[] => {
   switch (action.type) {
     case ACTION_TYPES.PROJECTS_MONTH_OVERVIEWS_FETCHED: {
       return action.projectsMonthOverviews;

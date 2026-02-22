@@ -3,6 +3,7 @@ import moment from 'moment';
 import {ACTION_TYPES} from '../actions';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
 import {getNewProjectMonth} from '../components/project/models/getNewProject';
+import {Action} from '../types/redux';
 
 // TODO: We will not fetch all months, but just the months with !verified
 
@@ -15,7 +16,7 @@ function mapProject(prj: ProjectMonthModel): ProjectMonthModel {
 }
 
 
-export const projectsMonth = (state: ProjectMonthModel[] = [], action): ProjectMonthModel[] => {
+export const projectsMonth = (state: ProjectMonthModel[] = [], action: Action): ProjectMonthModel[] => {
   switch (action.type) {
     case ACTION_TYPES.PROJECTS_MONTH_FETCHED: {
       const newProjects = action.projectsMonth.map(mapProject);
@@ -28,10 +29,10 @@ export const projectsMonth = (state: ProjectMonthModel[] = [], action): ProjectM
     }
 
     case ACTION_TYPES.MODELS_UPDATED: {
-      const toUpdate = action.payload.filter(x => x.type === 'projectMonth' && !!x.model);
-      const removeIds = toUpdate.map(x => x.model._id);
+      const toUpdate = action.payload.filter((x: {type: string; model: ProjectMonthModel}) => x.type === 'projectMonth' && !!x.model);
+      const removeIds = toUpdate.map((x: {model: ProjectMonthModel}) => x.model._id);
       const newState = state.filter(model => !removeIds.includes(model._id));
-      toUpdate.forEach(model => newState.push(mapProject(model.model)));
+      toUpdate.forEach((model: {model: ProjectMonthModel}) => newState.push(mapProject(model.model)));
       return newState;
     }
 

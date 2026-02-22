@@ -3,6 +3,7 @@ import moment from 'moment';
 import {ACTION_TYPES} from '../actions';
 import {IProjectModel} from '../components/project/models/IProjectModel';
 import {getNewProject} from '../components/project/models/getNewProject';
+import {Action} from '../types/redux';
 
 
 function mapProject(prj: IProjectModel): IProjectModel {
@@ -13,7 +14,7 @@ function mapProject(prj: IProjectModel): IProjectModel {
   return {...getNewProject(), ...prj};
 }
 
-export const projects = (state: IProjectModel[] = [], action): IProjectModel[] => {
+export const projects = (state: IProjectModel[] = [], action: Action): IProjectModel[] => {
   switch (action.type) {
     case ACTION_TYPES.PROJECTS_FETCHED:
       return action.projects.map(mapProject);

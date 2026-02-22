@@ -3,22 +3,22 @@ import {trans, features} from './trans.nl';
 export {features};
 
 
-export default function Translate(key: string, params?: object): string {
+export default function Translate(key: string, params?: Record<string, string | number | null | undefined>): string {
   if (!key) {
     return 'UNDEFINED KEY';
   }
 
-  let str: any;
+  let str: string;
   if (key.indexOf('.') === -1) {
-    str = trans[key];
+    str = (trans as Record<string, unknown>)[key] as string;
   } else {
-    str = key.split('.').reduce((o, i) => {
+    str = key.split('.').reduce((o: Record<string, unknown>, i: string) => {
       if (!o || !o[i]) {
         console.error(`trans.ts: Could not find '${key}' on`, o);
-        return key;
+        return key as unknown as Record<string, unknown>;
       }
-      return o[i];
-    }, trans);
+      return o[i] as Record<string, unknown>;
+    }, trans as Record<string, unknown>) as unknown as string;
   }
 
   if (str === undefined) {
@@ -26,11 +26,11 @@ export default function Translate(key: string, params?: object): string {
   }
 
   if (str.indexOf('{}') !== -1) {
-    return str.replace('{}', params);
+    return str.replace('{}', String(params));
   }
-  if (typeof params === 'object') {
+  if (typeof params === 'object' && params !== null) {
     Object.keys(params).forEach(paramKey => {
-      str = str.replace(`{${paramKey}}`, params[paramKey]);
+      str = str.replace(`{${paramKey}}`, String(params[paramKey]));
     });
   }
 

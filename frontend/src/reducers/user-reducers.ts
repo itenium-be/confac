@@ -1,6 +1,7 @@
 import {ACTION_TYPES} from '../actions';
 import {UserState, RoleModel} from '../components/users/models/UserModel';
 import {getAdminRole} from '../components/users/models/getNewUser';
+import {Action} from '../types/redux';
 
 
 export function getRoles(): RoleModel[] {
@@ -19,7 +20,7 @@ const defaultUserState = {
 };
 
 
-export const users = (state: UserState = defaultUserState, action) => {
+export const users = (state: UserState = defaultUserState, action: Action) => {
   switch (action.type) {
     case ACTION_TYPES.USERS_FETCHED:
       return {...state, users: action.users};

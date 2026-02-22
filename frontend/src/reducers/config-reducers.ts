@@ -2,6 +2,7 @@ import {ConfigModel} from '../components/config/models/ConfigModel';
 import {ACTION_TYPES} from '../actions';
 import {defaultConfig} from '../components/config/models/getNewConfig';
 import moment from 'moment';
+import {Action} from '../types/redux';
 
 // Config is stored on the backend
 
@@ -12,7 +13,7 @@ export function mapConfig(config: ConfigModel): ConfigModel {
   };
 }
 
-export const config = (state: ConfigModel = defaultConfig, action): ConfigModel => {
+export const config = (state: ConfigModel = defaultConfig, action: Action): ConfigModel => {
   switch (action.type) {
     case ACTION_TYPES.CONFIG_FETCHED:
       // console.log('CONFIG_FETCHED', action.config); // eslint-disable-line

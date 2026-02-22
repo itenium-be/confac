@@ -1,10 +1,11 @@
 import {ACTION_TYPES} from '../actions';
 import {AppState} from '../models';
 import {defaultAppState} from './app-state';
+import {Action} from '../types/redux';
 
 // App is also config but only relevant for the session
 
-export const app = (state: AppState = defaultAppState, action): AppState => {
+export const app = (state: AppState = defaultAppState, action: Action): AppState => {
   switch (action.type) {
     case ACTION_TYPES.INITIAL_LOAD:
       return {...state, isLoaded: true, lastMonthsDownloaded: action.lastMonthsDownloaded};
