@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import {toast} from 'react-toastify';
 import {Dispatch} from 'redux';
 import {authService} from '../components/users/authService';

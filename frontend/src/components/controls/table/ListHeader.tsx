@@ -10,7 +10,7 @@ type ListHeaderProps<TModel> = {
 }
 
 
-// eslint-disable-next-line arrow-body-style
+
 export const ListHeader = ({feature}: ListHeaderProps<any>) => {
   const dispatch = useDispatch();
   return (

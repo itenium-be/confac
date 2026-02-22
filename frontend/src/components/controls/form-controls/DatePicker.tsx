@@ -37,11 +37,11 @@ export const DatePicker = EnhanceInputWithDisplay(EnhanceInputWithLabel((props: 
 
 
   if (props.value && typeof props.value === 'string') {
-    // eslint-disable-next-line no-console
+
     console.error('DatePicker unexpected string input ', props);
-    // eslint-disable-next-line no-console
+
     console.info('Map to a moment instance in the reducer map function');
-    // eslint-disable-next-line react/jsx-one-expression-per-line
+
     return <div>INVALID DATE INPUT: {props.value}</div>;
   }
 

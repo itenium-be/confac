@@ -10,9 +10,9 @@ type InvoiceAmountLabelProps = {
 export const InvoiceAmountLabel = ({invoices, isQuotation, ...props}: InvoiceAmountLabelProps) => {
   const type = isQuotation ? 'quotation' : 'invoice';
   if (invoices.length === 1) {
-    return <span>{t(type + '.amountOne')}</span>; //eslint-disable-line
+    return <span>{t(type + '.amountOne')}</span>;
   }
-  return <span>{invoices.length} {t(type + '.amount').toLowerCase()}</span>; //eslint-disable-line
+  return <span>{invoices.length} {t(type + '.amount').toLowerCase()}</span>;
 };
 
 

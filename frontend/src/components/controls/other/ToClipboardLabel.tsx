@@ -6,7 +6,7 @@ import {t} from '../../utils';
 /** Click on Label to put text on clipboard */
 export const ToClipboardLabel = ({label, copyValue}: {label: string; copyValue?: string}) => {
   const copyToClipBoard = async (copyMe: string) => {
-    console.log('To clipboard', copyMe); // eslint-disable-line
+    console.log('To clipboard', copyMe);
 
     if (!navigator.clipboard || document.location.protocol === 'http:') {
       const textArea = document.createElement('textarea');
@@ -25,7 +25,7 @@ export const ToClipboardLabel = ({label, copyValue}: {label: string; copyValue?:
         document.execCommand('copy');
         info(t('controls.clipboard.success', {text: copyMe}));
       } catch (err) {
-        console.error('Fallback: Oops, unable to copy', err); // eslint-disable-line
+        console.error('Fallback: Oops, unable to copy', err);
         info(t('controls.clipboard.failure'));
       }
 
@@ -38,7 +38,7 @@ export const ToClipboardLabel = ({label, copyValue}: {label: string; copyValue?:
         await navigator.clipboard.writeText(copyMe);
         info(t('controls.clipboard.success', {text: copyMe}));
       } catch (err) {
-        console.error('Clipboard err', err); // eslint-disable-line
+        console.error('Clipboard err', err);
         info(t('controls.clipboard.failure'));
       }
     }

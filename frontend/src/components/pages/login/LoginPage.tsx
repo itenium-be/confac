@@ -49,7 +49,7 @@ export const LoginPage = (props: any) => {
     return <AnonymousLogin onLogin={userName => anonymousLogin(userName)} />;
   }
 
-  console.log('googleClientId', googleClientId); // eslint-disable-line
+  console.log('googleClientId', googleClientId);
   return (
     <GoogleOAuthProvider clientId={googleClientId}>
       <div>

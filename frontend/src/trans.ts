@@ -14,7 +14,7 @@ export default function Translate(key: string, params?: object): string {
   } else {
     str = key.split('.').reduce((o, i) => {
       if (!o || !o[i]) {
-        console.error(`trans.ts: Could not find '${key}' on`, o); // eslint-disable-line
+        console.error(`trans.ts: Could not find '${key}' on`, o);
         return key;
       }
       return o[i];

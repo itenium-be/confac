@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import {failure} from '../appActions';
 import t from '../../trans';
 import {authService} from '../../components/users/authService';

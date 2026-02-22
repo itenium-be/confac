@@ -110,8 +110,8 @@ export function getComponent(col: FormConfig) {
     if (componentMap[col.component]) {
       return componentMap[col.component];
     }
-    console.error(`EditComponentFactory: Tried to render component ${col.component} but it's not configured`, col); // eslint-disable-line
-    console.log('componentMap', componentMap); // eslint-disable-line
+    console.error(`EditComponentFactory: Tried to render component ${col.component} but it's not configured`, col);
+    console.log('componentMap', componentMap);
 
   } else if (col.component) {
     return col.component;

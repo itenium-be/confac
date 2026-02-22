@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+
 import {ConsultantModel} from '../components/consultant/models/ConsultantModel';
 import {ACTION_TYPES} from '../actions';
 import {getNewConsultant} from '../components/consultant/models/getNewConsultant';

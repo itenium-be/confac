@@ -20,7 +20,7 @@ type PopupProps = {
   buttons: PopupButton[];
 }
 
-// eslint-disable-next-line react/prefer-stateless-function
+
 export class Popup extends Component<PopupProps> {
   render() {
     return (

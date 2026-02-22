@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+
 import moment from 'moment';
 import {ACTION_TYPES} from '../actions';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';

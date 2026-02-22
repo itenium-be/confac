@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import {SetStateAction} from 'react';
 import request from 'superagent-bluebird-promise';
 import {Dispatch} from 'redux';

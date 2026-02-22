@@ -102,7 +102,7 @@ export function deleteProjectsMonth(id: string, navigate: any) {
       .set('x-socket-id', socketService.socketId)
       .send({id})
       .then(res => {
-        console.log('projectMonth deleted', id); // eslint-disable-line
+        console.log('projectMonth deleted', id);
         dispatch({
           type: ACTION_TYPES.PROJECTS_MONTH_DELETE,
           id,
@@ -127,7 +127,7 @@ export function deleteProject(id: string, navigate: any) {
       .set('x-socket-id', socketService.socketId)
       .send({id})
       .then(res => {
-        console.log('project deleted', id); // eslint-disable-line
+        console.log('project deleted', id);
         dispatch({
           type: ACTION_TYPES.PROJECT_DELETE,
           id,

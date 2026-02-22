@@ -40,7 +40,7 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
         if (key.includes('.')) {
           value = key.split('.').reduce((o, i) => {
             if (!o) {
-              console.error(`${key}: No property ${i} on`, model); // eslint-disable-line
+              console.error(`${key}: No property ${i} on`, model);
               return `${key}: No property ${i} on ${JSON.stringify(model)}`;
             }
             return o[i];

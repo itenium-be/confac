@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-one-expression-per-line */
+
 import moment from 'moment';
 import {IList, IListCell, ProjectListFilters} from '../../controls/table/table-models';
 import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';

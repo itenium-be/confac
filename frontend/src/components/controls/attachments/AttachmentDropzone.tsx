@@ -34,7 +34,7 @@ export const AttachmentDropzone = (props: AttachmentDropzoneProps) => {
   const styles = {
     cursor: disabled ? 'not-allowed' : 'pointer',
     width: '100%',
-    // eslint-disable-next-line no-nested-ternary
+
     opacity: disableOpacityMode ? 1 : (file ? 1 : 0.5),
   };
 

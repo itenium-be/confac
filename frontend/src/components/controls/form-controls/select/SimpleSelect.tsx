@@ -13,7 +13,7 @@ export type SimpleSelectProps = {
 };
 
 
-// eslint-disable-next-line react/prefer-stateless-function
+
 class SimpleSelectComponent extends Component<SimpleSelectProps> {
   render() {
     const {transFn, options, value, onChange, isClearable, ...props} = this.props;

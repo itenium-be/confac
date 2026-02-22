@@ -166,7 +166,7 @@ export function deleteInvoice(invoice: InvoiceModel) {
       .set('x-socket-id', socketService.socketId)
       .send({id: invoice._id})
       .then(res => {
-        console.log('invoice deleted', invoice); // eslint-disable-line
+        console.log('invoice deleted', invoice);
         dispatch({
           type: ACTION_TYPES.INVOICE_DELETED,
           id: invoice._id,

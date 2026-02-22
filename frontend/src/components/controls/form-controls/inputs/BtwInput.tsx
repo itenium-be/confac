@@ -124,7 +124,7 @@ export type BtwResponse = {
   address: {
     street: string;
     number: string;
-    // eslint-disable-next-line camelcase
+
     zip_code: string;
     city: string;
     country: string;

@@ -57,7 +57,7 @@ const useProjectState = () => {
     } else {
       setSimpleProject(getNewProject());
     }
-  }, [storeProject]); // eslint-disable-line
+  }, [storeProject]);
 
 
   const setProject = (value: IProjectModel) => {

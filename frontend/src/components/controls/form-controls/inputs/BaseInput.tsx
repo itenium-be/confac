@@ -28,7 +28,7 @@ export type BaseInputProps<T, TReturn = T> =
   updateOnly?: boolean;
 }
 
-// eslint-disable-next-line react/prefer-stateless-function
+
 class BaseInputComponent extends Component<BaseInputProps<any>> {
   render() {
     const {type, updateOnly, ...props} = this.props;

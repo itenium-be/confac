@@ -28,7 +28,7 @@ export class TemplatePicker extends Component<TemplatePickerProps, TemplatePicke
         if (!templates.message) {
           this.setState({templates});
         } else {
-          console.log('/config/templates', templates); // eslint-disable-line
+          console.log('/config/templates', templates);
           failure(t('config.company.templateLoadError'), undefined, undefined, toast.POSITION.BOTTOM_RIGHT as any);
           return Promise.reject(templates);
         }

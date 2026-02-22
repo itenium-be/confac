@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+
 import InvoiceModel from './InvoiceModel';
 import {ConfigModel} from '../../config/models/ConfigModel';
 import {ClientModel} from '../../client/models/ClientModels';

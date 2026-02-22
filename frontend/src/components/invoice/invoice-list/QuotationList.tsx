@@ -29,7 +29,7 @@ type QuotationListProps = {
   filters: InvoiceListFilters;
 }
 
-// eslint-disable-next-line react/prefer-stateless-function
+
 export const QuotationList = (props: QuotationListProps) => {
   useDocumentTitle('quotationList');
   const dispatch = useDispatch();

@@ -18,7 +18,7 @@ export function sendEmail(
 ) {
 
   return dispatch => {
-    // eslint-disable-next-line no-param-reassign
+
     email.attachments = email.attachments.map(attachmentType => {
       if (attachmentType === 'pdf') {
         return {
@@ -51,7 +51,7 @@ export function sendEmail(
       .set('x-socket-id', socketService.socketId)
       .send(email)
       .then(res => {
-        console.log('Email response', res); // eslint-disable-line
+        console.log('Email response', res);
         success(t('email.sent'));
         dispatch({
           type: ACTION_TYPES.INVOICE_UPDATED,
@@ -62,7 +62,7 @@ export function sendEmail(
         });
       })
       .catch(err => {
-        console.error('res ERROR', err); // eslint-disable-line
+        console.error('res ERROR', err);
         failure(err.body?.message, 'Email failure', 8000);
       });
   };

@@ -6,7 +6,7 @@ import {holidaysService} from '../../../../../actions/holidays';
 
 
 export function getProjectForecast(models: Array<FullProjectModel | FullProjectMonthModel>, getFor: 'client' | 'partner', month?: moment.Moment) {
-  // eslint-disable-next-line no-param-reassign
+
   month = month || moment();
 
   const result = {

@@ -8,7 +8,7 @@ import {ContractStatus} from './ContractModels';
 export const DefaultHoursInDay = 8;
 
 export function getNewClient(config?: ConfigModel): ClientModel {
-  // eslint-disable-next-line no-param-reassign
+
   config = config || defaultConfig;
   return {
     _id: '',

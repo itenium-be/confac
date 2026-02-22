@@ -13,7 +13,7 @@ export type EnhanceInputWithLabelProps = {
   inline?: boolean;
 }
 
-// eslint-disable-next-line max-len
+
 export const EnhanceInputWithLabel = <P extends object>(ComposedComponent: React.ComponentType<P>) => {
   const InputWithLabel = ({label, placeholder, inline, ...props}: EnhanceInputWithLabelProps & P) => {
     const placeholderText = placeholder || (typeof label === 'string' ? label : undefined);

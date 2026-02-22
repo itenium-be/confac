@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-one-expression-per-line */
+
 import moment from 'moment';
 import {t} from '../../../../utils';
 import {ConsultantModel} from '../../../../consultant/models/ConsultantModel';

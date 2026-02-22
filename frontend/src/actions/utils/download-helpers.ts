@@ -56,7 +56,7 @@ export function previewPdf(fileName: string, content: Blob): void {
       //   </body></html>`);
     }
   } catch (err) {
-    console.error('previewPdf', err); // eslint-disable-line
+    console.error('previewPdf', err);
   }
 }
 

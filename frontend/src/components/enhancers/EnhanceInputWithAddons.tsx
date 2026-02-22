@@ -10,7 +10,7 @@ export type EnhanceInputWithAddonsProps = {
   disabled?: boolean;
 }
 
-// eslint-disable-next-line max-len
+
 export const EnhanceInputWithAddons = <P extends object>(ComposedComponent: React.ComponentType<P>) => {
   const InputWithAddons = ({prefix, prefixOptions, suffix, suffixOptions, addOnMinWidth, disabled, ...props}: EnhanceInputWithAddonsProps & P) => {
     // ATTN: window.outerWidth is not part of the state, so a
@@ -48,7 +48,7 @@ export type EnhanceInputWithDisplayProps = {
   value: any;
 }
 
-// eslint-disable-next-line max-len
+
 export const EnhanceInputWithDisplay = <P extends object>(ComposedComponent: React.ComponentType<P>) => {
   const InputWithDisplay = ({display, ...props}: EnhanceInputWithDisplayProps & P) => {
     if (display === 'label') {

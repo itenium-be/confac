@@ -71,7 +71,7 @@ export function downloadInvoicesExcel(ids: string[]) {
       .set('Authorization', authService.getBearer())
       .send(ids)
       .then(res => {
-        console.log('downloaded', res); // eslint-disable-line
+        console.log('downloaded', res);
         const fileName = `invoices-${moment().format('YYYY-MM-DD')}.csv`;
         downloadAttachment(fileName, res.body);
       });
@@ -85,7 +85,7 @@ export function downloadProjectsExcel(data: any[][]) {
       .set('Authorization', authService.getBearer())
       .send(data)
       .then(res => {
-        console.log('downloaded', res); // eslint-disable-line
+        console.log('downloaded', res);
         const fileName = `projects-${moment().format('YYYY-MM-DD')}.xlsx`;
         downloadAttachment(fileName, res.body);
       });
@@ -99,7 +99,7 @@ export function downloadProjectsMonthsExcel(data: any[][], projectMonth: string)
       .set('Authorization', authService.getBearer())
       .send(data)
       .then(res => {
-        console.log('downloaded', res); // eslint-disable-line
+        console.log('downloaded', res);
         const fileName = `projects-${projectMonth}-${moment().format('YYYY-MM-DD')}.xlsx`;
         downloadAttachment(fileName, res.body);
       });
@@ -113,7 +113,7 @@ export function downloadProjectsMonthsFreelancerExcel(data: any[][], freelancer?
       .set('Authorization', authService.getBearer())
       .send(data)
       .then(res => {
-        console.log('downloaded', res); // eslint-disable-line
+        console.log('downloaded', res);
         let fileName: string;
         if (freelancer) {
           fileName = `freelancer-${freelancer.firstName}-${freelancer.name}-${moment().format('YYYY-MM-DD')}.xlsx`;

@@ -23,7 +23,7 @@ type EmailFormProps = BaseInputProps<EmailModel> & {
 export const EmailForm = ({value, onChange, attachmentsAvailable, textEditorReplacements}: EmailFormProps) => {
   const [showAllTos, setShowAllTos] = useState(false);
 
-  // eslint-disable-next-line no-param-reassign
+
   value = value || getNewEmail();
 
   let getToolbarCustomButtons: (editorState: EditorState) => JSX.Element[] = () => [];

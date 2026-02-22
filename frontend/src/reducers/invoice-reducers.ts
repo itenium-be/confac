@@ -3,7 +3,7 @@ import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {ACTION_TYPES} from '../actions';
 
 function mapInvoice(invoice: InvoiceModel): InvoiceModel {
-  // eslint-disable-next-line no-param-reassign
+
   if (invoice.projectMonth === undefined || invoice.projectMonth === null) {
     delete invoice.projectMonth;
   }
