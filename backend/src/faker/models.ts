@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies, prefer-template, no-console */
+/* eslint-disable no-console */
 import {faker} from '@faker-js/faker';
 import moment from 'moment';
 import {Db} from 'mongodb';

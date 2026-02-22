@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+ 
 import {Request, Response} from 'express';
 import {ObjectID} from 'mongodb';
 import {OAuth2Client, TokenPayload} from 'google-auth-library';

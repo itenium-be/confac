@@ -25,7 +25,7 @@ export const convertHtmlToBuffer = (logger: Logger, html: string): Promise<Buffe
 });
 
 export const createHtml = (logger: Logger, invoice: IInvoiceWithCreditNotaNumbers): string | {error: string} => {
-  /* eslint-disable no-param-reassign */
+   
   invoice = JSON.parse(JSON.stringify(invoice));
   // if (Array.isArray(invoice.extraFields)) {
   //   invoice.extraFields = invoice.extraFields.reduce((acc: IExtraFieldsObject, field) => {

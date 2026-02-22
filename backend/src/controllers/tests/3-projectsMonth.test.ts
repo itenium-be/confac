@@ -7,9 +7,9 @@
 import express, {NextFunction, Request, Response} from 'express';
 import {Db, MongoClient} from 'mongodb';
 // import {MongoMemoryServer} from 'mongodb-memory-server';
-import request from 'supertest'; // eslint-disable-line import/no-extraneous-dependencies
+import request from 'supertest';
 import bodyParser from 'body-parser';
-import {SocketServerMock} from 'socket.io-mock-ts'; // eslint-disable-line import/no-extraneous-dependencies
+import {SocketServerMock} from 'socket.io-mock-ts';
 import projectsRouter from '../../routes/projects';
 
 

@@ -3,9 +3,9 @@ import {orderCreatedWebhook, orderUpdatedWebhook, messageCreatedWebhook, message
 
 const configRouter = Router();
 
-configRouter.post('/order-created', orderCreatedWebhook);
-configRouter.post('/order-updated', orderUpdatedWebhook);
-configRouter.post('/message-created', messageCreatedWebhook);
-configRouter.post('/message-updated', messageUpdatedWebhook);
+configRouter.post('/order-created', orderCreatedWebhook as any);
+configRouter.post('/order-updated', orderUpdatedWebhook as any);
+configRouter.post('/message-created', messageCreatedWebhook as any);
+configRouter.post('/message-updated', messageUpdatedWebhook as any);
 
 export default configRouter;

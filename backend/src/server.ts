@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+ 
 import express, {Request, Response, NextFunction} from 'express';
 import bodyParser from 'body-parser';
 import {MongoClient} from 'mongodb';

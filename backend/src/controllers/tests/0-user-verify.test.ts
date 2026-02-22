@@ -19,7 +19,7 @@ const mockedConfig: jest.Mocked<IConfig> = jest.mocked(config);
 
 jest.mock('google-auth-library', () => {
   class FakeOAuth2Client {
-    verifyIdToken() { // eslint-disable-line class-methods-use-this
+    verifyIdToken() {  
       return {getPayload: () => payload};
     }
   }

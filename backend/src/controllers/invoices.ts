@@ -141,7 +141,7 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
     );
 
     linkedInvoices.forEach(linkedInvoice => {
-      linkedInvoice.creditNotas = [...(linkedInvoice.creditNotas || []), createdInvoice._id]; // eslint-disable-line no-param-reassign
+      linkedInvoice.creditNotas = [...(linkedInvoice.creditNotas || []), createdInvoice._id];  
       emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, linkedInvoice._id, linkedInvoice, 'everyone');
     });
   }
@@ -320,7 +320,7 @@ export const deleteInvoiceController = async (req: ConfacRequest, res: Response)
     );
 
     linkedInvoices.forEach(toUpdate => {
-      toUpdate.creditNotas = toUpdate.creditNotas.filter(x => x !== invoice._id.toString()); // eslint-disable-line no-param-reassign
+      toUpdate.creditNotas = toUpdate.creditNotas.filter(x => x !== invoice._id.toString());  
       emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, toUpdate._id, toUpdate, 'everyone');
     });
   }
@@ -415,7 +415,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
         .findOne({_id: new ObjectID(invoice.projectMonth.projectMonthId)});
       if (projectMonth) {
         project = await req.db.collection<IProject>(CollectionNames.PROJECTS)
-          .findOne({_id: new ObjectID(projectMonth.projectId)});
+          .findOne({_id: new ObjectID(projectMonth.projectId)}) ?? undefined;
         if (project) {
           consultant = await req.db.collection<IConsultant>(CollectionNames.CONSULTANTS)
             .findOne({_id: new ObjectID(project.consultantId)}) ?? undefined;

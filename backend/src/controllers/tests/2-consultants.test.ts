@@ -7,7 +7,7 @@
 import {Request, Response} from 'express';
 import {Db, MongoClient} from 'mongodb';
 // import {MongoMemoryServer} from 'mongodb-memory-server';
-import {SocketServerMock} from 'socket.io-mock-ts';// eslint-disable-line import/no-extraneous-dependencies
+import {SocketServerMock} from 'socket.io-mock-ts';
 import {IAudit} from '../../models/common';
 import {Jwt, ConfacRequest} from '../../models/technical';
 import {saveConsultant} from '../consultants';

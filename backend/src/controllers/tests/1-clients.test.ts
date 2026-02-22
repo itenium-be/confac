@@ -3,7 +3,7 @@
 // With manual Express mocks
 
 import {Request, Response} from 'express';
-import {SocketServerMock} from 'socket.io-mock-ts'; // eslint-disable-line import/no-extraneous-dependencies
+import {SocketServerMock} from 'socket.io-mock-ts';
 import {ConfacRequest, Jwt} from '../../models/technical';
 import {IAudit} from '../../models/common';
 import {IClient} from '../../models/clients';

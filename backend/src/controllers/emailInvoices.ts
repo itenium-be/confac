@@ -82,7 +82,7 @@ async function buildInvoiceEmailData(
 ): Promise<IEmailData> {
 
   // Make sure the invoice is the first document in the array
-  // eslint-disable-next-line no-nested-ternary
+   
   const attachments = email.attachments.sort((a, b) => (a.type === 'pdf' ? -1 : b.type === 'pdf' ? 1 : 0));
 
   // Combine Invoice PDF & Timesheet?
@@ -127,7 +127,7 @@ async function buildInvoiceEmailData(
     fs.writeSync(termsCondFile.fd, termsAndConditions);
 
     const mergedInvoicePdf: Buffer = await PDFMerge([invoiceFile, termsCondFile].map(f => f.name));
-    // eslint-disable-next-line no-confusing-arrow
+     
     emailAttachments = emailAttachments.map((att, idx) => idx === 0 ? {...att, content: mergedInvoicePdf} : att);
 
     invoiceFile.removeCallback();

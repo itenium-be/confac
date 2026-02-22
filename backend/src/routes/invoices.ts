@@ -12,7 +12,7 @@ invoicesRouter.get('/', getInvoicesController);
 
 invoicesRouter.post('/', createInvoiceController as any);
 invoicesRouter.post('/email/:id', emailInvoiceController);
-invoicesRouter.post('/preview', previewPdfInvoiceController);
+invoicesRouter.post('/preview', previewPdfInvoiceController as any);
 invoicesRouter.post('/excel', generateExcelForInvoicesController);
 invoicesRouter.post('/:id/peppol', sendInvoiceToPeppolController as any);
 invoicesRouter.post('/:id/peppol/refresh', refreshPeppolStatusController as any);
