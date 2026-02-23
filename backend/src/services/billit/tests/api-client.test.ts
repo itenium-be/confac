@@ -140,7 +140,7 @@ describe('ApiClient', () => {
 
       try {
         await apiClient.createOrder(createOrderRequest, '2024-001');
-        fail('Expected BillitError to be thrown');
+        expect.fail('Expected BillitError to be thrown');
       } catch (error) {
         expect(error).toBeInstanceOf(BillitError);
         expect((error as BillitError).billitErrors).toEqual([

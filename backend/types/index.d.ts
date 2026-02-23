@@ -1,3 +1,5 @@
+/// <reference types="vitest/globals" />
+
 declare module '@faker-js/faker';
 
 declare module 'bson' {
