@@ -96,7 +96,8 @@ export type FormConfig = {
    * The React Component to use
    * Defaults to StringInput
    */
-  component?: React.ComponentType | StandardComponents | React.FunctionComponent<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  component?: React.ComponentType<any> | StandardComponents;
   /**
    * True: Do not show when creating the record
    * (ex: "slug" which is calculated when saving)
@@ -111,7 +112,7 @@ export type FormConfig = {
   suffix?: InputIcons | React.ComponentType | string;
   style?: CSSProperties;
   /** Additional props passed to the component */
-  props?: {[key: string]: any};
+  props?: Record<string, unknown>;
 }
 
 /** Grid Col size */

@@ -1,6 +1,7 @@
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import moment from 'moment';
 import {isHoliday} from '@itenium/date-holidays-be';
+import {useAppDispatch} from '../../../hooks/useAppDispatch';
 import {IFeature} from '../../../controls/feature/feature-models';
 import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
 import {ProjectMonthListFilters} from '../../../controls/table/table-models';
@@ -29,7 +30,7 @@ type OpenedProjectsMonthsListToolbarProps = {
  **/
 export const OpenedProjectsMonthsListToolbar = ({feature}: OpenedProjectsMonthsListToolbarProps) => {
   const projectsMonthOverviews = useSelector((state: ConfacState) => state.projectsMonthOverviews);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   if (!feature.list.data.length) {
     return null;
@@ -79,7 +80,7 @@ export const OpenedProjectsMonthsListToolbar = ({feature}: OpenedProjectsMonthsL
       };
     });
     const mappedData = projectDetails.sort((a, b) => a.consultant.localeCompare(b.consultant)).map(Object.values);
-    dispatch(downloadProjectsMonthsExcel(mappedData, projectsMonthDetails.month.format('YYYY-MM')) as any);
+    dispatch(downloadProjectsMonthsExcel(mappedData, projectsMonthDetails.month.format('YYYY-MM')));
   };
 
   const allTimesheetsValidated = feature.list.data.every(x => x.details.timesheet.validated);
@@ -90,8 +91,8 @@ export const OpenedProjectsMonthsListToolbar = ({feature}: OpenedProjectsMonthsL
       {!allTimesheetsValidated && (
         <AdvancedAttachmentDropzone
           attachment={projectsMonthOverview && projectsMonthOverview.fileDetails}
-          onUpload={(f: File) => dispatch(projectsMonthOverviewUpload(f, projectsMonthDetails.month) as any)}
-          onDelete={() => (projectsMonthOverview ? dispatch(deleteProjectsMonthOverview(projectsMonthOverview._id) as any) : null)}
+          onUpload={(f: File) => dispatch(projectsMonthOverviewUpload(f, projectsMonthDetails.month))}
+          onDelete={() => (projectsMonthOverview ? dispatch(deleteProjectsMonthOverview(projectsMonthOverview._id)) : null)}
           downloadUrl={createDownloadUrl}
           dropzonePlaceholderText={t('projectMonth.sdWorxTimesheetUpload')}
           viewFileTooltip={t('projectMonth.timesheetCheckDownloadTooltip')}

@@ -11,15 +11,15 @@ import {ClaimGuard} from '../../enhancers/EnhanceWithClaim';
 
 
 
-type ListPageProps = {
-  feature: IFeature<any, any>;
+type ListPageProps<TModel, TFilterModel extends ListFilters = ListFilters> = {
+  feature: IFeature<TModel, TFilterModel>;
   /** Renders at the title level */
-  topToolbar?: any;
+  topToolbar?: React.ReactNode;
 }
 
 
 
-export const ListPageHeader = ({feature, topToolbar}: ListPageProps) => (
+export const ListPageHeader = <TModel, TFilterModel extends ListFilters = ListFilters>({feature, topToolbar}: ListPageProps<TModel, TFilterModel>) => (
   <Row>
     <Col sm={6}>
       <h1>
@@ -29,7 +29,7 @@ export const ListPageHeader = ({feature, topToolbar}: ListPageProps) => (
     <Col sm={6} className="list-top-toolbar">
       {topToolbar}
     </Col>
-    {feature.trans.createNew && (
+    {feature.trans.createNew && typeof feature.trans.createNew === 'string' && (
       <ClaimGuard feature={{key: feature.key, claim: GenericClaim.Create}}>
         <Col lg={3} md={3}>
           <Button variant="light" onClick={feature.nav('create')} icon="fa fa-plus" data-testid="add">
@@ -43,16 +43,20 @@ export const ListPageHeader = ({feature, topToolbar}: ListPageProps) => (
 );
 
 
-export const ListPage = ({feature, topToolbar}: ListPageProps) => (
-  <Container className={`list list-${feature.key}`}>
-    <ListPageHeader feature={feature} topToolbar={topToolbar} />
-    <List feature={feature} />
-  </Container>
-);
+export function ListPage<TModel, TFilterModel extends ListFilters = ListFilters>(
+  {feature, topToolbar}: ListPageProps<TModel, TFilterModel>,
+) {
+  return (
+    <Container className={`list list-${feature.key}`}>
+      <ListPageHeader feature={feature} topToolbar={topToolbar} />
+      <List feature={feature} />
+    </Container>
+  );
+}
 
 
 
-export const ListPageFilters = ({feature}: {feature: IFeature<any, ListFilters>}) => {
+export const ListPageFilters = <TModel, TFilterModel extends ListFilters = ListFilters>({feature}: {feature: IFeature<TModel, TFilterModel>}) => {
   const components: React.ReactNode[] = [];
   const {filter} = feature.list;
   if (filter) {

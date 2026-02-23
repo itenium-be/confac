@@ -7,7 +7,7 @@ import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import {createInvoiceList, InvoiceFeatureBuilderConfig} from '../models/getInvoiceFeature';
 import {ConfacState} from '../../../reducers/app-state';
 import {ListHeader} from '../../controls/table/ListHeader';
-import {IList} from '../../controls/table/table-models';
+import {IList, ListFilters} from '../../controls/table/table-models';
 import {getInvoiceListRowClass} from './getInvoiceListRowClass';
 import {ListFooter} from '../../controls/table/ListFooter';
 import {IFeature} from '../../controls/feature/feature-models';
@@ -19,7 +19,7 @@ type GroupedInvoiceTableProps = {
 }
 
 export const GroupedInvoiceTable = ({config}: GroupedInvoiceTableProps) => {
-  const featureConfig = createInvoiceList(config) as IFeature<any, any>;
+  const featureConfig = createInvoiceList(config) as IFeature<InvoiceModel, ListFilters>;
   const invoicesPerMonth = groupInvoicesPerMonth(config.data).sort((a, b) => b.key.localeCompare(a.key));
   const hideBorderStyle = {borderBottom: 0, borderTop: 0};
 

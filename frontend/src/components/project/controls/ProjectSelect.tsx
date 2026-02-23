@@ -1,5 +1,5 @@
 import {useSelector} from 'react-redux';
-import Select from 'react-select';
+import Select, {SingleValue} from 'react-select';
 import {t} from '../../utils';
 import {EnhanceInputWithLabel} from '../../enhancers/EnhanceInputWithLabel';
 import {ConfacState} from '../../../reducers/app-state';
@@ -40,11 +40,17 @@ const ProjectSelectComponent = (props: ProjectSelectProps) => {
 
   const selectedOption = options.find(o => o.value === selectedProjectId) || null;
 
+  const handleChange = (item: SingleValue<SelectItem>) => {
+    if (item) {
+      props.onChange(item.value as string, getProject(item.value as string));
+    }
+  };
+
   return (
-    <Select
+    <Select<SelectItem>
       value={selectedOption}
-      options={options as any}
-      onChange={((item: SelectItem) => props.onChange(item && item.value as string, item && getProject(item.value as string))) as any}
+      options={options}
+      onChange={handleChange}
       isClearable
       placeholder={t('controls.selectPlaceholder')}
       classNamePrefix="react-select"

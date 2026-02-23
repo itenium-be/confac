@@ -1,7 +1,8 @@
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router';
 import {ConfacState} from '../../reducers/app-state';
 import {downloadProjectsExcel, saveProject, updateAppFilters} from '../../actions';
+import {useAppDispatch} from '../hooks/useAppDispatch';
 import {ListPage} from '../controls/table/ListPage';
 import {projectFeature, ProjectFeatureBuilderConfig} from './models/getProjectFeature';
 import {LinkToButton} from '../controls/form-controls/button/LinkToButton';
@@ -21,13 +22,13 @@ export const ProjectsList = () => {
   useDocumentTitle('projectList');
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const projects = useProjects();
   const projectFilters = useSelector((state: ConfacState) => state.app.filters.projects);
 
   const config: ProjectFeatureBuilderConfig = {
     data: projects,
-    save: m => dispatch(saveProject(m.details, navigate) as any),
+    save: m => dispatch(saveProject(m.details, navigate)),
     filters: projectFilters,
     setFilters: f => dispatch(updateAppFilters(Features.projects, f)),
   };
@@ -57,7 +58,7 @@ export const ProjectsList = () => {
       };
     });
     const mappedData = projectDetails.map(Object.values);
-    dispatch(downloadProjectsExcel(mappedData) as any);
+    dispatch(downloadProjectsExcel(mappedData));
   };
 
   const TopToolbar = (

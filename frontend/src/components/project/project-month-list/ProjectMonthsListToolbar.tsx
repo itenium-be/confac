@@ -1,5 +1,6 @@
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {updateAppFilters, patchProjectsMonth} from '../../../actions';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {ListPageHeader} from '../../controls/table/ListPage';
 import {projectMonthFeature, ProjectMonthFeatureBuilderConfig} from '../models/getProjectMonthFeature';
 import {LinkToButton} from '../../controls/form-controls/button/LinkToButton';
@@ -12,13 +13,13 @@ import {FreelancerOverviewDownloadButton} from '../FreelancerOverview/Freelancer
 
 /** The top ProjectMonth page toolbar */
 export const ProjectMonthsListToolbar = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const projectMonths: [] = [];
 
   const filters = useSelector((state: ConfacState) => state.app.filters.projectMonths);
   const config: ProjectMonthFeatureBuilderConfig = {
     data: projectMonths as [],
-    save: m => dispatch(patchProjectsMonth(m.details) as any),
+    save: m => dispatch(patchProjectsMonth(m.details)),
     filters: filters,
     setFilters: f => dispatch(updateAppFilters(Features.projectMonths, f)),
   };

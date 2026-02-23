@@ -7,8 +7,8 @@ import {InvoiceFiltersSearch} from '../../controls/table/table-models';
 
 type InvoiceSearchSelectProps = {
   options: InvoiceFiltersSearch[];
-  value: any;
-  onChange: (value: any) => void;
+  value: InvoiceFiltersSearch[];
+  onChange: (value: InvoiceFiltersSearch[]) => void;
 }
 
 
@@ -42,7 +42,7 @@ class InvoiceSearchSelectComponent extends Component<InvoiceSearchSelectProps> {
       <Creatable
         value={this.props.value}
         options={this.props.options}
-        onChange={this.onChange.bind(this) as any}
+        onChange={this.onChange.bind(this) as (value: readonly InvoiceFiltersSearch[] | null) => void}
         isClearable
         isMulti
         noOptionsMessage={() => t('controls.noResultsText')}

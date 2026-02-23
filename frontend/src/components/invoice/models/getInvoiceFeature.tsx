@@ -13,7 +13,7 @@ import {InvoiceListRowAction, InvoiceListRowActions} from '../invoice-table/Invo
 import {getInvoiceListRowClass} from '../invoice-table/getInvoiceListRowClass';
 import {InvoiceAmountLabel} from '../controls/InvoicesSummary';
 import {InvoicesTotal} from '../invoice-edit/InvoiceTotal';
-import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
+import {Features, IFeature, IFeatureBuilderConfig, IFeatureTranslations} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {ProjectMonthModal} from '../../project/controls/ProjectMonthModal';
@@ -108,7 +108,7 @@ export function createInvoiceList(config: InvoiceFeatureBuilderConfig): IFeature
   const feature: IFeature<InvoiceModel, ListFilters> = {
     key: Features.invoices,
     nav: m => `/invoices/${m === 'create' ? m : m.number}`,
-    trans: features.invoice as any,
+    trans: features.invoice as IFeatureTranslations<InvoiceModel>,
     list: {
       rows: listRows,
       data: config.data,

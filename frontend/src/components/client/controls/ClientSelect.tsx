@@ -29,10 +29,10 @@ const ClientSelectComponent = ({value, clientType, onChange}: ClientSelectProps)
   const selectedOption = options.find(o => o.value === selectedModelId);
 
   return (
-    <Select
-      value={selectedOption || ''}
-      options={options as any}
-      onChange={((itm: SelectItem) => onChange(itm && itm.value as string, itm && getModel(itm.value as string))) as any}
+    <Select<SelectItem>
+      value={selectedOption || null}
+      options={options}
+      onChange={(itm) => itm && onChange(itm.value as string, getModel(itm.value as string))}
       isClearable
       placeholder={t('controls.selectPlaceholder')}
       className="react-select-client"

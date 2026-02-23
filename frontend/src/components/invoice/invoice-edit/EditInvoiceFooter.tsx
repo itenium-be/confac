@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router';
 import moment from 'moment';
 import {EmailTemplate} from '../../controls/email/EmailModal';
@@ -17,6 +17,7 @@ import {ConfigModel} from '../../config/models/ConfigModel';
 import {getInvoiceFileName} from '../../../actions/utils/download-helpers';
 import {SendToPeppolModal, PeppolStatusModal} from '../controls/PeppolModal';
 import {Popup, PopupButton} from '../../controls/Popup';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
 
 function shouldUsePeppol(invoice: InvoiceModel, config: ConfigModel): boolean {
   const invoiceCreatedOn = moment(invoice.audit.createdOn);
@@ -34,7 +35,7 @@ export type EditInvoiceFooterProps = {
 
 
 export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailModal, acceptChanges}: EditInvoiceFooterProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const invoices = useSelector((state: ConfacState) => state.invoices);
   const config = useSelector((state: ConfacState) => state.config);
@@ -66,7 +67,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
           onConfirm={() => {
             const fileNameTemplate = invoice.client.invoiceFileName || config.invoiceFileName;
             const pdfFileName = getInvoiceFileName(fileNameTemplate, invoice, 'pdf');
-            dispatch(sendToPeppol(invoice._id, pdfFileName) as any);
+            dispatch(sendToPeppol(invoice._id, pdfFileName));
             setShowSendModal(false);
           }}
         />
@@ -76,7 +77,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
           invoice={invoice}
           onClose={() => setShowStatusModal(false)}
           onRefresh={() => {
-            dispatch(refreshPeppolStatus(invoice._id) as any);
+            dispatch(refreshPeppolStatus(invoice._id));
           }}
         />
       )}
@@ -90,7 +91,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
               variant: 'danger',
               onClick: () => {
                 setShowDeleteModal(false);
-                dispatch(deleteInvoice(invoice) as any);
+                dispatch(deleteInvoice(invoice));
                 navigate('/invoices');
               },
             },
@@ -108,13 +109,13 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
             {
               text: t('save'),
               onClick: () => {
-                dispatch(syncCreditNotas(invoice, initInvoice.creditNotas, invoices) as any);
-                dispatch(updateInvoiceRequest(invoice, undefined, false) as any);
+                dispatch(syncCreditNotas(invoice, initInvoice.creditNotas, invoices));
+                dispatch(updateInvoiceRequest(invoice, undefined, false));
                 acceptChanges();
                 setShowSaveFirstModal(false);
                 const client = clients.find(c => c._id === invoice.client._id);
                 if (client?.peppolEnabled !== true) {
-                  dispatch(syncClientPeppolStatus(invoice.client._id) as any);
+                  dispatch(syncClientPeppolStatus(invoice.client._id));
                 }
                 setShowSendModal(true);
               },
@@ -149,7 +150,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
             }
             const client = clients.find(c => c._id === invoice.client._id);
             if (client?.peppolEnabled !== true) {
-              dispatch(syncClientPeppolStatus(invoice.client._id) as any);
+              dispatch(syncClientPeppolStatus(invoice.client._id));
             }
             setShowSendModal(true);
           }}
@@ -207,16 +208,16 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
         onClick={(type, nav) => {
           if (type === 'create') {
             acceptChanges();
-            dispatch(createInvoice(invoice, nav) as any);
+            dispatch(createInvoice(invoice, nav));
           } if (type === 'preview') {
-            dispatch(previewInvoice(invoice.client.invoiceFileName || config.invoiceFileName, invoice) as any);
+            dispatch(previewInvoice(invoice.client.invoiceFileName || config.invoiceFileName, invoice));
           } if (type === 'update') {
-            dispatch(syncCreditNotas(invoice, initInvoice.creditNotas, invoices) as any);
-            dispatch(updateInvoiceRequest(invoice, undefined, false, nav) as any);
+            dispatch(syncCreditNotas(invoice, initInvoice.creditNotas, invoices));
+            dispatch(updateInvoiceRequest(invoice, undefined, false, nav));
           } if (type === 'clone') {
             const creditNota = getNewClonedInvoice(invoices, invoice, clients);
             nav(`/invoices/${creditNota.number}`);
-            dispatch(createInvoice(creditNota) as any);
+            dispatch(createInvoice(creditNota));
           }
         }}
       />

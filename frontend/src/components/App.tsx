@@ -39,7 +39,7 @@ const ConfiguredToastContainer = () => (
 
 
 
-class App extends Component<{children: any}> {
+class App extends Component<{children: React.ReactNode}> {
   render() {
     return (
       <div className="App">

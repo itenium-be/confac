@@ -9,7 +9,7 @@ const languages: string[] = Object.keys(Language);
 export const LanguageSelect = ({value, onChange, ...props}: LanguageSelectProps) => {
   return (
     <SimpleSelect
-      value={value}
+      value={value || ''}
       onChange={onChange}
       options={languages}
       isClearable={false}

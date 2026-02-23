@@ -49,7 +49,7 @@ export const EnhanceWithClaim = <P extends object>(Component: React.ComponentTyp
 type ClaimGuardProps = {
   feature?: {key: string; claim: GenericClaim};
   claim?: Claim;
-  children: any;
+  children: React.ReactNode;
 }
 
 export const ClaimGuard = ({feature, claim, children}: ClaimGuardProps) => {

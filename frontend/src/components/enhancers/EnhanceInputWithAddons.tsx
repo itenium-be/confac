@@ -45,13 +45,13 @@ const Addon = ({add, options, disabled}: AddonProps): React.ReactElement | null 
 
 
 
-type ReactNodeFn = any;
+type ReactNodeFn = React.ReactNode;
 
 
 export type EnhanceInputWithDisplayProps = {
   /** Display a label instead of an input */
   display?: 'label' | undefined | ReactNodeFn;
-  value: any;
+  value: unknown;
 }
 
 
@@ -66,15 +66,16 @@ export const EnhanceInputWithDisplay = <P extends object>(ComposedComponent: Rea
         return <span>{props.value}</span>;
       }
 
-      if (typeof props.value.toDate === 'function') {
-        return <span>{formatDate(props.value)}</span>;
+      const valueWithDate = props.value as { toDate?: () => Date };
+      if (typeof valueWithDate.toDate === 'function') {
+        return <span>{formatDate(props.value as string | Date | undefined)}</span>;
       }
 
-      return <span>{props.value.toString()}</span>;
+      return <span>{String(props.value)}</span>;
     }
 
     if (display) {
-      return display;
+      return <>{display}</>;
     }
 
     return <ComposedComponent {...props as P} />;

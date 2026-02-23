@@ -11,9 +11,9 @@ import {NotesModalButton} from '../../controls/form-controls/button/NotesModalBu
 import {Claim} from '../../users/models/UserModel';
 import {ConfacState} from '../../../reducers/app-state';
 import {singleProjectMonthResolve} from '../../hooks/useProjects';
-import {useDispatch} from 'react-redux';
 import {saveProject} from '../../../actions';
 import {Icon} from '../../controls/Icon';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
 
 
 import './ProjectMonthModal.scss';
@@ -27,7 +27,7 @@ type ProjectMonthModalProps = {
 
 export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProps) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const fullProjectMonth = useSelector((state: ConfacState) => {
     if (typeof projectMonth === 'string') {
@@ -60,7 +60,7 @@ export const ProjectMonthModal = ({onClose, projectMonth}: ProjectMonthModalProp
         <>
           <ProjectMonthLink to={fullProjectMonth.details} className="btn btn-success" />
           <NotesModalButton
-            onChange={val => dispatch(saveProject({...fullProjectMonth.project, notes: val}) as any)}
+            onChange={val => dispatch(saveProject({...fullProjectMonth.project, notes: val}))}
             value={fullProjectMonth.project.notes}
             claim={Claim.ManageProjects}
             title={t('project.project') + ': ' + t('notes')}

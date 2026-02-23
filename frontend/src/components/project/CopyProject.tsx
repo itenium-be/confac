@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import {useNavigate} from 'react-router';
-import {useDispatch} from 'react-redux';
 import moment from 'moment';
 import {IProjectModel} from './models/IProjectModel';
 import {Button} from '../controls/form-controls/Button';
@@ -11,6 +10,7 @@ import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {FullFormConfig} from '../../models';
 import {ContractStatus} from '../client/models/ContractModels';
 import {isProjectValid} from '../controls/other/ProjectValidator';
+import {useAppDispatch} from '../hooks/useAppDispatch';
 
 type CopyProjectProps = {
   projectToCopy: IProjectModel;
@@ -37,7 +37,7 @@ export const CopyProject = ({projectToCopy}: CopyProjectProps) => {
     comments: [],
   };
   const [project, setProject] = useState<IProjectModel>(defaultProject);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useNavigate();
 
 
@@ -47,7 +47,7 @@ export const CopyProject = ({projectToCopy}: CopyProjectProps) => {
         <Modal
           show
           onClose={() => setOpen(false)}
-          onConfirm={() => dispatch(saveProject(project, history, 'to-details') as any)}
+          onConfirm={() => dispatch(saveProject(project, history, 'to-details'))}
           title={t('project.copy.modalTitle')}
           disableSave={!isProjectValid(project.startDate, project.endDate, projectToCopy.endDate!)}
         >

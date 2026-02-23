@@ -1,7 +1,7 @@
-import {useDispatch} from 'react-redux';
 import cn from 'classnames';
 import moment from 'moment';
 import {ProjectMonthTimesheet} from '../../models/ProjectMonthModel';
+import {useAppDispatch} from '../../../hooks/useAppDispatch';
 import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
 import {t} from '../../../utils';
 import {ValidityToggleButton} from '../../../controls/form-controls/button/ValidityToggleButton';
@@ -42,11 +42,11 @@ const TimesheetTimeDisplay = (props: TimesheetTimeConfig) => {
 
 /** Timesheet form cell for a ProjectMonth row */
 export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesheetCellProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const defaultValue = fullProjectMonth.details.timesheet || getNewProjectMonthTimesheet();
   const dispatcher = (val: ProjectMonthTimesheet) => {
-    dispatch(patchProjectsMonth({...fullProjectMonth.details, timesheet: val}) as any);
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, timesheet: val}));
   };
   const [timesheet, setTimesheet, saveTimesheet] = useDebouncedSave<ProjectMonthTimesheet>(defaultValue, dispatcher);
 
@@ -150,7 +150,7 @@ export const ProjectMonthTimesheetCell = ({fullProjectMonth}: ProjectMonthTimesh
           })}
           onUpload={f => {
             const fileName = timesheetFileName + f.name.substring(f.name.lastIndexOf('.'));
-            return dispatch(projectMonthUpload(f, SignedTimesheetAttachmentType, fullProjectMonth, fileName) as any);
+            return dispatch(projectMonthUpload(f, SignedTimesheetAttachmentType, fullProjectMonth, fileName));
           }}
           downloadUrl={getTimesheetDownloadUrl()}
         />

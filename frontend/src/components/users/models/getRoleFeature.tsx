@@ -50,7 +50,7 @@ export const roleFeature = (config: RoleFeatureBuilderConfig): IFeature<RoleMode
   const feature: IFeature<RoleModel, RolesListFilters> = {
     key: Features.roles,
     nav: m => `/roles/${m === 'create' ? m : m.name}`,
-    trans: features.roles as any,
+    trans: features.roles,
     list: RoleListConfig(config),
   };
 

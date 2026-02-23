@@ -5,10 +5,13 @@ import {normalizeFormConfig} from '../lib/form-controls-util';
 import {getIconOrText, InputIcons} from '../lib/IconFactory';
 import {getComponent} from '../lib/EditComponentFactory';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ArrayInputModel = { _id?: string } & Record<string, any>;
+
 type ArrayInputProps = {
   config: AnyFormConfig[];
-  model: { _id?: string; [key: string]: any };
-  onChange: (value: any) => void;
+  model: ArrayInputModel;
+  onChange: (value: ArrayInputModel) => void;
   tPrefix: string;
 }
 
@@ -47,7 +50,7 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
           }, model);
         }
 
-        const realOnChange = (val: any): void => {
+        const realOnChange = (val: unknown): void => {
           if (key.includes('.')) {
             const keys = key.split('.');
             if (keys.length === 2) {
@@ -55,12 +58,12 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
               onChange({...model, [key1]: {...model[key1], [key2]: val}});
             } else {
               // Deep merge for nested paths like inbound.proforma.status
-              const updated = {...model};
-              let current: any = updated;
+              const updated: Record<string, unknown> = {...model};
+              let current: Record<string, unknown> = updated;
               for (let i = 0; i < keys.length - 1; i++) {
                 const k = keys[i];
-                current[k] = {...current[k]};
-                current = current[k];
+                current[k] = {...(current[k] as Record<string, unknown>)};
+                current = current[k] as Record<string, unknown>;
               }
               current[keys[keys.length - 1]] = val;
               onChange(updated);
@@ -81,13 +84,13 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
           return addix;
         };
 
-        const EditComponent: any = getComponent(col);
+        const EditComponent = getComponent(col);
         const finalComponent = (
           <EditComponent
             key={key}
             label={label === '' ? null : (label && t(label)) || t(tPrefix + key)}
             value={value}
-            onChange={(val: any) => realOnChange(val)}
+            onChange={(val: unknown) => realOnChange(val)}
             prefix={getAddix(prefix)}
             suffix={getAddix(suffix)}
             data-testid={key}

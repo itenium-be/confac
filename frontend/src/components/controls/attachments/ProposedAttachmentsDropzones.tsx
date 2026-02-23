@@ -1,4 +1,5 @@
 import {useSelector, useDispatch} from 'react-redux';
+import {AppDispatch} from '../../../types/redux';
 import {Col} from 'react-bootstrap';
 import {ConfacState} from '../../../reducers/app-state';
 import {IAttachment} from '../../../models';
@@ -17,7 +18,7 @@ type ProposedAttachmentsProps = {
  */
 export const ProposedAttachmentsDropzones = EnhanceWithClaim(({model, modelType}: ProposedAttachmentsProps) => {
   const proposedAttachmentTypes = useSelector((state: ConfacState) => state.config.attachmentTypes);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   if (!model._id || modelType !== 'invoice') {
     return null;
@@ -31,7 +32,7 @@ export const ProposedAttachmentsDropzones = EnhanceWithClaim(({model, modelType}
   }
 
   const onDrop = (file: File, fileType: string): void => {
-    dispatch(updateAttachment(model, modelType, {file, type: fileType}) as any);
+    void dispatch(updateAttachment(model, modelType, {file, type: fileType}));
   };
 
   return (

@@ -10,7 +10,7 @@ type EnhanceWithBusySpinnerProps = {
   withoutStoreBusy?: boolean;
   isBusy: boolean;
   onClick: () => void;
-  model: any;
+  model: unknown;
 }
 
 type EnhanceWithBusySpinnerState = {

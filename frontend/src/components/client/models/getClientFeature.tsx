@@ -152,7 +152,7 @@ export const clientFeature = (config: ClientFeatureBuilderConfig): IFeature<Clie
   const feature: IFeature<ClientModel, ClientListFilters> = {
     key: Features.clients,
     nav: m => `/clients/${m === 'create' ? m : m.slug}`,
-    trans: features.client as any,
+    trans: features.client,
     list: clientListConfig(config),
   };
 

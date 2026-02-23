@@ -1,6 +1,6 @@
 
 import {IList, IListCell, ProjectMonthListFilters} from '../../controls/table/table-models';
-import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
+import {Features, IFeature, IFeatureBuilderConfig, IFeatureTranslations} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {FullProjectMonthModel} from './FullProjectMonthModel';
 import {t, searchinize} from '../../utils';
@@ -158,7 +158,7 @@ export const projectMonthFeature = (config: ProjectMonthFeatureBuilderConfig): I
   const feature: IFeature<FullProjectMonthModel, ProjectMonthListFilters> = {
     key: Features.projectMonths,
     nav: m => `/projects/${m === 'create' ? m : m.details.month.format('YYYY/MM')}`,
-    trans: features.projectMonth as any,
+    trans: features.projectMonth as IFeatureTranslations<FullProjectMonthModel>,
     list: projectListConfig(config),
   };
 

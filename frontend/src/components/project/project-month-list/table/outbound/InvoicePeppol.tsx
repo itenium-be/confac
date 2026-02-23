@@ -1,7 +1,8 @@
 import {useState} from 'react';
 import moment from 'moment';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Button} from '../../../../controls/form-controls/Button';
+import {useAppDispatch} from '../../../../hooks/useAppDispatch';
 import {NotPeppoledIcon, PeppoledIcon} from '../../../../controls/Icon';
 import {t} from '../../../../utils';
 import InvoiceModel from '../../../../invoice/models/InvoiceModel';
@@ -17,7 +18,7 @@ type InvoicePeppolProps = {
 };
 
 export const InvoicePeppol = ({invoice}: InvoicePeppolProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [showSendModal, setShowSendModal] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false);
   const clients = useSelector((state: ConfacState) => state.clients);
@@ -49,7 +50,7 @@ export const InvoicePeppol = ({invoice}: InvoicePeppolProps) => {
               setShowStatusModal(true);
             } else {
               if (client?.peppolEnabled !== true) {
-                dispatch(syncClientPeppolStatus(invoice.client._id) as any);
+                dispatch(syncClientPeppolStatus(invoice.client._id));
               }
               setShowSendModal(true);
             }
@@ -66,7 +67,7 @@ export const InvoicePeppol = ({invoice}: InvoicePeppolProps) => {
             onConfirm={() => {
               const fileNameTemplate = invoice.client.invoiceFileName || config.invoiceFileName;
               const pdfFileName = getInvoiceFileName(fileNameTemplate, invoice, 'pdf');
-              dispatch(sendToPeppol(invoice._id, pdfFileName) as any);
+              dispatch(sendToPeppol(invoice._id, pdfFileName));
               setShowSendModal(false);
             }}
           />
@@ -76,7 +77,7 @@ export const InvoicePeppol = ({invoice}: InvoicePeppolProps) => {
             invoice={invoice}
             onClose={() => setShowStatusModal(false)}
             onRefresh={() => {
-              dispatch(refreshPeppolStatus(invoice._id) as any);
+              dispatch(refreshPeppolStatus(invoice._id));
             }}
           />
         )}

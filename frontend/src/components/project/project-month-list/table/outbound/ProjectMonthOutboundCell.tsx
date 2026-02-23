@@ -1,6 +1,6 @@
-import {useDispatch} from 'react-redux';
 import {FullProjectMonthModel} from '../../../models/FullProjectMonthModel';
 import {patchProjectsMonth} from '../../../../../actions';
+import {useAppDispatch} from '../../../../hooks/useAppDispatch';
 import {t} from '../../../../utils';
 import {ValidityToggleButton} from '../../../../controls/form-controls/button/ValidityToggleButton';
 import {StringInput} from '../../../../controls/form-controls/inputs/StringInput';
@@ -20,17 +20,17 @@ interface ProjectMonthOutboundCellProps {
 
 /** Outbound form cell for a ProjectMonth row */
 export const ProjectMonthOutboundCell = ({fullProjectMonth}: ProjectMonthOutboundCellProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const invoices = useSelector((state: ConfacState) => state.invoices);
 
   const dispatcher = (orderNr: string) => {
-    dispatch(patchProjectsMonth({...fullProjectMonth.details, orderNr}) as any);
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, orderNr}));
   };
   const [orderNr, setOrderNr/* , saveOrderNr */] = useDebouncedSave<string>(fullProjectMonth.details.orderNr || '', dispatcher);
 
 
   const toggleValid = (verified: boolean | 'forced') => {
-    dispatch(patchProjectsMonth({...fullProjectMonth.details, verified}) as any);
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, verified}));
   };
 
   const ValidityToggle = (

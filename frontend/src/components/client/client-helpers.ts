@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useBlocker} from 'react-router';
 import {ClientModel, ClientType} from './models/ClientModels';
 import {saveClient as dispatchSaveClient} from '../../actions/index';
@@ -11,6 +11,7 @@ import {ConfigModel} from '../config/models/ConfigModel';
 import {countries} from '../controls/other/CountrySelect';
 import {InvoiceLine} from '../invoice/models/InvoiceLineModels';
 import {formatBtw} from '../controls/form-controls/inputs/BtwInputHelpers';
+import {useAppDispatch} from '../hooks/useAppDispatch';
 
 
 /** Returns a ClientModel with the data from the BTW lookup */
@@ -68,7 +69,7 @@ export const useClientState = (clientId: string) => {
   const storeClient = useSelector((state: ConfacState) => state.clients.find(x => x.slug === clientId || x._id === clientId));
   const [client, setSimpleClient] = useState(storeClient ?? null);
   const clientAlreadyExists = useClientAlreadyExists(client);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [hasChanges, setHasChanges] = useState(false);
   const blocker = useBlocker(({currentLocation, nextLocation}) => {
@@ -100,7 +101,7 @@ export const useClientState = (clientId: string) => {
 
   const saveClient = () => {
     setHasChanges(false);
-    dispatch(dispatchSaveClient(client!) as any);
+    dispatch(dispatchSaveClient(client!));
   };
 
   useEffect(() => {

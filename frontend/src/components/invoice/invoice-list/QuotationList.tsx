@@ -13,7 +13,7 @@ import {LinkToButton} from '../../controls/form-controls/button/LinkToButton';
 import {useDocumentTitle} from '../../hooks/useDocumentTitle';
 import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {Claim} from '../../users/models/UserModel';
-import {useDispatch} from 'react-redux';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {useNavigate} from 'react-router';
 import {useSelector} from 'react-redux';
 import {InvoiceFeatureBuilderConfig} from '../models/getInvoiceFeature';
@@ -25,14 +25,14 @@ type QuotationListProps = {
   invoices: InvoiceModel[];
   clients: ClientModel[];
   consultants: ConsultantModel[];
-  updateInvoiceFilters: any;
+  updateInvoiceFilters: (filters: InvoiceListFilters) => void;
   filters: InvoiceListFilters;
 }
 
 
 export const QuotationList = (props: QuotationListProps) => {
   useDocumentTitle('quotationList');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const invoiceFilters = useSelector((state: ConfacState) => state.app.filters.projects);
   const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
@@ -49,7 +49,7 @@ export const QuotationList = (props: QuotationListProps) => {
     invoicePayDays,
     isGroupedOnMonth: false,
     data: invoices,
-    save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate) as any),
+    save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate)),
     filters: invoiceFilters,
     setFilters: f => dispatch(updateAppFilters(Features.invoices, f)),
   };

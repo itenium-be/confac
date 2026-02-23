@@ -1,4 +1,5 @@
 import {useDispatch} from 'react-redux';
+import {AppDispatch} from '../../../types/redux';
 import {Attachment} from '../../../models';
 import {AttachmentDownloadIcon, AttachmentPreviewIcon} from './AttachmentDownloadIcon';
 import {t} from '../../utils';
@@ -28,7 +29,7 @@ type AttachmentFormProps = {
  * Includes preview and delete actions
  */
 export const GenericAttachmentDropzone = (props: AttachmentFormProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const {modelType, id} = props.context;
   const attachmentType = props.context.attachmentType;
   const encodedFileName = encodeURIComponent(props.attachment?.fileName || '');
@@ -40,7 +41,7 @@ export const GenericAttachmentDropzone = (props: AttachmentFormProps) => {
     return (
       <div style={{minWidth: '20%'}}>
         <AttachmentDropzone
-          onUpload={(file: File) => dispatch(updateGenericAttachment(props.context, file) as any)}
+          onUpload={(file: File) => void dispatch(updateGenericAttachment(props.context, file))}
           dropzonePlaceholderText={props.dropzonePlaceholderText}
         />
       </div>
@@ -65,7 +66,7 @@ export const GenericAttachmentDropzone = (props: AttachmentFormProps) => {
         <div className="attachment-actions">
           <ConfirmedDeleteIcon
             title={t('attachment.deleteTitle')}
-            onClick={() => dispatch(deleteGenericAttachment(props.context) as any)}
+            onClick={() => void dispatch(deleteGenericAttachment(props.context))}
             size={1}
           >
             {t('attachment.deletePopup')}

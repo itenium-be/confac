@@ -7,15 +7,15 @@ import {IFeature} from '../feature/feature-models';
 import {useSelector} from 'react-redux';
 import {ConfacState} from '../../../reducers/app-state';
 import {Pagination} from './Pagination';
-import {SortDirections} from './table-models';
+import {SortDirections, ListFilters} from './table-models';
 import {sortResult} from '../../utils';
 
 
-type ListProps = {
-  feature: IFeature<any, any>;
+type ListProps<TModel, TFilterModel extends ListFilters = ListFilters> = {
+  feature: IFeature<TModel, TFilterModel>;
 }
 
-export const filterAndSortFeatureData = (feature: IFeature<any, any>) => {
+export const filterAndSortFeatureData = <TModel, TFilterModel extends ListFilters = ListFilters>(feature: IFeature<TModel, TFilterModel>): TModel[] => {
   const config = feature.list;
   let {data} = config;
   if (feature.list.filter) {
@@ -40,7 +40,7 @@ export const filterAndSortFeatureData = (feature: IFeature<any, any>) => {
   return data;
 };
 
-export const List = ({feature}: ListProps) => {
+export const List = <TModel, TFilterModel extends ListFilters = ListFilters>({feature}: ListProps<TModel, TFilterModel>) => {
   const listSize = useSelector((state: ConfacState) => state.app.settings.listSize);
   const [page, setPage] = useState(0);
 
@@ -51,8 +51,8 @@ export const List = ({feature}: ListProps) => {
     <Table size="sm" className={`table-${feature.key}`}>
       <ListHeader feature={feature} />
       <tbody>
-        {data.slice(page * listSize, page * listSize + listSize).map(model => (
-          <ListRow config={config} model={model} key={model._id} />
+        {data.slice(page * listSize, page * listSize + listSize).map((model, index) => (
+          <ListRow config={config} model={model} key={(model as { _id?: string })._id || index} />
         ))}
       </tbody>
       <Pagination current={page} total={data.length} onChange={setPage} />

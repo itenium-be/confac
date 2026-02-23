@@ -104,7 +104,7 @@ export const getCommentsFeature = (config: CommentFeatureBuilderConfig): IFeatur
   const feature: IFeature<IComment, CommentsListFilters> = {
     key: Features.comments,
     nav: _m => '',
-    trans: features.comments as any,
+    trans: features.comments as IFeature<IComment, CommentsListFilters>['trans'],
     list: commentListConfig(config),
   };
 

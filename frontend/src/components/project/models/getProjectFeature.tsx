@@ -1,7 +1,7 @@
 
 import moment from 'moment';
 import {IList, IListCell, ProjectListFilters} from '../../controls/table/table-models';
-import {Features, IFeature, IFeatureBuilderConfig} from '../../controls/feature/feature-models';
+import {Features, IFeature, IFeatureBuilderConfig, IFeatureTranslations} from '../../controls/feature/feature-models';
 import {features} from '../../../trans';
 import {ProjectClientModel, ProjectStatus} from './IProjectModel';
 import {FullProjectModel} from './FullProjectModel';
@@ -236,7 +236,7 @@ export const projectFeature = (config: ProjectFeatureBuilderConfig): IFeature<Fu
   const feature: IFeature<FullProjectModel, ProjectListFilters> = {
     key: Features.projects,
     nav: m => `/projects/${m === 'create' ? m : m.details._id}`,
-    trans: features.project as any,
+    trans: features.project as IFeatureTranslations<FullProjectModel>,
     list: projectListConfig(config),
   };
 

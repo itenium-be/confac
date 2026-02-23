@@ -20,11 +20,15 @@ type BasicMathInputProps = BaseInputProps<number | undefined> & {
  * ATTN: onBlur it will call onChange with a resolved number
  */
 export const BasicMathInput = ({value, onChange, float = false, allowHours = false, ...props}: BasicMathInputProps) => {
+  // Note: During typing, we temporarily pass string values via onChange.
+  // On blur, we parse and pass the resolved number. This is intentional.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => (onChange as (v: any) => void)(e.target.value);
   return (
     <BaseInput
       type="text"
       value={(value === 0 || value) ? value : ''}
-      onChange={e => onChange(e.target.value)}
+      onChange={handleChange}
       onBlur={e => {
         if (!e.target.value) {
           onChange(undefined);

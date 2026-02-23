@@ -1,4 +1,4 @@
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import moment from 'moment';
 import {ConfacState} from '../../reducers/app-state';
 import {ListPage} from '../controls/table/ListPage';
@@ -22,10 +22,12 @@ import {ContractIcons} from '../client/contract/ContractIcons';
 import {EditIcon} from '../controls/Icon';
 import {DeleteIcon} from '../controls/icons/DeleteIcon';
 import {Claim} from '../users/models/UserModel';
+import {useAppDispatch} from '../hooks/useAppDispatch';
 
 import './ConsultantProjectsList.scss';
 
 type ConsultantProject = {
+  _id: string;
   consultant: ConsultantModel;
   project?: IProjectModel;
   client?: ClientModel;
@@ -45,13 +47,14 @@ function useConsultantProjects(): ConsultantProject[] {
 
     if (consultantProjects.length) {
       acc = acc.concat(consultantProjects.map(project => ({
+        _id: `${consultant._id}-${project._id}`,
         consultant,
         project,
         client: clients.find(client => client._id === project.client.clientId)
       })));
 
     } else {
-      acc.push({consultant});
+      acc.push({_id: consultant._id, consultant});
     }
 
     return acc;
@@ -131,7 +134,7 @@ const consultantListConfig = (config: ConsultantFeatureBuilderConfig): IList<Con
         {!m.project?._id && (
           <DeleteIcon
             claim={Claim.ManageConsultants}
-            onClick={() => config.save({...m.consultant, active: !m.consultant.active} as any)}
+            onClick={() => config.save({...m, consultant: {...m.consultant, active: !m.consultant.active}})}
             title={m.consultant.active ? t('feature.deactivateTitle') : t('feature.activateTitle')}
             size={1}
           />
@@ -158,7 +161,7 @@ const consultantFeature = (config: ConsultantFeatureBuilderConfig): IFeature<Con
   const feature: IFeature<ConsultantProject, ListFilters> = {
     key: Features.consultants,
     nav: _m => '/consultants/create',
-    trans: features.consultant as any,
+    trans: features.consultant,
     list: consultantListConfig(config),
   };
 
@@ -176,13 +179,13 @@ const consultantFeature = (config: ConsultantFeatureBuilderConfig): IFeature<Con
 export const ConsultantProjectsList = () => {
   useDocumentTitle('consultantList');
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const models = useConsultantProjects();
   const filters = useSelector((state: ConfacState) => state.app.filters.consultants);
 
   const config: ConsultantFeatureBuilderConfig = {
     data: models,
-    save: m => dispatch(saveConsultant(m as any as ConsultantModel) as any),
+    save: m => dispatch(saveConsultant(m.consultant)),
     filters,
     setFilters: f => dispatch(updateAppFilters(Features.consultants, f)),
   };

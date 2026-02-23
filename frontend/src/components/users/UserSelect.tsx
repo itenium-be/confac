@@ -23,10 +23,10 @@ const UserSelectComponent = ({value, onChange}: UserSelectProps) => {
   const selectedOption = options.find(o => o.value === selectedModelId) || null;
 
   return (
-    <Select
+    <Select<SelectItem>
       value={selectedOption}
-      options={options as any}
-      onChange={((item: SelectItem) => onChange(item && item.value as string, item && getModel(item.value as string))) as any}
+      options={options}
+      onChange={(item) => item && onChange(item.value as string, getModel(item.value as string))}
       isClearable
       placeholder={t('controls.selectPlaceholder')}
       className="react-select-user"

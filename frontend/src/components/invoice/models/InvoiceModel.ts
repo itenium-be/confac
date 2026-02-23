@@ -67,6 +67,14 @@ export type InvoiceBillitModel = {
 
 export type InvoiceStatus = 'Draft' | 'ToSend' | 'ToPay' | 'Paid';
 
+/** Partial data for creating an InvoiceModel */
+type InvoicePartialInput = Partial<Omit<InvoiceModel, 'your' | 'isNew' | 'canUpdatePaymentReference' | 'config' | 'money'>> & {
+  company?: ConfigCompanyModel;
+};
+
+/** Input type for InvoiceModel constructor - accepts InvoiceModel or partial invoice data */
+export type InvoiceModelInput = InvoiceModel | InvoicePartialInput;
+
 
 
 /**
@@ -114,30 +122,36 @@ export default class InvoiceModel implements IAttachment {
   }
 
 
-  constructor(config: ConfigModel, obj: any = {}) {
-    this._id = obj._id;
-    this.number = obj.number || 1;
-    this.client = obj.client;
-    this.your = obj.company || config.company;
+  constructor(config: ConfigModel, obj: InvoiceModelInput = {}) {
+    // Get company from either 'your' (if InvoiceModel) or 'company' (if partial)
+    const company = 'your' in obj ? obj.your : ('company' in obj ? obj.company : undefined);
+
+    this._id = obj._id ?? '';
+    this.number = obj.number ?? 1;
+    this.client = obj.client as InvoiceClientModel;
+    this.your = company ?? config.company;
     this.projectMonth = obj.projectMonth;
-    this.date = obj.date;
-    this.orderNr = obj.orderNr || '';
-    this.status = obj.status || 'Draft';
-    this.discount = obj.discount;
-    this.attachments = obj.attachments || [{type: 'pdf', desc: 'Factuur pdf'}, {type: 'xml', desc: 'PEPPOL xml'}];
-    this.isQuotation = obj.isQuotation || false;
-    this.lastEmail = obj.lastEmail;
-    this.note = obj.note || '';
-    this.comments = obj.comments || [];
+    this.date = obj.date ?? moment();
+    this.orderNr = obj.orderNr ?? '';
+    this.status = obj.status ?? 'Draft';
+    this.discount = obj.discount ?? '';
+    this.attachments = obj.attachments ?? [
+      {type: 'pdf', desc: 'Factuur pdf', fileName: '', fileType: 'pdf'},
+      {type: 'xml', desc: 'PEPPOL xml', fileName: '', fileType: 'xml'}
+    ];
+    this.isQuotation = obj.isQuotation ?? false;
+    this.lastEmail = obj.lastEmail ?? '';
+    this.note = obj.note ?? '';
+    this.comments = obj.comments ?? [];
 
     this.money = this._calculateMoneys();
 
-    this._lines = obj.lines || config.defaultInvoiceLines || [];
-    this.audit = obj.audit;
+    this._lines = obj.lines ?? config.defaultInvoiceLines ?? [];
+    this.audit = obj.audit as IAudit;
     this._config = config;
-    this.creditNotas = obj.creditNotas || [];
+    this.creditNotas = obj.creditNotas ?? [];
     this.billit = obj.billit;
-    this.paymentReference = obj.paymentReference || calculatePaymentReference(this.number, this.projectMonth?.month);
+    this.paymentReference = obj.paymentReference ?? calculatePaymentReference(this.number, this.projectMonth?.month);
   }
 
   /**

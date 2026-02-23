@@ -97,7 +97,7 @@ export const consultantFeature = (config: ConsultantFeatureBuilderConfig): IFeat
   const feature: IFeature<ConsultantModel, ConsultantListFilters> = {
     key: Features.consultants,
     nav: m => `/consultants/${m === 'create' ? m : m.slug}`,
-    trans: features.consultant as any,
+    trans: features.consultant,
     list: consultantListConfig(config),
   };
 

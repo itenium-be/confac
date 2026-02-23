@@ -24,7 +24,7 @@ const ButtonComponent = ({variant = 'primary', size = 'md', disabled, className,
   const navigate = useNavigate();
   const {children, icon, onClick, ...rest} = props;
 
-  let realClick: any = onClick;
+  let realClick: (() => void) | undefined = typeof onClick === 'function' ? onClick : undefined;
   if (typeof onClick === 'string') {
     realClick = () => {
       navigate(onClick);

@@ -20,7 +20,7 @@ export type BaseInputProps<T, TReturn = T> =
   & EnhanceInputWithDisplayProps
   & {
   type?: 'textarea' | 'text' | 'number';
-  onBlur?: (e: any) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   placeholder?: string;
   style?: React.CSSProperties;
   autoFocus?: boolean;
@@ -29,7 +29,12 @@ export type BaseInputProps<T, TReturn = T> =
 }
 
 
-class BaseInputComponent extends Component<BaseInputProps<any>> {
+// Note: BaseInputProps has onChange typed as (value: T) => void, but FormControl
+// calls onChange with an event. Consumers of BaseInput (StringInput, NumericInput, etc.)
+// handle this mismatch by extracting e.target.value. We use React.ChangeEvent here
+// to properly type the FormControl's actual onChange behavior.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+class BaseInputComponent extends Component<BaseInputProps<any, React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>>> {
   render() {
     const {type, updateOnly: _updateOnly, ...props} = this.props;
     return (

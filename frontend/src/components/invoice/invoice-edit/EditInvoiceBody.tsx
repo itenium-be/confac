@@ -35,7 +35,7 @@ export const EditInvoiceBody = ({invoice, onChange, disabled}: EditInvoiceBodyPr
             <Row>
               <EditInvoiceDetails
                 invoice={invoice}
-                onChange={(fieldName: string, value: any) => {
+                onChange={(fieldName: string, value: unknown) => {
                   invoice.updateField(fieldName, value, true);
                   onChange(invoice);
                 }}

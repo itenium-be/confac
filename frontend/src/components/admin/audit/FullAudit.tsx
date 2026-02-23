@@ -8,7 +8,7 @@ import {AuditProps} from './Audit';
 export const FullAudit = (props: AuditProps) => {
   const [modal, setModal] = useState<boolean>(false);
 
-  if (!props.model._id || !props.model.audit?.modifiedOn)
+  if (!props.model?._id || !props.model?.audit?.modifiedOn)
     return null;
 
   return (

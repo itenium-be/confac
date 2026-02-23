@@ -1,16 +1,19 @@
 import {Component} from 'react';
 import Creatable from 'react-select/creatable';
+import {MultiValue} from 'react-select';
 import {SelectItem} from '../../../../models';
 import {EnhanceInputWithLabel} from '../../../enhancers/EnhanceInputWithLabel';
 import {t} from '../../../utils';
 import {BaseInputProps} from '../inputs/BaseInput';
 
+type CreatableSelectItem = SelectItem & { className?: string; __isNew__?: boolean };
+
 export type PropertiesSelectProps = BaseInputProps<SelectItem[]>;
 
 class PropertiesSelectComponent extends Component<PropertiesSelectProps> {
-  onChange(values: Array<SelectItem & { className?: string; __isNew__?: boolean }>) {
+  onChange(values: MultiValue<CreatableSelectItem>) {
     const properties = (values || []).map(val => {
-      const value = val;
+      const value = {...val};
       if (value.className) {
         delete value.className;
         value.value = '';
@@ -18,7 +21,7 @@ class PropertiesSelectComponent extends Component<PropertiesSelectProps> {
       if (value.__isNew__) {
         delete value.__isNew__;
       }
-      return value;
+      return value as SelectItem;
     });
 
     this.props.onChange(properties);
@@ -26,9 +29,9 @@ class PropertiesSelectComponent extends Component<PropertiesSelectProps> {
 
   render() {
     return (
-      <Creatable
-        value={this.props.value as any}
-        onChange={this.onChange.bind(this) as any}
+      <Creatable<CreatableSelectItem, true>
+        value={this.props.value}
+        onChange={this.onChange.bind(this)}
         isClearable
         isMulti
         noOptionsMessage={() => ''}

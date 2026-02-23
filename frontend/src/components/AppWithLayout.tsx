@@ -7,7 +7,7 @@ import {authService} from './users/authService';
 import {useInterval} from './hooks/useInterval';
 
 type AppWithLayoutProps = {
-  Component: any;
+  Component: React.ComponentType;
 }
 
 export const AppWithLayout = ({Component, ...props}: AppWithLayoutProps) => {

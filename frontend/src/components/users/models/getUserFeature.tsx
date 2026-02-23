@@ -85,7 +85,7 @@ export const userFeature = (config: UserFeatureBuilderConfig): IFeature<UserMode
   const feature: IFeature<UserModel, UsersListFilters> = {
     key: Features.users,
     nav: m => `/users/${m === 'create' ? m : m.alias}`,
-    trans: features.users as any,
+    trans: features.users,
     list: userListConfig(config),
   };
 

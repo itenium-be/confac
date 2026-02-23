@@ -44,7 +44,8 @@ export const createProjectMonthBadgesSelector = () => createSelector(
         return result;
       });
 
-    const mapToConsultantNames = (arr: any[]) => arr
+    type ProjectMonthSummary = typeof projectMonths[number];
+    const mapToConsultantNames = (arr: ProjectMonthSummary[]) => arr
       .map(x => x.consultant)
       .filter((val, index, filterArr) => filterArr.indexOf(val) === index)
       .join('<br>');

@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {useNavigate, useParams} from 'react-router';
 import {ConfacState} from '../../reducers/app-state';
@@ -14,11 +14,12 @@ import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {saveRole} from '../../actions/userActions';
 import {Audit} from '../admin/audit/Audit';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
+import {useAppDispatch} from '../hooks/useAppDispatch';
 
 
 export const EditRole = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const params = useParams();
   const model = useSelector((state: ConfacState) => state.user.roles.find(c => c.name === params.id));
   const [role, setRole] = useState<RoleModel>(model || getNewRole());
@@ -43,13 +44,13 @@ export const EditRole = () => {
           <ArrayInput
             config={defaultRoleProperties}
             model={role}
-            onChange={(value: { [key: string]: any }) => setRole({...role, ...value})}
+            onChange={(value: Partial<RoleModel>) => setRole({...role, ...value})}
             tPrefix="role.props."
           />
         </Row>
       </Form>
       <StickyFooter claim={Claim.ManageUsers}>
-        <BusyButton className="tst-save-role" onClick={() => dispatch(saveRole(role, undefined, navigate) as any)}>
+        <BusyButton className="tst-save-role" onClick={() => dispatch(saveRole(role, undefined, navigate))}>
           {t('save')}
         </BusyButton>
       </StickyFooter>

@@ -1,11 +1,11 @@
 import {SetStateAction} from 'react';
-import {Dispatch} from 'redux';
 import {UserModel, Claim} from '../models/UserModel';
 import {JwtModel} from '../models/JwtModel';
+import {AppDispatch} from '../../../types/redux';
 
 export interface IAuthService {
   loggedIn: () => boolean;
-  login: (res: any, dispatch: Dispatch<any>, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) => void;
+  login: (res: {credential: string}, dispatch: AppDispatch, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) => void;
   anonymousLogin: (name: string) => void;
   logout: () => void;
   getBearer: () => string;

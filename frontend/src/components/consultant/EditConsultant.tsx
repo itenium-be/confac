@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Container, Row, Form, Alert} from 'react-bootstrap';
 import {useNavigate, useParams, useBlocker} from 'react-router';
 import {ConfacState} from '../../reducers/app-state';
@@ -16,10 +16,11 @@ import {Audit} from '../admin/audit/Audit';
 import {Claim} from '../users/models/UserModel';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
 import {ChangesModal} from '../controls/other/ChangesModal';
+import {useAppDispatch} from '../hooks/useAppDispatch';
 
 const useConsultantState = (consultantId: string) => {
   const history = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const storeConsultant = useSelector((state: ConfacState) => state.consultants.find(x => x.slug === consultantId || x._id === consultantId));
   const [consultant, setSimpleConsultant] = useState<ConsultantModel>(storeConsultant || getNewConsultant());
   const [hasChanges, setHasChanges] = useState(false);
@@ -48,7 +49,7 @@ const useConsultantState = (consultantId: string) => {
 
   const saveConsultant = () => {
     setHasChanges(false);
-    dispatch(dispatchSaveConsultant(consultant, undefined, history) as any);
+    dispatch(dispatchSaveConsultant(consultant, undefined, history));
   };
 
   return {
@@ -86,7 +87,7 @@ export const EditConsultant = () => {
           <ArrayInput
             config={defaultConsultantProperties}
             model={consultant}
-            onChange={(value: { [key: string]: any }) => setConsultant({...consultant, ...value})}
+            onChange={(value: Partial<ConsultantModel>) => setConsultant({...consultant, ...value})}
             tPrefix="consultant.props."
           />
         </Row>

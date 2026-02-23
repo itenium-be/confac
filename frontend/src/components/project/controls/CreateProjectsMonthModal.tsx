@@ -1,6 +1,7 @@
 import {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import moment, {Moment} from 'moment';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {Container, Row, Form} from 'react-bootstrap';
 import {t} from '../../utils';
 import {createProjectsMonth, SourceProjectData} from '../../../actions';
@@ -53,7 +54,7 @@ function useDefaultNewProjectMonth(): Moment {
 
 /** Create projectMonths by selecting a project month */
 export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const defaultNewMonth = toFirstDayOfMonth(useDefaultNewProjectMonth());
   const [date, setDate] = useState<moment.Moment>(defaultNewMonth);
   const newProjects = useToBeCreatedProjects(date);
@@ -82,7 +83,7 @@ export const CreateProjectsMonthModal = (props: ProjectMonthModalProps) => {
       show={props.show}
       onClose={props.onClose}
       title={t('projectMonth.createProjects.title')}
-      onConfirm={() => dispatch(createProjectsMonth(date, getSelectedProjects()) as any)}
+      onConfirm={() => dispatch(createProjectsMonth(date, getSelectedProjects()))}
     >
       <Form>
         <Container>

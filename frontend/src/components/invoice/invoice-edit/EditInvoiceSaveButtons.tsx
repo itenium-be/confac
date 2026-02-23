@@ -1,4 +1,4 @@
-import {useNavigate} from 'react-router';
+import {useNavigate, NavigateFunction} from 'react-router';
 import {t} from '../../utils';
 import InvoiceModel from '../models/InvoiceModel';
 import {BusyButton} from '../../controls/form-controls/BusyButton';
@@ -6,7 +6,7 @@ import {Claim} from '../../users/models/UserModel';
 
 type EditInvoiceSaveButtonsComponentProps = {
   invoice: InvoiceModel;
-  onClick: (type: 'create' | 'update' | 'preview' | 'clone', navigate: any) => void;
+  onClick: (type: 'create' | 'update' | 'preview' | 'clone', navigate: NavigateFunction) => void;
 }
 
 export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButtonsComponentProps) => {

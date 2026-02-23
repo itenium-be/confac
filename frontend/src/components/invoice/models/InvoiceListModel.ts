@@ -123,7 +123,7 @@ export default class InvoiceListModel {
       if (lastXMonths) {
         const amount = lastXMonths[1];
         const unit = lastXMonths[2];
-        invoices = invoices.filter(i => i.date.isSameOrAfter(moment().startOf('day').subtract(amount, unit as any)));
+        invoices = invoices.filter(i => i.date.isSameOrAfter(moment().startOf('day').subtract(amount, unit as moment.unitOfTime.DurationConstructor)));
         return;
       }
 

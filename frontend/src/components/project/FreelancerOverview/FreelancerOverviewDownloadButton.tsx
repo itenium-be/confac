@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {Form} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Button} from '../../controls/form-controls/Button';
 import {t} from '../../utils';
 import {Modal} from '../../controls/Modal';
@@ -9,6 +9,7 @@ import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {downloadProjectsMonthsFreelancerExcel} from '../../../actions/downloadActions';
 import {selectAllProjectMonths} from '../project-month-list/createFullProjectMonthsSelector';
 import {ConfacState} from '../../../reducers/app-state';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
 
 
 export const FreelancerOverviewDownloadButton = () => {
@@ -35,7 +36,7 @@ type FreelancerOverviewModalProps = {
 
 const FreelancerOverviewModal = ({onClose}: FreelancerOverviewModalProps) => {
   const [consultant, setConsultant] = useState<ConsultantModel>();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const allProjectMonths = useSelector(selectAllProjectMonths);
   const currentLastMonths = useSelector((state: ConfacState) => state.app.lastMonthsDownloaded);
 
@@ -74,7 +75,7 @@ const FreelancerOverviewModal = ({onClose}: FreelancerOverviewModalProps) => {
     <Modal
       show
       onClose={onClose}
-      onConfirm={() => dispatch(downloadProjectsMonthsFreelancerExcel(getData(consultant), consultant) as any)}
+      onConfirm={() => dispatch(downloadProjectsMonthsFreelancerExcel(getData(consultant), consultant))}
       confirmText={t('projectMonth.freelancerOverview.download')}
       title={t('projectMonth.freelancerOverview.title')}
     >

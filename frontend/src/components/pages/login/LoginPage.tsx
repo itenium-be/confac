@@ -9,7 +9,7 @@ import {AnonymousLogin} from './AnonymousLogin';
 import {GoogleLogin, GoogleOAuthProvider} from '@react-oauth/google';
 
 
-export const LoginPage = (_props: any) => {
+export const LoginPage = () => {
   const dispatch = useDispatch();
   const [state, setState] = useState<string | 'loggedIn'>('');
   const [googleClientId, setGoogleClientId] = useState<string | null>(null);

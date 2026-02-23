@@ -30,14 +30,14 @@ export interface IFeature<TModel, TFilterModel extends ListFilters = ListFilters
   list: IList<TModel, TFilterModel>;
 }
 
-export interface IFeatureTranslations<TModel> {
+export interface IFeatureTranslations<TModel = unknown> {
   /** "Entity" */
   title: string;
   listTitle: string;
   /** "New Entity" */
-  createNew: string;
+  createNew: string | boolean;
   /** Translations for each model property */
-  props: TModel;
+  props: Partial<Record<keyof TModel & string, string>> | Record<string, string>;
 }
 
 

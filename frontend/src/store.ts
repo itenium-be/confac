@@ -1,4 +1,4 @@
-import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
+import {createStore, applyMiddleware, compose, combineReducers, StoreEnhancer} from 'redux';
 import thunk from 'redux-thunk';
 import {app, config, invoices, clients, consultants, projects, projectsMonth, projectsMonthOverviews, users} from './reducers';
 
@@ -23,8 +23,9 @@ function configureStore(preloadedState = undefined) {
     user: users,
   });
 
-  const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  const store = createStore(rootReducer, preloadedState, composeEnhancers(composedEnhancers));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const composeEnhancers = ((window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose) as typeof compose;
+  const store = createStore(rootReducer, preloadedState, composeEnhancers(composedEnhancers) as StoreEnhancer);
   return store;
 }
 

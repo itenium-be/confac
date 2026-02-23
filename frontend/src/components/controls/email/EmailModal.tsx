@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import {AppDispatch} from '../../../types/redux';
 import moment from 'moment';
 import {Modal, BaseModalProps} from '../Modal';
 import {t} from '../../utils';
@@ -87,7 +88,7 @@ type EmailModalProps = Omit<BaseModalProps, 'show'> & {
 
 
 export const EmailModal = ({invoice, onClose, template, ...props}: EmailModalProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const config = useSelector((state: ConfacState) => state.config);
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === invoice.client._id));
   const creditNotes = useSelector((state: ConfacState) => {
@@ -103,7 +104,7 @@ export const EmailModal = ({invoice, onClose, template, ...props}: EmailModalPro
     <Modal
       show
       onClose={onClose}
-      onConfirm={() => dispatch(sendEmail(client?.invoiceFileName || config.invoiceFileName, invoice, value, config.emailInvoiceOnly) as any)}
+      onConfirm={() => void dispatch(sendEmail(client?.invoiceFileName || config.invoiceFileName, invoice, value, config.emailInvoiceOnly))}
       confirmText={t('email.send')}
       confirmVariant="danger"
       title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} />}

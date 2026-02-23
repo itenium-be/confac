@@ -1,6 +1,7 @@
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {FullProjectMonthModel} from '../../../models/FullProjectMonthModel';
 import {createInvoice, deleteProjectMonthAttachmentDetails} from '../../../../../actions';
+import {useAppDispatch} from '../../../../hooks/useAppDispatch';
 import {Icon} from '../../../../controls/Icon';
 import {t, moneyFormat} from '../../../../utils';
 import {ConfacState} from '../../../../../reducers/app-state';
@@ -16,7 +17,7 @@ interface CreateInvoiceButtonProps {
 }
 
 export const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const state = useSelector((s: ConfacState) => s);
 
   const buildInvoice = () => {
@@ -45,8 +46,8 @@ export const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps
 
 
   const createInvoiceFully = (inv: InvoiceModel) => {
-    dispatch(createInvoice(inv) as any);
-    dispatch(deleteProjectMonthAttachmentDetails(fullProjectMonth.details) as any);
+    dispatch(createInvoice(inv));
+    dispatch(deleteProjectMonthAttachmentDetails(fullProjectMonth.details));
   };
 
 

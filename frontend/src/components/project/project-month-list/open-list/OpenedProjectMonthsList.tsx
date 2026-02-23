@@ -1,6 +1,7 @@
 import {useMemo} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {updateAppFilters, patchProjectsMonth} from '../../../../actions';
+import {useAppDispatch} from '../../../hooks/useAppDispatch';
 import {projectMonthFeature, ProjectMonthFeatureBuilderConfig} from '../../models/getProjectMonthFeature';
 import {Features} from '../../../controls/feature/feature-models';
 import {OpenedProjectsMonthsListToolbar} from './OpenedProjectsMonthsListToolbar';
@@ -45,7 +46,7 @@ const createFiltersSelector = () => createSelector(
 
 /** A full open ProjectMonth with header + table */
 export const OpenedProjectMonthsList = ({month}: OpenedProjectMonthsListProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const selectProjectMonths = useMemo(createFullProjectMonthsSelector, []);
   const projectMonths = useSelector((state) => selectProjectMonths(state, month));
   const selectFilters = useMemo(createFiltersSelector, []);
@@ -53,7 +54,7 @@ export const OpenedProjectMonthsList = ({month}: OpenedProjectMonthsListProps) =
 
   const config: ProjectMonthFeatureBuilderConfig = {
     data: projectMonths,
-    save: m => dispatch(patchProjectsMonth(m.details) as any),
+    save: m => dispatch(patchProjectsMonth(m.details)),
     filters: filters,
     setFilters: f => dispatch(updateAppFilters(Features.projectMonths, f)),
   };

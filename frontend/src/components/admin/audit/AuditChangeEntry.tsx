@@ -44,7 +44,7 @@ export const AuditChangeEntry = ({change, modelType: _modelType}: { change: Audi
 };
 
 
-function displayVal(value: any): string {
+function displayVal(value: unknown): string {
   if (typeof value === 'boolean')
     return value.toString();
 
@@ -62,5 +62,5 @@ function displayVal(value: any): string {
   if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\./.test(value))
     return formatDate(value);
 
-  return value;
+  return String(value);
 }

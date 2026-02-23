@@ -1,14 +1,14 @@
-import {IList} from './table-models';
+import {IList, ListFilters} from './table-models';
 
 
-type ListFooterProps = {
-  config: IList<any>;
+type ListFooterProps<TModel, TFilterModel extends ListFilters = ListFilters> = {
+  config: IList<TModel, TFilterModel>;
   /** Filtered data */
-  data: any[];
+  data: TModel[];
 }
 
 
-export const ListFooter = ({config, data}: ListFooterProps) => {
+export const ListFooter = <TModel, TFilterModel extends ListFilters = ListFilters>({config, data}: ListFooterProps<TModel, TFilterModel>) => {
   if (config.data.length === 0) {
     return null;
   }
@@ -49,7 +49,7 @@ export const ListFooter = ({config, data}: ListFooterProps) => {
 /** Mapped cells that have a footer */
 type IFooterCells = null | number | 'empty-cell';
 
-export function cellsToFooterCells(input: IList<any>): IFooterCells[] {
+export function cellsToFooterCells<TModel, TFilterModel extends ListFilters = ListFilters>(input: IList<TModel, TFilterModel>): IFooterCells[] {
   const {cells} = input.rows;
   if (!cells.some(c => c.footer)) {
     return [];

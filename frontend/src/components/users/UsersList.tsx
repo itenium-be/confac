@@ -1,4 +1,4 @@
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {ConfacState} from '../../reducers/app-state';
 import {ListPage} from '../controls/table/ListPage';
 import {userFeature, UserFeatureBuilderConfig} from './models/getUserFeature';
@@ -9,25 +9,26 @@ import {roleFeature, RoleFeatureBuilderConfig} from './models/getRoleFeature';
 import {Claim} from './models/UserModel';
 import {ClaimGuard} from '../enhancers/EnhanceWithClaim';
 import {Features} from '../controls/feature/feature-models';
+import {useAppDispatch} from '../hooks/useAppDispatch';
 
 
 export const UsersList = () => {
   useDocumentTitle('usersList');
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const users = useSelector((state: ConfacState) => ({filters: state.app.filters.users, data: state.user.users}));
   const roles = useSelector((state: ConfacState) => ({filters: state.app.filters.roles, data: state.user.roles}));
 
   const userConfig: UserFeatureBuilderConfig = {
     data: users.data,
-    save: m => dispatch(saveUser(m) as any),
+    save: m => dispatch(saveUser(m)),
     filters: users.filters,
     setFilters: f => dispatch(updateAppFilters(Features.users, f)),
   };
 
   const roleConfig: RoleFeatureBuilderConfig = {
     data: roles.data,
-    save: m => dispatch(saveRole(m) as any),
+    save: m => dispatch(saveRole(m)),
     filters: roles.filters,
     setFilters: f => dispatch(updateAppFilters(Features.roles, f)),
   };

@@ -13,7 +13,7 @@ type QuotationSearchProps = {
 
 
 export class QuotationSearch extends Component<QuotationSearchProps> {
-  onFilterChange(updateObj: any) {
+  onFilterChange(updateObj: Partial<InvoiceListFilters>) {
     const newFilter: InvoiceListFilters = {...this.props.filters, ...updateObj};
     this.props.onChange(newFilter);
   }

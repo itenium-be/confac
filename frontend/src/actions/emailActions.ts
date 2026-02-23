@@ -1,4 +1,4 @@
-import {api} from './utils/api-client';
+import {api, ApiError} from './utils/api-client';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {EmailModel} from '../components/controls/email/EmailModels';
 import {success, failure} from './appActions';
@@ -7,6 +7,11 @@ import {ACTION_TYPES} from './utils/ActionTypes';
 import {invoiceReplacements} from '../components/invoice/invoice-replacements';
 import {AppDispatch} from '../types/redux';
 
+type EmailAttachmentDetail = {
+  type: string;
+  fileName: string;
+  fileType: string;
+};
 
 export function sendEmail(
   invoiceFileName: string,
@@ -15,7 +20,7 @@ export function sendEmail(
   emailInvoiceOnly?: string,
 ) {
   return async (dispatch: AppDispatch) => {
-    email.attachments = email.attachments.map(attachmentType => {
+    const attachmentDetails: EmailAttachmentDetail[] = email.attachments.map(attachmentType => {
       if (attachmentType === 'pdf') {
         return {
           type: 'pdf',
@@ -34,9 +39,11 @@ export function sendEmail(
         type: attachmentType,
         fileName: details.fileName,
         fileType: details.fileType,
-      } as any;
+      };
     })
-      .filter(att => att);
+      .filter((att): att is EmailAttachmentDetail => att !== null);
+
+    const emailPayload = {...email, attachments: attachmentDetails};
 
     let url = `/invoices/email/${invoice._id}`;
     if (emailInvoiceOnly && !invoice.lastEmail) {
@@ -44,7 +51,7 @@ export function sendEmail(
     }
 
     try {
-      const res = await api.post<unknown>(url, email);
+      const res = await api.post<unknown>(url, emailPayload);
       console.log('Email response', res);
       success(t('email.sent'));
       dispatch({
@@ -54,9 +61,10 @@ export function sendEmail(
           lastEmail: res.text,
         },
       });
-    } catch (err: any) {
-      console.error('res ERROR', err);
-      failure(err.body?.message, 'Email failure', 8000);
+    } catch (err) {
+      const error = err as ApiError;
+      console.error('res ERROR', error);
+      failure(error.body?.message, 'Email failure', 8000);
     }
   };
 }

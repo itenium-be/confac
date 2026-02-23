@@ -6,7 +6,9 @@ import {SelectItem} from '../../../../models';
 
 type BaseSelectProps = {
   value: SelectItem | SelectItem[];
-  onChange: any;
+  // onChange receives different types depending on isMulti and isClearable
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChange: (value: any) => void;
   options: SelectItem[];
   isClearable?: boolean;
   isMulti?: boolean;

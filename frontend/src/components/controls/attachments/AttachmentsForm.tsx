@@ -1,5 +1,6 @@
 import {Row, Col} from 'react-bootstrap';
 import {connect, useDispatch} from 'react-redux';
+import {AppDispatch} from '../../../types/redux';
 
 import {updateAttachment, deleteAttachment} from '../../../actions/index';
 import {AdvancedAttachmentDropzone} from './AdvancedAttachmentDropzone';
@@ -26,7 +27,7 @@ type AttachmentsFormProps = {
 }
 
 export const AttachmentsFormComponent = (props: AttachmentsFormProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const {model, modelType, createDownloadUrl} = props;
 
   return (
@@ -49,7 +50,7 @@ export const AttachmentsFormComponent = (props: AttachmentsFormProps) => {
               claim={mapModelType(modelType)}
               attachment={att}
               downloadUrl={createDownloadUrl}
-              onDelete={() => dispatch(deleteAttachment(props.model, modelType, att.type) as any)}
+              onDelete={() => void dispatch(deleteAttachment(props.model, modelType, att.type))}
               viewFileTooltip={t('invoice.attachmentViewTooltip', {type: att.type})}
             />
           </Col>

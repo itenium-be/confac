@@ -8,9 +8,9 @@ import {InvoiceCreditNotasModal} from './InvoiceCreditNotasModal';
 import {useNavigate} from 'react-router';
 import {useSelector} from 'react-redux';
 import {ConfacState} from '../../../reducers/app-state';
-import {useDispatch} from 'react-redux';
 import {updateInvoiceRequest} from '../../../actions';
 import {ClaimGuard} from '../../enhancers/EnhanceWithClaim';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
 
 
 export type InvoiceCreditNotasProps = {
@@ -19,7 +19,7 @@ export type InvoiceCreditNotasProps = {
 }
 
 export const InvoiceCreditNotas = ({model, onChange}: InvoiceCreditNotasProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
   const otherCreditNotas = useSelector((state: ConfacState) => state.invoices
@@ -36,7 +36,7 @@ export const InvoiceCreditNotas = ({model, onChange}: InvoiceCreditNotasProps) =
     invoicePayDays,
     isGroupedOnMonth: false,
     data: creditNotas,
-    save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate) as any),
+    save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate)),
     filters: {},
     setFilters: _f => {},
     disableFilters: true,

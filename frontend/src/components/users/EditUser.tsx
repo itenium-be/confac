@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Container, Row, Form} from 'react-bootstrap';
 import {useNavigate, useParams} from 'react-router';
 import {ConfacState} from '../../reducers/app-state';
@@ -14,12 +14,13 @@ import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {saveUser} from '../../actions/userActions';
 import {Audit} from '../admin/audit/Audit';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
+import {useAppDispatch} from '../hooks/useAppDispatch';
 
 
 
 export const EditUser = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const params = useParams();
   const model = useSelector((state: ConfacState) => state.user.users.find(c => c.alias === params.id || c._id === params.id));
   const [user, setUser] = useState<UserModel>(model || getNewUser());
@@ -54,7 +55,7 @@ export const EditUser = () => {
           <ArrayInput
             config={defaultUserProperties}
             model={user}
-            onChange={(value: { [key: string]: any }) => setUser({...user, ...value})}
+            onChange={(value: Partial<UserModel>) => setUser({...user, ...value})}
             tPrefix="user.props."
           />
         </Row>
@@ -62,7 +63,7 @@ export const EditUser = () => {
       <StickyFooter claim={Claim.ManageUsers}>
         <BusyButton
           className="tst-save-user"
-          onClick={() => dispatch(saveUser(user, undefined, navigate) as any)}
+          onClick={() => dispatch(saveUser(user, undefined, navigate))}
           disabled={isButtonDisabled()}
         >
           {t('save')}

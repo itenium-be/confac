@@ -1,7 +1,7 @@
 import moment from 'moment';
-import {useDispatch} from 'react-redux';
 import cn from 'classnames';
 import {ProjectMonthInbound} from '../../../models/ProjectMonthModel';
+import {useAppDispatch} from '../../../../hooks/useAppDispatch';
 import {FullProjectMonthModel} from '../../../models/FullProjectMonthModel';
 import {StringInput} from '../../../../controls/form-controls/inputs/StringInput';
 import {getNewProjectMonthInbound} from '../../../models/getNewProject';
@@ -32,11 +32,11 @@ function sanitizeForInvoiceComment(text: string): string {
 
 /** Inbound form cell for the ProjectMonth list */
 export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundCellProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const defaultValue = fullProjectMonth.details.inbound || getNewProjectMonthInbound();
   const dispatcher = (val: ProjectMonthInbound) => {
-    dispatch(patchProjectsMonth({...fullProjectMonth.details, inbound: val}) as any);
+    dispatch(patchProjectsMonth({...fullProjectMonth.details, inbound: val}));
   };
   const [inbound, setInbound, saveInbound] = useDebouncedSave<ProjectMonthInbound>(defaultValue, dispatcher);
 
@@ -120,7 +120,7 @@ export const ProjectMonthInboundCell = ({fullProjectMonth}: ProjectMonthInboundC
                     .replace('{month}', fullProjectMonth.details.month.format('YYYY-MM'))
                     + f.name.substring(f.name.lastIndexOf('.'));
 
-                  return dispatch(projectMonthUpload(f, InboundInvoiceAttachmentType, fullProjectMonth, inboundFileName) as any);
+                  return dispatch(projectMonthUpload(f, InboundInvoiceAttachmentType, fullProjectMonth, inboundFileName));
                 }}
                 downloadUrl={getInboundInvoiceDownloadUrl()}
               />
@@ -147,7 +147,7 @@ type ProjectMonthInboundCellProformaProps = {
 
 
 const ProjectMonthInboundCellProforma = ({projectMonth, saveInbound, inbound}: ProjectMonthInboundCellProformaProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   if (!projectMonth.details.inbound.proforma) {
     return null;
@@ -204,7 +204,7 @@ const ProjectMonthInboundCellProforma = ({projectMonth, saveInbound, inbound}: P
                 .replace('{month}', projectMonth.details.month.format('YYYY-MM'))
                 + f.name.substring(f.name.lastIndexOf('.'));
 
-              return dispatch(projectMonthUpload(f, ProformaInvoiceAttachmentType, projectMonth, proformaFileName) as any);
+              return dispatch(projectMonthUpload(f, ProformaInvoiceAttachmentType, projectMonth, proformaFileName));
             }}
             downloadUrl={getProformaDownloadUrl()}
           />

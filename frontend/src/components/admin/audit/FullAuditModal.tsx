@@ -18,12 +18,13 @@ export const FullAuditModal = (props: FullAuditModalProps) => {
   const [audit, setAudit] = useState<AuditLog[] | null>(null);
   const [needle, setNeedle] = useState('');
   useEffect(() => {
+    if (!props.model?._id) return;
     fetch(buildRequest(`/config/audit?model=${props.modelType}&modelId=${props.model._id}`))
       .then(res => res.json())
       .then(fetchedAudit => typeof fetchedAudit.length === 'number' ? fetchedAudit : [])
       .then(fetchedAudit => setAudit(fetchedAudit.sort((a: AuditLog, b: AuditLog) => new Date(b.date).getTime() - new Date(a.date).getTime())))
       .catch(err => failure(err));
-  }, [props.modelType, props.model._id]);
+  }, [props.modelType, props.model?._id]);
 
   if (!audit)
     return null;

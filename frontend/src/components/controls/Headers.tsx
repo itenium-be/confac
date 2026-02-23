@@ -7,7 +7,7 @@ const Header2 = ({children, ...props}: ChildrenProps) => (<h2 {...props}>{childr
 const Header3 = ({children, ...props}: ChildrenProps) => (<h3 {...props}>{children}</h3>);
 const Header4 = ({children, ...props}: ChildrenProps) => (<h4 {...props}>{children}</h4>);
 
-function getHeader(size: number): any {
+function getHeader(size: number): React.ComponentType<ChildrenProps> {
   switch (size) {
     case 1:
       return Header1;

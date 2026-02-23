@@ -8,12 +8,12 @@ import {FullAudit} from './FullAudit';
 
 export type AuditProps = {
   modelType: AuditModelTypes;
-  model: any;
+  model: {_id?: string; audit?: IAudit} | null | undefined;
 }
 
 /** Displays basic audit info & icon to open details in a modal */
 export const Audit = (props: AuditProps) => {
-  const audit: IAudit = props.model?.audit;
+  const audit = props.model?.audit;
   const createdBy = useSelector((state: ConfacState) => state.user.users.find(x => x._id === (audit && audit.createdBy)));
   const modifiedBy = useSelector((state: ConfacState) => state.user.users.find(x => x._id === (audit && audit.modifiedBy)));
 

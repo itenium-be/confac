@@ -57,8 +57,12 @@ export type AttachmentFormContext = {
   attachmentType: 'pdf' | string;
 }
 
+type AttachmentDispatchConfig =
+  | {type: typeof ACTION_TYPES.CONFIG_UPDATE; config: unknown}
+  | {type: typeof ACTION_TYPES.CLIENT_UPDATE; client: unknown}
+  | {type: typeof ACTION_TYPES.INVOICE_UPDATED; invoice: unknown};
 
-function getDispatchConfig(modelType: ModelsWithAttachments, body: any): any {
+function getDispatchConfig(modelType: ModelsWithAttachments, body: unknown): AttachmentDispatchConfig {
   switch (modelType) {
     case 'config':
       return {type: ACTION_TYPES.CONFIG_UPDATE, config: body};

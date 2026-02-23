@@ -1,5 +1,4 @@
 
-import {toast} from 'react-toastify';
 import {authService} from '../components/users/authService';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {buildUrl} from './utils/buildUrl';
@@ -7,7 +6,9 @@ import {failure} from './appActions';
 import {getProjectMonthsFilters} from '../reducers/app-state';
 import {Features} from '../components/controls/feature/feature-models';
 import {socketService} from '../components/socketio/SocketService';
-import {AppDispatch} from '../types/redux';
+import {AppDispatch, AppThunkAction} from '../types/redux';
+import {ConfigModel} from '../components/config/models/ConfigModel';
+import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
 
 let counter: number;
 
@@ -31,46 +32,47 @@ export const buildRequest = (url: string) => {
 };
 
 
-const httpGet = (url: string) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const httpGet = <T = any>(url: string): Promise<T> => {
   const request = buildRequest(url);
   return fetch(request)
     .then(res => {
       if (url === '/config' && res.status === 404) {
         // First run: Stick to frontend config defaults
-        return null;
+        return null as T;
       }
 
       if (res.ok) {
-        return res.json();
+        return res.json() as Promise<T>;
       }
 
       console.log('Initial Load No Success Status', res);
-      return res.json().then(data => {
+      return res.json().then((data: {message?: string}) => {
         if (res.status === 401 && data.message === 'invalid_token') {
           authService.logout();
           window.location.reload();
         }
-        return data;
+        return data as T;
       });
     })
-    .catch(err => {
+    .catch((err: Error) => {
       console.log('Initial Load Failure', err);
       if (counter === 0) {
-        failure(err.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
+        failure(err.message, 'Initial Load Failure', undefined, 'bottom-right');
       }
       counter++;
       return Promise.reject(err);
     })
-    .then(data => {
+    .then((data: T) => {
       if (url === '/config' && data === null) {
         // First run: Stick to frontend config defaults
-        return null;
+        return null as T;
       }
 
-      if (data.message) {
+      if (data && typeof data === 'object' && 'message' in data && (data as {message?: string}).message) {
         console.log('Initial Load Failure', data);
         if (counter === 0) {
-          failure(data.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
+          failure((data as {message: string}).message, 'Initial Load Failure', undefined, 'bottom-right');
         }
         counter++;
         return Promise.reject(data);
@@ -138,13 +140,13 @@ function fetchRoles() {
 
 function fetchProjectsMonth(initialMonthsLoad: number) {
   const url = '/projects/month?months=' + initialMonthsLoad;
-  return (dispatch: AppDispatch) => httpGet(url).then(data => {
+  return (dispatch: AppDispatch) => httpGet<ProjectMonthModel[]>(url).then(data => {
     dispatch({
       type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
       projectsMonth: data,
     });
 
-    if (data.length) {
+    if (data && data.length) {
       dispatch({
         type: ACTION_TYPES.APP_FILTERUPDATED,
         payload: {
@@ -166,7 +168,7 @@ function fetchProjectsMonthOverviews(initialMonthsLoad: number) {
   });
 }
 
-export function initialLoad(loadNextMonth?: number): any {
+export function initialLoad(loadNextMonth?: number): {type: string} | AppThunkAction<Promise<void>> {
   if (!authService.loggedIn()) {
     return {type: 'NONE'};
   }
@@ -177,7 +179,7 @@ export function initialLoad(loadNextMonth?: number): any {
     counter = 0;
 
     let monthsToLoad: number = loadNextMonth!;
-    let promise: any = httpGet('/config').then(data => {
+    const promise = httpGet<ConfigModel | null>('/config').then(data => {
       if (data === null) {
         console.log('First login, starting with defaultConfig');
         if (!loadNextMonth) {
@@ -195,7 +197,7 @@ export function initialLoad(loadNextMonth?: number): any {
       }
     });
 
-    promise = promise.then(() => {
+    return promise.then(() => {
       return Promise.all([
         dispatch(fetchClients()),
         dispatch(fetchConsultants()),
@@ -206,9 +208,8 @@ export function initialLoad(loadNextMonth?: number): any {
         dispatch(fetchProjectsMonth(monthsToLoad)),
         dispatch(fetchProjectsMonthOverviews(monthsToLoad)),
       ]);
+    }).then(() => {
+      dispatch({type: ACTION_TYPES.INITIAL_LOAD, lastMonthsDownloaded: monthsToLoad});
     });
-
-    return promise
-      .then(() => dispatch({type: ACTION_TYPES.INITIAL_LOAD, lastMonthsDownloaded: monthsToLoad}));
   };
 }

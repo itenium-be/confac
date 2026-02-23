@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import moment from 'moment';
 import {Alert} from 'react-bootstrap';
 import {t} from '../../utils';
@@ -10,6 +10,7 @@ import {NotEmailedIcon, NotPeppoledIcon} from '../../controls/Icon';
 import {BusyButton} from '../../controls/form-controls/BusyButton';
 import {getInvoiceDueDateVariant} from '../invoice-table/getInvoiceListRowClass';
 import {Claim} from '../../users/models/UserModel';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
 
 
 type InvoiceNotVerifiedAlertProps = {
@@ -17,7 +18,7 @@ type InvoiceNotVerifiedAlertProps = {
 }
 
 const InvoiceNotVerifiedAlert = ({invoice}: InvoiceNotVerifiedAlertProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
   const peppolPivotDate = useSelector((state: ConfacState) => state.config.peppolPivotDate);
   const [dismissed, setDismissed] = useState(false);
@@ -26,7 +27,8 @@ const InvoiceNotVerifiedAlert = ({invoice}: InvoiceNotVerifiedAlertProps) => {
     return null;
   }
 
-  const variant = getInvoiceDueDateVariant(invoice, invoicePayDays) as any;
+  const variantRaw = getInvoiceDueDateVariant(invoice, invoicePayDays);
+  const variant = variantRaw || undefined;
   const daysOpen = moment().diff(invoice.audit.createdOn, 'days');
 
   return (
@@ -42,7 +44,7 @@ const InvoiceNotVerifiedAlert = ({invoice}: InvoiceNotVerifiedAlertProps) => {
         <BusyButton
           claim={Claim.ValidateInvoices}
           variant={variant}
-          onClick={() => dispatch(toggleInvoiceVerify(invoice) as any)}
+          onClick={() => dispatch(toggleInvoiceVerify(invoice))}
           size="sm"
           style={{marginTop: -5, marginRight: 10, textTransform: 'uppercase'}}
           className="tst-verify-invoice"

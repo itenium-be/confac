@@ -45,16 +45,16 @@ export type IconProps = EnhanceWithClaimProps & {
   labelStyle?: React.CSSProperties;
   title?: string;
   size?: number;
-  history?: any;
+  history?: unknown;
   center?: boolean;
-  dispatch?: any;
-  children?: any;
+  dispatch?: unknown;
+  children?: React.ReactNode;
 }
 
 
 const IconComponent = ({fa, onClick, href, dispatch: _dispatch, className, label, labelStyle, title, size = 2, children, ...props}: IconProps) => {
   const navigate = useNavigate();
-  let realClick: any = onClick;
+  let realClick: (() => void) | undefined = typeof onClick === 'function' ? onClick : undefined;
   if (typeof onClick === 'string') {
     realClick = () => {
       navigate(onClick);
@@ -113,7 +113,9 @@ export const EditIcon = ({...props}: IconProps) => <Icon className="tst-edit" fa
 
 export const ExpandIcon = ({...props}: IconProps) => <Icon className="tst-expand" fa="fa fa-expand-arrows-alt" {...props} />;
 
-const ClaimSpan = EnhanceWithClaim(({children, ...props}: any) => {
+type ClaimSpanProps = EnhanceWithClaimProps & React.HTMLAttributes<HTMLSpanElement>;
+
+const ClaimSpan = EnhanceWithClaim(({children, ...props}: ClaimSpanProps) => {
   return <span {...props}>{children}</span>;
 });
 

@@ -1,16 +1,16 @@
 import {useState} from 'react';
 import {Link} from 'react-router';
-import {useDispatch} from 'react-redux';
 import {ConsultantModel} from '../models/ConsultantModel';
 import {EditIcon, Icon} from '../../controls/Icon';
 import {t} from '../../utils';
 import {ConsultantModal} from './ConsultantModal';
 import {saveConsultant} from '../../../actions/consultantActions';
 import {ConsultantProps} from './ConsultantLink';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
 
 /** Consultant links to detail page and option to open details in modal */
 export const ConsultantIconLinks = ({consultant}: ConsultantProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [modal, setModal] = useState<boolean>(false);
 
   return (
@@ -36,7 +36,7 @@ export const ConsultantIconLinks = ({consultant}: ConsultantProps) => {
           consultant={consultant}
           show={modal}
           onClose={() => setModal(false)}
-          onConfirm={(c: ConsultantModel) => dispatch(saveConsultant(c) as any)}
+          onConfirm={(c: ConsultantModel) => dispatch(saveConsultant(c))}
         />
       )}
     </>

@@ -5,13 +5,13 @@ import {updateAppFilters} from '../../../actions';
 import {ListFilters, SortDirections} from './table-models';
 
 
-type ListHeaderProps<TModel> = {
-  feature: IFeature<TModel>;
+type ListHeaderProps<TModel, TFilterModel extends ListFilters = ListFilters> = {
+  feature: IFeature<TModel, TFilterModel>;
 }
 
 
 
-export const ListHeader = ({feature}: ListHeaderProps<any>) => {
+export const ListHeader = <TModel, TFilterModel extends ListFilters = ListFilters>({feature}: ListHeaderProps<TModel, TFilterModel>) => {
   const dispatch = useDispatch();
   return (
     <thead>
@@ -20,7 +20,7 @@ export const ListHeader = ({feature}: ListHeaderProps<any>) => {
           let header: string = '';
           let width: string | undefined | number;
           if (!col.header) {
-            header = feature.trans.props[col.key];
+            header = (feature.trans.props as Record<string, string>)[col.key] || '';
           } else if (typeof col.header === 'string') {
             header = col.header;
           } else {

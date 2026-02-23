@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import {Row, Col, ButtonGroup} from 'react-bootstrap';
-import {useDispatch} from 'react-redux';
 import {t} from '../../utils';
 import {InvoiceSearchSelect} from './InvoiceSearchSelect';
 import {SearchStringInput} from '../../controls/form-controls/inputs/SearchStringInput';
@@ -9,6 +8,7 @@ import InvoiceListModel from '../models/InvoiceListModel';
 import {Switch} from '../../controls/form-controls/Switch';
 import {Button} from '../../controls/form-controls/Button';
 import {InvoiceFiltersSearch, InvoiceListFilters} from '../../controls/table/table-models';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
 
 
 type InvoiceSearchProps = {
@@ -61,17 +61,17 @@ type InvoiceSearchAdvancedProps = {
 /** Download zip/excel, toggle GroupedTable */
 const InvoiceSearchAdvanced = (props: InvoiceSearchAdvancedProps) => {
   const [open, setOpen] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const downloadExcel = () => {
     const invoices = props.vm.getFilteredInvoices();
     const invoiceIds = invoices.map(i => i._id);
-    dispatch(downloadInvoicesExcel(invoiceIds) as any);
+    dispatch(downloadInvoicesExcel(invoiceIds));
   };
   const downloadZip = () => {
     const invoices = props.vm.getFilteredInvoices();
     const invoiceIds = invoices.map(i => i._id);
-    dispatch(downloadInvoicesZip(invoiceIds) as any);
+    dispatch(downloadInvoicesZip(invoiceIds));
   };
 
   return (

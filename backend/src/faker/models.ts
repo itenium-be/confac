@@ -4,6 +4,7 @@ import moment from 'moment';
 import {Db} from 'mongodb';
 import slugify from 'slugify';
 import {IInvoice} from '../models/invoices';
+import {IClient} from '../models/clients';
 
 
 // https://fakerjs.dev/api/
@@ -233,7 +234,7 @@ export const getNewInvoices = async (db: Db, config: {amount: number}) => {
           createdOn: '2007-1228::44.695Z',
           createdBy: 'Isobel',
         },
-      } as any,
+      } as unknown as IClient,
       your: {
         name: 'itenium',
         address: '',

@@ -1,7 +1,7 @@
 import {useState, useMemo, useCallback} from 'react';
-import {useDispatch} from 'react-redux';
 import {useNavigate, useParams} from 'react-router';
 import {Container, Row, Form, Col} from 'react-bootstrap';
+import {useAppDispatch} from '../hooks/useAppDispatch';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {deleteProjectsMonth, patchProjectsMonth} from '../../actions';
@@ -42,7 +42,7 @@ const ProformaToggle = ({checked, onChange}: ProformaToggleProps) => (
 );
 
 export const EditProjectMonths = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const params = useParams();
   const model = useProjectsMonth(params.projectMonthId);
   const [projectMonth, setProjectMonth] = useState<ProjectMonthModel>((model && model.details) || getNewProjectMonth());
@@ -133,7 +133,7 @@ export const EditProjectMonths = () => {
           <ArrayInput
             config={formConfig}
             model={projectMonth}
-            onChange={(value: { [key: string]: any }) => setProjectMonth({...projectMonth, ...value})}
+            onChange={(value: Partial<ProjectMonthModel>) => setProjectMonth({...projectMonth, ...value})}
             tPrefix="projectMonth.props."
           />
         </Row>
@@ -170,7 +170,7 @@ export const EditProjectMonths = () => {
       <StickyFooter>
         <ConfirmationButton
           className="tst-confirm-delete-project-month"
-          onClick={() => dispatch(deleteProjectsMonth(projectMonth._id, navigate) as any)}
+          onClick={() => dispatch(deleteProjectsMonth(projectMonth._id, navigate))}
           variant="danger"
           title={t('projectMonth.deleteConfirm.title')}
           componentChildren={t('delete')}
@@ -180,7 +180,7 @@ export const EditProjectMonths = () => {
         </ConfirmationButton>
         <BusyButton
           className="tst-validate-project-month"
-          onClick={() => dispatch(patchProjectsMonth(projectMonth) as any)}
+          onClick={() => dispatch(patchProjectsMonth(projectMonth))}
           claim={Claim.ValidateProjectMonth}
         >
           {t('save')}

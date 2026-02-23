@@ -1,11 +1,12 @@
 import {CSSProperties} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import moment from 'moment';
 import {toggleInvoiceVerify} from '../../../actions/index';
 import InvoiceModel from '../models/InvoiceModel';
 import {BusyInvoiceStatusIcon, InvoiceStatusIcon, getInvoiceStatusTooltip} from '../../controls/icons/InvoiceStatusIcon';
 import {EnhanceWithClaim, EnhanceWithClaimProps} from '../../enhancers/EnhanceWithClaim';
 import {ConfacState} from '../../../reducers/app-state';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
 
 
 type InvoiceVerifyIconToggleProps = EnhanceWithClaimProps & {
@@ -14,7 +15,7 @@ type InvoiceVerifyIconToggleProps = EnhanceWithClaimProps & {
 }
 
 export const InvoiceVerifyIconToggle = EnhanceWithClaim(({invoice, toggleBusy, ...props}: InvoiceVerifyIconToggleProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const config = useSelector((state: ConfacState) => state.config);
   if (invoice.isQuotation) {
     return null;
@@ -39,7 +40,7 @@ export const InvoiceVerifyIconToggle = EnhanceWithClaim(({invoice, toggleBusy, .
         withoutStoreBusy={!toggleBusy}
         model={invoice}
         style={{...style, cursor: 'pointer'}}
-        onClick={() => dispatch(toggleInvoiceVerify(invoice, toggleBusy) as any)}
+        onClick={() => dispatch(toggleInvoiceVerify(invoice, toggleBusy))}
         title={title}
         {...props}
       />

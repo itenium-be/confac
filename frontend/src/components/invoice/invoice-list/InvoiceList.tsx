@@ -15,7 +15,7 @@ import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {Claim} from '../../users/models/UserModel';
 import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router';
-import {useDispatch} from 'react-redux';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {InvoiceFeatureBuilderConfig} from '../models/getInvoiceFeature';
 import {Features} from '../../controls/feature/feature-models';
 import {InvoiceListFilters} from '../../controls/table/table-models';
@@ -25,7 +25,7 @@ type InvoiceListProps = {
   invoices: InvoiceModel[];
   clients: ClientModel[];
   consultants: ConsultantModel[];
-  updateInvoiceFilters: any;
+  updateInvoiceFilters: (filters: InvoiceListFilters) => void;
   filters: InvoiceListFilters;
 }
 
@@ -35,7 +35,7 @@ export const InvoiceList = (props: InvoiceListProps) => {
   const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const invoiceFilters = useSelector((state: ConfacState) => state.app.filters.invoices);
 
 
@@ -52,7 +52,7 @@ export const InvoiceList = (props: InvoiceListProps) => {
     invoicePayDays,
     isGroupedOnMonth: props.filters.groupedByMonth,
     data: invoices,
-    save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate) as any),
+    save: m => dispatch(updateInvoiceRequest(m, undefined, false, navigate)),
     filters: invoiceFilters,
     setFilters: f => dispatch(updateAppFilters(Features.invoices, f)),
     buttons: isQuotation ? ['edit', 'validate', 'download', 'preview', 'delete'] : ['edit', 'validate', 'download', 'preview']

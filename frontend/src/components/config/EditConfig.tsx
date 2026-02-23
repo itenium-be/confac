@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Container, Row, Form, Col} from 'react-bootstrap';
 import {t} from '../utils';
 import {configDefinition} from './models/ConfigConfig';
@@ -16,6 +16,7 @@ import {GenericAttachmentDropzone} from '../controls/attachments/GenericAttachme
 import {ClaimGuard} from '../enhancers/EnhanceWithClaim';
 import useEntityChangedToast from '../hooks/useEntityChangedToast';
 import {mapConfig} from '../../reducers';
+import {useAppDispatch} from '../hooks/useAppDispatch';
 
 function cloneConfig(config: ConfigModel) {
   const clone = JSON.parse(JSON.stringify(config));
@@ -25,7 +26,7 @@ function cloneConfig(config: ConfigModel) {
 
 const EditConfig = () => {
   useDocumentTitle('config');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const config = useSelector((state: ConfacState) => state.config);
   const [state, setState] = useState<ConfigModel>(cloneConfig(config));
 
@@ -61,7 +62,7 @@ const EditConfig = () => {
         </Row>
       </Form>
       <StickyFooter claim={Claim.ManageConfig}>
-        <BusyButton className="tst-save-config" onClick={() => dispatch(updateConfig(state) as any)}>{t('save')}</BusyButton>
+        <BusyButton className="tst-save-config" onClick={() => dispatch(updateConfig(state))}>{t('save')}</BusyButton>
       </StickyFooter>
     </Container>
   );

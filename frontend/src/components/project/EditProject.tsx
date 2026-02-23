@@ -1,10 +1,11 @@
 import {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Container, Row, Form, Col} from 'react-bootstrap';
 import {useBlocker, useNavigate, useParams} from 'react-router';
 import {t} from '../utils';
 import {ArrayInput} from '../controls/form-controls/inputs/ArrayInput';
 import {deleteProject, saveProject as dispatchSaveProject} from '../../actions';
+import {useAppDispatch} from '../hooks/useAppDispatch';
 import {StickyFooter} from '../controls/other/StickyFooter';
 import {BusyButton} from '../controls/form-controls/BusyButton';
 import {IProjectModel, ProjectClientInvoiceLine} from './models/IProjectModel';
@@ -30,7 +31,7 @@ const ConfirmationButton = EnhanceWithConfirmation(Button);
 
 const useProjectState = () => {
   const params = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const storeProject = useSelector((state: ConfacState) => state.projects.find(c => c._id === params.id));
 
@@ -117,7 +118,7 @@ const useProjectState = () => {
 
   const saveProject = () => {
     setHasChanges(false);
-    dispatch(dispatchSaveProject(project, navigate) as any);
+    dispatch(dispatchSaveProject(project, navigate));
   };
 
   return {
@@ -138,7 +139,7 @@ const useEditProjectTitle = (project: IProjectModel) => {
 
 
 export const EditProject = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {project, setProject, canDelete, blocker, saveProject} = useProjectState();
   const client = useSelector((state: ConfacState) => state.clients.find(x => x._id === project.client.clientId));
@@ -194,7 +195,7 @@ export const EditProject = () => {
       <StickyFooter claim={Claim.ManageProjects}>
         <ConfirmationButton
           className="tst-confirm-delete-project"
-          onClick={() => dispatch(deleteProject(project._id, navigate) as any)}
+          onClick={() => dispatch(deleteProject(project._id, navigate))}
           variant="danger"
           title={t('project.deleteConfirm.title')}
           componentChildren={t('delete')}

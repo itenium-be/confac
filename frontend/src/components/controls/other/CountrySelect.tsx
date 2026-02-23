@@ -15,7 +15,7 @@ export const countries: Option[] = [
 const CountrySelectComponent = ({value, onChange, ...props}: CountrySelectProps) => {
   return (
     <SimpleCreatableSelectWithOptions
-      value={value}
+      value={value || ''}
       onChange={onChange}
       options={countries}
       isClearable={false}

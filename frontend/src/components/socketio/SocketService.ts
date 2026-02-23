@@ -1,4 +1,4 @@
-import {Dispatch} from 'redux';
+import {AppDispatch} from '../../types/redux';
 import {io} from 'socket.io-client';
 import {
   handleClientSocketEvents, handleConfigSocketEvents, handleConsultantSocketEvents, handleInvoiceSocketEvents,
@@ -22,7 +22,7 @@ function createSocketService() {
     socketId = socket.id;
   });
 
-  function initialize(dispatch: Dispatch<any>) {
+  function initialize(dispatch: AppDispatch) {
     if (initialized) {
       return;
     }
