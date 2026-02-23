@@ -10,6 +10,7 @@
     "lint": "eslint src",
     "fixup": "eslint --fix src",
     "knip": "knip",
+    "typecheck": "tsc --noEmit",
     "build": "tsc -p .",
     "start:build": "node ./public/server.js",
     "test": "jest",

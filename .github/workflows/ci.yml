@@ -57,10 +57,16 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Type check
-        run: bun run build
+        run: bun run typecheck
 
       - name: Lint
         run: bun run lint
 
       - name: Knip (unused code)
         run: bun run knip
+
+      - name: Build
+        run: bun run build
+
+      - name: Test
+        run: bun run test
