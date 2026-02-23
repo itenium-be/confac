@@ -41,7 +41,6 @@
       "devDependencies": {
         "@testing-library/jest-dom": "^5.17.0",
         "@testing-library/react": "^14.3.1",
-        "@types/dompurify": "^3.2.0",
         "@types/draft-js": "^0.11.20",
         "@types/iban": "^0.0.35",
         "@types/node": "^22",
@@ -436,8 +435,6 @@
     "@types/d3-time": ["@types/d3-time@3.0.4", "", {}, "sha512-yuzZug1nkAAaBlBBikKZTgzCeA+k1uy4ZFwWANOfKw5z5LRhV0gNA7gNkKm7HoK+HRN0wX3EkxGk0fpbWhmB7g=="],
 
     "@types/d3-timer": ["@types/d3-timer@3.0.2", "", {}, "sha512-Ps3T8E8dZDam6fUyNiMkekK3XUsaUEik+idO9/YjPtfj2qruF8tFBXS7XhtE4iIXBLxhmLjP3SXpLhVf21I9Lw=="],
-
-    "@types/dompurify": ["@types/dompurify@3.2.0", "", { "dependencies": { "dompurify": "*" } }, "sha512-Fgg31wv9QbLDA0SpTOXO3MaxySc4DKGLi8sna4/Utjo4r3ZRPdCt4UQee8BWr+Q5z21yifghREPJGYaEOEIACg=="],
 
     "@types/draft-js": ["@types/draft-js@0.11.20", "", { "dependencies": { "@types/react": "*", "immutable": "~3.7.4" } }, "sha512-bZHtHxXnCu4wlUXlDWrIlJSG2LJ6wcycSWoxcTCcGd0cVOm35p0vh87qpIPzGK2NALMMvJhQXdS330iYB3iGlw=="],
 
