@@ -20,7 +20,7 @@ export type BaseInputProps<T, TReturn = T> =
   & EnhanceInputWithDisplayProps
   & {
   type?: 'textarea' | 'text' | 'number';
-  onBlur?: (e: any) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   placeholder?: string;
   style?: React.CSSProperties;
   autoFocus?: boolean;
@@ -29,7 +29,7 @@ export type BaseInputProps<T, TReturn = T> =
 }
 
 
-class BaseInputComponent extends Component<BaseInputProps<any>> {
+class BaseInputComponent extends Component<BaseInputProps<string | number>> {
   render() {
     const {type, updateOnly: _updateOnly, ...props} = this.props;
     return (

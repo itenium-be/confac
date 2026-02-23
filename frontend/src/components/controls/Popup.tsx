@@ -15,7 +15,7 @@ export type PopupButton = {
 
 type PopupProps = {
   title: string;
-  children: any;
+  children: React.ReactNode;
   onHide: () => void;
   buttons: PopupButton[];
 }

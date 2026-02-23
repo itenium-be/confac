@@ -52,9 +52,10 @@ export const generateExcel = async (req: Request, res: Response, sheetName: stri
     const buffer = await response.arrayBuffer();
     return res.send(Buffer.from(buffer));
 
-  } catch (err: any) {
+  } catch (err: unknown) {
     logger.error(JSON.stringify(err));
-    if (err.message.includes('fetch failed') || err.message.includes('NetworkError')) {
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    if (errorMessage.includes('fetch failed') || errorMessage.includes('NetworkError')) {
       return res.status(503).send('Service unavailable');
     }
     return res.status(500).send('Internal server error');

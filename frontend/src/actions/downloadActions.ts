@@ -67,7 +67,11 @@ export function downloadInvoicesExcel(ids: string[]) {
   };
 }
 
-export function downloadProjectsExcel(data: any[][]) {
+export type ExcelCellValue = string | number | boolean | null | undefined;
+export type ExcelRowData = ExcelCellValue[];
+export type ExcelSheetData = ExcelRowData[];
+
+export function downloadProjectsExcel(data: ExcelSheetData) {
   return async (_dispatch: AppDispatch) => {
     const res = await api.post<Blob>('/projects/excel', data, {responseType: 'blob'});
     console.log('downloaded', res);
@@ -76,7 +80,7 @@ export function downloadProjectsExcel(data: any[][]) {
   };
 }
 
-export function downloadProjectsMonthsExcel(data: any[][], projectMonth: string) {
+export function downloadProjectsMonthsExcel(data: ExcelSheetData, projectMonth: string) {
   return async (_dispatch: AppDispatch) => {
     const res = await api.post<Blob>('/projects/month/excel', data, {responseType: 'blob'});
     console.log('downloaded', res);
@@ -85,7 +89,7 @@ export function downloadProjectsMonthsExcel(data: any[][], projectMonth: string)
   };
 }
 
-export function downloadProjectsMonthsFreelancerExcel(data: any[][], freelancer?: ConsultantModel) {
+export function downloadProjectsMonthsFreelancerExcel(data: ExcelSheetData, freelancer?: ConsultantModel) {
   return async (_dispatch: AppDispatch) => {
     const res = await api.post<Blob>('/projects/month/freelancer-excel', data, {responseType: 'blob'});
     console.log('downloaded', res);

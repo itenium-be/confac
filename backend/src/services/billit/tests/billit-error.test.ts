@@ -78,16 +78,16 @@ describe('BillitError', () => {
     });
 
     it('should preserve stack trace when thrown', () => {
-      let caughtError: any;
+      let caughtError: Error | undefined;
 
       try {
         throw new BillitError('Test error', [{Code: 'ERR001'}]);
       } catch (error) {
-        caughtError = error;
+        caughtError = error as Error;
       }
 
-      expect(caughtError.stack).toBeDefined();
-      expect(caughtError.stack).toContain('billit-error.test.ts');
+      expect(caughtError?.stack).toBeDefined();
+      expect(caughtError?.stack).toContain('billit-error.test.ts');
     });
   });
 
@@ -135,13 +135,13 @@ describe('BillitError', () => {
     });
 
     it('should handle errors with additional properties', () => {
-      const errors: any[] = [
+      const errors: BillitErrorDetail[] = [
         {
           Code: 'ERR001',
           Description: 'Validation error',
           Severity: 'High',
           FieldName: 'VATNumber',
-        },
+        } as BillitErrorDetail,
       ];
 
       const billitError: BillitError = new BillitError('Validation failed', errors);
@@ -237,7 +237,7 @@ describe('BillitError', () => {
       const billitError: BillitError = new BillitError('Test message', errors);
 
       const serialized: string = JSON.stringify(billitError);
-      const parsed: any = JSON.parse(serialized);
+      const parsed: {billitErrors?: BillitErrorDetail[]} = JSON.parse(serialized);
 
       // Note: JSON.stringify on Error objects doesn't include message by default
       // but custom properties like billitErrors are included
@@ -250,7 +250,7 @@ describe('BillitError', () => {
       ];
       const billitError: BillitError = new BillitError('Test message', errors);
 
-      const errorObject: any = {
+      const errorObject: {message: string; name: string; billitErrors: readonly BillitErrorDetail[]} = {
         message: billitError.message,
         name: billitError.name,
         billitErrors: billitError.billitErrors,

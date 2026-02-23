@@ -2,6 +2,7 @@ import moment from 'moment';
 import {fromInvoice} from '../create-order-request.factory';
 import {CreateOrderRequest} from '../../../../../services/billit';
 import {IInvoice} from '../../../../../models/invoices';
+import {IProject} from '../../../../../models/projects';
 import {someInvoice, someClient} from './invoice.fixture';
 import {someInvoiceLine} from './invoice-line.fixture';
 
@@ -169,7 +170,7 @@ describe('fromInvoice', () => {
 
     const project = {startDate: '2024-12-15T00:00:00.000Z'};
 
-    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as any);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as Partial<IProject>);
 
     expect(actual.PeriodFrom).toBe('2024-12-15');
     expect(actual.PeriodTill).toBe('2024-12-31');
@@ -191,7 +192,7 @@ describe('fromInvoice', () => {
       endDate: '2024-12-20T00:00:00.000Z',
     };
 
-    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as any);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as Partial<IProject>);
 
     expect(actual.PeriodFrom).toBe('2024-12-01');
     expect(actual.PeriodTill).toBe('2024-12-20');
@@ -213,7 +214,7 @@ describe('fromInvoice', () => {
       endDate: '2024-12-20T00:00:00.000Z',
     };
 
-    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as any);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as Partial<IProject>);
 
     expect(actual.PeriodFrom).toBe('2024-12-10');
     expect(actual.PeriodTill).toBe('2024-12-20');
@@ -235,7 +236,7 @@ describe('fromInvoice', () => {
       endDate: '2025-01-20T00:00:00.000Z',
     };
 
-    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as any);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as Partial<IProject>);
 
     expect(actual.PeriodFrom).toBe('2024-12-01');
     expect(actual.PeriodTill).toBe('2024-12-31');
@@ -261,7 +262,7 @@ describe('fromInvoice', () => {
       },
     };
 
-    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as any);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as Partial<IProject>);
 
     expect(actual.ContractDocumentReference).toEqual([{ID: 'CONTRACT-2024-001'}]);
   });
@@ -285,7 +286,7 @@ describe('fromInvoice', () => {
       },
     };
 
-    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as any);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as Partial<IProject>);
 
     expect(actual.ContractDocumentReference).toBeUndefined();
   });

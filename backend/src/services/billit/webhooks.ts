@@ -61,7 +61,7 @@ const webhookSecrets = {
  * billitSignature format: "t=1767174960,s=4588...55812"
  * The signature is a SHA-256 hash of "timestamp.body"
  */
-export function validateSignature(type: keyof typeof webhookSecrets, billitSignature: string, body: any): boolean {
+export function validateSignature(type: keyof typeof webhookSecrets, billitSignature: string, body: unknown): boolean {
   const [timestampPart, signaturePart] = billitSignature.split(',');
   if (!timestampPart || !signaturePart) {
     return false;

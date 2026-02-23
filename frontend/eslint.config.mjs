@@ -117,7 +117,7 @@ export default tseslint.config(
       // TypeScript rules
       'no-shadow': 'off',
       '@typescript-eslint/no-shadow': 'error',
-      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
     },
   },

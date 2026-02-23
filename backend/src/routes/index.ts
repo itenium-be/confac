@@ -1,4 +1,4 @@
-import {Response, NextFunction, Router} from 'express';
+import {Request, Response, NextFunction, Router} from 'express';
 import jwt from 'express-jwt';
 import {v4 as uuidv4} from 'uuid';
 import config from '../config';
@@ -31,12 +31,13 @@ const jwtMiddleware = () => jwt({
 });
 
 
-const fakeUserMiddleware = (req: any, res: any, next: any) => {
-  if (!req.user?.data) {
+const fakeUserMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  const confacReq = req as ConfacRequest;
+  if (!confacReq.user?.data) {
     let name = req.header('Authorization') || 'Jane Doe';
     name = name.replace(/^Bearer /, '');
 
-    req.user = {
+    confacReq.user = {
       iat: 0,
       exp: 0,
       data: {
@@ -54,7 +55,7 @@ const fakeUserMiddleware = (req: any, res: any, next: any) => {
 
 
 
-const useLogger = (req: any, res: Response, next: NextFunction) => {
+const useLogger = (req: Request, res: Response, next: NextFunction) => {
   const start = Date.now();
 
   const confacReq = req as ConfacRequest;

@@ -38,4 +38,4 @@ MongoClient.connect(connectionString, opts).then(async (client: MongoClient) => 
 
   client.close();
 })
-  .catch((err: any) => console.log(`Could not connect to the database. More info: ${err}`));
+  .catch((err: unknown) => console.log(`Could not connect to the database. More info: ${err}`));

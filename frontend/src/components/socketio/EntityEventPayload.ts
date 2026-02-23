@@ -1,6 +1,6 @@
 export interface EntityEventPayload {
   entityType: string;
-  entity: any;
+  entity: unknown;
   entityId: string | null;
   sourceSocketId: string | undefined;
   sourceUserAlias: string | undefined;

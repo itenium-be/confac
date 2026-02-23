@@ -9,10 +9,10 @@ import {emitEntityEvent} from './utils/entity-events';
 import {generateExcel} from './utils/excel-creator';
 
 
-export const getProjectsPerMonthController = async (req: Request, res: Response) => {
-  const query = req.query as any;
+export const getProjectsPerMonthController = async (req: Request<unknown, unknown, unknown, {months: string}>, res: Response) => {
+  const query = req.query;
   const getFrom = moment()
-    .subtract(query.months, 'months')
+    .subtract(parseInt(query.months, 10), 'months')
     .startOf('month')
     .format('YYYY-MM-DD');
   const projectsPerMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
@@ -22,10 +22,10 @@ export const getProjectsPerMonthController = async (req: Request, res: Response)
 };
 
 /** Returns only file details of a projects month attachment overview (all timesheets combined in one file) */
-export const getProjectsPerMonthOverviewController = async (req: Request, res: Response) => {
-  const query = req.query as any;
+export const getProjectsPerMonthOverviewController = async (req: Request<unknown, unknown, unknown, {months: string}>, res: Response) => {
+  const query = req.query;
   const getFrom = moment()
-    .subtract(query.months, 'months')
+    .subtract(parseInt(query.months, 10), 'months')
     .startOf('month')
     .format('YYYY-MM-DD');
   const projectsPerMonthOverview = await req.db.collection<IProjectMonthOverview>(CollectionNames.ATTACHMENTS_PROJECT_MONTH_OVERVIEW)

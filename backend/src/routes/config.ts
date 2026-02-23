@@ -1,4 +1,4 @@
-import {Router} from 'express';
+import {Router, RequestHandler} from 'express';
 import {getCompanyConfig, getTemplates, saveCompanyConfig, getSecurityConfig, getAudit} from '../controllers/config';
 
 const configRouter = Router();
@@ -6,7 +6,7 @@ const configRouter = Router();
 configRouter.get('/', getCompanyConfig);
 configRouter.get('/security', getSecurityConfig);
 configRouter.get('/templates', getTemplates);
-configRouter.post('/', saveCompanyConfig as any);
+configRouter.post('/', saveCompanyConfig as RequestHandler);
 configRouter.get('/audit', getAudit);
 
 export default configRouter;

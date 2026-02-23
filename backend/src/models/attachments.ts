@@ -4,12 +4,12 @@ import {CollectionNames, IAttachment} from './common';
 /** Represents attachments database collection */
 export type IAttachmentCollection = {
   /** Corresponds with the invoice ID property */
-  _id: any; // Set to any to avoid TS error: https://github.com/Microsoft/TypeScript/issues/8597
+  _id: ObjectID | string; // Using union type instead of any - ref: https://github.com/Microsoft/TypeScript/issues/8597
   /** The invoice pdf */
   pdf: Buffer;
 } & { // <-- to avoid TypeScript error
   /** User uploaded attachments */
-  [attachmentKey: string]: Buffer;
+  [attachmentKey: string]: Buffer | ObjectID | string;
 }
 
 export interface IEmailAttachment {

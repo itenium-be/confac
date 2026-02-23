@@ -1,5 +1,5 @@
 // Mock node-fetch before imports
-import fetch from 'node-fetch';
+import fetch, {Response} from 'node-fetch';
 import {ApiClient} from '../api-client';
 import {BillitError} from '../billit-error';
 import {CreateOrderRequest} from '../orders/createorder';
@@ -76,7 +76,7 @@ describe('ApiClient', () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
         text: () => Promise.resolve(orderId),
-      } as any);
+      } as Partial<Response>);
 
       const result: number = await apiClient.createOrder(createOrderRequest, '2024-001');
 
@@ -104,7 +104,7 @@ describe('ApiClient', () => {
         ok: false,
         status: 400,
         text: () => Promise.resolve(errorMessage),
-      } as any);
+      } as Partial<Response>);
 
       await expect(apiClient.createOrder(createOrderRequest, '2024-001')).rejects.toThrow(
         `Failed to create order at Billit: ${errorMessage}`,
@@ -117,7 +117,7 @@ describe('ApiClient', () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
         text: () => Promise.resolve('123456'),
-      } as any);
+      } as Partial<Response>);
 
       await apiClient.createOrder(createOrderRequest, 'unique-key-123');
 
@@ -138,7 +138,7 @@ describe('ApiClient', () => {
         ok: false,
         status: 400,
         text: () => Promise.resolve(errorsResponse),
-      } as any);
+      } as Partial<Response>);
 
       try {
         await apiClient.createOrder(createOrderRequest, '2024-001');
@@ -158,7 +158,7 @@ describe('ApiClient', () => {
         ok: false,
         status: 500,
         text: () => Promise.resolve(errorMessage),
-      } as any);
+      } as Partial<Response>);
 
       try {
         await apiClient.createOrder(createOrderRequest, '2024-001');
@@ -177,7 +177,7 @@ describe('ApiClient', () => {
         OrderIDs: [123456, 123457],
       };
 
-      mockFetch.mockResolvedValueOnce({ok: true} as any);
+      mockFetch.mockResolvedValueOnce({ok: true} as Partial<Response>);
 
       await apiClient.sendInvoice(request, 'send-123');
 
@@ -204,7 +204,7 @@ describe('ApiClient', () => {
         OrderIDs: [123456],
       };
 
-      mockFetch.mockResolvedValueOnce({ok: true} as any);
+      mockFetch.mockResolvedValueOnce({ok: true} as Partial<Response>);
 
       await apiClient.sendInvoice(request, 'send-124');
 
@@ -235,7 +235,7 @@ describe('ApiClient', () => {
         ok: false,
         status: 500,
         text: () => Promise.resolve(errorMessage),
-      } as any);
+      } as Partial<Response>);
 
       await expect(apiClient.sendInvoice(request, 'key')).rejects.toThrow(
         `Failed to send invoice via ${request.TransportType}: ${errorMessage}`,
@@ -249,7 +249,7 @@ describe('ApiClient', () => {
         TransportType: 'Peppol',
         OrderIDs: [111, 222, 333, 444, 555],
       };
-      mockFetch.mockResolvedValueOnce({ok: true} as any);
+      mockFetch.mockResolvedValueOnce({ok: true} as Partial<Response>);
 
       await apiClient.sendInvoice(request, 'key');
 
@@ -273,7 +273,7 @@ describe('ApiClient', () => {
         ok: false,
         status: 400,
         text: () => Promise.resolve(errorsResponse),
-      } as any);
+      } as Partial<Response>);
 
       try {
         await apiClient.sendInvoice(request, 'key');
@@ -299,7 +299,7 @@ describe('ApiClient', () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: () => Promise.resolve(response),
-      } as any);
+      } as Partial<Response>);
 
       const result: GetParticipantInformationResponse = await apiClient.getParticipantInformation(vatNumber);
 
@@ -319,7 +319,7 @@ describe('ApiClient', () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: () => Promise.resolve(response),
-      } as any);
+      } as Partial<Response>);
 
       const result: GetParticipantInformationResponse = await apiClient.getParticipantInformation(vatNumber);
 
@@ -336,7 +336,7 @@ describe('ApiClient', () => {
         ok: false,
         status: 400,
         text: () => Promise.resolve(errorMessage),
-      } as any);
+      } as Partial<Response>);
 
       await expect(apiClient.getParticipantInformation(vatNumber)).rejects.toThrow(
         `Failed to check Peppol registration: ${errorMessage}`,
@@ -354,7 +354,7 @@ describe('ApiClient', () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: () => Promise.resolve(response),
-      } as any);
+      } as Partial<Response>);
 
       await apiClient.getParticipantInformation('BE0123456789');
 
@@ -374,7 +374,7 @@ describe('ApiClient', () => {
         ok: false,
         status: 400,
         text: () => Promise.resolve(errorsResponse),
-      } as any);
+      } as Partial<Response>);
 
       try {
         await apiClient.getParticipantInformation('INVALID');

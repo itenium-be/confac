@@ -1,23 +1,28 @@
 import diff, {Diff} from 'deep-diff';
 import {ConfacRequest} from '../../models/technical';
 
+interface AuditableEntity {
+  _id?: unknown;
+  audit?: unknown;
+  [key: string]: unknown;
+}
 
 export async function saveAudit(
   req: ConfacRequest,
   model: 'client' | 'config' | 'consultant' | 'invoice' | 'project' | 'projectMonth' | 'user' | 'role',
-  originalValue: any,
-  newValue: any,
+  originalValue: AuditableEntity | null | undefined,
+  newValue: AuditableEntity,
   extraExcludes?: string[],
 ) {
-  const leDiff = (diff(originalValue, newValue) as Diff<any, any>[])
-    .filter(x => !x.path || !['_id', 'audit'].includes(x.path[0]))
+  const leDiff = (diff(originalValue, newValue) as Diff<AuditableEntity, AuditableEntity>[] || [])
+    .filter(x => !x.path || !['_id', 'audit'].includes(x.path[0] as string))
     .map(x => ({
       ...x,
       path: x.path?.join('.'),
       kind: x.kind === 'E' && x.rhs === null ? 'D' : x.kind,
     }))
     .filter(x => !x.path || !(extraExcludes || []).includes(x.path))
-    .filter(x => x.kind !== 'N' || (x as any).rhs);
+    .filter(x => x.kind !== 'N' || x.rhs);
 
   if (leDiff.length) {
     const log = {

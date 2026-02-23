@@ -30,7 +30,7 @@ const fakeClient: Partial<IClient> = {
 };
 
 
-const fakeDb = {collection: (_colName: string) => ({insertOne: (client: any) => Promise.resolve({ops: [client]})})};
+const fakeDb = {collection: (_colName: string) => ({insertOne: (client: IClient) => Promise.resolve({ops: [client]})})};
 
 
 describe('clients controller :: saveClient creation', () => {
@@ -39,7 +39,7 @@ describe('clients controller :: saveClient creation', () => {
       user: fakeUser,
       body: {...fakeClient, name: 'Company X'},
       db: fakeDb,
-      io: new SocketServerMock() as any,
+      io: new SocketServerMock() as unknown as ConfacRequest['io'],
     } as ConfacRequest;
 
     const res = {send: (c: IClient) => Promise.resolve(c)} as unknown as Response;

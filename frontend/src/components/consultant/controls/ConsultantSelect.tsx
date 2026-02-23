@@ -25,10 +25,14 @@ const ConsultantSelectComponent = ({value, onChange}: ConsultantSelectProps) => 
   const selectedOption = options.find(o => o.value === selectedModelId) || null;
 
   return (
-    <Select
+    <Select<SelectItem>
       value={selectedOption}
-      options={options as any}
-      onChange={((item: SelectItem) => onChange(item && item.value as string, item && getModel(item.value as string))) as any}
+      options={options}
+      onChange={(item) => {
+        if (item) {
+          onChange(item.value as string, getModel(item.value as string));
+        }
+      }}
       isClearable
       placeholder={t('controls.selectPlaceholder')}
       className="react-select-consultant"

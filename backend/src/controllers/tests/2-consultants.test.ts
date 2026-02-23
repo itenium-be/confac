@@ -30,7 +30,7 @@ const _createFakeRequestAndResponse = (db: Db, consultant: Partial<IConsultant> 
     user: fakeUser,
     body: {...fakeConsultant, ...(consultant || {})},
     db,
-    io: new SocketServerMock() as any,
+    io: new SocketServerMock() as unknown as ConfacRequest['io'],
   } as ConfacRequest;
 
   const res = {

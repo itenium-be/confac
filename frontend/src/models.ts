@@ -96,7 +96,7 @@ export type FormConfig = {
    * The React Component to use
    * Defaults to StringInput
    */
-  component?: React.ComponentType | StandardComponents | React.FunctionComponent<any>;
+  component?: React.ComponentType<FormComponentProps> | StandardComponents | React.FunctionComponent<FormComponentProps>;
   /**
    * True: Do not show when creating the record
    * (ex: "slug" which is calculated when saving)
@@ -111,7 +111,14 @@ export type FormConfig = {
   suffix?: InputIcons | React.ComponentType | string;
   style?: CSSProperties;
   /** Additional props passed to the component */
-  props?: {[key: string]: any};
+  props?: Record<string, unknown>;
+}
+
+/** Props passed to form components */
+export interface FormComponentProps {
+  value?: unknown;
+  onChange?: (value: unknown) => void;
+  [key: string]: unknown;
 }
 
 /** Grid Col size */

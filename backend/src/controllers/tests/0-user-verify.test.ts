@@ -5,7 +5,14 @@ import type {OAuth2Client as _OAuth2Client} from 'google-auth-library';
 import {verify} from '../user';
 import config from '../../config';
 
-let payload: any = null;
+interface MockPayload {
+  email_verified?: boolean;
+  email?: string;
+  aud?: string;
+  hd?: string;
+}
+
+let payload: MockPayload | null = null;
 
 jest.mock('../../config', () => ({
   security: {

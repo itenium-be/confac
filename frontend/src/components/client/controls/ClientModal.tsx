@@ -1,4 +1,3 @@
-import {useDispatch} from 'react-redux';
 import {Container, Row, Form, Alert} from 'react-bootstrap';
 import {t} from '../../utils';
 import {saveClient} from '../../../actions/clientActions';
@@ -8,6 +7,7 @@ import {NewClientForm} from '../NewClient';
 import {ArrayInput} from '../../controls/form-controls/inputs/ArrayInput';
 import {BaseModalProps, Modal} from '../../controls/Modal';
 import {useClientState} from '../client-helpers';
+import {useAppDispatch} from '../../../types/redux';
 
 
 type ClientModalProps = BaseModalProps & {
@@ -19,12 +19,12 @@ type ClientModalProps = BaseModalProps & {
 
 
 export const ClientModal = ({title, onConfirm, clientId, show, onClose, newClientTypes}: ClientModalProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {client, setClient, clientAlreadyExists, canSaveClient} = useClientState(clientId || 'create');
 
   const onSave = (): void => {
     const onSuccess = onConfirm ? (clientWithServerValues: ClientModel) => onConfirm(clientWithServerValues) : undefined;
-    dispatch(saveClient(client!, true, onSuccess) as any);
+    dispatch(saveClient(client!, true, onSuccess));
   };
 
   const modalTitle = title ?? t('client.createNewModal.client');

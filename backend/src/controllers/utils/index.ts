@@ -8,14 +8,14 @@ import {IInvoice} from '../../models/invoices';
 import {CollectionNames} from '../../models/common';
 
 // See: https://github.com/marcbachmann/node-html-pdf/issues/531
-const pdfOptions = {childProcessOptions: {env: {OPENSSL_CONF: '/dev/null'}}};
+const pdfOptions = {childProcessOptions: {env: {OPENSSL_CONF: '/dev/null'}}} as const;
 
 interface IInvoiceWithCreditNotaNumbers extends IInvoice {
   creditNotaNumbers?: number[];
 }
 
 export const convertHtmlToBuffer = (logger: Logger, html: string): Promise<Buffer> => new Promise((resolve, reject) => {
-  pdf.create(html, pdfOptions as any).toBuffer((err, buffer) => {
+  pdf.create(html, pdfOptions as pdf.CreateOptions).toBuffer((err, buffer) => {
     if (err) {
       logger.error('convertHtmlToBuffer error', err);
       reject();

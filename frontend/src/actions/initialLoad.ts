@@ -56,7 +56,7 @@ const httpGet = (url: string) => {
     .catch(err => {
       console.log('Initial Load Failure', err);
       if (counter === 0) {
-        failure(err.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
+        failure(err.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT);
       }
       counter++;
       return Promise.reject(err);
@@ -70,7 +70,7 @@ const httpGet = (url: string) => {
       if (data.message) {
         console.log('Initial Load Failure', data);
         if (counter === 0) {
-          failure(data.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT as any);
+          failure(data.message, 'Initial Load Failure', undefined, toast.POSITION.BOTTOM_RIGHT);
         }
         counter++;
         return Promise.reject(data);
@@ -166,7 +166,7 @@ function fetchProjectsMonthOverviews(initialMonthsLoad: number) {
   });
 }
 
-export function initialLoad(loadNextMonth?: number): any {
+export function initialLoad(loadNextMonth?: number) {
   if (!authService.loggedIn()) {
     return {type: 'NONE'};
   }
@@ -177,7 +177,7 @@ export function initialLoad(loadNextMonth?: number): any {
     counter = 0;
 
     let monthsToLoad: number = loadNextMonth!;
-    let promise: any = httpGet('/config').then(data => {
+    let promise: Promise<void> = httpGet('/config').then(data => {
       if (data === null) {
         console.log('First login, starting with defaultConfig');
         if (!loadNextMonth) {

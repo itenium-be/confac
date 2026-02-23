@@ -47,8 +47,14 @@ if (process.env.NODE_ENV === 'production') {
 
 
 
+interface LokiLogEntry {
+  level: string;
+  message?: string;
+  [key: string]: unknown;
+}
+
 if (appConfig.logging.lokiUrl) {
-  const sendToLoki = async (logEntry: any) => {
+  const sendToLoki = async (logEntry: LokiLogEntry) => {
     try {
       const payload = {
         streams: [{

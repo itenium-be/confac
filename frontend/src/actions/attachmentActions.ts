@@ -58,7 +58,9 @@ export type AttachmentFormContext = {
 }
 
 
-function getDispatchConfig(modelType: ModelsWithAttachments, body: any): any {
+type DispatchConfig = {type: string; config?: unknown; client?: unknown; invoice?: unknown};
+
+function getDispatchConfig(modelType: ModelsWithAttachments, body: unknown): DispatchConfig {
   switch (modelType) {
     case 'config':
       return {type: ACTION_TYPES.CONFIG_UPDATE, config: body};

@@ -21,7 +21,12 @@ type EmailAttachmentRequest = {
 type EmailRequest = Omit<IEmail, 'attachments'> & {attachments: EmailAttachmentRequest[]};
 
 
-export const emailInvoiceController = async (req: Request<{id: number}, any, EmailRequest, {emailInvoiceOnly: string}>, res: Response) => {
+type EmailInvoiceQuery = {emailInvoiceOnly: string};
+
+export const emailInvoiceController = async (
+  req: Request<{id: number}, unknown, EmailRequest, EmailInvoiceQuery>,
+  res: Response,
+) => {
   const invoiceId = req.params.id;
   const email = req.body;
 
@@ -209,7 +214,7 @@ async function sendEmail(logger: Logger, res: Response, mailData: IEmailData): P
     const info = await sendEmailCore(mailData);
 
     const tos = [mailData.to, mailData.cc, mailData.bcc].filter(x => !!x).join(', ');
-    const atts = mailData.attachments?.map((x: any) => x.filename);
+    const atts = mailData.attachments?.map((x: IEmailAttachment) => x.filename);
     logger.info(`Mail sent with status: ${JSON.stringify(info)} to ${tos}. Subject=${mailData.subject}. Attachments=${atts}`);
 
     if (info.rejected?.length) {

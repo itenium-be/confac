@@ -26,9 +26,9 @@ class PropertiesSelectComponent extends Component<PropertiesSelectProps> {
 
   render() {
     return (
-      <Creatable
-        value={this.props.value as any}
-        onChange={this.onChange.bind(this) as any}
+      <Creatable<SelectItem, true>
+        value={this.props.value}
+        onChange={(values) => this.onChange(values as Array<SelectItem & { className?: string; __isNew__?: boolean }>)}
         isClearable
         isMulti
         noOptionsMessage={() => ''}

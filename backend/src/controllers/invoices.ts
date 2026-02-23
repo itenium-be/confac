@@ -186,7 +186,7 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
   await saveAudit(req, 'invoice', originalInvoice, invoice, ['projectMonth.consultantId']);
 
   const invoiceResponse = {_id, ...invoice};
-  const result: Array<any> = [{
+  const result: Array<{type: string; model: unknown}> = [{
     type: 'invoice',
     model: invoiceResponse,
   }];
@@ -220,13 +220,14 @@ export const verifyInvoiceController = async (req: ConfacRequest, res: Response)
     try {
       const apiClient = ApiClientFactory.fromConfig(config);
       await apiClient.patchOrderStatus(invoice.billit.orderId, status);
-    } catch (error: any) {
-      logger.error(`Failed to patch Billit order status for invoice #${invoice.number}: ${error?.message}`);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error(`Failed to patch Billit order status for invoice #${invoice.number}: ${errorMessage}`);
       // Don't fail the whole request if Billit sync fails
     }
   }
 
-  const result: Array<any> = [{
+  const result: Array<{type: string; model: unknown}> = [{
     type: 'invoice',
     model: invoice,
   }];
@@ -499,13 +500,14 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
         invoice.billit = newBillit;
         invoice.status = 'ToSend';
         invoice.audit = updatedAudit;
-      } catch (error: any) {
+      } catch (error: unknown) {
         if (error instanceof BillitError && error.isIdempotentTokenAlreadyExistsError()) {
           // Another process is still executing the apiClient.createOrder, we'll just send OK back
           logger.info(`IdempotencyKey already exists for InvoiceNr=${invoice.number}, billitId=${invoice.billit?.orderId}`);
           return res.status(200).send({message: 'Invoice sent to Peppol'});
         }
-        logger.error(`sendInvoice error "${error?.message}": ${JSON.stringify(error)} for #${invoice.number}`);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        logger.error(`sendInvoice error "${errorMessage}": ${JSON.stringify(error)} for #${invoice.number}`);
         throw error;
       }
     }
@@ -541,22 +543,24 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
         );
       }
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error instanceof BillitError && error.isIdempotentTokenAlreadyExistsError()) {
         logger.info(`Idempotent '${idempotencyKey}' already exists, invoiceNr=${invoice.number}, billitId=${invoice.billit?.orderId}`);
       } else {
-        logger.error(`sendInvoice error "${error?.message}": ${JSON.stringify(error)} for #${invoice.number}`);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        logger.error(`sendInvoice error "${errorMessage}": ${JSON.stringify(error)} for #${invoice.number}`);
         throw error;
       }
     }
 
     return res.status(200).send({message: 'Invoice sent to Peppol', invoice: finalInvoice, client: updatedClient});
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error('Error processing Peppol request:', error);
-    const errorResponse: any = {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorResponse: {message: string; error: string; errors?: unknown} = {
       message: 'Error processing Peppol request',
-      error: error.message,
+      error: errorMessage,
     };
 
     // Include Billit API errors if present
@@ -586,9 +590,10 @@ export const refreshPeppolStatusController = async (req: ConfacRequest, res: Res
   try {
     const updatedInvoice = await syncBillitOrder(req, invoice);
     return res.status(200).send(updatedInvoice);
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error('Error refreshing Peppol status:', error);
-    return res.status(500).send({message: 'Error refreshing Peppol status', error: error.message});
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return res.status(500).send({message: 'Error refreshing Peppol status', error: errorMessage});
   }
 };
 
@@ -606,8 +611,9 @@ export const syncClientPeppolStatusController = async (req: ConfacRequest, res: 
   try {
     const updatedClient = await syncClientPeppolStatus(req, client);
     return res.status(200).send(updatedClient);
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error('Error syncing client peppol status:', error);
-    return res.status(500).send({message: 'Error syncing client peppol status', error: error.message});
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return res.status(500).send({message: 'Error syncing client peppol status', error: errorMessage});
   }
 };

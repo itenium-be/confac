@@ -1,4 +1,4 @@
-import {toast} from 'react-toastify';
+import {toast, ToastPosition} from 'react-toastify';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import t from '../trans';
 import {InvoiceListFilters, ListFilters} from '../components/controls/table/table-models';
@@ -45,14 +45,14 @@ export function success(msg = '', title = '', timeout: number | false = 2000): v
 }
 
 
-export function failure(msg = '', title = '', timeout: number | false = 4000, position?: any): void {
+export function failure(msg = '', title = '', timeout: number | false = 4000, position?: ToastPosition): void {
   toast.error(
     <ToastMessage
       msg={msg || t('toastrFailure')}
       title={title || t('toastrFailureTitle')}
       type="error"
     />,
-    {autoClose: timeout, position: (position || toast.POSITION.TOP_CENTER as any)},
+    {autoClose: timeout, position: position || toast.POSITION.TOP_CENTER},
   );
 }
 

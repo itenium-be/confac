@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {t} from '../../utils';
 import {ConsultantSelect} from './ConsultantSelect';
 import {ConsultantModel} from '../models/ConsultantModel';
@@ -10,10 +10,11 @@ import {SelectWithCreateButton, SelectWithCreateModalProps} from '../../controls
 import {Claim} from '../../users/models/UserModel';
 import {Form} from 'react-bootstrap';
 import {ConsultantIconLinks} from './ConsultantIconLinks';
+import {useAppDispatch} from '../../../types/redux';
 
 
 export const ConsultantSelectWithCreateModal = ({value, onChange}: SelectWithCreateModalProps<ConsultantModel>) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [modalOpen, setModalOpen] = useState(false);
   const consultant = useSelector((state: ConfacState) => state.consultants.find(c => c._id === value));
 
@@ -24,7 +25,7 @@ export const ConsultantSelectWithCreateModal = ({value, onChange}: SelectWithCre
           consultant={null}
           show
           onClose={() => setModalOpen(false)}
-          onConfirm={(model: ConsultantModel) => dispatch(saveConsultant(model, savedModel => onChange(savedModel._id, savedModel)) as any)}
+          onConfirm={(model: ConsultantModel) => dispatch(saveConsultant(model, savedModel => onChange(savedModel._id, savedModel)))}
         />
       )}
       <SelectWithCreateButton claim={Claim.ManageConsultants} createButtonText="add" openCreateModal={() => setModalOpen(true)}>

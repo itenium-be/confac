@@ -2,12 +2,20 @@ import {ObjectId} from 'bson';
 import {CollectionNames, SocketEventTypes} from '../../models/common';
 import {ConfacRequest} from '../../models/technical';
 
+interface EntityEventPayload {
+  entityType: string;
+  entity: unknown;
+  entityId: ObjectId | null | string;
+  sourceSocketId: string | string[] | undefined;
+  sourceUserAlias: string | undefined;
+}
+
 export function emitEntityEvent(
   req: ConfacRequest,
   eventType: SocketEventTypes,
   entityType: CollectionNames,
   entityId: ObjectId | null | string,
-  entity: any | null,
+  entity: unknown,
   sendTo: 'everyone' | 'others' = 'others',
 ) {
 
@@ -20,12 +28,4 @@ export function emitEntityEvent(
     sourceSocketId: sendTo === 'everyone' ? undefined : sourceSocketId,
     sourceUserAlias,
   } as EntityEventPayload);
-}
-
-interface EntityEventPayload {
-  entityType: string;
-  entity: any;
-  entityId: ObjectId | null | string;
-  sourceSocketId: string | undefined;
-  sourceUserAlias: string | undefined;
 }

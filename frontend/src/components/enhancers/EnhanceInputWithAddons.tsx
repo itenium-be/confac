@@ -45,13 +45,16 @@ const Addon = ({add, options, disabled}: AddonProps): React.ReactElement | null 
 
 
 
-type ReactNodeFn = any;
+type ReactNodeFn = React.ReactNode | (() => React.ReactNode);
 
+type DateLike = {
+  toDate: () => Date;
+};
 
 export type EnhanceInputWithDisplayProps = {
   /** Display a label instead of an input */
   display?: 'label' | undefined | ReactNodeFn;
-  value: any;
+  value: string | number | DateLike | undefined;
 }
 
 

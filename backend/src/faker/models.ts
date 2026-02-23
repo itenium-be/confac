@@ -3,6 +3,7 @@ import {faker} from '@faker-js/faker';
 import moment from 'moment';
 import {Db} from 'mongodb';
 import slugify from 'slugify';
+import {IInvoice} from '../models/invoices';
 
 
 // https://fakerjs.dev/api/
@@ -141,7 +142,7 @@ export const getNewProjects = async (db: Db, config: ProjectConfig) => {
         notes: '',
       },
       audit: getAudit(),
-    } as any;
+    };
 
     const oneYear = 31556952000;
     if (config.endDate) {
@@ -165,7 +166,7 @@ export const getNewProjects = async (db: Db, config: ProjectConfig) => {
 
 
 
-export const getNewInvoices = async (db: Db, config: any) => {
+export const getNewInvoices = async (db: Db, config: {amount: number}) => {
   const consultants = await db.collection('consultants').find().toArray();
   const projectMonths = await db.collection('projects_month').find().toArray();
   // const projects = await db.collection('projects').find().toArray();
@@ -184,7 +185,7 @@ export const getNewInvoices = async (db: Db, config: any) => {
     const days = faker.datatype.number({min: 15, max: 22});
     const total = price * days;
 
-    const invoice: any = {
+    const invoice: Partial<IInvoice> = {
       number: index + 1, // TODO: need to watch out for doubles here
       projectMonth: {
         projectMonthId: projectMonth._id,
