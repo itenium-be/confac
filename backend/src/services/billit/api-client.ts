@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import {logger} from '../../logger';
 import {CreateOrderRequest} from './orders/createorder';
 import {SendInvoiceRequest} from './orders/sendinvoice';
@@ -23,7 +22,7 @@ export class ApiClient {
     request: CreateOrderRequest,
     idempotencyKey: string,
   ): Promise<number> {
-    const response: fetch.Response = await fetch(`${this.config.apiUrl}/orders`, {
+    const response: Response = await fetch(`${this.config.apiUrl}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -51,7 +50,7 @@ export class ApiClient {
    * Sends an existing Billit invoice via specified transport type to Peppol
    */
   async sendInvoice(request: SendInvoiceRequest, idempotencyKey: string): Promise<void> {
-    const response: fetch.Response = await fetch(`${this.config.apiUrl}/orders/commands/send`, {
+    const response: Response = await fetch(`${this.config.apiUrl}/orders/commands/send`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -79,7 +78,7 @@ export class ApiClient {
    * @returns The Peppol participant information response
    */
   async getParticipantInformation(vatNumber: string): Promise<GetParticipantInformationResponse> {
-    const response: fetch.Response = await fetch(
+    const response: Response = await fetch(
       `${this.config.apiUrl}/peppol/participantInformation/${vatNumber}`,
     );
 
@@ -95,7 +94,7 @@ export class ApiClient {
   }
 
   async getOrder(billitOrderId: number): Promise<BillitOrder> {
-    const response: fetch.Response = await fetch(`${this.config.apiUrl}/orders/${billitOrderId}`, {
+    const response: Response = await fetch(`${this.config.apiUrl}/orders/${billitOrderId}`, {
       method: 'GET',
       headers: {
         ApiKey: this.config.apiKey,
@@ -123,7 +122,7 @@ export class ApiClient {
       PaidDate: status === 'Paid' ? new Date().toISOString() : null,
     };
 
-    const response: fetch.Response = await fetch(`${this.config.apiUrl}/orders/${billitOrderId}`, {
+    const response: Response = await fetch(`${this.config.apiUrl}/orders/${billitOrderId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -145,7 +144,7 @@ export class ApiClient {
 
   /** Gets a file by its generated UUID */
   async getFile(fileId: string): Promise<SavedAttachment> {
-    const response: fetch.Response = await fetch(`${this.config.apiUrl}/files/${fileId}`, {
+    const response: Response = await fetch(`${this.config.apiUrl}/files/${fileId}`, {
       method: 'GET',
       headers: {
         ApiKey: this.config.apiKey,

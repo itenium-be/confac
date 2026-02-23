@@ -1,5 +1,3 @@
-// Mock node-fetch before imports
-import fetch, {Response} from 'node-fetch';
 import {ApiClient} from '../api-client';
 import {BillitError} from '../billit-error';
 import {CreateOrderRequest} from '../orders/createorder';
@@ -9,8 +7,6 @@ import {ApiConfig} from '../api-config';
 import {GetParticipantInformationResponse} from '../peppol/getparticipantinformation';
 import {testApiConfig} from './api-config.fixture';
 
-jest.mock('node-fetch');
-
 // Mock logger before imports
 jest.mock('../../../logger', () => ({
   logger: {
@@ -19,7 +15,8 @@ jest.mock('../../../logger', () => ({
   },
 }));
 
-const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
+const mockFetch = jest.fn() as jest.MockedFunction<typeof fetch>;
+global.fetch = mockFetch;
 
 describe('ApiClient', () => {
   let apiClient: ApiClient;

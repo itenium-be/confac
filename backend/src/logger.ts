@@ -1,7 +1,6 @@
 import * as winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import os from 'os';
-import fetch from 'node-fetch';
 import appConfig from './config';
 
 const fileTransport = new DailyRotateFile({

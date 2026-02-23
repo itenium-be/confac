@@ -1,6 +1,5 @@
 import {Request, Response} from 'express';
 import slugify from 'slugify';
-import fetch from 'node-fetch';
 import {ObjectID} from 'mongodb';
 import {IClient} from '../models/clients';
 import {CollectionNames, updateAudit, createAudit, SocketEventTypes} from '../models/common';
