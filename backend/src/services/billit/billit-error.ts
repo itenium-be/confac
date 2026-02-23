@@ -1,12 +1,15 @@
-import {ErrorsResponse} from './errors/errors.response';
+export interface BillitErrorDetail {
+  Code: string;
+  Description?: string;
+}
 
 /**
  * Custom error class for Billit API errors with structured error details
  */
 export class BillitError extends Error {
-  public readonly billitErrors: ErrorsResponse['errors'];
+  public readonly billitErrors: BillitErrorDetail[];
 
-  constructor(message: string, billitErrors: ErrorsResponse['errors']) {
+  constructor(message: string, billitErrors: BillitErrorDetail[]) {
     super(message);
     this.name = 'BillitError';
     this.billitErrors = billitErrors;

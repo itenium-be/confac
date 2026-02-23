@@ -1,0 +1,19 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "project": ["src/**/*.ts"],
+  "ignore": [
+    "src/faker/**",
+    "src/services/billit/mock-api-client.ts"
+  ],
+  "ignoreDependencies": [
+    "@eslint/js",
+    "gulp",
+    "gulp-plumber",
+    "gulp-pug",
+    "@faker-js/faker"
+  ],
+  "exclude": [
+    "exports",
+    "types"
+  ]
+}

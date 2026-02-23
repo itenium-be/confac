@@ -1,11 +1,10 @@
-import {BillitError} from '../billit-error';
-import {Error as BillitErrorType} from '../errors/error';
+import {BillitError, BillitErrorDetail} from '../billit-error';
 
 describe('BillitError', () => {
   describe('constructor', () => {
     it('should create a BillitError instance with message and errors', () => {
       const message: string = 'Failed to create order';
-      const errors: BillitErrorType[] = [
+      const errors: BillitErrorDetail[] = [
         {Code: 'ERR001', Description: 'Invalid VAT number'},
         {Code: 'ERR002', Description: 'Missing required field'},
       ];
@@ -25,7 +24,7 @@ describe('BillitError', () => {
     });
 
     it('should handle single error in array', () => {
-      const errors: BillitErrorType[] = [
+      const errors: BillitErrorDetail[] = [
         {Code: 'ERR001', Description: 'Single error'},
       ];
 
@@ -36,7 +35,7 @@ describe('BillitError', () => {
     });
 
     it('should handle empty errors array', () => {
-      const errors: BillitErrorType[] = [];
+      const errors: BillitErrorDetail[] = [];
 
       const billitError: BillitError = new BillitError('Error with no details', errors);
 
@@ -45,7 +44,7 @@ describe('BillitError', () => {
     });
 
     it('should handle errors without Description field', () => {
-      const errors: BillitErrorType[] = [
+      const errors: BillitErrorDetail[] = [
         {Code: 'ERR001'},
         {Code: 'ERR002'},
       ];
@@ -116,7 +115,7 @@ describe('BillitError', () => {
 
   describe('billitErrors property', () => {
     it('should have billitErrors property', () => {
-      const errors: BillitErrorType[] = [{Code: 'ERR001'}];
+      const errors: BillitErrorDetail[] = [{Code: 'ERR001'}];
       const billitError: BillitError = new BillitError('Test', errors);
 
       // TypeScript enforces readonly at compile-time
@@ -125,7 +124,7 @@ describe('BillitError', () => {
     });
 
     it('should preserve error array reference', () => {
-      const errors: BillitErrorType[] = [
+      const errors: BillitErrorDetail[] = [
         {Code: 'ERR001', Description: 'First error'},
         {Code: 'ERR002', Description: 'Second error'},
       ];
@@ -190,7 +189,7 @@ describe('BillitError', () => {
 
   describe('edge cases', () => {
     it('should handle Unicode in error descriptions', () => {
-      const errors: BillitErrorType[] = [
+      const errors: BillitErrorDetail[] = [
         {Code: 'ERR001', Description: 'Erreur avec accents: éàü'},
         {Code: 'ERR002', Description: 'Error with emoji: 🚫'},
         {Code: 'ERR003', Description: 'Chinese characters: 错误'},
@@ -204,7 +203,7 @@ describe('BillitError', () => {
     });
 
     it('should handle large error arrays', () => {
-      const errors: BillitErrorType[] = Array.from({length: 100}, (_, i) => ({
+      const errors: BillitErrorDetail[] = Array.from({length: 100}, (_, i) => ({
         Code: `ERR${String(i).padStart(3, '0')}`,
         Description: `Error number ${i}`,
       }));
@@ -217,7 +216,7 @@ describe('BillitError', () => {
     });
 
     it('should handle errors with same code', () => {
-      const errors: BillitErrorType[] = [
+      const errors: BillitErrorDetail[] = [
         {Code: 'ERR001', Description: 'First occurrence'},
         {Code: 'ERR001', Description: 'Second occurrence'},
         {Code: 'ERR001', Description: 'Third occurrence'},
@@ -232,7 +231,7 @@ describe('BillitError', () => {
 
   describe('serialization', () => {
     it('should be JSON serializable', () => {
-      const errors: BillitErrorType[] = [
+      const errors: BillitErrorDetail[] = [
         {Code: 'ERR001', Description: 'Test error'},
       ];
       const billitError: BillitError = new BillitError('Test message', errors);
@@ -246,7 +245,7 @@ describe('BillitError', () => {
     });
 
     it('should include billitErrors when converting to object', () => {
-      const errors: BillitErrorType[] = [
+      const errors: BillitErrorDetail[] = [
         {Code: 'ERR001', Description: 'Test error'},
       ];
       const billitError: BillitError = new BillitError('Test message', errors);

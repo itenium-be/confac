@@ -1,11 +1,10 @@
-import {ErrorsResponse} from './errors/errors.response';
-import {BillitError} from './billit-error';
+import {BillitError, BillitErrorDetail} from './billit-error';
 
 export class BillitErrorFactory {
   /**
    * Parses error response and checks if it contains structured errors
    */
-  private static parseErrorResponse(errorText: string): {message: string; errors?: ErrorsResponse['errors']} {
+  private static parseErrorResponse(errorText: string): {message: string; errors?: BillitErrorDetail[]} {
     try {
       const parsed = JSON.parse(errorText);
       if (parsed && Array.isArray(parsed.errors) && parsed.errors.length > 0) {
