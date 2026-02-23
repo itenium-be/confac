@@ -70,8 +70,8 @@
     "@types/uuid": "^10.0.0",
     "concurrently": "^5.0.2",
     "cross-env": "^6.0.3",
-    "eslint": "9.0.0",
-    "globals": "15.0.0",
+    "eslint": "^9.39.0",
+    "globals": "^15.15.0",
     "gulp": "^5.0.1",
     "gulp-plumber": "^1.2.1",
     "gulp-pug": "^5.0.0",
@@ -82,6 +82,6 @@
     "socket.io-mock-ts": "^1.0.2",
     "ts-jest": "^29.0.5",
     "typescript": "~5.7.0",
-    "typescript-eslint": "8.0.0"
+    "typescript-eslint": "^8.56.0"
   }
 }
