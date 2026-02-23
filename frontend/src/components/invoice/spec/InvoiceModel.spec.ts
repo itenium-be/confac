@@ -14,7 +14,6 @@ function createNew(config: ConfigModel, client: undefined | ClientModel): Invoic
   let model = new InvoiceModel(config, {
     client,
     number: 1,
-    fileName: client ? client.invoiceFileName : '',
   });
   model = model.setClient(client);
   return model;

@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 import {createBrowserRouter, RouterProvider} from 'react-router';
-import {useDispatch} from 'react-redux';
+import {useAppDispatch} from './components/hooks/useAppDispatch';
 import {AppWithLayout} from './components/AppWithLayout';
 import EditInvoice from './components/invoice/invoice-edit/EditInvoice';
 import InvoiceList from './components/invoice/invoice-list/InvoiceList';
@@ -67,7 +67,7 @@ const router = createBrowserRouter([
 
 
 const Routes = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(initialLoad());
     socketService.initialize(dispatch);

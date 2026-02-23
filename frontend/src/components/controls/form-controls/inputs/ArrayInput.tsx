@@ -8,15 +8,15 @@ import {getComponent} from '../lib/EditComponentFactory';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ArrayInputModel = { _id?: string } & Record<string, any>;
 
-type ArrayInputProps = {
+type ArrayInputProps<T extends ArrayInputModel = ArrayInputModel> = {
   config: AnyFormConfig[];
-  model: ArrayInputModel;
-  onChange: (value: ArrayInputModel) => void;
+  model: T;
+  onChange: (value: T) => void;
   tPrefix: string;
 }
 
 
-export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) => {
+export const ArrayInput = <T extends ArrayInputModel = ArrayInputModel>({config, model, onChange, tPrefix}: ArrayInputProps<T>) => {
   const result = normalizeFormConfig(config, model);
 
   return (
@@ -55,7 +55,7 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
             const keys = key.split('.');
             if (keys.length === 2) {
               const [key1, key2] = keys;
-              onChange({...model, [key1]: {...model[key1], [key2]: val}});
+              onChange({...model, [key1]: {...model[key1], [key2]: val}} as T);
             } else {
               // Deep merge for nested paths like inbound.proforma.status
               const updated: Record<string, unknown> = {...model};
@@ -66,10 +66,10 @@ export const ArrayInput = ({config, model, onChange, tPrefix}: ArrayInputProps) 
                 current = current[k] as Record<string, unknown>;
               }
               current[keys[keys.length - 1]] = val;
-              onChange(updated);
+              onChange(updated as T);
             }
           } else {
-            onChange({...model, [key]: val});
+            onChange({...model, [key]: val} as T);
           }
         };
 

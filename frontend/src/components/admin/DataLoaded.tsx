@@ -1,11 +1,12 @@
 import {useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {ConfacState} from '../../reducers/app-state';
 import {Button} from '../controls/form-controls/Button';
 import {EnhanceWithClaim} from '../enhancers/EnhanceWithClaim';
 import {t} from '../utils';
 import {Modal} from '../controls/Modal';
 import {initialLoad} from '../../actions';
+import {useAppDispatch} from '../hooks/useAppDispatch';
 
 
 import './DataLoaded.scss';
@@ -15,7 +16,7 @@ const NextLoadMonths = 12;
 
 
 const DataLoadedComponent = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // const initialMonthLoad = useSelector((state: ConfacState) => state.config.initialMonthLoad);
   const currentLastMonths = useSelector((state: ConfacState) => state.app.lastMonthsDownloaded);
 

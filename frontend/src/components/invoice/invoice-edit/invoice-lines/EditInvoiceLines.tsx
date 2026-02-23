@@ -23,6 +23,8 @@ type EditInvoiceLinesProps = BaseInputProps<InvoiceLine[]> & {
 export const EditInvoiceLines = (
   {claim, value, onChange, invoice, translationPrefix = 'invoice', allowEmpty = false}: EditInvoiceLinesProps,
 ) => {
+  const lines = value ?? [];
+
   function onDragEnd(result: DropResult): void {
     // dropped outside the list or didn't actually move
     if (!result.destination || result.source.index === result.destination.index) {
@@ -30,7 +32,7 @@ export const EditInvoiceLines = (
     }
 
     // console.log('onDragEnd', result);
-    onChange(InvoiceLineActions.reorderLines(value, result.source.index, result.destination.index));
+    onChange(InvoiceLineActions.reorderLines(lines, result.source.index, result.destination.index));
   }
 
   const tp = (transKey: string): string => t(translationPrefix + transKey);
@@ -54,15 +56,15 @@ export const EditInvoiceLines = (
           <Droppable droppableId="droppable">
             {(provided, _snapshot) => (
               <tbody ref={provided.innerRef}>
-                {(value || []).map((item: InvoiceLine, index: number) => (
+                {lines.map((item: InvoiceLine, index: number) => (
                   <Draggable key={item.sort} draggableId={(typeof item.sort === 'number' ? item.sort : index).toString()} index={index}>
                     {(providedInner, _snapshotInner) => {
                       const EditInvoiceLine = createEditInvoiceLine(item);
                       return (
                         <tr ref={providedInner.innerRef} {...providedInner.draggableProps} {...providedInner.dragHandleProps}>
                           <td><DragAndDropIcon claim={claim} /></td>
-                          <EditInvoiceLine lines={value} index={index} onChange={onChange} line={item} invoice={invoice} />
-                          <EditInvoiceLineIcons claim={claim} lines={value} index={index} allowEmpty={allowEmpty} onChange={onChange} />
+                          <EditInvoiceLine lines={lines} index={index} onChange={onChange} line={item} invoice={invoice} />
+                          <EditInvoiceLineIcons claim={claim} lines={lines} index={index} allowEmpty={allowEmpty} onChange={onChange} />
                         </tr>
                       );
                     }}
@@ -77,7 +79,7 @@ export const EditInvoiceLines = (
           <tbody>
             <tr>
               <td colSpan={nrOfColumns}>
-                <AddIcon onClick={() => onChange(InvoiceLineActions.addEmptyLine(value))} label={tp('.addLine')} size={1} />
+                <AddIcon onClick={() => onChange(InvoiceLineActions.addEmptyLine(lines))} label={tp('.addLine')} size={1} />
               </td>
             </tr>
           </tbody>

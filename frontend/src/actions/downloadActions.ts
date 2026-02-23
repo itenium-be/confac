@@ -67,7 +67,7 @@ export function downloadInvoicesExcel(ids: string[]) {
   };
 }
 
-type ExcelCellValue = string | number | boolean | null | undefined;
+type ExcelCellValue = string | number | boolean | null | undefined | moment.Moment;
 type ExcelRowData = ExcelCellValue[];
 
 export function downloadProjectsExcel(data: ExcelRowData[]) {

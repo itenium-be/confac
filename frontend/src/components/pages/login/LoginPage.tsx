@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
 import {Alert} from 'react-bootstrap';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {t} from '../../utils';
 import {authService} from '../../users/authService';
 import {buildRequest, initialLoad} from '../../../actions/initialLoad';
@@ -10,7 +10,7 @@ import {GoogleLogin, GoogleOAuthProvider} from '@react-oauth/google';
 
 
 export const LoginPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [state, setState] = useState<string | 'loggedIn'>('');
   const [googleClientId, setGoogleClientId] = useState<string | null>(null);
 

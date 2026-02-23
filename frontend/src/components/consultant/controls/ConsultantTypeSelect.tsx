@@ -11,7 +11,7 @@ export const ConsultantTypeSelect = (props: ConsultantTypeSelectProps) => {
   return (
     <SimpleSelect
       transFn={(key: string) => t(`consultant.types.${key}`)}
-      value={value}
+      value={value ?? 'consultant'}
       options={ConsultantTypes}
       label={label}
       isClearable={false}
