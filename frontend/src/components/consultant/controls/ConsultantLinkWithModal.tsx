@@ -1,11 +1,11 @@
 import {useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {ConsultantModel} from '../models/ConsultantModel';
 import {Icon} from '../../controls/Icon';
 import {t} from '../../utils';
 import {ConsultantModal} from './ConsultantModal';
 import {saveConsultant} from '../../../actions/consultantActions';
 import {ConsultantProps, ConsultantLink} from './ConsultantLink';
-import {useAppDispatch} from '../../../types/redux';
 
 type ConsultantLinkWithModalProps = ConsultantProps & {
   /** Show the consultant type */
@@ -15,7 +15,7 @@ type ConsultantLinkWithModalProps = ConsultantProps & {
 
 
 export const ConsultantLinkWithModal = ({consultant, showType}: ConsultantLinkWithModalProps) => {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const [hover, setHover] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
 
@@ -53,7 +53,7 @@ export const ConsultantLinkWithModal = ({consultant, showType}: ConsultantLinkWi
             setModal(false);
             setHover(false);
           }}
-          onConfirm={(c: ConsultantModel) => dispatch(saveConsultant(c))}
+          onConfirm={(c: ConsultantModel) => dispatch(saveConsultant(c) as any)}
         />
       )}
     </div>

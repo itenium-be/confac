@@ -8,7 +8,7 @@ import {FullAudit} from './FullAudit';
 
 export type AuditProps = {
   modelType: AuditModelTypes;
-  model: {_id: string; audit?: IAudit};
+  model: any;
 }
 
 /** Displays basic audit info & icon to open details in a modal */

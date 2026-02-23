@@ -2,13 +2,13 @@ import {IList, IListCell} from '../table/table-models';
 import {cellsToFooterCells} from '../table/ListFooter';
 
 
-function createCell(footer?: string): IListCell<unknown> {
+function createCell(footer?: string): IListCell<any> {
   return {header: '', key: footer || '', footer, value: _m => ''};
 }
 
 
-function createListModel(cells: IListCell<unknown>[]): IList<unknown> {
-  const listModel: IList<unknown> = {
+function createListModel(cells: IListCell<any>[]): IList<any> {
+  const listModel: IList<any> = {
     rows: {
       cells,
     },

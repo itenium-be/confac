@@ -5,7 +5,7 @@ import {JwtModel} from '../models/JwtModel';
 
 export interface IAuthService {
   loggedIn: () => boolean;
-  login: (res: {credential: string}, dispatch: Dispatch, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) => void;
+  login: (res: any, dispatch: Dispatch<any>, setState: React.Dispatch<SetStateAction<string | 'loggedIn'>>) => void;
   anonymousLogin: (name: string) => void;
   logout: () => void;
   getBearer: () => string;

@@ -86,7 +86,7 @@ export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: stri
       const invoiceToUpdate = new InvoiceModel(invoice.config, invoices.find(i => i._id === creditnota));
       if (invoiceToUpdate) {
         invoiceToUpdate.creditNotas = [];
-        dispatch(updateInvoiceRequest(invoiceToUpdate, null, false));
+        dispatch(updateInvoiceRequest(invoiceToUpdate, null, false) as any);
       }
     });
 
@@ -100,7 +100,7 @@ export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: stri
           invoiceToUpdate.creditNotas.every(id => newCreditNotas.includes(id)))
         ) {
           invoiceToUpdate.creditNotas = newCreditNotas;
-          dispatch(updateInvoiceRequest(invoiceToUpdate, null, false));
+          dispatch(updateInvoiceRequest(invoiceToUpdate, null, false) as any);
         }
       }
     });

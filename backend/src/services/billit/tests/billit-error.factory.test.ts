@@ -1,5 +1,8 @@
 import {BillitErrorFactory} from '../billit-error.factory';
 
+type BillitErrorItem = {Code: string; Description?: string; [key: string]: unknown};
+type ErrorWithBillitErrors = Error & {billitErrors?: BillitErrorItem[]};
+
 describe('BillitErrorFactory', () => {
   describe('createError', () => {
     describe('with valid ErrorsResponse format', () => {
@@ -16,7 +19,7 @@ describe('BillitErrorFactory', () => {
 
         expect(result).toBeInstanceOf(Error);
         expect(result.message).toBe(`${message}: ${errorText}`);
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors).toEqual([
+        expect((result as ErrorWithBillitErrors).billitErrors).toEqual([
           {Code: 'ERR001', Description: 'Invalid VAT number'},
           {Code: 'ERR002', Description: 'Missing required field'},
         ]);
@@ -32,8 +35,8 @@ describe('BillitErrorFactory', () => {
 
         const result: Error = BillitErrorFactory.createError(errorText, message);
 
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors).toHaveLength(1);
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors[0]).toEqual({
+        expect((result as ErrorWithBillitErrors).billitErrors).toHaveLength(1);
+        expect((result as ErrorWithBillitErrors).billitErrors![0]).toEqual({
           Code: 'ERR001',
           Description: 'Validation failed',
         });
@@ -50,7 +53,7 @@ describe('BillitErrorFactory', () => {
 
         const result: Error = BillitErrorFactory.createError(errorText, message);
 
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors).toEqual([
+        expect((result as ErrorWithBillitErrors).billitErrors).toEqual([
           {Code: 'ERR001'},
           {Code: 'ERR002'},
         ]);
@@ -63,7 +66,7 @@ describe('BillitErrorFactory', () => {
         const result: Error = BillitErrorFactory.createError(errorText, message);
 
         expect(result.message).toBe(`${message}: ${errorText}`);
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors).toBeUndefined();
+        expect((result as ErrorWithBillitErrors).billitErrors).toBeUndefined();
       });
     });
 
@@ -76,7 +79,7 @@ describe('BillitErrorFactory', () => {
 
         expect(result).toBeInstanceOf(Error);
         expect(result.message).toBe(`${message}: ${errorText}`);
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors).toBeUndefined();
+        expect((result as ErrorWithBillitErrors).billitErrors).toBeUndefined();
       });
 
       it('should handle JSON without errors field', () => {
@@ -89,7 +92,7 @@ describe('BillitErrorFactory', () => {
         const result: Error = BillitErrorFactory.createError(errorText, message);
 
         expect(result.message).toBe(`${message}: ${errorText}`);
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors).toBeUndefined();
+        expect((result as ErrorWithBillitErrors).billitErrors).toBeUndefined();
       });
 
       it('should handle JSON with errors field that is not an array', () => {
@@ -99,7 +102,7 @@ describe('BillitErrorFactory', () => {
         const result: Error = BillitErrorFactory.createError(errorText, message);
 
         expect(result.message).toBe(`${message}: ${errorText}`);
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors).toBeUndefined();
+        expect((result as ErrorWithBillitErrors).billitErrors).toBeUndefined();
       });
 
       it('should handle malformed JSON', () => {
@@ -109,7 +112,7 @@ describe('BillitErrorFactory', () => {
         const result: Error = BillitErrorFactory.createError(errorText, message);
 
         expect(result.message).toBe(`${message}: ${errorText}`);
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors).toBeUndefined();
+        expect((result as ErrorWithBillitErrors).billitErrors).toBeUndefined();
       });
 
       it('should handle empty string', () => {
@@ -119,7 +122,7 @@ describe('BillitErrorFactory', () => {
         const result: Error = BillitErrorFactory.createError(errorText, message);
 
         expect(result.message).toBe(`${message}: ${errorText}`);
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors).toBeUndefined();
+        expect((result as ErrorWithBillitErrors).billitErrors).toBeUndefined();
       });
 
       it('should handle null in JSON', () => {
@@ -128,7 +131,7 @@ describe('BillitErrorFactory', () => {
 
         const result: Error = BillitErrorFactory.createError(errorText, message);
 
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors).toBeUndefined();
+        expect((result as ErrorWithBillitErrors).billitErrors).toBeUndefined();
       });
     });
 
@@ -144,7 +147,7 @@ describe('BillitErrorFactory', () => {
 
         const result: Error = BillitErrorFactory.createError(errorText, message);
 
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors[0].Description).toBe(longDescription);
+        expect((result as ErrorWithBillitErrors).billitErrors![0].Description).toBe(longDescription);
       });
 
       it('should handle special characters in error descriptions', () => {
@@ -159,9 +162,9 @@ describe('BillitErrorFactory', () => {
 
         const result: Error = BillitErrorFactory.createError(errorText, message);
 
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors).toHaveLength(3);
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors[0].Description).toContain('quotes');
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors[1].Description).toContain('<html>');
+        expect((result as ErrorWithBillitErrors).billitErrors).toHaveLength(3);
+        expect((result as ErrorWithBillitErrors).billitErrors![0].Description).toContain('quotes');
+        expect((result as ErrorWithBillitErrors).billitErrors![1].Description).toContain('<html>');
       });
 
       it('should handle errors with additional fields', () => {
@@ -180,7 +183,7 @@ describe('BillitErrorFactory', () => {
 
         const result: Error = BillitErrorFactory.createError(errorText, message);
 
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors[0]).toEqual({
+        expect((result as ErrorWithBillitErrors).billitErrors![0]).toEqual({
           Code: 'ERR001',
           Description: 'Validation error',
           Severity: 'High',
@@ -201,10 +204,10 @@ describe('BillitErrorFactory', () => {
 
         const result: Error = BillitErrorFactory.createError(errorText, message);
 
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors).toHaveLength(3);
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors[0].Description).toBe('Erreur avec accents: éàü');
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors[1].Description).toBe('Error with emoji: 🚫');
-        expect((result as Error & {billitErrors?: unknown[]}).billitErrors[2].Description).toBe('Chinese characters: 错误');
+        expect((result as ErrorWithBillitErrors).billitErrors).toHaveLength(3);
+        expect((result as ErrorWithBillitErrors).billitErrors![0].Description).toBe('Erreur avec accents: éàü');
+        expect((result as ErrorWithBillitErrors).billitErrors![1].Description).toBe('Error with emoji: 🚫');
+        expect((result as ErrorWithBillitErrors).billitErrors![2].Description).toBe('Chinese characters: 错误');
       });
 
       it('should handle multiple errors with same code', () => {
@@ -219,7 +222,6 @@ describe('BillitErrorFactory', () => {
 
         const result: Error = BillitErrorFactory.createError(errorText, message);
 
-        type ErrorWithBillitErrors = Error & {billitErrors?: Array<{Code: string}>};
         const errorWithDetails = result as ErrorWithBillitErrors;
         expect(errorWithDetails.billitErrors).toHaveLength(3);
         expect(errorWithDetails.billitErrors!.every(err => err.Code === 'ERR001')).toBe(true);

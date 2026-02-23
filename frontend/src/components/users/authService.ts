@@ -169,11 +169,10 @@ function authenticateUser(loginResponse: {credential: string}, setState: React.D
       authService.authenticated(data.jwt);
       dispatch(initialLoad());
       setState('loggedIn');
-    } catch (err: unknown) {
+    } catch (err: any) {
       console.log('login error', err);
       authService.logout();
-      const error = err as {body?: {err?: string}};
-      setState((error.body && error.body.err) || 'Unknown error');
+      setState((err.body && err.body.err) || 'Unknown error');
     }
   };
 }

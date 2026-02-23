@@ -12,7 +12,7 @@ export type SelectWithCreateModalProps<TModel> = {
 
 
 type SelectWithCreateButtonProps = {
-  children: React.ReactNode;
+  children: any;
   openCreateModal: () => void;
   createButtonText: string;
   claim: Claim;

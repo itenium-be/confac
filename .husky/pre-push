@@ -1,3 +1,4 @@
+#!/usr/bin/env sh
 ROOT="$(git rev-parse --show-toplevel)"
 (cd "$ROOT/frontend" && bun run lint && bun run build && bun run test -- --run && bun run knip)
 (cd "$ROOT/backend" && bun run lint && bun run build && bun run test && bun run knip)

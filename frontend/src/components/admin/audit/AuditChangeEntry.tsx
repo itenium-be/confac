@@ -44,7 +44,7 @@ export const AuditChangeEntry = ({change, modelType: _modelType}: { change: Audi
 };
 
 
-function displayVal(value: unknown): string {
+function displayVal(value: any): string {
   if (typeof value === 'boolean')
     return value.toString();
 

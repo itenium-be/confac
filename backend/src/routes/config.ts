@@ -6,7 +6,7 @@ const configRouter = Router();
 configRouter.get('/', getCompanyConfig);
 configRouter.get('/security', getSecurityConfig);
 configRouter.get('/templates', getTemplates);
-configRouter.post('/', saveCompanyConfig as RequestHandler);
+configRouter.post('/', saveCompanyConfig as unknown as RequestHandler);
 configRouter.get('/audit', getAudit);
 
 export default configRouter;

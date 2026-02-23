@@ -2,7 +2,7 @@ import {Navbar, Nav} from 'react-bootstrap';
 import {EnhanceWithClaim} from '../../enhancers/EnhanceWithClaim';
 
 type StickyFooterProps = {
-  children: React.ReactNode;
+  children: any;
 }
 
 export const StickyFooter = EnhanceWithClaim(({children}: StickyFooterProps) => (

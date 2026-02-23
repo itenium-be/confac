@@ -16,7 +16,7 @@ type TemplatePickerState = {
 
 
 export class TemplatePicker extends Component<TemplatePickerProps, TemplatePickerState> {
-  constructor(props: TemplatePickerProps) {
+  constructor(props: any) {
     super(props);
     this.state = {templates: []};
   }
@@ -29,7 +29,7 @@ export class TemplatePicker extends Component<TemplatePickerProps, TemplatePicke
           this.setState({templates});
         } else {
           console.log('/config/templates', templates);
-          failure(t('config.company.templateLoadError'), undefined, undefined, toast.POSITION.BOTTOM_RIGHT);
+          failure(t('config.company.templateLoadError'), undefined, undefined, toast.POSITION.BOTTOM_RIGHT as any);
           return Promise.reject(templates);
         }
         return Promise.resolve(templates);

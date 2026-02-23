@@ -8,7 +8,7 @@ type EnhanceWithConfirmationProps = {
   /** Confirmation dialog title */
   title: string;
   /** Confirmation dialog content */
-  children?: React.ReactNode;
+  children?: any;
   /** Button text */
   componentChildren?: string;
 }

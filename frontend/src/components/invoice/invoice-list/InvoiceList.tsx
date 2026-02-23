@@ -15,17 +15,17 @@ import {ConsultantModel} from '../../consultant/models/ConsultantModel';
 import {Claim} from '../../users/models/UserModel';
 import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router';
+import {useDispatch} from 'react-redux';
 import {InvoiceFeatureBuilderConfig} from '../models/getInvoiceFeature';
 import {Features} from '../../controls/feature/feature-models';
 import {InvoiceListFilters} from '../../controls/table/table-models';
-import {useAppDispatch} from '../../../types/redux';
 
 
 type InvoiceListProps = {
   invoices: InvoiceModel[];
   clients: ClientModel[];
   consultants: ConsultantModel[];
-  updateInvoiceFilters: (filters: InvoiceListFilters) => void;
+  updateInvoiceFilters: any;
   filters: InvoiceListFilters;
 }
 

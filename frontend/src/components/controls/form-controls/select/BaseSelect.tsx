@@ -6,7 +6,7 @@ import {SelectItem} from '../../../../models';
 
 type BaseSelectProps = {
   value: SelectItem | SelectItem[];
-  onChange: (value: SelectItem | SelectItem[] | null) => void;
+  onChange: any;
   options: SelectItem[];
   isClearable?: boolean;
   isMulti?: boolean;

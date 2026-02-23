@@ -27,7 +27,7 @@ export const Tooltip = ({children, title, placement = 'left', mouseEnterDelay = 
 
 type EllipsisProps = {
   title: string | undefined;
-  children: React.ReactNode;
+  children: any;
   width: number;
 }
 

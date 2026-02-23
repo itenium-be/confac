@@ -22,7 +22,7 @@ function createSocketService() {
     socketId = socket.id;
   });
 
-  function initialize(dispatch: Dispatch) {
+  function initialize(dispatch: Dispatch<any>) {
     if (initialized) {
       return;
     }

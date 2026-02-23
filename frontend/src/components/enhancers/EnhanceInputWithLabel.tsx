@@ -1,7 +1,7 @@
 import {Form, Col, Row} from 'react-bootstrap';
 
 export type EnhanceInputWithLabelProps = {
-  label?: string | React.ReactNode;
+  label?: string | Element | any;
   /**
    * Defaults to the label
    */

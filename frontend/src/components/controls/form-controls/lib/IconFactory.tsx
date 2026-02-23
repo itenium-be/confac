@@ -28,7 +28,7 @@ export function getIconOrText(str: InputIcons | string): string | React.ReactEle
   return str;
 }
 
-function getIconClass(str: InputIcons | string): string | null {
+function getIconClass(str: InputIcons | string): any {
   if (iconMap[str]) {
     return iconMap[str];
   }

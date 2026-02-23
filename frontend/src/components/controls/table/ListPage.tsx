@@ -11,10 +11,10 @@ import {ClaimGuard} from '../../enhancers/EnhanceWithClaim';
 
 
 
-type ListPageProps<TModel = unknown> = {
-  feature: IFeature<TModel>;
+type ListPageProps = {
+  feature: IFeature<any, any>;
   /** Renders at the title level */
-  topToolbar?: React.ReactNode;
+  topToolbar?: any;
 }
 
 
@@ -52,7 +52,7 @@ export const ListPage = ({feature, topToolbar}: ListPageProps) => (
 
 
 
-export const ListPageFilters = <TModel,>({feature}: {feature: IFeature<TModel, ListFilters>}) => {
+export const ListPageFilters = ({feature}: {feature: IFeature<any, ListFilters>}) => {
   const components: React.ReactNode[] = [];
   const {filter} = feature.list;
   if (filter) {

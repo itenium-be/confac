@@ -1,10 +1,10 @@
 import {IList} from './table-models';
 
 
-type ListFooterProps<TModel = unknown> = {
-  config: IList<TModel>;
+type ListFooterProps = {
+  config: IList<any>;
   /** Filtered data */
-  data: TModel[];
+  data: any[];
 }
 
 
@@ -49,7 +49,7 @@ export const ListFooter = ({config, data}: ListFooterProps) => {
 /** Mapped cells that have a footer */
 type IFooterCells = null | number | 'empty-cell';
 
-export function cellsToFooterCells<TModel = unknown>(input: IList<TModel>): IFooterCells[] {
+export function cellsToFooterCells(input: IList<any>): IFooterCells[] {
   const {cells} = input.rows;
   if (!cells.some(c => c.footer)) {
     return [];

@@ -23,9 +23,9 @@ export type AuditChange = {
   /** Only when kind=A */
   index: number;
   /** Only when kind=A */
-  item: unknown;
+  item: any;
   /** When kind!=A */
-  lhs: unknown;
+  lhs: any;
   /** When kind!=A */
-  rhs: unknown;
+  rhs: any;
 };

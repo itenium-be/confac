@@ -74,7 +74,7 @@ export const searchinize = (str: string): string => {
   return latinize(str).trim().toLowerCase();
 };
 
-export const sortResult = <T,>(sorter: (a: T, b: T) => number, asc: boolean): (a: T, b: T) => number => {
+export const sortResult = (sorter: (a: any, b: any) => number, asc: boolean): (a: any, b: any) => number => {
   return (a, b) => asc ? sorter(a, b) : sorter(b, a);
 };
 

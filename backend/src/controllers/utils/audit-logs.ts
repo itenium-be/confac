@@ -1,11 +1,8 @@
-import diff, {Diff} from 'deep-diff';
+import diff from 'deep-diff';
 import {ConfacRequest} from '../../models/technical';
 
-interface AuditableEntity {
-  _id?: unknown;
-  audit?: unknown;
-  [key: string]: unknown;
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AuditableEntity = { _id?: any; audit?: any };
 
 export async function saveAudit(
   req: ConfacRequest,
@@ -14,21 +11,21 @@ export async function saveAudit(
   newValue: AuditableEntity,
   extraExcludes?: string[],
 ) {
-  const leDiff = (diff(originalValue, newValue) as Diff<AuditableEntity, AuditableEntity>[] || [])
+  const leDiff = (diff(originalValue, newValue) || [])
     .filter(x => !x.path || !['_id', 'audit'].includes(x.path[0] as string))
     .map(x => ({
       ...x,
       path: x.path?.join('.'),
-      kind: x.kind === 'E' && x.rhs === null ? 'D' : x.kind,
+      kind: x.kind === 'E' && 'rhs' in x && x.rhs === null ? 'D' : x.kind,
     }))
-    .filter(x => !x.path || !(extraExcludes || []).includes(x.path))
-    .filter(x => x.kind !== 'N' || x.rhs);
+    .filter(x => !x.path || !(extraExcludes || []).includes(x.path as string))
+    .filter(x => x.kind !== 'N' || ('rhs' in x && x.rhs));
 
   if (leDiff.length) {
     const log = {
       user: req.user.data.email,
       model,
-      modelId: originalValue._id,
+      modelId: originalValue?._id,
       date: new Date().toISOString(),
       diff: leDiff,
     };

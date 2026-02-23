@@ -5,7 +5,7 @@ import {BaseSelect} from './BaseSelect';
 
 
 export type SimpleSelectProps = {
-  value: string;
+  value: any;
   options: string[];
   onChange: (value: string) => void;
   transFn?: (key: string) => string;

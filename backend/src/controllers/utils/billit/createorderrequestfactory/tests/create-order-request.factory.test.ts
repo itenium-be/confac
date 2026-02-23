@@ -170,7 +170,7 @@ describe('fromInvoice', () => {
 
     const project = {startDate: '2024-12-15T00:00:00.000Z'};
 
-    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as Partial<IProject>);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as IProject);
 
     expect(actual.PeriodFrom).toBe('2024-12-15');
     expect(actual.PeriodTill).toBe('2024-12-31');
@@ -192,7 +192,7 @@ describe('fromInvoice', () => {
       endDate: '2024-12-20T00:00:00.000Z',
     };
 
-    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as Partial<IProject>);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as IProject);
 
     expect(actual.PeriodFrom).toBe('2024-12-01');
     expect(actual.PeriodTill).toBe('2024-12-20');
@@ -214,7 +214,7 @@ describe('fromInvoice', () => {
       endDate: '2024-12-20T00:00:00.000Z',
     };
 
-    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as Partial<IProject>);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as IProject);
 
     expect(actual.PeriodFrom).toBe('2024-12-10');
     expect(actual.PeriodTill).toBe('2024-12-20');
@@ -236,7 +236,7 @@ describe('fromInvoice', () => {
       endDate: '2025-01-20T00:00:00.000Z',
     };
 
-    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as Partial<IProject>);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as IProject);
 
     expect(actual.PeriodFrom).toBe('2024-12-01');
     expect(actual.PeriodTill).toBe('2024-12-31');
@@ -262,7 +262,7 @@ describe('fromInvoice', () => {
       },
     };
 
-    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as Partial<IProject>);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as unknown as IProject);
 
     expect(actual.ContractDocumentReference).toEqual([{ID: 'CONTRACT-2024-001'}]);
   });
@@ -286,7 +286,7 @@ describe('fromInvoice', () => {
       },
     };
 
-    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as Partial<IProject>);
+    const actual: CreateOrderRequest = fromInvoice(invoice, someClient, project as unknown as IProject);
 
     expect(actual.ContractDocumentReference).toBeUndefined();
   });

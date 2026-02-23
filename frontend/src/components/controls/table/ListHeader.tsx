@@ -11,7 +11,7 @@ type ListHeaderProps<TModel> = {
 
 
 
-export const ListHeader = <TModel,>({feature}: ListHeaderProps<TModel>) => {
+export const ListHeader = ({feature}: ListHeaderProps<any>) => {
   const dispatch = useDispatch();
   return (
     <thead>

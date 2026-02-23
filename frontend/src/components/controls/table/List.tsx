@@ -11,11 +11,11 @@ import {SortDirections} from './table-models';
 import {sortResult} from '../../utils';
 
 
-type ListProps<TModel = unknown> = {
-  feature: IFeature<TModel>;
+type ListProps = {
+  feature: IFeature<any, any>;
 }
 
-export const filterAndSortFeatureData = <TModel,>(feature: IFeature<TModel>) => {
+export const filterAndSortFeatureData = (feature: IFeature<any, any>) => {
   const config = feature.list;
   let {data} = config;
   if (feature.list.filter) {

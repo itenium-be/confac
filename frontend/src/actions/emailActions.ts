@@ -34,9 +34,9 @@ export function sendEmail(
         type: attachmentType,
         fileName: details.fileName,
         fileType: details.fileType,
-      };
+      } as any;
     })
-      .filter((att): att is NonNullable<typeof att> => att !== null);
+      .filter(att => att);
 
     let url = `/invoices/email/${invoice._id}`;
     if (emailInvoiceOnly && !invoice.lastEmail) {
@@ -54,10 +54,9 @@ export function sendEmail(
           lastEmail: res.text,
         },
       });
-    } catch (err: unknown) {
+    } catch (err: any) {
       console.error('res ERROR', err);
-      const error = err as {body?: {message?: string}};
-      failure(error.body?.message, 'Email failure', 8000);
+      failure(err.body?.message, 'Email failure', 8000);
     }
   };
 }

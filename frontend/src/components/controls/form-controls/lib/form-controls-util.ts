@@ -1,7 +1,7 @@
 import {FullFormConfig, AnyFormConfig, FormConfig, NewRowFormConfig} from '../../../../models';
 
 
-export function normalizeFormConfig(config: FullFormConfig, model: Record<string, unknown> & {_id?: string}): FormConfig[] {
+export function normalizeFormConfig(config: FullFormConfig, model: any): FormConfig[] {
   // Add all missing model properties to config
   const configKeys: string[] = config.map(x => (typeof x === 'string' ? x : (x as FormConfig).key)).filter((k): k is string => k !== undefined);
   let fullConfig: AnyFormConfig[] = config;

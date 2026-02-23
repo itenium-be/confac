@@ -36,7 +36,7 @@ type ModalProps = BaseModalProps & {
   busyConfirm?: boolean;
   title: string | React.ReactNode;
   extraButtons?: React.ReactNode;
-  children: React.ReactNode;
+  children: any;
   /** For custom sizing of the Modal etc */
   dialogClassName?: string;
   disableSave?: boolean;

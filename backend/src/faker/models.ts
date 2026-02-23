@@ -123,7 +123,16 @@ export const getNewProjects = async (db: Db, config: ProjectConfig) => {
 
   const newProjects = Array(config.amount).fill(0).map(() => {
     const client = createClientOrPartner();
-    const project = {
+    const project: {
+      consultantId: string;
+      startDate: string | null;
+      endDate: string | null | undefined;
+      client: ReturnType<typeof createClientOrPartner>;
+      partner: ReturnType<typeof createClientOrPartner> | undefined;
+      projectMonthConfig: { changingOrderNr: boolean; timesheetCheck: boolean; inboundInvoice: boolean };
+      contract: { status: string; notes: string };
+      audit: ReturnType<typeof getAudit>;
+    } = {
       consultantId: faker.helpers.arrayElement(consultantIds),
       startDate: null,
       endDate: null,
@@ -147,13 +156,14 @@ export const getNewProjects = async (db: Db, config: ProjectConfig) => {
     const oneYear = 31556952000;
     if (config.endDate) {
       const fakerMaxDate = config.endDate.valueOf();
-      project.startDate = config.startDate || faker.datatype.datetime({min: fakerMaxDate - oneYear, max: fakerMaxDate});
-      project.endDate = config.endDate;
+      const startDate = config.startDate || faker.datatype.datetime({min: fakerMaxDate - oneYear, max: fakerMaxDate});
+      project.startDate = startDate.toISOString();
+      project.endDate = config.endDate.toISOString();
     } else if (config.startDate) {
       const fakerMinDate = config.startDate.valueOf();
-      project.startDate = config.startDate;
+      project.startDate = config.startDate.toISOString();
       const endDate = faker.datatype.datetime({min: fakerMinDate, max: fakerMinDate + oneYear});
-      project.endDate = faker.helpers.maybe(() => endDate, {probability: 1 - config.noEndDateProbability});
+      project.endDate = faker.helpers.maybe(() => endDate.toISOString(), {probability: 1 - config.noEndDateProbability});
     } else {
       throw new Error('Not implemented');
     }
@@ -205,44 +215,30 @@ export const getNewInvoices = async (db: Db, config: {amount: number}) => {
         telephone: client.telephone,
         btw: client.btw,
         invoiceFileName: client.invoiceFileName,
-        hoursInDay: client.hoursInDay,
-        defaultInvoiceLines: [{
-          desc: 'Consultancy diensten',
-          price,
-          amount: 0,
-          tax: 21,
-          type: 'daily',
-          sort: 0,
-        }],
+        rate: client.rate,
         attachments: [],
         defaultInvoiceDateStrategy: 'prev-month-last-day',
-        defaultChangingOrderNr: false,
         email: {
           to: 'AnkundingandSons_Rolfson@yahoo.com',
           subject: 'New Invoice',
           body: 'Your invoice attached!',
           attachments: [
-            'pdf',
-            'Getekende timesheet',
+            {type: 'pdf', fileName: 'invoice.pdf', fileType: 'application/pdf'},
+            {type: 'timesheet', fileName: 'timesheet.pdf', fileType: 'application/pdf'},
           ],
           combineAttachments: false,
         },
         language: 'en',
-        frameworkAgreement: {
-          status: 'NoContract',
-          notes: '',
-        },
         audit: {
           createdOn: '2007-1228::44.695Z',
           createdBy: 'Isobel',
         },
-        contact: '',
-        contactEmail: '',
-      },
+      } as any,
       your: {
         name: 'itenium',
         address: '',
         city: '',
+        postalCode: '',
         btw: '',
         rpr: '',
         bank: '',
@@ -255,9 +251,8 @@ export const getNewInvoices = async (db: Db, config: {amount: number}) => {
         templateQuotation: 'example-1.pug',
       },
       date: faker.datatype.datetime({min: new Date('2018').valueOf(), max: new Date().valueOf()}).toISOString(),
-      orderNr: faker.helpers.maybe(() => faker.datatype.string(faker.datatype.number({min: 3, max: 7})), {probability: 0.35}),
-      verified: faker.datatype.boolean(),
-      attachments: [{type: 'pdf'}],
+      orderNr: faker.helpers.maybe(() => faker.datatype.string(faker.datatype.number({min: 3, max: 7})), {probability: 0.35}) || '',
+      attachments: [{type: 'pdf', fileName: 'invoice.pdf', fileType: 'application/pdf'}],
       isQuotation: false,
       lines: [{
         desc: 'Consultancy diensten',
@@ -274,12 +269,11 @@ export const getNewInvoices = async (db: Db, config: {amount: number}) => {
         total,
         totals: {daily: total},
       },
-      note: '',
       audit: {
         createdOn: '2023-03-05T22:25:57.860Z',
         createdBy: 'Bearer PerfUser',
       },
-      lastEmail: faker.helpers.maybe(() => faker.datatype.datetime(), {probability: 0.7}),
+      lastEmail: faker.helpers.maybe(() => faker.datatype.datetime().toISOString(), {probability: 0.7}) || '',
     };
 
     return invoice;
@@ -352,6 +346,7 @@ export const defaultConfig = {
     name: '',
     address: '',
     city: '',
+    postalCode: '',
     btw: '',
     rpr: '',
     bank: '',
