@@ -17,7 +17,6 @@
   "dependencies": {
     "@itenium/date-holidays-be": "^1.0.0",
     "@react-oauth/google": "^0.9.1",
-    "bluebird": "^3.7.2",
     "classnames": "^2.5.1",
     "date-fns": "^2.30.0",
     "draft-js": "^0.11.7",
@@ -46,8 +45,6 @@
     "redux-thunk": "^2.4.2",
     "reselect": "^4.1.8",
     "socket.io-client": "^4.8.3",
-    "superagent": "^8.1.2",
-    "superagent-bluebird-promise": "^4.2.0",
     "use-debounce": "^8.0.4"
   },
   "devDependencies": {
@@ -62,7 +59,6 @@
     "@types/react-datepicker": "4.8.0",
     "@types/react-dom": "^18.3.7",
     "@types/react-test-renderer": "^18.3.1",
-    "@types/superagent": "4.1.15",
     "@vitejs/plugin-react": "^4.7.0",
     "eslint": "^9.39.3",
     "eslint-plugin-react": "^7.37.5",

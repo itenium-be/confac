@@ -1,7 +1,6 @@
-import request from 'superagent-bluebird-promise';
 import {Moment} from 'moment';
+import {api} from './utils/api-client';
 import {catchHandler} from './utils/fetch';
-import {buildUrl} from './utils/buildUrl';
 import t from '../trans';
 import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
@@ -9,9 +8,7 @@ import {AppDispatch} from '../types/redux';
 import {IProjectModel, ProjectProforma} from '../components/project/models/IProjectModel';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
 import {TimesheetCheckAttachmentType} from '../models';
-import {authService} from '../components/users/authService';
 import {FullProjectMonthModel} from '../components/project/models/FullProjectMonthModel';
-import {socketService} from '../components/socketio/SocketService';
 import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
 import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
 import {store} from '../store';
@@ -19,30 +16,27 @@ import moment from 'moment';
 
 
 export function saveProject(project: IProjectModel, navigate?: (path: string) => void, after: 'to-list' | 'to-details' = 'to-list') {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    return request
-      .post(buildUrl('/projects'))
-      .set('Content-Type', 'application/json')
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .send(project)
-      .then(response => {
-        dispatch({
-          type: ACTION_TYPES.PROJECT_UPDATE,
-          project: response.body,
-        });
-        success(t('config.popupMessage'));
-        if (navigate) {
-          if (after === 'to-list') {
-            navigate('/projects');
-          } else {
-            navigate(`/projects/${response.body._id}`);
-          }
+    try {
+      const response = await api.post<IProjectModel>('/projects', project);
+      dispatch({
+        type: ACTION_TYPES.PROJECT_UPDATE,
+        project: response.body,
+      });
+      success(t('config.popupMessage'));
+      if (navigate) {
+        if (after === 'to-list') {
+          navigate('/projects');
+        } else {
+          navigate(`/projects/${response.body._id}`);
         }
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+      }
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 
@@ -54,90 +48,81 @@ export type SourceProjectData = {
 
 /** Create projectMonths for all active projects in the month */
 export function createProjectsMonth(month: Moment, projectData: SourceProjectData[]) {
-  return (dispatch: AppDispatch) => request
-    .post(buildUrl('/projects/month'))
-    .set('Content-Type', 'application/json')
-    .set('Authorization', authService.getBearer())
-    .set('x-socket-id', socketService.socketId)
-    .send({month, projectData})
-    .then(response => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await api.post<ProjectMonthModel[]>('/projects/month', {month, projectData});
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
         projectsMonth: response.body,
       });
       success(t('config.popupMessage'));
-    })
-    .catch(catchHandler);
+    } catch (err) {
+      catchHandler(err);
+    }
+  };
 }
 
 
 
 /** Create the invoice for a projectMonth */
 export function createProjectsMonthInvoice(project: ProjectMonthModel) {
-  return (dispatch: AppDispatch) => request
-    .post(buildUrl(`/projects/month/${project._id}/create-invoice`))
-    .set('Content-Type', 'application/json')
-    .set('Authorization', authService.getBearer())
-    .set('x-socket-id', socketService.socketId)
-    .then(response => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await api.post<{projectsMonth: ProjectMonthModel; invoice: unknown}>(`/projects/month/${project._id}/create-invoice`);
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_INVOICE_CREATED,
         projectsMonth: response.body.projectsMonth,
         invoice: response.body.invoice,
       });
       success(t('config.popupMessage'));
-    })
-    .catch(catchHandler);
+    } catch (err) {
+      catchHandler(err);
+    }
+  };
 }
 
 
 
 
 export function deleteProjectsMonth(id: string, navigate: (path: string) => void) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    request.delete(buildUrl('/projects/month'))
-      .set('Content-Type', 'application/json')
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .send({id})
-      .then(_res => {
-        console.log('projectMonth deleted', id);
-        dispatch({
-          type: ACTION_TYPES.PROJECTS_MONTH_DELETE,
-          id,
-        });
-        success(t('projectMonth.deleteConfirm.toastr'));
-        navigate('/projects');
-        return true;
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+    try {
+      await api.delete('/projects/month', {id});
+      console.log('projectMonth deleted', id);
+      dispatch({
+        type: ACTION_TYPES.PROJECTS_MONTH_DELETE,
+        id,
+      });
+      success(t('projectMonth.deleteConfirm.toastr'));
+      navigate('/projects');
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 
 
 
 export function deleteProject(id: string, navigate: (path: string) => void) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    request.delete(buildUrl('/projects'))
-      .set('Content-Type', 'application/json')
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .send({id})
-      .then(_res => {
-        console.log('project deleted', id);
-        dispatch({
-          type: ACTION_TYPES.PROJECT_DELETE,
-          id,
-        });
-        success(t('project.deleteConfirm.toastr'));
-        navigate('/projects');
-        return true;
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+    try {
+      await api.delete('/projects', {id});
+      console.log('project deleted', id);
+      dispatch({
+        type: ACTION_TYPES.PROJECT_DELETE,
+        id,
+      });
+      success(t('project.deleteConfirm.toastr'));
+      navigate('/projects');
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 
@@ -156,37 +141,33 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
   }
 
 
-  return (dispatch: AppDispatch) => request
-    .patch(buildUrl('/projects/month'))
-    .set('Content-Type', 'application/json')
-    .set('Authorization', authService.getBearer())
-    .set('x-socket-id', socketService.socketId)
-    .send(project)
-    .then(response => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await api.patch<ProjectMonthModel>('/projects/month', project);
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
         projectMonth: response.body,
       });
       success(t('config.popupMessage'));
-      // navigate('/projects');
-    })
-    .catch(catchHandler);
+    } catch (err) {
+      catchHandler(err);
+    }
+  };
 }
 
 type ProjectMonthAttachmentTypes = 'Getekende timesheet' | 'Factuur freelancer' | 'Proforma Factuur';
 
 export function projectMonthUpload(file: File, type: ProjectMonthAttachmentTypes, projectMonth: FullProjectMonthModel, fileName: string) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     const modelType = projectMonth.invoice ? 'invoice' : 'project_month';
     const modelId = projectMonth.invoice ? projectMonth.invoice._id : projectMonth._id;
-    const req = request
-      .put(buildUrl(`/attachments/${modelType}/${modelId}/${type}`))
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      ;
 
-    req.attach(fileName, file);
-    req.then(response => {
+    try {
+      const response = await api.upload<{attachments: unknown[]} | ProjectMonthModel>(
+        `/attachments/${modelType}/${modelId}/${type}`,
+        fileName,
+        file
+      );
       if (projectMonth.invoice) {
         dispatch({
           type: ACTION_TYPES.INVOICE_UPDATED,
@@ -199,49 +180,43 @@ export function projectMonthUpload(file: File, type: ProjectMonthAttachmentTypes
         });
       }
       success(t('config.popupMessage'));
-      return true;
-    })
-      .catch(catchHandler);
+    } catch (err) {
+      catchHandler(err);
+    }
   };
 }
 
 export function projectsMonthOverviewUpload(file: File, month: Moment) {
-  return (dispatch: AppDispatch) => {
-    const req = request
-      .put(buildUrl(`/attachments/project_month_overview/${month.toISOString()}/${TimesheetCheckAttachmentType}`))
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId);
-
-    req.attach(file.name, file);
-    req.then(response => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await api.upload(
+        `/attachments/project_month_overview/${month.toISOString()}/${TimesheetCheckAttachmentType}`,
+        file.name,
+        file
+      );
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_OVERVIEWS_UPDATE,
         projectsMonthOverview: response.body,
       });
       success(t('config.popupMessage'));
-      return true;
-    })
-      .catch(catchHandler);
+    } catch (err) {
+      catchHandler(err);
+    }
   };
 }
 
 export function deleteProjectsMonthOverview(id: string) {
-  return (dispatch: AppDispatch) => {
-    const req = request
-      .delete(buildUrl(`/attachments/project_month_overview/${id}/${TimesheetCheckAttachmentType}`))
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      ;
-
-    req.then(_response => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      await api.delete(`/attachments/project_month_overview/${id}/${TimesheetCheckAttachmentType}`);
       dispatch({
         type: ACTION_TYPES.PROJECTS_MONTH_OVERVIEWS_DELETE,
         projectsMonthOverviewId: id,
       });
       success(t('config.popupMessage'));
-      return true;
-    })
-      .catch(catchHandler);
+    } catch (err) {
+      catchHandler(err);
+    }
   };
 }
 

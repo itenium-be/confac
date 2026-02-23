@@ -1,30 +1,25 @@
-import request from 'superagent-bluebird-promise';
+import {api} from './utils/api-client';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {catchHandler} from './utils/fetch';
-import {buildUrl} from './utils/buildUrl';
 import t from '../trans';
 import {ConfigModel} from '../components/config/models/ConfigModel';
 import {busyToggle, success} from './appActions';
-import {authService} from '../components/users/authService';
 import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
 import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
-import {socketService} from '../components/socketio/SocketService';
 import {AppDispatch} from '../types/redux';
 
 export function updateConfig(newConfig: ConfigModel) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    return request.post(buildUrl('/config'))
-      .set('Content-Type', 'application/json')
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .send(newConfig)
-      .then(res => {
-        dispatch({type: ACTION_TYPES.CONFIG_UPDATE, config: res.body});
-        success(t('config.popupMessage'));
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+    try {
+      const res = await api.post<ConfigModel>('/config', newConfig);
+      dispatch({type: ACTION_TYPES.CONFIG_UPDATE, config: res.body});
+      success(t('config.popupMessage'));
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 

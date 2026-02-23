@@ -1,17 +1,14 @@
-import request from 'superagent-bluebird-promise';
+import {api} from './utils/api-client';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {success, busyToggle} from './appActions';
 import {catchHandler} from './utils/fetch';
-import {buildUrl} from './utils/buildUrl';
 import {IAttachment} from '../models';
-import {authService} from '../components/users/authService';
-import {socketService} from '../components/socketio/SocketService';
 import {AppDispatch} from '../types/redux';
 
 
 function buildAttachmentUrl(invoiceOrClient: IAttachment, type: 'pdf' | string) {
   const model = (invoiceOrClient as unknown as Record<string, unknown>).money ? 'invoice' : 'client'; // HACK: dangerous stuff...
-  return buildUrl(`/attachments/${model}/${invoiceOrClient._id}/${type}`);
+  return `/attachments/${model}/${invoiceOrClient._id}/${type}`;
 }
 
 
@@ -25,19 +22,11 @@ export function updateAttachment(
   modelType: 'client' | 'invoice' | 'quotation',
   {type, file}: {type: string; file: File},
 ) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    const req = request
-      .put(buildAttachmentUrl(model, type))
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId);
+    try {
+      const res = await api.upload<{attachments: unknown[]}>(buildAttachmentUrl(model, type), file.name, file);
 
-    req.attach(file.name, file);
-
-    // Multiple files?
-    // file.forEach(f => { req.attach(f.name, f); });
-
-    req.then(res => {
       let config: {type: string; key: string};
       switch (modelType) {
         case 'client':
@@ -52,10 +41,11 @@ export function updateAttachment(
       const mergedModel = {...model, attachments: res.body.attachments};
       dispatch({type: config.type, [config.key]: mergedModel});
       success();
-      return true;
-    })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 
@@ -84,25 +74,19 @@ function getDispatchConfig(modelType: ModelsWithAttachments, body: any): any {
 
 
 export function updateGenericAttachment(context: AttachmentFormContext, file: File) {
-  const url = buildUrl(`/attachments/${context.modelType}/${context.id}/${context.attachmentType}`);
-  return (dispatch: AppDispatch) => {
+  const url = `/attachments/${context.modelType}/${context.id}/${context.attachmentType}`;
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    const req = request
-      .put(url)
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId);
-
-    req.attach(file.name, file);
-
-    req.then(res => {
+    try {
+      const res = await api.upload(url, file.name, file);
       const config = getDispatchConfig(context.modelType, res.body);
       dispatch(config);
-
       success();
-      return true;
-    })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 
@@ -110,21 +94,19 @@ export function updateGenericAttachment(context: AttachmentFormContext, file: Fi
 
 
 export function deleteGenericAttachment(context: AttachmentFormContext) {
-  const url = buildUrl(`/attachments/${context.modelType}/${context.id}/${context.attachmentType}`);
-  return (dispatch: AppDispatch) => {
+  const url = `/attachments/${context.modelType}/${context.id}/${context.attachmentType}`;
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    request.delete(url)
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .then(res => {
-        const config = getDispatchConfig(context.modelType, res.body);
-        dispatch(config);
-
-        success();
-        return true;
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+    try {
+      const res = await api.delete(url);
+      const config = getDispatchConfig(context.modelType, res.body);
+      dispatch(config);
+      success();
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 
@@ -132,22 +114,20 @@ export function deleteGenericAttachment(context: AttachmentFormContext) {
 
 /** DO NOT USE */
 export function deleteAttachment(model: IAttachment, modelType: 'client' | 'invoice' | 'quotation', type: string) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    request.delete(buildAttachmentUrl(model, type))
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .then(res => {
-        const mergedModel = {...model, attachments: res.body.attachments};
-        dispatch({
-          type: modelType === 'client' ? ACTION_TYPES.CLIENT_UPDATE : ACTION_TYPES.INVOICE_UPDATED,
-          [modelType === 'client' ? 'client' : 'invoice']: mergedModel,
-        });
-
-        success();
-        return true;
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+    try {
+      const res = await api.delete<{attachments: unknown[]}>(buildAttachmentUrl(model, type));
+      const mergedModel = {...model, attachments: res.body.attachments};
+      dispatch({
+        type: modelType === 'client' ? ACTION_TYPES.CLIENT_UPDATE : ACTION_TYPES.INVOICE_UPDATED,
+        [modelType === 'client' ? 'client' : 'invoice']: mergedModel,
+      });
+      success();
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }

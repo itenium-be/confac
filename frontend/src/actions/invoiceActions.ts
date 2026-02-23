@@ -1,13 +1,10 @@
-import request from 'superagent-bluebird-promise';
+import {api, ApiError} from './utils/api-client';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {success, failure, busyToggle} from './appActions';
 import {catchHandler} from './utils/fetch';
-import {buildUrl} from './utils/buildUrl';
 import t from '../trans';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
-import {authService} from '../components/users/authService';
-import {socketService} from '../components/socketio/SocketService';
 import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
 import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
 import {AppDispatch} from '../types/redux';
@@ -23,63 +20,60 @@ function cleanViewModel(data: InvoiceModel): InvoiceModel {
 
 
 export function createInvoice(data: InvoiceModel, navigate?: (path: string) => void) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    request.post(buildUrl('/invoices'))
-      .set('Content-Type', 'application/json')
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .set('Accept', 'application/json')
-      .send(cleanViewModel(data))
-      .then(res => {
-        dispatch({
-          type: ACTION_TYPES.INVOICE_UPDATED,
-          invoice: res.body,
-        });
+    try {
+      const res = await api.post<InvoiceModel>('/invoices', cleanViewModel(data));
+      dispatch({
+        type: ACTION_TYPES.INVOICE_UPDATED,
+        invoice: res.body,
+      });
 
-        const invoiceType = data.isQuotation ? 'quotations' : 'invoices';
-        success(t(data.isQuotation ? 'quotation.createConfirm' : 'invoice.createConfirm'));
-        if (navigate) {
-          navigate(`/${invoiceType}/${res.body.number}`);
-        }
-
-      }, err => {
-        if (err.res && err.res.text === 'TemplateNotFound') {
-          failure(t('invoice.pdfTemplateNotFound'), t('invoice.pdfTemplateNotFoundTitle'));
-        } else {
-          catchHandler(err);
-        }
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+      const invoiceType = data.isQuotation ? 'quotations' : 'invoices';
+      success(t(data.isQuotation ? 'quotation.createConfirm' : 'invoice.createConfirm'));
+      if (navigate) {
+        navigate(`/${invoiceType}/${res.body.number}`);
+      }
+    } catch (err) {
+      const error = err as ApiError;
+      if (error.res && error.body && (error.body as {message?: string}).message === 'TemplateNotFound') {
+        failure(t('invoice.pdfTemplateNotFound'), t('invoice.pdfTemplateNotFoundTitle'));
+      } else {
+        catchHandler(error);
+      }
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 
-export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined | null, andGoHome: boolean, navigate?: (path: string) => void) {
-  return (dispatch: AppDispatch) => {
-    dispatch(busyToggle());
-    request.put(buildUrl('/invoices'))
-      .set('Content-Type', 'application/json')
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .set('Accept', 'application/json')
-      .send(cleanViewModel(data))
-      .then(res => {
-        dispatch({
-          type: ACTION_TYPES.MODELS_UPDATED,
-          payload: res.body,
-        });
+type ModelsUpdatedResponse = {
+  invoice?: InvoiceModel;
+  invoices?: InvoiceModel[];
+};
 
-        if (successMsg !== null) {
-          success(successMsg || t('toastrConfirm'));
-        }
-        if (andGoHome && navigate) {
-          const invoiceType = data.isQuotation ? 'quotations' : 'invoices';
-          navigate(`/${invoiceType}`);
-        }
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined | null, andGoHome: boolean, navigate?: (path: string) => void) {
+  return async (dispatch: AppDispatch) => {
+    dispatch(busyToggle());
+    try {
+      const res = await api.put<ModelsUpdatedResponse>('/invoices', cleanViewModel(data));
+      dispatch({
+        type: ACTION_TYPES.MODELS_UPDATED,
+        payload: res.body,
+      });
+
+      if (successMsg !== null) {
+        success(successMsg || t('toastrConfirm'));
+      }
+      if (andGoHome && navigate) {
+        const invoiceType = data.isQuotation ? 'quotations' : 'invoices';
+        navigate(`/${invoiceType}`);
+      }
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 
@@ -117,38 +111,33 @@ export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: stri
 
 
 export function toggleInvoiceVerify(data: InvoiceModel, toggleBusy = true) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     if (toggleBusy)
       dispatch(busyToggle());
 
-    request.put(buildUrl('/invoices/verify'))
-      .set('Content-Type', 'application/json')
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .set('Accept', 'application/json')
-      .send({id: data._id, status: data.status === 'Paid' ? 'ToPay' : 'Paid'})
-      .then(res => {
-        if (res) {
-          dispatch({
-            type: ACTION_TYPES.MODELS_UPDATED,
-            payload: res.body,
-          });
-        }
+    try {
+      const res = await api.put<ModelsUpdatedResponse>('/invoices/verify', {id: data._id, status: data.status === 'Paid' ? 'ToPay' : 'Paid'});
+      if (res) {
+        dispatch({
+          type: ACTION_TYPES.MODELS_UPDATED,
+          payload: res.body,
+        });
+      }
 
-        success(data.status === 'Paid' ? t('invoice.isNotVerifiedConfirm') : t('invoice.isVerifiedConfirm'));
-      })
-      .catch(catchHandler)
-      .then(() => {
-        if (toggleBusy)
-          dispatch(busyToggle.off());
-      });
+      success(data.status === 'Paid' ? t('invoice.isNotVerifiedConfirm') : t('invoice.isVerifiedConfirm'));
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      if (toggleBusy)
+        dispatch(busyToggle.off());
+    }
   };
 }
 
 
 export function deleteInvoice(invoice: InvoiceModel) {
   const {projectMonth} = invoice;
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     if (projectMonth) {
       const deleteModel: Partial<ProjectMonthModel> = {
@@ -160,86 +149,84 @@ export function deleteInvoice(invoice: InvoiceModel) {
         projectMonth: deleteModel,
       });
     }
-    request.delete(buildUrl('/invoices'))
-      .set('Content-Type', 'application/json')
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .send({id: invoice._id})
-      .then(_res => {
-        console.log('invoice deleted', invoice);
-        dispatch({
-          type: ACTION_TYPES.INVOICE_DELETED,
-          id: invoice._id,
-        });
-        success(t(`${invoice.isQuotation ? 'quotation' : 'invoice'}.deleteConfirm`));
-        return true;
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+    try {
+      await api.delete('/invoices', {id: invoice._id});
+      console.log('invoice deleted', invoice);
+      dispatch({
+        type: ACTION_TYPES.INVOICE_DELETED,
+        id: invoice._id,
+      });
+      success(t(`${invoice.isQuotation ? 'quotation' : 'invoice'}.deleteConfirm`));
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 
+type PeppolResponse = {
+  error?: boolean;
+  message?: string;
+  invoice?: InvoiceModel;
+  client?: {_id: string};
+};
+
 export function sendToPeppol(invoiceId: string, pdfFileName: string) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    request.post(buildUrl(`/invoices/${invoiceId}/peppol`))
-      .set('Content-Type', 'application/json')
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .set('Accept', 'application/json')
-      .send({pdfFileName})
-      .then(res => {
-        const data = res.body;
+    try {
+      const res = await api.post<PeppolResponse>(`/invoices/${invoiceId}/peppol`, {pdfFileName});
+      const data = res.body;
 
-        if (data.error) {
-          failure(data.message || t('invoice.peppolError'), t('invoice.peppolErrorTitle'));
-          return;
-        }
+      if (data.error) {
+        failure(data.message || t('invoice.peppolError'), t('invoice.peppolErrorTitle'));
+        return;
+      }
 
-        if (data.invoice) {
-          dispatch({type: ACTION_TYPES.INVOICE_UPDATED, invoice: data.invoice});
-        }
-        if (data.client) {
-          dispatch({type: ACTION_TYPES.CLIENT_UPDATE, client: data.client});
-        }
+      if (data.invoice) {
+        dispatch({type: ACTION_TYPES.INVOICE_UPDATED, invoice: data.invoice});
+      }
+      if (data.client) {
+        dispatch({type: ACTION_TYPES.CLIENT_UPDATE, client: data.client});
+      }
 
-        success(data.message || t('invoice.peppolSuccess'));
-      }, err => {
-        // Handle errors with detailed error information from Billit API
-        if (err.status === 500 && err.body?.errors && Array.isArray(err.body.errors) && err.body.errors.length > 0) {
-          const errorList = err.body.errors
-            .map((e: {Code: string; Description?: string}) => `${e.Code}${e.Description ? `: ${e.Description}` : ''}`)
-            .join('\n');
-          const errorMsg = `${err.body.message || err.body.error || t('invoice.peppolError')}\n\n${errorList}`;
-          failure(errorMsg, t('invoice.peppolErrorTitle'), 5000);
-        } else {
-          catchHandler(err);
-        }
-      })
-      .finally(() => dispatch(busyToggle.off()));
+      success(data.message || t('invoice.peppolSuccess'));
+    } catch (err) {
+      const error = err as ApiError;
+      // Handle errors with detailed error information from Billit API
+      if (error.status === 500 && error.body?.errors && Array.isArray(error.body.errors) && error.body.errors.length > 0) {
+        const errorList = error.body.errors
+          .map((e: {Code: string; Description?: string}) => `${e.Code}${e.Description ? `: ${e.Description}` : ''}`)
+          .join('\n');
+        const errorMsg = `${error.body.message || error.body.error || t('invoice.peppolError')}\n\n${errorList}`;
+        failure(errorMsg, t('invoice.peppolErrorTitle'), 5000);
+      } else {
+        catchHandler(error);
+      }
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 
 export function refreshPeppolStatus(invoiceId: string) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    request.post(buildUrl(`/invoices/${invoiceId}/peppol/refresh`))
-      .set('Content-Type', 'application/json')
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .set('Accept', 'application/json')
-      .then(res => {
-        const invoice = res.body;
-        if (invoice.error) {
-          failure(invoice.message || t('invoice.peppolError'), t('invoice.peppolErrorTitle'));
-          return;
-        }
-        dispatch({type: ACTION_TYPES.INVOICE_UPDATED, invoice});
-        success(t('invoice.peppolStatusRefreshed'));
-      }, err => {
-        catchHandler(err);
-      })
-      .finally(() => dispatch(busyToggle.off()));
+    try {
+      const res = await api.post<InvoiceModel & {error?: boolean; message?: string}>(`/invoices/${invoiceId}/peppol/refresh`);
+      const invoice = res.body;
+      if (invoice.error) {
+        failure(invoice.message || t('invoice.peppolError'), t('invoice.peppolErrorTitle'));
+        return;
+      }
+      dispatch({type: ACTION_TYPES.INVOICE_UPDATED, invoice});
+      success(t('invoice.peppolStatusRefreshed'));
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 

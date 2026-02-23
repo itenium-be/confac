@@ -1,41 +1,35 @@
-import request from 'superagent-bluebird-promise';
-import {authService} from '../components/users/authService';
+import {api} from './utils/api-client';
 import {UserModel, RoleModel} from '../components/users/models/UserModel';
-import {buildUrl} from './utils/buildUrl';
 import {t} from '../components/utils';
 import {catchHandler} from './utils/fetch';
 import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
-import {socketService} from '../components/socketio/SocketService';
 import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
 import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
 import {AppDispatch} from '../types/redux';
 
 
 export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => void, navigate?: (path: string) => void) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    return request
-      .put(buildUrl('/user'))
-      .set('Content-Type', 'application/json')
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .send(user)
-      .then(response => {
-        dispatch({
-          type: ACTION_TYPES.USER_UPDATE,
-          user: response.body,
-        });
-        success(t('config.popupMessage'));
-        if (navigate) {
-          navigate('/users');
-        }
-        if (callback) {
-          callback(response.body);
-        }
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+    try {
+      const res = await api.put<UserModel>('/user', user);
+      dispatch({
+        type: ACTION_TYPES.USER_UPDATE,
+        user: res.body,
+      });
+      success(t('config.popupMessage'));
+      if (navigate) {
+        navigate('/users');
+      }
+      if (callback) {
+        callback(res.body);
+      }
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 
@@ -57,29 +51,26 @@ export function handleUserSocketEvents(eventType: SocketEventTypes, eventPayload
 
 
 export function saveRole(role: RoleModel, callback?: (savedRole: RoleModel) => void, navigate?: (path: string) => void) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    return request
-      .put(buildUrl('/user/roles'))
-      .set('Content-Type', 'application/json')
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .send(role)
-      .then(response => {
-        dispatch({
-          type: ACTION_TYPES.ROLE_UPDATE,
-          role: response.body,
-        });
-        success(t('config.popupMessage'));
-        if (navigate) {
-          navigate('/users');
-        }
-        if (callback) {
-          callback(response.body);
-        }
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+    try {
+      const res = await api.put<RoleModel>('/user/roles', role);
+      dispatch({
+        type: ACTION_TYPES.ROLE_UPDATE,
+        role: res.body,
+      });
+      success(t('config.popupMessage'));
+      if (navigate) {
+        navigate('/users');
+      }
+      if (callback) {
+        callback(res.body);
+      }
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 

@@ -1,40 +1,35 @@
-import request from 'superagent-bluebird-promise';
+import {api} from './utils/api-client';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {catchHandler} from './utils/fetch';
-import {buildUrl} from './utils/buildUrl';
 import t from '../trans';
 import {ClientModel} from '../components/client/models/ClientModels';
 import {busyToggle, success} from './appActions';
-import {authService} from '../components/users/authService';
-import {socketService} from '../components/socketio/SocketService';
 import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
 import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
 import {AppDispatch} from '../types/redux';
 
 
 export function saveClient(client: ClientModel, stayOnPage = false, callback?: (c: ClientModel) => void) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    return request.post(buildUrl('/clients'))
-      .set('Content-Type', 'application/json')
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .send(client)
-      .then(res => {
-        dispatch({
-          type: ACTION_TYPES.CLIENT_UPDATE,
-          client: res.body,
-        });
-        success(t('config.popupMessage'));
-        if (!stayOnPage) {
-          window.history.back();
-        }
-        if (callback) {
-          callback(res.body);
-        }
-      })
-      .catch(catchHandler)
-      .then(() => dispatch(busyToggle.off()));
+    try {
+      const res = await api.post<ClientModel>('/clients', client);
+      dispatch({
+        type: ACTION_TYPES.CLIENT_UPDATE,
+        client: res.body,
+      });
+      success(t('config.popupMessage'));
+      if (!stayOnPage) {
+        window.history.back();
+      }
+      if (callback) {
+        callback(res.body);
+      }
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }
 
@@ -55,23 +50,21 @@ export function handleClientSocketEvents(eventType: SocketEventTypes, eventPaylo
 }
 
 export function syncClientPeppolStatus(clientId: string) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(busyToggle());
-    request.post(buildUrl(`/clients/${clientId}/peppol/sync`))
-      .set('Content-Type', 'application/json')
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .then(res => {
-        if (res.body.message) {
-          return;
-        }
-
-        dispatch({
-          type: ACTION_TYPES.CLIENT_UPDATE,
-          client: res.body,
-        });
-      })
-      .catch(catchHandler)
-      .finally(() => dispatch(busyToggle.off()));
+    try {
+      const res = await api.post<ClientModel & {message?: string}>(`/clients/${clientId}/peppol/sync`);
+      if (res.body.message) {
+        return;
+      }
+      dispatch({
+        type: ACTION_TYPES.CLIENT_UPDATE,
+        client: res.body,
+      });
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
   };
 }

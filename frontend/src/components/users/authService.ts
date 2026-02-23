@@ -1,6 +1,5 @@
 
 import {SetStateAction} from 'react';
-import request from 'superagent-bluebird-promise';
 import {buildUrl} from '../../actions/utils/buildUrl';
 import {AppDispatch} from '../../types/redux';
 import {initialLoad} from '../../actions/initialLoad';
@@ -117,20 +116,29 @@ function parseJwt(token: string): JwtModel {
 }
 
 
-function refreshToken(): void {
-  request.post(buildUrl('/user/refresh'))
-    .set('Content-Type', 'application/json')
-    .set('Authorization', authService.getBearer())
-    .set('Accept', 'application/json')
-    .then(res => {
-      console.log('refresh result', res.body);
-      authService.authenticated(res.body.jwt);
-    })
-    .catch(err => {
-      console.log('refresh error', err);
-      authService.logout();
-      window.open('/login');
+async function refreshToken(): Promise<void> {
+  try {
+    const response = await fetch(buildUrl('/user/refresh'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authService.getBearer(),
+        Accept: 'application/json',
+      },
     });
+
+    if (!response.ok) {
+      throw new Error('Refresh failed');
+    }
+
+    const data = await response.json();
+    console.log('refresh result', data);
+    authService.authenticated(data.jwt);
+  } catch (err) {
+    console.log('refresh error', err);
+    authService.logout();
+    window.open('/login');
+  }
 }
 
 
@@ -140,22 +148,31 @@ function authenticateUser(loginResponse: {credential: string}, setState: React.D
 
   console.log('loginResponse', loginResponse);
   const idToken = loginResponse.credential;
-  return (dispatch: AppDispatch) => {
-    request.post(buildUrl('/user/login'))
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
-      .send({idToken})
-      .then(res => {
-        console.log('login result', res.body);
-        authService.authenticated(res.body.jwt);
-        dispatch(initialLoad());
-        setState('loggedIn');
-      })
-      .catch(err => {
-        console.log('login error', err);
-        authService.logout();
-        // window.location.reload();
-        setState((err.body && err.body.err) || 'Unknown error');
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await fetch(buildUrl('/user/login'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({idToken}),
       });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw {body: data};
+      }
+
+      console.log('login result', data);
+      authService.authenticated(data.jwt);
+      dispatch(initialLoad());
+      setState('loggedIn');
+    } catch (err: any) {
+      console.log('login error', err);
+      authService.logout();
+      setState((err.body && err.body.err) || 'Unknown error');
+    }
   };
 }

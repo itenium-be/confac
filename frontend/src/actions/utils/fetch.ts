@@ -18,8 +18,10 @@ interface FetchError {
   status?: number;
 }
 
-export function catchHandler(err: FetchError) {
-  console.log('oepsie', err);
+export function catchHandler(error: unknown) {
+  console.log('oepsie', error);
+
+  const err = error as FetchError;
 
   if (!err.res) {
     console.error('Erreur', err.message);

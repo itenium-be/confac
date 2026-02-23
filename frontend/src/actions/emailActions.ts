@@ -1,13 +1,10 @@
-import request from 'superagent-bluebird-promise';
+import {api} from './utils/api-client';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
 import {EmailModel} from '../components/controls/email/EmailModels';
-import {buildUrl} from './utils/buildUrl';
 import {success, failure} from './appActions';
 import {t} from '../components/utils';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {invoiceReplacements} from '../components/invoice/invoice-replacements';
-import {authService} from '../components/users/authService';
-import {socketService} from '../components/socketio/SocketService';
 import {AppDispatch} from '../types/redux';
 
 
@@ -17,9 +14,7 @@ export function sendEmail(
   email: EmailModel,
   emailInvoiceOnly?: string,
 ) {
-
-  return (dispatch: AppDispatch) => {
-
+  return async (dispatch: AppDispatch) => {
     email.attachments = email.attachments.map(attachmentType => {
       if (attachmentType === 'pdf') {
         return {
@@ -43,28 +38,25 @@ export function sendEmail(
     })
       .filter(att => att);
 
-    let url = buildUrl(`/invoices/email/${invoice._id}`);
+    let url = `/invoices/email/${invoice._id}`;
     if (emailInvoiceOnly && !invoice.lastEmail) {
       url += '?emailInvoiceOnly=' + encodeURIComponent(emailInvoiceOnly);
     }
-    request.post(url)
-      .set('Authorization', authService.getBearer())
-      .set('x-socket-id', socketService.socketId)
-      .send(email)
-      .then(res => {
-        console.log('Email response', res);
-        success(t('email.sent'));
-        dispatch({
-          type: ACTION_TYPES.INVOICE_UPDATED,
-          invoice: {
-            ...invoice,
-            lastEmail: res.text,
-          },
-        });
-      })
-      .catch(err => {
-        console.error('res ERROR', err);
-        failure(err.body?.message, 'Email failure', 8000);
+
+    try {
+      const res = await api.post<unknown>(url, email);
+      console.log('Email response', res);
+      success(t('email.sent'));
+      dispatch({
+        type: ACTION_TYPES.INVOICE_UPDATED,
+        invoice: {
+          ...invoice,
+          lastEmail: res.text,
+        },
       });
+    } catch (err: any) {
+      console.error('res ERROR', err);
+      failure(err.body?.message, 'Email failure', 8000);
+    }
   };
 }
