@@ -1,6 +1,6 @@
 import {IComment} from '../../../models';
 import {Claim} from '../../users/models/UserModel';
-import {formatDate, t} from '../../utils';
+import {formatDate, sanitizeHtml, t} from '../../utils';
 import {Features, IFeature} from '../feature/feature-models';
 import {EditIcon} from '../Icon';
 import {DeleteIcon} from '../icons/DeleteIcon';
@@ -58,7 +58,7 @@ const commentListConfig = (config: CommentFeatureBuilderConfig): IList<IComment,
     key: 'comment',
     header: 'comment.text',
     value: comment => (
-      <div dangerouslySetInnerHTML={{__html: comment.comment}} />
+      <div dangerouslySetInnerHTML={{__html: sanitizeHtml(comment.comment)}} />
     ),
   }, {
     key: 'buttons',

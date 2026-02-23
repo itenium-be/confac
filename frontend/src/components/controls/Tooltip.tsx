@@ -1,5 +1,6 @@
 import {ReactElement} from 'react';
 import RcTooltip from 'rc-tooltip';
+import {sanitizeHtml} from '../utils';
 
 type TooltipProps = {
   title: string;
@@ -9,15 +10,11 @@ type TooltipProps = {
 }
 
 
-// ATTN: The dangerouslySetInnerHTML is quite dangerous in this case:
-// --> The user can craft a malicious script with the NotesModalButton and this will just execute it!
-
-
 export const Tooltip = ({children, title, placement = 'left', mouseEnterDelay = 0.6}: TooltipProps) => (
   <RcTooltip
     placement={placement} // ['left','right','top','bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight']
     trigger={['hover'/* , 'click', 'focus' */]}
-    overlay={<div dangerouslySetInnerHTML={{__html: title}} />}
+    overlay={<div dangerouslySetInnerHTML={{__html: sanitizeHtml(title)}} />}
     mouseEnterDelay={mouseEnterDelay}
     mouseLeaveDelay={0.1}
   >

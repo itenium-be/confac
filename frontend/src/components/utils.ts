@@ -1,6 +1,7 @@
 import numeral from 'numeral';
 import moment from 'moment';
 import latinize from 'latinize';
+import DOMPurify from 'dompurify';
 
 export const defaultLocale = 'nl';
 
@@ -76,6 +77,14 @@ export const searchinize = (str: string): string => {
 
 export const sortResult = <T>(sorter: (a: T, b: T) => number, asc: boolean): (a: T, b: T) => number => {
   return (a, b) => asc ? sorter(a, b) : sorter(b, a);
+};
+
+/**
+ * Sanitize HTML to prevent XSS attacks.
+ * Use this before rendering user-provided HTML with dangerouslySetInnerHTML.
+ */
+export const sanitizeHtml = (html: string): string => {
+  return DOMPurify.sanitize(html);
 };
 
 export {default as t} from '../trans';
