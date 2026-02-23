@@ -1,9 +1,9 @@
 // Exercises 0: Basic
-// Jest Mocks for google-auth-library
+// Vitest Mocks for google-auth-library
 
+import {vi} from 'vitest';
 import type {OAuth2Client as _OAuth2Client} from 'google-auth-library';
 import {verify} from '../user';
-import config from '../../config';
 
 interface MockPayload {
   email_verified?: boolean;
@@ -14,23 +14,25 @@ interface MockPayload {
 
 let payload: MockPayload | null = null;
 
-jest.mock('../../config', () => ({
-  security: {
-    clientId: 'string',
-    secret: 'string',
-    domain: 'string',
-    defaultRole: 'string',
+vi.mock('../../config', () => ({
+  default: {
+    security: {
+      clientId: 'string',
+      secret: 'string',
+      domain: 'string',
+      defaultRole: 'string',
+    },
   },
 }));
 
-jest.mock('google-auth-library', () => {
+vi.mock('google-auth-library', async () => {
   class FakeOAuth2Client {
-    verifyIdToken() {  
+    verifyIdToken() {
       return {getPayload: () => payload};
     }
   }
 
-  const originalModule = jest.requireActual('google-auth-library');
+  const originalModule = await vi.importActual('google-auth-library');
   return {
     __esModule: true,
     ...originalModule,
@@ -62,15 +64,9 @@ describe('user controller :: verify', () => {
     payload = {
       email_verified: true,
       email: 'email',
-      aud: 'id1',
-      hd: 'itenium.be',
+      aud: 'string', // matches mocked config.security.clientId
+      hd: 'string', // matches mocked config.security.domain
     };
-    jest.replaceProperty(config, 'security', {
-      clientId: 'id1',
-      secret: 'string',
-      domain: 'itenium.be',
-      defaultRole: 'string',
-    });
     const result = await verify('token');
 
     expect(result).toBeInstanceOf(Object);

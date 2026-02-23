@@ -4,12 +4,13 @@
 
 // NOTE: These imports are commented out because importing ../config triggers
 // the mongodb driver which causes require-at errors on Windows.
+// import {vi} from 'vitest';
 // import {Response} from 'express';
 // import fs from 'fs';
 // import {getTemplates} from '../config';
 
-// jest.mock('fs');
-// const mockedFs: jest.Mocked<typeof fs> = jest.mocked(fs);
+// vi.mock('fs');
+// const mockedFs = vi.mocked(fs);
 // const req = {} as any;
 // const res = {send: (x: string[]) => Promise.resolve(x)} as unknown as Response;
 

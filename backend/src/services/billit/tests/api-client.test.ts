@@ -1,3 +1,4 @@
+import {vi, type MockedFunction} from 'vitest';
 import {ApiClient} from '../api-client';
 import {BillitError} from '../billit-error';
 import {CreateOrderRequest} from '../orders/createorder';
@@ -8,14 +9,14 @@ import {GetParticipantInformationResponse} from '../peppol/getparticipantinforma
 import {testApiConfig} from './api-config.fixture';
 
 // Mock logger before imports
-jest.mock('../../../logger', () => ({
+vi.mock('../../../logger', () => ({
   logger: {
-    info: jest.fn(),
-    error: jest.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
   },
 }));
 
-const mockFetch = jest.fn() as jest.MockedFunction<typeof fetch>;
+const mockFetch = vi.fn() as MockedFunction<typeof fetch>;
 global.fetch = mockFetch;
 
 describe('ApiClient', () => {
@@ -24,7 +25,7 @@ describe('ApiClient', () => {
 
   beforeEach(() => {
     apiClient = new ApiClient(apiConfig);
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('constructor', () => {

@@ -3,6 +3,7 @@
 // https://github.com/ladjs/supertest
 // https://github.com/ladjs/superagent
 
+import {vi} from 'vitest';
 import express, {NextFunction, Request, Response} from 'express';
 import {Db, MongoClient} from 'mongodb';
 // import {MongoMemoryServer} from 'mongodb-memory-server';
@@ -13,7 +14,7 @@ import projectsRouter from '../../routes/projects';
 
 
 
-const getFakeDb: jest.Mock<Db> = jest.fn();
+const getFakeDb = vi.fn<[], Db>();
 
 const app = express();
 app.use(bodyParser.json());

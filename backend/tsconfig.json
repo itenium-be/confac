@@ -12,5 +12,6 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "typeRoots": ["./types", "./node_modules/@types"]
-  }
+  },
+  "exclude": ["vitest.config.ts"]
 }
