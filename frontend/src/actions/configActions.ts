@@ -6,13 +6,13 @@ import t from '../trans';
 import {ConfigModel} from '../components/config/models/ConfigModel';
 import {busyToggle, success} from './appActions';
 import {authService} from '../components/users/authService';
-import {Dispatch} from 'redux';
 import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
 import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
 import {socketService} from '../components/socketio/SocketService';
+import {AppDispatch} from '../types/redux';
 
 export function updateConfig(newConfig: ConfigModel) {
-  return dispatch => {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     return request.post(buildUrl('/config'))
       .set('Content-Type', 'application/json')
@@ -29,7 +29,7 @@ export function updateConfig(newConfig: ConfigModel) {
 }
 
 export function handleConfigSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     switch (eventType) {
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:

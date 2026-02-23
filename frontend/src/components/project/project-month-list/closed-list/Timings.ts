@@ -9,13 +9,13 @@ const timings: {[key: string]: ITiming} = {};
 
 
 export function callback(
-  id, // the "id" prop of the Profiler tree that has just committed
-  phase, // either "mount" (if the tree just mounted) or "update" (if it re-rendered)
-  actualDuration, // time spent rendering the committed update
-  _baseDuration, // estimated time to render the entire subtree without memoization
-  _startTime, // when React began rendering this update
-  _commitTime, // when React committed this update
-  _interactions // the Set of interactions belonging to this update
+  id: string, // the "id" prop of the Profiler tree that has just committed
+  phase: 'mount' | 'update', // either "mount" (if the tree just mounted) or "update" (if it re-rendered)
+  actualDuration: number, // time spent rendering the committed update
+  _baseDuration: number, // estimated time to render the entire subtree without memoization
+  _startTime: number, // when React began rendering this update
+  _commitTime: number, // when React committed this update
+  _interactions: Set<unknown> // the Set of interactions belonging to this update
 ) {
   // console.log(`${id}: ${phase} in ${actualDuration}`);
   if (id.startsWith('Badge')) {

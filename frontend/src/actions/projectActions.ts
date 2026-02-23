@@ -1,11 +1,11 @@
 import request from 'superagent-bluebird-promise';
 import {Moment} from 'moment';
-import {Dispatch} from 'redux';
 import {catchHandler} from './utils/fetch';
 import {buildUrl} from './utils/buildUrl';
 import t from '../trans';
 import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
+import {AppDispatch} from '../types/redux';
 import {IProjectModel, ProjectProforma} from '../components/project/models/IProjectModel';
 import {ProjectMonthModel} from '../components/project/models/ProjectMonthModel';
 import {TimesheetCheckAttachmentType} from '../models';
@@ -18,8 +18,8 @@ import {store} from '../store';
 import moment from 'moment';
 
 
-export function saveProject(project: IProjectModel, navigate?: any, after: 'to-list' | 'to-details' = 'to-list') {
-  return (dispatch: Dispatch) => {
+export function saveProject(project: IProjectModel, navigate?: (path: string) => void, after: 'to-list' | 'to-details' = 'to-list') {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     return request
       .post(buildUrl('/projects'))
@@ -54,7 +54,7 @@ export type SourceProjectData = {
 
 /** Create projectMonths for all active projects in the month */
 export function createProjectsMonth(month: Moment, projectData: SourceProjectData[]) {
-  return (dispatch: Dispatch) => request
+  return (dispatch: AppDispatch) => request
     .post(buildUrl('/projects/month'))
     .set('Content-Type', 'application/json')
     .set('Authorization', authService.getBearer())
@@ -74,7 +74,7 @@ export function createProjectsMonth(month: Moment, projectData: SourceProjectDat
 
 /** Create the invoice for a projectMonth */
 export function createProjectsMonthInvoice(project: ProjectMonthModel) {
-  return (dispatch: Dispatch) => request
+  return (dispatch: AppDispatch) => request
     .post(buildUrl(`/projects/month/${project._id}/create-invoice`))
     .set('Content-Type', 'application/json')
     .set('Authorization', authService.getBearer())
@@ -93,8 +93,8 @@ export function createProjectsMonthInvoice(project: ProjectMonthModel) {
 
 
 
-export function deleteProjectsMonth(id: string, navigate: any) {
-  return dispatch => {
+export function deleteProjectsMonth(id: string, navigate: (path: string) => void) {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     request.delete(buildUrl('/projects/month'))
       .set('Content-Type', 'application/json')
@@ -118,8 +118,8 @@ export function deleteProjectsMonth(id: string, navigate: any) {
 
 
 
-export function deleteProject(id: string, navigate: any) {
-  return dispatch => {
+export function deleteProject(id: string, navigate: (path: string) => void) {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     request.delete(buildUrl('/projects'))
       .set('Content-Type', 'application/json')
@@ -156,7 +156,7 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
   }
 
 
-  return (dispatch: Dispatch) => request
+  return (dispatch: AppDispatch) => request
     .patch(buildUrl('/projects/month'))
     .set('Content-Type', 'application/json')
     .set('Authorization', authService.getBearer())
@@ -176,7 +176,7 @@ export function patchProjectsMonth(project: ProjectMonthModel) {
 type ProjectMonthAttachmentTypes = 'Getekende timesheet' | 'Factuur freelancer' | 'Proforma Factuur';
 
 export function projectMonthUpload(file: File, type: ProjectMonthAttachmentTypes, projectMonth: FullProjectMonthModel, fileName: string) {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     const modelType = projectMonth.invoice ? 'invoice' : 'project_month';
     const modelId = projectMonth.invoice ? projectMonth.invoice._id : projectMonth._id;
     const req = request
@@ -206,7 +206,7 @@ export function projectMonthUpload(file: File, type: ProjectMonthAttachmentTypes
 }
 
 export function projectsMonthOverviewUpload(file: File, month: Moment) {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     const req = request
       .put(buildUrl(`/attachments/project_month_overview/${month.toISOString()}/${TimesheetCheckAttachmentType}`))
       .set('Authorization', authService.getBearer())
@@ -226,7 +226,7 @@ export function projectsMonthOverviewUpload(file: File, month: Moment) {
 }
 
 export function deleteProjectsMonthOverview(id: string) {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     const req = request
       .delete(buildUrl(`/attachments/project_month_overview/${id}/${TimesheetCheckAttachmentType}`))
       .set('Authorization', authService.getBearer())
@@ -246,7 +246,7 @@ export function deleteProjectsMonthOverview(id: string) {
 }
 
 export function deleteProjectMonthAttachmentDetails(projectMonth: ProjectMonthModel) {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     dispatch({
       type: ACTION_TYPES.PROJECTS_MONTH_UPDATE,
       projectMonth: {...projectMonth, attachments: []},
@@ -255,7 +255,7 @@ export function deleteProjectMonthAttachmentDetails(projectMonth: ProjectMonthMo
 }
 
 export function handleProjectSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     switch (eventType) {
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:
@@ -277,7 +277,7 @@ export function handleProjectSocketEvents(eventType: SocketEventTypes, eventPayl
 }
 
 export function handleProjectMonthSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     switch (eventType) {
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:

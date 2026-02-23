@@ -3,8 +3,7 @@ import {FullFormConfig, AnyFormConfig, FormConfig, NewRowFormConfig} from '../..
 
 export function normalizeFormConfig(config: FullFormConfig, model: any): FormConfig[] {
   // Add all missing model properties to config
-  // eslint-disable-next-line dot-notation
-  const configKeys: string[] = config.map(x => (typeof x === 'string' ? x : x['key']));
+  const configKeys: string[] = config.map(x => (typeof x === 'string' ? x : (x as FormConfig).key)).filter((k): k is string => k !== undefined);
   let fullConfig: AnyFormConfig[] = config;
 
   if (config.addMissingProps) {

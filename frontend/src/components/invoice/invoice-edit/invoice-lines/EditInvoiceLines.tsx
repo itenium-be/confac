@@ -54,7 +54,7 @@ export const EditInvoiceLines = (
           <Droppable droppableId="droppable">
             {(provided, _snapshot) => (
               <tbody ref={provided.innerRef}>
-                {(value || []).map((item, index) => (
+                {(value || []).map((item: InvoiceLine, index: number) => (
                   <Draggable key={item.sort} draggableId={(typeof item.sort === 'number' ? item.sort : index).toString()} index={index}>
                     {(providedInner, _snapshotInner) => {
                       const EditInvoiceLine = createEditInvoiceLine(item);

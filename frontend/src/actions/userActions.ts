@@ -8,12 +8,12 @@ import {busyToggle, success} from './appActions';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {socketService} from '../components/socketio/SocketService';
 import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
-import {Dispatch} from 'redux';
 import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
+import {AppDispatch} from '../types/redux';
 
 
-export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => void, navigate?: any) {
-  return dispatch => {
+export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => void, navigate?: (path: string) => void) {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     return request
       .put(buildUrl('/user'))
@@ -40,7 +40,7 @@ export function saveUser(user: UserModel, callback?: (savedUser: UserModel) => v
 }
 
 export function handleUserSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     switch (eventType) {
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:
@@ -56,8 +56,8 @@ export function handleUserSocketEvents(eventType: SocketEventTypes, eventPayload
 }
 
 
-export function saveRole(role: RoleModel, callback?: (savedRole: RoleModel) => void, navigate?: any) {
-  return dispatch => {
+export function saveRole(role: RoleModel, callback?: (savedRole: RoleModel) => void, navigate?: (path: string) => void) {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     return request
       .put(buildUrl('/user/roles'))
@@ -84,7 +84,7 @@ export function saveRole(role: RoleModel, callback?: (savedRole: RoleModel) => v
 }
 
 export function handleRoleSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     switch (eventType) {
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:

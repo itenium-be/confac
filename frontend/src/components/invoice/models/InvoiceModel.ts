@@ -203,10 +203,10 @@ export default class InvoiceModel implements IAttachment {
     return this;
   }
 
-  updateField(key: string, value: any, calcMoneys = false): void {
+  updateField(key: string, value: unknown, calcMoneys = false): void {
     // HACK: Workaround for not updating state directly while
     // still having an instance of this class in component state
-    this[key] = value;
+    (this as unknown as Record<string, unknown>)[key] = value;
     if (calcMoneys) {
       this.money = this._calculateMoneys();
     }
@@ -302,12 +302,12 @@ export default class InvoiceModel implements IAttachment {
 
     const totalTax = round(total - totalWithoutTax);
     const totalsPerLineType = relevantLines.reduce((acc, cur) => {
-      if (!acc[cur.type]) {
-        acc[cur.type] = 0;
+      if (!acc[cur.type as string]) {
+        acc[cur.type as string] = 0;
       }
-      acc[cur.type] += round(cur.amount * cur.price);
+      acc[cur.type as string] += round(cur.amount * cur.price);
       return acc;
-    }, {});
+    }, {} as Record<string, number>);
 
     const discount = (this.discount || 0).toString().trim();
     let calcDiscount: number | string = discount;

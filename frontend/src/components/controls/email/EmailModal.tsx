@@ -35,13 +35,14 @@ const getDefaultEmailValue = (
     return {to: '', ...defaultEmail};
   }
 
-  const emailValues = Object.keys(client.email).reduce((acc: EmailModel, cur: string) => {
-    if (client.email[cur]) {
-      acc[cur] = client.email[cur];
+  const clientEmail = client.email as Record<string, unknown>;
+  const emailValues = Object.keys(clientEmail).reduce((acc: Record<string, unknown>, cur: string) => {
+    if (clientEmail[cur]) {
+      acc[cur] = clientEmail[cur];
       return acc;
     }
     return acc;
-  }, {} as EmailModel);
+  }, {} as Record<string, unknown>) as EmailModel;
 
   if (!emailValues.attachments.length) {
     emailValues.attachments = defaultEmail.attachments;

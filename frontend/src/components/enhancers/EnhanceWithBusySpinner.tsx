@@ -26,7 +26,7 @@ export const EnhanceWithBusySpinner = <P extends object>(ComposedComponent: Reac
     }
 
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps: EnhanceWithBusySpinnerProps & P) {
       if (this.state.isBusy && this.props.model !== nextProps.model) {
         this.setState({isBusy: false});
       }

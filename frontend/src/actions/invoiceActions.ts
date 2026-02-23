@@ -10,20 +10,20 @@ import {authService} from '../components/users/authService';
 import {socketService} from '../components/socketio/SocketService';
 import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
 import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
-import {Dispatch} from 'redux';
+import {AppDispatch} from '../types/redux';
 
 
 function cleanViewModel(data: InvoiceModel): InvoiceModel {
-  const invoice = {...data};
+  const invoice = {...data} as unknown as Record<string, unknown>;
   Object.keys(invoice).filter(k => k[0] === '_' && k !== '_id').forEach(k => {
     delete invoice[k];
   });
-  return invoice as InvoiceModel;
+  return invoice as unknown as InvoiceModel;
 }
 
 
-export function createInvoice(data: InvoiceModel, navigate?: any) {
-  return dispatch => {
+export function createInvoice(data: InvoiceModel, navigate?: (path: string) => void) {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     request.post(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
@@ -55,8 +55,8 @@ export function createInvoice(data: InvoiceModel, navigate?: any) {
   };
 }
 
-export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined | null, andGoHome: boolean, navigate?: any) {
-  return dispatch => {
+export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | undefined | null, andGoHome: boolean, navigate?: (path: string) => void) {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     request.put(buildUrl('/invoices'))
       .set('Content-Type', 'application/json')
@@ -73,7 +73,7 @@ export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | un
         if (successMsg !== null) {
           success(successMsg || t('toastrConfirm'));
         }
-        if (andGoHome) {
+        if (andGoHome && navigate) {
           const invoiceType = data.isQuotation ? 'quotations' : 'invoices';
           navigate(`/${invoiceType}`);
         }
@@ -84,7 +84,7 @@ export function updateInvoiceRequest(data: InvoiceModel, successMsg: string | un
 }
 
 export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: string[], invoices: InvoiceModel[]) => {
-  return dispatch => {
+  return (dispatch: AppDispatch) => {
     const removedCreditNota = previousCreditNotas.filter(n => !invoice.creditNotas.includes(n));
     const creditNotaGroup = [...invoice.creditNotas, invoice._id];
 
@@ -117,7 +117,7 @@ export const syncCreditNotas = (invoice: InvoiceModel, previousCreditNotas: stri
 
 
 export function toggleInvoiceVerify(data: InvoiceModel, toggleBusy = true) {
-  return dispatch => {
+  return (dispatch: AppDispatch) => {
     if (toggleBusy)
       dispatch(busyToggle());
 
@@ -148,7 +148,7 @@ export function toggleInvoiceVerify(data: InvoiceModel, toggleBusy = true) {
 
 export function deleteInvoice(invoice: InvoiceModel) {
   const {projectMonth} = invoice;
-  return dispatch => {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     if (projectMonth) {
       const deleteModel: Partial<ProjectMonthModel> = {
@@ -180,7 +180,7 @@ export function deleteInvoice(invoice: InvoiceModel) {
 }
 
 export function sendToPeppol(invoiceId: string, pdfFileName: string) {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     request.post(buildUrl(`/invoices/${invoiceId}/peppol`))
       .set('Content-Type', 'application/json')
@@ -208,7 +208,7 @@ export function sendToPeppol(invoiceId: string, pdfFileName: string) {
         // Handle errors with detailed error information from Billit API
         if (err.status === 500 && err.body?.errors && Array.isArray(err.body.errors) && err.body.errors.length > 0) {
           const errorList = err.body.errors
-            .map(e => `${e.Code}${e.Description ? `: ${e.Description}` : ''}`)
+            .map((e: {Code: string; Description?: string}) => `${e.Code}${e.Description ? `: ${e.Description}` : ''}`)
             .join('\n');
           const errorMsg = `${err.body.message || err.body.error || t('invoice.peppolError')}\n\n${errorList}`;
           failure(errorMsg, t('invoice.peppolErrorTitle'), 5000);
@@ -221,7 +221,7 @@ export function sendToPeppol(invoiceId: string, pdfFileName: string) {
 }
 
 export function refreshPeppolStatus(invoiceId: string) {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     request.post(buildUrl(`/invoices/${invoiceId}/peppol/refresh`))
       .set('Content-Type', 'application/json')
@@ -244,7 +244,7 @@ export function refreshPeppolStatus(invoiceId: string) {
 }
 
 export function handleInvoiceSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     switch (eventType) {
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:

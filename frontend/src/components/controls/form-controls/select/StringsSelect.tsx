@@ -24,12 +24,12 @@ const convertToStringArray = (values: OptionType[]): string[] => {
 
 export const StringsSelect = EnhanceInputWithLabel(({value = [], onChange, options, ...props}: StringsSelectProps) => (
   <Creatable
-    value={value.map(v => ({label: v, value: v}))}
-    onChange={val => onChange(convertToStringArray(val as OptionType[]))}
+    value={value.map((v: string) => ({label: v, value: v}))}
+    onChange={(val: readonly OptionType[]) => onChange(convertToStringArray(val as OptionType[]))}
     isClearable={false}
     isMulti
     noOptionsMessage={() => t('controls.noOptionsMessage')}
-    formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
+    formatCreateLabel={(itm: string) => t('controls.addLabelText', {value: itm})}
     placeholder={t('controls.selectPlaceholder')}
     options={(options || []).map(o => ({label: o, value: o}))}
     classNamePrefix="react-select"

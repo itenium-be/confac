@@ -119,7 +119,7 @@ const ClaimSpan = EnhanceWithClaim(({children, ...props}: any) => {
 
 export const NotEmailedIcon = ({...props}) => (
   <ClaimSpan
-    claim={claims => claims.includes(Claim.EmailInvoices) || claims.includes(Claim.ViewEmailInvoices)}
+    claim={(claims: Claim[]) => claims.includes(Claim.EmailInvoices) || claims.includes(Claim.ViewEmailInvoices)}
     className="fa-stack fa-2x tst-not-mailed"
     {...props}
   >
@@ -137,7 +137,7 @@ export const EmailedIcon = ({...props}) => (
 
 export const NotPeppoledIcon = ({...props}) => (
   <ClaimSpan
-    claim={claims => claims.includes(Claim.EmailInvoices) || claims.includes(Claim.ViewEmailInvoices)}
+    claim={(claims: Claim[]) => claims.includes(Claim.EmailInvoices) || claims.includes(Claim.ViewEmailInvoices)}
     className="fa-stack fa-2x tst-not-peppol"
     {...props}
   >

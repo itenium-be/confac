@@ -21,7 +21,7 @@ export const FullAuditModal = (props: FullAuditModalProps) => {
     fetch(buildRequest(`/config/audit?model=${props.modelType}&modelId=${props.model._id}`))
       .then(res => res.json())
       .then(fetchedAudit => typeof fetchedAudit.length === 'number' ? fetchedAudit : [])
-      .then(fetchedAudit => setAudit(fetchedAudit.sort((a, b) => b.date.localeCompare(a.date))))
+      .then(fetchedAudit => setAudit(fetchedAudit.sort((a: AuditLog, b: AuditLog) => new Date(b.date).getTime() - new Date(a.date).getTime())))
       .catch(err => failure(err));
   }, [props.modelType, props.model._id]);
 

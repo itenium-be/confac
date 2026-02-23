@@ -88,7 +88,8 @@ export const ClaimGuardSwitch = ({feature, children}: ClaimGuardSwitchProps) => 
 
 
 function mapClaim(entity: string, claim: GenericClaim): Claim {
-  return Claim[`${claim}-${entity}`];
+  const claimKey = `${claim}-${entity}` as keyof typeof Claim;
+  return Claim[claimKey];
 }
 
 function hasClaim(feature?: {key: string; claim: GenericClaim}, claim?: Claim): boolean {

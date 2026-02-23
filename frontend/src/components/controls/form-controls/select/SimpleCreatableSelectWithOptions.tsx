@@ -24,11 +24,11 @@ export const SimpleCreatableSelectWithOptions = ({isClearable = false, 'data-tes
     <Creatable
       value={{label: labelFromOptions ? labelFromOptions.label : value, value}}
       options={options}
-      onChange={itm => onChange(itm && (itm as SelectItem).value)}
+      onChange={(itm: SelectItem | null) => onChange(itm ? String(itm.value) : '')}
       isClearable={isClearable}
       isMulti={false}
       noOptionsMessage={() => t('controls.noResultsText')}
-      formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
+      formatCreateLabel={(itm: string) => t('controls.addLabelText', {value: itm})}
       placeholder={t('controls.selectPlaceholder')}
       classNamePrefix="react-select"
       aria-label={testId}

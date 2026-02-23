@@ -1,6 +1,5 @@
 
 import {toast} from 'react-toastify';
-import {Dispatch} from 'redux';
 import {authService} from '../components/users/authService';
 import {ACTION_TYPES} from './utils/ActionTypes';
 import {buildUrl} from './utils/buildUrl';
@@ -8,6 +7,7 @@ import {failure} from './appActions';
 import {getProjectMonthsFilters} from '../reducers/app-state';
 import {Features} from '../components/controls/feature/feature-models';
 import {socketService} from '../components/socketio/SocketService';
+import {AppDispatch} from '../types/redux';
 
 let counter: number;
 
@@ -80,7 +80,7 @@ const httpGet = (url: string) => {
 };
 
 function fetchClients() {
-  return dispatch => httpGet('/clients').then(data => {
+  return (dispatch: AppDispatch) => httpGet('/clients').then(data => {
     dispatch({
       type: ACTION_TYPES.CLIENTS_FETCHED,
       clients: data,
@@ -89,7 +89,7 @@ function fetchClients() {
 }
 
 function fetchConsultants() {
-  return dispatch => httpGet('/consultants').then(data => {
+  return (dispatch: AppDispatch) => httpGet('/consultants').then(data => {
     dispatch({
       type: ACTION_TYPES.CONSULTANTS_FETCHED,
       consultants: data,
@@ -99,7 +99,7 @@ function fetchConsultants() {
 
 function fetchProjects(initialMonthsLoad: number) {
   const url = '/projects?months=' + initialMonthsLoad;
-  return dispatch => httpGet(url).then(data => {
+  return (dispatch: AppDispatch) => httpGet(url).then(data => {
     dispatch({
       type: ACTION_TYPES.PROJECTS_FETCHED,
       projects: data,
@@ -110,7 +110,7 @@ function fetchProjects(initialMonthsLoad: number) {
 
 function fetchInvoices(initialMonthsLoad: number) {
   const url = '/invoices?months=' + initialMonthsLoad;
-  return dispatch => httpGet(url).then(data => {
+  return (dispatch: AppDispatch) => httpGet(url).then(data => {
     dispatch({
       type: ACTION_TYPES.INVOICES_FETCHED,
       invoices: data,
@@ -119,7 +119,7 @@ function fetchInvoices(initialMonthsLoad: number) {
 }
 
 function fetchUsers() {
-  return dispatch => httpGet('/user').then(data => {
+  return (dispatch: AppDispatch) => httpGet('/user').then(data => {
     dispatch({
       type: ACTION_TYPES.USERS_FETCHED,
       users: data,
@@ -128,7 +128,7 @@ function fetchUsers() {
 }
 
 function fetchRoles() {
-  return dispatch => httpGet('/user/roles').then(data => {
+  return (dispatch: AppDispatch) => httpGet('/user/roles').then(data => {
     dispatch({
       type: ACTION_TYPES.ROLES_FETCHED,
       roles: data,
@@ -138,7 +138,7 @@ function fetchRoles() {
 
 function fetchProjectsMonth(initialMonthsLoad: number) {
   const url = '/projects/month?months=' + initialMonthsLoad;
-  return dispatch => httpGet(url).then(data => {
+  return (dispatch: AppDispatch) => httpGet(url).then(data => {
     dispatch({
       type: ACTION_TYPES.PROJECTS_MONTH_FETCHED,
       projectsMonth: data,
@@ -158,7 +158,7 @@ function fetchProjectsMonth(initialMonthsLoad: number) {
 
 function fetchProjectsMonthOverviews(initialMonthsLoad: number) {
   const url = '/projects/month/overview?months=' + initialMonthsLoad;
-  return (dispatch: Dispatch) => httpGet(url).then(data => {
+  return (dispatch: AppDispatch) => httpGet(url).then(data => {
     dispatch({
       type: ACTION_TYPES.PROJECTS_MONTH_OVERVIEWS_FETCHED,
       projectsMonthOverviews: data,
@@ -171,7 +171,7 @@ export function initialLoad(loadNextMonth?: number): any {
     return {type: 'NONE'};
   }
 
-  return dispatch => {
+  return (dispatch: AppDispatch) => {
     console.log('initial load STARTED!!');
 
     counter = 0;

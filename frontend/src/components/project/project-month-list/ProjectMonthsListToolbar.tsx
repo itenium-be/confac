@@ -13,11 +13,11 @@ import {FreelancerOverviewDownloadButton} from '../FreelancerOverview/Freelancer
 /** The top ProjectMonth page toolbar */
 export const ProjectMonthsListToolbar = () => {
   const dispatch = useDispatch();
-  const projectMonths = [];
+  const projectMonths: [] = [];
 
   const filters = useSelector((state: ConfacState) => state.app.filters.projectMonths);
   const config: ProjectMonthFeatureBuilderConfig = {
-    data: projectMonths,
+    data: projectMonths as [],
     save: m => dispatch(patchProjectsMonth(m.details) as any),
     filters: filters,
     setFilters: f => dispatch(updateAppFilters(Features.projectMonths, f)),

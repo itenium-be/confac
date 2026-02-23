@@ -6,11 +6,11 @@ import {buildUrl} from './utils/buildUrl';
 import {IAttachment} from '../models';
 import {authService} from '../components/users/authService';
 import {socketService} from '../components/socketio/SocketService';
+import {AppDispatch} from '../types/redux';
 
 
 function buildAttachmentUrl(invoiceOrClient: IAttachment, type: 'pdf' | string) {
-  // eslint-disable-next-line dot-notation
-  const model = invoiceOrClient['money'] ? 'invoice' : 'client'; // HACK: dangerous stuff...
+  const model = (invoiceOrClient as unknown as Record<string, unknown>).money ? 'invoice' : 'client'; // HACK: dangerous stuff...
   return buildUrl(`/attachments/${model}/${invoiceOrClient._id}/${type}`);
 }
 
@@ -25,7 +25,7 @@ export function updateAttachment(
   modelType: 'client' | 'invoice' | 'quotation',
   {type, file}: {type: string; file: File},
 ) {
-  return dispatch => {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     const req = request
       .put(buildAttachmentUrl(model, type))
@@ -85,7 +85,7 @@ function getDispatchConfig(modelType: ModelsWithAttachments, body: any): any {
 
 export function updateGenericAttachment(context: AttachmentFormContext, file: File) {
   const url = buildUrl(`/attachments/${context.modelType}/${context.id}/${context.attachmentType}`);
-  return dispatch => {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     const req = request
       .put(url)
@@ -111,7 +111,7 @@ export function updateGenericAttachment(context: AttachmentFormContext, file: Fi
 
 export function deleteGenericAttachment(context: AttachmentFormContext) {
   const url = buildUrl(`/attachments/${context.modelType}/${context.id}/${context.attachmentType}`);
-  return dispatch => {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     request.delete(url)
       .set('Authorization', authService.getBearer())
@@ -132,7 +132,7 @@ export function deleteGenericAttachment(context: AttachmentFormContext) {
 
 /** DO NOT USE */
 export function deleteAttachment(model: IAttachment, modelType: 'client' | 'invoice' | 'quotation', type: string) {
-  return dispatch => {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     request.delete(buildAttachmentUrl(model, type))
       .set('Authorization', authService.getBearer())

@@ -9,11 +9,11 @@ import {authService} from '../components/users/authService';
 import {socketService} from '../components/socketio/SocketService';
 import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
 import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
-import {Dispatch} from 'redux';
+import {AppDispatch} from '../types/redux';
 
 
 export function saveClient(client: ClientModel, stayOnPage = false, callback?: (c: ClientModel) => void) {
-  return dispatch => {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     return request.post(buildUrl('/clients'))
       .set('Content-Type', 'application/json')
@@ -39,7 +39,7 @@ export function saveClient(client: ClientModel, stayOnPage = false, callback?: (
 }
 
 export function handleClientSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     switch (eventType) {
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:
@@ -55,7 +55,7 @@ export function handleClientSocketEvents(eventType: SocketEventTypes, eventPaylo
 }
 
 export function syncClientPeppolStatus(clientId: string) {
-  return (dispatch: Dispatch) => {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     request.post(buildUrl(`/clients/${clientId}/peppol/sync`))
       .set('Content-Type', 'application/json')

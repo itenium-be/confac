@@ -30,11 +30,17 @@ export const EnhanceInputWithAddons = <P extends object>(ComposedComponent: Reac
 };
 
 
-const Addon = ({add, options, disabled}) => {
+type AddonProps = {
+  add: string | React.ReactNode;
+  options?: {type: 'text' | 'button'};
+  disabled?: boolean;
+};
+
+const Addon = ({add, options, disabled}: AddonProps): React.ReactElement | null => {
   if (!options || options.type === 'text') {
     return <InputGroup.Text className={disabled ? 'disabled' : undefined}>{add}</InputGroup.Text>;
   }
-  return add;
+  return <>{add}</>;
 };
 
 

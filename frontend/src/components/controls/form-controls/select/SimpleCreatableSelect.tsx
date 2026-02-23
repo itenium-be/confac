@@ -21,11 +21,11 @@ export const SimpleCreatableSelect = ({options, value, onChange, isClearable = f
     <Creatable
       value={{label: value, value}}
       options={opts}
-      onChange={itm => onChange(itm && (itm as SelectItem).value)}
+      onChange={(itm: SelectItem | null) => onChange(itm ? String(itm.value) : '')}
       isClearable={isClearable}
       isMulti={false}
       noOptionsMessage={() => t('controls.noResultsText')}
-      formatCreateLabel={itm => t('controls.addLabelText', {value: itm})}
+      formatCreateLabel={(itm: string) => t('controls.addLabelText', {value: itm})}
       placeholder={t('controls.selectPlaceholder')}
       classNamePrefix="react-select"
       className="react-select-simple"

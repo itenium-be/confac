@@ -9,13 +9,14 @@ import {authService} from '../components/users/authService';
 import {socketService} from '../components/socketio/SocketService';
 import {EntityEventPayload} from '../components/socketio/EntityEventPayload';
 import {SocketEventTypes} from '../components/socketio/SocketEventTypes';
+import {AppDispatch} from '../types/redux';
 
 export function saveConsultant(
   consultant: ConsultantModel,
   callback?: (savedConsultant: ConsultantModel) => void,
-  navigate?: any
+  navigate?: (path: string) => void
 ) {
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     dispatch(busyToggle());
     return request
       .post(buildUrl('/consultants'))
@@ -45,7 +46,7 @@ export function handleConsultantSocketEvents(
   eventType: SocketEventTypes,
   eventPayload: EntityEventPayload
 ) {
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     switch (eventType) {
       case SocketEventTypes.EntityUpdated:
       case SocketEventTypes.EntityCreated:

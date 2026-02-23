@@ -46,7 +46,7 @@ class InvoiceSearchSelectComponent extends Component<InvoiceSearchSelectProps> {
         isClearable
         isMulti
         noOptionsMessage={() => t('controls.noResultsText')}
-        formatCreateLabel={value => t('controls.addFilterText', {value})}
+        formatCreateLabel={(value: string) => t('controls.addFilterText', {value})}
         placeholder={t('invoice.search.placeholder')}
         classNamePrefix="react-select"
         className="react-select-invoice"

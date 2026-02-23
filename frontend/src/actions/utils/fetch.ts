@@ -3,7 +3,22 @@ import {failure} from '../appActions';
 import t from '../../trans';
 import {authService} from '../../components/users/authService';
 
-export function catchHandler(err) {
+interface FetchError {
+  res?: {
+    badRequest?: boolean;
+    unauthorized?: boolean;
+    error?: string;
+  };
+  body?: {
+    message?: string;
+    data?: Record<string, string | number>;
+    stack?: string;
+  };
+  message?: string;
+  status?: number;
+}
+
+export function catchHandler(err: FetchError) {
   console.log('oepsie', err);
 
   if (!err.res) {
@@ -16,7 +31,7 @@ export function catchHandler(err) {
     if (err.body) {
       console.error('BadRequest', err.body);
 
-      const msg = t(err.body.message, err.body.data);
+      const msg = t(err.body.message || 'error.unknown', err.body.data);
       console.error('BadRequest', msg);
       failure(msg, 'BadRequest', false);
 
@@ -28,7 +43,7 @@ export function catchHandler(err) {
   }
 
   if (err.res.unauthorized) {
-    failure(err.body.message);
+    failure(err.body?.message);
     setTimeout(() => {
       authService.logout();
       window.location.reload();

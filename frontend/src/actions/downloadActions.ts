@@ -9,6 +9,7 @@ import {getInvoiceFileName, getDownloadUrl, previewPdf, downloadAttachment} from
 import {ProjectMonthOverviewModel} from '../components/project/models/ProjectMonthModel';
 import {authService} from '../components/users/authService';
 import {ConsultantModel} from '../components/consultant/models/ConsultantModel';
+import {AppDispatch} from '../types/redux';
 
 
 export function getInvoiceDownloadUrl(
@@ -46,7 +47,7 @@ export function getProjectMonthOverviewDownloadUrl(
 
 
 export function previewInvoice(fileName: string, data: InvoiceModel) {
-  return _dispatch => {
+  return (_dispatch: AppDispatch) => {
     request.post(buildUrl('/invoices/preview'))
       .set('Authorization', authService.getBearer())
       .responseType('blob')
@@ -65,7 +66,7 @@ export function previewInvoice(fileName: string, data: InvoiceModel) {
 
 
 export function downloadInvoicesExcel(ids: string[]) {
-  return _dispatch => {
+  return (_dispatch: AppDispatch) => {
     request.post(buildUrl('/invoices/excel'))
       .responseType('blob')
       .set('Authorization', authService.getBearer())
@@ -79,7 +80,7 @@ export function downloadInvoicesExcel(ids: string[]) {
 }
 
 export function downloadProjectsExcel(data: any[][]) {
-  return _dispatch => {
+  return (_dispatch: AppDispatch) => {
     request.post(buildUrl('/projects/excel'))
       .responseType('blob')
       .set('Authorization', authService.getBearer())
@@ -93,7 +94,7 @@ export function downloadProjectsExcel(data: any[][]) {
 }
 
 export function downloadProjectsMonthsExcel(data: any[][], projectMonth: string) {
-  return _dispatch => {
+  return (_dispatch: AppDispatch) => {
     request.post(buildUrl('/projects/month/excel'))
       .responseType('blob')
       .set('Authorization', authService.getBearer())
@@ -107,7 +108,7 @@ export function downloadProjectsMonthsExcel(data: any[][], projectMonth: string)
 }
 
 export function downloadProjectsMonthsFreelancerExcel(data: any[][], freelancer?: ConsultantModel) {
-  return _dispatch => {
+  return (_dispatch: AppDispatch) => {
     request.post(buildUrl('/projects/month/freelancer-excel'))
       .responseType('blob')
       .set('Authorization', authService.getBearer())
@@ -127,7 +128,7 @@ export function downloadProjectsMonthsFreelancerExcel(data: any[][], freelancer?
 
 
 export function downloadInvoicesZip(ids: string[]) {
-  return _dispatch => {
+  return (_dispatch: AppDispatch) => {
     request.post(buildUrl('/attachments'))
       .responseType('blob')
       .set('Authorization', authService.getBearer())

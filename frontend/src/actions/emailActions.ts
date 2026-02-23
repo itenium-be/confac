@@ -8,6 +8,7 @@ import {ACTION_TYPES} from './utils/ActionTypes';
 import {invoiceReplacements} from '../components/invoice/invoice-replacements';
 import {authService} from '../components/users/authService';
 import {socketService} from '../components/socketio/SocketService';
+import {AppDispatch} from '../types/redux';
 
 
 export function sendEmail(
@@ -17,7 +18,7 @@ export function sendEmail(
   emailInvoiceOnly?: string,
 ) {
 
-  return dispatch => {
+  return (dispatch: AppDispatch) => {
 
     email.attachments = email.attachments.map(attachmentType => {
       if (attachmentType === 'pdf') {

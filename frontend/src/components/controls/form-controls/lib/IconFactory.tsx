@@ -4,7 +4,7 @@ export type InputIcons = 'phone' | 'email' | 'website' | 'bank' | 'building'
   | 'user' | 'wrench';
 
 
-const iconMap = {
+const iconMap: Record<string, string> = {
   phone: 'fa fa-phone',
   email: 'fa fa-envelope',
   website: 'fa fa-globe',

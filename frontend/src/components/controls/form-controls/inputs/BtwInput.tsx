@@ -42,7 +42,7 @@ const BtwInputComponent = ({value, onChange, onBtwChange, onFinalize, ...props}:
     setInputValue(value || '');
   }
 
-  const debouncedCallback = useDebouncedCallback(async val => {
+  const debouncedCallback = useDebouncedCallback(async (val: string) => {
     const cleanBtw = parseBtw(val);
     if (val === BtwInRequest) {
       setValid(true);
