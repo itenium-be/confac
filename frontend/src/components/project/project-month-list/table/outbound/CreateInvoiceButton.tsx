@@ -18,13 +18,15 @@ interface CreateInvoiceButtonProps {
 
 export const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps) => {
   const dispatch = useAppDispatch();
-  const state = useSelector((s: ConfacState) => s);
+  const config = useSelector((s: ConfacState) => s.config);
+  const invoices = useSelector((s: ConfacState) => s.invoices);
+  const clients = useSelector((s: ConfacState) => s.clients);
 
   const buildInvoice = () => {
     const invoiceLines = fullProjectMonth.project.client.defaultInvoiceLines.map((invoiceLine, index) => ({
       ...invoiceLine,
       amount: fullProjectMonth.details.timesheet.timesheet || 0,
-      desc: getInvoiceDesc(invoiceLine.desc, index, state.config.defaultInvoiceLines),
+      desc: getInvoiceDesc(invoiceLine.desc, index, config.defaultInvoiceLines),
     }));
 
     const blueprint: NewInvoiceType = {
@@ -41,7 +43,7 @@ export const CreateInvoiceButton = ({fullProjectMonth}: CreateInvoiceButtonProps
       note: fullProjectMonth.details.note,
     };
 
-    return getNewInvoice(state.config, state.invoices, state.clients, blueprint);
+    return getNewInvoice(config, invoices, clients, blueprint);
   };
 
 
