@@ -31,7 +31,7 @@ export const saveClient = async (req: ConfacRequest, res: Response) => {
     const {value: originalClient} = await clientsCollection.findOneAndUpdate(
       {_id: new ObjectID(_id)},
       {$set: client},
-      {returnOriginal: true},
+      {returnDocument: 'before'},
     );
 
     await saveAudit(req, 'client', originalClient, client);

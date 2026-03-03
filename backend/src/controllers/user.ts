@@ -132,7 +132,7 @@ export const saveUser = async (req: ConfacRequest, res: Response) => {
 
   if (_id) {
     user.audit = updateAudit(user.audit, req.user);
-    const {value: originalUser} = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: user}, {returnOriginal: true});
+    const {value: originalUser} = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: user}, {returnDocument: 'before'});
     await saveAudit(req, 'user', originalUser, user);
     const responseUser = {_id, ...user};
     emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.USERS, _id, responseUser);
@@ -166,7 +166,7 @@ export const saveRole = async (req: ConfacRequest, res: Response) => {
 
   if (_id) {
     role.audit = updateAudit(role.audit, req.user);
-    const {value: originalRole} = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: role}, {returnOriginal: true});
+    const {value: originalRole} = await collection.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: role}, {returnDocument: 'before'});
     await saveAudit(req, 'role', originalRole, role);
 
     const responseRole = {_id, ...role};

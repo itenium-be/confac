@@ -26,7 +26,7 @@ const saveAttachment = async (req: Request, attachmentModelConfig: IAttachmentMo
   });
 
   const inserted = await req.db.collection(standardCollectionName)
-    .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {attachments: updatedAttachments}}, {returnOriginal: false});
+    .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: {attachments: updatedAttachments}}, {returnDocument: 'after'});
 
   const result = inserted.value;
   if (result) {
@@ -76,7 +76,7 @@ export const saveAttachmentController = async (req: Request, res: Response) => {
     }, {
       projection: {[TimesheetCheckAttachmentType]: false},
       upsert: true,
-      returnOriginal: false,
+      returnDocument: 'after',
     });
 
     const updatedProjectsMonthOverview = inserted.value;
@@ -106,7 +106,7 @@ const deleteAttachment = async (id: string, type: string, req: Request, attachme
   const inserted = await req.db.collection(standardCollectionName).findOneAndUpdate(
     {_id},
     {$set: {attachments: updatedAttachments}},
-    {returnOriginal: false},
+    {returnDocument: 'after'},
   );
 
   const result = inserted.value;

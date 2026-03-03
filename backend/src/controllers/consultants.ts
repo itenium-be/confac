@@ -18,7 +18,7 @@ export const saveConsultant = async (req: ConfacRequest, res: Response) => {
   if (_id) {
     consultant.audit = updateAudit(consultant.audit, req.user);
     const {value: originalConsultant} = await req.db.collection<IConsultant>(CollectionNames.CONSULTANTS)
-      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: consultant}, {returnOriginal: true});
+      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: consultant}, {returnDocument: 'before'});
 
     await saveAudit(req, 'consultant', originalConsultant, consultant);
     const responseConsultant = {_id, ...consultant};

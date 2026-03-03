@@ -49,7 +49,7 @@ const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMo
   const updatedAttachmentDetails = projectMonth ? [...invoice.attachments, ...projectMonth.attachments] : invoice.attachments;
 
   const updateInvoiceResult = await db.collection<IInvoice>(CollectionNames.INVOICES)
-    .findOneAndUpdate({_id: new ObjectID(invoice._id)}, {$set: {attachments: updatedAttachmentDetails}}, {returnOriginal: false});
+    .findOneAndUpdate({_id: new ObjectID(invoice._id)}, {$set: {attachments: updatedAttachmentDetails}}, {returnDocument: 'after'});
   const updatedInvoice = updateInvoiceResult.value;
 
   const updateProjectMonthResult = await db.collection<IProjectMonth>(CollectionNames.PROJECTS_MONTH)
@@ -174,7 +174,7 @@ export const updateInvoiceController = async (req: ConfacRequest, res: Response)
   }
 
   const {value: originalInvoice} = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
-    .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: invoice}, {returnOriginal: true});
+    .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: invoice}, {returnDocument: 'before'});
 
   // Fix diff
   if (!invoice.projectMonth) {
@@ -201,7 +201,7 @@ export const verifyInvoiceController = async (req: ConfacRequest, res: Response)
   const {id, status}: {id: string; status: 'ToPay' | 'Paid'} = req.body;
 
   const saveResult = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
-    .findOneAndUpdate({_id: new ObjectID(id)}, {$set: {status}}, {returnOriginal: true});
+    .findOneAndUpdate({_id: new ObjectID(id)}, {$set: {status}}, {returnDocument: 'before'});
 
   if (!saveResult?.value) {
     return res.status(404).send('Invoice not found');
@@ -248,7 +248,7 @@ export const verifyInvoiceController = async (req: ConfacRequest, res: Response)
 
     if (shouldUpdateProjectMonth) {
       const projectMonth = await req.db.collection(CollectionNames.PROJECTS_MONTH)
-        .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth.projectMonthId)}, {$set: {verified}}, {returnOriginal: false});
+        .findOneAndUpdate({_id: new ObjectID(invoice.projectMonth.projectMonthId)}, {$set: {verified}}, {returnDocument: 'after'});
 
       // TODO: projectMonth.value can be null here
       //       When deleting a projectMonth, the invoice is not unlinked
@@ -528,7 +528,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
       const updatedInvoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOneAndUpdate(
         {_id: new ObjectID(invoice._id)},
         {$set: {lastEmail: sentToPeppol, status: 'ToPay', audit: sentAudit}},
-        {returnOriginal: true},
+        {returnDocument: 'before'},
       );
       if (updatedInvoice.ok && updatedInvoice.value) {
         const newInvoice = {...updatedInvoice.value, lastEmail: sentToPeppol, status: 'ToPay' as const, audit: sentAudit};

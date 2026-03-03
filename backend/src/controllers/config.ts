@@ -37,7 +37,7 @@ export const saveCompanyConfig = async (req: ConfacRequest, res: Response) => {
     config.audit = updateAudit(config.audit, req.user);
 
     const {value: originalConfig} = await req.db.collection<ICompanyConfig>(CollectionNames.CONFIG)
-      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: config}, {returnOriginal: true});
+      .findOneAndUpdate({_id: new ObjectID(_id)}, {$set: config}, {returnDocument: 'before'});
 
     await saveAudit(req, 'config', originalConfig, config);
     const responseConfig = {_id, ...config};

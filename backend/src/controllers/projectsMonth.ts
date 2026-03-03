@@ -87,7 +87,7 @@ export const patchProjectsMonthController = async (req: ConfacRequest, res: Resp
     const {value: originalProjectMonth} = await projMonthCollection.findOneAndUpdate(
       {_id: new ObjectID(_id)},
       {$set: projectMonth},
-      {returnOriginal: true},
+      {returnDocument: 'before'},
     );
     await saveAudit(req, 'projectMonth', originalProjectMonth, projectMonth);
     const projectMonthResponse = {_id, ...projectMonth};
