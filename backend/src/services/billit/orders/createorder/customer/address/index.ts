@@ -1,2 +1,2 @@
 export {Address} from './address';
-export {AddressType} from './address-type';
+export type {AddressType} from './address-type';
