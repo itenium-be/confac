@@ -1,2 +1,2 @@
-export {Process} from './process';
-export {Endpoint} from './endpoint';
+export type {Process} from './process';
+export type {Endpoint} from './endpoint';

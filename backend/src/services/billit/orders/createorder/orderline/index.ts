@@ -1,1 +1,1 @@
-export {OrderLine} from './order-line';
+export type {OrderLine} from './order-line';

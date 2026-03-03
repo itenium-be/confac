@@ -1,1 +1,1 @@
-export {Identifier} from './identifier';
+export type {Identifier} from './identifier';

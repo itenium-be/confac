@@ -1,4 +1,4 @@
 export * from './address';
 export * from './identifier';
-export {Customer} from './customer';
-export {PartyType} from './party-type';
+export type {Customer} from './customer';
+export type {PartyType} from './party-type';

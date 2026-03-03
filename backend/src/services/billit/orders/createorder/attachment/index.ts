@@ -1,1 +1,1 @@
-export {Attachment} from './attachment';
+export type {Attachment} from './attachment';

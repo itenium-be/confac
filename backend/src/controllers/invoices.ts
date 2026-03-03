@@ -15,7 +15,7 @@ import {logger} from '../logger';
 import {ApiClient, Attachment, BillitError, CreateOrderRequest, SendInvoiceRequest} from '../services/billit';
 import {ApiClientFactory, CreateOrderRequestFactory, SendInvoiceRequestFactory} from './utils/billit';
 import {getPeppolPivotDate, syncClientPeppolStatus} from './utils/peppol-helpers';
-import {CreditNoteOptions} from './utils/billit/createorderrequestfactory';
+import type {CreditNoteOptions} from './utils/billit/createorderrequestfactory';
 import {IProject} from '../models/projects';
 import {IConsultant} from '../models/consultants';
 import {syncBillitOrder} from '../services/billit/orders/sync-order';
