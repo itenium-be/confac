@@ -59,7 +59,7 @@ For the merging of PDFs, [PDFtk](https://www.pdflabs.com/tools/pdftk-the-pdf-too
 
 ```bash
 apt-get install pdftk
-cinst -y pdftk-server
+choco install -y pdftk-server
 ```
 
 
