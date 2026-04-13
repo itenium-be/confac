@@ -15,6 +15,7 @@
     "analyze": "node scripts/analyze.mjs"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^16.6.0",
     "@itenium/date-holidays-be": "^1.0.0",
     "@react-oauth/google": "^0.9.1",
     "classnames": "^2.5.1",
@@ -30,7 +31,6 @@
     "numeral": "^2.0.6",
     "rc-tooltip": "^6.4.0",
     "react": "^18.3.1",
-    "react-beautiful-dnd": "^13.1.1",
     "react-bootstrap": "^2.10.10",
     "react-datepicker": "^4.25.0",
     "react-dom": "^18.3.1",
@@ -56,7 +56,6 @@
     "@types/node": "^22",
     "@types/numeral": "^2.0.5",
     "@types/react": "^18.3.18",
-    "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-datepicker": "^4.19.6",
     "@types/react-dom": "^18.3.7",
     "@types/react-test-renderer": "^18.3.1",

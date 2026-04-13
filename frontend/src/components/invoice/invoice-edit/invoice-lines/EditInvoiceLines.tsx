@@ -1,5 +1,5 @@
 import {Table} from 'react-bootstrap';
-import {DragDropContext, Droppable, Draggable, DropResult} from 'react-beautiful-dnd';
+import {DragDropContext, Droppable, Draggable, DropResult} from '@hello-pangea/dnd';
 import {t} from '../../../utils';
 import {createEditInvoiceLine} from './EditInvoiceLineFactory';
 import {EditInvoiceLineIcons} from './EditInvoiceLineIcons';

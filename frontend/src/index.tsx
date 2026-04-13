@@ -38,10 +38,6 @@ import {store} from './store';
 // Create the AppRoot
 import Routes from './routes';
 
-// Removed <React.StrictMode>
-// Console issue with react-beautiful-dnd in EditInvoiceLines.tsx
-// https://stackoverflow.com/questions/60029734/react-beautiful-dnd-i-get-unable-to-find-draggable-with-id-1
-
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <Provider store={store}>
