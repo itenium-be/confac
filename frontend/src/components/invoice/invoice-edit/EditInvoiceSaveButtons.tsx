@@ -16,7 +16,7 @@ export const EditInvoiceSaveButtons = ({invoice, onClick}: EditInvoiceSaveButton
 
   return (
     <>
-      {!isNewInvoice && !invoice.isQuotation && invoice.client && invoice.lastEmail && (
+      {!isNewInvoice && !invoice.isQuotation && invoice.client && (
         <BusyButton
           claim={Claim.ManageInvoices}
           variant="light"
