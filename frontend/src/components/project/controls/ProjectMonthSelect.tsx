@@ -29,7 +29,16 @@ const getProjectMonthDesc = (fpm: FullProjectMonthModel): string => {
 
 
 const ProjectMonthSelectComponent = (props: ProjectMonthSelectProps) => {
-  const fullProjectMonths = useSelector((state: ConfacState) => projectMonthResolve(state, props.invoice));
+  const projectsMonth = useSelector((state: ConfacState) => state.projectsMonth);
+  const invoices = useSelector((state: ConfacState) => state.invoices);
+  const projects = useSelector((state: ConfacState) => state.projects);
+  const clients = useSelector((state: ConfacState) => state.clients);
+  const consultants = useSelector((state: ConfacState) => state.consultants);
+  const user = useSelector((state: ConfacState) => state.user);
+  const fullProjectMonths = projectMonthResolve(
+    {projectsMonth, invoices, projects, clients, consultants, user},
+    props.invoice,
+  );
 
   const getFullProjectMonth = (projectMonthId: string): FullProjectMonthModel => fullProjectMonths
     .find(fpm => fpm._id === projectMonthId) as FullProjectMonthModel;
