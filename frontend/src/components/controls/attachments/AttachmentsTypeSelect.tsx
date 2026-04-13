@@ -12,7 +12,7 @@ export const AttachmentsTypeSelect = ({value, onChange, ...props}: AttachmentsTy
     <StringsSelect
       value={value}
       onChange={onChange}
-      options={[...options, 'pdf', 'xml']}
+      options={[...options, 'pdf']}
       {...props}
     />
   );

@@ -139,7 +139,6 @@ export default class InvoiceModel implements IAttachment {
     this.discount = obj.discount ?? '';
     this.attachments = obj.attachments ?? [
       {type: 'pdf', desc: 'Factuur pdf', fileName: '', fileType: 'pdf'},
-      {type: 'xml', desc: 'PEPPOL xml', fileName: '', fileType: 'xml'}
     ];
     this.isQuotation = obj.isQuotation ?? false;
     this.lastEmail = obj.lastEmail ?? '';
