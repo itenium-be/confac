@@ -13,7 +13,7 @@
     "start:build": "bun ./public/server.js",
     "test": "vitest run",
     "test:watch": "vitest",
-    "faker": "bun run build && bun ./public/faker/index.js"
+    "faker": "bun ./src/faker/index.ts"
   },
   "author": "itenium",
   "license": "MIT",

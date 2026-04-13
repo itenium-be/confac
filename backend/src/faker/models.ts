@@ -10,7 +10,7 @@ import {IClient} from '../models/clients';
 // https://fakerjs.dev/api/
 faker.seed(new Date().valueOf());
 
-const getPrice = (maxPrice?: number) => faker.datatype.number({min: 100, max: maxPrice || 300});
+const getPrice = (maxPrice?: number) => faker.number.int({min: 100, max: maxPrice || 300});
 
 const defaultInvoiceLine = (clientPrice?: number) => ({
   desc: 'Consultancy diensten',
@@ -23,8 +23,8 @@ const defaultInvoiceLine = (clientPrice?: number) => ({
 
 
 const getAudit = () => ({
-  createdOn: faker.datatype.datetime({max: new Date().valueOf()}),
-  createdBy: faker.name.firstName(),
+  createdOn: faker.date.past(),
+  createdBy: faker.person.firstName(),
   modifiedOn: '',
   modifiedBy: '',
 });
@@ -35,24 +35,24 @@ export function getNewClient() {
     slug: slugify(name).toLowerCase(),
     active: true,
     name,
-    street: faker.address.street(),
-    streetNr: faker.datatype.number({max: 2000}),
-    postalCode: faker.address.zipCode('####'),
-    city: faker.address.cityName(),
-    country: faker.address.country(),
-    telephone: faker.phone.number('04## ### ###'),
-    btw: faker.phone.number('BE ###.###.###'),
+    street: faker.location.street(),
+    streetNr: faker.number.int({max: 2000}),
+    postalCode: faker.location.zipCode('####'),
+    city: faker.location.city(),
+    country: faker.location.country(),
+    telephone: faker.helpers.fromRegExp(/04[0-9]{2} [0-9]{3} [0-9]{3}/),
+    btw: faker.helpers.fromRegExp(/BE [0-9]{3}\.[0-9]{3}\.[0-9]{3}/),
     invoiceFileName: ' {{formatDate date "YYYY-MM"}} {{zero nr 4}} - {{clientName}}',
     hoursInDay: 8,
     defaultInvoiceLines: [defaultInvoiceLine()],
     attachments: [],
     notes: '',
-    contact: faker.name.fullName(),
+    contact: faker.person.fullName(),
     contactEmail: faker.internet.email(),
     defaultInvoiceDateStrategy: 'prev-month-last-day',
     defaultChangingOrderNr: false,
     email: {
-      to: faker.internet.email(name),
+      to: faker.internet.email({firstName: name}),
       subject: 'New Invoice',
       body: 'Your invoice attached!',
       attachments: ['pdf', 'Getekende timesheet'],
@@ -81,15 +81,15 @@ const contractStatusses = [
 const consultantTypes = ['manager', 'consultant', 'freelancer', 'externalConsultant'];
 
 export const getNewConsultant = () => {
-  const firstName = faker.name.firstName();
-  const name = faker.name.lastName();
+  const firstName = faker.person.firstName();
+  const name = faker.person.lastName();
   return {
     name,
     firstName,
     slug: slugify(firstName + '-' + name),
     type: faker.helpers.arrayElement(consultantTypes),
     email: faker.internet.email(),
-    telephone: faker.phone.number('04## ### ###'),
+    telephone: faker.helpers.fromRegExp(/04[0-9]{2} [0-9]{3} [0-9]{3}/),
     active: true,
     audit: getAudit(),
   };
@@ -119,7 +119,7 @@ export const getNewProjects = async (db: Db, config: ProjectConfig) => {
     clientId: faker.helpers.arrayElement(clientIds),
     defaultInvoiceLines: [defaultInvoiceLine(clientPrice)],
     advancedInvoicing: false,
-    ref: faker.helpers.maybe(() => faker.datatype.string(faker.datatype.number({min: 3, max: 10})), {probability: 0.3}),
+    ref: faker.helpers.maybe(() => faker.string.alphanumeric({length: {min: 3, max: 10}}), {probability: 0.3}),
   });
 
   const newProjects = Array(config.amount).fill(0).map(() => {
@@ -157,13 +157,13 @@ export const getNewProjects = async (db: Db, config: ProjectConfig) => {
     const oneYear = 31556952000;
     if (config.endDate) {
       const fakerMaxDate = config.endDate.valueOf();
-      const startDate = config.startDate || faker.datatype.datetime({min: fakerMaxDate - oneYear, max: fakerMaxDate});
+      const startDate = config.startDate || faker.date.between({from: fakerMaxDate - oneYear, to: fakerMaxDate});
       project.startDate = startDate.toISOString();
       project.endDate = config.endDate.toISOString();
     } else if (config.startDate) {
       const fakerMinDate = config.startDate.valueOf();
       project.startDate = config.startDate.toISOString();
-      const endDate = faker.datatype.datetime({min: fakerMinDate, max: fakerMinDate + oneYear});
+      const endDate = faker.date.between({from: fakerMinDate, to: fakerMinDate + oneYear});
       project.endDate = faker.helpers.maybe(() => endDate.toISOString(), {probability: 1 - config.noEndDateProbability});
     } else {
       throw new Error('Not implemented');
@@ -193,7 +193,7 @@ export const getNewInvoices = async (db: Db, config: {amount: number}) => {
     const projectMonth = projectMonths[Math.floor(Math.random() * projectMonths.length)];
     const consultant = consultants[Math.floor(Math.random() * consultants.length)];
     const price = getPrice();
-    const days = faker.datatype.number({min: 15, max: 22});
+    const days = faker.number.int({min: 15, max: 22});
     const total = price * days;
 
     const invoice: Partial<IInvoice> = {
@@ -251,8 +251,8 @@ export const getNewInvoices = async (db: Db, config: {amount: number}) => {
         template: 'example-1.pug',
         templateQuotation: 'example-1.pug',
       },
-      date: faker.datatype.datetime({min: new Date('2018').valueOf(), max: new Date().valueOf()}).toISOString(),
-      orderNr: faker.helpers.maybe(() => faker.datatype.string(faker.datatype.number({min: 3, max: 7})), {probability: 0.35}) || '',
+      date: faker.date.between({from: new Date('2018'), to: new Date()}).toISOString(),
+      orderNr: faker.helpers.maybe(() => faker.string.alphanumeric({length: {min: 3, max: 7}}), {probability: 0.35}) || '',
       attachments: [{type: 'pdf', fileName: 'invoice.pdf', fileType: 'application/pdf'}],
       isQuotation: false,
       lines: [{
@@ -274,7 +274,7 @@ export const getNewInvoices = async (db: Db, config: {amount: number}) => {
         createdOn: '2023-03-05T22:25:57.860Z',
         createdBy: 'Bearer PerfUser',
       },
-      lastEmail: faker.helpers.maybe(() => faker.datatype.datetime().toISOString(), {probability: 0.7}) || '',
+      lastEmail: faker.helpers.maybe(() => faker.date.recent().toISOString(), {probability: 0.7}) || '',
     };
 
     return invoice;
