@@ -1,4 +1,22 @@
 #!/usr/bin/env sh
+# Lint only the staged files in each subproject. Typecheck is skipped here
+# because it can't be scoped to a subset of files (types are global) and
+# pre-push already runs `bun run build` which invokes tsc for both packages.
+
 ROOT="$(git rev-parse --show-toplevel)"
-(cd "$ROOT/frontend" && bun run lint && bun run typecheck)
-(cd "$ROOT/backend" && bun run lint && bun run typecheck)
+
+lint_subproject() {
+  subproject=$1
+  staged=$(git diff --cached --name-only --diff-filter=ACMR -- \
+    "$subproject/src/*.ts" "$subproject/src/*.tsx")
+  if [ -z "$staged" ]; then
+    return 0
+  fi
+  # Strip the subproject prefix so eslint gets paths relative to its own cwd
+  rel=$(echo "$staged" | sed "s|^$subproject/||")
+  # shellcheck disable=SC2086
+  (cd "$ROOT/$subproject" && bunx eslint $rel)
+}
+
+lint_subproject backend || exit 1
+lint_subproject frontend || exit 1
