@@ -25,7 +25,9 @@ services:
 
   app:
     container_name: "confac-${ENVIRONMENT}-app"
-    build: .
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
     image: confac-app:${TAG}
     restart: always
     volumes:

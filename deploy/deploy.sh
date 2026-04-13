@@ -3,8 +3,7 @@
 # Run ./deploy.sh to display instructions
 
 # Workings:
-# Uses build/Dockerfile to run build/build.sh with correct Node version
-# ./Dockerfile creates the image containing confac backend+frontend
+# deploy/Dockerfile multi-stage build: builds backend+frontend, creates runtime image
 # ./docker-compose.yml spins up mongo & confac app containers
 
 echo -e "\033[0;32m================="
@@ -57,12 +56,7 @@ read -n1 -s -r -p $'Press f or d to continue\n' key
 if [ "$key" = 'f' ]; then
   echo "full build it is"
 
-  # Assembling deploy/dist running in a temp node container
-  cd build
-  docker build --quiet . | tail -n1 | xargs -I{} docker run -e  --rm -v $(pwd)/../../:/confac {}
-
-  # Spin up mongo & app containers
-  cd ..
+  # Multi-stage Dockerfile handles the build
   docker-compose up -d --build
 
   # Max one version per day

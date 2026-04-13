@@ -1,17 +1,46 @@
-FROM node:16.10.0
+# Stage 1: Build backend + frontend
+FROM oven/bun:1 AS build
+
+WORKDIR /app
+
+# Backend: install deps + build
+COPY backend/package.json backend/bun.lockb backend/
+RUN cd backend && bun install --frozen-lockfile
+
+COPY backend/tsconfig.json backend/
+COPY backend/src backend/src
+COPY backend/types backend/types
+RUN cd backend && bun run build
+
+# Frontend: install deps + build
+COPY frontend/package.json frontend/bun.lockb frontend/
+RUN cd frontend && bun install --frozen-lockfile
+
+COPY frontend/tsconfig.json frontend/tsconfig.node.json frontend/
+COPY frontend/vite.config.ts frontend/index.html frontend/
+COPY frontend/src frontend/src
+COPY frontend/public frontend/public
+RUN cd frontend && bun run build
+
+# Assemble dist
+RUN mkdir /dist && \
+    cp -r backend/public/* /dist/ && \
+    cp -r backend/node_modules /dist/node_modules && \
+    mkdir /dist/public && \
+    cp -r frontend/build/* /dist/public/
+
+
+# Stage 2: Runtime
+FROM oven/bun:1-slim
 
 RUN apt-get update && \
-  apt-get install -y build-essential libfontconfig && \
-	# Pdf Toolkit for pdf merging
-	apt-get install -y pdftk
+    apt-get install -y --no-install-recommends pdftk libfontconfig1 build-essential && \
+    rm -rf /var/lib/apt/lists/*
 
 EXPOSE 7000
 VOLUME /templates
-
-# Need to copy fonts used in templates locally or
-# the text inside the pdf will not be selectable.
 VOLUME /usr/share/fonts
 
-COPY dist /home
+COPY --from=build /dist /home
 WORKDIR /home
-CMD ["node", "./server.js"]
+CMD ["bun", "./server.js"]
