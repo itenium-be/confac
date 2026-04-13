@@ -13,7 +13,8 @@ type UserSelectProps = {
 
 const UserSelectComponent = ({value, onChange}: UserSelectProps) => {
   const selectedModelId = value && typeof value === 'object' ? value._id : value;
-  const models = useSelector((state: ConfacState) => state.user.users.filter(x => x.active || x._id === selectedModelId));
+  const users = useSelector((state: ConfacState) => state.user.users);
+  const models = users.filter(x => x.active || x._id === selectedModelId);
   const getModel = (userId: string): UserModel => models.find(c => c._id === userId) as UserModel;
 
   const options: SelectItem[] = models
