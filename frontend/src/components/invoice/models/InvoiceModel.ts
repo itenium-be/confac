@@ -110,7 +110,7 @@ export default class InvoiceModel implements IAttachment {
   paymentReference: string;
 
   get isNew(): boolean {
-    return this._id === undefined;
+    return !this._id;
   }
 
   /**
