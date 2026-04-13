@@ -12,13 +12,13 @@ import {GoogleLogin, GoogleOAuthProvider} from '@react-oauth/google';
 export const LoginPage = () => {
   const dispatch = useAppDispatch();
   const [state, setState] = useState<string | 'loggedIn'>('');
-  const [googleClientId, setGoogleClientId] = useState<string | null>(null);
+  const [googleClientId, setGoogleClientId] = useState<string | null | undefined>(undefined);
 
   useEffect(() => {
     fetch(buildRequest('/config/security'))
       .then(res => res.json())
       .then(data => {
-        setGoogleClientId(data.googleClientId);
+        setGoogleClientId(data.googleClientId ?? null);
         localStorage.setItem('googleClientId', data.googleClientId);
         localStorage.setItem('jwtInterval', data.jwtInterval);
 
@@ -38,6 +38,10 @@ export const LoginPage = () => {
 
   if (state === 'loggedIn') {
     return <Redirecter />;
+  }
+
+  if (googleClientId === undefined) {
+    return null;
   }
 
   if (!googleClientId) {
