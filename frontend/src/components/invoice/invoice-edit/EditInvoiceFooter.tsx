@@ -45,7 +45,6 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSaveFirstModal, setShowSaveFirstModal] = useState(false);
-  const [showArchiveModal, setShowArchiveModal] = useState(false);
 
   const isSentStatus = invoice.status === 'ToPay' || invoice.status === 'Paid';
   const isArchived = invoice.status === 'Archived';
@@ -92,7 +91,15 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
         <Popup
           title={t('invoice.deleteTitle')}
           buttons={[
-            {text: t('no'), onClick: () => setShowDeleteModal(false), variant: 'light'},
+            {text: t('cancel'), onClick: () => setShowDeleteModal(false), variant: 'light'},
+            ...(canArchive ? [{
+              text: t('invoice.archive'),
+              variant: 'outline-danger' as const,
+              onClick: () => {
+                setShowDeleteModal(false);
+                dispatch(archiveInvoice(initInvoice));
+              },
+            }] : []),
             {
               text: t('delete'),
               variant: 'danger',
@@ -105,28 +112,13 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
           ] as PopupButton[]}
           onHide={() => setShowDeleteModal(false)}
         >
+          {canArchive && <h6 style={{fontWeight: 'bold'}}>{t('delete')}</h6>}
           <p>{t('invoice.deletePopup', {number: invoice.number, client: invoice.client.name})}</p>
           {isNotLastInvoice && <p>{t('invoice.deleteGapWarning')}</p>}
           {hasBillitOrder && <p>{t('invoice.deleteToSendWarning')}</p>}
-        </Popup>
-      )}
-      {showArchiveModal && (
-        <Popup
-          title={t('invoice.archiveTitle')}
-          buttons={[
-            {text: t('cancel'), onClick: () => setShowArchiveModal(false), variant: 'light'},
-            {
-              text: t('invoice.archive'),
-              variant: 'danger',
-              onClick: () => {
-                setShowArchiveModal(false);
-                dispatch(archiveInvoice(initInvoice));
-              },
-            },
-          ] as PopupButton[]}
-          onHide={() => setShowArchiveModal(false)}
-        >
-          <p>{t('invoice.archivePopup')}</p>
+          {canArchive && <hr />}
+          {canArchive && <h6 style={{fontWeight: 'bold'}}>{t('invoice.archive')}</h6>}
+          {canArchive && <p>{t('invoice.archivePopup')}</p>}
         </Popup>
       )}
       {showSaveFirstModal && (
@@ -166,24 +158,11 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
           {t('delete')}
         </BusyButton>
       )}
-      {canArchive && (
-        <BusyButton
-          claim={Claim.ManageInvoices}
-          variant="outline-danger"
-          icon="fas fa-archive"
-          title={t('invoice.archiveTooltip')}
-          onClick={() => setShowArchiveModal(true)}
-          className="tst-archive-invoice"
-        >
-          {t('invoice.archive')}
-        </BusyButton>
-      )}
       {canUnarchive && (
         <BusyButton
           claim={Claim.ManageInvoices}
           variant="outline-secondary"
           icon="fas fa-box-open"
-          title={t('invoice.unarchiveTooltip')}
           onClick={() => dispatch(unarchiveInvoice(initInvoice))}
           className="tst-unarchive-invoice"
         >
