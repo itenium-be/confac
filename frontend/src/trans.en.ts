@@ -310,6 +310,8 @@ export const trans = {
     discountPlaceholder: 'Fixed discount (ex 250)/a percentage (ex 10%)',
     deleteTitle: 'Delete invoice',
     deletePopup: 'Delete invoice {number} ({client}) permanently?',
+    deleteGapWarning: 'Since this is not the last invoice, there will be a gap in the invoice numbering.',
+    deleteToSendWarning: 'This invoice already exists in Billit and might already have been sent to ExactOnline but has not been sent to the Peppol network.',
     deleteConfirm: 'Invoice deleted',
     createConfirm: 'Invoice created',
     date: 'Invoice date',

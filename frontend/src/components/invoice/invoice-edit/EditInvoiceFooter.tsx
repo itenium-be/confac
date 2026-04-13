@@ -47,15 +47,14 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
 
   const isSentStatus = invoice.status === 'ToPay' || invoice.status === 'Paid';
 
-  // Check if this invoice can be deleted (highest number and Draft status)
   const nonQuotationInvoices = invoices.filter(i => !i.isQuotation);
   const highestInvoiceNumber = nonQuotationInvoices.length > 0
     ? Math.max(...nonQuotationInvoices.map(i => i.number))
     : 0;
   const canDeleteInvoice = !invoice.isQuotation
-    && invoice.status === 'Draft'
-    && invoice.number === highestInvoiceNumber
+    && (invoice.status === 'Draft' || invoice.status === 'ToSend')
     && !invoice.isNew;
+  const isNotLastInvoice = invoice.number !== highestInvoiceNumber;
 
   return (
     <>
@@ -98,7 +97,9 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
           ] as PopupButton[]}
           onHide={() => setShowDeleteModal(false)}
         >
-          {t('invoice.deletePopup', {number: invoice.number, client: invoice.client.name})}
+          <p>{t('invoice.deletePopup', {number: invoice.number, client: invoice.client.name})}</p>
+          {isNotLastInvoice && <p>{t('invoice.deleteGapWarning')}</p>}
+          {invoice.status === 'ToSend' && <p>{t('invoice.deleteToSendWarning')}</p>}
         </Popup>
       )}
       {showSaveFirstModal && (

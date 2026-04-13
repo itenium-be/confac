@@ -310,6 +310,8 @@ export const trans = {
     discountPlaceholder: 'Vaste korting (vb 250)/een percentage (vb 10%)',
     deleteTitle: 'Factuur verwijderen',
     deletePopup: 'Factuur {number} ({client}) permanent verwijderen?',
+    deleteGapWarning: 'Dit is niet de laatste factuur, dus er zal een gat ontstaan in de factuurnummering.',
+    deleteToSendWarning: 'Deze factuur bestaat reeds in Billit en is mogelijk al doorgestuurd naar ExactOnline, maar werd nog niet verzonden naar het Peppol-netwerk.',
     deleteConfirm: 'Factuur verwijderd',
     createConfirm: 'Factuur aangemaakt',
     date: 'Factuurdatum',
