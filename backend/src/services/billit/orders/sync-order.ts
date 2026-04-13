@@ -9,6 +9,7 @@ import {logger} from '../../../logger';
 import {ApiClientFactory} from '../../../controllers/utils/billit';
 import config from '../../../config';
 import {BillitOrder, BillitOrderStatus} from './createorder';
+import {maybeSendPeppolDuplicate} from '../../email/send-peppol-duplicate';
 
 /** Fetch the Order from Billit and sync with our Invoice */
 export async function syncBillitOrder(req: ConfacRequest, invoiceOrOrderId: number | IInvoice): Promise<IInvoice | null> {
@@ -49,6 +50,7 @@ export async function syncBillitOrder(req: ConfacRequest, invoiceOrOrderId: numb
     logger.info(`syncBillitOrder: Updating invoice #${invoice.number} status from ${invoice.status} to ${newStatus}`);
   }
 
+  const previousStatus = invoice.status;
   const updatedAudit = updateAudit(invoice.audit, req.user);
   const updatedInvoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES).findOneAndUpdate(
     {_id: new ObjectID(invoice._id)},
@@ -66,6 +68,9 @@ export async function syncBillitOrder(req: ConfacRequest, invoiceOrOrderId: numb
       updatedInvoice.value._id,
       updatedInvoice.value,
     );
+
+    await maybeSendPeppolDuplicate(req, updatedInvoice.value, previousStatus);
+
     return updatedInvoice.value;
   }
 

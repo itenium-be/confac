@@ -597,6 +597,7 @@ export const trans = {
       timesheetCheck: 'Timesheets: SDWorx rapport check',
       inboundInvoice: 'Heeft inkomende factuur',
       changingOrderNr: 'Het bestelbon nr wijzigt voor elke factuur',
+      emailInvoiceDuplicate: 'Factuur duplicaat emailen',
       proforma: 'Proforma factuur',
     },
     copy: {

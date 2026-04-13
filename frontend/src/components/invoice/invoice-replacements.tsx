@@ -1,3 +1,5 @@
+// Keep in sync with backend/src/controllers/utils/invoice-replacements.ts
+// (no shared folder in the repo — duplicate until one is introduced).
 import moment from 'moment';
 import Handlebars from 'handlebars';
 import InvoiceModel from './models/InvoiceModel';

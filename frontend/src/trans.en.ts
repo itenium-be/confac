@@ -597,6 +597,7 @@ export const trans = {
       timesheetCheck: 'Timesheets: Check report',
       inboundInvoice: 'Has inbound invoice',
       changingOrderNr: 'Order nr changes for each invocie',
+      emailInvoiceDuplicate: 'Email invoice duplicate',
       proforma: 'Proforma invoice',
     },
     copy: {

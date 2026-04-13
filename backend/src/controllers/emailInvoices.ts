@@ -13,12 +13,12 @@ import {ConfacRequest} from '../models/technical';
 import config from '../config';
 
 
-type EmailAttachmentRequest = {
+export type EmailAttachmentRequest = {
   type: 'pdf' | string;
   fileName: string;
   fileType: string;
 }
-type EmailRequest = Omit<IEmail, 'attachments'> & {attachments: EmailAttachmentRequest[]};
+export type EmailRequest = Omit<IEmail, 'attachments'> & {attachments: EmailAttachmentRequest[]};
 
 
 type EmailInvoiceQuery = {emailInvoiceOnly: string};
@@ -80,7 +80,7 @@ export const emailInvoiceController = async (
 
 
 
-async function buildInvoiceEmailData(
+export async function buildInvoiceEmailData(
   email: EmailRequest,
   attachmentBuffers: IAttachmentCollection,
   termsAndConditions: Buffer,
@@ -155,7 +155,7 @@ async function buildInvoiceEmailData(
 }
 
 
-interface IEmailData {
+export interface IEmailData {
   to: string[] | string;
   cc?: string[];
   bcc?: string[];
@@ -166,7 +166,7 @@ interface IEmailData {
 }
 
 
-async function sendEmailCore(mailData: IEmailData) {
+export async function sendEmailCore(mailData: IEmailData) {
   const transporter = nodemailer.createTransport({
     host: config.email.host,
     port: config.email.port,

@@ -72,11 +72,15 @@ export interface ProjectMonthConfig {
   inboundInvoice: boolean;
   /** Does the OrderNr change for each invoice? */
   changingOrderNr: boolean;
+  /** After sending to Peppol, also email a duplicate (invoice + timesheet) to the client. */
+  emailInvoiceDuplicate: boolean;
   proforma: ProjectProforma;
 }
 
+type DefaultProjectMonthConfig = Omit<ProjectMonthConfig, 'changingOrderNr' | 'proforma' | 'emailInvoiceDuplicate'>;
+
 /** How monthly invoicing is handled depends on the type of consultant */
-export function getDefaultProjectMonthConfig(consultantType?: ConsultantType): Omit<ProjectMonthConfig, 'changingOrderNr' | 'proforma'> {
+export function getDefaultProjectMonthConfig(consultantType?: ConsultantType): DefaultProjectMonthConfig {
   switch (consultantType) {
     case 'manager':
       return {

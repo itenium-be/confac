@@ -37,6 +37,7 @@ export function getProjectFormConfig(project: IProjectModel): FullFormConfig {
     {key: 'projectMonthConfig.timesheetCheck', component: 'switch'},
     {key: 'projectMonthConfig.inboundInvoice', component: 'switch'},
     {key: 'projectMonthConfig.changingOrderNr', component: 'switch'},
+    {key: 'projectMonthConfig.emailInvoiceDuplicate', component: 'switch'},
     {key: 'client.advancedInvoicing', component: 'switch'},
     {key: 'forEndCustomer', component: 'switch'},
     {forceRow: true},

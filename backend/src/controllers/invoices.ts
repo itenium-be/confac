@@ -19,6 +19,7 @@ import type {CreditNoteOptions} from './utils/billit/createorderrequestfactory';
 import {IProject} from '../models/projects';
 import {IConsultant} from '../models/consultants';
 import {syncBillitOrder} from '../services/billit/orders/sync-order';
+import {maybeSendPeppolDuplicate} from '../services/email/send-peppol-duplicate';
 
 const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user: Jwt) => {
   const inserted = await db.collection<IInvoice>(CollectionNames.INVOICES).insertOne({
@@ -520,6 +521,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     const idempotencyKey = `send-invoice-${invoice.number.toString()}`;
 
     let finalInvoice: IInvoice = invoice;
+    const previousStatus = invoice.status;
     try {
       const sentToPeppol = new Date().toISOString();
       await apiClient.sendInvoice(sendInvoiceRequest, idempotencyKey);
@@ -541,6 +543,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
           updatedInvoice.value._id,
           newInvoice,
         );
+        await maybeSendPeppolDuplicate(req, newInvoice, previousStatus);
       }
 
     } catch (error: unknown) {

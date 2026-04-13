@@ -12,6 +12,7 @@ export interface IProject {
   projectMonthConfig: {
     timesheetCheck: boolean;
     inboundInvoice: boolean;
+    emailInvoiceDuplicate?: boolean;
   };
   audit: IAudit;
 }
