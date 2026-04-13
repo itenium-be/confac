@@ -15,7 +15,8 @@ type ConsultantSelectProps = {
 
 const ConsultantSelectComponent = ({value, onChange}: ConsultantSelectProps) => {
   const selectedModelId = value && typeof value === 'object' ? value._id : value;
-  const models = useSelector((state: ConfacState) => state.consultants.filter(x => x.active || x._id === selectedModelId));
+  const consultants = useSelector((state: ConfacState) => state.consultants);
+  const models = consultants.filter(x => x.active || x._id === selectedModelId);
   const getModel = (consultantId: string): ConsultantModel => models.find(c => c._id === consultantId) as ConsultantModel;
 
   const options: SelectItem[] = models
