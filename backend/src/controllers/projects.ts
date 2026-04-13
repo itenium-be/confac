@@ -44,7 +44,11 @@ export const saveProject = async (req: ConfacRequest, res: Response) => {
   if (_id) {
     project.audit = updateAudit(project.audit, req.user);
     const projectsColl = req.db.collection<IProject>(CollectionNames.PROJECTS);
-    const {value: originalProject} = await projectsColl.findOneAndUpdate({_id: new ObjectID(_id)}, {$set: project}, {returnDocument: 'before'});
+    const {value: originalProject} = await projectsColl.findOneAndUpdate(
+      {_id: new ObjectID(_id)},
+      {$set: project},
+      {returnDocument: 'before'},
+    );
     await saveAudit(req, 'project', originalProject, project);
     const responseProject = {_id, ...project};
     emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.PROJECTS, _id, responseProject);
