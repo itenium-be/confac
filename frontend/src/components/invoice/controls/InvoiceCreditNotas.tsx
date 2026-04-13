@@ -22,9 +22,8 @@ export const InvoiceCreditNotas = ({model, onChange}: InvoiceCreditNotasProps) =
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const invoicePayDays = useSelector((state: ConfacState) => state.config.invoicePayDays);
-  const otherCreditNotas = useSelector((state: ConfacState) => state.invoices
-    .filter(i => model.creditNotas.includes(i._id))
-  );
+  const invoices = useSelector((state: ConfacState) => state.invoices);
+  const otherCreditNotas = invoices.filter(i => model.creditNotas.includes(i._id));
 
   if (otherCreditNotas.length === 0) {
     return null;
