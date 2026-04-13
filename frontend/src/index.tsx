@@ -1,3 +1,4 @@
+import {StrictMode} from 'react';
 import ReactDOM from 'react-dom/client';
 import {defaultLocale} from './components/utils';
 
@@ -40,7 +41,9 @@ import Routes from './routes';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <Provider store={store}>
-    <Routes />
-  </Provider>
+  <StrictMode>
+    <Provider store={store}>
+      <Routes />
+    </Provider>
+  </StrictMode>
 );
