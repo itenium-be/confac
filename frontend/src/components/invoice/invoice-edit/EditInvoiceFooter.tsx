@@ -8,7 +8,8 @@ import {ConfacState} from '../../../reducers/app-state';
 import {Claim} from '../../users/models/UserModel';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
 import {createInvoice, previewInvoice, syncCreditNotas, updateInvoiceRequest,
-  sendToPeppol, refreshPeppolStatus, syncClientPeppolStatus, deleteInvoice} from '../../../actions';
+  sendToPeppol, refreshPeppolStatus, syncClientPeppolStatus, deleteInvoice,
+  archiveInvoice, unarchiveInvoice} from '../../../actions';
 import {getNewClonedInvoice} from '../models/getNewInvoice';
 import {t} from '../../utils';
 import {Button} from '../../controls/form-controls/Button';
@@ -44,17 +45,24 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSaveFirstModal, setShowSaveFirstModal] = useState(false);
+  const [showArchiveModal, setShowArchiveModal] = useState(false);
 
   const isSentStatus = invoice.status === 'ToPay' || invoice.status === 'Paid';
+  const isArchived = invoice.status === 'Archived';
 
   const nonQuotationInvoices = invoices.filter(i => !i.isQuotation);
   const highestInvoiceNumber = nonQuotationInvoices.length > 0
     ? Math.max(...nonQuotationInvoices.map(i => i.number))
     : 0;
   const canDeleteInvoice = !invoice.isQuotation
-    && (invoice.status === 'Draft' || invoice.status === 'ToSend')
+    && (invoice.status === 'Draft' || invoice.status === 'ToSend' || invoice.status === 'Archived')
     && !invoice.isNew;
+  const canArchive = !invoice.isQuotation
+    && !invoice.isNew
+    && (invoice.status === 'Draft' || invoice.status === 'ToSend');
+  const canUnarchive = !invoice.isQuotation && isArchived;
   const isNotLastInvoice = invoice.number !== highestInvoiceNumber;
+  const hasBillitOrder = !!invoice.billit?.orderId;
 
   return (
     <>
@@ -99,7 +107,26 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
         >
           <p>{t('invoice.deletePopup', {number: invoice.number, client: invoice.client.name})}</p>
           {isNotLastInvoice && <p>{t('invoice.deleteGapWarning')}</p>}
-          {invoice.status === 'ToSend' && <p>{t('invoice.deleteToSendWarning')}</p>}
+          {hasBillitOrder && <p>{t('invoice.deleteToSendWarning')}</p>}
+        </Popup>
+      )}
+      {showArchiveModal && (
+        <Popup
+          title={t('invoice.archiveTitle')}
+          buttons={[
+            {text: t('cancel'), onClick: () => setShowArchiveModal(false), variant: 'light'},
+            {
+              text: t('invoice.archive'),
+              variant: 'danger',
+              onClick: () => {
+                setShowArchiveModal(false);
+                dispatch(archiveInvoice(initInvoice));
+              },
+            },
+          ] as PopupButton[]}
+          onHide={() => setShowArchiveModal(false)}
+        >
+          <p>{t('invoice.archivePopup')}</p>
         </Popup>
       )}
       {showSaveFirstModal && (
@@ -139,7 +166,31 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
           {t('delete')}
         </BusyButton>
       )}
-      {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && !isSentStatus && (
+      {canArchive && (
+        <BusyButton
+          claim={Claim.ManageInvoices}
+          variant="outline-danger"
+          icon="fas fa-archive"
+          title={t('invoice.archiveTooltip')}
+          onClick={() => setShowArchiveModal(true)}
+          className="tst-archive-invoice"
+        >
+          {t('invoice.archive')}
+        </BusyButton>
+      )}
+      {canUnarchive && (
+        <BusyButton
+          claim={Claim.ManageInvoices}
+          variant="outline-secondary"
+          icon="fas fa-box-open"
+          title={t('invoice.unarchiveTooltip')}
+          onClick={() => dispatch(unarchiveInvoice(initInvoice))}
+          className="tst-unarchive-invoice"
+        >
+          {t('invoice.unarchive')}
+        </BusyButton>
+      )}
+      {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && !isSentStatus && !isArchived && (
         <BusyButton
           claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
           variant="light"

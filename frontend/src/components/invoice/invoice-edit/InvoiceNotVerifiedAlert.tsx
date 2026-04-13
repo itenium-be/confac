@@ -23,7 +23,7 @@ const InvoiceNotVerifiedAlert = ({invoice}: InvoiceNotVerifiedAlertProps) => {
   const peppolPivotDate = useSelector((state: ConfacState) => state.config.peppolPivotDate);
   const [dismissed, setDismissed] = useState(false);
 
-  if (dismissed || invoice.isNew || ['Paid', 'Draft', 'ToSend'].includes(invoice.status) || invoice.isQuotation) {
+  if (dismissed || invoice.isNew || ['Paid', 'Draft', 'ToSend', 'Archived'].includes(invoice.status) || invoice.isQuotation) {
     return null;
   }
 

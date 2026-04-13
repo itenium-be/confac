@@ -49,7 +49,7 @@ export interface InvoiceProjectMonth {
 }
 
 
-export type InvoiceStatus = 'Draft' | 'ToSend' | 'ToPay' | 'Paid';
+export type InvoiceStatus = 'Draft' | 'ToSend' | 'ToPay' | 'Paid' | 'Archived';
 
 export interface IInvoice {
   _id: ObjectID;

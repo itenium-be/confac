@@ -65,7 +65,7 @@ export type InvoiceBillitModel = {
   aboutInvoiceNumber?: number;
 }
 
-export type InvoiceStatus = 'Draft' | 'ToSend' | 'ToPay' | 'Paid';
+export type InvoiceStatus = 'Draft' | 'ToSend' | 'ToPay' | 'Paid' | 'Archived';
 
 /** Partial data for creating an InvoiceModel */
 type InvoicePartialInput = Partial<Omit<InvoiceModel, 'your' | 'isNew' | 'canUpdatePaymentReference' | 'config' | 'money'>> & {

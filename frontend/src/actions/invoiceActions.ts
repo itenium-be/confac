@@ -136,6 +136,23 @@ export function toggleInvoiceVerify(data: InvoiceModel, toggleBusy = true) {
 }
 
 
+export function archiveInvoice(invoice: InvoiceModel) {
+  return async (dispatch: AppDispatch) => {
+    const archived = new InvoiceModel(invoice.config, {...invoice, status: 'Archived'});
+    await dispatch(updateInvoiceRequest(archived, t('invoice.archivedConfirm'), false) as unknown as AnyAction);
+  };
+}
+
+
+export function unarchiveInvoice(invoice: InvoiceModel) {
+  return async (dispatch: AppDispatch) => {
+    const targetStatus = invoice.billit?.orderId ? 'ToSend' : 'Draft';
+    const restored = new InvoiceModel(invoice.config, {...invoice, status: targetStatus});
+    await dispatch(updateInvoiceRequest(restored, t('invoice.unarchivedConfirm'), false) as unknown as AnyAction);
+  };
+}
+
+
 export function deleteInvoice(invoice: InvoiceModel) {
   const {projectMonth} = invoice;
   return async (dispatch: AppDispatch) => {

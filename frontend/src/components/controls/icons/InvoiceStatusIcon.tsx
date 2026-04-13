@@ -19,6 +19,7 @@ export const statusConfig: Record<InvoiceStatus, IconConfig> = {
   ToSend: {icon: 'far fa-paper-plane', color: 'black', translationKey: 'invoice.status.ToSend'},
   ToPay: {icon: 'far fa-clock', color: 'black', translationKey: 'invoice.status.ToPay'},
   Paid: {icon: 'far fa-check-circle', color: 'green', translationKey: 'invoice.status.Paid'},
+  Archived: {icon: 'fas fa-archive', color: 'gray', translationKey: 'invoice.status.Archived'},
 };
 
 /** Get color based on Peppol delivery status for ToPay invoices */
