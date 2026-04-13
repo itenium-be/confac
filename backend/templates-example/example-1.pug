@@ -68,6 +68,10 @@ html
 				dt Factuurnummer:
 				dd #{number}
 
+				if paymentReference
+					dt Mededeling:
+					dd #{paymentReference}
+
 				if creditNotaNumbers && creditNotaNumbers.length
 					dt Creditnota voor:
 					dd #{creditNotaNumbers.join(', ')}
@@ -130,7 +134,10 @@ html
 
 
 		#pageFooter
-			div We verzoeken u vriendelijk het verschuldigde bedrag binnen 30 dagen over te maken onder vermelding van het factuurnummer.
+			if paymentReference
+				div We verzoeken u vriendelijk het verschuldigde bedrag binnen 30 dagen over te maken <b>met gestructureerde mededeling</b> "#{paymentReference}".
+			else
+				div We verzoeken u vriendelijk het verschuldigde bedrag binnen 30 dagen over te maken onder vermelding van het factuurnummer.
 
 			br
 

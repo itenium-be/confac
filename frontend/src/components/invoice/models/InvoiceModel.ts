@@ -437,12 +437,12 @@ export function calculateDaysWorked(invoices: InvoiceModel[]): DaysWorked {
 
 
 /**
- * Calculates a Belgian structured payment reference.
- * Format: +++YMM/nnnn/XXcc+++
+ * Calculates a Belgian structured payment communication (OGM/VCS).
+ * Format: +++YMM/nnnn/oookk+++ — 12 digits total, displayed as 3/4/5.
  * - YMM: last digit of year + 2 digit month from projectMonth (or 000 if no projectMonth)
- * - nnnn: invoice number (4 digits, padded with zeros)
- * - XX: overflow if invoiceNr > 9999 (otherwise 00)
- * - cc: check digits (mod 97)
+ * - nnnn: last 4 digits of invoice number
+ * - ooo: overflow for invoice numbers > 9999 (otherwise 000)
+ * - kk: mod-97 check over the first 10 digits (97 if result is 0)
  */
 export function calculatePaymentReference(invoiceNumber: number, projectMonth?: moment.Moment): string {
   let ymm = '000';
@@ -453,10 +453,9 @@ export function calculatePaymentReference(invoiceNumber: number, projectMonth?: 
     ymm = `${year}${month}`;
   }
 
-  const invoiceStr = invoiceNumber.toString().padStart(4, '0');
-  const mainPart = invoiceStr.substring(0, 4);
-  const overflowStr = invoiceStr.length > 4 ? invoiceStr.substring(4) : '';
-  const overflow = overflowStr.padEnd(2, '0');
+  const invoiceStr = invoiceNumber.toString();
+  const mainPart = invoiceStr.length <= 4 ? invoiceStr.padStart(4, '0') : invoiceStr.slice(-4);
+  const overflow = invoiceStr.length <= 4 ? '000' : invoiceStr.slice(0, -4).padStart(3, '0');
 
   const baseNumber = parseInt(`${ymm}${mainPart}${overflow}`, 10);
   let checkDigits = baseNumber % 97;
