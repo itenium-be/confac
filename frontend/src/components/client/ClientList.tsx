@@ -13,18 +13,16 @@ export const ClientList = () => {
   useDocumentTitle('clientList');
 
   const dispatch = useAppDispatch();
-  const models = useSelector((state: ConfacState) => ({
-    filters: state.app.filters.clients,
-    data: state.clients,
-    invoices: state.invoices,
-  }));
+  const filters = useSelector((state: ConfacState) => state.app.filters.clients);
+  const data = useSelector((state: ConfacState) => state.clients);
+  const invoices = useSelector((state: ConfacState) => state.invoices);
 
   const config: ClientFeatureBuilderConfig = {
-    data: models.data,
+    data,
     save: (m, stayOnPage) => dispatch(saveClient(m, stayOnPage)),
-    filters: models.filters,
+    filters,
     setFilters: f => dispatch(updateAppFilters(Features.clients, f)),
-    invoices: models.invoices,
+    invoices,
   };
 
   const feature = clientFeature(config);
