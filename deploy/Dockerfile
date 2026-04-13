@@ -2,7 +2,7 @@
 # Layer order is optimized for frontend-only changes (the most common case):
 # both installs are at the top, the backend build comes before the frontend
 # build, so a frontend src change only invalidates the last few layers.
-FROM oven/bun:1 AS build
+FROM oven/bun:1.3.11 AS build
 
 WORKDIR /app
 
@@ -34,7 +34,7 @@ RUN mkdir /dist && \
 
 
 # Stage 2: Runtime
-FROM oven/bun:1-slim
+FROM oven/bun:1.3.11-slim
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends pdftk libfontconfig1 build-essential && \
