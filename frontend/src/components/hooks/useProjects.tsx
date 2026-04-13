@@ -33,17 +33,23 @@ export function useProjects(month?: Moment): FullProjectModel[] {
 
 /** Resolve a single ProjectModel _id */
 export function useProjectsMonth(projectMonthId?: string): FullProjectMonthModel | undefined {
-  const confacState = useSelector((state: ConfacState) => state);
+  const projectsMonth = useSelector((state: ConfacState) => state.projectsMonth);
+  const invoices = useSelector((state: ConfacState) => state.invoices);
+  const projects = useSelector((state: ConfacState) => state.projects);
+  const clients = useSelector((state: ConfacState) => state.clients);
+  const consultants = useSelector((state: ConfacState) => state.consultants);
+  const user = useSelector((state: ConfacState) => state.user);
+
   if (!projectMonthId) {
     return undefined;
   }
 
-  const projectMonth = confacState.projectsMonth.find(x => x._id === projectMonthId);
+  const projectMonth = projectsMonth.find(x => x._id === projectMonthId);
   if (!projectMonth) {
     return undefined;
   }
 
-  const result = mapToProjectMonth(confacState, projectMonth);
+  const result = mapToProjectMonth({projectsMonth, invoices, projects, clients, consultants, user}, projectMonth);
   return result || undefined;
 }
 
