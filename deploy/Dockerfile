@@ -4,7 +4,7 @@ FROM oven/bun:1 AS build
 WORKDIR /app
 
 # Backend: install deps + build
-COPY backend/package.json backend/bun.lockb backend/
+COPY backend/package.json backend/bun.lock backend/
 RUN cd backend && bun install --frozen-lockfile
 
 COPY backend/tsconfig.json backend/
@@ -13,7 +13,7 @@ COPY backend/types backend/types
 RUN cd backend && bun run build
 
 # Frontend: install deps + build
-COPY frontend/package.json frontend/bun.lockb frontend/
+COPY frontend/package.json frontend/bun.lock frontend/
 RUN cd frontend && bun install --frozen-lockfile
 
 COPY frontend/tsconfig.json frontend/tsconfig.node.json frontend/
