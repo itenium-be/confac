@@ -1,21 +1,24 @@
 # Stage 1: Build backend + frontend
+# Layer order is optimized for frontend-only changes (the most common case):
+# both installs are at the top, the backend build comes before the frontend
+# build, so a frontend src change only invalidates the last few layers.
 FROM oven/bun:1 AS build
 
 WORKDIR /app
 
-# Backend: install deps + build
+# Installs first — cached until a lockfile changes
 COPY backend/package.json backend/bun.lock backend/
+COPY frontend/package.json frontend/bun.lock frontend/
 RUN cd backend && bun install --frozen-lockfile
+RUN cd frontend && bun install --frozen-lockfile
 
+# Backend build — rarely changes, so keep it above the frontend build
 COPY backend/tsconfig.json backend/
 COPY backend/src backend/src
 COPY backend/types backend/types
 RUN cd backend && bun run build
 
-# Frontend: install deps + build
-COPY frontend/package.json frontend/bun.lock frontend/
-RUN cd frontend && bun install --frozen-lockfile
-
+# Frontend build — most likely to change, lives at the bottom of the chain
 COPY frontend/tsconfig.json frontend/tsconfig.node.json frontend/
 COPY frontend/vite.config.ts frontend/index.html frontend/
 COPY frontend/src frontend/src
