@@ -126,7 +126,9 @@ export default class InvoiceModel implements IAttachment {
     // Get company from either 'your' (if InvoiceModel) or 'company' (if partial)
     const company = 'your' in obj ? obj.your : ('company' in obj ? obj.company : undefined);
 
-    this._id = obj._id ?? '';
+    // New invoices must have _id = undefined so the backend generates a fresh ObjectId.
+    // Empty string would be stored as a literal _id and break re-loading (see isNew getter).
+    this._id = obj._id as string;
     this.number = obj.number ?? 1;
     this.client = obj.client as InvoiceClientModel;
     this.your = company ?? config.company;
