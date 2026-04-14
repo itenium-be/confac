@@ -86,7 +86,7 @@ run_migrate() {
     -v confac-migrate-node_modules:/deploy/node_modules \
     -w /deploy \
     oven/bun:1.3.11 \
-    sh -c "bun install --frozen-lockfile >/dev/null 2>&1 && bun run $1"
+    sh -c "bun install --frozen-lockfile && bun run $1"
 }
 
 # Retry: first attempt may be slow because bun install populates the named
