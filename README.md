@@ -44,11 +44,9 @@ cd deploy
 bun install
 bun run create some-name
 bun run up
-
-# Or on server:
-cd deploy
-./migrate.sh
 ```
+
+On the server, migrations are handled by `./deploy.sh`.
 
 
 ## Server Dependencies

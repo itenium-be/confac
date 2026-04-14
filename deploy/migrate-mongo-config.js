@@ -2,10 +2,14 @@
 // https://github.com/seppevs/migrate-mongo
 require('dotenv').config();
 
+// MONGO_HOST / MONGO_PORT default to localhost:27017 for the old host-based
+// workflow; deploy.sh overrides both when running migrations inside a
+// throwaway container joined to the confacnet network.
 let url = "mongodb://admin:pwd@localhost:27017/?authSource=admin&directConnection=true";
 if (process.env.MONGO_USER) {
-  const server = 'localhost';
-  url = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@${server}:${process.env.MONGO_PORT}/?authSource=admin&directConnection=true`;
+  const server = process.env.MONGO_HOST || 'localhost';
+  const port = process.env.MONGO_PORT || '27017';
+  url = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@${server}:${port}/?authSource=admin&directConnection=true`;
 }
 
 console.log('env', process.env.NODE_ENV);
