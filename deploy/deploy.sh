@@ -58,9 +58,21 @@ echo -e "\033[1;34m== Checking for pending database migrations ==\033[0m"
 
 docker-compose up -d mongo
 
-CONFACNET=$(docker network ls --filter name=confacnet --format '{{.Name}}' | head -1)
+# Find the project-scoped confacnet network via the mongo container itself
+# (multiple confac deployments can share a host, each with its own
+# <project>_confacnet network).
+MONGO_CID=$(docker-compose ps -q mongo)
+if [ -z "$MONGO_CID" ]; then
+  echo -e "\033[0;31mmongo container not found after docker-compose up\033[0m"
+  exit 1
+fi
+
+CONFACNET=$(docker inspect "$MONGO_CID" \
+  --format '{{range $k, $_ := .NetworkSettings.Networks}}{{$k}} {{end}}' \
+  | tr ' ' '\n' | grep confacnet | head -1)
+
 if [ -z "$CONFACNET" ]; then
-  echo -e "\033[0;31mCould not find confacnet network — docker-compose up failed?\033[0m"
+  echo -e "\033[0;31mCould not determine confacnet network from mongo container\033[0m"
   exit 1
 fi
 
