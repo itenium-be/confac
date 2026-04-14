@@ -20,6 +20,7 @@ const appConfig: IConfig = {
   },
   services: {
     excelCreator: process.env.EXCEL_SERVICE_URL || '',
+    gotenbergUrl: process.env.GOTENBERG_URL || '',
     billit: {
       apiUrl: process.env.BILLIT_API_URL || '',
       apiKey: process.env.BILLIT_API_KEY || '',
@@ -72,6 +73,7 @@ export interface IConfig {
   };
   services: {
     excelCreator: string;
+    gotenbergUrl: string;
     billit: {
       apiUrl: string;
       apiKey: string;

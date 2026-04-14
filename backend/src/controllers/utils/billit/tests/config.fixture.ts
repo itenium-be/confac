@@ -15,6 +15,7 @@ export const testConfig: IConfig = {
   },
   services: {
     excelCreator: '',
+    gotenbergUrl: '',
     billit: {
       apiUrl: '',
       apiKey: '',
