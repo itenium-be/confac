@@ -18,8 +18,15 @@ export const convertHtmlToBuffer = async (logger: Logger, html: string): Promise
   }
 
   const url = `${appConfig.services.gotenbergUrl}/forms/chromium/convert/html`;
+  logger.info(`Gotenberg convert start: htmlLen=${html.length}, url=${url}`);
+
   const form = new FormData();
   form.append('files', new Blob([html], {type: 'text/html'}), 'index.html');
+  // Fail loud on broken assets so a broken invoice surfaces as a 500 instead
+  // of silently shipping a PDF with holes. Two flags: one for network-level
+  // failures (DNS, connection refused), one for HTTP error responses (404, 5xx).
+  form.append('failOnResourceLoadingFailed', 'true');
+  form.append('failOnResourceHttpStatusCodes', '[401,403,404,500,502,503,504]');
 
   let res: Response;
   try {
@@ -48,7 +55,9 @@ export const convertHtmlToBuffer = async (logger: Logger, html: string): Promise
     throw new Error(msg);
   }
 
-  return Buffer.from(await res.arrayBuffer());
+  const buf = Buffer.from(await res.arrayBuffer());
+  logger.info(`Gotenberg convert success: status=${res.status}, bytes=${buf.length}`);
+  return buf;
 };
 
 export const createHtml = (logger: Logger, invoice: IInvoiceWithCreditNotaNumbers): string | {error: string} => {
