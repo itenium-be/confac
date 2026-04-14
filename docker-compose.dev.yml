@@ -1,0 +1,21 @@
+# Local dev stack for confac.
+#
+# Backend runs natively via `bun run start`. Mongo is NOT managed here —
+# use your own. This file provides only Gotenberg (HTML -> PDF).
+#
+# extra_hosts maps host.docker.internal -> the docker bridge gateway, so
+# Gotenberg's Chromium can reach the backend running on the host machine
+# via the asset URLs rendered into the pug template.
+#
+# Requires: SERVER_HOST=host.docker.internal in backend/.env
+
+version: '3'
+
+services:
+  gotenberg:
+    image: gotenberg/gotenberg:8
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
