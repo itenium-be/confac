@@ -11,25 +11,47 @@ interface IInvoiceWithCreditNotaNumbers extends IInvoice {
 }
 
 export const convertHtmlToBuffer = async (logger: Logger, html: string): Promise<Buffer> => {
+  if (!appConfig.services.gotenbergUrl) {
+    const msg = 'GOTENBERG_URL is not configured — cannot render PDF';
+    logger.error(msg);
+    throw new Error(msg);
+  }
+
+  const url = `${appConfig.services.gotenbergUrl}/forms/chromium/convert/html`;
   const form = new FormData();
   form.append('files', new Blob([html], {type: 'text/html'}), 'index.html');
 
-  const res = await fetch(`${appConfig.services.gotenbergUrl}/forms/chromium/convert/html`, {
-    method: 'POST',
-    body: form,
-  });
+  let res: Response;
+  try {
+    res = await fetch(url, {method: 'POST', body: form});
+  } catch (err) {
+    const cause = err instanceof Error ? `${err.name}: ${err.message}` : String(err);
+    const msg = `Gotenberg fetch failed (${url}): ${cause}`;
+    logger.error(msg, {url, err});
+    throw new Error(msg);
+  }
 
   if (!res.ok) {
     const body = await res.text();
-    logger.error('Gotenberg convert failed', {status: res.status, body});
-    throw new Error(`Gotenberg convert failed: ${res.status}`);
+    const bodyPreview = body.slice(0, 500);
+    const headers = Object.fromEntries(res.headers.entries());
+    const servedByGotenberg = 'gotenberg-trace' in headers;
+    const msg = `Gotenberg returned ${res.status} ${res.statusText} for ${url} `
+      + `(servedByGotenberg=${servedByGotenberg}): ${bodyPreview}`;
+    logger.error(msg, {
+      url,
+      status: res.status,
+      statusText: res.statusText,
+      headers,
+      body,
+    });
+    throw new Error(msg);
   }
 
   return Buffer.from(await res.arrayBuffer());
 };
 
 export const createHtml = (logger: Logger, invoice: IInvoiceWithCreditNotaNumbers): string | {error: string} => {
-   
   invoice = JSON.parse(JSON.stringify(invoice));
   // if (Array.isArray(invoice.extraFields)) {
   //   invoice.extraFields = invoice.extraFields.reduce((acc: IExtraFieldsObject, field) => {

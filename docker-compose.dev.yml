@@ -9,13 +9,11 @@
 #
 # Requires: SERVER_HOST=host.docker.internal in backend/.env
 
-version: '3'
-
 services:
   gotenberg:
     image: gotenberg/gotenberg:8
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "5063:3000"
     extra_hosts:
       - "host.docker.internal:host-gateway"
