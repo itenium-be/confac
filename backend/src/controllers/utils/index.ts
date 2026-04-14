@@ -1,4 +1,3 @@
-import pdf from 'html-pdf';
 import pug from 'pug';
 import {Logger} from 'winston';
 import {Db, ObjectID} from 'mongodb';
@@ -7,22 +6,27 @@ import locals from '../../pug-helpers';
 import {IInvoice} from '../../models/invoices';
 import {CollectionNames} from '../../models/common';
 
-// See: https://github.com/marcbachmann/node-html-pdf/issues/531
-const pdfOptions = {childProcessOptions: {env: {OPENSSL_CONF: '/dev/null'}}} as const;
-
 interface IInvoiceWithCreditNotaNumbers extends IInvoice {
   creditNotaNumbers?: number[];
 }
 
-export const convertHtmlToBuffer = (logger: Logger, html: string): Promise<Buffer> => new Promise((resolve, reject) => {
-  pdf.create(html, pdfOptions as pdf.CreateOptions).toBuffer((err, buffer) => {
-    if (err) {
-      logger.error('convertHtmlToBuffer error', err);
-      reject();
-    }
-    resolve(buffer);
+export const convertHtmlToBuffer = async (logger: Logger, html: string): Promise<Buffer> => {
+  const form = new FormData();
+  form.append('files', new Blob([html], {type: 'text/html'}), 'index.html');
+
+  const res = await fetch(`${appConfig.services.gotenbergUrl}/forms/chromium/convert/html`, {
+    method: 'POST',
+    body: form,
   });
-});
+
+  if (!res.ok) {
+    const body = await res.text();
+    logger.error('Gotenberg convert failed', {status: res.status, body});
+    throw new Error(`Gotenberg convert failed: ${res.status}`);
+  }
+
+  return Buffer.from(await res.arrayBuffer());
+};
 
 export const createHtml = (logger: Logger, invoice: IInvoiceWithCreditNotaNumbers): string | {error: string} => {
    
