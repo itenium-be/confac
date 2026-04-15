@@ -38,6 +38,34 @@ const createInvoice = async (invoice: IInvoice, db: Db, pdfBuffer: Buffer, user:
 
 
 
+const SIGNED_TIMESHEET_TYPE = 'Getekende timesheet';
+
+const copySignedTimesheetFromSource = async (invoice: IInvoice, db: Db): Promise<IInvoice> => {
+  const hasSignedTimesheet = invoice.attachments?.some(a => a.type === SIGNED_TIMESHEET_TYPE);
+  if (!hasSignedTimesheet || !invoice.creditNotas?.length) return invoice;
+
+  const attachmentsCollection = db.collection<IAttachmentCollection>(CollectionNames.ATTACHMENTS);
+  for (const sourceId of [...invoice.creditNotas].reverse()) {
+    let sourceObjectId: ObjectID;
+    try {
+      sourceObjectId = new ObjectID(sourceId);
+    } catch {
+      continue;
+    }
+    const sourceAttachments = await attachmentsCollection.findOne({_id: sourceObjectId});
+    const binary = sourceAttachments?.[SIGNED_TIMESHEET_TYPE];
+    if (binary) {
+      await attachmentsCollection.findOneAndUpdate(
+        {_id: new ObjectID(invoice._id)},
+        {$set: {[SIGNED_TIMESHEET_TYPE]: binary}},
+      );
+      return invoice;
+    }
+  }
+  return invoice;
+};
+
+
 const moveProjectMonthAttachmentsToInvoice = async (invoice: IInvoice, projectMonthId: ObjectID, db: Db) => {
   const projectMonthAttachments: IAttachmentCollection | null = await db.collection(CollectionNames.ATTACHMENTS_PROJECT_MONTH)
     .findOne({_id: projectMonthId}, {projection: {_id: false}});
@@ -118,6 +146,10 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
 
   let createdInvoice = await createInvoice(invoice, req.db, pdfBuffer as Buffer, req.user);
 
+  if (invoice.creditNotas?.length) {
+    await copySignedTimesheetFromSource(createdInvoice, req.db);
+  }
+
   if (invoice.projectMonth && !invoice.creditNotas?.length) {
     const projectMonthId = new ObjectID(invoice.projectMonth.projectMonthId);
     const {updatedInvoice, updatedProjectMonth} = await moveProjectMonthAttachmentsToInvoice(createdInvoice, projectMonthId, req.db);
@@ -142,7 +174,7 @@ export const createInvoiceController = async (req: ConfacRequest, res: Response)
     );
 
     linkedInvoices.forEach(linkedInvoice => {
-      linkedInvoice.creditNotas = [...(linkedInvoice.creditNotas || []), createdInvoice._id];  
+      linkedInvoice.creditNotas = [...(linkedInvoice.creditNotas || []), createdInvoice._id];
       emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, linkedInvoice._id, linkedInvoice, 'everyone');
     });
   }
@@ -322,7 +354,7 @@ export const deleteInvoiceController = async (req: ConfacRequest, res: Response)
     );
 
     linkedInvoices.forEach(toUpdate => {
-      toUpdate.creditNotas = toUpdate.creditNotas.filter(x => x !== invoice._id.toString());  
+      toUpdate.creditNotas = toUpdate.creditNotas.filter(x => x !== invoice._id.toString());
       emitEntityEvent(req, SocketEventTypes.EntityUpdated, CollectionNames.INVOICES, toUpdate._id, toUpdate, 'everyone');
     });
   }
@@ -468,7 +500,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     // Add other attachments to CreateOrderRequest
     const getBillitAttachments = async (): Promise<Attachment[]> => {
       const attachmentPromises: Promise<Attachment>[] = invoice.attachments
-        .filter(attachment => attachment.type === 'Getekende timesheet')
+        .filter(attachment => attachment.type === SIGNED_TIMESHEET_TYPE)
         .map(invoiceAttachment => toBillitAttachment(invoiceAttachment));
       return Promise.all(attachmentPromises);
     };

@@ -2,6 +2,7 @@
 import InvoiceModel from './InvoiceModel';
 import {ConfigModel} from '../../config/models/ConfigModel';
 import {ClientModel} from '../../client/models/ClientModels';
+import {SignedTimesheetAttachmentType} from '../../../models';
 import {today} from './invoice-date-strategy';
 
 
@@ -67,6 +68,7 @@ export const getNewClonedInvoice = (
 ): InvoiceModel => {
 
   const {_id, ...invoiceBlueprint} = invoiceToCopy;
+  const signedTimesheet = invoiceToCopy.attachments?.find(a => a.type === SignedTimesheetAttachmentType);
   const creditNota = getNewInvoice(invoiceToCopy.config, invoices, clients, {
     ...invoiceBlueprint,
     lines: invoiceToCopy.lines.map(line => {
@@ -78,7 +80,9 @@ export const getNewClonedInvoice = (
     creditNotas: [...invoiceBlueprint.creditNotas, _id],
     note: '',
     comments: [],
-    attachments: undefined,
+    attachments: signedTimesheet
+      ? [{type: 'pdf', desc: 'Factuur pdf', fileName: '', fileType: 'pdf'}, signedTimesheet]
+      : undefined,
     lastEmail: undefined,
     status: 'Draft',
     billit: undefined,
