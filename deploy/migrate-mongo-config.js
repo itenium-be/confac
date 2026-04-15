@@ -13,7 +13,7 @@ if (process.env.MONGO_USER) {
 }
 
 console.log('env', process.env.NODE_ENV);
-console.log('url', url);
+console.log('url', url.replace(/\/\/([^:]+):([^@]+)@/, '//$1:***@'));
 console.log('db', process.env.MONGO_DB || "confac");
 
 const config = {
