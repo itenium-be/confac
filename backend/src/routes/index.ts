@@ -1,11 +1,11 @@
 import {Request, Response, NextFunction, Router} from 'express';
-import jwt from 'express-jwt';
 import {v4 as uuidv4} from 'uuid';
 import config from '../config';
 import {logger} from '../logger';
 
 
 import {ConfacRequest} from '../models/technical';
+import {jwtMiddleware} from './jwt';
 import clientsRouter from './clients';
 import consultantsRouter from './consultants';
 import projectsRouter from './projects';
@@ -16,19 +16,6 @@ import userRouter from './user';
 import billitWebhooksRouters from './billitWebhooks';
 
 const appRouter = Router();
-
-const jwtMiddleware = () => jwt({
-  secret: config.jwt.secret,
-  getToken: req => {
-    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-      return req.headers.authorization.split(' ')[1];
-    }
-    if (req.query && req.query.token) {
-      return req.query.token;
-    }
-    return null;
-  },
-});
 
 
 const fakeUserMiddleware = (req: Request, res: Response, next: NextFunction) => {
@@ -101,12 +88,12 @@ const useLogger = (req: Request, res: Response, next: NextFunction) => {
 const withSecurity = !!config.security.clientId;
 if (withSecurity) {
   logger.info('Starting WITH security');
-  appRouter.use('/user', jwtMiddleware().unless({path: ['/api/user/login']}), useLogger, userRouter);
+  appRouter.use('/user', jwtMiddleware(['/api/user/login']), useLogger, userRouter);
   appRouter.use('/clients', jwtMiddleware(), useLogger, clientsRouter);
   appRouter.use('/consultants', jwtMiddleware(), useLogger, consultantsRouter);
   appRouter.use('/projects', jwtMiddleware(), useLogger, projectsRouter);
   appRouter.use('/invoices', jwtMiddleware(), useLogger, invoicesRouter);
-  appRouter.use('/config', jwtMiddleware().unless({path: ['/api/config/security']}), useLogger, configRouter);
+  appRouter.use('/config', jwtMiddleware(['/api/config/security']), useLogger, configRouter);
   appRouter.use('/attachments', jwtMiddleware(), useLogger, attachmentsRouter);
 } else {
   appRouter.use(fakeUserMiddleware);
