@@ -1,0 +1,248 @@
+// backend/src/faker/data/clients.ts
+// 16 `client`-type IT consultancies. 12 BE (verified via KBO/companyweb.be),
+// 2 FR (verified via societe.com / annuaire-entreprises.data.gouv.fr),
+// 2 UK (verified via vat-search.co.uk / vat-lookup.co.uk / Companies House).
+// cegeka is the designated config.defaultClient (set in insertStuff.ts post-insert).
+import {ClientRow} from '../types';
+
+export const clients: ClientRow[] = [
+  {
+    // Verified: KBO 0882.419.490 active, Cegeka (SA), Hasselt — IT consultancy/services entity
+    // (Cegeka Groep NV BE 0448.621.832 is the holding; this SA is the invoiceable IT ops entity)
+    slug: 'cegeka',
+    name: 'Cegeka NV',
+    btw: 'BE 0882.419.490',
+    street: 'Kempische Steenweg',
+    streetNr: '307',
+    postalCode: '3500',
+    city: 'Hasselt',
+    country: 'BE',
+    language: 'nl',
+    contact: 'Hans Vercauteren',
+    telephone: '+32 11 26 15 00',
+  },
+  {
+    // Verified: KBO 0479.117.543 active, Delaware Consulting (SC), Kortrijk
+    slug: 'delaware',
+    name: 'Delaware Consulting NV',
+    btw: 'BE 0479.117.543',
+    street: 'Kapel Ter Bede',
+    streetNr: '86',
+    postalCode: '8500',
+    city: 'Kortrijk',
+    country: 'BE',
+    language: 'nl',
+    contact: 'Ingrid De Backer',
+    telephone: '+32 56 24 00 80',
+    frameworkAgreementStatus: 'WeSigned',
+  },
+  {
+    // Verified: KBO 0466.550.303 active, AE (SA), Heverlee/Leuven — IT consultancy
+    slug: 'ae',
+    name: 'AE NV',
+    btw: 'BE 0466.550.303',
+    street: 'Interleuvenlaan',
+    streetNr: '76',
+    postalCode: '3001',
+    city: 'Leuven',
+    country: 'BE',
+    language: 'nl',
+    contact: 'Marc Verhoeven',
+    telephone: '+32 16 39 25 00',
+  },
+  {
+    // Verified: KBO 0474.817.275 active, Sopra Steria Belgium (SA), Ixelles
+    slug: 'sopra-steria-be',
+    name: 'Sopra Steria Benelux NV',
+    btw: 'BE 0474.817.275',
+    street: 'Avenue Arnaud Fraiteur',
+    streetNr: '15-23',
+    postalCode: '1050',
+    city: 'Ixelles',
+    country: 'BE',
+    language: 'nl',
+    contact: 'Sarah Van Damme',
+    telephone: '+32 2 748 40 00',
+  },
+  {
+    // Verified: KBO 0438.675.669 active, Accenture (SA), Bruxelles
+    slug: 'accenture-be',
+    name: 'Accenture NV Belgium',
+    btw: 'BE 0438.675.669',
+    street: 'Rue Picard',
+    streetNr: '11',
+    streetBox: '100',
+    postalCode: '1000',
+    city: 'Bruxelles',
+    country: 'BE',
+    language: 'nl',
+    contact: 'Thomas Dujardin',
+    telephone: '+32 2 225 05 00',
+    frameworkAgreementStatus: 'Sent',
+  },
+  {
+    // Verified: KBO 0478.895.136 active, Nexios Consulting Group (SA), Vilvoorde
+    slug: 'nexios',
+    name: 'Nexios IT NV',
+    btw: 'BE 0478.895.136',
+    street: 'Medialaan',
+    streetNr: '36',
+    postalCode: '1800',
+    city: 'Vilvoorde',
+    country: 'BE',
+    language: 'nl',
+    contact: 'Luc Vandenbroucke',
+    telephone: '+32 2 255 20 00',
+  },
+  {
+    // Verified: KBO 0430.502.430 active, Network Research Belgium (SA), Herstal (Liège)
+    // Walloon company — language 'fr'
+    slug: 'nrb',
+    name: 'NRB SA',
+    btw: 'BE 0430.502.430',
+    street: 'Parc Industriel des Hauts Sarts, 2e Avenue',
+    streetNr: '65',
+    postalCode: '4040',
+    city: 'Herstal',
+    country: 'BE',
+    language: 'fr',
+    contact: 'Olivier Dupont',
+    telephone: '+32 4 253 00 00',
+  },
+  {
+    // Verified: KBO 0467.132.994 active, De Cronos Groep (SA), Kontich
+    slug: 'cronos',
+    name: 'The Cronos Group NV',
+    btw: 'BE 0467.132.994',
+    street: 'Veldkant',
+    streetNr: '33',
+    streetBox: 'A',
+    postalCode: '2550',
+    city: 'Kontich',
+    country: 'BE',
+    language: 'nl',
+    contact: 'Nathalie Peeters',
+    telephone: '+32 3 286 64 00',
+  },
+  {
+    // Verified: KBO 0450.277.958 active, Computer Task Group Belgium (SA), Machelen
+    slug: 'ctg-belgium',
+    name: 'CTG Belgium NV',
+    btw: 'BE 0450.277.958',
+    street: 'Culliganlaan',
+    streetNr: '1D',
+    postalCode: '1831',
+    city: 'Machelen',
+    country: 'BE',
+    language: 'nl',
+    contact: 'Ingrid Van Hove',
+    telephone: '+32 2 709 42 00',
+    frameworkAgreementStatus: 'NotNeeded',
+  },
+  {
+    // Verified: KBO 0406.798.006 active, Smals (ASBL), Saint-Gilles (Brussels area)
+    // Brussels-area → language 'nl'
+    slug: 'smals',
+    name: 'Smals vzw',
+    btw: 'BE 0406.798.006',
+    street: 'Avenue Fonsny',
+    streetNr: '20',
+    postalCode: '1060',
+    city: 'Saint-Gilles',
+    country: 'BE',
+    language: 'nl',
+    contact: 'Charlotte Lambert',
+    telephone: '+32 2 787 58 00',
+  },
+  {
+    // Verified: KBO 0405.912.336 active, International Business Machines of Belgium (BV), Bruxelles
+    slug: 'ibm-belgium',
+    name: 'IBM Belgium BV',
+    btw: 'BE 0405.912.336',
+    street: 'Avenue du Bourget',
+    streetNr: '42',
+    postalCode: '1130',
+    city: 'Bruxelles',
+    country: 'BE',
+    language: 'nl',
+    contact: 'Pierre Leclercq',
+    telephone: '+32 2 339 10 00',
+  },
+  {
+    // Verified: KBO 0401.848.135 active, Eviden Belgium (SA) — former Atos Belgium NV, Zaventem
+    // Commercial name is still Atos Belgium; legal name changed to Eviden Belgium after 2023 rebrand
+    slug: 'atos-belux',
+    name: 'Eviden Belgium NV',
+    btw: 'BE 0401.848.135',
+    street: 'Da Vincilaan',
+    streetNr: '5',
+    postalCode: '1930',
+    city: 'Zaventem',
+    country: 'BE',
+    language: 'nl',
+    contact: 'Catherine Martin',
+    telephone: '+32 2 690 28 00',
+  },
+  {
+    // Verified: SIREN 330703844 active, Capgemini SE, Paris
+    // TVA intracommunautaire: FR06330703844 — source: societe.com
+    slug: 'capgemini-fr',
+    name: 'Capgemini SE',
+    btw: 'FR 06 330703844',
+    street: 'Rue de Tilsitt',
+    streetNr: '11',
+    postalCode: '75017',
+    city: 'Paris',
+    country: 'FR',
+    language: 'fr',
+    contact: 'Jean Dupont',
+    telephone: '+33 1 47 54 50 00',
+  },
+  {
+    // Verified: SIREN 326820065 active, Sopra Steria Group SE, Annecy
+    // TVA intracommunautaire: FR18326820065 — source: numero-tva.net / annuaire-entreprises.data.gouv.fr
+    slug: 'sopra-steria-fr',
+    name: 'Sopra Steria Group SE',
+    btw: 'FR 18 326820065',
+    street: 'Rue du Pré Faucon',
+    streetNr: '3',
+    postalCode: '74000',
+    city: 'Annecy',
+    country: 'FR',
+    language: 'fr',
+    contact: 'Sophie Martin',
+    telephone: '+33 4 67 17 67 17',
+  },
+  {
+    // Verified: Company no. 04757301 active, Accenture (UK) Limited, London
+    // VAT GB788629066 — source: vat-finder.co.uk (ACCENTURE (UK) LIMITED VAT Registration)
+    // Note: multiple lookup sites yield different numbers; GB788629066 is from the most explicit source
+    slug: 'accenture-uk',
+    name: 'Accenture (UK) Limited',
+    btw: 'GB 788 629 066',
+    street: 'Fenchurch Street',
+    streetNr: '30',
+    postalCode: 'EC3M 3BD',
+    city: 'London',
+    country: 'UK',
+    language: 'en',
+    contact: 'James Wilson',
+    telephone: '+44 20 7844 4000',
+  },
+  {
+    // Verified: Company no. 04091535 active, ThoughtWorks, Ltd, London
+    // VAT GB788600983 — source: vat-lookup.co.uk (THOUGHTWORKS LTD VAT Registration)
+    slug: 'thoughtworks-uk',
+    name: 'ThoughtWorks Limited',
+    btw: 'GB 788 600 983',
+    street: 'Shaftesbury Avenue',
+    streetNr: '179-199',
+    streetBox: 'Endeavour House 3rd Floor',
+    postalCode: 'WC2H 8JR',
+    city: 'London',
+    country: 'UK',
+    language: 'en',
+    contact: 'Emma Thompson',
+    telephone: '+44 20 3699 7000',
+  },
+];
