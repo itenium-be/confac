@@ -9,8 +9,6 @@
     "fixup": "eslint --fix src",
     "knip": "knip",
     "typecheck": "bun ./node_modules/typescript/bin/tsc --noEmit",
-    "build": "bun ./node_modules/typescript/bin/tsc -p .",
-    "start:build": "bun ./public/server.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "faker": "bun ./src/faker/index.ts"

@@ -1,7 +1,7 @@
-# Stage 1: Build backend + frontend
+# Stage 1: Install backend deps + build frontend
 # Layer order is optimized for frontend-only changes (the most common case):
-# both installs are at the top, the backend build comes before the frontend
-# build, so a frontend src change only invalidates the last few layers.
+# both installs are at the top, the frontend build lives at the bottom.
+# Backend TypeScript is copied as-is — bun runs it natively at runtime.
 FROM oven/bun:1.3.11 AS build
 
 WORKDIR /app
@@ -12,11 +12,8 @@ COPY frontend/package.json frontend/bun.lock frontend/
 RUN cd backend && bun install --frozen-lockfile
 RUN cd frontend && bun install --frozen-lockfile
 
-# Backend build — rarely changes, so keep it above the frontend build
-COPY backend/tsconfig.json backend/
+# Backend source — copied after installs so only `src` changes invalidate this layer
 COPY backend/src backend/src
-COPY backend/types backend/types
-RUN cd backend && bun run build
 
 # Frontend build — most likely to change, lives at the bottom of the chain
 COPY frontend/tsconfig.json frontend/tsconfig.node.json frontend/
@@ -27,7 +24,7 @@ RUN cd frontend && bun run build
 
 # Assemble dist
 RUN mkdir /dist && \
-    cp -r backend/public/* /dist/ && \
+    cp -r backend/src /dist/src && \
     cp -r backend/node_modules /dist/node_modules && \
     mkdir /dist/public && \
     cp -r frontend/build/* /dist/public/
@@ -46,4 +43,4 @@ VOLUME /usr/share/fonts
 
 COPY --from=build /dist /home
 WORKDIR /home
-CMD ["bun", "./server.js"]
+CMD ["bun", "./src/server.ts"]
