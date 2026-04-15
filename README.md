@@ -66,7 +66,6 @@ See `deploy/deploy.sh`
 
 ### Seeding random data
 
-Configure amounts in `backend/src/faker/faker-config.ts`
 Mongo db credentials are read automatically from the env file.
 
 ```sh
