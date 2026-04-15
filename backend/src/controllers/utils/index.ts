@@ -10,6 +10,67 @@ interface IInvoiceWithCreditNotaNumbers extends IInvoice {
   creditNotaNumbers?: number[];
 }
 
+export const mergePdfBuffers = async (logger: Logger, buffers: Buffer[]): Promise<Buffer> => {
+  if (!appConfig.services.gotenbergUrl) {
+    const msg = 'GOTENBERG_URL is not configured — cannot merge PDFs';
+    logger.error(msg);
+    throw new Error(msg);
+  }
+  if (buffers.length === 0) {
+    throw new Error('mergePdfBuffers called with no buffers');
+  }
+  if (buffers.length === 1) {
+    return buffers[0];
+  }
+
+  const url = `${appConfig.services.gotenbergUrl}/forms/pdfengines/merge`;
+  logger.info(`Gotenberg merge start: count=${buffers.length}, url=${url}`);
+
+  // Gotenberg merges uploaded files in alphabetical filename order, so
+  // zero-pad numeric prefixes to preserve the caller's array order.
+  const pad = Math.max(2, String(buffers.length).length);
+  const form = new FormData();
+  buffers.forEach((buf, i) => {
+    const name = `${String(i).padStart(pad, '0')}.pdf`;
+    const pdfBlob = new Blob(
+      [buf as unknown as BlobPart],
+      {type: 'application/pdf'},
+    );
+    form.append('files', pdfBlob, name);
+  });
+
+  let res: Response;
+  try {
+    res = await fetch(url, {method: 'POST', body: form});
+  } catch (err) {
+    const cause = err instanceof Error ? `${err.name}: ${err.message}` : String(err);
+    const msg = `Gotenberg merge fetch failed (${url}): ${cause}`;
+    logger.error(msg, {url, err});
+    throw new Error(msg);
+  }
+
+  if (!res.ok) {
+    const body = await res.text();
+    const bodyPreview = body.slice(0, 500);
+    const headers = Object.fromEntries(res.headers.entries());
+    const servedByGotenberg = 'gotenberg-trace' in headers;
+    const msg = `Gotenberg merge returned ${res.status} ${res.statusText} for ${url} `
+      + `(servedByGotenberg=${servedByGotenberg}): ${bodyPreview}`;
+    logger.error(msg, {
+      url,
+      status: res.status,
+      statusText: res.statusText,
+      headers,
+      body,
+    });
+    throw new Error(msg);
+  }
+
+  const buf = Buffer.from(await res.arrayBuffer());
+  logger.info(`Gotenberg merge success: status=${res.status}, bytes=${buf.length}`);
+  return buf;
+};
+
 export const convertHtmlToBuffer = async (logger: Logger, html: string): Promise<Buffer> => {
   if (!appConfig.services.gotenbergUrl) {
     const msg = 'GOTENBERG_URL is not configured — cannot render PDF';

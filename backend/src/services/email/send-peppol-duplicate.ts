@@ -135,7 +135,7 @@ export async function maybeSendPeppolDuplicate(
   const termsAndConditions: Buffer = attachmentsConfigDoc?.TermsAndConditions?.buffer;
 
   try {
-    const mailData = await buildInvoiceEmailData(emailRequest, attachmentBuffers, termsAndConditions);
+    const mailData = await buildInvoiceEmailData(logger, emailRequest, attachmentBuffers, termsAndConditions);
     const info = await sendEmailCore(mailData);
     if (info.rejected?.length) {
       logger.error(`maybeSendPeppolDuplicate: email rejected for invoice #${invoice.number}: ${info.response}`);

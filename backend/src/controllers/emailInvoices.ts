@@ -1,14 +1,12 @@
 import {Request, Response} from 'express';
-import PDFMerge from 'pdf-merge';
 import nodemailer from 'nodemailer';
-import fs from 'fs';
-import tmp from 'tmp';
 import {ObjectID} from 'mongodb';
 import {Logger} from 'winston';
 import {IAttachmentCollection, IEmailAttachment} from '../models/attachments';
 import {IEmail} from '../models/clients';
 import {CollectionNames, IAttachment, SocketEventTypes} from '../models/common';
 import {emitEntityEvent} from './utils/entity-events';
+import {mergePdfBuffers} from './utils';
 import {ConfacRequest} from '../models/technical';
 import config from '../config';
 
@@ -50,7 +48,7 @@ export const emailInvoiceController = async (
   const data = await req.db.collection('attachments_config').findOne({});
   const termsAndConditions: Buffer = data?.TermsAndConditions?.buffer;
 
-  const mailData = await buildInvoiceEmailData(email, attachmentBuffers, termsAndConditions);
+  const mailData = await buildInvoiceEmailData(req.logger, email, attachmentBuffers, termsAndConditions);
   const emailRes = await sendEmail(req.logger, res, mailData);
   if (emailRes) {
     return emailRes;
@@ -81,62 +79,45 @@ export const emailInvoiceController = async (
 
 
 export async function buildInvoiceEmailData(
+  logger: Logger,
   email: EmailRequest,
   attachmentBuffers: IAttachmentCollection,
   termsAndConditions: Buffer,
 ): Promise<IEmailData> {
 
   // Make sure the invoice is the first document in the array
-   
   const attachments = email.attachments.sort((a, b) => (a.type === 'pdf' ? -1 : b.type === 'pdf' ? 1 : 0));
 
-  // Combine Invoice PDF & Timesheet?
+  // Mongo BSON Binary exposes the raw bytes via `.buffer`. Normalise here
+  // so everything downstream is a plain Buffer.
+  const unwrap = (type: string): Buffer => {
+    const raw = attachmentBuffers[type as keyof IAttachment] as {buffer?: Buffer} | Buffer;
+    return (raw as {buffer?: Buffer}).buffer ?? (raw as Buffer);
+  };
+
   let emailAttachments: (Omit<IEmailAttachment, 'content'> & {content: Buffer})[] = [];
   if (email.combineAttachments) {
-    const files: tmp.FileResult[] = [];
-    attachments.forEach(attachment => {
-      const tmpFile = tmp.fileSync();
-      fs.writeSync(tmpFile.fd, attachmentBuffers[attachment.type as keyof IAttachment].buffer as Buffer);
-      files.push(tmpFile);
-    });
-
-    const mergedPdfs: Buffer = await PDFMerge(files.map(f => f.name));
-
-    const invoiceAttachment = attachments.find(attachment => attachment.type === 'pdf');
+    const merged = await mergePdfBuffers(logger, attachments.map(a => unwrap(a.type)));
+    const invoiceAttachment = attachments.find(a => a.type === 'pdf');
     if (invoiceAttachment) {
       emailAttachments = [{
-        content: mergedPdfs,
+        content: merged,
         filename: invoiceAttachment.fileName,
         type: invoiceAttachment.fileType,
       }];
     }
-    files.forEach(file => file.removeCallback());
-
   } else {
-    emailAttachments = attachments.map(attachment => ({
-      content: attachmentBuffers[attachment.type],
-      filename: attachment.fileName,
-      type: attachment.fileType,
+    emailAttachments = attachments.map(a => ({
+      content: unwrap(a.type),
+      filename: a.fileName,
+      type: a.fileType,
     }));
   }
 
-
-  // Merge Terms & Conditions with the invoice pdf
-  if (termsAndConditions) {
-    const invoiceBuffer = emailAttachments[0].content.buffer;
-
-    const invoiceFile = tmp.fileSync();
-    fs.writeSync(invoiceFile.fd, invoiceBuffer as Buffer);
-
-    const termsCondFile = tmp.fileSync();
-    fs.writeSync(termsCondFile.fd, termsAndConditions);
-
-    const mergedInvoicePdf: Buffer = await PDFMerge([invoiceFile, termsCondFile].map(f => f.name));
-     
-    emailAttachments = emailAttachments.map((att, idx) => idx === 0 ? {...att, content: mergedInvoicePdf} : att);
-
-    invoiceFile.removeCallback();
-    termsCondFile.removeCallback();
+  // Merge Terms & Conditions onto the invoice pdf (first attachment).
+  if (termsAndConditions && emailAttachments.length > 0) {
+    const merged = await mergePdfBuffers(logger, [emailAttachments[0].content, termsAndConditions]);
+    emailAttachments = emailAttachments.map((att, i) => (i === 0 ? {...att, content: merged} : att));
   }
 
   const emailData: IEmailData = {
