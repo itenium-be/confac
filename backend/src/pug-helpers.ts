@@ -1,39 +1,17 @@
 import moment from 'moment';
-import numeral from 'numeral';
 import 'moment/locale/nl-be';
 
 // These helper functions are available in the pug templates
 
-numeral.register('locale', 'nl-be', {
-  delimiters: {
-    thousands: '.',
-    decimal: ',',
-  },
-  abbreviations: {
-    thousand: 'k',
-    million: 'mln',
-    billion: 'mld',
-    trillion: 'bln',
-  },
-  ordinal(number) {
-    return number === 1 ? 'ste' : 'de';
-  },
-  currency: {symbol: '€'},
-});
-
-numeral.locale('nl-be');
-
 moment.locale('nl-be');
+
+const belgianNumberFormatter = new Intl.NumberFormat('nl-BE', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
 
 export default {
   moment,
-  numeral,
   formatDate: (dateString: string, format = 'DD/MM/YYYY') => moment(dateString).format(format),
-  numberFormat: (number: number) => {
-    if (number < 0) {
-      return `-${numeral(Math.abs(number)).format('0,0.00')}`;
-    }
-
-    return numeral(number).format('0,0.00');
-  },
+  numberFormat: (number: number) => belgianNumberFormatter.format(number),
 };
