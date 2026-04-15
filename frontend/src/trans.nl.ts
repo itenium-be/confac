@@ -355,6 +355,13 @@ export const trans = {
       Paid: 'Betaald',
       Archived: 'Gearchiveerd',
     },
+    statusDescription: {
+      Draft: 'Factuur bestaat enkel in confac.',
+      ToSend: 'Factuur is gesynced met Billit (en is reeds of wordt automatisch gesynced met ExactOnline) maar is nog niet op het Peppol network (dus ook nog niet bij de klant).',
+      ToPay: 'De factuur is via Billit naar de klant verstuurd via het Peppol netwerk (of via email indien de klant niet aangesloten is op Peppol).',
+      Paid: 'De factuur bestaat in Billit, ExactOnline en Peppol, en is betaald door de klant.',
+      Archived: 'Een concept of te versturen factuur die gearchiveerd is omdat deze geblokkeerd is geraakt.',
+    },
     archive: 'Archiveren',
     unarchive: 'Dearchiveren',
     archiveTitle: 'Factuur archiveren',

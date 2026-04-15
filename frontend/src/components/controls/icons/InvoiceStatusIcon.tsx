@@ -57,7 +57,7 @@ type TooltipOptions = {
 
 /** Get tooltip text including Peppol delivery status */
 export function getInvoiceStatusTooltip(status: InvoiceStatus, billit?: InvoiceBillitModel, options?: TooltipOptions): string {
-  const baseTooltip = t(statusConfig[status].translationKey);
+  const baseTooltip = `<b>${t(statusConfig[status].translationKey)}</b><br>${t(`invoice.statusDescription.${status}`)}`;
 
   if (status === 'ToPay') {
     const lines = [baseTooltip];

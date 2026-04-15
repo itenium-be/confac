@@ -355,6 +355,13 @@ export const trans = {
       Paid: 'Paid',
       Archived: 'Archived',
     },
+    statusDescription: {
+      Draft: 'Invoice exists only in confac.',
+      ToSend: 'Invoice is synced to Billit (and is already, or will be automatically, synced to ExactOnline).',
+      ToPay: 'The invoice has been sent to the client via Billit over the Peppol network (or by email if the client is not connected to Peppol).',
+      Paid: 'The invoice is in Billit, ExactOnline and Peppol, and has been paid by the client.',
+      Archived: 'A draft or to-send invoice that was archived because it got stuck.',
+    },
     archive: 'Archive',
     unarchive: 'Unarchive',
     archiveTitle: 'Archive invoice',
