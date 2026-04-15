@@ -50,6 +50,20 @@ describe('buildProject', () => {
     expect(() => buildProject({...baseRow, consultantSlug: 'carol-freelance'}, makeMaps())).toThrow(/freelancer.*requires partnerSlug/i);
   });
 
+  it('externalConsultant without partnerSlug throws', () => {
+    const maps = makeMaps();
+    maps.consultantTypes.set('dave-ext', 'externalConsultant');
+    maps.consultantIds.set('dave-ext', new ObjectID());
+    expect(() => buildProject({...baseRow, consultantSlug: 'dave-ext'}, maps)).toThrow(/externalConsultant.*requires partnerSlug/i);
+  });
+
+  it('throws when consultantSlug is in consultantIds but missing from consultantTypes', () => {
+    const maps = makeMaps();
+    maps.consultantIds.set('ghost', new ObjectID());
+    // intentionally not setting consultantTypes.set('ghost', ...)
+    expect(() => buildProject({...baseRow, consultantSlug: 'ghost'}, maps)).toThrow(/consultantTypes map missing entry for 'ghost'/);
+  });
+
   it('freelancer with partnerSlug populates partner block', () => {
     const p = buildProject(
       {...baseRow, consultantSlug: 'carol-freelance', partnerSlug: 'axi'},

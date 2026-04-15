@@ -22,7 +22,10 @@ function invoiceLine(price: number) {
 export function buildProject(row: ProjectRow, maps: BuildProjectMaps) {
   const consultantId = resolve(maps.consultantIds, row.consultantSlug);
   const clientId = resolve(maps.clientIds, row.clientSlug);
-  const consultantType = maps.consultantTypes.get(row.consultantSlug)!;
+  const consultantType = maps.consultantTypes.get(row.consultantSlug);
+  if (!consultantType) {
+    throw new Error(`consultantTypes map missing entry for '${row.consultantSlug}'`);
+  }
 
   const requiresPartner = consultantType === 'freelancer' || consultantType === 'externalConsultant';
   if (requiresPartner && !row.partnerSlug) {
