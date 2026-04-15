@@ -77,25 +77,24 @@ if [ -z "$CONFACNET" ]; then
 fi
 
 run_migrate() {
-  docker run --rm \
-    --network "$CONFACNET" \
-    --env-file .env \
-    -e MONGO_HOST=mongo \
-    -e MONGO_PORT=27017 \
-    -v "$(pwd):/deploy" \
-    -v confac-migrate-node_modules:/deploy/node_modules \
-    -w /deploy \
-    oven/bun:1.3.11 \
-    sh -c "bun install --frozen-lockfile && bun run $1"
+  local cmd="$1"
+  tar c package.json bun.lock migrate-mongo-config.js migrations \
+  | docker run --rm -i \
+      --network "$CONFACNET" \
+      --env-file .env \
+      -e MONGO_HOST=mongo \
+      -e MONGO_PORT=27017 \
+      oven/bun:1.3.11 \
+      sh -c "mkdir -p /app && cd /app && tar x && bun install --frozen-lockfile >/dev/null && bun run $cmd"
 }
 
-# Retry: first attempt may be slow because bun install populates the named
-# volume and mongo may still be starting up.
+# Mongo may still be starting after docker-compose up -d.
 STATUS_OUTPUT=""
 for attempt in 1 2 3 4 5; do
   if STATUS_OUTPUT=$(run_migrate status 2>&1); then
     break
   fi
+  echo "migrate-mongo status attempt $attempt failed, retrying..."
   sleep 3
 done
 
@@ -108,10 +107,11 @@ if ! echo "$STATUS_OUTPUT" | grep -q -E 'PENDING|Filename'; then
     exit 1
   fi
 else
+  echo "$STATUS_OUTPUT"
   PENDING=$(echo "$STATUS_OUTPUT" | grep -c 'PENDING' || true)
   if [ "$PENDING" -gt 0 ]; then
-    echo -e "\033[1;33m$PENDING pending migration(s):\033[0m"
-    echo "$STATUS_OUTPUT" | grep 'PENDING'
+    echo ""
+    echo -e "\033[1;33m$PENDING pending migration(s) listed above.\033[0m"
     read -n1 -s -r -p $'Run them now? [y/N] ' migkey
     echo
     if [ "$migkey" = "y" ] || [ "$migkey" = "Y" ]; then
