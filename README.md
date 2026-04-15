@@ -4,7 +4,7 @@ confac
 ## Version Lock-In
 
 We're locked into these versions (for the backend):
-TypeScript v4.3 and mongodb **v3.5.8**
+mongodb **v3.5.8**
 - Could attempt to upgrade mongodb to v4.4.1
 - This is the latest version of mongo that does not require AVX which our production server doesn't have
 - For later versions of mongo the @types/mongodb is no longer necessary but there are breaking changes
