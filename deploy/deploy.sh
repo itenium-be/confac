@@ -85,7 +85,7 @@ run_migrate() {
       -e MONGO_HOST=mongo \
       -e MONGO_PORT=27017 \
       oven/bun:1.3.11 \
-      sh -c "mkdir -p /app && cd /app && tar x && bun install --frozen-lockfile >/dev/null && bun run $cmd"
+      sh -c "mkdir -p /app && cd /app && tar x && bun install --frozen-lockfile >/dev/null && bun node_modules/migrate-mongo/bin/migrate-mongo.js $cmd"
 }
 
 # Mongo may still be starting after docker-compose up -d.
