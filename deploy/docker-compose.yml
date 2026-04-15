@@ -27,6 +27,8 @@ services:
     container_name: confac-${ENVIRONMENT}-gotenberg
     image: gotenberg/gotenberg:8
     restart: always
+    volumes:
+      - "${FONT_PATH}:/usr/share/fonts/custom:ro"
     networks:
       - confacnet
 
@@ -40,7 +42,6 @@ services:
     restart: always
     volumes:
       - "${TEMPLATE_PATH}:/templates"
-      - "${FONT_PATH}:/usr/share/fonts"
       - "${LOGGING_FILE}:/logs"
     ports:
       - "${APP_PORT}:7000"

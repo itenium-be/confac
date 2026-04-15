@@ -34,12 +34,11 @@ RUN mkdir /dist && \
 FROM oven/bun:1.3.11-slim
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends pdftk libfontconfig1 && \
+    apt-get install -y --no-install-recommends pdftk && \
     rm -rf /var/lib/apt/lists/*
 
 EXPOSE 7000
 VOLUME /templates
-VOLUME /usr/share/fonts
 
 COPY --from=build /dist /home
 WORKDIR /home

@@ -51,8 +51,6 @@ On the server, migrations are handled by `./deploy.sh`.
 
 ## Server Dependencies
 
-Fonts need to be present in `/usr/share/fonts` for pdf text to be selectable.
-
 For the merging of PDFs, [PDFtk](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) needs to be installed.
 
 ```bash
