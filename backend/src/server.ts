@@ -47,16 +47,30 @@ if (appConfig.db.user && appConfig.db.pwd) {
 }
 
 const opts = {authSource: 'admin', useUnifiedTopology: true};
+const MAX_CONNECT_ATTEMPTS = 10;
 let _MongoClient: MongoClient;
-MongoClient.connect(connectionString, opts).then(client => {
-  logger.info('Successfully connected to the database!');
-  _MongoClient = client;
-})
-  .catch(err => logger.error(`Could not connect to the database. More info: ${err}`));
+
+const connectToMongoWithRetry = async (): Promise<MongoClient> => {
+  for (let attempt = 1; attempt <= MAX_CONNECT_ATTEMPTS; attempt++) {
+    try {
+      const client = await MongoClient.connect(connectionString, opts);
+      logger.info(`Successfully connected to the database on attempt ${attempt}`);
+      return client;
+    } catch (err) {
+      if (attempt === MAX_CONNECT_ATTEMPTS) {
+        logger.error(`Could not connect to the database after ${MAX_CONNECT_ATTEMPTS} attempts. Exiting. More info: ${err}`);
+        process.exit(1);
+      }
+      const delay = Math.min(30_000, 1000 * 2 ** (attempt - 1));
+      logger.warn(`Mongo connect attempt ${attempt}/${MAX_CONNECT_ATTEMPTS} failed, retrying in ${delay}ms: ${err}`);
+      await new Promise(r => setTimeout(r, delay));
+    }
+  }
+  throw new Error('unreachable');
+};
 
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-  // TODO: fix race condition
   req.db = _MongoClient.db();
   req.io = io;
   next();
@@ -95,14 +109,18 @@ app.use((req: Request, res: Response) => res.sendFile('/home/public/index.html')
 
 
 
-server.listen(appConfig.server.port, () => {
-  logger.info(`Server connected to port ${appConfig.server.port}, running in a ${appConfig.ENVIRONMENT} environment.`);
-  const safeConfig: IConfig = {
-    ...appConfig,
-    db: {...appConfig.db, pwd: '***'},
-    email: {...appConfig.email, pass: '***'},
-    security: {...appConfig.security, secret: '***'},
-    jwt: {...appConfig.jwt, secret: '***'},
-  };
-  logger.info(safeConfig);
-});
+(async () => {
+  _MongoClient = await connectToMongoWithRetry();
+
+  server.listen(appConfig.server.port, () => {
+    logger.info(`Server connected to port ${appConfig.server.port}, running in a ${appConfig.ENVIRONMENT} environment.`);
+    const safeConfig: IConfig = {
+      ...appConfig,
+      db: {...appConfig.db, pwd: '***'},
+      email: {...appConfig.email, pass: '***'},
+      security: {...appConfig.security, secret: '***'},
+      jwt: {...appConfig.jwt, secret: '***'},
+    };
+    logger.info(safeConfig);
+  });
+})();
