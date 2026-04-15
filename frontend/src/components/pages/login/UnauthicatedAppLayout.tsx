@@ -15,7 +15,7 @@ export const UnauthicatedAppLayout = ({Component}: UnauthicatedAppLayoutProps) =
   return (
     <div className="container unauthicated">
       <Link to="/">
-        <img src="/img/itenium.png" role="presentation" alt="itenium logo" />
+        <img src="/img/itenium.svg" role="presentation" alt="itenium logo" height={30} />
       </Link>
       <hr />
       <Component />

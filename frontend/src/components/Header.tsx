@@ -43,7 +43,7 @@ const Header = () => (
   <Navbar bg="light" expand="lg" className="top-header">
     <Navbar.Brand>
       <a href="https://itenium.be" target="_blank" style={{marginTop: -4, marginLeft: 12}} rel="noopener noreferrer">
-        <img src="/img/itenium.png" role="presentation" alt="itenium logo" />
+        <img src="/img/itenium.svg" role="presentation" alt="itenium logo" height={30} />
       </a>
     </Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
