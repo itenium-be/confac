@@ -175,17 +175,20 @@ export const getAttachmentController = async (req: Request, res: Response) => {
 
   const attachmentBuffer: Buffer = attachment[type].buffer;
 
-  let responseType: string = '';
-  if (!req.query.download) {
-    const ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+  const ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+  // .htm/.html served as text/plain with attachment disposition
+  // so the browser never renders them inline to avoid XSS
+  const isLegacyHtml = ext === 'html' || ext === 'htm';
 
+  let responseType: string = '';
+  if (!req.query.download && !isLegacyHtml) {
     const determineResponseType = (): string => {
       if (type === 'pdf' || ext === 'pdf') {
         return 'application/pdf';
-      } if (['png', 'bmp', 'jpg', 'gif'].includes(ext)) {
+      } if (['jpg', 'jpeg'].includes(ext)) {
+        return 'image/jpeg';
+      } if (['png', 'bmp', 'gif'].includes(ext)) {
         return `image/${ext}`;
-      } if (['html', 'htm'].includes(ext)) {
-        return 'text/html';
       } if (['ppt'].includes(ext)) {
         return 'application/vnd.ms-powerpoint';
       } if (['pptx'].includes(ext)) {
@@ -215,14 +218,18 @@ export const getAttachmentController = async (req: Request, res: Response) => {
     responseType = determineResponseType();
   }
 
-  // Download the file
+  if (isLegacyHtml) {
+    responseType = 'text/plain';
+  }
+
   if (!fileName) {
     req.logger.info(`Downloading a file without knowing the filename for ${JSON.stringify(req.params)}`);
   }
 
+  const disposition = isLegacyHtml ? 'attachment' : 'inline';
   return res
     .type(responseType)
-    .set('Content-Disposition', `inline;filename=${encodeURIComponent(fileName)}`)
+    .set('Content-Disposition', `${disposition};filename=${encodeURIComponent(fileName)}`)
     .send(attachmentBuffer);
 };
 
