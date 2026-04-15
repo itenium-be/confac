@@ -1,5 +1,5 @@
 import {Express, Request} from 'express';
-import {attachmentFileFilter, ALLOWED_UPLOAD_EXTENSIONS, MAX_UPLOAD_BYTES} from '../attachments';
+import {attachmentFileFilter, ALLOWED_UPLOAD_EXTENSIONS, MAX_UPLOAD_BYTES, UnsupportedFileTypeError} from '../attachments';
 
 const fakeFile = (originalname: string): Express.Multer.File => ({
   fieldname: 'pdf',
@@ -39,21 +39,21 @@ describe('attachments route :: fileFilter', () => {
     expect(result.accepted).toBe(true);
   });
 
-  it('rejects executables', async () => {
+  it('rejects executables and exposes displayExt on the error', async () => {
     const result = await runFilter('payload.exe');
-    expect(result.err).toBeInstanceOf(Error);
-    expect(result.err?.message).toContain('.exe');
+    expect(result.err).toBeInstanceOf(UnsupportedFileTypeError);
+    expect((result.err as UnsupportedFileTypeError).displayExt).toBe('.exe');
   });
 
   it('rejects shell scripts', async () => {
     const result = await runFilter('evil.sh');
-    expect(result.err).toBeInstanceOf(Error);
+    expect(result.err).toBeInstanceOf(UnsupportedFileTypeError);
   });
 
-  it('rejects files with no extension', async () => {
+  it('rejects files with no extension with displayExt=(none)', async () => {
     const result = await runFilter('README');
-    expect(result.err).toBeInstanceOf(Error);
-    expect(result.err?.message).toContain('(none)');
+    expect(result.err).toBeInstanceOf(UnsupportedFileTypeError);
+    expect((result.err as UnsupportedFileTypeError).displayExt).toBe('(none)');
   });
 
   it('rejects svg (potential xss)', async () => {

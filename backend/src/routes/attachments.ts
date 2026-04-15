@@ -15,12 +15,23 @@ export const ALLOWED_UPLOAD_EXTENSIONS = new Set([
   'odp', 'ods', 'odt',
 ]);
 
+export class UnsupportedFileTypeError extends Error {
+  displayExt: string;
+
+  constructor(displayExt: string) {
+    super(`Unsupported file type: ${displayExt}`);
+    this.name = 'UnsupportedFileTypeError';
+    this.displayExt = displayExt;
+  }
+}
+
 export const attachmentFileFilter: multer.Options['fileFilter'] = (_req, file, cb) => {
   const name = file.originalname || '';
   const dot = name.lastIndexOf('.');
   const ext = dot >= 0 ? name.slice(dot + 1).toLowerCase() : '';
   if (!ALLOWED_UPLOAD_EXTENSIONS.has(ext)) {
-    return cb(new Error(`Unsupported file type: .${ext || '(none)'}`));
+    const displayExt = ext ? `.${ext}` : '(none)';
+    return cb(new UnsupportedFileTypeError(displayExt));
   }
   return cb(null, true);
 };
@@ -34,12 +45,21 @@ const uploadSingleAttachment = (req: Request, res: Response, next: NextFunction)
   multiPartFormMiddleware.any()(req, res, (err: unknown) => {
     if (err instanceof multer.MulterError) {
       if (err.code === 'LIMIT_FILE_SIZE') {
-        return res.status(413).send(`File too large (max ${MAX_UPLOAD_BYTES} bytes)`);
+        return res.status(413).send({
+          message: 'attachment.uploadTooLarge',
+          data: {maxMB: Math.round(MAX_UPLOAD_BYTES / 1024 / 1024)},
+        });
       }
-      return res.status(400).send(`Upload error: ${err.message}`);
+      return res.status(400).send({message: 'attachment.uploadError', data: {reason: err.message}});
+    }
+    if (err instanceof UnsupportedFileTypeError) {
+      return res.status(415).send({
+        message: 'attachment.unsupportedType',
+        data: {ext: err.displayExt},
+      });
     }
     if (err instanceof Error) {
-      return res.status(415).send(err.message);
+      return res.status(400).send({message: 'attachment.uploadError', data: {reason: err.message}});
     }
     return next();
   });

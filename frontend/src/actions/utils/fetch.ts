@@ -44,6 +44,13 @@ export function catchHandler(error: unknown) {
     return;
   }
 
+  if (err.status === 413 || err.status === 415) {
+    const msg = t(err.body?.message || 'error.unknown', err.body?.data);
+    console.error(`HTTP ${err.status}`, msg);
+    failure(msg);
+    return;
+  }
+
   if (err.res.unauthorized) {
     failure(err.body?.message);
     setTimeout(() => {

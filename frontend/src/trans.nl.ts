@@ -429,6 +429,9 @@ export const trans = {
     deletePopup: 'De bijlage verwijderen?',
     upload: 'Voeg een bestand toe',
     noneUploaded: 'Er zijn nog geen bijlages toegevoegd.',
+    uploadTooLarge: 'Bestand te groot. Maximum is {maxMB} MB.',
+    unsupportedType: 'Bestandstype {ext} is niet toegelaten.',
+    uploadError: 'Upload mislukt: {reason}',
   },
   contract: {
     notes: 'Contract notitie',

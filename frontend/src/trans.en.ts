@@ -429,6 +429,9 @@ export const trans = {
     deletePopup: 'Delete this attachment?',
     upload: 'Add a file',
     noneUploaded: 'No attachment have been added.',
+    uploadTooLarge: 'File too large. Maximum allowed is {maxMB} MB.',
+    unsupportedType: 'File type {ext} is not allowed.',
+    uploadError: 'Upload failed: {reason}',
   },
   contract: {
     notes: 'Contract notites',
