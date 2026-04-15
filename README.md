@@ -49,15 +49,21 @@ bun run up
 On the server, migrations are handled by `./deploy.sh`.
 
 
-## Server Dependencies
+## PDF fonts (Gotenberg)
 
-For the merging of PDFs, [PDFtk](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) needs to be installed.
+Custom PDFs fonts must be in `FONT_PATH`.
+
+**After adding or replacing a font file on the host**:
 
 ```bash
-apt-get install pdftk
-choco install -y pdftk-server
-```
+CONFAC_ENV=prod
+docker exec -u 0 confac-$CONFAC_ENV-gotenberg fc-cache -f
+docker restart confac-$CONFAC_ENV-gotenberg
+docker exec confac-$CONFAC_ENV-gotenberg fc-match "Your Family Name"
 
+# If the file is there but gotenberg doesn't see it, check permissions
+sudo chmod -R a+rX "$FONT_PATH"
+```
 
 ## Deployment
 
