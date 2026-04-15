@@ -68,7 +68,7 @@
     "knip": "^5.85.0",
     "socket.io-mock-ts": "^1.0.2",
     "typescript": "~5.7.0",
-    "vitest": "^1.6.1",
+    "vitest": "^3.0.0",
     "typescript-eslint": "^8.56.0"
   }
 }

@@ -14,7 +14,7 @@ import projectsRouter from '../../routes/projects';
 
 
 
-const getFakeDb = vi.fn<[], Db>();
+const getFakeDb = vi.fn<() => Db>();
 
 const app = express();
 app.use(bodyParser.json());
