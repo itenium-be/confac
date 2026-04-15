@@ -6,11 +6,7 @@
     "src/services/billit/mock-api-client.ts"
   ],
   "ignoreDependencies": [
-    "@eslint/js",
-    "gulp",
-    "gulp-plumber",
-    "gulp-pug",
-    "@faker-js/faker"
+    "@eslint/js"
   ],
   "exclude": [
     "exports",
