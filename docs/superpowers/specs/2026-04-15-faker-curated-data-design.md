@@ -108,7 +108,7 @@ type ClientRow = {
 Real BE IT consultancies (the small end of the market) plus one NL entry. Candidates; final list + verified VATs written into the file during implementation using KBO (`kbopub.economie.fgov.be`) lookups:
 
 1. `ordina-belgium` — Ordina Belgium NV (BE)
-2. `inetum-realdolmen` — Inetum-Realdolmen NV (BE)
+2. `axi` — AXI NV (BE)
 3. `euricom` — Euricom NV (BE)
 4. `ixor` — Ixor NV (BE)
 5. `aleri-solutions` — Aleri Solutions NV (BE)
