@@ -1,6 +1,5 @@
  
 import express, {Request, Response, NextFunction} from 'express';
-import bodyParser from 'body-parser';
 import {MongoClient} from 'mongodb';
 import cors from 'cors';
 import {Server} from 'socket.io';
@@ -26,8 +25,8 @@ const corsOptions = {
 const io = new Server(server, {cors: corsOptions});
 
 app.use(cors(corsOptions));
-app.use(bodyParser.json({limit: '5mb'}));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.json({limit: '5mb'}));
+app.use(express.urlencoded({extended: true}));
 app.use(express.static(`./${appConfig.server.basePath}public`));
 
 if (appConfig.ENABLE_ROOT_TEMPLATES) {
