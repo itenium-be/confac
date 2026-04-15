@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import {Db, ObjectID} from 'mongodb';
+import {insertAdminRole} from './adminRole';
 import {buildConfig} from './builders/buildConfig';
 import {buildClient} from './builders/buildClient';
 import {buildConsultant} from './builders/buildConsultant';
@@ -20,6 +21,9 @@ const GUARDED = [
 ] as const;
 
 export async function insertStuff(db: Db): Promise<void> {
+  // --- 0. Ensure admin role exists (always, even when fixture is skipped) ---
+  await insertAdminRole(db);
+
   // --- 1. Guard: refuse to touch a non-empty DB ---
   for (const {collection, filter} of GUARDED) {
     const count = await db.collection(collection).countDocuments(filter);
