@@ -90,4 +90,4 @@ networks:
   monitoring_monitoring:
     external: ${LOGGING_LOKI_NETWORK:-false}
   forge-excel_excelnet:
-    external: true
+    external: ${FORGE_EXCEL_NETWORK:-true}
