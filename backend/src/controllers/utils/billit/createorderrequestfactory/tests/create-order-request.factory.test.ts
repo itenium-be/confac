@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {ObjectID} from 'mongodb';
 import {fromInvoice} from '../create-order-request.factory';
 import {CreateOrderRequest} from '../../../../../services/billit';
 import {IInvoice} from '../../../../../models/invoices';
@@ -344,5 +345,61 @@ describe('fromInvoice', () => {
 
     expect(actual.PaymentDiscountPercentage).toBeUndefined();
     expect(actual.PaymentDiscountAmount).toBeUndefined();
+  });
+
+  describe('credit note AboutInvoiceNumber', () => {
+    const peppolPivotDate = moment('2025-01-01');
+
+    const creditNote: IInvoice = {
+      ...someInvoice,
+      number: 2025099,
+      creditNotas: [new ObjectID('507f1f77bcf86cd799439013') as unknown as string],
+      money: {...someInvoice.money, total: -2117.5},
+    };
+
+    const originalAfterPivot: IInvoice = {
+      ...someInvoice,
+      number: 2025001,
+      audit: {...someInvoice.audit, createdOn: '2025-06-01T00:00:00.000Z'},
+    };
+
+    it('should set AboutInvoiceNumber when original is in Billit', () => {
+      const originalInvoice: IInvoice = {...originalAfterPivot, billit: {orderId: 12345}};
+
+      const actual = fromInvoice(creditNote, someClient, undefined, undefined, {originalInvoice, peppolPivotDate});
+
+      expect(actual.AboutInvoiceNumber).toBe('2025001');
+      expect(actual.OrderType).toBe('CreditNote');
+    });
+
+    it('should NOT set AboutInvoiceNumber when original was never pushed to Billit', () => {
+      const originalInvoice: IInvoice = {...originalAfterPivot, billit: undefined};
+
+      const actual = fromInvoice(creditNote, someClient, undefined, undefined, {originalInvoice, peppolPivotDate});
+
+      expect(actual.AboutInvoiceNumber).toBeUndefined();
+      expect(actual.OrderType).toBe('CreditNote');
+    });
+
+    it('should NOT set AboutInvoiceNumber when original has billit object without orderId', () => {
+      const originalInvoice: IInvoice = {...originalAfterPivot, billit: {orderId: undefined}};
+
+      const actual = fromInvoice(creditNote, someClient, undefined, undefined, {originalInvoice, peppolPivotDate});
+
+      expect(actual.AboutInvoiceNumber).toBeUndefined();
+    });
+
+    it('should NOT set AboutInvoiceNumber when original is before Peppol pivot date', () => {
+      const originalInvoice: IInvoice = {
+        ...someInvoice,
+        number: 2024050,
+        audit: {...someInvoice.audit, createdOn: '2024-06-01T00:00:00.000Z'},
+        billit: {orderId: 99999},
+      };
+
+      const actual = fromInvoice(creditNote, someClient, undefined, undefined, {originalInvoice, peppolPivotDate});
+
+      expect(actual.AboutInvoiceNumber).toBeUndefined();
+    });
   });
 });

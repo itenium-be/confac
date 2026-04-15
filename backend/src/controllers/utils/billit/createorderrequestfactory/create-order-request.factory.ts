@@ -115,12 +115,14 @@ export function fromInvoice(
     contractDocumentReference = [{ID: project.client.ref}];
   }
 
-  // Set AboutInvoiceNumber for linked invoices if original invoice was created on or after peppol pivot date
+  // Set AboutInvoiceNumber only when the original invoice was actually pushed to Billit
+  // (otherwise Billit cannot resolve the reference and rejects the credit note).
   let aboutInvoiceNumber: string | undefined;
   if (hasLinkedInvoice && creditNoteOptions) {
     const {originalInvoice, peppolPivotDate} = creditNoteOptions;
     const originalCreatedOn = moment(originalInvoice.audit?.createdOn);
-    if (originalCreatedOn.isSameOrAfter(peppolPivotDate, 'day')) {
+    const originalIsInBillit = originalInvoice.billit?.orderId !== undefined;
+    if (originalIsInBillit && originalCreatedOn.isSameOrAfter(peppolPivotDate, 'day')) {
       aboutInvoiceNumber = originalInvoice.number.toString();
     }
   }
