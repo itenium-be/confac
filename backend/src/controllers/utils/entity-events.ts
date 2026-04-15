@@ -1,4 +1,4 @@
-import {ObjectId} from 'bson';
+import {ObjectId} from 'mongodb';
 import {CollectionNames, SocketEventTypes} from '../../models/common';
 import {ConfacRequest} from '../../models/technical';
 

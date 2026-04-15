@@ -16,7 +16,6 @@
   "author": "itenium",
   "license": "MIT",
   "dependencies": {
-    "bson": "^1.1.4",
     "cors": "^2.8.5",
     "deep-diff": "^1.0.2",
     "dotenv": "^16.0.3",
