@@ -36,7 +36,7 @@ export const ClientModal = ({title, onConfirm, clientId, show, onClose, newClien
       title={client?._id ? client.name : modalTitle}
       onConfirm={onSave}
       dialogClassName="client-modal"
-      disableSave={!!client && !canSaveClient}
+      disableSave={!client || !canSaveClient}
     >
       {!client ? (
         <NewClientForm
