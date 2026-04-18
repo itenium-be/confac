@@ -104,7 +104,7 @@ export const EmailModal = ({invoice, onClose, template, ...props}: EmailModalPro
     <Modal
       show
       onClose={onClose}
-      onConfirm={() => void dispatch(sendEmail(client?.invoiceFileName || config.invoiceFileName, invoice, value, config.emailInvoiceOnly))}
+      onConfirm={() => void dispatch(sendEmail(client?.invoiceFileName || config.invoiceFileName, invoice, value))}
       confirmText={t('email.send')}
       confirmVariant="danger"
       title={<EmailModalTitle title={t('email.title')} lastEmail={invoice.lastEmail} />}

@@ -17,7 +17,6 @@ export function sendEmail(
   invoiceFileName: string,
   invoice: InvoiceModel,
   email: EmailModel,
-  emailInvoiceOnly?: string,
 ) {
   return async (dispatch: AppDispatch) => {
     const attachmentDetails: EmailAttachmentDetail[] = email.attachments.map(attachmentType => {
@@ -45,10 +44,7 @@ export function sendEmail(
 
     const emailPayload = {...email, attachments: attachmentDetails};
 
-    let url = `/invoices/email/${invoice._id}`;
-    if (emailInvoiceOnly && !invoice.lastEmail) {
-      url += '?emailInvoiceOnly=' + encodeURIComponent(emailInvoiceOnly);
-    }
+    const url = `/invoices/email/${invoice._id}`;
 
     try {
       const res = await api.post<unknown>(url, emailPayload);

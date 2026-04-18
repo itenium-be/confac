@@ -19,14 +19,13 @@ export type EmailAttachmentRequest = {
 export type EmailRequest = Omit<IEmail, 'attachments'> & {attachments: EmailAttachmentRequest[]};
 
 
-type EmailInvoiceQuery = {emailInvoiceOnly: string};
-
 export const emailInvoiceController = async (
-  req: Request<{id: number}, unknown, EmailRequest, EmailInvoiceQuery>,
+  req: Request<{id: number}, unknown, EmailRequest>,
   res: Response,
 ) => {
   const invoiceId = req.params.id;
   const email = req.body;
+  req.logger.info(`emailInvoiceController: invoiceId=${invoiceId}, to=${email.to}`);
 
   const attachmentTypes = email.attachments.map(a => a.type).reduce((acc: {[key: string]: number}, cur) => {
     acc[cur] = 1;
@@ -49,13 +48,10 @@ export const emailInvoiceController = async (
   const termsAndConditions: Buffer = data?.TermsAndConditions?.buffer;
 
   const mailData = await buildInvoiceEmailData(req.logger, email, attachmentBuffers, termsAndConditions);
+  req.logger.info(`emailInvoiceController: sending main email to ${email.to}`);
   const emailRes = await sendEmail(req.logger, res, mailData);
   if (emailRes) {
     return emailRes;
-  }
-
-  if (req.query.emailInvoiceOnly) {
-    await sendInvoiceOnlyEmail(req.logger, email, attachmentBuffers, req.query.emailInvoiceOnly);
   }
 
   const lastEmailSent = new Date().toISOString();
@@ -210,36 +206,3 @@ async function sendEmail(logger: Logger, res: Response, mailData: IEmailData): P
   return null;
 }
 
-
-
-/**
- * Send email with only the invoice, not the timesheet etc
- * This email is sent only once
- * */
-async function sendInvoiceOnlyEmail(
-  logger: Logger,
-  email: EmailRequest,
-  attachmentBuffers: IAttachmentCollection,
-  emailInvoiceOnly: string,
-): Promise<void> {
-
-  const attachment = email.attachments.find(x => x.type === 'pdf')!;
-  const invoiceOnlyAttachments: IEmailAttachment[] = [{
-    content: attachmentBuffers[attachment.type].toString('base64'),
-    filename: attachment.fileName,
-    type: attachment.fileType,
-  }];
-
-  const invoiceOnlyData = {
-    to: emailInvoiceOnly,
-    from: email.from as string,
-    subject: email.subject,
-    html: email.body,
-    attachments: invoiceOnlyAttachments,
-  };
-
-  const info = await sendEmailCore(invoiceOnlyData);
-  if (info.rejected?.length) {
-    logger.error(`FAILED to send PDF email only for: ${email.subject}`, info);
-  }
-}
