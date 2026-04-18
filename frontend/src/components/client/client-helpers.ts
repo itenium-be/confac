@@ -45,7 +45,7 @@ export const useClientAlreadyExists = (client: ClientModel | null) => {
 
 
 
-const checkIfCanSaveClient = (client: ClientModel | null): boolean => {
+export const checkIfCanSaveClient = (client: ClientModel | null): boolean => {
   if (!client)
     return false;
 

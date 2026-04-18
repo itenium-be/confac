@@ -5,6 +5,7 @@ export type Language = 'nl' | 'fr' | 'en';
 export type ClientTypeTag = 'partner' | 'client' | 'endCustomer';
 export type ConsultantType = 'manager' | 'consultant' | 'freelancer' | 'externalConsultant';
 export type ContractStatus = 'NoContract' | 'Sent' | 'Verified' | 'WeSigned' | 'TheySigned' | 'BothSigned' | 'NotNeeded';
+export type ProjectProforma = 'no' | 'inboundWithTax' | 'inboundWithoutTax' | 'outboundWithTax' | 'outboundWithoutTax';
 
 export type ClientRow = {
   slug: string;
@@ -44,6 +45,8 @@ export type ProjectRow = {
   advancedInvoicing?: boolean;
   clientPrice?: number;
   partnerPrice?: number;
+  changingOrderNr?: boolean;
+  proforma?: ProjectProforma;
 };
 
 /** slug -> inserted Mongo _id, used by buildProject */

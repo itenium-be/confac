@@ -1,32 +1,9 @@
-// 16 curated consultants: 3 managers, 5 consultants, 5 freelancers, 3 externalConsultants.
+// 13 curated consultants: 5 consultants, 5 freelancers, 3 externalConsultants.
 // Freelancer/externalConsultant rows each reference a real partner slug from partners.ts.
 // Contact data is fictional — these are NOT real people.
 import {ConsultantRow} from '../types';
 
 export const consultants: ConsultantRow[] = [
-  // 3 managers
-  {
-    slug: 'lien-van-den-berg',
-    firstName: 'Lien',
-    lastName: 'Van den Berg',
-    type: 'manager',
-    telephone: '+32 477 10 20 30',
-  },
-  {
-    slug: 'bart-claes',
-    firstName: 'Bart',
-    lastName: 'Claes',
-    type: 'manager',
-    telephone: '+32 477 10 20 31',
-  },
-  {
-    slug: 'els-hermans',
-    firstName: 'Els',
-    lastName: 'Hermans',
-    type: 'manager',
-    telephone: '+32 477 10 20 32',
-  },
-
   // 5 consultants
   {
     slug: 'jan-peeters',

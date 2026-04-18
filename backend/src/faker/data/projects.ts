@@ -1,30 +1,9 @@
-// 16 projects — one per consultant. Each row points at real clients/partners/endCustomers
+// 13 projects — one per consultant. Each row points at real clients/partners/endCustomers
 // from partners.ts / clients.ts / endCustomers.ts via slug. buildProject.ts resolves the
 // slugs to ObjectIDs at insert time.
 import {ProjectRow} from '../types';
 
 export const projects: ProjectRow[] = [
-  // Managers — projectMonthConfig: timesheetCheck=false, inboundInvoice=true
-  {
-    consultantSlug: 'lien-van-den-berg',
-    clientSlug: 'cegeka',
-    startDate: '2024-03-01',
-    contractStatus: 'BothSigned',
-  },
-  {
-    consultantSlug: 'bart-claes',
-    clientSlug: 'delaware',
-    startDate: '2024-06-01',
-    contractStatus: 'BothSigned',
-    endCustomerSlug: 'kbc',
-  },
-  {
-    consultantSlug: 'els-hermans',
-    clientSlug: 'accenture-be',
-    startDate: '2025-01-15',
-    contractStatus: 'Sent',
-  },
-
   // Consultants — projectMonthConfig: timesheetCheck=true, inboundInvoice=false
   {
     consultantSlug: 'jan-peeters',
@@ -33,6 +12,7 @@ export const projects: ProjectRow[] = [
     endDate: '2025-12-31',
     contractStatus: 'BothSigned',
     endCustomerSlug: 'proximus',
+    changingOrderNr: true,
   },
   {
     consultantSlug: 'sofie-janssens',
@@ -48,6 +28,7 @@ export const projects: ProjectRow[] = [
     contractStatus: 'BothSigned',
     endCustomerSlug: 'colruyt',
     ref: 'PO-9912',
+    changingOrderNr: true,
   },
   {
     consultantSlug: 'anke-maes',
@@ -71,6 +52,7 @@ export const projects: ProjectRow[] = [
     startDate: '2024-02-01',
     contractStatus: 'BothSigned',
     endCustomerSlug: 'bpost',
+    proforma: 'inboundWithTax',
   },
   {
     consultantSlug: 'eva-goossens',
@@ -95,6 +77,7 @@ export const projects: ProjectRow[] = [
     startDate: '2024-05-01',
     contractStatus: 'BothSigned',
     endCustomerSlug: 'fluvius',
+    proforma: 'outboundWithTax',
   },
   {
     consultantSlug: 'pieter-lemaire',
@@ -112,6 +95,7 @@ export const projects: ProjectRow[] = [
     startDate: '2024-10-01',
     contractStatus: 'BothSigned',
     endCustomerSlug: 'brussels-airport',
+    proforma: 'inboundWithoutTax',
   },
   {
     consultantSlug: 'clara-dupont',

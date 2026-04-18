@@ -21,10 +21,7 @@ const GUARDED = [
 ] as const;
 
 export async function insertStuff(db: Db): Promise<void> {
-  // --- 0. Ensure admin role exists (always, even when fixture is skipped) ---
-  await insertAdminRole(db);
-
-  // --- 1. Guard: refuse to touch a non-empty DB ---
+  // --- 0. Guard: refuse to touch a non-empty DB ---
   for (const {collection, filter} of GUARDED) {
     const count = await db.collection(collection).countDocuments(filter);
     if (count > 0) {
@@ -32,6 +29,9 @@ export async function insertStuff(db: Db): Promise<void> {
       return;
     }
   }
+
+  // --- 1. Roles and users ---
+  await insertAdminRole(db);
 
   // --- 2. Config (defaultClient set later) ---
   const configDoc = buildConfig();

@@ -62,9 +62,9 @@ export function buildProject(row: ProjectRow, maps: BuildProjectMaps) {
     partner,
     projectMonthConfig: {
       ...getDefaultProjectMonthConfig(consultantType),
-      changingOrderNr: false,
+      changingOrderNr: row.changingOrderNr ?? false,
       emailInvoiceDuplicate: false,
-      proforma: 'no',
+      proforma: row.proforma ?? 'no',
     },
     notes: '',
     comments: [],
