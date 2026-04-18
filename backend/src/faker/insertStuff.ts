@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import {Db, ObjectID} from 'mongodb';
-import {insertAdminRole} from './adminRole';
+import {insertRolesAndUsers} from './adminRole';
 import {buildConfig} from './builders/buildConfig';
 import {buildClient} from './builders/buildClient';
 import {buildConsultant} from './builders/buildConsultant';
@@ -31,7 +31,7 @@ export async function insertStuff(db: Db): Promise<void> {
   }
 
   // --- 1. Roles and users ---
-  await insertAdminRole(db);
+  await insertRolesAndUsers(db);
 
   // --- 2. Config (defaultClient set later) ---
   const configDoc = buildConfig();

@@ -104,6 +104,3 @@ export async function insertRolesAndUsers(db: Db): Promise<void> {
     }
   }
 }
-
-// Keep backward compatibility
-export const insertAdminRole = insertRolesAndUsers;
