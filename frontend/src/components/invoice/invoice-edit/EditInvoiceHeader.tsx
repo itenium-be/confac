@@ -6,6 +6,7 @@ import {NotesWithCommentsModalButton} from '../../controls/form-controls/button/
 import {Claim} from '../../users/models/UserModel';
 import {DownloadInvoiceButton} from './DownloadInvoiceButton';
 import InvoiceNotVerifiedAlert from './InvoiceNotVerifiedAlert';
+import MissingAccountingCodeAlert from './MissingAccountingCodeAlert';
 import {t} from '../../utils';
 
 export type EditInvoiceHeaderProps = {
@@ -43,6 +44,7 @@ export const EditInvoiceHeader = ({invoice, onChange}: EditInvoiceHeaderProps) =
         )}
       </Col>
       <Col sm={12}>
+        <MissingAccountingCodeAlert invoice={invoice} />
         <InvoiceNotVerifiedAlert invoice={invoice} />
       </Col>
     </>

@@ -3,6 +3,8 @@ import {Link} from 'react-router';
 import {FullProjectMonthModel} from '../../models/FullProjectMonthModel';
 import {ProjectMonthModal} from '../../controls/ProjectMonthModal';
 import {ConsultantLink} from '../../../consultant/controls/ConsultantLink';
+import {Icon} from '../../../controls/Icon';
+import {t} from '../../../utils';
 
 
 interface ProjectMonthConsultantCellProps {
@@ -25,6 +27,15 @@ export const ProjectMonthConsultantCell = ({fullProjectMonth}: ProjectMonthConsu
       <div className="consultant-cell clickable" onClick={() => setModal(true)} role="button" tabIndex={0}>
         <div>
           <ConsultantLink consultant={consultant} />
+          {!consultant.accountingCode && (
+            <Icon
+              fa="fa fa-exclamation-triangle"
+              size={1}
+              color="#CC1100"
+              title={t('projectMonth.missingAccountingCode')}
+              style={{marginLeft: 6}}
+            />
+          )}
         </div>
         <small>
           {partner && (
