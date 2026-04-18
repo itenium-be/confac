@@ -34,7 +34,7 @@ type BuiltClient = {
     to: string;
     subject: string;
     body: string;
-    attachments: Array<{type: string; fileName: string; fileType: string}>;
+    attachments: string[];
     combineAttachments: boolean;
   };
   frameworkAgreement: {status: string; notes: string};
@@ -83,10 +83,7 @@ export function buildClient(row: ClientRow, type: ClientTypeTag): BuiltClient {
       to: `${row.slug}@pongit.be`,
       subject: 'New invoice {{nr}}',
       body: '<p>Dear,</p><p>Please find the invoice attached.</p>',
-      attachments: [
-        {type: 'pdf', fileName: 'invoice.pdf', fileType: 'application/pdf'},
-        {type: 'Getekende timesheet', fileName: 'timesheet.pdf', fileType: 'application/pdf'},
-      ],
+      attachments: ['pdf', 'Getekende timesheet'],
       combineAttachments: false,
     },
     frameworkAgreement: {
