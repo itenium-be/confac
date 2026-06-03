@@ -7,8 +7,6 @@ import {IClient} from '../../../../models/clients';
 import {IProject} from '../../../../models/projects';
 import {IConsultant} from '../../../../models/consultants';
 
-const InvoiceExpirationInDays: number = 30;
-
 export type CreditNoteOptions = {
   /** The original invoice that this credit note is for */
   originalInvoice: IInvoice;
@@ -91,6 +89,28 @@ function getOrderPeriod(projectMonth?: InvoiceProjectMonth, project?: IProject):
   };
 }
 
+/** Minimum number of days a client gets to pay, counted from the invoice date */
+const MinimumPayDays: number = 14;
+
+/**
+ * Due date is the last day of the month following the invoice's period.
+ * The period comes from monthly invoicing (projectMonth); when absent we fall
+ * back to the invoice date. The invoice date can be after the period (eg a late
+ * invoice for May dated in June), which would leave too little time to pay, so
+ * we guarantee at least MinimumPayDays from the invoice date.
+ */
+function getExpiryDate(invoice: IInvoice): string {
+  const periodBase = invoice.projectMonth?.month ?? invoice.date;
+  let expiry = moment(periodBase).add(1, 'month').endOf('month');
+
+  const invoiceDate = moment(invoice.date);
+  if (expiry.diff(invoiceDate, 'days') < MinimumPayDays) {
+    expiry = invoiceDate.clone().add(MinimumPayDays, 'days');
+  }
+
+  return expiry.format('YYYY-MM-DD');
+}
+
 /** Create a Billit CreateOrderRequest */
 export function fromInvoice(
   invoice: IInvoice,
@@ -132,7 +152,7 @@ export function fromInvoice(
     OrderDirection: 'Income',
     OrderNumber: invoice.number.toString(),
     OrderDate: moment(invoice.date).format('YYYY-MM-DD'),
-    ExpiryDate: moment().add(InvoiceExpirationInDays, 'days').format('YYYY-MM-DD'),
+    ExpiryDate: getExpiryDate(invoice),
     PeriodFrom: periodFrom,
     PeriodTill: periodTill,
     Reference: invoice.orderNr,

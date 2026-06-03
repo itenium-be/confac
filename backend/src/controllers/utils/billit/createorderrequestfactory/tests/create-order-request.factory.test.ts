@@ -51,7 +51,7 @@ describe('fromInvoice', () => {
       OrderDirection: 'Income',
       OrderNumber: '2024001',
       OrderDate: '2024-12-23',
-      ExpiryDate: moment().add(30, 'days').format('YYYY-MM-DD'),
+      ExpiryDate: '2025-01-31', // no period: last day of the month following the invoice date
       PeriodFrom: undefined,
       PeriodTill: undefined,
       Reference: 'PO-2024-001',
@@ -121,6 +121,53 @@ describe('fromInvoice', () => {
     expect(actual.OrderTitle).toBe('2024-12 - John Doe');
     expect(actual.Comments).toBe('2024-12 - John Doe');
     expect(actual.InternalInfo).toBe('2024-12 - John Doe');
+  });
+
+  describe('ExpiryDate', () => {
+    it('should be the last day of the month following the period', () => {
+      const invoice: IInvoice = {
+        ...someInvoice,
+        date: '2026-05-31T00:00:00.000Z',
+        projectMonth: {
+          projectMonthId: 'pm-123',
+          month: '2026-05-01T00:00:00.000Z',
+          consultantId: '',
+          consultantName: '',
+        },
+      };
+
+      expect(fromInvoice(invoice, someClient).ExpiryDate).toBe('2026-06-30');
+    });
+
+    it('should use the period, not the invoice date, when the invoice date is after the period', () => {
+      const invoice: IInvoice = {
+        ...someInvoice,
+        date: '2026-06-10T00:00:00.000Z', // invoice for May created in June
+        projectMonth: {
+          projectMonthId: 'pm-123',
+          month: '2026-05-01T00:00:00.000Z',
+          consultantId: '',
+          consultantName: '',
+        },
+      };
+
+      expect(fromInvoice(invoice, someClient).ExpiryDate).toBe('2026-06-30');
+    });
+
+    it('should add 14 days to the invoice date when the period due date leaves less than 14 days', () => {
+      const invoice: IInvoice = {
+        ...someInvoice,
+        date: '2026-06-25T00:00:00.000Z', // only 5 days until end of June
+        projectMonth: {
+          projectMonthId: 'pm-123',
+          month: '2026-05-01T00:00:00.000Z',
+          consultantId: '',
+          consultantName: '',
+        },
+      };
+
+      expect(fromInvoice(invoice, someClient).ExpiryDate).toBe('2026-07-09');
+    });
   });
 
   it('should handle projectMonth with only month (no consultant)', () => {
