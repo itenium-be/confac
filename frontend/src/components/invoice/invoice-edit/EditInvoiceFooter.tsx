@@ -169,7 +169,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
           {t('invoice.unarchive')}
         </BusyButton>
       )}
-      {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && !isSentStatus && !isArchived && (
+      {!invoice.isNew && !invoice.isQuotation && invoice.client && shouldUsePeppol(invoice, config) && !isSentStatus && !isArchived && (
         <BusyButton
           claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
           variant="light"
@@ -209,7 +209,7 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
           onClick={() => setEmailModal(EmailTemplate.PeppolDuplicate)}
           className="tst-open-email-peppol-duplicate"
         >
-          {t('email.preparePeppolDuplicate')}
+          {t(invoice.isQuotation ? 'email.prepareQuotationEmail' : 'email.preparePeppolDuplicate')}
         </Button>
       )}
       {!invoice.isNew && invoice.client && !shouldUsePeppol(invoice, config) && (

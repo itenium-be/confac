@@ -786,6 +786,7 @@ export const trans = {
     prepareEmail: 'Email voorbereiden',
     prepareEmailReminder: 'Email herinnering',
     preparePeppolDuplicate: 'Duplicaat email',
+    prepareQuotationEmail: 'Offerte emailen',
     to: 'Naar',
     toPlaceholder: 'Email adressen met ; scheiden',
     cc: 'CC',
