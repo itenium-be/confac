@@ -210,12 +210,12 @@ export const InboundInvoicesTable = ({projectMonths}: InboundInvoicesTableProps)
                                 .sort((a, b) => a.number - b.number)
                                 .map((inv, idx, arr) => (
                                   <span key={inv._id}>
-                                    <Link to={`/invoices/${inv._id}`}>#{inv.number}</Link>
+                                    <Link to={`/invoices/${inv.number}`}>#{inv.number}</Link>
                                     {idx < arr.length - 1 && ', '}
                                   </span>
                                 ))
                             ) : (
-                              <Link to={`/invoices/${pm.invoice._id}`}>
+                              <Link to={`/invoices/${pm.invoice.number}`}>
                                 #{pm.invoice.number}
                               </Link>
                             )}
