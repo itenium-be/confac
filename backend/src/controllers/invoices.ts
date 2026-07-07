@@ -515,13 +515,9 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
     };
     createOrderRequest.Attachments = await getBillitAttachments();
 
-    // HACK: #2702's idempotency token got stuck at Billit (registered but order never persisted),
-    // blocking every retry. Bust it with a timestamp suffix. Remove once 2702 is through.
-    const keySuffix = invoice.number === 2702 ? `-${Date.now()}` : '';
-
     if (!invoice.billit?.orderId) {
       try {
-        const orderId: number = await apiClient.createOrder(createOrderRequest, `create-order-${invoice.number.toString()}${keySuffix}`);
+        const orderId: number = await apiClient.createOrder(createOrderRequest, `create-order-${invoice.number.toString()}`);
 
         const updatedAudit = updateAudit(invoice.audit, req.user);
         const aboutInvoiceNumber = createOrderRequest.AboutInvoiceNumber
@@ -554,7 +550,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
 
     // Step 3: Send the sales invoice with appropriate transport type
     const sendInvoiceRequest: SendInvoiceRequest = SendInvoiceRequestFactory.fromInvoice(invoice, updatedClient);
-    const idempotencyKey = `send-invoice-${invoice.number.toString()}${keySuffix}`;
+    const idempotencyKey = `send-invoice-${invoice.number.toString()}`;
 
     let finalInvoice: IInvoice = invoice;
     const previousStatus = invoice.status;
