@@ -51,6 +51,7 @@ export const FullAuditModal = (props: FullAuditModalProps) => {
       title={t('audit.fullAudit')}
       dialogClassName="audit-modal"
     >
+      <div className="audit-model-id text-muted mb-2"><small>_id: {props.model?._id}</small></div>
       <SearchStringInput value={needle} onChange={setNeedle} />
       <Table size="sm" bordered>
         <thead>
