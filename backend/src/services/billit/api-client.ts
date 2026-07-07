@@ -7,11 +7,43 @@ import {SavedAttachment} from './orders/createorder/attachment/attachment';
 import {BillitOrder} from './orders/createorder/create-order.request';
 import {BillitErrorFactory} from './billit-error.factory';
 
+interface BillitFailureContext {
+  idempotencyKey?: string;
+  request?: unknown;
+}
+
 export class ApiClient {
   private config: ApiConfig;
 
   constructor(config: ApiConfig) {
     this.config = config;
+  }
+
+  /**
+   * Logs a Billit failure with the context needed to reproduce it or raise a support
+   * ticket: their response headers (correlation id lives here), the payload we sent, and
+   * the idempotency key. Attachment file content is redacted to keep base64 blobs out of the logs.
+   */
+  private static logFailure(operation: string, response: Response, errorText: string, context: BillitFailureContext = {}): void {
+    logger.error(`Billit ${operation} failed: ${response.status} - ${errorText}`, {
+      billit: {
+        operation,
+        status: response.status,
+        responseHeaders: response.headers ? Object.fromEntries(response.headers) : undefined,
+        idempotencyKey: context.idempotencyKey,
+        request: context.request,
+      },
+    });
+  }
+
+  private static redactAttachments(request: CreateOrderRequest): CreateOrderRequest {
+    if (!request.Attachments?.length) {
+      return request;
+    }
+    return {
+      ...request,
+      Attachments: request.Attachments.map(a => ({...a, FileContent: `[base64 ${a.FileContent?.length ?? 0} chars]`})),
+    };
   }
 
   /**
@@ -36,7 +68,7 @@ export class ApiClient {
 
     if (!response.ok) {
       const errorText: string = await response.text();
-      logger.error(`Billit createOrder failed: ${response.status} - ${errorText}`);
+      ApiClient.logFailure('createOrder', response, errorText, {idempotencyKey, request: ApiClient.redactAttachments(request)});
       throw BillitErrorFactory.createError(errorText, 'Failed to create order at Billit');
     }
 
@@ -64,7 +96,7 @@ export class ApiClient {
 
     if (!response.ok) {
       const errorText = await response.text();
-      logger.error(`Billit sendInvoice failed: ${response.status} - ${errorText}`);
+      ApiClient.logFailure('sendInvoice', response, errorText, {idempotencyKey, request});
       throw BillitErrorFactory.createError(errorText, `Failed to send invoice via ${request.TransportType}`);
     }
 
@@ -84,7 +116,7 @@ export class ApiClient {
 
     if (!response.ok) {
       const errorText: string = await response.text();
-      logger.error(`Billit getParticipantInformation failed: ${response.status} - ${errorText}`);
+      ApiClient.logFailure('getParticipantInformation', response, errorText, {request: {vatNumber}});
       throw BillitErrorFactory.createError(errorText, 'Failed to check Peppol registration');
     }
 
@@ -105,7 +137,7 @@ export class ApiClient {
 
     if (!response.ok) {
       const errorText: string = await response.text();
-      logger.error(`Billit getOrder failed: ${response.status} - ${errorText}`);
+      ApiClient.logFailure('getOrder', response, errorText, {request: {billitOrderId}});
       throw BillitErrorFactory.createError(errorText, 'Failed to get order from Billit');
     }
 
@@ -135,7 +167,7 @@ export class ApiClient {
 
     if (!response.ok) {
       const errorText: string = await response.text();
-      logger.error(`Billit patchOrderStatus failed: ${response.status} - ${errorText}`);
+      ApiClient.logFailure('patchOrderStatus', response, errorText, {request: {billitOrderId, ...body}});
       throw BillitErrorFactory.createError(errorText, 'Failed to patch order status at Billit');
     }
 
@@ -155,7 +187,7 @@ export class ApiClient {
 
     if (!response.ok) {
       const errorText: string = await response.text();
-      logger.error(`Billit getFile failed: ${response.status} - ${errorText}`);
+      ApiClient.logFailure('getFile', response, errorText, {request: {fileId}});
       throw BillitErrorFactory.createError(errorText, 'Failed to get file from Billit');
     }
 

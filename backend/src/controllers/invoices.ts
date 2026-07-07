@@ -544,7 +544,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
           return res.status(200).send({message: 'Invoice sent to Peppol'});
         }
         const errorMessage = error instanceof Error ? error.message : String(error);
-        logger.error(`sendInvoice error "${errorMessage}": ${JSON.stringify(error)} for #${invoice.number}`);
+        logger.error(`sendInvoice error "${errorMessage}" for #${invoice.number}`);
         throw error;
       }
     }
@@ -587,7 +587,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
         logger.info(`Idempotent '${idempotencyKey}' already exists, invoiceNr=${invoice.number}, billitId=${invoice.billit?.orderId}`);
       } else {
         const errorMessage = error instanceof Error ? error.message : String(error);
-        logger.error(`sendInvoice error "${errorMessage}": ${JSON.stringify(error)} for #${invoice.number}`);
+        logger.error(`sendInvoice error "${errorMessage}" for #${invoice.number}`);
         throw error;
       }
     }

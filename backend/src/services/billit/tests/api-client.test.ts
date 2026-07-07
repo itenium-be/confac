@@ -101,6 +101,7 @@ describe('ApiClient', () => {
       mockFetch.mockResolvedValueOnce({
         ok: false,
         status: 400,
+        headers: new Headers({'x-request-id': 'req-abc'}),
         text: () => Promise.resolve(errorMessage),
       } as unknown as Response);
 
@@ -108,7 +109,41 @@ describe('ApiClient', () => {
         `Failed to create order at Billit: ${errorMessage}`,
       );
 
-      expect(logger.error).toHaveBeenCalledWith(`Billit createOrder failed: 400 - ${errorMessage}`);
+      expect(logger.error).toHaveBeenCalledWith(
+        `Billit createOrder failed: 400 - ${errorMessage}`,
+        expect.objectContaining({
+          billit: expect.objectContaining({
+            operation: 'createOrder',
+            status: 400,
+            idempotencyKey: '2024-001',
+            responseHeaders: expect.objectContaining({'x-request-id': 'req-abc'}),
+            request: expect.objectContaining({OrderNumber: '2024-001'}),
+          }),
+        }),
+      );
+    });
+
+    it('should redact attachment file content from the failure log', async () => {
+      const requestWithAttachment: CreateOrderRequest = {
+        ...createOrderRequest,
+        Attachments: [{FileName: 'invoice.pdf', MimeType: 'application/pdf', FileContent: 'QUJDREVGRw=='}],
+      };
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        headers: new Headers(),
+        text: () => Promise.resolve('boom'),
+      } as unknown as Response);
+
+      await expect(apiClient.createOrder(requestWithAttachment, 'key')).rejects.toThrow();
+
+      const errorMock = logger.error as unknown as MockedFunction<(msg: string, meta?: unknown) => void>;
+      const meta = errorMock.mock.calls[0][1] as {billit: {request: CreateOrderRequest}};
+      const loggedAttachment = meta.billit.request.Attachments![0];
+      expect(loggedAttachment.FileContent).not.toContain('QUJD');
+      expect(loggedAttachment.FileName).toBe('invoice.pdf');
+      // original request must not be mutated by redaction
+      expect(requestWithAttachment.Attachments![0].FileContent).toBe('QUJDREVGRw==');
     });
 
     it('should include correct idempotency key', async () => {
@@ -239,7 +274,17 @@ describe('ApiClient', () => {
         `Failed to send invoice via ${request.TransportType}: ${errorMessage}`,
       );
 
-      expect(logger.error).toHaveBeenCalledWith(`Billit sendInvoice failed: 500 - ${errorMessage}`);
+      expect(logger.error).toHaveBeenCalledWith(
+        `Billit sendInvoice failed: 500 - ${errorMessage}`,
+        expect.objectContaining({
+          billit: expect.objectContaining({
+            operation: 'sendInvoice',
+            status: 500,
+            idempotencyKey: 'key',
+            request: expect.objectContaining({OrderIDs: [123456]}),
+          }),
+        }),
+      );
     });
 
     it('should handle multiple order IDs', async () => {
@@ -340,7 +385,10 @@ describe('ApiClient', () => {
         `Failed to check Peppol registration: ${errorMessage}`,
       );
 
-      expect(logger.error).toHaveBeenCalledWith(`Billit getParticipantInformation failed: 400 - ${errorMessage}`);
+      expect(logger.error).toHaveBeenCalledWith(
+        `Billit getParticipantInformation failed: 400 - ${errorMessage}`,
+        expect.objectContaining({billit: expect.objectContaining({operation: 'getParticipantInformation', status: 400})}),
+      );
     });
 
     it('should not require authentication', async () => {
