@@ -13,7 +13,10 @@ import {emitEntityEvent} from './utils/entity-events';
 import config from '../config';
 import {logger} from '../logger';
 import {ApiClient, Attachment, BillitError, CreateOrderRequest, SendInvoiceRequest} from '../services/billit';
-import {ApiClientFactory, CreateOrderRequestFactory, saveBillitError, SendInvoiceRequestFactory} from './utils/billit';
+import {
+  ApiClientFactory, CreateOrderRequestFactory, IdempotencyKeyFactory,
+  resetBillitOrder, saveBillitError, SendInvoiceRequestFactory,
+} from './utils/billit';
 import {getPeppolPivotDate, syncClientPeppolStatus} from './utils/peppol-helpers';
 import type {CreditNoteOptions} from './utils/billit/createorderrequestfactory';
 import {IProject} from '../models/projects';
@@ -517,13 +520,13 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
 
     if (!invoice.billit?.orderId) {
       try {
-        const orderId: number = await apiClient.createOrder(createOrderRequest, `create-order-${invoice.number.toString()}`);
+        const orderId: number = await apiClient.createOrder(createOrderRequest, IdempotencyKeyFactory.createOrder(invoice));
 
         const updatedAudit = updateAudit(invoice.audit, req.user);
         const aboutInvoiceNumber = createOrderRequest.AboutInvoiceNumber
           ? parseInt(createOrderRequest.AboutInvoiceNumber, 10)
           : undefined;
-        const newBillit = {orderId, aboutInvoiceNumber};
+        const newBillit = {...invoice.billit, orderId, aboutInvoiceNumber};
         await req.db.collection<IInvoice>(CollectionNames.INVOICES).updateOne(
           {_id: new ObjectID(invoice._id)},
           {$set: {billit: newBillit, status: 'ToSend', audit: updatedAudit}},
@@ -551,7 +554,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
 
     // Step 3: Send the sales invoice with appropriate transport type
     const sendInvoiceRequest: SendInvoiceRequest = SendInvoiceRequestFactory.fromInvoice(invoice, updatedClient);
-    const idempotencyKey = `send-invoice-${invoice.number.toString()}`;
+    const idempotencyKey = IdempotencyKeyFactory.sendInvoice(invoice);
 
     let finalInvoice: IInvoice = invoice;
     const previousStatus = invoice.status;
@@ -631,6 +634,52 @@ export const refreshPeppolStatusController = async (req: ConfacRequest, res: Res
     logger.error('Error refreshing Peppol status:', error);
     const errorMessage = error instanceof Error ? error.message : String(error);
     return res.status(500).send({message: 'Error refreshing Peppol status', error: errorMessage});
+  }
+};
+
+
+/**
+ * Deletes the Billit order and puts the invoice back to Draft, so it can be corrected and resent.
+ * The escape hatch for an order that was created at Billit but failed to go out on Peppol.
+ */
+export const deleteBillitOrderController = async (req: ConfacRequest, res: Response) => {
+  const {id} = req.params;
+
+  const invoice = await req.db.collection<IInvoice>(CollectionNames.INVOICES)
+    .findOne({_id: new ObjectID(id)});
+
+  if (!invoice) {
+    return res.status(400).send({message: 'Invoice not found'});
+  }
+
+  if (!invoice.billit?.orderId) {
+    return res.status(400).send({message: 'Invoice has no Billit order'});
+  }
+
+  if (invoice.status === 'ToPay' || invoice.status === 'Paid') {
+    return res.status(400).send({message: 'Invoice was already sent to Peppol'});
+  }
+
+  logger.info(`DELETE BILLIT ORDER - Invoice Nr=${invoice.number} OrderId=${invoice.billit.orderId}`);
+
+  try {
+    const apiClient: ApiClient = ApiClientFactory.fromConfig(config);
+    await apiClient.deleteOrder(invoice.billit.orderId);
+
+    const updatedInvoice = await resetBillitOrder(req, invoice);
+    return res.status(200).send(updatedInvoice);
+
+  } catch (error: unknown) {
+    logger.error('Error deleting Billit order:', error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorResponse: {message: string; error: string; errors?: unknown} = {
+      message: 'Error deleting Billit order',
+      error: errorMessage,
+    };
+    if (error instanceof BillitError) {
+      errorResponse.errors = error.billitErrors;
+    }
+    return res.status(500).send(errorResponse);
   }
 };
 

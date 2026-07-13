@@ -63,6 +63,8 @@ export type InvoiceBillitError = {
 }
 
 export type InvoiceBillitModel = {
+  /** Bumped every time the order is deleted at Billit, and mixed into the idempotency keys */
+  attempt?: number;
   /** The Billit order ID, returned after creating the order in Billit */
   orderId?: number;
   /** Current Peppol/Email delivery details */

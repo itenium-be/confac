@@ -428,6 +428,8 @@ export const trans = {
     peppolRefreshStatus: 'Refresh Status',
     peppolErrors: 'Errors',
     peppolPreviousAttemptFailed: 'Previous attempt failed',
+    peppolDeleteInBillit: 'Delete in Billit',
+    peppolDeleteInBillitSuccess: 'Order deleted in Billit, invoice is back to Draft',
     peppolStatusRefreshed: 'Peppol status refreshed'
   },
   attachment: {

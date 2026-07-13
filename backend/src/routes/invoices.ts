@@ -3,7 +3,7 @@ import {emailInvoiceController} from '../controllers/emailInvoices';
 import {
   getInvoicesController, createInvoiceController, previewPdfInvoiceController, deleteInvoiceController,
   updateInvoiceController, generateExcelForInvoicesController, verifyInvoiceController,
-  sendInvoiceToPeppolController, refreshPeppolStatusController,
+  sendInvoiceToPeppolController, refreshPeppolStatusController, deleteBillitOrderController,
 } from '../controllers/invoices';
 
 const invoicesRouter = Router();
@@ -21,5 +21,6 @@ invoicesRouter.put('/', updateInvoiceController as unknown as RequestHandler);
 invoicesRouter.put('/verify', verifyInvoiceController as unknown as RequestHandler);
 
 invoicesRouter.delete('/', deleteInvoiceController as unknown as RequestHandler);
+invoicesRouter.delete('/:id/peppol', deleteBillitOrderController as unknown as RequestHandler);
 
 export default invoicesRouter;

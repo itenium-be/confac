@@ -248,6 +248,22 @@ export function refreshPeppolStatus(invoiceId: string) {
   };
 }
 
+/** Deletes the order at Billit and puts the invoice back to Draft so it can be corrected and resent */
+export function deleteBillitOrder(invoiceId: string) {
+  return async (dispatch: AppDispatch) => {
+    dispatch(busyToggle());
+    try {
+      const res = await api.delete<InvoiceModel>(`/invoices/${invoiceId}/peppol`);
+      dispatch({type: ACTION_TYPES.INVOICE_UPDATED, invoice: res.body});
+      success(t('invoice.peppolDeleteInBillitSuccess'));
+    } catch (err) {
+      catchHandler(err);
+    } finally {
+      dispatch(busyToggle.off());
+    }
+  };
+}
+
 export function handleInvoiceSocketEvents(eventType: SocketEventTypes, eventPayload: EntityEventPayload) {
   return (dispatch: AppDispatch) => {
     switch (eventType) {

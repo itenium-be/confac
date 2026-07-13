@@ -145,6 +145,30 @@ export class ApiClient {
   }
 
   /**
+   * Deletes an order at Billit. Only possible while it has not gone out on Peppol:
+   * this is the escape hatch for an order that was created but failed to send.
+   * No webhook fires for a delete.
+   */
+  async deleteOrder(billitOrderId: number): Promise<void> {
+    const response: Response = await fetch(`${this.config.apiUrl}/orders/${billitOrderId}`, {
+      method: 'DELETE',
+      headers: {
+        ApiKey: this.config.apiKey,
+        PartyID: this.config.partyId,
+        ContextPartyID: this.config.contextPartyId,
+      },
+    });
+
+    if (!response.ok) {
+      const errorText: string = await response.text();
+      ApiClient.logFailure('deleteOrder', response, errorText, {request: {billitOrderId}});
+      throw BillitErrorFactory.createError(errorText, 'Failed to delete order at Billit');
+    }
+
+    logger.info(`Billit order ${billitOrderId} deleted`);
+  }
+
+  /**
    * Updates the OrderStatus of an existing Billit order
    * Patchable properties: https://docs.billit.be/docs/patchable-properties
    */

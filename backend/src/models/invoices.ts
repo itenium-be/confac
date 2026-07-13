@@ -111,6 +111,11 @@ export interface IInvoiceBillitError {
 }
 
 export interface IInvoiceBillit {
+  /**
+   * Bumped every time the order is deleted at Billit, and mixed into the idempotency keys.
+   * Without it a retry after a delete replays the previous keys and Billit rejects it as a duplicate.
+   */
+  attempt?: number;
   /** The Billit order ID, returned after creating the order in Billit */
   orderId?: number;
   /** Current Peppol/Email delivery details */

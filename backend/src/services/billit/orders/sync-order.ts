@@ -116,6 +116,7 @@ export function mapBillitOrderToInvoiceBillit(billitOrder: BillitOrder, current:
       messageDirection: msg.MessageDirection,
     })),
     errors: current.errors,
+    attempt: current.attempt,
     aboutInvoiceNumber: current.aboutInvoiceNumber,
   };
 }
