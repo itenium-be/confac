@@ -1,4 +1,4 @@
-import {Moment} from 'moment';
+import moment, {Moment} from 'moment';
 import DOMPurify from 'dompurify';
 import {FullProjectMonthModel} from '../../project/models/FullProjectMonthModel';
 import {UserModel} from '../../users/models/UserModel';
@@ -35,7 +35,7 @@ export function getTimesheetExcelRows(
   to?: Moment | null,
 ): TimesheetExcelRow[] {
   const start = from.clone().startOf('month');
-  const end = (to || from).clone().endOf('month');
+  const end = (to || moment()).clone().endOf('month');
 
   return projectMonths
     .filter(fpm => fpm.details.month.isBetween(start, end, undefined, '[]'))

@@ -46,7 +46,7 @@ const TimesheetExcelModal = ({onClose}: TimesheetExcelModalProps) => {
 
   const download = () => {
     const rows = getTimesheetExcelRows(projectMonths, users, from, to);
-    dispatch(downloadTimesheetExcel(rows, from.format('YYYY-MM'), (to || from).format('YYYY-MM')));
+    dispatch(downloadTimesheetExcel(rows, from.format('YYYY-MM'), (to || moment()).format('YYYY-MM')));
   };
 
   return (

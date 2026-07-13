@@ -28,7 +28,7 @@ Redux only holds the last `initialMonthLoad` months of project months, so the mo
 `getTimesheetExcelRows(projectMonths, users, from, to)`:
 
 - filters project months whose `details.month` falls within `[from, to]` inclusive; `to` defaults to
-  `from`. No consultant type or active filter.
+  the current month. No consultant type or active filter.
 - emits one row per `details.timesheet.comments` entry, and one row with blank comment columns when a
   project month has no comments.
 - resolves `comment.createdBy` (a userId) to the user's `alias`, falling back to the raw id.
@@ -49,5 +49,5 @@ Maand (String) | Consultant (String) | Consultant Type (String) | Timesheet (Dec
 
 ## Testing
 
-Vitest spec on the pure row builder: month range filtering (inclusive bounds, end defaulting to
-start), one row per comment, blank-comment row, HTML stripping, unknown-user fallback.
+Vitest spec on the pure row builder: month range filtering (inclusive bounds, end defaulting to the
+current month), one row per comment, blank-comment row, HTML stripping, unknown-user fallback.

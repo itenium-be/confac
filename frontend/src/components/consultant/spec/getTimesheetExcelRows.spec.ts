@@ -77,16 +77,18 @@ describe('getTimesheetExcelRows', () => {
     ]);
   });
 
-  it('defaults the end month to the start month', () => {
+  it('defaults the end month to the current month', () => {
+    const lastMonth = moment().subtract(1, 'month');
+    const nextMonth = moment().add(1, 'month');
     const projectMonths = [
-      projectMonth({month: '2026-06'}),
-      projectMonth({month: '2026-07'}),
-      projectMonth({month: '2026-08'}),
+      projectMonth({month: lastMonth.format('YYYY-MM')}),
+      projectMonth({month: moment().format('YYYY-MM')}),
+      projectMonth({month: nextMonth.format('YYYY-MM')}),
     ];
 
-    const rows = getTimesheetExcelRows(projectMonths, users, moment('2026-07', 'YYYY-MM'));
+    const rows = getTimesheetExcelRows(projectMonths, users, lastMonth);
 
-    expect(rows.map(row => row[0])).toEqual(['2026-07']);
+    expect(rows.map(row => row[0])).toEqual([lastMonth.format('YYYY-MM'), moment().format('YYYY-MM')]);
   });
 
   it('includes both bounds of the month range', () => {
