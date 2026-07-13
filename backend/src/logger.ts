@@ -1,6 +1,7 @@
 import * as winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import os from 'os';
+import path from 'path';
 import appConfig from './config';
 
 const fileTransport = new DailyRotateFile({
@@ -11,6 +12,9 @@ const fileTransport = new DailyRotateFile({
   zippedArchive: false,
   maxSize: '20m',
   maxFiles: '90d',
+  // The audit file rewrites itself to the path stored in its own json, so a file written by a
+  // Windows run makes a WSL run create a literal "logs\.xxx-audit.json". Keep them separate.
+  auditFile: path.resolve(appConfig.logging.fileDir, `.confac-${process.platform}-audit.json`),
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.json(),
