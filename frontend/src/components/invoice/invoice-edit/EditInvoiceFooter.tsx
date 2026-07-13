@@ -47,6 +47,8 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
   const [showSaveFirstModal, setShowSaveFirstModal] = useState(false);
 
   const isSentStatus = invoice.status === 'ToPay' || invoice.status === 'Paid';
+  // A failed send leaves the invoice on ToSend: without this it could not reach the status modal
+  const hasPeppolErrors = !!invoice.billit?.errors?.length;
   const isArchived = invoice.status === 'Archived';
 
   const nonQuotationInvoices = invoices.filter(i => !i.isQuotation);
@@ -190,10 +192,10 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
           {t('invoice.peppolSend')}
         </BusyButton>
       )}
-      {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && isSentStatus && (
+      {!invoice.isNew && invoice.client && shouldUsePeppol(invoice, config) && (isSentStatus || hasPeppolErrors) && (
         <Button
           claim={invoice.isQuotation ? Claim.ManageQuotations : Claim.EmailInvoices}
-          variant="light"
+          variant={hasPeppolErrors ? 'outline-danger' : 'light'}
           icon="fas fa-paper-plane"
           onClick={() => setShowStatusModal(true)}
           className="tst-peppol-status"

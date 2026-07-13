@@ -5,6 +5,7 @@ import {Icon} from '../../controls/Icon';
 import {SignedTimesheetAttachmentType} from '../../../models';
 import {ClientModel} from '../../client/models/ClientModels';
 import InvoiceModel, {InvoiceBillitDeliveryDetails, InvoiceBillitMessage} from '../models/InvoiceModel';
+import {BillitErrors} from './BillitErrors';
 
 
 const BillitOrderInfo = ({invoice}: {invoice: InvoiceModel}) => (
@@ -102,6 +103,7 @@ export const SendToPeppolModal = ({invoice, client, onClose, onConfirm}: SendToP
           <><br /><strong>{t('invoice.peppolEmailTo')}:</strong> {client?.email?.to}</>
         )}
       </p>
+      <BillitErrors errors={invoice.billit?.errors?.slice(-1)} title={t('invoice.peppolPreviousAttemptFailed')} />
       <hr />
       {t('invoice.peppolConfirmSend')}
     </Modal>
@@ -127,6 +129,7 @@ export const PeppolStatusModal = ({invoice, onClose, onRefresh}: PeppolStatusMod
     title={t('invoice.peppolStatus')}
   >
     <BillitOrderInfo invoice={invoice} />
+    <BillitErrors errors={invoice.billit?.errors} />
     {invoice.billit?.delivery && (
       <BillitDeliveryDetails delivery={invoice.billit.delivery} />
     )}

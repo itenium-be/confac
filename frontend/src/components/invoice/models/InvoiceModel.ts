@@ -55,12 +55,21 @@ export type InvoiceBillitMessage = {
   messageDirection: string;
 }
 
+export type InvoiceBillitError = {
+  date: string;
+  operation: 'createOrder' | 'sendInvoice';
+  message: string;
+  billitErrors?: {Code: string; Description?: string}[];
+}
+
 export type InvoiceBillitModel = {
   /** The Billit order ID, returned after creating the order in Billit */
   orderId?: number;
   /** Current Peppol/Email delivery details */
   delivery?: InvoiceBillitDeliveryDetails;
   messages?: InvoiceBillitMessage[];
+  /** Append-only history: a successful send does not clear previous failures */
+  errors?: InvoiceBillitError[];
   /** For credit notes: the invoice number this credit note references */
   aboutInvoiceNumber?: number;
 }

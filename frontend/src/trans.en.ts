@@ -426,6 +426,8 @@ export const trans = {
     peppolMessageTrials: 'trials',
     peppolStatus: 'Peppol Status',
     peppolRefreshStatus: 'Refresh Status',
+    peppolErrors: 'Errors',
+    peppolPreviousAttemptFailed: 'Previous attempt failed',
     peppolStatusRefreshed: 'Peppol status refreshed'
   },
   attachment: {

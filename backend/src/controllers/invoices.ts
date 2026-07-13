@@ -13,7 +13,7 @@ import {emitEntityEvent} from './utils/entity-events';
 import config from '../config';
 import {logger} from '../logger';
 import {ApiClient, Attachment, BillitError, CreateOrderRequest, SendInvoiceRequest} from '../services/billit';
-import {ApiClientFactory, CreateOrderRequestFactory, SendInvoiceRequestFactory} from './utils/billit';
+import {ApiClientFactory, CreateOrderRequestFactory, saveBillitError, SendInvoiceRequestFactory} from './utils/billit';
 import {getPeppolPivotDate, syncClientPeppolStatus} from './utils/peppol-helpers';
 import type {CreditNoteOptions} from './utils/billit/createorderrequestfactory';
 import {IProject} from '../models/projects';
@@ -541,6 +541,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
         }
         const errorMessage = error instanceof Error ? error.message : String(error);
         logger.error(`sendInvoice error "${errorMessage}" for #${invoice.number}`);
+        await saveBillitError(req, invoice, 'createOrder', error);
         throw error;
       }
     }
@@ -584,6 +585,7 @@ export const sendInvoiceToPeppolController = async (req: ConfacRequest, res: Res
       } else {
         const errorMessage = error instanceof Error ? error.message : String(error);
         logger.error(`sendInvoice error "${errorMessage}" for #${invoice.number}`);
+        await saveBillitError(req, invoice, 'sendInvoice', error);
         throw error;
       }
     }

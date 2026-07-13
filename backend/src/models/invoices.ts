@@ -99,12 +99,25 @@ export interface IInvoiceBillitMessage {
   messageDirection: string;
 }
 
+export type BillitOperation = 'createOrder' | 'sendInvoice';
+
+export interface IInvoiceBillitError {
+  date: string;
+  operation: BillitOperation;
+  /** The full error message, including the raw Billit response body */
+  message: string;
+  /** Billit's structured error codes, absent when Billit did not return any */
+  billitErrors?: {Code: string; Description?: string}[];
+}
+
 export interface IInvoiceBillit {
   /** The Billit order ID, returned after creating the order in Billit */
   orderId?: number;
   /** Current Peppol/Email delivery details */
   delivery?: IInvoiceBillitDeliveryDetails;
   messages?: IInvoiceBillitMessage[];
+  /** Append-only history: a successful send does not clear previous failures */
+  errors?: IInvoiceBillitError[];
   /** For credit notes: the invoice number this credit note references (sent to Billit as AboutInvoiceNumber) */
   aboutInvoiceNumber?: number;
 }

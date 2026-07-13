@@ -36,7 +36,7 @@ export async function syncBillitOrder(req: ConfacRequest, invoiceOrOrderId: numb
   const billitOrder = await apiClient.getOrder(invoice.billit.orderId);
 
   const newStatus = mapBillitStatusToInvoiceStatus(billitOrder.OrderStatus);
-  const newBillit = mapBillitOrderToInvoiceBillit(billitOrder, invoice.billit.aboutInvoiceNumber);
+  const newBillit = mapBillitOrderToInvoiceBillit(billitOrder, invoice.billit);
 
   const statusChanged = invoice.status !== newStatus;
   const billitChanged = !!diff(invoice.billit, newBillit);
@@ -95,7 +95,8 @@ function mapBillitStatusToInvoiceStatus(billitStatus: BillitOrderStatus): Invoic
   }
 }
 
-function mapBillitOrderToInvoiceBillit(billitOrder: BillitOrder, aboutInvoiceNumber?: number): IInvoiceBillit {
+/** @param current The billit already on the invoice: it holds what Billit cannot tell us */
+export function mapBillitOrderToInvoiceBillit(billitOrder: BillitOrder, current: IInvoiceBillit): IInvoiceBillit {
   return {
     orderId: billitOrder.OrderID,
     delivery: billitOrder.CurrentDocumentDeliveryDetails ? {
@@ -114,6 +115,7 @@ function mapBillitOrderToInvoiceBillit(billitOrder: BillitOrder, aboutInvoiceNum
       destination: msg.Destination,
       messageDirection: msg.MessageDirection,
     })),
-    aboutInvoiceNumber,
+    errors: current.errors,
+    aboutInvoiceNumber: current.aboutInvoiceNumber,
   };
 }

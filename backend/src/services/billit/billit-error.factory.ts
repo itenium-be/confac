@@ -1,6 +1,23 @@
+import {BillitOperation, IInvoiceBillitError} from '../../models/invoices';
 import {BillitError, BillitErrorDetail} from './billit-error';
 
 export class BillitErrorFactory {
+  /** Maps a thrown Billit error to the shape persisted on invoice.billit.errors */
+  static toInvoiceError(operation: BillitOperation, error: unknown): IInvoiceBillitError {
+    const invoiceError: IInvoiceBillitError = {
+      date: new Date().toISOString(),
+      operation,
+      message: error instanceof Error ? error.message : String(error),
+    };
+
+    // Left out entirely rather than set to undefined: the mongo driver stores that as null
+    if (error instanceof BillitError) {
+      invoiceError.billitErrors = error.billitErrors;
+    }
+
+    return invoiceError;
+  }
+
   /**
    * Parses error response and checks if it contains structured errors
    */

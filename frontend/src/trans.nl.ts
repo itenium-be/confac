@@ -426,6 +426,8 @@ export const trans = {
     peppolMessageTrials: 'pogingen',
     peppolStatus: 'Peppol Status',
     peppolRefreshStatus: 'Status Vernieuwen',
+    peppolErrors: 'Fouten',
+    peppolPreviousAttemptFailed: 'Vorige poging mislukt',
     peppolStatusRefreshed: 'Peppol status vernieuwd'
   },
   attachment: {
