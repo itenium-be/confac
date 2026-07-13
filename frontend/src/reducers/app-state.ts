@@ -1,4 +1,3 @@
-import moment from 'moment';
 import {AppState} from '../models';
 import {ConfigModel} from '../components/config/models/ConfigModel';
 import InvoiceModel from '../components/invoice/models/InvoiceModel';
@@ -71,7 +70,7 @@ export const defaultAppState: AppState = {
   },
   filters: {
     consultants: getListFilters(),
-    clients: {...getListFilters(), years: [moment().year()], types: []},
+    clients: {...getListFilters(), years: [], types: []},
     invoices: {
       ...getListFilters(),
       search: [],
