@@ -7,6 +7,7 @@ import {updateAppFilters} from '../../actions';
 import {useDocumentTitle} from '../hooks/useDocumentTitle';
 import {Features} from '../controls/feature/feature-models';
 import {useAppDispatch} from '../hooks/useAppDispatch';
+import {TimesheetExcelButton} from './timesheet-excel/TimesheetExcelButton';
 
 
 export const ConsultantsList = () => {
@@ -25,6 +26,6 @@ export const ConsultantsList = () => {
   const feature = consultantFeature(config);
 
   return (
-    <ListPage feature={feature} />
+    <ListPage feature={feature} topToolbar={<TimesheetExcelButton />} />
   );
 };

@@ -148,6 +148,21 @@ export const generateExcelForProjectsMonthController = async (req: Request, res:
 };
 
 
+export const generateTimesheetExcel = async (req: Request, res: Response) => {
+  const EXCEL_HEADERS = [
+    {header: 'Maand', type: 'String'},
+    {header: 'Consultant', type: 'String'},
+    {header: 'Consultant Type', type: 'String'},
+    {header: 'Timesheet', type: 'Decimal'},
+    {header: 'Check', type: 'Decimal'},
+    {header: 'Comment door', type: 'String'},
+    {header: 'Comment op', type: 'Date'},
+    {header: 'Comment', type: 'String'},
+  ];
+  return generateExcel(req, res, 'Timesheet', EXCEL_HEADERS, 3);
+};
+
+
 export const generateFreelancerExcel = async (req: Request, res: Response) => {
   const EXCEL_HEADERS = [
     {header: 'Freelancer', type: 'String'},

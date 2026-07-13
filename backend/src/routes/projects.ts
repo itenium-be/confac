@@ -4,7 +4,7 @@ import {
   getProjectsPerMonthController, createProjectsMonthController,
   patchProjectsMonthController, getProjectsPerMonthOverviewController,
   deleteProjectsMonthController, generateExcelForProjectsMonthController,
-  generateFreelancerExcel,
+  generateFreelancerExcel, generateTimesheetExcel,
 } from '../controllers/projectsMonth';
 
 const projectsRouter = Router();
@@ -21,5 +21,6 @@ projectsRouter.patch('/month', patchProjectsMonthController as unknown as Reques
 projectsRouter.delete('/month', deleteProjectsMonthController as unknown as RequestHandler);
 projectsRouter.post('/month/excel', generateExcelForProjectsMonthController);
 projectsRouter.post('/month/freelancer-excel', generateFreelancerExcel);
+projectsRouter.post('/month/timesheet-excel', generateTimesheetExcel);
 
 export default projectsRouter;

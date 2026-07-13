@@ -103,6 +103,15 @@ export function downloadProjectsMonthsFreelancerExcel(data: ExcelRowData[], free
 }
 
 
+export function downloadTimesheetExcel(data: ExcelRowData[], from: string, to: string) {
+  return async (_dispatch: AppDispatch) => {
+    const res = await api.post<Blob>('/projects/month/timesheet-excel', data, {responseType: 'blob'});
+    const period = from === to ? from : `${from}-${to}`;
+    downloadAttachment(`timesheets-${period}.xlsx`, res.body);
+  };
+}
+
+
 export function downloadInvoicesZip(ids: string[]) {
   return async (_dispatch: AppDispatch) => {
     const res = await api.post<Blob>('/attachments', ids, {responseType: 'blob'});

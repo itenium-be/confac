@@ -524,6 +524,12 @@ export const trans = {
     alreadyExists: 'Consultant met dit email bestaat reeds',
     openEditModal: 'Open details in modal',
     viewDetails: 'Ga naar detail scherm',
+    timesheetExcel: {
+      title: 'Timesheet excel',
+      from: 'Van maand',
+      to: 'Tot maand (optioneel)',
+      download: 'Downloaden',
+    },
     types: {
       manager: 'Manager',
       consultant: 'Consultant',
