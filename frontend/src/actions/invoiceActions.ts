@@ -255,7 +255,7 @@ export function deleteBillitOrder(invoiceId: string) {
     try {
       const res = await api.delete<InvoiceModel>(`/invoices/${invoiceId}/peppol`);
       dispatch({type: ACTION_TYPES.INVOICE_UPDATED, invoice: res.body});
-      success(t('invoice.peppolDeleteInBillitSuccess'));
+      success(t('invoice.backToDraftConfirm'));
     } catch (err) {
       catchHandler(err);
     } finally {

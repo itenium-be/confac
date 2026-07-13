@@ -9,7 +9,7 @@ import {Claim} from '../../users/models/UserModel';
 import {EditInvoiceSaveButtons} from './EditInvoiceSaveButtons';
 import {createInvoice, previewInvoice, syncCreditNotas, updateInvoiceRequest,
   sendToPeppol, refreshPeppolStatus, syncClientPeppolStatus, deleteInvoice,
-  archiveInvoice, unarchiveInvoice} from '../../../actions';
+  archiveInvoice, unarchiveInvoice, deleteBillitOrder} from '../../../actions';
 import {getNewClonedInvoice} from '../models/getNewInvoice';
 import {t} from '../../utils';
 import {Button} from '../../controls/form-controls/Button';
@@ -18,6 +18,7 @@ import {ConfigModel} from '../../config/models/ConfigModel';
 import {getInvoiceFileName} from '../../../actions/utils/download-helpers';
 import {SendToPeppolModal, PeppolStatusModal} from '../controls/PeppolModal';
 import {Popup, PopupButton} from '../../controls/Popup';
+import {DeleteInvoiceModal} from './DeleteInvoiceModal';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
 
 function shouldUsePeppol(invoice: InvoiceModel, config: ConfigModel): boolean {
@@ -63,7 +64,6 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
     && (invoice.status === 'Draft' || invoice.status === 'ToSend');
   const canUnarchive = !invoice.isQuotation && isArchived;
   const isNotLastInvoice = invoice.number !== highestInvoiceNumber;
-  const hasBillitOrder = !!invoice.billit?.orderId;
 
   return (
     <>
@@ -90,38 +90,25 @@ export const EditInvoiceFooter = ({invoice, initInvoice, hasChanges, setEmailMod
         />
       )}
       {showDeleteModal && (
-        <Popup
-          title={t('invoice.deleteTitle')}
-          buttons={[
-            {text: t('cancel'), onClick: () => setShowDeleteModal(false), variant: 'light'},
-            ...(canArchive ? [{
-              text: t('invoice.archive'),
-              variant: 'outline-danger' as const,
-              onClick: () => {
-                setShowDeleteModal(false);
-                dispatch(archiveInvoice(initInvoice));
-              },
-            }] : []),
-            {
-              text: t('delete'),
-              variant: 'danger',
-              onClick: () => {
-                setShowDeleteModal(false);
-                dispatch(deleteInvoice(invoice));
-                navigate('/invoices');
-              },
-            },
-          ] as PopupButton[]}
-          onHide={() => setShowDeleteModal(false)}
-        >
-          {canArchive && <h6 style={{fontWeight: 'bold'}}>{t('delete')}</h6>}
-          <p>{t('invoice.deletePopup', {number: invoice.number, client: invoice.client.name})}</p>
-          {isNotLastInvoice && <p>{t('invoice.deleteGapWarning')}</p>}
-          {hasBillitOrder && <p>{t('invoice.deleteToSendWarning')}</p>}
-          {canArchive && <hr />}
-          {canArchive && <h6 style={{fontWeight: 'bold'}}>{t('invoice.archive')}</h6>}
-          {canArchive && <p>{t('invoice.archivePopup')}</p>}
-        </Popup>
+        <DeleteInvoiceModal
+          invoice={invoice}
+          canArchive={canArchive}
+          isNotLastInvoice={isNotLastInvoice}
+          onClose={() => setShowDeleteModal(false)}
+          onDelete={() => {
+            setShowDeleteModal(false);
+            dispatch(deleteInvoice(invoice));
+            navigate('/invoices');
+          }}
+          onArchive={() => {
+            setShowDeleteModal(false);
+            dispatch(archiveInvoice(initInvoice));
+          }}
+          onBackToDraft={() => {
+            setShowDeleteModal(false);
+            dispatch(deleteBillitOrder(invoice._id));
+          }}
+        />
       )}
       {showSaveFirstModal && (
         <Popup

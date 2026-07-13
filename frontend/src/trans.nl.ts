@@ -369,6 +369,9 @@ export const trans = {
     archivePopup: 'Archiveer een factuur wanneer deze geblokkeerd is in Billit en niet meer naar Peppol kan verstuurd worden, maar je deze wel in confac wil behouden.',
     archivedConfirm: 'Factuur gearchiveerd',
     unarchivedConfirm: 'Factuur gedearchiveerd',
+    backToDraft: 'Terug naar draft',
+    backToDraftPopup: 'Verwijdert de order in Billit en zet de factuur terug op Draft, zodat deze aangepast en opnieuw verstuurd kan worden.',
+    backToDraftConfirm: 'Order verwijderd in Billit, factuur staat terug op Draft',
     downloadAttachment: '{type} downloaden',
     downloadInvoice: '"{fileName}" downloaden',
     addLine: 'Factuurlijn toevoegen',
@@ -428,8 +431,6 @@ export const trans = {
     peppolRefreshStatus: 'Status Vernieuwen',
     peppolErrors: 'Fouten',
     peppolPreviousAttemptFailed: 'Vorige poging mislukt',
-    peppolDeleteInBillit: 'Verwijder in Billit',
-    peppolDeleteInBillitSuccess: 'Order verwijderd in Billit, factuur staat terug op Draft',
     peppolStatusRefreshed: 'Peppol status vernieuwd'
   },
   attachment: {

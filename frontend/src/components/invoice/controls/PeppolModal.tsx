@@ -1,10 +1,7 @@
 import moment from 'moment';
-import {useDispatch} from 'react-redux';
 import {t} from '../../utils';
 import {Modal} from '../../controls/Modal';
 import {Icon} from '../../controls/Icon';
-import {BusyButton} from '../../controls/form-controls/BusyButton';
-import {deleteBillitOrder} from '../../../actions/invoiceActions';
 import {SignedTimesheetAttachmentType} from '../../../models';
 import {ClientModel} from '../../client/models/ClientModels';
 import InvoiceModel, {InvoiceBillitDeliveryDetails, InvoiceBillitMessage} from '../models/InvoiceModel';
@@ -72,7 +69,6 @@ type SendToPeppolModalProps = {
 }
 
 export const SendToPeppolModal = ({invoice, client, onClose, onConfirm}: SendToPeppolModalProps) => {
-  const dispatch = useDispatch();
   const hasSignedTimesheet = invoice.attachments.some(a => a.type === SignedTimesheetAttachmentType);
   const isPeppolEnabled = !!client?.peppolEnabled;
 
@@ -80,21 +76,6 @@ export const SendToPeppolModal = ({invoice, client, onClose, onConfirm}: SendToP
   if (client?.peppolEnabled === undefined) {
     transportType = '???';
   }
-
-  // The order exists at Billit but never made it onto Peppol: deleting it unlocks the invoice for editing
-  const deleteInBillit = invoice.billit?.orderId ? (
-    <BusyButton
-      variant="outline-danger"
-      icon="fa fa-trash"
-      onClick={() => {
-        dispatch(deleteBillitOrder(invoice._id) as never);
-        onClose();
-      }}
-      className="tst-delete-billit-order"
-    >
-      {t('invoice.peppolDeleteInBillit')}
-    </BusyButton>
-  ) : undefined;
 
   return (
     <Modal
@@ -104,7 +85,6 @@ export const SendToPeppolModal = ({invoice, client, onClose, onConfirm}: SendToP
       confirmText={t('invoice.peppolSend')}
       confirmVariant="success"
       busyConfirm
-      extraButtons={deleteInBillit}
       title={t('invoice.peppolSend')}
     >
       <BillitOrderInfo invoice={invoice} />

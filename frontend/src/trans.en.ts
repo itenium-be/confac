@@ -369,6 +369,9 @@ export const trans = {
     archivePopup: 'Archive an invoice when it is stuck in Billit and can no longer be sent to Peppol, but you still want to keep it in confac.',
     archivedConfirm: 'Invoice archived',
     unarchivedConfirm: 'Invoice unarchived',
+    backToDraft: 'Back to draft',
+    backToDraftPopup: 'Deletes the order in Billit and puts the invoice back to Draft, so it can be corrected and resent.',
+    backToDraftConfirm: 'Order deleted in Billit, invoice is back to Draft',
     downloadAttachment: 'Download {type}',
     downloadInvoice: 'Download "{fileName}"',
     addLine: 'Add invoice line',
@@ -428,8 +431,6 @@ export const trans = {
     peppolRefreshStatus: 'Refresh Status',
     peppolErrors: 'Errors',
     peppolPreviousAttemptFailed: 'Previous attempt failed',
-    peppolDeleteInBillit: 'Delete in Billit',
-    peppolDeleteInBillitSuccess: 'Order deleted in Billit, invoice is back to Draft',
     peppolStatusRefreshed: 'Peppol status refreshed'
   },
   attachment: {
