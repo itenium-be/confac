@@ -642,6 +642,7 @@ export const trans = {
     title: 'Project months',
     listTitle: '{month} {year}',
     filterUnverified: 'Not validated only',
+    filterOpenTimesheets: 'Open timesheets only',
     proformaVerified: 'Validated: proforma invoice has been validated',
     ProformaNew: 'New: Proforma invoice not yet processed',
     timesheetNotes: 'Timesheet notes',

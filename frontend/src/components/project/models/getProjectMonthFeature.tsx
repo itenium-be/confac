@@ -20,12 +20,20 @@ export type ProjectMonthFeatureBuilderConfig = IFeatureBuilderConfig<FullProject
 
 
 
-const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMonthModel) => {
+export const fullProjectSearch = (filters: ProjectMonthListFilters, prj: FullProjectMonthModel) => {
   if (filters.unverifiedOnly) {
     if (prj.details.verified)
       return false;
 
     if (prj.invoice?.status === 'Paid' && (!prj.project.projectMonthConfig.inboundInvoice || prj.details.inbound.status === 'paid'))
+      return false;
+  }
+
+  if (filters.openTimesheetsOnly) {
+    if (typeof prj.details.timesheet.timesheet === 'number')
+      return false;
+
+    if (prj.details.timesheet.validated || prj.details.verified === 'forced')
       return false;
   }
 
@@ -167,13 +175,20 @@ export const projectMonthFeature = (config: ProjectMonthFeatureBuilderConfig): I
     updateFilter: config.setFilters,
     fullTextSearch: fullProjectSearch,
     softDelete: false,
-    extras: () => (
+    extras: () => [
       <Switch
+        key="unverifiedOnly"
         value={config.filters.unverifiedOnly}
         onChange={value => config.setFilters({...config.filters, unverifiedOnly: value})}
         label={t('projectMonth.filterUnverified')}
-      />
-    ),
+      />,
+      <Switch
+        key="openTimesheetsOnly"
+        value={config.filters.openTimesheetsOnly}
+        onChange={value => config.setFilters({...config.filters, openTimesheetsOnly: value})}
+        label={t('projectMonth.filterOpenTimesheets')}
+      />,
+    ],
   };
 
   return feature;

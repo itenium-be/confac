@@ -70,7 +70,7 @@ export const ListPageFilters = <TModel, TFilterModel extends ListFilters = ListF
     }
 
     if (filter.extras) {
-      components.push(filter.extras());
+      components.push(...[filter.extras()].flat());
     }
 
     if (filter.softDelete) {

@@ -48,6 +48,7 @@ export type ProjectMonthListFilters = ListFilters & {
   /** Format: {YYYY-MM: true} */
   openMonths: {[key: string]: boolean};
   unverifiedOnly: boolean;
+  openTimesheetsOnly: boolean;
 };
 export type InvoiceListFilters = ListFilters & {
     search: InvoiceFiltersSearch[];
@@ -77,8 +78,8 @@ export interface IListFilter<TFilterModel extends ListFilters, TModel> {
   updateFilter: (m: TFilterModel) => void;
   fullTextSearch?: (filters: TFilterModel, m: TModel) => boolean;
   softDelete?: boolean;
-  /** Custom filter components */
-  extras?: () => React.ReactNode;
+  /** Custom filter components, each rendered in its own column */
+  extras?: () => React.ReactNode | React.ReactNode[];
 }
 
 type StringFn<TModel> = (m: TModel) => string | undefined;

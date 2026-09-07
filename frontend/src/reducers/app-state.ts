@@ -50,6 +50,7 @@ export const getProjectMonthsFilters = (projectMonths?: ProjectMonthModel[]): Pr
     ...getListFilters(),
     openMonths,
     unverifiedOnly: false,
+    openTimesheetsOnly: false,
   };
 };
 
@@ -83,6 +84,7 @@ export const defaultAppState: AppState = {
       showInactive: false,
       openMonths: {},
       unverifiedOnly: false,
+      openTimesheetsOnly: false,
     },
     users: getListFilters(false),
     roles: getListFilters(),
