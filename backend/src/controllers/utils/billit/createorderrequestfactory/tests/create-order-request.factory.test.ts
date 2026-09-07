@@ -394,6 +394,49 @@ describe('fromInvoice', () => {
     expect(actual.PaymentDiscountAmount).toBeUndefined();
   });
 
+  describe('credit note detection', () => {
+    it('should be a CreditNote when total is negative without linked invoices', () => {
+      const invoice: IInvoice = {
+        ...someInvoice,
+        creditNotas: [],
+        money: {...someInvoice.money, total: -1210},
+        lines: [{
+...someInvoiceLine, amount: 10, price: 100, tax: 21, sort: 0
+}],
+      };
+
+      const actual = fromInvoice(invoice, someClient);
+
+      expect(actual.OrderType).toBe('CreditNote');
+      expect(actual.OrderLines[0].Quantity).toBe(-10);
+      expect(actual.AboutInvoiceNumber).toBeUndefined();
+    });
+
+    it('should be an Invoice when total is positive with linked invoices', () => {
+      const invoice: IInvoice = {
+        ...someInvoice,
+        creditNotas: [new ObjectID('507f1f77bcf86cd799439013') as unknown as string],
+        money: {...someInvoice.money, total: 1210},
+        lines: [{
+...someInvoiceLine, amount: 10, price: 100, tax: 21, sort: 0
+}],
+      };
+
+      const actual = fromInvoice(invoice, someClient);
+
+      expect(actual.OrderType).toBe('Invoice');
+      expect(actual.OrderLines[0].Quantity).toBe(10);
+    });
+
+    it('should be an Invoice when total is zero', () => {
+      const invoice: IInvoice = {...someInvoice, money: {...someInvoice.money, total: 0}};
+
+      const actual = fromInvoice(invoice, someClient);
+
+      expect(actual.OrderType).toBe('Invoice');
+    });
+  });
+
   describe('credit note AboutInvoiceNumber', () => {
     const peppolPivotDate = moment('2025-01-01');
 

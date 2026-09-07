@@ -124,7 +124,7 @@ export function fromInvoice(
   }
 
   const hasLinkedInvoice = invoice.creditNotas?.length > 0;
-  const isCreditNote = hasLinkedInvoice && invoice.money.total < 0;
+  const isCreditNote = invoice.money.total < 0;
 
   const orderDescription = getOrderDescription(invoice.projectMonth);
   const {periodFrom, periodTill} = getOrderPeriod(invoice.projectMonth, project);

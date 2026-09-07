@@ -23,7 +23,7 @@ export enum EmailTemplate {
 }
 
 
-const getDefaultEmailValue = (
+export const getDefaultEmailValue = (
   invoice: InvoiceModel,
   client: ClientModel | undefined,
   template: EmailTemplate,
@@ -51,6 +51,7 @@ const getDefaultEmailValue = (
 
   const finalValues = {...defaultEmail, ...emailValues};
   finalValues.subject = invoiceReplacements(finalValues.subject, invoice, creditNotes);
+  const isCreditNote = invoice.money.total < 0;
   if (template === EmailTemplate.Reminder) {
     if (config.emailReminder) {
       finalValues.body = config.emailReminder;
@@ -61,6 +62,9 @@ const getDefaultEmailValue = (
     if (config.emailReminderBcc && !client.email.bcc) {
       finalValues.bcc = config.emailReminderBcc;
     }
+  } else if (isCreditNote && config.emailCreditNotaSubject) {
+    finalValues.subject = invoiceReplacements(config.emailCreditNotaSubject, invoice, creditNotes);
+    finalValues.body = config.emailCreditNotaBody;
   } else if (template === EmailTemplate.PeppolDuplicate) {
     if (config.emailPeppolDuplicateSubject) {
       finalValues.subject = invoiceReplacements(config.emailPeppolDuplicateSubject, invoice, creditNotes);
@@ -68,9 +72,6 @@ const getDefaultEmailValue = (
     if (config.emailPeppolDuplicateBody) {
       finalValues.body = config.emailPeppolDuplicateBody;
     }
-  } else if (invoice.money.total < 0 && config.emailCreditNotaSubject) {
-    finalValues.subject = invoiceReplacements(config.emailCreditNotaSubject, invoice, creditNotes);
-    finalValues.body = config.emailCreditNotaBody;
   }
   finalValues.body = invoiceReplacements(finalValues.body, invoice, creditNotes);
   finalValues.body += config.emailSignature;
