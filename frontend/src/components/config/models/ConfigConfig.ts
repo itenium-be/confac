@@ -58,5 +58,9 @@ export const configDefinition: FullFormConfig = [
   {key: 'emailReminderCc', component: 'email', cols: 6},
   {key: 'emailReminderBcc', component: 'email', cols: 6},
   {key: 'emailInvoiceOnly', cols: 12, component: 'email'},
+
+  {title: {title: 'config.timesheetReminder.title', level: 4}},
+  {key: 'timesheetReminderTitle', cols: 12, component: 'TimesheetReminderInput'},
+  {key: 'timesheetReminderBody', component: 'TimesheetReminderTextEditor', cols: 12},
   // ATTN: TermsAndConditions added here in ConfigEdit
 ];

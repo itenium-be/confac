@@ -5,7 +5,7 @@ type CustomComponents = 'InvoiceLineTypeSelect' | 'ProjectLineTypeSelect' | 'Inv
   | 'PartnerSelectWithCreateModal' | 'EndCustomerSelectWithCreateModal' | 'LanguageSelect' | 'EditInvoiceLines'
   | 'ProjectMonthInboundStatusSelect' | 'ProjectMonthStatusSelect' | 'ProjectMonthProformaStatusSelect' | 'AttachmentsTypeSelect' | 'EditProjectPartner'
   | 'ClientSelectWithCreateModal' | 'ContractStatusWithNotes' | 'ProjectClientContractStatus' | 'CountrySelect' | 'ProjectProformaSelect'
-  | 'UserSelect';
+  | 'UserSelect' | 'TimesheetReminderInput' | 'TimesheetReminderTextEditor';
 
 export type StandardComponents = 'number' | 'text' | 'textarea' | 'basic-math' | 'switch' | 'month'
   | CustomComponents | 'float' | 'money' | 'email' | 'phone' | 'website' | 'btw' | 'iban' | 'TextEditor' | 'bool' | 'date'

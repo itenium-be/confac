@@ -34,6 +34,10 @@ export type ConfigModel = {
   emailPeppolDuplicateBody: string;
   /** Email address to email the invoice pdf (without timesheet) */
   emailInvoiceOnly: string;
+  /** Timesheet reminder: subject, supports {{month}} */
+  timesheetReminderTitle: string;
+  /** Timesheet reminder: body, supports {{month}} */
+  timesheetReminderBody: string;
   /** How many months to load at initialLoad */
   initialMonthLoad: number;
   /** Before this date confac creates invoices, after it's done with peppol */

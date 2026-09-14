@@ -13,6 +13,19 @@ type EmailAttachmentDetail = {
   fileType: string;
 };
 
+export function sendTimesheetReminderEmail(email: EmailModel) {
+  return async () => {
+    try {
+      await api.post('/projects/month/email-reminder', email);
+      success(t('email.sent'));
+    } catch (err) {
+      const error = err as ApiError;
+      failure(error.body?.message, 'Email failure', 8000);
+    }
+  };
+}
+
+
 export function sendEmail(
   invoiceFileName: string,
   invoice: InvoiceModel,

@@ -8,6 +8,8 @@ import {ConsultantTypeSelect} from '../../../consultant/controls/ConsultantTypeS
 import {InvoiceDateStrategySelect} from '../../../invoice/controls/InvoiceDateStrategySelect';
 import {InvoiceReplacementsInput} from '../../../invoice/controls/InvoiceReplacementsInput';
 import {InvoiceReplacementsTextEditor} from '../../../invoice/controls/InvoiceReplacementsTextEditor';
+import {TimesheetReminderInput} from '../../../project/controls/TimesheetReminderInput';
+import {TimesheetReminderTextEditor} from '../../../project/controls/TimesheetReminderTextEditor';
 import {PropertiesSelect} from '../select/PropertiesSelect';
 import {MoneyInput} from '../inputs/MoneyInput';
 import {Switch} from '../Switch';
@@ -91,6 +93,8 @@ export function getComponent(col: FormConfig) {
     ConsultantSelectWithCreateModal,
     InvoiceReplacementsInput,
     InvoiceReplacementsTextEditor,
+    TimesheetReminderInput,
+    TimesheetReminderTextEditor,
     LanguageSelect,
     EditInvoiceLines,
     RolesSelect,

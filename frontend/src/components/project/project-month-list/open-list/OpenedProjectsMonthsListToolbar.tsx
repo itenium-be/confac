@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
 import {isHoliday} from '@itenium/date-holidays-be';
@@ -17,6 +18,8 @@ import {Button} from '../../../controls/form-controls/Button';
 import {getFullTariffs, getProjectMarkup} from '../../utils/getTariffs';
 import {IProjectModel} from '../../models/IProjectModel';
 import {holidaysService} from '../../../../actions/holidays';
+import {hasOpenTimesheets} from '../timesheet-reminder';
+import {TimesheetReminderModal} from './TimesheetReminderModal';
 
 type OpenedProjectsMonthsListToolbarProps = {
   feature: IFeature<FullProjectMonthModel, ProjectMonthListFilters>;
@@ -31,6 +34,7 @@ type OpenedProjectsMonthsListToolbarProps = {
 export const OpenedProjectsMonthsListToolbar = ({feature}: OpenedProjectsMonthsListToolbarProps) => {
   const projectsMonthOverviews = useSelector((state: ConfacState) => state.projectsMonthOverviews);
   const dispatch = useAppDispatch();
+  const [showTimesheetReminder, setShowTimesheetReminder] = useState(false);
 
   if (!feature.list.data.length) {
     return null;
@@ -106,6 +110,22 @@ export const OpenedProjectsMonthsListToolbar = ({feature}: OpenedProjectsMonthsL
         icon="fa fa-file-excel"
         className="tst-download-excel"
       />
+      {hasOpenTimesheets(feature.list.data) && (
+        <Button
+          variant="light"
+          onClick={() => setShowTimesheetReminder(true)}
+          title={t('projectMonth.emailTimesheetReminder')}
+          icon="fa fa-envelope"
+          className="tst-email-timesheet-reminder"
+        />
+      )}
+      {showTimesheetReminder && (
+        <TimesheetReminderModal
+          projectMonths={feature.list.data}
+          month={projectsMonthDetails.month}
+          onClose={() => setShowTimesheetReminder(false)}
+        />
+      )}
     </div>
   );
 };

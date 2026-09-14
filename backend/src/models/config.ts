@@ -40,5 +40,7 @@ export interface ICompanyConfig {
   emailPeppolDuplicateSubject: string;
   emailPeppolDuplicateBody: string;
   emailInvoiceOnly: string;
+  timesheetReminderTitle: string;
+  timesheetReminderBody: string;
   audit: IAudit;
 }

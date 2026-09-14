@@ -15,13 +15,15 @@ import './EmailForm.scss';
 
 
 type EmailFormProps = BaseInputProps<EmailModel> & {
-  /** Attachments that are available for emailing */
-  attachmentsAvailable: string[];
+  /** Attachments that are available for emailing. Undefined hides the attachments section */
+  attachmentsAvailable?: string[];
   textEditorReplacements?: ITextEditorCustomReplacement[];
+  /** Expand the cc/bcc inputs right away */
+  showCcBcc?: boolean;
 };
 
-export const EmailForm = ({value, onChange, attachmentsAvailable, textEditorReplacements}: EmailFormProps) => {
-  const [showAllTos, setShowAllTos] = useState(false);
+export const EmailForm = ({value, onChange, attachmentsAvailable, textEditorReplacements, showCcBcc}: EmailFormProps) => {
+  const [showAllTos, setShowAllTos] = useState(!!showCcBcc);
 
 
   value = value || getNewEmail();
@@ -67,11 +69,15 @@ export const EmailForm = ({value, onChange, attachmentsAvailable, textEditorRepl
         getToolbarCustomButtons={getToolbarCustomButtons}
       />
 
-      <h4 style={{marginTop: 20}}>
-        {t('email.attachments')}
-        {attachmentsAvailable.length === 1 && <div style={{fontSize: 14}}>{t('attachment.noneUploaded')}</div>}
-      </h4>
-      <EmailFormAttachments expectedAttachments={value.attachments} attachmentsAvailable={attachmentsAvailable} />
+      {attachmentsAvailable && (
+        <>
+          <h4 style={{marginTop: 20}}>
+            {t('email.attachments')}
+            {attachmentsAvailable.length === 1 && <div style={{fontSize: 14}}>{t('attachment.noneUploaded')}</div>}
+          </h4>
+          <EmailFormAttachments expectedAttachments={value.attachments} attachmentsAvailable={attachmentsAvailable} />
+        </>
+      )}
 
     </Form>
   );

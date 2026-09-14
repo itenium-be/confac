@@ -6,6 +6,7 @@ import {
   deleteProjectsMonthController, generateExcelForProjectsMonthController,
   generateFreelancerExcel, generateTimesheetExcel,
 } from '../controllers/projectsMonth';
+import {emailTimesheetReminderController} from '../controllers/emailTimesheetReminder';
 
 const projectsRouter = Router();
 
@@ -22,5 +23,6 @@ projectsRouter.delete('/month', deleteProjectsMonthController as unknown as Requ
 projectsRouter.post('/month/excel', generateExcelForProjectsMonthController);
 projectsRouter.post('/month/freelancer-excel', generateFreelancerExcel);
 projectsRouter.post('/month/timesheet-excel', generateTimesheetExcel);
+projectsRouter.post('/month/email-reminder', emailTimesheetReminderController);
 
 export default projectsRouter;

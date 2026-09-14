@@ -137,6 +137,7 @@ export interface IEmailData {
   cc?: string[];
   bcc?: string[];
   from: string;
+  replyTo?: string;
   subject: string;
   html: string;
   attachments: IEmailAttachment[];
@@ -163,10 +164,9 @@ export async function sendEmailCore(mailData: IEmailData) {
   // });
 
   const info = await transporter.sendMail({
-    // from: mailData.from,
-    from: '"Itenium Finance" <wouter.van.schandevijl@itenium.be>',
+    from: mailData.from || '"Itenium Finance" <wouter.van.schandevijl@itenium.be>',
     // to: 'woutervs@hotmail.com',
-    replyTo: 'finance@itenium.be',
+    replyTo: mailData.replyTo || 'finance@itenium.be',
     to: mailData.to,
     cc: mailData.cc,
     bcc: mailData.bcc,

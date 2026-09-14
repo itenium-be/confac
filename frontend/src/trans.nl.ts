@@ -246,6 +246,14 @@ export const trans = {
     emailReminderCc: 'Herinnering CC',
     emailReminderBcc: 'Herinnering BCC',
     emailInvoiceOnly: 'Email adres waarnaar enkel de factuur pdf gestuurd wordt',
+    timesheetReminder: {
+      title: 'Timesheet herinnering',
+    },
+    timesheetReminderTitle: 'Standaard onderwerp',
+    timesheetReminderBody: 'Standaard email',
+    timesheetReminderReplacements: {
+      month: 'Project maand',
+    },
     emailTermsAndConditions: "'Algemene Voorwaarden' opladen",
     termsAndConditions: 'Algemene Voorwaarden',
     audit: 'Audit',
@@ -729,6 +737,8 @@ export const trans = {
     markup: 'Margin',
     proformaTitle: 'Proforma: ',
     listDownloadExcel: 'Download commissie Excel',
+    emailTimesheetReminder: 'Timesheet herinnering emailen',
+    timesheetReminderModalTitle: 'Timesheet herinnering {month}',
     freelancerOverview: {
       title: 'Download freelancer overzicht',
       select: 'Selecteer freelancer',

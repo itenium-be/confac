@@ -39,6 +39,8 @@ export const defaultConfig: ConfigModel = {
   emailPeppolDuplicateSubject: '',
   emailPeppolDuplicateBody: '',
   emailInvoiceOnly: '',
+  timesheetReminderTitle: '',
+  timesheetReminderBody: '',
   initialMonthLoad: 12,
   peppolPivotDate: moment.utc('2026-01-01'),
   language: defaultCommunicationLanguage,

@@ -67,6 +67,9 @@ export const ITENIUM_TEST_CONFIG = {
   language: 'en',
   attachments: [],
   emailInvoiceOnly: 'itenium@pongit.be',
+  timesheetReminderTitle: 'Timesheet {{month}}',
+  // eslint-disable-next-line max-len
+  timesheetReminderBody: '<p>Dear,</p>\n<p>We have not yet received your timesheet for {{month}}.<br>Please reply to this email with your signed timesheet and the amount of days worked.</p>\n<p>Thanks!</p>',
   initialMonthLoad: 18,
   // eslint-disable-next-line max-len
   emailCreditNotaBody: '<p>Dear,</p>\n<p>Please find credit note {{nr}} for {{formatDate projectMonth "MMMM YYYY"}} in attachment.<br>{{#if consultantName}}Consultant: {{consultantName}}<br>{{/if}}{{#if orderNr}}Order nr: {{orderNr}}<br>{{/if}}{{#if creditNotes}}Linked invoices: {{creditNotes}}{{/if}}</p>',

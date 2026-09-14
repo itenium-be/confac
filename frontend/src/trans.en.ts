@@ -246,6 +246,14 @@ export const trans = {
     emailReminderCc: 'Reminder CC',
     emailReminderBcc: 'Reminder BCC',
     emailInvoiceOnly: 'Email address to email just the invoice PDF',
+    timesheetReminder: {
+      title: 'Timesheet reminder',
+    },
+    timesheetReminderTitle: 'Default subject',
+    timesheetReminderBody: 'Default email',
+    timesheetReminderReplacements: {
+      month: 'Project month',
+    },
     emailTermsAndConditions: "Upload 'Terms and conditions'",
     termsAndConditions: 'Terms and conditions',
     audit: 'Audit',
@@ -729,6 +737,8 @@ export const trans = {
     markup: 'Margin',
     proformaTitle: 'Proforma: ',
     listDownloadExcel: 'Download commission Excel',
+    emailTimesheetReminder: 'Email a timesheet reminder',
+    timesheetReminderModalTitle: 'Timesheet reminder {month}',
     freelancerOverview: {
       title: 'Download freelancer overview',
       select: 'Select freelancer',
