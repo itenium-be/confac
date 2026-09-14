@@ -14,6 +14,8 @@ import configRouter from './config';
 import attachmentsRouter from './attachments';
 import userRouter from './user';
 import billitWebhooksRouters from './billitWebhooks';
+import {journeyApiKeyMiddleware} from './journeyApiKey';
+import publicRouter from './public';
 
 const appRouter = Router();
 
@@ -46,7 +48,7 @@ const useLogger = (req: Request, res: Response, next: NextFunction) => {
   const start = Date.now();
 
   const confacReq = req as ConfacRequest;
-  const user = confacReq.user?.data?.alias ?? confacReq.user?.data?._id;
+  const user = confacReq.user?.data?.alias ?? confacReq.user?.data?._id ?? confacReq.apiConsumer;
   req.logger = logger.child({
     UserName: user || 'Anonymous',
     RequestId: req.headers['x-correlation-id'] || uuidv4(),
@@ -109,6 +111,7 @@ if (withSecurity) {
 }
 
 appRouter.use('/billit/webhooks', useLogger, billitWebhooksRouters);
+appRouter.use('/public', journeyApiKeyMiddleware(config.journey.apiKey), useLogger, publicRouter);
 
 
 
