@@ -103,22 +103,24 @@ export const OpenedProjectsMonthsListToolbar = ({feature}: OpenedProjectsMonthsL
           claim={Claim.EditProjectMonth}
         />
       )}
-      <Button
-        variant="light"
-        onClick={downloadExcel}
-        title={t('projectMonth.listDownloadExcel')}
-        icon="fa fa-file-excel"
-        className="tst-download-excel"
-      />
-      {hasOpenTimesheets(feature.list.data) && (
+      <div className="projectMonths-toolbar-actions">
         <Button
           variant="light"
-          onClick={() => setShowTimesheetReminder(true)}
-          title={t('projectMonth.emailTimesheetReminder')}
-          icon="fa fa-envelope"
-          className="tst-email-timesheet-reminder"
+          onClick={downloadExcel}
+          title={t('projectMonth.listDownloadExcel')}
+          icon="fa fa-file-excel"
+          className="tst-download-excel"
         />
-      )}
+        {hasOpenTimesheets(feature.list.data) && (
+          <Button
+            variant="light"
+            onClick={() => setShowTimesheetReminder(true)}
+            title={t('projectMonth.emailTimesheetReminder')}
+            icon="fa fa-envelope"
+            className="tst-email-timesheet-reminder"
+          />
+        )}
+      </div>
       {showTimesheetReminder && (
         <TimesheetReminderModal
           projectMonths={feature.list.data}

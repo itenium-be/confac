@@ -71,7 +71,9 @@ $cell-padding: $cell-padding-amount;
     margin-bottom: 0;
   }
 
-  > :last-child {
+  > .projectMonths-toolbar-actions {
+    display: flex;
+    gap: 8px;
     margin-left: auto;
   }
 }
