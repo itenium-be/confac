@@ -1,5 +1,6 @@
 import {ObjectID} from 'mongodb';
 import {IAttachment, IAudit} from './common';
+import {IContract} from './contracts';
 
 export interface IEmail {
   from?: string;
@@ -41,6 +42,7 @@ export interface IClient {
   invoiceFileName: string;
   rate: IClientRate;
   attachments: IAttachment[];
+  frameworkAgreement?: IContract;
   // extraFields: ISelectItem[];
   // defaultExtraInvoiceFields: ISelectItem[];
   notes: string;
