@@ -49,6 +49,7 @@ const appConfig: IConfig = {
     expiresIn: +(process.env.JWT_EXPIRES || 0) || (5 * 60 * 60), // 5 hours
     superUser: process.env.SUPERUSER || '',
   },
+  journey: {apiKey: process.env.JOURNEY_API_KEY || ''},
   logging: {
     fileDir: process.env.LOGGING_FILE || 'logs',
     lokiUrl: process.env.LOGGING_LOKI || '',
@@ -107,6 +108,11 @@ export interface IConfig {
     expiresIn: number;
     /** This email can login without an user.active record */
     superUser: string;
+  };
+  /** The Journey app, consumer of /api/public */
+  journey: {
+    /** When empty, /api/public rejects every request */
+    apiKey: string;
   };
   logging: {
     fileDir: string;

@@ -119,6 +119,7 @@ app.use((req: Request, res: Response) => res.sendFile('/home/public/index.html')
       email: {...appConfig.email, pass: '***'},
       security: {...appConfig.security, secret: '***'},
       jwt: {...appConfig.jwt, secret: '***'},
+      journey: {...appConfig.journey, apiKey: '***'},
     };
     logger.info(safeConfig);
   });

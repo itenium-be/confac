@@ -44,6 +44,7 @@ export const testConfig: IConfig = {
     expiresIn: -1,
     superUser: '',
   },
+  journey: {apiKey: ''},
   logging: {
     fileDir: '',
     lokiUrl: '',
