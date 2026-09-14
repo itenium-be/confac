@@ -15,4 +15,6 @@ export type Jwt = {
 
 export interface ConfacRequest extends Request {
   user: Jwt;
+  /** Set instead of user when authenticated with an API key */
+  apiConsumer?: string;
 }
