@@ -66,13 +66,11 @@ services:
     networks:
       - confacnet
 
+  # No font mount: the shipped example-1 template asks for Roboto and falls back to Gotenberg's
+  # default sans. The licensed fonts the itenium templates need are git-ignored.
   gotenberg:
     image: gotenberg/gotenberg:8
     restart: unless-stopped
-    volumes:
-      # Literal source: Coolify does not interpolate ${VAR} in a volumes source — it turns one
-      # into a managed named volume, so the host bind silently never mounts.
-      - /data/confac-dev/templates/FONT:/usr/share/fonts/custom:ro
     networks:
       - confacnet
 
@@ -84,7 +82,6 @@ services:
     expose:
       - "7000"
     volumes:
-      - /data/confac-dev/templates:/templates
       - confac-logs:/logs
     environment:
       ENVIRONMENT: dev
@@ -92,7 +89,6 @@ services:
       # Gotenberg's Chromium fetches the logo/css URLs rendered into the invoice HTML, so this
       # must resolve from inside that container — not localhost.
       SERVER_HOST: app
-      ENABLE_ROOT_TEMPLATES: 1
       MONGO_HOST: mongo
       MONGO_PORT: 27017
       MONGO_DB: confac

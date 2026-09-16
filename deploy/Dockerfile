@@ -12,6 +12,11 @@ COPY frontend/package.json frontend/bun.lock frontend/
 RUN cd backend && bun install --frozen-lockfile
 RUN cd frontend && bun install --frozen-lockfile
 
+# The only invoice template in git: the itenium ones are git-ignored (real branding, licensed
+# fonts), so an image that ships this one is what makes a deploy work with no host prep.
+COPY backend/templates/example-1.pug backend/templates/
+COPY backend/templates/example-1 backend/templates/example-1
+
 # Backend source — copied after installs so only `src` changes invalidate this layer
 COPY backend/src backend/src
 
@@ -26,6 +31,7 @@ RUN cd frontend && bun run build
 RUN mkdir /dist && \
     cp -r backend/src /dist/src && \
     cp -r backend/node_modules /dist/node_modules && \
+    cp -r backend/templates /dist/templates && \
     mkdir /dist/public && \
     cp -r frontend/build/* /dist/public/
 

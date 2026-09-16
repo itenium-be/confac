@@ -3,7 +3,9 @@ npm-debug.log
 dist
 public
 build
-templates/
+templates/*
+!templates/example-1.pug
+!templates/example-1/
 .env*
 !.env.sample
 globalConfig.json

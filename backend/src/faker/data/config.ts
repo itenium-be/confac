@@ -4,12 +4,13 @@
 // - all real emails replaced with itenium@pongit.be
 // - exactonline inbox replaced
 // - bic whitespace stripped
+// - templates -> example-1.pug: the itenium ones are git-ignored, so no image ships them
 // defaultClient is set after clients are inserted (see insertStuff.ts).
 
 export const ITENIUM_TEST_CONFIG = {
   key: 'conf',
   company: {
-    template: 'itenium.pug',
+    template: 'example-1.pug',
     name: 'itenium TEST',
     address: 'Pilatusveld 7',
     city: 'Londerzeel',
@@ -20,13 +21,13 @@ export const ITENIUM_TEST_CONFIG = {
     telephone: '0477 54 89 57',
     email: 'itenium@pongit.be',
     website: 'https://itenium.be',
-    templateQuotation: 'itenium-signable.pug',
+    templateQuotation: 'example-1.pug',
     rpr: 'Brussel',
     postalCode: '1840',
   },
   defaultClient: null as string | null,
-  template: 'itenium.pug',
-  templateQuotation: 'itenium - offerte.pug',
+  template: 'example-1.pug',
+  templateQuotation: 'example-1.pug',
   invoiceFileName: 'Factuur {{zero nr 4}} - {{formatDate date "YYYY-MM-DD"}} - {{clientName}}',
   attachmentTypes: ['Getekende timesheet', 'Factuur freelancer'],
   defaultExtraClientFields: [],
