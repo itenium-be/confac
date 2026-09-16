@@ -1,0 +1,134 @@
+# Coolify stack (apps-01): main -> dev-confac.sangu.be. See SETUP_COOLIFY.md.
+#
+# Separate from deploy/docker-compose.yml (the Synology prod stack), which cannot run here:
+# it binds ${VAR} volume sources and joins the NAS-only monitoring_monitoring and
+# forge-excel_excelnet networks.
+#
+# This file serves exactly one deployment, so everything non-secret is hardcoded. Only
+# secrets (and the Billit party id) come from the Coolify resource env, declared in the
+# Home repo's homelab/apps-01/coolify/coolify-apps.ts.
+
+services:
+  mongo:
+    image: mongo:3.6.3
+    restart: unless-stopped
+    volumes:
+      - confac-mongo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PWD}
+      MONGO_INITDB_DATABASE: confac
+    healthcheck:
+      test: ["CMD", "mongo", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - confacnet
+
+  # Runs against the empty DB, where every existing migration is a no-op. That is the point:
+  # it populates `changelog` so a future migration lands on faker data instead of replaying
+  # ten data-reshaping migrations over documents that are already in the current shape.
+  migrate:
+    build:
+      context: ./deploy
+      dockerfile: Dockerfile.migrate
+    restart: "no"
+    environment:
+      MONGO_HOST: mongo
+      MONGO_PORT: 27017
+      MONGO_DB: confac
+      MONGO_USER: admin
+      MONGO_PWD: ${MONGO_PWD}
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - confacnet
+
+  # insertStuff() skips any collection that already holds documents, so this inserts once
+  # and no-ops on every later deploy.
+  faker:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
+    restart: "no"
+    command: ["bun", "./src/faker/index.ts"]
+    environment:
+      MONGO_HOST: mongo
+      MONGO_PORT: 27017
+      MONGO_DB: confac
+      MONGO_USERNAME: admin
+      MONGO_PASSWORD: ${MONGO_PWD}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - confacnet
+
+  gotenberg:
+    image: gotenberg/gotenberg:8
+    restart: unless-stopped
+    volumes:
+      # Literal source: Coolify does not interpolate ${VAR} in a volumes source — it turns one
+      # into a managed named volume, so the host bind silently never mounts.
+      - /data/confac-dev/templates/FONT:/usr/share/fonts/custom:ro
+    networks:
+      - confacnet
+
+  app:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped
+    expose:
+      - "7000"
+    volumes:
+      - /data/confac-dev/templates:/templates
+      - confac-logs:/logs
+    environment:
+      ENVIRONMENT: dev
+      PORT: 7000
+      # Gotenberg's Chromium fetches the logo/css URLs rendered into the invoice HTML, so this
+      # must resolve from inside that container — not localhost.
+      SERVER_HOST: app
+      ENABLE_ROOT_TEMPLATES: 1
+      MONGO_HOST: mongo
+      MONGO_PORT: 27017
+      MONGO_DB: confac
+      MONGO_USERNAME: admin
+      MONGO_PASSWORD: ${MONGO_PWD}
+      GOTENBERG_URL: http://gotenberg:3000
+      LOGGING_FILE: /logs
+      LOGGING_LOKI: https://loki.lan.sangu.be
+      # Empty GOOGLE_CLIENT_ID is the no-security switch: the backend mounts fakeUserMiddleware
+      # instead of jwtMiddleware, and the frontend renders the anonymous (any-name) login.
+      GOOGLE_CLIENT_ID: ""
+      JOURNEY_API_KEY: ${JOURNEY_API_KEY}
+      EMAIL_USER: ""
+      EMAIL_PASS: ""
+      # No forge-excel on apps-01; the Excel-export endpoints answer 503 until it gets its
+      # own Coolify project.
+      EXCEL_SERVICE_URL: ""
+      BILLIT_API_URL: https://api.sandbox.billit.be/v1
+      BILLIT_API_KEY: ${BILLIT_API_KEY}
+      BILLIT_PARTY_ID: ${BILLIT_PARTY_ID}
+      BILLIT_WEBHOOK_ORDER_CREATED_SECRET: ${BILLIT_WEBHOOK_ORDER_CREATED_SECRET}
+      BILLIT_WEBHOOK_ORDER_UPDATED_SECRET: ${BILLIT_WEBHOOK_ORDER_UPDATED_SECRET}
+      BILLIT_WEBHOOK_MESSAGE_CREATED_SECRET: ${BILLIT_WEBHOOK_MESSAGE_CREATED_SECRET}
+      BILLIT_WEBHOOK_MESSAGE_UPDATED_SECRET: ${BILLIT_WEBHOOK_MESSAGE_UPDATED_SECRET}
+    depends_on:
+      faker:
+        condition: service_completed_successfully
+      gotenberg:
+        condition: service_started
+    networks:
+      - confacnet
+
+networks:
+  confacnet:
+    driver: bridge
+
+volumes:
+  confac-mongo:
+  confac-logs:
