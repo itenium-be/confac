@@ -28,7 +28,7 @@ if (appConfig.db.user && appConfig.db.pwd) {
 
 
 
-const opts = {authSource: 'admin', useUnifiedTopology: true};
+const opts = {authSource: 'admin', useUnifiedTopology: true, serverSelectionTimeoutMS: 5000};
 MongoClient.connect(connectionString, opts).then(async (client: MongoClient) => {
   console.log('Successfully connected to the database!');
   const db = client.db();
@@ -38,4 +38,7 @@ MongoClient.connect(connectionString, opts).then(async (client: MongoClient) => 
 
   client.close();
 })
-  .catch((err: unknown) => console.log(`Could not connect to the database. More info: ${err}`));
+  .catch((err: unknown) => {
+    console.error(`Could not insert the faker data. More info: ${err}`);
+    process.exit(1);
+  });
